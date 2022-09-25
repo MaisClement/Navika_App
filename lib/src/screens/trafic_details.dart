@@ -30,7 +30,7 @@ class TraficDetailsScreen extends StatelessWidget {
 			),
       body: Container(
         padding: EdgeInsets.only(left:20.0, top:20.0,right:20.0,bottom:20.0),
-        color: Color(0xff08007c),
+        color: Theme.of(context).colorScheme.secondary,
         width: double.infinity,
         child: Container(
             decoration: BoxDecoration(
@@ -75,7 +75,7 @@ class TraficDetailsScreen extends StatelessWidget {
                           ],
                         ),
                         Container(
-                          padding: EdgeInsets.only(left:15.0, top:0.0,right:0.0,bottom:0.0),
+                          padding: EdgeInsets.only(left:15.0),
                           child: Text(
                             getSlugTitle(lineId),
                             style: const TextStyle(
@@ -89,7 +89,7 @@ class TraficDetailsScreen extends StatelessWidget {
 
 // CTRAFIC 
                     Container(
-                      padding: EdgeInsets.only(left:15.0, top:15.0,right:15.0,bottom:15.0),
+                      padding: EdgeInsets.only(left:15.0, top:0, right:15.0, bottom:15.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -121,7 +121,7 @@ class TraficDetailsScreen extends StatelessWidget {
                                     height: 1.5,
                                   )
                                   :
-                                  Container()
+                                  Text('')
 
                               ]
                             ),
@@ -164,7 +164,7 @@ class TraficDetailsScreen extends StatelessWidget {
                                     height: 1.5,
                                   )
                                   :
-                                  Container()
+                                  Text('')
 
                               ]
                             ),
@@ -176,7 +176,7 @@ class TraficDetailsScreen extends StatelessWidget {
                     TRAFIC.getLines(lineId).futureWork.length > 0 ?
                      Container(
                       decoration: BoxDecoration(
-                        color: Color(0xffcdcce4),
+                        color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(25),
                       ),
                       padding: EdgeInsets.only(left:15.0, top:15.0,right:15.0,bottom:15.0),
@@ -222,7 +222,7 @@ class TraficDetailsScreen extends StatelessWidget {
                                     height: 1.5,
                                   )
                                   :
-                                  Container()
+                                  Text('')
                               ]
                             ),
                         ],

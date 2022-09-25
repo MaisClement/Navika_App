@@ -1,4 +1,4 @@
-package com.example.luca
+package com.lowa.navika
 
 import io.flutter.embedding.android.FlutterActivity
 

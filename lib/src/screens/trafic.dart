@@ -20,7 +20,7 @@ class TraficScreen extends StatefulWidget {
 class _TraficScreenState extends State<TraficScreen> {
 	final String title = 'Info Trafic';
 
-  bool state = true;
+  bool state = false;
 
 	Future<void> _getTrafic() async {
     if (TRAFIC.isEmpty()){
@@ -29,7 +29,7 @@ class _TraficScreenState extends State<TraficScreen> {
 
       if (mounted) {
         setState(() {
-          state = true;
+          state = false;
         });
       }
 
@@ -41,7 +41,7 @@ class _TraficScreenState extends State<TraficScreen> {
 		}
     if (mounted) {
       setState(() {
-        state = false;
+        state = true;
       });
     }
 	}
@@ -52,7 +52,7 @@ class _TraficScreenState extends State<TraficScreen> {
 
     if (mounted) {
       setState(() {
-        state = true;
+        state = false;
       });
     }
 
@@ -63,7 +63,7 @@ class _TraficScreenState extends State<TraficScreen> {
     }
     if (mounted) {
       setState(() {
-        state = false;
+        state = true;
       });
     }
 	}
@@ -77,30 +77,11 @@ class _TraficScreenState extends State<TraficScreen> {
 		),
 		body: Container(
 			padding: EdgeInsets.only(left:20.0, top:20.0,right:20.0,bottom:20.0),
-			color: Color(0xff08007c),
+			color: Theme.of(context).colorScheme.secondary,
 			width: double.infinity,
 			child: Container(
 
 				child: state ?
-        Container(
-					padding: EdgeInsets.only(left:10.0, top:10.0,right:10.0,bottom:10.0),
-					decoration: BoxDecoration(
-						color: Colors.white,
-						borderRadius: BorderRadius.circular(5),
-					),
-          child : Column(
-            children: [
-              const GFLoader(),
-              Text('Chargement...', 
-                style: TextStyle(
-                  color: Color(0xff08007c),
-                  fontWeight: FontWeight.w700
-                ),
-              ),
-            ]
-          ),
-        )
-				: 
 				Container(
 					padding: EdgeInsets.only(left:10.0, top:10.0,right:10.0,bottom:10.0),
 					decoration: BoxDecoration(
@@ -426,7 +407,26 @@ class _TraficScreenState extends State<TraficScreen> {
 					),
 
             )
-          )	
+          )
+          :
+          Container(
+					padding: EdgeInsets.only(left:10.0, top:10.0,right:10.0,bottom:10.0),
+					decoration: BoxDecoration(
+						color: Colors.white,
+						borderRadius: BorderRadius.circular(5),
+					),
+          child : Column(
+            children: [
+              const GFLoader(),
+              Text('Chargement...', 
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontWeight: FontWeight.w700
+                ),
+              ),
+            ]
+          ),
+        )
         )
       )
     );

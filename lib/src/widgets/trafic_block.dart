@@ -6,15 +6,17 @@ import '../data/trafic.dart';
 import '../data/lines.dart';
 
 Color getSlug(name){
-  if (TRAFIC.getLines(name).currentTraffic.length == 0 && TRAFIC.getLines(name).currentWork.length == 0 && TRAFIC.getLines(name).futureWork.length == 0){
+  if (TRAFIC.getLines(name).severity == 0){
     return Colors.transparent;
-  } else if (TRAFIC.getLines(name).currentTraffic.length > 0 && TRAFIC.getLines(name).severity == 2){
+  } else if (TRAFIC.getLines(name).severity == 5){
     return Color(0xffeb2031);
-  } else if (TRAFIC.getLines(name).currentTraffic.length > 0){
+  } else if (TRAFIC.getLines(name).severity == 4){
     return Color(0xfff68f53);
-  } else if (TRAFIC.getLines(name).currentWork.length > 0){
+  } else if (TRAFIC.getLines(name).severity == 3){
     return Colors.transparent;
-  } else if (TRAFIC.getLines(name).futureWork.length > 0){
+  } else if (TRAFIC.getLines(name).severity == 2){
+    return Colors.transparent;
+  } else if (TRAFIC.getLines(name).severity == 1){
     return Colors.transparent;
   } else {
     return Color(0xffa9a9a9);
@@ -22,32 +24,36 @@ Color getSlug(name){
 }
 
 AssetImage getSlugImage(name){
-  if (TRAFIC.getLines(name).currentTraffic.length == 0 && TRAFIC.getLines(name).currentWork.length == 0 && TRAFIC.getLines(name).futureWork.length == 0){
+  if (TRAFIC.getLines(name).severity == 0){
     return AssetImage('assets/null.png');
-  } else if (TRAFIC.getLines(name).currentTraffic.length > 0 && TRAFIC.getLines(name).severity == 2){
+  } else if (TRAFIC.getLines(name).severity == 5){
     return AssetImage('assets/error_small.png');
-  } else if (TRAFIC.getLines(name).currentTraffic.length > 0){
+  } else if (TRAFIC.getLines(name).severity == 4){
     return AssetImage('assets/warning.png');
-  } else if (TRAFIC.getLines(name).currentWork.length > 0){
+  } else if (TRAFIC.getLines(name).severity == 3){
     return AssetImage('assets/work_small.png');
-  } else if (TRAFIC.getLines(name).futureWork.length > 0){
+  } else if (TRAFIC.getLines(name).severity == 2){
     return AssetImage('assets/futur_work_small.png');
+  } else if (TRAFIC.getLines(name).severity == 1){
+    return AssetImage('assets/information_small.png');
   } else {
     return AssetImage('assets/interogation_grey_small.png');
   }
 }
 
 String getSlugTitle(name){
-  if (TRAFIC.getLines(name).currentTraffic.length == 0 && TRAFIC.getLines(name).currentWork.length == 0 && TRAFIC.getLines(name).futureWork.length == 0){
+  if (TRAFIC.getLines(name).severity == 0){
     return "Trafic fluide";
-  } else if (TRAFIC.getLines(name).currentTraffic.length > 0 && TRAFIC.getLines(name).severity == 2){
+  } else if (TRAFIC.getLines(name).severity == 5){
     return "Trafic fortement perturbé";
-  } else if (TRAFIC.getLines(name).currentTraffic.length > 0){
+  } else if (TRAFIC.getLines(name).severity == 4){
     return "Trafic perturbé";
-  } else if (TRAFIC.getLines(name).currentWork.length > 0){
+  } else if (TRAFIC.getLines(name).severity == 3){
     return "Travaux";
-  } else if (TRAFIC.getLines(name).futureWork.length > 0){
+  } else if (TRAFIC.getLines(name).severity == 2){
     return "Travaux à venir";
+  } else if (TRAFIC.getLines(name).severity == 1){
+    return "Information";
   } else {
     return "Unknown";
   }

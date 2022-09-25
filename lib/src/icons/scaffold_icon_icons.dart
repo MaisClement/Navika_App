@@ -23,4 +23,6 @@ class Scaffold_icon {
 
   static const IconData cone = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData clock = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData correspondance = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData gare = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

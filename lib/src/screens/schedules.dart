@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 
 import 'dart:convert';
 
-import '../data/state.dart';
 import '../data/lines.dart';
 
 import '../routing.dart';
@@ -25,7 +24,7 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
   String search = '';
   List places = [];
 
-  	Future<void> _getPlaces() async {
+  Future<void> _getPlaces() async {
     if (search != ''){
 			final response = await http.get(Uri.parse('${globals.API_PLACES}?q=$search'));
 			final data = json.decode(response.body);
@@ -118,7 +117,7 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
                           ),
                           Container(
                             margin: EdgeInsets.only(left:5.0, top:4.0),
-                            child: Text('${place['administrative_regions']['zip_code']}, ${place['administrative_regions']['name']}',
+                            child: Text('${place['stop_area']['administrative_regions']['zip_code']}, ${place['stop_area']['administrative_regions']['name']}',
                               style: const TextStyle(
                                 color: Colors.grey
                               ),
@@ -140,9 +139,9 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
                       )
                     ),
                     onTap: () {
-                      NAVSTATE.clear();
-                      NAVSTATE.addNav(place['stop_area']['id'], place['stop_area']['name']);
-                      RouteStateScope.of(context).go('/schedules/0');
+                      globals.stopArea = place['stop_area']['id'];
+                      globals.stopName = place['stop_area']['name'];
+                      RouteStateScope.of(context).go('/schedules/details');
                     },                
                   ),
               ]

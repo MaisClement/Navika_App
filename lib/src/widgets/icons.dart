@@ -21,26 +21,21 @@ class Icones extends StatelessWidget {
 	});
 
 	@override
-	Widget build(BuildContext context) => 
-
-  line['commercial_mode']['name'] == 'TER' || (line['commercial_mode']['name'] == 'Bus' && line['network']['name'] == 'Transilien')?
-    Text('')
-  :
-    Wrap(
-      children: [
-        
-        (old_line['commercial_mode']['id'] != line['commercial_mode']['id'] || i == 0) ?
-          ModeIcones(
-            line: line,
-            i: i
-          )
-          :
-          Text(''),
-
-        LinesIcones(
-          line: line
+	Widget build(BuildContext context) => Wrap(
+    children: [
+      
+      (old_line['commercial_mode']['id'] != line['commercial_mode']['id'] || i == 0) ?
+        ModeIcones(
+          line: line,
+          i: i
         )
+        :
+        Text(''),
 
-      ],
-    );
+      LinesIcones(
+        line: line
+      )
+
+    ],
+  );
 }

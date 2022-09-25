@@ -24,9 +24,11 @@ extension HexColor on Color {
 
 class LinesIcones extends StatelessWidget {
 	final Map line;
+  final double size;
 
 	const LinesIcones({
 		required this.line,
+    this.size = 20,
 		super.key,
 	});
 
@@ -34,15 +36,15 @@ class LinesIcones extends StatelessWidget {
 	Widget build(BuildContext context) => 
     LINES.isLineById(line['id'].replaceAll('line:IDFM:', '')) ?
       Container(
-        width: 20,
-        height: 20,
+        width: size,
+        height: size,
         margin: EdgeInsets.only(left:5.0, top:5.0,right:0.0,bottom:5.0),
         child: Image(image: LINES.getLinesById(line['id'].replaceAll('line:IDFM:', '')).image),
       )
     :
       Container(
-        width: 20,
-        height: 12.8,
+        width: size,
+        height: size * 0.64,
         margin: EdgeInsets.only(left:5.0, top:9.0,right:0.0,bottom:9.0),
         color: HexColor.fromHex(line['color']),
 
