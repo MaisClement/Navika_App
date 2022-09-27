@@ -20,13 +20,18 @@ class TimerBlock extends StatelessWidget {
 
     return diff.inMinutes;
   }
-  String getTime(String time, bool suiv){
+  String getTime(String time, bool suiv, List el, int i){
     DateTime dttime = DateTime.parse(time);
 
     String dthour = dttime.hour < 10 ? "0" + dttime.hour.toString() : dttime.hour.toString();
     String dtminute = dttime.minute < 10 ? "0" + dttime.minute.toString() : dttime.minute.toString();
 
-    return '${dthour}h${dtminute}${suiv ? ', ' : ''}';
+    if (i == 0 && el.length == 1)
+      return 'Prochain passage : ${dthour}h${dtminute}${suiv ? ', ' : ''}';
+    else if (i == 0)
+      return 'Prochains passages : ${dthour}h${dtminute}${suiv ? ', ' : ''}';
+    else
+      return '${i == 0 ? 'Prochain passage : ' : ''}${dthour}h${dtminute}${suiv ? ', ' : ''}';
   }
 
 
@@ -55,7 +60,7 @@ class TimerBlock extends StatelessWidget {
     Container(
       padding: EdgeInsets.only(top:5.0,bottom:10.0),
       child: Text(
-        getTime(time, (id+1 >= el.length || id +1 >= 3 ? false : true)),
+        getTime(time, (id+1 >= el.length || id +1 >= 2 ? false : true), el, id),
         style: const TextStyle(
           fontWeight: FontWeight.w700
         ),
