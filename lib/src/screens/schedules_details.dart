@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:getwidget/getwidget.dart';
 
 import 'dart:convert';
+import 'dart:async';
 
 import '../icons/scaffold_icon_icons.dart';
 
@@ -30,7 +31,10 @@ class _SchedulesDetailsScreenState extends State<SchedulesDetailsScreen>
 
 	late TabController _tabController;
   bool state = false;
+  int up = 0;
   Map schedules = Map();
+
+  late Timer _timer;
 
   Future<void> _getSchedules() async {
     final response = await http.get(Uri.parse('${globals.API_SCHEDULES}?stoparea=${globals.stopArea}'));
@@ -42,15 +46,35 @@ class _SchedulesDetailsScreenState extends State<SchedulesDetailsScreen>
         schedules = data;
       });
     }
+
+    _timer = Timer(const Duration(seconds: 20), () {
+      _getSchedules();
+    });
 	}
+
+  int getModesLength(Map schedules) {
+    int i = 0;
+    if (schedules['modes'].contains('commercial_mode:LocalTrain') || schedules['modes'].contains('commercial_mode:RapidTransit') || schedules['modes'].contains('commercial_mode:regionalRail'))
+      i++;
+    if (schedules['modes'].contains('commercial_mode:Metro') || schedules['modes'].contains('commercial_mode:RailShuttle'))
+      i++;      
+    if (schedules['modes'].contains('commercial_mode:Tramway'))
+      i++;      
+    if (schedules['modes'].contains('commercial_mode:Bus'))
+      i++;      
+
+    return i;
+  }
 
 	@override
 	void initState() {
 		super.initState();
-		_tabController = TabController(length: 2, vsync: this)
-			..addListener(_handleTabIndexChanged);
       
-    WidgetsBinding.instance.addPostFrameCallback((_) => _getSchedules());
+    WidgetsBinding.instance.addPostFrameCallback((_) async{
+      await _getSchedules();
+		_tabController = TabController(length: getModesLength(schedules), vsync: this)
+			..addListener(_handleTabIndexChanged);
+    });
 	}
 
 	@override
@@ -67,8 +91,9 @@ class _SchedulesDetailsScreenState extends State<SchedulesDetailsScreen>
 
 	@override
 	void dispose() {
-		_tabController.removeListener(_handleTabIndexChanged);
 		super.dispose();
+		_tabController.removeListener(_handleTabIndexChanged);
+    _timer.cancel();
 	}
 
 	@override
@@ -84,64 +109,101 @@ class _SchedulesDetailsScreenState extends State<SchedulesDetailsScreen>
         )
       );
 
-    } else if (schedules['modes'].contains('commercial_mode:Bus') && schedules['modes'].contains('commercial_mode:LocalTrain')){
+    } else {
       return Scaffold(
-				appBar: AppBar(
-					title: Text(globals.stopName),
-          centerTitle: true,
-					bottom: TabBar(
-						controller: _tabController,
-						tabs: const [
-							Tab(
-								text: 'Gare',
-								icon: Icon(Scaffold_icon.gare),
-							),
-							Tab(
-								text: 'Correspondance',
-								icon: Icon(Scaffold_icon.correspondance),
-							),
-						],
-					),
-				),
-				body: TabBarView(
-					controller: _tabController,
-					children: [
-						Text('1'),
-            RefreshIndicator(
-              onRefresh: _getSchedules,
-              child: SchedulesList(
-                schedules: schedules['schedules']
-              ),
+				appBar: 
+          schedules['modes'].length > 1 ? 
+            AppBar(
+              title: Text(globals.stopName),
+              centerTitle: true,
+              bottom: TabBar(
+                controller: _tabController,
+                tabs: [
+                  if (schedules['modes'].contains('commercial_mode:LocalTrain') || schedules['modes'].contains('commercial_mode:RapidTransit') || schedules['modes'].contains('commercial_mode:regionalRail'))
+                    const Tab(
+                      text: 'Train/RER',
+                      icon: Icon(Scaffold_icon.train),
+                    ),
+
+                  if (schedules['modes'].contains('commercial_mode:Metro') || schedules['modes'].contains('commercial_mode:RailShuttle'))
+                    const Tab(
+                      text: 'Métro',
+                      icon: Icon(Scaffold_icon.metro),
+                    ),
+
+                  if (schedules['modes'].contains('commercial_mode:Tramway'))
+                    const Tab(
+                      text: 'Tram',
+                      icon: Icon(Scaffold_icon.tram),
+                    ),
+
+                  if (schedules['modes'].contains('commercial_mode:Bus'))
+                    const Tab(
+                      text: 'Bus',
+                      icon: Icon(Scaffold_icon.bus),
+                    ),
+                ],
+              )
             )
-					],
-				),
-			);
-    } else if (schedules['modes'].contains('commercial_mode:Bus')){
-      return Scaffold(
-				appBar: AppBar(
-					title: Text(globals.stopName),
-          centerTitle: true,
-				),
-				body: RefreshIndicator(
-          onRefresh: _getSchedules,
-          child: SchedulesList(
-            schedules: schedules['schedules']
-          ),
+          :
+            AppBar(
+              title: Text(globals.stopName),
+              centerTitle: true,
+            ),
+        body: 
+          schedules['modes'].length > 1 ? 
+            TabBarView(
+              controller: _tabController,
+              children: [
+                if (schedules['modes'].contains('commercial_mode:LocalTrain') || schedules['modes'].contains('commercial_mode:RapidTransit') || schedules['modes'].contains('commercial_mode:regionalRail'))
+                  Text('train'),
+
+                if (schedules['modes'].contains('commercial_mode:Metro') || schedules['modes'].contains('commercial_mode:RailShuttle'))
+                  RefreshIndicator(
+                    onRefresh: _getSchedules,
+                    child: SchedulesList(
+                      modes: ['commercial_mode:Metro', 'commercial_mode:RailShuttle'],
+                      schedules: schedules['schedules']
+                    ),
+                  ),
+
+                if (schedules['modes'].contains('commercial_mode:Tramway'))
+                  RefreshIndicator(
+                    onRefresh: _getSchedules,
+                    child: SchedulesList(
+                      modes: ['commercial_mode:Tramway'],
+                      schedules: schedules['schedules']
+                    ),
+                  ),
+
+                if (schedules['modes'].contains('commercial_mode:Bus'))
+                  RefreshIndicator(
+                    onRefresh: _getSchedules,
+                    child: SchedulesList(
+                      modes: ['commercial_mode:Bus'],
+                      schedules: schedules['schedules']
+                    ),
+                  ),
+
+              ],
+            )
+          :
+          Container(
+            child: (schedules['modes'].contains('commercial_mode:LocalTrain') || schedules['modes'].contains('commercial_mode:RapidTransit') || schedules['modes'].contains('commercial_mode:regionalRail') ?
+              Text('data')
+              :
+              RefreshIndicator(
+                onRefresh: _getSchedules,
+                child: SchedulesList(
+                  modes: ['commercial_mode:Metro', 'commercial_mode:RailShuttle', 'commercial_mode:Tramway', 'commercial_mode:Bus'],
+                  schedules: schedules['schedules']
+                ),
+              )
+          )
         )
 			);
-    }  else if (schedules['modes'].contains('commercial_mode:LocalTrain')){
-      return Scaffold(
-				appBar: AppBar(
-					title: Text(globals.stopName),
-          centerTitle: true,
-				),
-				body: Center(
-          child: Text('Sommething is missing 👀'),
-        ),
-			);
-    } else {
-      return Text('pas content');
     }
+
 /*
     } else if ( si gare){
 

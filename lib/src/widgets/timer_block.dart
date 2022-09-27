@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 
 class TimerBlock extends StatelessWidget {
 	final String time;
+  final int id;
+  final List el;
 
 	const TimerBlock({
 		required this.time,
+		required this.id,
+		required this.el,
 		super.key,
 	});
 
@@ -16,26 +20,47 @@ class TimerBlock extends StatelessWidget {
 
     return diff.inMinutes;
   }
+  String getTime(String time, bool suiv){
+    DateTime dttime = DateTime.parse(time);
+
+    String dthour = dttime.hour < 10 ? "0" + dttime.hour.toString() : dttime.hour.toString();
+    String dtminute = dttime.minute < 10 ? "0" + dttime.minute.toString() : dttime.minute.toString();
+
+    return '${dthour}h${dtminute}${suiv ? ', ' : ''}';
+  }
 
 
 	@override
-	Widget build(BuildContext context) => Container(
-    padding: EdgeInsets.only(left:10.0, top:5.0,right:10.0,bottom:5.0),
-    
-    margin: EdgeInsets.only(left:0.0, top:0.0,right:10.0,bottom:0.0),
-    width: 40,
-    decoration: BoxDecoration(
-      color: Color(0xff141414),
-      borderRadius: BorderRadius.circular(5),
-    ),
-    child: Text(
-      getTimeDifference(time).toString() + '\'',
-      style: const TextStyle(
-        color: Color(0xfffcc900),
-        fontWeight: FontWeight.w700
+	Widget build(BuildContext context) => 
+  
+  getTimeDifference(time) < 99 ?
+    Container(
+      padding: EdgeInsets.only(left:10.0, top:5.0,right:10.0,bottom:5.0),
+      margin: EdgeInsets.only(left:0.0, top:5.0,right:10.0,bottom:5.0),
+      width: 40,
+      decoration: BoxDecoration(
+        color: Color(0xff141414),
+        borderRadius: BorderRadius.circular(5),
       ),
-      textAlign: TextAlign.center,
-    ),
-  );
+      child: Text(
+        getTimeDifference(time).toString() + '\'',
+        style: const TextStyle(
+          color: Color(0xfffcc900),
+          fontWeight: FontWeight.w700
+        ),
+        textAlign: TextAlign.center,
+      ),
+    )
+  :
+    Container(
+      padding: EdgeInsets.only(top:5.0,bottom:10.0),
+      child: Text(
+        getTime(time, (id+1 >= el.length || id +1 >= 3 ? false : true)),
+        style: const TextStyle(
+          fontWeight: FontWeight.w700
+        ),
+        textAlign: TextAlign.center,
+      ),
+    );
 }
 
