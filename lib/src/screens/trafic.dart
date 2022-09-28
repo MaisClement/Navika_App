@@ -143,6 +143,71 @@ class _TraficScreenState extends State<TraficScreen> {
                   height: 1.5,
                 ),
 
+// TRAIN
+      Row( 
+        children: [
+          Container(
+            margin: EdgeInsets.only(left:0.0, top:5.0,right:0.0,bottom:0.0),
+            padding: EdgeInsets.only(left:10.0, top:10.0,right:10.0,bottom:10.0),
+            width: 45,
+            height: 45,
+            child: Image(image: AssetImage('assets/idfm/TRAIN_dark.png'))
+          ),
+          Expanded(
+            child: Wrap( 
+              children: [
+                Container(
+                  child: const TraficBlock(
+                    name: "TRANSILIEN H", 
+                  )
+                ),
+                Container(
+                  child: const TraficBlock(
+                    name: "TRANSILIEN J", 
+                  )
+                ),
+                Container(
+                  child: const TraficBlock(
+                    name: "TRANSILIEN K", 
+                  )
+                ),
+                Container(
+                  child: const TraficBlock(
+                    name: "TRANSILIEN L", 
+                  )
+                ),
+                Container(
+                  child: const TraficBlock(
+                    name: "TRANSILIEN N", 
+                  )
+                ),
+                Container(
+                  child: const TraficBlock(
+                    name: "TRANSILIEN P", 
+                  )
+                ),
+                Container(
+                  child: const TraficBlock(
+                    name: "TRANSILIEN R", 
+                  )
+                ),
+                Container(
+                  child: const TraficBlock(
+                    name: "TRANSILIEN U", 
+                  )
+                ),
+              ]
+            )
+          ),
+        ]
+      ),
+
+              Container(
+                  margin: EdgeInsets.only(left:0.0, top:10.0,right:0.0,bottom:10.0),
+                  color: Color.fromARGB(255, 70, 70, 70),
+                  height: 1.5,
+                ),
+
 // METRO
       Row( 
         children: [
@@ -236,11 +301,11 @@ class _TraficScreenState extends State<TraficScreen> {
                     name: "METRO 14", 
                   )
                 ),
-                /*Container(
+                Container(
                   child: const TraficBlock(
                     name: "CDG Val", 
                   )
-                ),*/
+                ),
                 Container(
                   child: const TraficBlock(
                     name: "Orly val", 
@@ -337,71 +402,6 @@ class _TraficScreenState extends State<TraficScreen> {
         ]
       ),
 
-
-                Container(
-                  margin: EdgeInsets.only(left:0.0, top:10.0,right:0.0,bottom:10.0),
-                  color: Color.fromARGB(255, 70, 70, 70),
-                  height: 1.5,
-                ),
-
-// TRAIN
-      Row( 
-        children: [
-          Container(
-            margin: EdgeInsets.only(left:0.0, top:5.0,right:0.0,bottom:0.0),
-            padding: EdgeInsets.only(left:10.0, top:10.0,right:10.0,bottom:10.0),
-            width: 45,
-            height: 45,
-            child: Image(image: AssetImage('assets/idfm/TRAIN_dark.png'))
-          ),
-          Expanded(
-            child: Wrap( 
-              children: [
-                Container(
-                  child: const TraficBlock(
-                    name: "TRANSILIEN H", 
-                  )
-                ),
-                Container(
-                  child: const TraficBlock(
-                    name: "TRANSILIEN J", 
-                  )
-                ),
-                Container(
-                  child: const TraficBlock(
-                    name: "TRANSILIEN K", 
-                  )
-                ),
-                Container(
-                  child: const TraficBlock(
-                    name: "TRANSILIEN L", 
-                  )
-                ),
-                Container(
-                  child: const TraficBlock(
-                    name: "TRANSILIEN N", 
-                  )
-                ),
-                Container(
-                  child: const TraficBlock(
-                    name: "TRANSILIEN P", 
-                  )
-                ),
-                Container(
-                  child: const TraficBlock(
-                    name: "TRANSILIEN R", 
-                  )
-                ),
-                Container(
-                  child: const TraficBlock(
-                    name: "TRANSILIEN U", 
-                  )
-                ),
-              ]
-            )
-          ),
-        ]
-      ),
               
 						]
 					),

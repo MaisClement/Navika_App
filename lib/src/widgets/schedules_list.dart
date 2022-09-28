@@ -24,11 +24,16 @@ class SchedulesList extends StatelessWidget {
         if (modes.contains(schedule['line']['commercial_mode']['id']))
           Container(
             margin: EdgeInsets.only(left:5.0, top:5.0,right:5.0,bottom:0.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color:  HexColor.fromHex(schedule['line']['color']).withOpacity(0.2),
+            ),
             child: Column(
               children: [
                 Container(
                   decoration: BoxDecoration(
-                  color:  HexColor.fromHex(schedule['line']['color']),
+                    borderRadius: BorderRadius.circular(5),
+                    color:  HexColor.fromHex(schedule['line']['color']),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.2),
@@ -46,20 +51,12 @@ class SchedulesList extends StatelessWidget {
                         size: 30,
                         isDark: schedule['line']['text_color'] == "000000",
                       ),
+                      LinesIcones(
+                        line: schedule['line'],
+                        size: 30
+                      ),
                       Container(
-                        margin: EdgeInsets.only(left:10.0, top:0.0,right:10.0,bottom:0.0),
-                        child: Text(
-                          schedule['line']['code'],
-                          style: TextStyle(
-                            color:  HexColor.fromHex(schedule['line']['text_color']),
-                            fontWeight: FontWeight.w800,
-                            fontFamily: 'Parisine',
-                            fontSize: 24,
-                          ),
-                            softWrap: false,
-                            maxLines: 1,
-                            overflow: TextOverflow.fade,
-                        ),
+                        width: 10,
                       ),
                       if (schedule['line']['code'] != schedule['line']['name'])
                         Expanded(
@@ -91,6 +88,7 @@ class SchedulesList extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,
+                                  fontFamily: 'Parisine',
                                   color: Theme.of(context).colorScheme.secondary,
                                 )
                               ),
@@ -109,11 +107,13 @@ class SchedulesList extends StatelessWidget {
                                       ),
                                     )
                                 else
-                                  Text('Aucune information', 
+                                  const Text('Aucune information', 
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
+                                      fontFamily: 'Parisine',
                                     )
                                   ),
+
                               ],
                             )
                           ],
@@ -122,8 +122,11 @@ class SchedulesList extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  color:  HexColor.fromHex(schedule['line']['color']),
                   height: 3,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color:  HexColor.fromHex(schedule['line']['color']),
+                  )
                 )
               ]
             ),

@@ -11,6 +11,7 @@ import '../data.dart';
 import '../routing.dart';
 
 import '../widgets/schedules_list.dart';
+import '../widgets/departure_list.dart';
 
 import '../data/global.dart' as globals;
 
@@ -37,19 +38,28 @@ class _SchedulesDetailsScreenState extends State<SchedulesDetailsScreen>
   late Timer _timer;
 
   Future<void> _getSchedules() async {
-    final response = await http.get(Uri.parse('${globals.API_SCHEDULES}?stoparea=${globals.stopArea}'));
-    final data = json.decode(response.body);
+    try {
+      final response = await http.get(Uri.parse('${globals.API_SCHEDULES}?stoparea=${globals.stopArea}'));
+      
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
 
-    if (mounted) {
-      setState(() {
-        state = true;
-        schedules = data;
+        if (mounted) {
+          setState(() {
+            state = true;
+            schedules = data;
+          });
+        }
+      }
+
+      _timer = Timer(const Duration(seconds: 20), () {
+        _getSchedules();
       });
-    }
 
-    _timer = Timer(const Duration(seconds: 20), () {
-      _getSchedules();
-    });
+    } on Exception catch (_) {
+      print('OULA PAS CONTENT');
+
+    }
 	}
 
   int getModesLength(Map schedules) {
@@ -156,7 +166,12 @@ class _SchedulesDetailsScreenState extends State<SchedulesDetailsScreen>
               controller: _tabController,
               children: [
                 if (schedules['modes'].contains('commercial_mode:LocalTrain') || schedules['modes'].contains('commercial_mode:RapidTransit') || schedules['modes'].contains('commercial_mode:regionalRail'))
-                  Text('train'),
+                  RefreshIndicator(
+                    onRefresh: _getSchedules,
+                    child: DepartureList(
+                      departures: schedules['departures']
+                    ),
+                  ),
 
                 if (schedules['modes'].contains('commercial_mode:Metro') || schedules['modes'].contains('commercial_mode:RailShuttle'))
                   RefreshIndicator(

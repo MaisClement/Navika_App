@@ -32,7 +32,7 @@ class LinesIcones extends StatelessWidget {
 
         child: FittedBox(
           fit: BoxFit.contain,
-          child: Text(line['code'],
+          child: Text(line['code'] ?? '',
             style: TextStyle(
               color:  HexColor.fromHex(line['text_color']),
               fontWeight: FontWeight.w800,

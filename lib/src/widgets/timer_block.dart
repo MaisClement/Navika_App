@@ -51,7 +51,8 @@ class TimerBlock extends StatelessWidget {
         getTimeDifference(time).toString() + '\'',
         style: const TextStyle(
           color: Color(0xfffcc900),
-          fontWeight: FontWeight.w700
+          fontWeight: FontWeight.w700,
+          fontFamily: 'Parisine',
         ),
         textAlign: TextAlign.center,
       ),
