@@ -26,7 +26,7 @@ class SchedulesList extends StatelessWidget {
             margin: EdgeInsets.only(left:5.0, top:5.0,right:5.0,bottom:0.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
-              color:  HexColor.fromHex(schedule['line']['color']).withOpacity(0.2),
+              color: HexColor.fromHex(schedule['line']['color']).withOpacity(0.2), // Color.fromARGB(255, 230, 230, 230), // 
             ),
             child: Column(
               children: [

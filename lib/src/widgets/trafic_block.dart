@@ -2,57 +2,71 @@ import 'package:flutter/material.dart';
 
 import '../routing.dart';
 
-import '../data/trafic.dart';
 import '../data/lines.dart';
 
-Color getSlug(name){
-  if (TRAFIC.getLines(name).severity == 0){
+import '../data/global.dart' as globals;
+
+Map getTraficLines(String name){
+  for(var lines in globals.trafic){
+    if (lines['name'] == name){
+      return lines;
+    }
+  }
+  return {};
+}
+
+Color getSlug(name, [type]){
+  if (getTraficLines(name)['severity'] == 0 && (type == null || type == 0)){
     return Colors.transparent;
-  } else if (TRAFIC.getLines(name).severity == 5){
+  } else if (getTraficLines(name)['severity'] == 0 && type != null && type == 1){
+    return Color(0xff008b5b);
+  } else if (getTraficLines(name)['severity'] == 5){
     return Color(0xffeb2031);
-  } else if (TRAFIC.getLines(name).severity == 4){
+  } else if (getTraficLines(name)['severity'] == 4){
     return Color(0xfff68f53);
-  } else if (TRAFIC.getLines(name).severity == 3){
+  } else if (getTraficLines(name)['severity'] == 3){
     return Colors.transparent;
-  } else if (TRAFIC.getLines(name).severity == 2){
+  } else if (getTraficLines(name)['severity'] == 2){
     return Colors.transparent;
-  } else if (TRAFIC.getLines(name).severity == 1){
+  } else if (getTraficLines(name)['severity'] == 1){
     return Colors.transparent;
   } else {
     return Color(0xffa9a9a9);
   }
 }
 
-AssetImage getSlugImage(name){
-  if (TRAFIC.getLines(name).severity == 0){
-    return AssetImage('assets/null.png');
-  } else if (TRAFIC.getLines(name).severity == 5){
-    return AssetImage('assets/error_small.png');
-  } else if (TRAFIC.getLines(name).severity == 4){
-    return AssetImage('assets/warning.png');
-  } else if (TRAFIC.getLines(name).severity == 3){
-    return AssetImage('assets/work_small.png');
-  } else if (TRAFIC.getLines(name).severity == 2){
-    return AssetImage('assets/futur_work_small.png');
-  } else if (TRAFIC.getLines(name).severity == 1){
-    return AssetImage('assets/information_small.png');
+AssetImage getSlugImage(name, [type]){
+  if (getTraficLines(name)['severity'] == 0 && (type == null || type == 0)){
+    return const AssetImage('assets/null.png');
+  } else if (getTraficLines(name)['severity'] == 0 && type != null && type == 1){
+    return const AssetImage('assets/modal/valid_small.png');
+  } else if (getTraficLines(name)['severity'] == 5){
+    return const AssetImage('assets/modal/error_small.png');
+  } else if (getTraficLines(name)['severity'] == 4){
+    return const AssetImage('assets/modal/warning.png');
+  } else if (getTraficLines(name)['severity'] == 3){
+    return const AssetImage('assets/modal/work_small.png');
+  } else if (getTraficLines(name)['severity'] == 2){
+    return const AssetImage('assets/modal/futur_work_small.png');
+  } else if (getTraficLines(name)['severity'] == 1){
+    return const AssetImage('assets/modal/information_small.png');
   } else {
-    return AssetImage('assets/interogation_grey_small.png');
-  }
+    return const AssetImage('assets/modal/interogation_grey_small.png');
+  } 
 }
 
 String getSlugTitle(name){
-  if (TRAFIC.getLines(name).severity == 0){
+  if (getTraficLines(name)['severity'] == 0){
     return "Trafic fluide";
-  } else if (TRAFIC.getLines(name).severity == 5){
+  } else if (getTraficLines(name)['severity'] == 5){
     return "Trafic fortement perturbé";
-  } else if (TRAFIC.getLines(name).severity == 4){
+  } else if (getTraficLines(name)['severity'] == 4){
     return "Trafic perturbé";
-  } else if (TRAFIC.getLines(name).severity == 3){
+  } else if (getTraficLines(name)['severity'] == 3){
     return "Travaux";
-  } else if (TRAFIC.getLines(name).severity == 2){
+  } else if (getTraficLines(name)['severity'] == 2){
     return "Travaux à venir";
-  } else if (TRAFIC.getLines(name).severity == 1){
+  } else if (getTraficLines(name)['severity'] == 1){
     return "Information";
   } else {
     return "Unknown";

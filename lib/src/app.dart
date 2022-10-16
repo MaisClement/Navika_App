@@ -22,6 +22,7 @@ class _BookstoreState extends State<Bookstore> {
 		/// Configure the parser with all of the app's allowed path templates.
 		_routeParser = TemplateRouteParser(
 			allowedPaths: [
+				'/home',
 				'/schedules',
         '/schedules/:navpos',
 				'/trafic',
@@ -30,9 +31,8 @@ class _BookstoreState extends State<Bookstore> {
 				'/books/all',
 				'/books/popular',
 				'/book/:bookId',
-				'/author/:authorId',
 			],
-			initialRoute: '/schedules',
+			initialRoute: '/home',
 		);
 
 		_routeState = RouteState(_routeParser);
@@ -57,7 +57,7 @@ class _BookstoreState extends State<Bookstore> {
 						// Revert back to pre-Flutter-2.5 transition behavior:
 						// https://github.com/flutter/flutter/issues/82053
 						theme: ThemeData(
-							primarySwatch: generateMaterialColor(Color(0xff135a75)), // generateMaterialColor(Color(0xff08007c))
+							primarySwatch: generateMaterialColor(const Color(0xff194a8d)),// generateMaterialColor(const Color(0xff135a75)), // generateMaterialColor(Color(0xff08007c))
 							pageTransitionsTheme: const PageTransitionsTheme(
 								builders: {
 									TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),

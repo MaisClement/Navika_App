@@ -10,6 +10,10 @@
 .svn/
 migrate_working_dir/
 
+# here sdk
+/plugins/here_sdk/
+*credentials.dart
+
 # IntelliJ related
 *.iml
 *.ipr

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; 
-import 'package:getwidget/getwidget.dart';
 
 import 'dart:convert';
 import 'dart:async';
@@ -115,7 +114,7 @@ class _SchedulesDetailsScreenState extends State<SchedulesDetailsScreen>
           centerTitle: true,
         ),
         body: const Center(
-          child: GFLoader(),
+          child: CircularProgressIndicator(),
         )
       );
 

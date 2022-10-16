@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; 
-import 'package:getwidget/getwidget.dart';
 
 import 'dart:convert';
 
@@ -21,49 +20,25 @@ class _TraficScreenState extends State<TraficScreen> {
 	final String title = 'Info Trafic';
 
   bool state = false;
+  List trafic = [];
 
 	Future<void> _getTrafic() async {
-    if (TRAFIC.isEmpty()){
-			final response = await http.get(Uri.parse(globals.API_TRAFIC));
-			final data = json.decode(response.body);
-
-      if (mounted) {
-        setState(() {
-          state = false;
-        });
-      }
-
-      TRAFIC.clear();
-
-			for (var line in data['report']) {
-				TRAFIC.addTrafic(line['id'], line['name'], line['severity'], line['reports']['currentTraffic'], line['reports']['currentWork'], line['reports']['futureWork']);
-			}
-		}
-    if (mounted) {
+    if(!globals.trafic.isEmpty) {
       setState(() {
         state = true;
+        trafic = globals.trafic;
       });
     }
-	}
 
-  Future<void> _updateTrafic() async {
     final response = await http.get(Uri.parse(globals.API_TRAFIC));
     final data = json.decode(response.body);
 
-    if (mounted) {
-      setState(() {
-        state = false;
-      });
-    }
-
-    TRAFIC.clear();
-
-    for (var line in data['report']) {
-      TRAFIC.addTrafic(line['id'], line['name'], line['severity'], line['reports']['currentTraffic'], line['reports']['currentWork'], line['reports']['futureWork']);
-    }
+    globals.trafic = data['report'];
+    
     if (mounted) {
       setState(() {
         state = true;
+        trafic = data['report'];
       });
     }
 	}
@@ -89,7 +64,7 @@ class _TraficScreenState extends State<TraficScreen> {
 						borderRadius: BorderRadius.circular(5),
 					),
 					child: RefreshIndicator(
-            onRefresh: _updateTrafic,
+            onRefresh: _getTrafic,
             child: ListView(
 						children: [
               
@@ -101,7 +76,7 @@ class _TraficScreenState extends State<TraficScreen> {
                     padding: EdgeInsets.only(left:10.0, top:10.0,right:10.0,bottom:10.0),
                     width: 45,
                     height: 45,
-                    child: Image(image: AssetImage('assets/idfm/RER_dark.png'))
+                    child: Image(image: const AssetImage('assets/idfm/RER_dark.png'))
                   ),
                   Expanded(
                     child: Wrap( 
@@ -151,7 +126,7 @@ class _TraficScreenState extends State<TraficScreen> {
             padding: EdgeInsets.only(left:10.0, top:10.0,right:10.0,bottom:10.0),
             width: 45,
             height: 45,
-            child: Image(image: AssetImage('assets/idfm/TRAIN_dark.png'))
+            child: Image(image: const AssetImage('assets/idfm/TRAIN_dark.png'))
           ),
           Expanded(
             child: Wrap( 
@@ -216,7 +191,7 @@ class _TraficScreenState extends State<TraficScreen> {
             padding: EdgeInsets.only(left:10.0, top:10.0,right:10.0,bottom:10.0),
             width: 45,
             height: 45,
-            child: Image(image: AssetImage('assets/idfm/METRO_dark.png'))
+            child: Image(image: const AssetImage('assets/idfm/METRO_dark.png'))
           ),
           Expanded(
             child: Wrap( 
@@ -331,7 +306,7 @@ class _TraficScreenState extends State<TraficScreen> {
             padding: EdgeInsets.only(left:10.0, top:10.0,right:10.0,bottom:10.0),
             width: 45,
             height: 45,
-            child: Image(image: AssetImage('assets/idfm/TRAM_dark.png'))
+            child: Image(image: const AssetImage('assets/idfm/TRAM_dark.png'))
           ),
           Expanded(
             child: Wrap( 
@@ -415,17 +390,19 @@ class _TraficScreenState extends State<TraficScreen> {
 						color: Colors.white,
 						borderRadius: BorderRadius.circular(5),
 					),
-          child : Column(
-            children: [
-              const GFLoader(),
-              Text('Chargement...', 
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
-                  fontWeight: FontWeight.w700
+          child : Center(
+            child: Column(
+              children: [
+                const CircularProgressIndicator(),
+                Text('Chargement...', 
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontWeight: FontWeight.w700
+                  ),
                 ),
-              ),
-            ]
-          ),
+              ]
+            ),
+          )
         )
         )
       )
@@ -436,7 +413,6 @@ class _TraficScreenState extends State<TraficScreen> {
       super.initState();
       WidgetsBinding.instance.addPostFrameCallback((_) => _getTrafic());
     }
-
     @override
     void deactivate() {
       super.deactivate();

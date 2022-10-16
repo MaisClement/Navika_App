@@ -20,23 +20,54 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
 	final String title = 'Horaires';
   
   String search = '';
+  bool isLoading = false;
   List places = [];
 
   Future<void> _getPlaces() async {
     if (search != ''){
+
+      setState(() {
+        isLoading = true;
+      });
+
 			final response = await http.get(Uri.parse('${globals.API_PLACES}?q=$search'));
 			final data = json.decode(response.body);
 
       if (mounted) {
         setState(() {
           places = data;
+          isLoading = false;
         });
       }
 		} else {
-      //places nearby
+      _getPlacesNearby();
     }
 	}
 
+  Future<void> _getPlacesNearby() async {
+    if (globals.locationData?.latitude != null || globals.locationData?.longitude != null) {
+      
+      setState(() {
+        isLoading = true;
+      });
+
+			final response = await http.get(Uri.parse('${globals.API_PLACES_NEARBY}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}'));
+			final data = json.decode(response.body);
+
+      if (mounted) {
+        setState(() {
+          places = data;
+          isLoading = false;
+        });
+      }
+		} 
+	}
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _getPlaces());
+  }
   @override
   void dispose() {
     myController.dispose();
@@ -80,9 +111,9 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
                 enabledBorder: InputBorder.none,
                 errorBorder: InputBorder.none,
                 disabledBorder: InputBorder.none,
-                contentPadding:
-                    EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                hintText: "Où allons nous ?"),
+                contentPadding:EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                hintText: "Où allons nous ?"
+              ),
               onChanged: (text) {
                 setState(() {
                   search = text;
@@ -93,58 +124,125 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
             
           ),
         ),
-        Expanded(
-          child: ListView(
-            children: [
-              for (var place in places)
-                InkWell(                        
-                  child: Container(
-                    padding: EdgeInsets.only(left:20.0, top:5.0,right:20.0,bottom:5.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          child: Text(place['stop_area']['name'],
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Parisine',
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left:5.0, top:4.0),
-                          child: Text('${place['stop_area']['administrative_regions']['zip_code']}, ${place['stop_area']['administrative_regions']['name']}',
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontFamily: 'Parisine',
-                            ),
-                          ),
-                        ),
-                        Wrap( 
+        
+        if (!places.isEmpty)
+          Expanded(
+            child: ListView(
+              children: [
+                for (var place in places)
+                  InkWell(                        
+                    child: Opacity(
+                      opacity: isLoading ? 0.4 : 1,
+                      child: Container(
+                        padding: EdgeInsets.only(left:20.0, top:5.0,right:20.0,bottom:5.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            for (var i = 0; i < place['stop_area']['lines'].length; i++)
+                            Container(
+                              child: Text(place['stop_area']['name'],
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Parisine',
+                                ),
+                              ),
+                            ),
                             
-                              Icones(
-                                line: place['stop_area']['lines'][i],
-                                old_line: i > 0 ? place['stop_area']['lines'][i - 1] : place['stop_area']['lines'][i],
-                                i: i,
-                              )
-                            
+                            if (place['distance'] == null)
+                              Container(
+                                margin: EdgeInsets.only(left:5.0, top:4.0),
+                                child: Text('${place['stop_area']['administrative_regions']['zip_code']}, ${place['stop_area']['administrative_regions']['name']}',
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontFamily: 'Parisine',
+                                  ),
+                                ),
+                              ),
+                            if (place['distance'] != null)
+                              Container(
+                                margin: EdgeInsets.only(left:5.0, top:4.0),
+                                child: Row(
+                                  children: [
+                                    Image(
+                                      image: AssetImage('assets/walking_grey.png'),
+                                      height: 15,
+                                    ),
+                                    Text('${place['distance']}m',
+                                      style: const TextStyle(
+                                        color: Colors.grey,
+                                        fontFamily: 'Parisine',
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 20,
+                                    ),
+                                    Text('${place['stop_area']['administrative_regions']['zip_code']}, ${place['stop_area']['administrative_regions']['name']}',
+                                      style: const TextStyle(
+                                        color: Colors.grey,
+                                        fontFamily: 'Parisine',
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ),
+
+                            Wrap( 
+                              children: [
+                                for (var i = 0; i < place['stop_area']['lines'].length; i++)
+                                
+                                  Icones(
+                                    line: place['stop_area']['lines'][i],
+                                    old_line: i > 0 ? place['stop_area']['lines'][i - 1] : place['stop_area']['lines'][i],
+                                    i: i,
+                                  )
+                                
+                              ]
+                            )
                           ]
                         )
-                      ]
-                    )
+                      ),
+                    ),
+                    onTap: () {
+                      globals.stopArea = place['stop_area']['id'];
+                      globals.stopName = place['stop_area']['name'];
+                      RouteStateScope.of(context).go('/schedules/details');
+                    },                
                   ),
-                  onTap: () {
-                    globals.stopArea = place['stop_area']['id'];
-                    globals.stopName = place['stop_area']['name'];
-                    RouteStateScope.of(context).go('/schedules/details');
-                  },                
-                ),
               ]
             )
-        )
+          ),
+
+        if (places.isEmpty && isLoading == true)
+          Container(
+            margin: EdgeInsets.only(top:40.0),
+            child: Center(
+              child: Column(
+                children: [
+                  const CircularProgressIndicator(),
+                  Text('Chargement...', 
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontWeight: FontWeight.w700
+                    ),
+                  ),
+                ]
+              ),
+            ),
+          ),
+          
+
+        if (places.isEmpty && isLoading == false)
+          Container(
+            margin: EdgeInsets.only(top:40.0),
+            child: Center(
+              child: Text('🔭 Nous n\'avons rien trouvé...', 
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontWeight: FontWeight.w700
+                ),
+              ),
+            ),
+          ),
       ],
       
     )

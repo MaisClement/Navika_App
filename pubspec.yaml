@@ -42,53 +42,32 @@ dependencies:
   url_launcher: ^6.1.5
   adaptive_navigation: ^0.0.7
   http: ^0.13.5
-  getwidget: ^3.0.1
+  location: ^4.4.0
+  sliding_up_panel: ^2.0.0+1
+  flutter_compass: ^0.7.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  here_sdk:
+    path: plugins/here_sdk
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
+  hive_generator: ^1.1.3
+  build_runner: ^2.3.0
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
 
 # The following section is specific to Flutter packages.
 flutter:
   uses-material-design: true
-
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
-
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
 
   fonts:
     - family:  Scaffold_icon
@@ -308,59 +287,59 @@ flutter:
     - assets/idfm/lines_white_small/TRAM_T12.png
     - assets/idfm/lines_white_small/TRAM_T13.png
 
-    - assets/val/lines/CDGVAL.png
-    - assets/val/lines/ORLYVAL.png
-    - assets/val/lines_small/CDGVAL.png
-    - assets/val/lines_small/ORLYVAL.png
+    - assets/idfm/val/lines/CDGVAL.png
+    - assets/idfm/val/lines/ORLYVAL.png
+    - assets/idfm/val/lines_small/CDGVAL.png
+    - assets/idfm/val/lines_small/ORLYVAL.png
 
-    - assets/noctilien/NOCT_133.png
-    - assets/noctilien/NOCT_42.png
-    - assets/noctilien/NOCT_52.png
-    - assets/noctilien/NOCT_21.png
-    - assets/noctilien/NOCT_32.png
-    - assets/noctilien/NOCT_43.png
-    - assets/noctilien/NOCT_71.png
-    - assets/noctilien/NOCT_14.png
-    - assets/noctilien/NOCT_66.png
-    - assets/noctilien/NOCT_132.png
-    - assets/noctilien/NOCT_141.png
-    - assets/noctilien/NOCT_145.png
-    - assets/noctilien/NOCT_01.png
-    - assets/noctilien/NOCT_02.png
-    - assets/noctilien/NOCT_131.png
-    - assets/noctilien/NOCT_23.png
-    - assets/noctilien/NOCT_34.png
-    - assets/noctilien/NOCT_31.png
-    - assets/noctilien/NOCT_45.png
-    - assets/noctilien/NOCT_53.png
-    - assets/noctilien/NOCT_16.png
-    - assets/noctilien/NOCT_122.png
-    - assets/noctilien/NOCT_140.png
-    - assets/noctilien/NOCT_24.png
-    - assets/noctilien/NOCT_44.png
-    - assets/noctilien/NOCT_62.png
-    - assets/noctilien/NOCT_22.png
-    - assets/noctilien/NOCT_35.png
-    - assets/noctilien/NOCT_15.png
-    - assets/noctilien/NOCT_153.png
-    - assets/noctilien/NOCT_150.png
-    - assets/noctilien/NOCT_152.png
-    - assets/noctilien/NOCT_135.png
-    - assets/noctilien/NOCT_143.png
-    - assets/noctilien/NOCT_33.png
-    - assets/noctilien/NOCT_61.png
-    - assets/noctilien/NOCT_11.png
-    - assets/noctilien/NOCT_151.png
-    - assets/noctilien/NOCT_134.png
-    - assets/noctilien/NOCT_144.png
-    - assets/noctilien/NOCT_130.png
-    - assets/noctilien/NOCT_51.png
-    - assets/noctilien/NOCT_63.png
-    - assets/noctilien/NOCT_41.png
-    - assets/noctilien/NOCT_13.png
-    - assets/noctilien/NOCT_12.png
-    - assets/noctilien/NOCT_142.png
-    - assets/noctilien/NOCT_154.png
+    - assets/idfm/noctilien/NOCT_133.png
+    - assets/idfm/noctilien/NOCT_42.png
+    - assets/idfm/noctilien/NOCT_52.png
+    - assets/idfm/noctilien/NOCT_21.png
+    - assets/idfm/noctilien/NOCT_32.png
+    - assets/idfm/noctilien/NOCT_43.png
+    - assets/idfm/noctilien/NOCT_71.png
+    - assets/idfm/noctilien/NOCT_14.png
+    - assets/idfm/noctilien/NOCT_66.png
+    - assets/idfm/noctilien/NOCT_132.png
+    - assets/idfm/noctilien/NOCT_141.png
+    - assets/idfm/noctilien/NOCT_145.png
+    - assets/idfm/noctilien/NOCT_01.png
+    - assets/idfm/noctilien/NOCT_02.png
+    - assets/idfm/noctilien/NOCT_131.png
+    - assets/idfm/noctilien/NOCT_23.png
+    - assets/idfm/noctilien/NOCT_34.png
+    - assets/idfm/noctilien/NOCT_31.png
+    - assets/idfm/noctilien/NOCT_45.png
+    - assets/idfm/noctilien/NOCT_53.png
+    - assets/idfm/noctilien/NOCT_16.png
+    - assets/idfm/noctilien/NOCT_122.png
+    - assets/idfm/noctilien/NOCT_140.png
+    - assets/idfm/noctilien/NOCT_24.png
+    - assets/idfm/noctilien/NOCT_44.png
+    - assets/idfm/noctilien/NOCT_62.png
+    - assets/idfm/noctilien/NOCT_22.png
+    - assets/idfm/noctilien/NOCT_35.png
+    - assets/idfm/noctilien/NOCT_15.png
+    - assets/idfm/noctilien/NOCT_153.png
+    - assets/idfm/noctilien/NOCT_150.png
+    - assets/idfm/noctilien/NOCT_152.png
+    - assets/idfm/noctilien/NOCT_135.png
+    - assets/idfm/noctilien/NOCT_143.png
+    - assets/idfm/noctilien/NOCT_33.png
+    - assets/idfm/noctilien/NOCT_61.png
+    - assets/idfm/noctilien/NOCT_11.png
+    - assets/idfm/noctilien/NOCT_151.png
+    - assets/idfm/noctilien/NOCT_134.png
+    - assets/idfm/noctilien/NOCT_144.png
+    - assets/idfm/noctilien/NOCT_130.png
+    - assets/idfm/noctilien/NOCT_51.png
+    - assets/idfm/noctilien/NOCT_63.png
+    - assets/idfm/noctilien/NOCT_41.png
+    - assets/idfm/noctilien/NOCT_13.png
+    - assets/idfm/noctilien/NOCT_12.png
+    - assets/idfm/noctilien/NOCT_142.png
+    - assets/idfm/noctilien/NOCT_154.png
 
     - assets/sncf/TER_dark.png
     - assets/sncf/TER_white.png
@@ -384,41 +363,46 @@ flutter:
     - assets/idfm/RER_white.png
     - assets/idfm/TRAIN_dark.png
 
-    - assets/work_white_small.png
-    - assets/alert.png
-    - assets/alert_small.png
-    - assets/alert_white.png
-    - assets/alert_white_small.png
-    - assets/error.png
-    - assets/error_small.png
-    - assets/error_white.png
-    - assets/error_white_small.png
-    - assets/futur_work.png
-    - assets/futur_work_small.png
-    - assets/information.png
-    - assets/information_small.png
-    - assets/information_white.png
-    - assets/information_white_small.png
-    - assets/interogation.png
-    - assets/interogation_grey.png
-    - assets/interogation_grey_small.png
-    - assets/interogation_small.png
-    - assets/interogation_white.png
-    - assets/interogation_white_small.png
-    - assets/valid.png
-    - assets/valid_small.png
-    - assets/valid_white.png
-    - assets/valid_white_small.png
-    - assets/warning.png
-    - assets/warning_small.png
-    - assets/warning_white.png
-    - assets/work.png
-    - assets/work_small.png
-    - assets/work_white.png
+    - assets/modal/work_white_small.png
+    - assets/modal/alert.png
+    - assets/modal/alert_small.png
+    - assets/modal/alert_white.png
+    - assets/modal/alert_white_small.png
+    - assets/modal/error.png
+    - assets/modal/error_small.png
+    - assets/modal/error_white.png
+    - assets/modal/error_white_small.png
+    - assets/modal/futur_work.png
+    - assets/modal/futur_work_small.png
+    - assets/modal/information.png
+    - assets/modal/information_small.png
+    - assets/modal/information_white.png
+    - assets/modal/information_white_small.png
+    - assets/modal/interogation.png
+    - assets/modal/interogation_grey.png
+    - assets/modal/interogation_grey_small.png
+    - assets/modal/interogation_small.png
+    - assets/modal/interogation_white.png
+    - assets/modal/interogation_white_small.png
+    - assets/modal/valid.png
+    - assets/modal/valid_small.png
+    - assets/modal/valid_white.png
+    - assets/modal/valid_white_small.png
+    - assets/modal/warning.png
+    - assets/modal/warning_small.png
+    - assets/modal/warning_white.png
+    - assets/modal/work.png
+    - assets/modal/work_small.png
+    - assets/modal/work_white.png
     - assets/null.png
+    - assets/walking.png
+    - assets/walking_grey.png
+    - assets/Here.png
+    - assets/Here_small.png
+    - assets/location-indicator.png
+    - assets/locate.png
 
-
-
+    
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

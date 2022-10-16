@@ -6,6 +6,7 @@ import '../widgets/fade_transition_page.dart';
 import 'schedules.dart';
 import 'books.dart';
 import 'scaffold.dart';
+import 'home.dart';
 
 /// Displays the contents of the body of [BookstoreScaffold]
 class BookstoreScaffoldBody extends StatelessWidget {
@@ -25,7 +26,12 @@ class BookstoreScaffoldBody extends StatelessWidget {
 			key: navigatorKey,
 			onPopPage: (route, dynamic result) => route.didPop(result),
 			pages: [
-				if (currentRoute.pathTemplate.startsWith('/schedules'))
+				if (currentRoute.pathTemplate.startsWith('/home'))
+					const FadeTransitionPage<void>(
+						key: ValueKey('home'),
+						child: HomeScreen(),
+					)
+				else if (currentRoute.pathTemplate.startsWith('/schedules'))
 					const FadeTransitionPage<void>(
 						key: ValueKey('schedules'),
 						child: SchedulesScreen(),

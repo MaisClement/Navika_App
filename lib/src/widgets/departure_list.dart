@@ -31,20 +31,35 @@ class DepartureList extends StatelessWidget {
     return diff.inMinutes;
   }
   Color getState(Map departure){
-    if (departure['informations']['state'] == 'cancelled')
+    if (departure['informations']['state'] == 'cancelled'){
       return Color(0xffeb2031);
-    else if (departure['informations']['state'] == 'delayed')
+    } else if (departure['informations']['state'] == 'delayed'){
       return Color(0xfff68f53);
-    else if (getDelay(departure['stop_date_time']['base_departure_date_time'], departure['stop_date_time']['departure_date_time']) > 0)
+     }else if (getDelay(departure['stop_date_time']['base_departure_date_time'], departure['stop_date_time']['departure_date_time']) > 0){
       return Color(0xfff68f53);
-    else
+    } else{
       return Color(0x00000000);
+    }
+  }
+  Color getContainerState(Map departure){
+    if (departure['informations']['state'] == 'cancelled') {
+      return Color(0xffeb2031);
+    } else if (departure['informations']['state'] == 'delayed') {
+      return Color(0xfff68f53);
+    } else if (getDelay(departure['stop_date_time']['base_departure_date_time'], departure['stop_date_time']['departure_date_time']) > 0){
+      return Color(0xfff68f53);
+    } else if (departure['informations']['message'] == 'terminus'){
+      return Color(0xff888888);
+    } else {
+      return Color(0x00000000);
+    }
   }
 
 	@override
 	Widget build(BuildContext context) => ListView(
     children: [
       for (var departure in this.departures)
+      if (departure['informations']['direction']['name'] != '')
         Container(
           margin: EdgeInsets.only(left:3.0, top:5.0, right:3.0, bottom:0.0),
           padding: EdgeInsets.only(left:5.0, top:2.0, right:8.0, bottom:2.0),
@@ -110,7 +125,6 @@ class DepartureList extends StatelessWidget {
                                 fontFamily: 'Parisine',
                                 color: Theme.of(context).colorScheme.secondary,
                               ),
-
                             maxLines: 1,
                             softWrap: false,
                             overflow: TextOverflow.fade,
@@ -146,9 +160,55 @@ class DepartureList extends StatelessWidget {
                 ),
               ),
 
-              if (getDelay(departure['stop_date_time']['base_departure_date_time'], departure['stop_date_time']['departure_date_time']) > 0)
+              if (departure['informations']['message'] == 'terminus')
                 Container(
-                  margin: const EdgeInsets.only(top:15.0), 
+                  margin: const EdgeInsets.only(top:16.0), 
+                  padding: const EdgeInsets.only(left:7.0, right:5.0),
+                  decoration: const BoxDecoration(
+                    color: Color(0xff888888),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.zero,
+                      bottomLeft: Radius.circular(5),
+                      bottomRight: Radius.zero,
+                    )
+                  ),
+                  child: Text('Terminus',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Color(0xffffffff),
+                      fontFamily: 'Parisine',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center
+                  )
+                ), 
+              if (departure['informations']['state'] == 'cancelled')
+                Container(
+                  margin: const EdgeInsets.only(top:16.0), 
+                  padding: const EdgeInsets.only(left:7.0, right:5.0),
+                  decoration: const BoxDecoration(
+                    color: Color(0xffeb2031),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.zero,
+                      bottomLeft: Radius.circular(5),
+                      bottomRight: Radius.zero,
+                    )
+                  ),
+                  child: Text('Supprimé',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Color(0xffffffff),
+                      fontFamily: 'Parisine',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center
+                  )
+                ),
+              if (departure['informations']['state'] != 'cancelled' && getDelay(departure['stop_date_time']['base_departure_date_time'], departure['stop_date_time']['departure_date_time']) > 0)
+                Container(
+                  margin: const EdgeInsets.only(top:16.0), 
                   padding: const EdgeInsets.only(left:7.0, right:5.0),
                   decoration: const BoxDecoration(
                     color: Color(0xfff68f53),
@@ -168,78 +228,43 @@ class DepartureList extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center
                   )
-                ),
-
-              if (departure['informations']['message'] == 'terminus')
-                Container(
-                  margin: const EdgeInsets.only(top:15.0), 
-                  padding: const EdgeInsets.only(left:7.0, right:5.0),
-                  decoration: const BoxDecoration(
-                    color: Color(0xff888888),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(5),
-                      topRight: Radius.zero,
-                      bottomLeft: Radius.circular(5),
-                      bottomRight: Radius.zero,
-                    )
-                  ),
-                  child: Text( 'Terminus',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Color(0xffffffff),
-                      fontFamily: 'Parisine',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    textAlign: TextAlign.center
-                  )
-                ),
-
-              if (departure['informations']['state'] == 'cancelled')
-                Container(
-                  margin: const EdgeInsets.only(top:15.0), 
-                  padding: const EdgeInsets.only(left:7.0, right:5.0),
-                  decoration: const BoxDecoration(
-                    color: Color(0xffeb2031),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(5),
-                      topRight: Radius.zero,
-                      bottomLeft: Radius.circular(5),
-                      bottomRight: Radius.zero,
-                    )
-                  ),
-                  child: Text( 'Supprimé',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Color(0xffffffff),
-                      fontFamily: 'Parisine',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    textAlign: TextAlign.center
-                  )
-                ),
+                ),      
 
               Container(
-                margin: const EdgeInsets.only(top:5.0, bottom:5.0),
-                padding: const EdgeInsets.only(left:5.0, top:6.0, right:5.0, bottom:5.0),
+                  margin: const EdgeInsets.only(top:5.0, bottom:5.0),
                 height: 30,
-                decoration: const BoxDecoration(
-                  color: Color(0xff141414),
+                decoration: BoxDecoration(
+                  color: getContainerState(departure),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(5),
                     topRight: Radius.zero,
-                    bottomLeft: Radius.circular(5),
+                    bottomLeft: Radius.zero,
                     bottomRight: Radius.zero,
                   )
                 ),
-                child: Text(getTime(departure['stop_date_time']['departure_date_time']),
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Color(0xfffcc900),
-                    fontFamily: 'Parisine',
+                child: Container(
+                  padding: const EdgeInsets.only(left:5.0, top:6.0, right:5.0, bottom:5.0),
+                  height: 30,
+                  decoration: const BoxDecoration(
+                    color: Color(0xff141414),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.zero,
+                      bottomLeft: Radius.circular(5),
+                      bottomRight: Radius.zero,
+                    )
                   ),
-                  textAlign: TextAlign.center
-                )
+                  child: Text(getTime(departure['stop_date_time']['base_departure_date_time']),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Color(0xfffcc900),
+                      fontFamily: 'Parisine',
+                    ),
+                    textAlign: TextAlign.center
+                  )
+                ),
               ),
+                
               Container(
                 padding: const EdgeInsets.only(left:5.0, top:2.0,right:5.0, bottom:5.0),
                 height: 30,
