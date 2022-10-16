@@ -1,11 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; 
 
-import 'dart:convert';
-
-import '../data/lines.dart';
 import '../widgets/trafic_block.dart';
-
 import '../data/global.dart' as globals;
 
 class TraficScreen extends StatefulWidget {

@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:math';
+
+import 'package:flutter/material.dart';
 
 import 'routing.dart';
 import 'screens/navigator.dart';
@@ -27,10 +28,6 @@ class _NavikaAppState extends State<NavikaApp> {
         '/schedules/:navpos',
 				'/trafic',
         '/trafic/:lineId',
-				'/books/new',
-				'/books/all',
-				'/books/popular',
-				'/book/:bookId',
 			],
 			initialRoute: '/home',
 		);
@@ -57,7 +54,7 @@ class _NavikaAppState extends State<NavikaApp> {
 						// Revert back to pre-Flutter-2.5 transition behavior:
 						// https://github.com/flutter/flutter/issues/82053
 						theme: ThemeData(
-							primarySwatch: generateMaterialColor(const Color(0xff194a8d)),// generateMaterialColor(const Color(0xff135a75)), // generateMaterialColor(Color(0xff08007c))
+							primarySwatch: generateMaterialColor(Color(0xff003f97)),// generateMaterialColor(const Color(0xff135a75)), // generateMaterialColor(Color(0xff08007c))
 							pageTransitionsTheme: const PageTransitionsTheme(
 								builders: {
 									TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),

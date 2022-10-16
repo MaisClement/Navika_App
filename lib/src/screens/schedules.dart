@@ -1,11 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; 
 
-import 'dart:convert';
-
 import '../routing.dart';
 import '../widgets/icons.dart';
-
 import '../data/global.dart' as globals;
 
 class SchedulesScreen extends StatefulWidget {

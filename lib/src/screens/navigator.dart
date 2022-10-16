@@ -1,10 +1,7 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-import '../data.dart';
 import '../routing.dart';
 import '../widgets/fade_transition_page.dart';
-import 'book_details.dart';
 import 'trafic_details.dart';
 import 'schedules_details.dart';
 import 'scaffold.dart';
@@ -32,12 +29,6 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 	Widget build(BuildContext context) {
 		final routeState = RouteStateScope.of(context);
 		final pathTemplate = routeState.route.pathTemplate;
-
-		Book? selectedBook;
-		if (pathTemplate == '/book/:bookId') {
-			selectedBook = libraryInstance.allBooks.firstWhereOrNull(
-					(b) => b.id.toString() == routeState.route.parameters['bookId']);
-		}
 
     String? selectedLine;
 		if (pathTemplate == '/trafic/:lineId') {
@@ -80,14 +71,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 					),
 					// Add an additional page to the stack if the user is viewing a book
 					// or an author
-					if (selectedBook != null)
-						MaterialPage<void>(
-							key: _bookDetailsKey,
-							child: BookDetailsScreen(
-								book: selectedBook,
-							),
-						)
-					else if (selectedLine != null)
+					if (selectedLine != null)
 						MaterialPage<void>(
 							key: _authorDetailsKey,
 							child: TraficDetailsScreen(

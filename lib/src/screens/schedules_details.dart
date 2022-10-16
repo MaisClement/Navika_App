@@ -1,17 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http; 
-
 import 'dart:convert';
 import 'dart:async';
 
-import '../icons/scaffold_icon_icons.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http; 
 
+import '../icons/scaffold_icon_icons.dart';
 import '../data.dart';
 import '../routing.dart';
-
 import '../widgets/schedules_list.dart';
 import '../widgets/departure_list.dart';
-
 import '../data/global.dart' as globals;
 
 class SchedulesDetailsScreen extends StatefulWidget {
@@ -229,10 +226,6 @@ class _SchedulesDetailsScreenState extends State<SchedulesDetailsScreen>
   }
 
 	RouteState get _routeState => RouteStateScope.of(context);
-
-	void _handleBookTapped(Book book) {
-		_routeState.go('/book/${book.id}');
-	}
 
 	void _handleTabIndexChanged() {
 		switch (_tabController.index) {

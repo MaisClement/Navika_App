@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../routing.dart';
-
 import '../data/lines.dart';
 
 class ModeIcones extends StatelessWidget {

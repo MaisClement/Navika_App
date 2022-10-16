@@ -11,7 +11,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'src/data/credentials.dart' as credentials;
 import 'src/data/global.dart' as globals;
-
 import 'src/app.dart';
 
 void main() {
@@ -41,10 +40,8 @@ void _initializeHive() async{
 }
 
 void _initializeHERESDK() async {
-  // Needs to be called before accessing SDKOptions to load necessary libraries.
   SdkContext.init(IsolateOrigin.main);
 
-  // Set your credentials for the HERE SDK.
   String accessKeyId = credentials.HERE_ACCES_KEY_ID;
   String accessKeySecret = credentials.HERE_ACCES_KEY_SECRET;
   SDKOptions sdkOptions = SDKOptions.withAccessKeySecret(accessKeyId, accessKeySecret);

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../extensions/hexcolor.dart';
-
 import '../widgets/lines_icons.dart';
 import '../widgets/mode_icons.dart';
-import '../widgets/timer_block.dart';
 
 class DepartureList extends StatelessWidget {
 	final List departures;

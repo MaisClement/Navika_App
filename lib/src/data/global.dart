@@ -1,6 +1,5 @@
 library my_prj.globals;
 import 'package:location/location.dart' as gps;
-import 'package:flutter_compass/flutter_compass.dart';
 
 const String VERSION = '0.1-dev';
 

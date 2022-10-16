@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../extensions/hexcolor.dart';
-
 import '../data/lines.dart';
 
 class LinesIcones extends StatelessWidget {

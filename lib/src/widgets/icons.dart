@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../routing.dart';
-
-import '../data/lines.dart';
-
 import '../widgets/lines_icons.dart';
 import '../widgets/mode_icons.dart';
 

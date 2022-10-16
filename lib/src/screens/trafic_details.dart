@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/link.dart';
 
 import '../data/lines.dart';
 import '../widgets/trafic_block.dart';

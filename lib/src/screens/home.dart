@@ -1,26 +1,16 @@
 import 'dart:async';
-import 'dart:math';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:here_sdk/gestures.dart';
 import 'package:http/http.dart' as http; 
 import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
-import 'package:here_sdk/core.engine.dart';
-import 'package:here_sdk/core.errors.dart';
 import 'package:here_sdk/mapview.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_compass/flutter_compass.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-
-import 'dart:convert';
-
-import '../routing.dart';
-import '../widgets/icons.dart';
 
 import '../data/global.dart' as globals;
-
 import '../controller/here_map_controller.dart';
 
 class HomeScreen extends StatefulWidget {
