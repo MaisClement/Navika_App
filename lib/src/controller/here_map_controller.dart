@@ -102,8 +102,6 @@ class HereController {
     GeoCoordinates southWestCorner = geoBox.southWestCorner;
 
     GeoCoordinates center = GeoCoordinates((northEastCorner.latitude + southWestCorner.latitude) / 2, (northEastCorner.longitude + southWestCorner.longitude) / 2);
-    print({'INFO_', (northEastCorner.latitude + southWestCorner.latitude) / 2});
-    print({'INFO_', (northEastCorner.longitude + southWestCorner.longitude) / 2});
     return center;
   }
 

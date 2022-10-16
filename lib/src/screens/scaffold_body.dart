@@ -8,11 +8,11 @@ import 'books.dart';
 import 'scaffold.dart';
 import 'home.dart';
 
-/// Displays the contents of the body of [BookstoreScaffold]
-class BookstoreScaffoldBody extends StatelessWidget {
+/// Displays the contents of the body of [NavikaAppScaffold]
+class NavikaAppScaffoldBody extends StatelessWidget {
 	static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-	const BookstoreScaffoldBody({
+	const NavikaAppScaffoldBody({
 		super.key,
 	});
 

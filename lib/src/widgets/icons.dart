@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../routing.dart';
 
-import '../data/trafic.dart';
 import '../data/lines.dart';
 
 import '../widgets/lines_icons.dart';

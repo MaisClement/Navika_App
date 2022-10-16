@@ -23,7 +23,7 @@ void main() {
 
   _initializeHive();
 
-	runApp(const Bookstore());
+	runApp(const NavikaApp());
 }
 
 void setupWindow() {

@@ -4,14 +4,14 @@ import 'dart:math';
 import 'routing.dart';
 import 'screens/navigator.dart';
 
-class Bookstore extends StatefulWidget {
-	const Bookstore({super.key});
+class NavikaApp extends StatefulWidget {
+	const NavikaApp({super.key});
 
 	@override
-	State<Bookstore> createState() => _BookstoreState();
+	State<NavikaApp> createState() => _NavikaAppState();
 }
 
-class _BookstoreState extends State<Bookstore> {
+class _NavikaAppState extends State<NavikaApp> {
 	final _navigatorKey = GlobalKey<NavigatorState>();
 	late final RouteState _routeState;
 	late final SimpleRouterDelegate _routerDelegate;
@@ -40,7 +40,7 @@ class _BookstoreState extends State<Bookstore> {
 		_routerDelegate = SimpleRouterDelegate(
 			routeState: _routeState,
 			navigatorKey: _navigatorKey,
-			builder: (context) => BookstoreNavigator(
+			builder: (context) => NavikaAppNavigator(
 				navigatorKey: _navigatorKey,
 			),
 		);

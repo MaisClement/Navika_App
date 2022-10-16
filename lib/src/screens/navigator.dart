@@ -11,19 +11,19 @@ import 'scaffold.dart';
 
 /// Builds the top-level navigator for the app. The pages to display are based
 /// on the `routeState` that was parsed by the TemplateRouteParser.
-class BookstoreNavigator extends StatefulWidget {
+class NavikaAppNavigator extends StatefulWidget {
 	final GlobalKey<NavigatorState> navigatorKey;
 
-	const BookstoreNavigator({
+	const NavikaAppNavigator({
 		required this.navigatorKey,
 		super.key,
 	});
 
 	@override
-	State<BookstoreNavigator> createState() => _BookstoreNavigatorState();
+	State<NavikaAppNavigator> createState() => _NavikaAppNavigatorState();
 }
 
-class _BookstoreNavigatorState extends State<BookstoreNavigator> {
+class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 	final _scaffoldKey = const ValueKey('App scaffold');
 	final _bookDetailsKey = const ValueKey('Book details screen');
 	final _authorDetailsKey = const ValueKey('Author details screen');
@@ -53,7 +53,7 @@ class _BookstoreNavigatorState extends State<BookstoreNavigator> {
 			key: widget.navigatorKey,
 			onPopPage: (route, dynamic result) {
 				// When a page that is stacked on top of the scaffold is popped, display
-				// the /books or /schedules tab in BookstoreScaffold.
+				// the /books or /schedules tab in NavikaAppScaffold.
 				if (pathTemplate == '/book/:bookId') {
 					routeState.go('/books/popular');
 				}
@@ -76,7 +76,7 @@ class _BookstoreNavigatorState extends State<BookstoreNavigator> {
 				// Display the app
 					FadeTransitionPage<void>(
 						key: _scaffoldKey,
-						child: const BookstoreScaffold(),
+						child: const NavikaAppScaffold(),
 					),
 					// Add an additional page to the stack if the user is viewing a book
 					// or an author

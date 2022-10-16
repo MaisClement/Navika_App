@@ -100,7 +100,7 @@ class TraficDetailsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  for (var ctrafic in getTraficLines(lineId)['currentTraffic']) 
+                  for (var ctrafic in getTraficLines(lineId)['reports']['currentTraffic']) 
                     Container(
                       padding: EdgeInsets.only(left:15.0, top:10, right:15.0, bottom:10.0),
                       margin: EdgeInsets.only(top: 5, right:5),
@@ -162,7 +162,7 @@ class TraficDetailsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  for (var ctrafic in getTraficLines(lineId)['currentWork']) 
+                  for (var ctrafic in getTraficLines(lineId)['reports']['currentWork']) 
                     Container(
                       padding: EdgeInsets.only(left:15.0, top:10, right:15.0, bottom:10.0),
                       margin: EdgeInsets.only(top: 5, right:5),
@@ -220,7 +220,7 @@ class TraficDetailsScreen extends StatelessWidget {
             ),
 
 // FWORK
-            if (getTraficLines(lineId)['futureWork'].length > 0)
+            if (getTraficLines(lineId)['reports']['futureWork'].length > 0)
               Container(
                 padding: EdgeInsets.only(left:15.0, top:15.0,right:15.0,bottom:15.0),
                       margin: EdgeInsets.only(top: 5, right:5),
@@ -243,7 +243,7 @@ class TraficDetailsScreen extends StatelessWidget {
                         indent: 0, //spacing at the start of divider
                         endIndent: 25, //spacing at the end of divider
                     ),
-                    for (var ctrafic in getTraficLines(lineId)['futureWork']) 
+                    for (var ctrafic in getTraficLines(lineId)['reports']['futureWork']) 
                       Container(
                         margin: EdgeInsets.only(top: 5, right:5, bottom:15.0),
                         child: Column(

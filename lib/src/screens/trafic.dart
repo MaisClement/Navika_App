@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 
 import 'dart:convert';
 
-import '../data/trafic.dart';
 import '../data/lines.dart';
 import '../widgets/trafic_block.dart';
 

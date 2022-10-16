@@ -6,8 +6,8 @@ import '../icons/scaffold_icon_icons.dart';
 import '../routing.dart';
 import 'scaffold_body.dart';
 
-class BookstoreScaffold extends StatelessWidget {
-	const BookstoreScaffold({
+class NavikaAppScaffold extends StatelessWidget {
+	const NavikaAppScaffold({
 		super.key,
 	});
 
@@ -19,7 +19,7 @@ class BookstoreScaffold extends StatelessWidget {
 		return Scaffold(
 			body: AdaptiveNavigationScaffold(
 				selectedIndex: selectedIndex,
-				body: const BookstoreScaffoldBody(),
+				body: const NavikaAppScaffoldBody(),
 				onDestinationSelected: (idx) {
 					if (idx == 0) routeState.go('/home');
 					if (idx == 1) routeState.go('/schedules');
