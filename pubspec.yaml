@@ -44,7 +44,9 @@ dependencies:
   http: ^0.13.5
   location: ^4.4.0
   sliding_up_panel: ^2.0.0+1
-  flutter_compass: ^0.7.0
+  #flutter_compass: ^0.7.0
+  flutter_compass:
+    git: https://github.com/hemanthrajv/flutter_compass.git
   hive: ^2.2.3
   hive_flutter: ^1.1.0
 
@@ -343,9 +345,7 @@ flutter:
 
     - assets/sncf/TER_dark.png
     - assets/sncf/TER_white.png
-
-    - assets/idfm/TRAIN_RER_dark.png
-    - assets/idfm/TRAIN_RER_white.png
+    
     - assets/idfm/TRAIN_white.png
     - assets/idfm/TRAM_dark.png
     - assets/idfm/TRAM_white.png

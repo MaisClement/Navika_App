@@ -205,9 +205,11 @@ packages:
   flutter_compass:
     dependency: "direct main"
     description:
-      name: flutter_compass
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "8f753aefe76b08092c0e5bda93775ade8fe66016"
+      url: "https://github.com/hemanthrajv/flutter_compass.git"
+    source: git
     version: "0.7.0"
   flutter_lints:
     dependency: "direct dev"
@@ -253,7 +255,7 @@ packages:
       path: "plugins/here_sdk"
       relative: true
     source: path
-    version: "4.12.7"
+    version: "4.12.8"
   hive:
     dependency: "direct main"
     description:
