@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
         _updateLocationIndicator(currentLocation);
       });
 
-      _getPoints();
+      await _getPoints();
       
     } else {
       locationData = await location.getLocation();
@@ -88,21 +88,25 @@ class _HomeScreenState extends State<HomeScreen> {
         _updateLocationIndicator(currentLocation);
       });
 
-      _getPoints();
+      await _getPoints();
     }
 	}
 
   Future<void> _getPoints() async {
-    if (camGeoCoords.latitude != 0 && camGeoCoords.longitude != 0) {
-      final response = await http.get(Uri.parse('${globals.API_POINT_NEARBY}?lat=${camGeoCoords.latitude}&lon=${camGeoCoords.longitude}'));
-      final data = json.decode(response.body);
+    final response = await http.get(Uri.parse('${globals.API_POINT_NEARBY}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}'));
+    final data = json.decode(response.body);
 
-      if (mounted) {
-        setState(() {
-          pointNearby = data;
-        });
-      }
-    } 
+    if (mounted) {
+      setState(() {
+        pointNearby = data;
+      });
+    }
+
+    for (var stop in data) {
+      GeoCoordinates stopCoords = GeoCoordinates(double.parse(stop['stop_point']['coord']['lat']), double.parse(stop['stop_point']['coord']['lon']));
+      // _controller?.addMapMarker(stopCoords, "assets/idfm/BUS_dark.png");
+      print({'INFO_', stopCoords.latitude, stopCoords.longitude});
+    }
 	}
 
   Widget build(BuildContext context) => Scaffold(
@@ -228,8 +232,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() async {
     super.dispose();
     globals.isSetLocation = false;
-    globals.hiveBox.put('latitude', globals.locationData?.latitude ?? 0);
-    globals.hiveBox.put('longitude', globals.locationData?.longitude ?? 0);
     _timer.cancel();
   }
   void getInBox(){

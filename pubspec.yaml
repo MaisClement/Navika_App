@@ -93,7 +93,6 @@ flutter:
         - asset: fonts/TransilienSmall.ttf
 
   assets:
-    - assets/idfm/lines_dark/CABLE_C1.png
     - assets/idfm/lines_dark/METRO_1.png
     - assets/idfm/lines_dark/METRO_2.png
     - assets/idfm/lines_dark/METRO_3.png
@@ -141,7 +140,6 @@ flutter:
     - assets/idfm/lines_dark/TRAM_T11.png
     - assets/idfm/lines_dark/TRAM_T12.png
     - assets/idfm/lines_dark/TRAM_T13.png
-    - assets/idfm/lines_white/CABLE_C1.png
 
     - assets/idfm/lines_white/METRO_1.png
     - assets/idfm/lines_white/METRO_2.png
@@ -191,7 +189,6 @@ flutter:
     - assets/idfm/lines_white/TRAM_T12.png
     - assets/idfm/lines_white/TRAM_T13.png
 
-    - assets/idfm/lines_dark_small/CABLE_C1.png
     - assets/idfm/lines_dark_small/METRO_1.png
     - assets/idfm/lines_dark_small/METRO_2.png
     - assets/idfm/lines_dark_small/METRO_3.png
@@ -239,7 +236,6 @@ flutter:
     - assets/idfm/lines_dark_small/TRAM_T11.png
     - assets/idfm/lines_dark_small/TRAM_T12.png
     - assets/idfm/lines_dark_small/TRAM_T13.png
-    - assets/idfm/lines_white_small/CABLE_C1.png
 
     - assets/idfm/lines_white_small/METRO_1.png
     - assets/idfm/lines_white_small/METRO_2.png

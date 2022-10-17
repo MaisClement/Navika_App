@@ -28,7 +28,7 @@ class NavikaAppScaffold extends StatelessWidget {
 				destinations: const [
 					AdaptiveScaffoldDestination(
 						title: 'Accueil',
-						icon: Scaffold_icon.clock,
+						icon: Scaffold_icon.home,
 					),
 					AdaptiveScaffoldDestination(
 						title: 'Horaires',

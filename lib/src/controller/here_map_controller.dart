@@ -30,8 +30,9 @@ class HereController {
 
     globals.locationData = locationData;
     globals.isSetLocation = true;
-
-    print({globals.locationData?.latitude, globals.locationData?.longitude});
+    
+    globals.hiveBox.put('latitude', globals.locationData?.latitude ?? 0);
+    globals.hiveBox.put('longitude', globals.locationData?.longitude ?? 0);
 
     return location;
   }
@@ -67,6 +68,14 @@ class HereController {
     if (locationData == null) return;
     locationIndicator.updateLocation(defineLocation(locationData, heading));
     locationIndicator.isActive = isActive;
+  }
+
+  void addMapMarker(GeoCoordinates geoCoordinates, imgPath) {
+    int imageWidth = 60;
+    int imageHeight = 60;
+    MapImage mapImage = MapImage.withFilePathAndWidthAndHeight(imgPath, imageWidth, imageHeight);
+    MapMarker mapMarker = MapMarker(geoCoordinates, mapImage);
+    _hereMapController.mapScene.addMapMarker(mapMarker);
   }
 
   bool isOverLocation(){
