@@ -264,7 +264,7 @@ class _HomeScreenState extends State<HomeScreen> {
         geoCoords = GeoCoordinates(globals.locationData?.latitude ?? 48.859481, globals.locationData?.longitude ?? 2.346711);
         distanceToEarthInMeters = 1000;
 
-      } else if (globals.hiveBox.get('latitude') != null && globals.hiveBox.get('longitude') != null){ // Opening App
+      } else if (globals.hiveBox?.get('latitude') != null && globals.hiveBox?.get('longitude') != null){ // Opening App
         geoCoords = GeoCoordinates(globals.hiveBox.get('latitude') ?? 48.859481, globals.hiveBox.get('longitude') ?? 2.346711);
         distanceToEarthInMeters = 10000;
 

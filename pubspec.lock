@@ -255,7 +255,7 @@ packages:
       path: "plugins/here_sdk"
       relative: true
     source: path
-    version: "4.12.7"
+    version: "4.12.8"
   hive:
     dependency: "direct main"
     description:
