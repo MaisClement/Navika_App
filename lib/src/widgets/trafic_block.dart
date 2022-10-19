@@ -37,19 +37,19 @@ AssetImage getSlugImage(name, [type]){
   if (getTraficLines(name)['severity'] == 0 && (type == null || type == 0)){
     return const AssetImage('assets/null.png');
   } else if (getTraficLines(name)['severity'] == 0 && type != null && type == 1){
-    return const AssetImage('assets/modal/valid_small.png');
+    return const AssetImage('assets/modal/valid.png');
   } else if (getTraficLines(name)['severity'] == 5){
-    return const AssetImage('assets/modal/error_small.png');
+    return const AssetImage('assets/modal/error.png');
   } else if (getTraficLines(name)['severity'] == 4){
     return const AssetImage('assets/modal/warning.png');
   } else if (getTraficLines(name)['severity'] == 3){
-    return const AssetImage('assets/modal/work_small.png');
+    return const AssetImage('assets/modal/work.png');
   } else if (getTraficLines(name)['severity'] == 2){
-    return const AssetImage('assets/modal/futur_work_small.png');
+    return const AssetImage('assets/modal/futur_work.png');
   } else if (getTraficLines(name)['severity'] == 1){
-    return const AssetImage('assets/modal/information_small.png');
+    return const AssetImage('assets/modal/information.png');
   } else {
-    return const AssetImage('assets/modal/interogation_grey_small.png');
+    return const AssetImage('assets/modal/interogation_grey.png');
   } 
 }
 

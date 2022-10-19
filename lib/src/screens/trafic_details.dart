@@ -118,7 +118,7 @@ class TraficDetailsScreen extends StatelessWidget {
                                   Container(
                                     margin: EdgeInsets.only(right:5),
                                     child: const Image(
-                                      image: const AssetImage('assets/modal/warning_small.png'),
+                                      image: const AssetImage('assets/modal/warning.png'),
                                       height: 25,
                                     ),
                                   ),
@@ -180,7 +180,7 @@ class TraficDetailsScreen extends StatelessWidget {
                                   Container(
                                     margin: EdgeInsets.only(right:5),
                                     child: const Image(
-                                      image: const AssetImage('assets/modal/work_small.png'),
+                                      image: const AssetImage('assets/modal/work.png'),
                                       height: 25,
                                     ),
                                   ),
@@ -256,7 +256,7 @@ class TraficDetailsScreen extends StatelessWidget {
                                     Container(
                                       margin: EdgeInsets.only(right:5),
                                       child: const Image(
-                                        image: const AssetImage('assets/modal/futur_work_small.png'),
+                                        image: const AssetImage('assets/modal/futur_work.png'),
                                         height: 25,
                                       ),
                                     ),
