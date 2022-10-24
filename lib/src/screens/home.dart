@@ -93,19 +93,21 @@ class _HomeScreenState extends State<HomeScreen> {
 	}
 
   Future<void> _getPoints() async {
-    final response = await http.get(Uri.parse('${globals.API_POINT_NEARBY}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}'));
-    final data = json.decode(response.body);
+    final response = await http.get(Uri.parse('${globals.API_POINTS}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}'));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
 
-    if (mounted) {
-      setState(() {
-        pointNearby = data;
-      });
-    }
+      if (mounted) {
+        setState(() {
+          pointNearby = data;
+        });
+      }
 
-    for (var stop in data) {
-      GeoCoordinates stopCoords = GeoCoordinates(double.parse(stop['stop_point']['coord']['lat']), double.parse(stop['stop_point']['coord']['lon']));
-      // _controller?.addMapMarker(stopCoords, "assets/idfm/BUS_dark.png");
-      print({'INFO_', stopCoords.latitude, stopCoords.longitude});
+      for (var stop in data) {
+        GeoCoordinates stopCoords = GeoCoordinates(double.parse(stop['stop_point']['coord']['lat']), double.parse(stop['stop_point']['coord']['lon']));
+        // _controller?.addMapMarker(stopCoords, "assets/idfm/BUS_dark.png");
+        print({'INFO_', stopCoords.latitude, stopCoords.longitude});
+      }
     }
 	}
 

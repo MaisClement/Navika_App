@@ -23,43 +23,35 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
   List places = [];
 
   Future<void> _getPlaces() async {
-    if (search != ''){
+    String url = '';
 
-      setState(() {
-        isLoading = true;
-      });
+    if ((globals.locationData?.latitude != null || globals.locationData?.longitude != null) && search != '') {
+      url = '${globals.API_PLACES}?q=$search&lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
 
-			final response = await http.get(Uri.parse('${globals.API_PLACES}?q=$search'));
-			final data = json.decode(response.body);
-
-      if (mounted) {
-        setState(() {
-          places = data;
-          isLoading = false;
-        });
-      }
-		} else {
-      _getPlacesNearby();
-    }
-	}
-
-  Future<void> _getPlacesNearby() async {
-    if (globals.locationData?.latitude != null || globals.locationData?.longitude != null) {
+    } else if (search != '') {
+      url = '${globals.API_PLACES}?q=$search';
       
+    } else if (globals.locationData?.latitude != null && globals.locationData?.longitude != null){
+      url = '${globals.API_PLACES}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
+
+    } else {
+      url = '${globals.API_PLACES}?q=';
+
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    final response = await http.get(Uri.parse(url));
+    final data = json.decode(response.body);
+
+    if (mounted) {
       setState(() {
-        isLoading = true;
+        places = data;
+        isLoading = false;
       });
-
-			final response = await http.get(Uri.parse('${globals.API_PLACES_NEARBY}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}'));
-			final data = json.decode(response.body);
-
-      if (mounted) {
-        setState(() {
-          places = data;
-          isLoading = false;
-        });
-      }
-		} 
+    }
 	}
 
   @override
@@ -138,7 +130,7 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              child: Text(place['stop_area']['name'],
+                              child: Text(place['name'],
                                 style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,
@@ -147,17 +139,17 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
                               ),
                             ),
                             
-                            if (place['distance'] == null)
+                            if (place['distance'] == 0)
                               Container(
                                 margin: EdgeInsets.only(left:5.0, top:4.0),
-                                child: Text('${place['stop_area']['administrative_regions']['zip_code']}, ${place['stop_area']['administrative_regions']['name']}',
+                                child: Text('${place['zip_code']}, ${place['town']}',
                                   style: const TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Parisine',
                                   ),
                                 ),
                               ),
-                            if (place['distance'] != null)
+                            if (place['distance'] != 0)
                               Container(
                                 margin: EdgeInsets.only(left:5.0, top:4.0),
                                 child: Row(
@@ -175,7 +167,7 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
                                     Container(
                                       width: 20,
                                     ),
-                                    Text('${place['stop_area']['administrative_regions']['zip_code']}, ${place['stop_area']['administrative_regions']['name']}',
+                                    Text('${place['zip_code']}, ${place['town']}',
                                       style: const TextStyle(
                                         color: Colors.grey,
                                         fontFamily: 'Parisine',
@@ -187,11 +179,11 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
 
                             Wrap( 
                               children: [
-                                for (var i = 0; i < place['stop_area']['lines'].length; i++)
+                                for (var i = 0; i < place['lines'].length; i++)
                                 
                                   Icones(
-                                    line: place['stop_area']['lines'][i],
-                                    old_line: i > 0 ? place['stop_area']['lines'][i - 1] : place['stop_area']['lines'][i],
+                                    line: place['lines'][i],
+                                    old_line: i > 0 ? place['lines'][i - 1] : place['lines'][i],
                                     i: i,
                                   )
                                 
@@ -202,8 +194,8 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
                       ),
                     ),
                     onTap: () {
-                      globals.stopArea = place['stop_area']['id'];
-                      globals.stopName = place['stop_area']['name'];
+                      globals.stopArea = place['id'];
+                      globals.stopName = place['name'];
                       RouteStateScope.of(context).go('/schedules/details');
                     },                
                   ),
