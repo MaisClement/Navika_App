@@ -48,7 +48,7 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
 
     if (mounted) {
       setState(() {
-        places = data;
+        places = data['places'];
         isLoading = false;
       });
     }

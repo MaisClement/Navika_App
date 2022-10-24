@@ -99,12 +99,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if (mounted) {
         setState(() {
-          pointNearby = data;
+          pointNearby = data['points'];
         });
       }
 
-      for (var stop in data) {
-        GeoCoordinates stopCoords = GeoCoordinates(double.parse(stop['stop_point']['coord']['lat']), double.parse(stop['stop_point']['coord']['lon']));
+      for (var stop in data['points']) {
+        GeoCoordinates stopCoords = GeoCoordinates(stop['coord']['lat'], stop['coord']['lon']);
         // _controller?.addMapMarker(stopCoords, "assets/idfm/BUS_dark.png");
         print({'INFO_', stopCoords.latitude, stopCoords.longitude});
       }
@@ -210,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
       controller: _scrollController,
       children: [
         for (var point in pointNearby)
-          Text(point['stop_point']['name'] ?? '',
+          Text(point['name'] ?? '',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,

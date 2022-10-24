@@ -19,7 +19,7 @@ class Icones extends StatelessWidget {
 	Widget build(BuildContext context) => Wrap(
     children: [
       
-      (old_line['commercial_mode']['id'] != line['commercial_mode']['id'] || i == 0) ?
+      (old_line['mode'] != line['mode'] || i == 0) ?
         ModeIcones(
           line: line,
           i: i
