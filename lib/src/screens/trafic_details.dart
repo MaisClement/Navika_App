@@ -64,7 +64,7 @@ class TraficDetailsScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                             width: 3.0,
-                            color: getSlug(lineId, 1),
+                            color: getSlug(LINES.getLines(lineId).id, 1),
                           ),
                         ),
                         child: Image(image: LINES.getLines(lineId).image),
@@ -74,14 +74,14 @@ class TraficDetailsScreen extends StatelessWidget {
                         height: 20,
                         top: 43,
                         left: 43,
-                        child: Image(image: getSlugImage(lineId, 1)),
+                        child: Image(image: getSlugImage(LINES.getLines(lineId).id, 1)),
                       )
                     ],
                   ),
                   Expanded(
                     child: Wrap(
                       children: [
-                        Text('${LINES.getLines(lineId).libelle} : ${getSlugTitle(lineId)}',
+                        Text('${LINES.getLines(lineId).libelle} : ${getSlugTitle(LINES.getLines(lineId).id)}',
                           style: const TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 20
@@ -99,7 +99,7 @@ class TraficDetailsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  for (var ctrafic in getTraficLines(lineId)['reports']['currentTraffic']) 
+                  for (var ctrafic in getTraficLines(LINES.getLines(lineId).id)['reports']['current_trafic']) 
                     Container(
                       padding: EdgeInsets.only(left:15.0, top:10, right:15.0, bottom:10.0),
                       margin: EdgeInsets.only(top: 5, right:5),
@@ -110,7 +110,7 @@ class TraficDetailsScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (ctrafic['messages'][0]['title'] != null)
+                          if (ctrafic['message']['title'] != null)
                             Container(
                               margin: const EdgeInsets.only(bottom: 10),
                               child: Row(
@@ -125,7 +125,7 @@ class TraficDetailsScreen extends StatelessWidget {
                                   Expanded(
                                     child: Wrap(
                                       children: [
-                                        Text(ctrafic['messages'][0]['title'],
+                                        Text(ctrafic['message']['title'],
                                           style: const TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.w700
@@ -138,7 +138,7 @@ class TraficDetailsScreen extends StatelessWidget {
                               ),
                             ),
                             
-                          Text(ctrafic['messages'][0]['text'],
+                          Text(ctrafic['message']['text'],
                             style: const TextStyle(
                               fontSize: 16
                             ),
@@ -161,7 +161,7 @@ class TraficDetailsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  for (var ctrafic in getTraficLines(lineId)['reports']['currentWork']) 
+                  for (var ctrafic in getTraficLines(LINES.getLines(lineId).id)['reports']['current_work']) 
                     Container(
                       padding: EdgeInsets.only(left:15.0, top:10, right:15.0, bottom:10.0),
                       margin: EdgeInsets.only(top: 5, right:5),
@@ -172,7 +172,7 @@ class TraficDetailsScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (ctrafic['messages'][0]['title'] != null)
+                          if (ctrafic['message']['title'] != null)
                             Container(
                               margin: const EdgeInsets.only(bottom: 10),
                               child: Row(
@@ -187,7 +187,7 @@ class TraficDetailsScreen extends StatelessWidget {
                                   Expanded(
                                     child: Wrap(
                                       children: [
-                                        Text(ctrafic['messages'][0]['title'],
+                                        Text(ctrafic['message']['title'],
                                           style: const TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.w700
@@ -200,7 +200,7 @@ class TraficDetailsScreen extends StatelessWidget {
                               ),
                             ),
                             
-                          Text(ctrafic['messages'][0]['text'],
+                          Text(ctrafic['message']['text'],
                             style: const TextStyle(
                               fontSize: 16
                             ),
@@ -219,7 +219,7 @@ class TraficDetailsScreen extends StatelessWidget {
             ),
 
 // FWORK
-            if (getTraficLines(lineId)['reports']['futureWork'].length > 0)
+            if (getTraficLines(LINES.getLines(lineId).id)['reports']['future_work'].length > 0)
               Container(
                 padding: EdgeInsets.only(left:15.0, top:15.0,right:15.0,bottom:15.0),
                       margin: EdgeInsets.only(top: 5, right:5),
@@ -242,13 +242,13 @@ class TraficDetailsScreen extends StatelessWidget {
                         indent: 0, //spacing at the start of divider
                         endIndent: 25, //spacing at the end of divider
                     ),
-                    for (var ctrafic in getTraficLines(lineId)['reports']['futureWork']) 
+                    for (var ctrafic in getTraficLines(LINES.getLines(lineId).id)['reports']['future_work']) 
                       Container(
                         margin: EdgeInsets.only(top: 5, right:5, bottom:15.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (ctrafic['messages'][0]['title'] != null)
+                            if (ctrafic['message']['title'] != null)
                               Container(
                                 margin: const EdgeInsets.only(bottom: 10),
                                 child: Row(
@@ -263,7 +263,7 @@ class TraficDetailsScreen extends StatelessWidget {
                                     Expanded(
                                       child: Wrap(
                                         children: [
-                                          Text(ctrafic['messages'][0]['title'],
+                                          Text(ctrafic['message']['title'],
                                             style: const TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.w700
@@ -276,7 +276,7 @@ class TraficDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                               
-                            Text(ctrafic['messages'][0]['text'],
+                            Text(ctrafic['message']['text'],
                               style: const TextStyle(
                                 fontSize: 16
                               ),

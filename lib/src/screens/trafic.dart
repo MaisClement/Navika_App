@@ -30,12 +30,12 @@ class _TraficScreenState extends State<TraficScreen> {
     final response = await http.get(Uri.parse(globals.API_TRAFIC));
     final data = json.decode(response.body);
 
-    globals.trafic = data['report'];
+    globals.trafic = data['trafic'];
     
     if (mounted) {
       setState(() {
         state = true;
-        trafic = data['report'];
+        trafic = data['trafic'];
       });
     }
 	}

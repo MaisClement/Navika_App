@@ -6,7 +6,7 @@ import '../data/global.dart' as globals;
 
 Map getTraficLines(String name){
   for(var lines in globals.trafic){
-    if (lines['name'] == name){
+    if (lines['id'] == name){
       return lines;
     }
   }
@@ -29,7 +29,7 @@ Color getSlug(name, [type]){
   } else if (getTraficLines(name)['severity'] == 1){
     return Colors.transparent;
   } else {
-    return Color(0xffa9a9a9);
+    return Colors.transparent;
   }
 }
 
@@ -49,7 +49,8 @@ AssetImage getSlugImage(name, [type]){
   } else if (getTraficLines(name)['severity'] == 1){
     return const AssetImage('assets/modal/information.png');
   } else {
-    return const AssetImage('assets/modal/interogation_grey.png');
+    return const AssetImage('assets/null.png');
+    // return const AssetImage('assets/modal/interogation_grey.png');
   } 
 }
 
@@ -95,7 +96,7 @@ class TraficBlock extends StatelessWidget {
             border: Border.all(
               width: 3.0,
               // assign the color to the border color
-              color: getSlug(name),
+              color: getSlug(LINES.getLines(name).id),
             ),
           ),
 
@@ -112,7 +113,7 @@ class TraficBlock extends StatelessWidget {
         height: 20,
         top: 33,
         left: 33,
-        child: Image(image: getSlugImage(name)),
+        child: Image(image: getSlugImage(LINES.getLines(name).id)),
       )
     ],
   );
