@@ -219,7 +219,7 @@ class TraficDetailsScreen extends StatelessWidget {
             ),
 
 // FWORK
-            if (getTraficLines(LINES.getLines(lineId).id)['reports']['future_work'].length > 0)
+            if (getTraficLines(LINES.getLines(lineId).id)['reports']getTraficLines(LINES.getLines(lineId).id)['reports']['future_work'].length > 0)
               Container(
                 padding: EdgeInsets.only(left:15.0, top:15.0,right:15.0,bottom:15.0),
                       margin: EdgeInsets.only(top: 5, right:5),
