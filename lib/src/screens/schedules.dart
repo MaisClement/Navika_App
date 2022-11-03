@@ -79,41 +79,41 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
           color: Theme.of(context).colorScheme.secondary,
           padding: EdgeInsets.only(left:20.0, top:20.0,right:20.0,bottom:20.0),
           child: Container(
-
+            padding: EdgeInsets.only(left:10.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: Colors.white,
-
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
+            ),
+            
+            child: Row(
+              children: [
+                Image(
+                  height: 30,
+                  image: AssetImage('assets/search.png')
                 ),
+                Flexible(
+                  child: TextField(
+                    controller: myController,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      contentPadding:EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                      hintText: "Rechercher une gare, un arrêt ou une stations"
+                    ),
+                    onChanged: (text) {
+                      setState(() {
+                        search = text;
+                      });
+                      _getPlaces();
+                    },
+                  ),
+                )
               ],
             ),
-            
-            child: TextField(
-              controller: myController,
-              decoration: new InputDecoration(
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
-                contentPadding:EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                hintText: "Où allons nous ?"
-              ),
-              onChanged: (text) {
-                setState(() {
-                  search = text;
-                });
-                _getPlaces();
-              },
-            ),
-            
-          ),
+          )
         ),
         
         if (!places.isEmpty)

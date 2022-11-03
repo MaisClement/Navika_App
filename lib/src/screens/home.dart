@@ -38,8 +38,11 @@ class _HomeScreenState extends State<HomeScreen> {
   double panelButtonBottomOffsetOpen = 400;
   double panelButtonBottomOffsetClosed = 120;
   double panelButtonBottomOffset = 120;
+  double position = 0;
+  int _index = 0;
 
   List pointNearby = [];
+  Map index = {};
 
   Future<void> _getLocation() async {
     bool serviceEnabled;
@@ -64,17 +67,13 @@ class _HomeScreenState extends State<HomeScreen> {
       }
       
       locationData = await location.getLocation();
-
       FlutterCompass.events?.listen((CompassEvent _compassEvent ) {
         _updateCompass(_compassEvent);
       });
-
       _addLocationIndicator(locationData);
-
       location.onLocationChanged.listen((gps.LocationData currentLocation) {
         _updateLocationIndicator(currentLocation);
       });
-
       await _getPoints();
       
     } else {
@@ -83,11 +82,9 @@ class _HomeScreenState extends State<HomeScreen> {
       FlutterCompass.events?.listen((CompassEvent _compassEvent ) {
         _updateCompass(_compassEvent);
       });
-
       location.onLocationChanged.listen((gps.LocationData currentLocation) {
         _updateLocationIndicator(currentLocation);
       });
-
       await _getPoints();
     }
 	}
@@ -111,6 +108,19 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 	}
 
+  Future<void> _getIndex() async {
+    final response = await http.get(Uri.parse('${globals.API_INDEX}'));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+
+      if (mounted) {
+        setState(() {
+          index = data;
+        });
+      }
+    }
+	}
+
   Widget build(BuildContext context) => Scaffold(
     body: Stack(
       alignment: Alignment.topCenter,
@@ -125,9 +135,13 @@ class _HomeScreenState extends State<HomeScreen> {
             bottomLeft: Radius.zero,
             bottomRight: Radius.zero,
           ),
+          snapPoint: 0.4,
+          maxHeight: (MediaQuery.of(context).size.height - 100),
           controller: panelController,
           onPanelSlide: (position) => setState( () {
-            panelButtonBottomOffset = panelButtonBottomOffsetClosed + (panelButtonBottomOffsetOpen * position); 
+            print(position);
+            panelButtonBottomOffset = panelButtonBottomOffsetClosed + ((MediaQuery.of(context).size.height - 200) * position); 
+            position = position;
           }),
 
           header: headerPanel(),
@@ -166,6 +180,35 @@ class _HomeScreenState extends State<HomeScreen> {
             image: AssetImage('assets/Here.png')
           )
         ),
+        
+        if (position < 0.4)
+          SafeArea(
+            child: Container(
+              height: 100,
+              child: PageView.builder(
+                itemCount: 10,
+                controller: PageController(viewportFraction: 0.7),
+                onPageChanged: (int index) => setState(() => _index = index),
+                itemBuilder: (_, i) {
+                  return Transform.scale(
+                    scale: i == _index ? 1 : 0.9,
+                    child: Card(
+                      elevation: 6,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      child: Center(
+                        child: Text(
+                          "Card ${i + 1}",
+                          style: TextStyle(fontSize: 32),
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              ),
+            )
+            
+          )
+        
       ],
     ),
   );
@@ -226,6 +269,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _getIndex();
       _getPoints();
       getInBox();
     });
@@ -252,7 +296,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onMapCreated(HereMapController hereMapController) {
     hereMapController.mapScene.loadSceneForMapScheme(MapScheme.normalDay, (MapError? error) {
       if (error != null) {
-        print("Map scene not loaded. MapError: " + error.toString());
         return;
       }
 

@@ -32,7 +32,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -571,6 +570,7 @@ flutter:
     - assets/Here.png
     - assets/location-indicator.png
     - assets/locate.png
+    - assets/search.png
 
   #
   # For details regarding fonts from package dependencies,

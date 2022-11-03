@@ -28,6 +28,8 @@ Color getSlug(name, [type]){
     return Colors.transparent;
   } else if (getTraficLines(name)['severity'] == 1){
     return Colors.transparent;
+  } else if (type != null && type == 1) {
+    return Color(0xff008b5b);
   } else {
     return Colors.transparent;
   }
@@ -48,6 +50,8 @@ AssetImage getSlugImage(name, [type]){
     return const AssetImage('assets/modal/futur_work.png');
   } else if (getTraficLines(name)['severity'] == 1){
     return const AssetImage('assets/modal/information.png');
+  } else if (type != null && type == 1) {
+    return const AssetImage('assets/modal/valid.png');
   } else {
     return const AssetImage('assets/null.png');
     // return const AssetImage('assets/modal/interogation_grey.png');
@@ -68,7 +72,8 @@ String getSlugTitle(name){
   } else if (getTraficLines(name)['severity'] == 1){
     return "Information";
   } else {
-    return "Unknown";
+    return "Trafic fluide";
+    //return "Unknown";
   }
 }
 
