@@ -21,6 +21,13 @@ String stopName = '';
 
 List trafic = [];
 
+Map route = {
+  'dep_id': null,
+  'dep_name': null,
+  'arr_id': null,
+  'arr_name': null,
+};
+
 //
 
 var hiveBox;

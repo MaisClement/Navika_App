@@ -13,42 +13,64 @@ Map getTraficLines(String name){
   return {};
 }
 
-Color getSlug(name, [type]){
-  if (getTraficLines(name)['severity'] == 0 && (type == null || type == 0)){
+Color getSlug(severity, [type]){
+  if (severity == 0 && (type == null || type == 0)){
     return Colors.transparent;
-  } else if (getTraficLines(name)['severity'] == 0 && type != null && type == 1){
-    return Color(0xff008b5b);
-  } else if (getTraficLines(name)['severity'] == 5){
-    return Color(0xffeb2031);
-  } else if (getTraficLines(name)['severity'] == 4){
-    return Color(0xfff68f53);
-  } else if (getTraficLines(name)['severity'] == 3){
+  } else if (severity == 0 && type != null && type == 1){
+    return const Color(0xff008b5b);
+  } else if (severity == 5){
+    return const Color(0xffeb2031);
+  } else if (severity == 4){
+    return const Color(0xfff68f53);
+  } else if (severity == 3){
     return Colors.transparent;
-  } else if (getTraficLines(name)['severity'] == 2){
+  } else if (severity == 2){
     return Colors.transparent;
-  } else if (getTraficLines(name)['severity'] == 1){
+  } else if (severity == 1){
     return Colors.transparent;
   } else if (type != null && type == 1) {
-    return Color(0xff008b5b);
+    return const Color(0xff008b5b);
   } else {
     return Colors.transparent;
   }
 }
 
-AssetImage getSlugImage(name, [type]){
-  if (getTraficLines(name)['severity'] == 0 && (type == null || type == 0)){
+Color getSlugBack(severity, [type]){
+  if (severity == 0 && (type == null || type == 0)){
+    return Colors.transparent;
+  } else if (severity == 0 && type != null && type == 1){
+    return const Color(0xff008b5b).withOpacity(0.2);
+  } else if (severity == 5){
+    return const Color(0xffeb2031).withOpacity(0.2);
+  } else if (severity == 4){
+    return const Color(0xfff68f53).withOpacity(0.2);
+  } else if (severity == 3){
+    return const Color(0xff008b5b).withOpacity(0.2);
+  } else if (severity == 2){
+    return const Color(0xff008b5b).withOpacity(0.2);
+  } else if (severity == 1){
+    return const Color(0xff005bbc).withOpacity(0.2);
+  } else if (type != null && type == 1) {
+    return const Color(0xff008b5b).withOpacity(0.2);
+  } else {
+    return Colors.transparent;
+  }
+}
+
+AssetImage getSlugImage(severity, [type]){
+  if (severity == 0 && (type == null || type == 0)){
     return const AssetImage('assets/null.png');
-  } else if (getTraficLines(name)['severity'] == 0 && type != null && type == 1){
+  } else if (severity == 0 && type != null && type == 1){
     return const AssetImage('assets/modal/valid.png');
-  } else if (getTraficLines(name)['severity'] == 5){
+  } else if (severity == 5){
     return const AssetImage('assets/modal/error.png');
-  } else if (getTraficLines(name)['severity'] == 4){
+  } else if (severity == 4){
     return const AssetImage('assets/modal/warning.png');
-  } else if (getTraficLines(name)['severity'] == 3){
+  } else if (severity == 3){
     return const AssetImage('assets/modal/work.png');
-  } else if (getTraficLines(name)['severity'] == 2){
+  } else if (severity == 2){
     return const AssetImage('assets/modal/futur_work.png');
-  } else if (getTraficLines(name)['severity'] == 1){
+  } else if (severity == 1){
     return const AssetImage('assets/modal/information.png');
   } else if (type != null && type == 1) {
     return const AssetImage('assets/modal/valid.png');
@@ -58,18 +80,18 @@ AssetImage getSlugImage(name, [type]){
   } 
 }
 
-String getSlugTitle(name){
-  if (getTraficLines(name)['severity'] == 0){
+String getSlugTitle(severity){
+  if (severity == 0){
     return "Trafic fluide";
-  } else if (getTraficLines(name)['severity'] == 5){
+  } else if (severity == 5){
     return "Trafic fortement perturbé";
-  } else if (getTraficLines(name)['severity'] == 4){
+  } else if (severity == 4){
     return "Trafic perturbé";
-  } else if (getTraficLines(name)['severity'] == 3){
+  } else if (severity == 3){
     return "Travaux";
-  } else if (getTraficLines(name)['severity'] == 2){
+  } else if (severity == 2){
     return "Travaux à venir";
-  } else if (getTraficLines(name)['severity'] == 1){
+  } else if (severity == 1){
     return "Information";
   } else {
     return "Trafic fluide";
@@ -91,17 +113,18 @@ class TraficBlock extends StatelessWidget {
 
       InkWell(                        
         child: Container(
-          padding: EdgeInsets.only(left:5.0, top:5.0,right:5.0,bottom:5.0),
-          margin: EdgeInsets.only(left:5.0, top:5.0,right:5.0,bottom:5.0),
+          padding: const EdgeInsets.only(left:5.0, top:5.0,right:5.0,bottom:5.0),
+          margin: const EdgeInsets.only(left:5.0, top:5.0,right:5.0,bottom:5.0),
           width: 45,
           height: 45,
           decoration: BoxDecoration(
-            color: Color(0xffeeeeee),
+            color: const Color(0xffeeeeee),
             borderRadius: BorderRadius.circular(10), //border corner radius
             border: Border.all(
               width: 3.0,
               // assign the color to the border color
-              color: getSlug(LINES.getLines(name).id),
+              // getTraficLines(LINES.getLines(name).id)['severity']
+              color: getSlug(getTraficLines(LINES.getLines(name).id)['severity']),
             ),
           ),
 
@@ -118,7 +141,7 @@ class TraficBlock extends StatelessWidget {
         height: 20,
         top: 33,
         left: 33,
-        child: Image(image: getSlugImage(LINES.getLines(name).id)),
+        child: Image(image: getSlugImage(getTraficLines(LINES.getLines(name).id)['severity'])),
       )
     ],
   );

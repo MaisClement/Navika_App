@@ -24,6 +24,7 @@ class _NavikaAppState extends State<NavikaApp> {
 		_routeParser = TemplateRouteParser(
 			allowedPaths: [
 				'/home',
+				'/home/search',
 				'/schedules',
         '/schedules/:navpos',
 				'/trafic',
@@ -54,7 +55,7 @@ class _NavikaAppState extends State<NavikaApp> {
 						// Revert back to pre-Flutter-2.5 transition behavior:
 						// https://github.com/flutter/flutter/issues/82053
 						theme: ThemeData(
-							primarySwatch: generateMaterialColor(Color(0xff003f97)),// generateMaterialColor(const Color(0xff135a75)), // generateMaterialColor(Color(0xff08007c))
+							primarySwatch: generateMaterialColor(Color(0xff005bbc)),// generateMaterialColor(const Color(0xff003f97)), 
 							pageTransitionsTheme: const PageTransitionsTheme(
 								builders: {
 									TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),

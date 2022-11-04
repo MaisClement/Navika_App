@@ -5,6 +5,7 @@ import '../widgets/fade_transition_page.dart';
 import 'trafic_details.dart';
 import 'schedules_details.dart';
 import 'scaffold.dart';
+import 'route_search.dart';
 
 /// Builds the top-level navigator for the app. The pages to display are based
 /// on the `routeState` that was parsed by the TemplateRouteParser.
@@ -40,25 +41,26 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 			selectedNavPos = routeState.route.parameters['navpos'];
 		}
 
+		bool? route_search;
+		if (pathTemplate == '/home/search') {
+			route_search = true;
+		}
+
 		return Navigator(
 			key: widget.navigatorKey,
 			onPopPage: (route, dynamic result) {
 				// When a page that is stacked on top of the scaffold is popped, display
 				// the /books or /schedules tab in NavikaAppScaffold.
-				if (pathTemplate == '/book/:bookId') {
-					routeState.go('/books/popular');
-				}
-
-				if (pathTemplate == '/author/:authorId') {
-					routeState.go('/schedules');
-				}
-
         if (pathTemplate == '/trafic/:lineId') {
 					routeState.go('/trafic');
 				}
 
         if (pathTemplate == '/schedules/:navpos') {
           routeState.go('/schedules');
+        }
+
+				if (pathTemplate == '/home/search') {
+          routeState.go('/home');
         }
 
 				return route.didPop(result);
@@ -84,7 +86,12 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 							child: SchedulesDetailsScreen(
                 navPos: selectedNavPos,
 							),
-						),
+						)
+					else if (route_search != null)
+						MaterialPage<void>(
+							key: _authorDetailsKey,
+							child: RouteSearch(),
+						)
 			],
 		);
 	}

@@ -8,16 +8,21 @@ import '../routing.dart';
 import '../widgets/icons.dart';
 import '../data/global.dart' as globals;
 
-class SchedulesScreen extends StatefulWidget {
-	const SchedulesScreen({super.key});
+class RouteSearch extends StatefulWidget {
+	const RouteSearch({super.key});
 
 	@override
-	State<SchedulesScreen> createState() => _SchedulesScreenState();
+	State<RouteSearch> createState() => _RouteSearchState();
 }
 
-class _SchedulesScreenState extends State<SchedulesScreen> {
-  final myController = TextEditingController();
-	final String title = 'Horaires';
+class _RouteSearchState extends State<RouteSearch> {
+  final textControllerDepart = TextEditingController();
+  final textControllerArrivee = TextEditingController();
+  FocusNode textNodeDepart = FocusNode();
+  FocusNode textNodeArrivee = FocusNode();
+
+	final String title = 'Itinéraires';
+  final String yourPos = 'Votre position';
   
   String search = '';
   bool isLoading = false;
@@ -55,14 +60,56 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
     }
 	}
 
+  void _initSearch() {
+    // Cas 1 - Rien de saisie
+    // Cas 2 - Juste un GPS
+    // Cas 3 - GPS + Une arrivée
+    // Cas 4 - Juste une arrivée
+
+    // Arrivée + départ
+    if ((globals.locationData != null || globals.route['dep_id'] != null) && globals.route['arr_id'] != null ){
+      if (globals.route['dep_id'] != null) {
+        textControllerDepart.text = globals.route['dep_name'];
+      } else {
+        textControllerDepart.text = yourPos;
+      }
+      textControllerArrivee.text = globals.route['arr_name'];
+      // Result
+    } 
+    // On a un départ
+    else if (globals.route['dep_id'] != null) {
+      textControllerDepart.text = globals.route['dep_name'];
+      FocusScope.of(context).requestFocus(textNodeArrivee);
+      _getPlaces();
+    } 
+    // On a un GPS
+    else if (globals.locationData != null) {
+      textControllerDepart.text = yourPos;
+      FocusScope.of(context).requestFocus(textNodeArrivee);
+      _getPlaces();
+    } 
+    // On a une arrivée
+    else if (globals.route['arr_id'] != null) {
+      textControllerArrivee.text = globals.route['arr_name'];
+      FocusScope.of(context).requestFocus(textNodeDepart);
+      _getPlaces();
+    }
+    // On a rien
+    else {
+      FocusScope.of(context).requestFocus(textNodeDepart);
+      _getPlaces();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _getPlaces());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _initSearch());
   }
   @override
   void dispose() {
-    myController.dispose();
+    textControllerDepart.dispose();
+    textControllerArrivee.dispose();
     super.dispose();
   }
 
@@ -78,13 +125,13 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
       children: [
         Container(
           color: Theme.of(context).colorScheme.secondary,
-          padding: EdgeInsets.only(left:20.0, top:20.0,right:20.0,bottom:20.0),
+          padding: EdgeInsets.only(left:20.0, top: 10.0,right: 20.0),
           child: Container(
             padding: EdgeInsets.only(left:10.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: Colors.white,
-            ),            
+            ),
             child: Row(
               children: [
                 SvgPicture.asset(
@@ -94,7 +141,8 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
                 ),
                 Flexible(
                   child: TextField(
-                    controller: myController,
+                    controller: textControllerDepart,
+                    focusNode: textNodeDepart,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       focusedBorder: InputBorder.none,
@@ -102,7 +150,48 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
                       errorBorder: InputBorder.none,
                       disabledBorder: InputBorder.none,
                       contentPadding:EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                      hintText: "Rechercher une gare, un arrêt ou une stations"
+                      hintText: "Départ"
+                    ),
+                    onChanged: (text) {
+                      setState(() {
+                        search = text;
+                      });
+                      _getPlaces();
+                    },
+                  ),
+                )
+              ],
+            ),
+          )
+        ),
+        Container(
+          color: Theme.of(context).colorScheme.secondary,
+          padding: EdgeInsets.only(left:20.0, top:10.0,right:20.0,bottom:20.0),
+          child: Container(
+            padding: EdgeInsets.only(left:10.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.white,
+            ),
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  'assets/finish-flag.svg',
+                  color: Theme.of(context).colorScheme.secondary,
+                  height: 30
+                ),
+                Flexible(
+                  child: TextField(
+                    controller: textControllerArrivee,
+                    focusNode: textNodeArrivee,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      contentPadding:EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                      hintText: "Arrivée"
                     ),
                     onChanged: (text) {
                       setState(() {

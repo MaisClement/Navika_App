@@ -51,6 +51,7 @@ dependencies:
 
   here_sdk:
     path: plugins/here_sdk
+  flutter_svg: ^1.1.6
 
 dev_dependencies:
   hive_generator: ^1.1.3
@@ -564,13 +565,21 @@ flutter:
     - assets/modal/warning_white.png
     - assets/modal/work.png
     - assets/modal/work_white.png
-    - assets/null.png
-    - assets/walking.png
-    - assets/walking_grey.png
+
+    - assets/bussines.svg
     - assets/Here.png
-    - assets/location-indicator.png
-    - assets/locate.png
-    - assets/search.png
+    - assets/home.svg
+    - assets/locate.svg
+    - assets/location-indicator.svg
+    - assets/marker.svg
+    - assets/null.png
+    - assets/search.svg
+    - assets/star.svg
+    - assets/star-filled.svg
+    - assets/university.svg
+    - assets/walking.svg
+    - assets/finish-flag.svg
+    - assets/plus.svg
 
   #
   # For details regarding fonts from package dependencies,

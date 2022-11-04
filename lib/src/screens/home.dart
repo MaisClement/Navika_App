@@ -9,9 +9,13 @@ import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_compass/flutter_compass.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../data/global.dart' as globals;
 import '../controller/here_map_controller.dart';
+
+import '../widgets/home_body.dart';
+import '../widgets/home_header.dart';
 
 class HomeScreen extends StatefulWidget {
 	const HomeScreen({super.key});
@@ -32,10 +36,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool isPanned = false;
   bool is3dMap = false;
-  bool isInBox = false;
+  bool _isInBox = false;
   late Timer _timer;
 
-  double panelButtonBottomOffsetOpen = 400;
   double panelButtonBottomOffsetClosed = 120;
   double panelButtonBottomOffset = 120;
   double position = 0;
@@ -67,8 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
       }
       
       locationData = await location.getLocation();
-      FlutterCompass.events?.listen((CompassEvent _compassEvent ) {
-        _updateCompass(_compassEvent);
+      FlutterCompass.events?.listen((CompassEvent compassEvent ) {
+        _updateCompass(compassEvent);
       });
       _addLocationIndicator(locationData);
       location.onLocationChanged.listen((gps.LocationData currentLocation) {
@@ -79,8 +82,8 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       locationData = await location.getLocation();
 
-      FlutterCompass.events?.listen((CompassEvent _compassEvent ) {
-        _updateCompass(_compassEvent);
+      FlutterCompass.events?.listen((CompassEvent compassEvent ) {
+        _updateCompass(compassEvent);
       });
       location.onLocationChanged.listen((gps.LocationData currentLocation) {
         _updateLocationIndicator(currentLocation);
@@ -103,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
       for (var stop in data['points']) {
         GeoCoordinates stopCoords = GeoCoordinates(stop['coord']['lat'], stop['coord']['lon']);
         // _controller?.addMapMarker(stopCoords, "assets/idfm/BUS_dark.png");
-        print({'INFO_', stopCoords.latitude, stopCoords.longitude});
+        // print({'INFO_', stopCoords.latitude, stopCoords.longitude});
       }
     }
 	}
@@ -128,26 +131,28 @@ class _HomeScreenState extends State<HomeScreen> {
         SlidingUpPanel(
           parallaxEnabled: true,
           parallaxOffset: 0.6,
-          color: Color(0xfffafafa),
+          color: const Color(0xfffafafa),
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(10),
             topRight: Radius.circular(10),
             bottomLeft: Radius.zero,
             bottomRight: Radius.zero,
           ),
-          snapPoint: 0.4,
-          maxHeight: (MediaQuery.of(context).size.height - 100),
+          snapPoint: 0.65,
+          maxHeight: (MediaQuery.of(context).size.height - 110),
           controller: panelController,
-          onPanelSlide: (position) => setState( () {
-            print(position);
-            panelButtonBottomOffset = panelButtonBottomOffsetClosed + ((MediaQuery.of(context).size.height - 200) * position); 
-            position = position;
-          }),
+          onPanelSlide: (position) => onPanelSlide(position),
 
-          header: headerPanel(),
+          header: HomePannel(
+            tooglePanel: tooglePanel
+          ),
 
           //panel: BodyPanel(),
-          panelBuilder: (ScrollController _scrollController) => bodyPanel(_scrollController),
+          panelBuilder: (ScrollController scrollController) => HomeBody(
+              scrollController: scrollController,
+              pointNearby: pointNearby,
+              index: index,
+            ),
 
           body: HereMap(onMapCreated: _onMapCreated),
           
@@ -157,14 +162,14 @@ class _HomeScreenState extends State<HomeScreen> {
           bottom: panelButtonBottomOffset,
           child: FloatingActionButton(
             backgroundColor: Colors.white,
-            child: isInBox ? 
-              Image(
-                width: 30,
-                image: AssetImage('assets/location-indicator.png'),
-              ) : 
-              Image(
-                width: 30,
-                image: AssetImage('assets/locate.png'),
+            child: _isInBox ?
+              SvgPicture.asset(
+                'assets/location-indicator.svg',
+                width: 30
+              )
+            : SvgPicture.asset(
+                'assets/locate.svg',
+                width: 30
               ),
             onPressed: () {
               _zoomOn();
@@ -175,94 +180,13 @@ class _HomeScreenState extends State<HomeScreen> {
         Positioned(
           left: 10,
           bottom: panelButtonBottomOffset - 20,
-          child: Image(
+          child: const Image(
             width: 50,
             image: AssetImage('assets/Here.png')
           )
         ),
-        
-        if (position < 0.4)
-          SafeArea(
-            child: Container(
-              height: 100,
-              child: PageView.builder(
-                itemCount: 10,
-                controller: PageController(viewportFraction: 0.7),
-                onPageChanged: (int index) => setState(() => _index = index),
-                itemBuilder: (_, i) {
-                  return Transform.scale(
-                    scale: i == _index ? 1 : 0.9,
-                    child: Card(
-                      elevation: 6,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                      child: Center(
-                        child: Text(
-                          "Card ${i + 1}",
-                          style: TextStyle(fontSize: 32),
-                        ),
-                      ),
-                    ),
-                  );
-                }
-              ),
-            )
-            
-          )
-        
       ],
     ),
-  );
-
-  Widget headerPanel() => SizedBox(
-    width: MediaQuery.of(context).size.width,
-    child: Column(
-      children: [
-        Container(
-          height: 20,
-        ),
-        GestureDetector(
-          onTap: tooglePanel,
-          child: Container(
-              width: 30,
-              height: 5,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-        ),
-        Container(
-          height: 20,
-        ),
-        const Text('Bienvenue !',
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        Container(
-          height: 20,
-        ),
-      ],
-    ),
-  );
-
-  Widget bodyPanel(ScrollController _scrollController) => Container(
-    padding: const EdgeInsets.only(top:50),
-    child: ListView(
-      controller: _scrollController,
-      children: [
-        for (var point in pointNearby)
-          Text(point['name'] ?? '',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'Parisine',
-              color: Theme.of(context).colorScheme.secondary,
-            ),
-          )
-      ],
-    )
   );
 
   @override
@@ -272,6 +196,9 @@ class _HomeScreenState extends State<HomeScreen> {
       _getIndex();
       _getPoints();
       getInBox();
+      panelController.animatePanelToSnapPoint(
+        //duration: const Duration(milliseconds: 500)
+      );
     });
   }
   @override
@@ -281,13 +208,11 @@ class _HomeScreenState extends State<HomeScreen> {
     _timer.cancel();
   }
   void getInBox(){
-    bool _isInBox;
-    _isInBox = _controller?.isOverLocation() ?? false;
-
+    bool isInBox;
+    isInBox = _controller?.isOverLocation() ?? false;
     setState(() {
-      isInBox = _isInBox;
+      _isInBox = isInBox;
     });
-
     _timer = Timer(const Duration(milliseconds: 100), () {
       getInBox();
     });
@@ -303,7 +228,6 @@ class _HomeScreenState extends State<HomeScreen> {
       _getLocation();
 
       GeoCoordinates geoCoords;
-      bool isActive = false;
       double distanceToEarthInMeters = 10000;
       if (globals.isSetLocation) { // Resume Map
         geoCoords = GeoCoordinates(globals.locationData?.latitude ?? 48.859481, globals.locationData?.longitude ?? 2.346711);
@@ -344,14 +268,17 @@ class _HomeScreenState extends State<HomeScreen> {
       _getPoints();
     });
   }
+
   void _addLocationIndicator(gps.LocationData locationData) {
     _controller?.addLocationIndicator(locationData, LocationIndicatorIndicatorStyle.pedestrian, globals.compassHeading);
   }
+  
   void _updateLocationIndicator(gps.LocationData locationData) {
       _controller?.updateLocationIndicator(locationData, globals.compassHeading);
   }
-  void _updateCompass(CompassEvent _compassEvent){
-    var heading = _compassEvent.heading ?? 0;
+
+  void _updateCompass(CompassEvent compassEvent){
+    var heading = compassEvent.heading ?? 0;
     if (mounted) {
       setState(() {
         compassHeading = heading;
@@ -366,9 +293,10 @@ class _HomeScreenState extends State<HomeScreen> {
     } 
     _controller?.updateLocationIndicator(globals.locationData, heading);
   }
+
   void _zoomOn() {
-    var _isOverLocation = _controller?.isOverLocation() ?? false;
-    if (_isOverLocation) {
+    var isOverLocation = _controller?.isOverLocation() ?? false;
+    if (isOverLocation) {
       setState(() {
         is3dMap = !is3dMap;
         isPanned = false;
@@ -376,6 +304,14 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     _controller?.zoomOnLocationIndicator(is3dMap);
   }
+
+  void onPanelSlide(position) {
+    setState(() {
+      panelButtonBottomOffset = panelButtonBottomOffsetClosed + ((MediaQuery.of(context).size.height - 200) * position);
+      position = position;
+    });
+  }
+
   void tooglePanel() {
     if (panelController.isPanelOpen){
       panelController.close();
@@ -383,6 +319,7 @@ class _HomeScreenState extends State<HomeScreen> {
       panelController.open();
     }
   }
+
   void closePanel() {
     panelController.close();
   }
