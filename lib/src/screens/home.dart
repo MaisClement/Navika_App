@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:here_sdk/gestures.dart';
 import 'package:http/http.dart' as http; 
 import 'package:location/location.dart' as gps;
@@ -41,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   double panelButtonBottomOffsetClosed = 120;
   double panelButtonBottomOffset = 120;
-  double position = 0;
+  double _position = 0;
   int _index = 0;
 
   List pointNearby = [];
@@ -92,39 +93,57 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 	}
 
+  String getMarkerImageByType (String mode) {
+    return "";
+  }
+
   Future<void> _getPoints() async {
-    final response = await http.get(Uri.parse('${globals.API_POINTS}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}'));
+    // final response = await http.get(Uri.parse('${globals.API_POINTS}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}'));
+    final response = await http.get(Uri.parse('${globals.API_STOP_AREA}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}'));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
 
       if (mounted) {
         setState(() {
-          pointNearby = data['points'];
+          pointNearby = data['places'];
         });
       }
 
-      for (var stop in data['points']) {
+      for (var stop in data['places']) {
         GeoCoordinates stopCoords = GeoCoordinates(stop['coord']['lat'], stop['coord']['lon']);
-        // _controller?.addMapMarker(stopCoords, "assets/idfm/BUS_dark.png");
-        // print({'INFO_', stopCoords.latitude, stopCoords.longitude});
+        _controller?.addMapMarker(stopCoords, stop['modes'][0] == 'physical_mode:Bus' ? "assets/marker/marker_bus_blue.png" : "assets/marker/marker_metro_blue.png");
+        print({'INFO_', stop['modes'][0]});
       }
     }
 	}
 
   Future<void> _getIndex() async {
-    final response = await http.get(Uri.parse('${globals.API_INDEX}'));
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
+    if (globals.index != null) {
+      setState(() {
+        index = globals.index!;
+      });
+      
+    } else {
+      final response = await http.get(Uri.parse('${globals.API_INDEX}'));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
 
-      if (mounted) {
-        setState(() {
-          index = data;
-        });
+        if (mounted) {
+          setState(() {
+            index = data;
+          });
+          globals.index = data;
+        }
       }
     }
 	}
 
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness : Brightness.dark,
+      ),
+      child:Scaffold(
     body: Stack(
       alignment: Alignment.topCenter,
       children: [
@@ -157,36 +176,46 @@ class _HomeScreenState extends State<HomeScreen> {
           body: HereMap(onMapCreated: _onMapCreated),
           
         ),
+
         Positioned(
           right: 20,
           bottom: panelButtonBottomOffset,
-          child: FloatingActionButton(
-            backgroundColor: Colors.white,
-            child: _isInBox ?
-              SvgPicture.asset(
-                'assets/location-indicator.svg',
-                width: 30
-              )
-            : SvgPicture.asset(
-                'assets/locate.svg',
-                width: 30
-              ),
-            onPressed: () {
-              _zoomOn();
-              closePanel();
-            }
-          )
+          child: Opacity(
+            opacity: _position > 0.7 ? ((1 / _position - 1) * 2.33) : 1,
+            child: FloatingActionButton(
+              backgroundColor: Colors.grey[200],
+              child: _isInBox ?
+                SvgPicture.asset(
+                  'assets/location-indicator.svg',
+                  width: 30
+                )
+              : SvgPicture.asset(
+                  'assets/locate.svg',
+                  width: 30
+                ),
+              onPressed: () {
+                _zoomOn();
+                closePanel();
+              }
+            )
+          ),
         ),
+        
         Positioned(
           left: 10,
           bottom: panelButtonBottomOffset - 20,
-          child: const Image(
-            width: 50,
-            image: AssetImage('assets/Here.png')
-          )
+          child: Opacity(
+            opacity: _position > 0.7 ? ((1 / _position - 1) * 2.33) : 1,
+            child: const Image(
+              width: 50,
+              image: AssetImage('assets/Here.png')
+            )
+          ),
         ),
+
       ],
     ),
+  ),
   );
 
   @override
@@ -308,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void onPanelSlide(position) {
     setState(() {
       panelButtonBottomOffset = panelButtonBottomOffsetClosed + ((MediaQuery.of(context).size.height - 200) * position);
-      position = position;
+      _position = position;
     });
   }
 

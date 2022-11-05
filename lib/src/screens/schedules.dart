@@ -27,16 +27,16 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
     String url = '';
 
     if ((globals.locationData?.latitude != null || globals.locationData?.longitude != null) && search != '') {
-      url = '${globals.API_PLACES}?q=$search&lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
+      url = '${globals.API_STOP_AREA}?q=$search&lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
 
     } else if (search != '') {
-      url = '${globals.API_PLACES}?q=$search';
+      url = '${globals.API_STOP_AREA}?q=$search';
       
     } else if (globals.locationData?.latitude != null && globals.locationData?.longitude != null){
-      url = '${globals.API_PLACES}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
+      url = '${globals.API_STOP_AREA}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
 
     } else {
-      url = '${globals.API_PLACES}?q=';
+      url = '${globals.API_STOP_AREA}?q=';
 
     }
 

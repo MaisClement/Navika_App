@@ -25,7 +25,17 @@ class HomeBodyFavScroll extends StatelessWidget {
           height: 100,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            border: Border.all(width: 2.0, color: Theme.of(context).colorScheme.secondary)
+            color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5), //color of shadow
+                  spreadRadius: 5, //spread radius
+                  blurRadius: 7, // blur radius
+                  offset: Offset(0, 2), // changes position of shadow
+                  //first paramerter of offset is left-right
+                  //second parameter is top to down
+                )
+              ]
           ),
           child: Column(
             children: [
@@ -55,7 +65,17 @@ class HomeBodyFavScroll extends StatelessWidget {
           height: 100,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            border: Border.all(width: 2.0, color: Theme.of(context).colorScheme.secondary)
+            color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5), //color of shadow
+                  spreadRadius: 5, //spread radius
+                  blurRadius: 7, // blur radius
+                  offset: Offset(0, 2), // changes position of shadow
+                  //first paramerter of offset is left-right
+                  //second parameter is top to down
+                )
+              ]
           ),
           child: Column(
             children: [
@@ -85,7 +105,17 @@ class HomeBodyFavScroll extends StatelessWidget {
           height: 100,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            border: Border.all(width: 2.0, color: Theme.of(context).colorScheme.secondary)
+            color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5), //color of shadow
+                  spreadRadius: 5, //spread radius
+                  blurRadius: 7, // blur radius
+                  offset: Offset(0, 2), // changes position of shadow
+                  //first paramerter of offset is left-right
+                  //second parameter is top to down
+                )
+              ]
           ),
           child: Column(
             children: [

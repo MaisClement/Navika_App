@@ -16,67 +16,33 @@ class HomeBody extends StatelessWidget {
 	});
 
 	@override
-	Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.only(top:110),
-    child: Column(
-      children: [
-        SizedBox(
-          height: 80,
-          child: HomeBodyFavScroll(),
+	Widget build(BuildContext context) => // Maison
+    InkWell(
+      onTap: () {},
+      child: Container(
+        margin: const EdgeInsets.only(left: 10,),
+        width: 100,
+        height: 100,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(width: 2.0, color: Theme.of(context).colorScheme.secondary)
         ),
-
-        // Messages de l'index
-        if (index['message'] != null)
-          for (var message in index['message'])
+        child: Column(
+          children: [
             Container(
-              padding: EdgeInsets.only(left:15.0, top:10, right:15.0, bottom:10.0),
-              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-              decoration: BoxDecoration(
-                color: getSlugBack(message['severity'], 1),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (message['message']['title'] != null)
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      child: Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(right:5),
-                            child: Image(
-                              image: getSlugImage(message['severity'], 1),
-                              height: 25,
-                            ),
-                          ),
-                          Expanded(
-                            child: Wrap(
-                              children: [
-                                Text(message['message']['title'],
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700
-                                  ),
-                                ),
-                              ],
-                            )
-                          )
-                        ],
-                      ),
-                    ),
-                    
-                  Text(message['message']['text'],
-                    style: const TextStyle(
-                      fontSize: 16
-                    ),
-                  ),
-                ]
-              ),
-            )
-
-        //
-      ],
-    )
-  );
+              height: 10,
+            ),
+            SvgPicture.asset(
+              'assets/plus.svg',
+              color: Theme.of(context).colorScheme.secondary,
+              height: 30
+            ),
+            Container(
+              height: 10,
+            ),
+            Text('Ajouter'),
+          ],
+        ),
+      ),
+    );
 }

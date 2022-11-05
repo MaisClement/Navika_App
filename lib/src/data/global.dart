@@ -8,7 +8,8 @@ const String API_BASE = 'https://navika.hackernwar.com/';
 
 const String API_INDEX =     '$API_BASE$API_VERSION/index';
 const String API_TRAFIC =     '$API_BASE$API_VERSION/trafic';
-const String API_PLACES =     '$API_BASE$API_VERSION/places';
+const String API_STOP_AREA =     '$API_BASE$API_VERSION/stop_area';
+
 const String API_POINTS =     '$API_BASE$API_VERSION/points';
 const String API_SCHEDULES =  '$API_BASE$API_VERSION/schedules';
 
@@ -20,6 +21,7 @@ String stopArea = '';
 String stopName = '';
 
 List trafic = [];
+Map? index;
 
 Map route = {
   'dep_id': null,

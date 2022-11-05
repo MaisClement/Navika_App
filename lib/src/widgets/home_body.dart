@@ -22,11 +22,18 @@ class HomeBody extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.only(top:110),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(5),
+      color: Colors.grey[200],
+    ),
     child: Column(
       children: [
         SizedBox(
           height: 80,
           child: HomeBodyFavScroll(),
+        ),
+        SizedBox(
+          height: 10,
         ),
 
         // Messages de l'index

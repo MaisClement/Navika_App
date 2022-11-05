@@ -303,7 +303,7 @@ class _TraficScreenState extends State<TraficScreen> {
             padding: EdgeInsets.only(left:10.0, top:10.0,right:10.0,bottom:10.0),
             width: 45,
             height: 45,
-            child: Image(image: const AssetImage('assets/idfm/TRAM_dark.png'))
+            child: Image(image: const AssetImage('assets/stif/TRAM_dark.png'))
           ),
           Expanded(
             child: Wrap( 

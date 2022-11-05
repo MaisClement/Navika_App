@@ -45,9 +45,9 @@ Color getSlugBack(severity, [type]){
   } else if (severity == 4){
     return const Color(0xfff68f53).withOpacity(0.2);
   } else if (severity == 3){
-    return const Color(0xff008b5b).withOpacity(0.2);
+    return const Color(0xfff68f53).withOpacity(0.2);
   } else if (severity == 2){
-    return const Color(0xff008b5b).withOpacity(0.2);
+    return const Color(0xfff68f53).withOpacity(0.2);
   } else if (severity == 1){
     return const Color(0xff005bbc).withOpacity(0.2);
   } else if (type != null && type == 1) {
@@ -61,19 +61,19 @@ AssetImage getSlugImage(severity, [type]){
   if (severity == 0 && (type == null || type == 0)){
     return const AssetImage('assets/null.png');
   } else if (severity == 0 && type != null && type == 1){
-    return const AssetImage('assets/modal/valid.png');
+    return const AssetImage('assets/modal/valid_small.png');
   } else if (severity == 5){
-    return const AssetImage('assets/modal/error.png');
+    return const AssetImage('assets/modal/error_small.png');
   } else if (severity == 4){
-    return const AssetImage('assets/modal/warning.png');
+    return const AssetImage('assets/modal/warning_small.png');
   } else if (severity == 3){
-    return const AssetImage('assets/modal/work.png');
+    return const AssetImage('assets/modal/work_small.png');
   } else if (severity == 2){
-    return const AssetImage('assets/modal/futur_work.png');
+    return const AssetImage('assets/modal/futur_work_small.png');
   } else if (severity == 1){
-    return const AssetImage('assets/modal/information.png');
+    return const AssetImage('assets/modal/information_small.png');
   } else if (type != null && type == 1) {
-    return const AssetImage('assets/modal/valid.png');
+    return const AssetImage('assets/modal/valid_small.png');
   } else {
     return const AssetImage('assets/null.png');
     // return const AssetImage('assets/modal/interogation_grey.png');

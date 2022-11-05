@@ -71,10 +71,11 @@ class HereController {
   }
 
   void addMapMarker(GeoCoordinates geoCoordinates, imgPath) {
-    int imageWidth = 60;
-    int imageHeight = 60;
+    int imageWidth = 100;
+    int imageHeight = 100;
+    Anchor2D anchor2D = Anchor2D.withHorizontalAndVertical(0.5, 1);
     MapImage mapImage = MapImage.withFilePathAndWidthAndHeight(imgPath, imageWidth, imageHeight);
-    MapMarker mapMarker = MapMarker(geoCoordinates, mapImage);
+    MapMarker mapMarker = MapMarker.withAnchor(geoCoordinates, mapImage, anchor2D);
     _hereMapController.mapScene.addMapMarker(mapMarker);
   }
 
