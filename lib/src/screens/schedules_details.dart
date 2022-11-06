@@ -108,7 +108,7 @@ class _SchedulesDetailsScreenState extends State<SchedulesDetailsScreen>
       return Scaffold(
         appBar: AppBar(
           title: Text(stopName),
-          centerTitle: true,
+          // centerTitle: true,
         ),
         body: const Center(
           child: CircularProgressIndicator(),
@@ -121,7 +121,7 @@ class _SchedulesDetailsScreenState extends State<SchedulesDetailsScreen>
           schedules['modes'].length > 1 ? 
             AppBar(
               title: Text(globals.stopName),
-              centerTitle: true,
+              // centerTitle: true,
               bottom: TabBar(
                 controller: _tabController,
                 tabs: [
@@ -154,7 +154,7 @@ class _SchedulesDetailsScreenState extends State<SchedulesDetailsScreen>
           :
             AppBar(
               title: Text(globals.stopName),
-              centerTitle: true,
+              // centerTitle: true,
             ),
         body: 
           schedules['modes'].length > 1 ? 

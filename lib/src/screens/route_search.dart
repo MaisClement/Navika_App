@@ -6,6 +6,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../routing.dart';
 import '../widgets/icons.dart';
+import '../widgets/places/empty.dart';
+import '../widgets/places/load.dart';
+import '../widgets/places/listbutton.dart';
 import '../data/global.dart' as globals;
 
 class RouteSearch extends StatefulWidget {
@@ -16,32 +19,38 @@ class RouteSearch extends StatefulWidget {
 }
 
 class _RouteSearchState extends State<RouteSearch> {
-  final textControllerDepart = TextEditingController();
-  final textControllerArrivee = TextEditingController();
-  FocusNode textNodeDepart = FocusNode();
-  FocusNode textNodeArrivee = FocusNode();
-
 	final String title = 'Itinéraires';
   final String yourPos = 'Votre position';
   
   String search = '';
   bool isLoading = false;
+  bool posUsed = false;
   List places = [];
+
+  String currentTextInput = 'dep';
+  Map textController = {
+    'dep' : TextEditingController(),
+    'arr' : TextEditingController(),
+  };
+  Map textNode = {
+    'dep' : FocusNode(),
+    'arr' : FocusNode(),
+  };
 
   Future<void> _getPlaces() async {
     String url = '';
 
     if ((globals.locationData?.latitude != null || globals.locationData?.longitude != null) && search != '') {
-      url = '${globals.API_STOP_AREA}?q=$search&lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
+      url = '${globals.API_PLACES}?q=$search&lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
 
     } else if (search != '') {
-      url = '${globals.API_STOP_AREA}?q=$search';
+      url = '${globals.API_PLACES}?q=$search';
       
     } else if (globals.locationData?.latitude != null && globals.locationData?.longitude != null){
-      url = '${globals.API_STOP_AREA}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
+      url = '${globals.API_PLACES}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
 
     } else {
-      url = '${globals.API_STOP_AREA}?q=';
+      url = '${globals.API_PLACES}?q=';
 
     }
 
@@ -61,44 +70,118 @@ class _RouteSearchState extends State<RouteSearch> {
 	}
 
   void _initSearch() {
-    // Cas 1 - Rien de saisie
-    // Cas 2 - Juste un GPS
-    // Cas 3 - GPS + Une arrivée
-    // Cas 4 - Juste une arrivée
-
     // Arrivée + départ
-    if ((globals.locationData != null || globals.route['dep_id'] != null) && globals.route['arr_id'] != null ){
-      if (globals.route['dep_id'] != null) {
-        textControllerDepart.text = globals.route['dep_name'];
+    if ((globals.locationData != null || globals.route['dep']['id'] != null) && globals.route['arr']['id'] != null ){
+      if (globals.route['dep']['id'] != null) {
+        textController['dep'].text = globals.route['dep']['name'];
       } else {
-        textControllerDepart.text = yourPos;
+        textController['dep'].text = yourPos;
+        globals.route['dep']['name'] = yourPos;
+        globals.route['dep']['id'] = '${globals.locationData?.latitude};${globals.locationData?.longitude}';
+        setState(() {
+          posUsed = true;
+        });
       }
-      textControllerArrivee.text = globals.route['arr_name'];
+      textController['arr'].text = globals.route['arr']['name'];
       // Result
     } 
-    // On a un départ
-    else if (globals.route['dep_id'] != null) {
-      textControllerDepart.text = globals.route['dep_name'];
-      FocusScope.of(context).requestFocus(textNodeArrivee);
+    
+    else if (globals.route['dep']['id'] != null) { // On a un départ
+      textController['dep'].text = globals.route['dep']['name'];
+      FocusScope.of(context).requestFocus(textNode['arr']);
+      setState(() {
+        currentTextInput = 'arr';
+      });
       _getPlaces();
     } 
-    // On a un GPS
-    else if (globals.locationData != null) {
-      textControllerDepart.text = yourPos;
-      FocusScope.of(context).requestFocus(textNodeArrivee);
+    
+    else if (globals.locationData != null) { // On a un GPS
+      textController['dep'].text = yourPos;
+      globals.route['dep']['name'] = yourPos;
+      globals.route['dep']['id'] = '${globals.locationData?.latitude};${globals.locationData?.longitude}';
+      setState(() {
+        posUsed = true;
+      });
+      FocusScope.of(context).requestFocus(textNode['arr']);
+      setState(() {
+        currentTextInput = 'arr';
+      });
       _getPlaces();
     } 
-    // On a une arrivée
-    else if (globals.route['arr_id'] != null) {
-      textControllerArrivee.text = globals.route['arr_name'];
-      FocusScope.of(context).requestFocus(textNodeDepart);
+    
+    else if (globals.route['arr']['id'] != null) { // On a une arrivée
+      textController['arr'].text = globals.route['arr']['name'];
+      FocusScope.of(context).requestFocus(textNode['dep']);
+      setState(() {
+        currentTextInput = 'dep';
+      });
       _getPlaces();
     }
-    // On a rien
-    else {
-      FocusScope.of(context).requestFocus(textNodeDepart);
+    
+    else { // On a rien
+      FocusScope.of(context).requestFocus(textNode['dep']);
+      setState(() {
+        currentTextInput = 'dep';
+      });
       _getPlaces();
     }
+  }
+
+  void _handleClick(name, id) {
+    globals.route[currentTextInput]['id'] = id;
+    globals.route[currentTextInput]['name'] = name;
+    textController[currentTextInput].text = name;
+
+    if (globals.route['dep']['id'] == null) {
+      FocusScope.of(context).requestFocus(textNode['dep']);
+      setState(() {
+        currentTextInput = 'dep';
+      });
+
+    } else if (globals.route['arr']['id'] == null) {
+      FocusScope.of(context).requestFocus(textNode['arr']);
+      setState(() {
+        currentTextInput = 'arr';
+      });
+
+    } else {
+      if (!FocusScope.of(context).hasPrimaryFocus) {
+        FocusScope.of(context).unfocus();
+      }
+    } 
+
+    print({'INFO_', globals.route});
+  }
+
+  void _onTapText(current) {
+    if (current != 'dep' && current != 'arr') {
+      throw Exception ('Invalid current value: $current');
+    }
+    setState(() {
+      currentTextInput = current;
+    });
+
+    if (textController[current].text == yourPos) {
+      textController[current].text = '';
+      setState(() {
+        posUsed = false;
+      });
+      globals.route[current]['id'] = null;
+      globals.route[current]['name'] = null;
+    }
+
+    print({'INFO_', globals.route});
+  }
+
+  void _onChangeText(current, value){
+    if (current != 'dep' && current != 'arr') {
+      throw Exception ('Invalid current value: $current');
+    }
+    setState(() {
+      currentTextInput = current;
+      search = value;
+    });
+    _getPlaces();
   }
 
   @override
@@ -108,8 +191,8 @@ class _RouteSearchState extends State<RouteSearch> {
   }
   @override
   void dispose() {
-    textControllerDepart.dispose();
-    textControllerArrivee.dispose();
+    textController['dep'].dispose();
+    textController['arr'].dispose();
     super.dispose();
   }
 
@@ -117,7 +200,7 @@ class _RouteSearchState extends State<RouteSearch> {
 	Widget build(BuildContext context) => Scaffold(
 		appBar: AppBar(
 			title: Text(title),
-      centerTitle: true,
+      // centerTitle: true,
       elevation: 0,
 		),
 		body: Column(
@@ -125,9 +208,9 @@ class _RouteSearchState extends State<RouteSearch> {
       children: [
         Container(
           color: Theme.of(context).colorScheme.secondary,
-          padding: EdgeInsets.only(left:20.0, top: 10.0,right: 20.0),
+          padding: const EdgeInsets.only(left:20.0, top: 10.0,right: 20.0),
           child: Container(
-            padding: EdgeInsets.only(left:10.0),
+            padding: const EdgeInsets.only(left:10.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: Colors.white,
@@ -141,9 +224,9 @@ class _RouteSearchState extends State<RouteSearch> {
                 ),
                 Flexible(
                   child: TextField(
-                    controller: textControllerDepart,
-                    focusNode: textNodeDepart,
-                    decoration: InputDecoration(
+                    controller: textController['dep'],
+                    focusNode: textNode['dep'],
+                    decoration: const InputDecoration(
                       border: InputBorder.none,
                       focusedBorder: InputBorder.none,
                       enabledBorder: InputBorder.none,
@@ -152,11 +235,11 @@ class _RouteSearchState extends State<RouteSearch> {
                       contentPadding:EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Départ"
                     ),
-                    onChanged: (text) {
-                      setState(() {
-                        search = text;
-                      });
-                      _getPlaces();
+                    onChanged: (value) {
+                      _onChangeText('dep', value);
+                    },
+                    onTap: () {
+                      _onTapText('dep');
                     },
                   ),
                 )
@@ -166,9 +249,9 @@ class _RouteSearchState extends State<RouteSearch> {
         ),
         Container(
           color: Theme.of(context).colorScheme.secondary,
-          padding: EdgeInsets.only(left:20.0, top:10.0,right:20.0,bottom:20.0),
+          padding: const EdgeInsets.only(left:20.0, top:10.0,right:20.0,bottom:20.0),
           child: Container(
-            padding: EdgeInsets.only(left:10.0),
+            padding: const EdgeInsets.only(left:10.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: Colors.white,
@@ -182,9 +265,9 @@ class _RouteSearchState extends State<RouteSearch> {
                 ),
                 Flexible(
                   child: TextField(
-                    controller: textControllerArrivee,
-                    focusNode: textNodeArrivee,
-                    decoration: InputDecoration(
+                    controller: textController['arr'],
+                    focusNode: textNode['arr'],
+                    decoration: const InputDecoration(
                       border: InputBorder.none,
                       focusedBorder: InputBorder.none,
                       enabledBorder: InputBorder.none,
@@ -193,11 +276,11 @@ class _RouteSearchState extends State<RouteSearch> {
                       contentPadding:EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
                       hintText: "Arrivée"
                     ),
-                    onChanged: (text) {
-                      setState(() {
-                        search = text;
-                      });
-                      _getPlaces();
+                    onChanged: (value) {
+                      _onChangeText('arr', value);
+                    },
+                    onTap: () {
+                      _onTapText('arr');
                     },
                   ),
                 )
@@ -206,126 +289,68 @@ class _RouteSearchState extends State<RouteSearch> {
           )
         ),
         
-        if (!places.isEmpty)
+        if (places.isNotEmpty)
           Expanded(
             child: ListView(
               children: [
-                for (var place in places)
+
+                if (posUsed == false && search == '' && globals.locationData != null)
                   InkWell(                        
                     child: Opacity(
                       opacity: isLoading ? 0.4 : 1,
                       child: Container(
-                        padding: EdgeInsets.only(left:20.0, top:5.0,right:20.0,bottom:5.0),
+                        padding: const EdgeInsets.only(left:20.0, top:15.0,right:20.0,bottom:15.0),
+                        height: 55,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              child: Text(place['name'],
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'Parisine',
+                            Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/location-indicator.svg',
+                                  color: Theme.of(context).colorScheme.secondary,
+                                  height: 25
                                 ),
-                              ),
-                            ),
-                            
-                            if (place['distance'] == 0)
-                              Container(
-                                margin: EdgeInsets.only(left:5.0, top:4.0),
-                                child: Text('${place['zip_code']}, ${place['town']}',
-                                  style: const TextStyle(
-                                    color: Colors.grey,
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(yourPos,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
                                     fontFamily: 'Parisine',
+                                    color: Theme.of(context).colorScheme.secondary,
                                   ),
                                 ),
-                              ),
-                            if (place['distance'] != 0)
-                              Container(
-                                margin: EdgeInsets.only(left:5.0, top:4.0),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      'assets/walking.svg',
-                                      color: Colors.grey,
-                                      height: 15
-                                    ),
-                                    
-                                    Text('${place['distance']}m',
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontFamily: 'Parisine',
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 20,
-                                    ),
-                                    Text('${place['zip_code']}, ${place['town']}',
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontFamily: 'Parisine',
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ),
-
-                            Wrap( 
-                              children: [
-                                for (var i = 0; i < place['lines'].length; i++)
-                                
-                                  Icones(
-                                    line: place['lines'][i],
-                                    old_line: i > 0 ? place['lines'][i - 1] : place['lines'][i],
-                                    i: i,
-                                  )
-                                
-                              ]
-                            )
+                              ],
+                            ),
                           ]
                         )
                       ),
                     ),
                     onTap: () {
-                      globals.stopArea = place['id'];
-                      globals.stopName = place['name'];
-                      RouteStateScope.of(context).go('/schedules/details');
+                      // RouteStateScope.of(context).go('/schedules/details');
                     },                
+                  ),
+
+                for (var place in places)
+                  Places_ListButton(
+                    isLoading: isLoading,
+                    place: place,
+                    onTap: () {
+                      _handleClick(place['name'], place['id']);
+                      // RouteStateScope.of(context).go('/schedules/details');
+                    },
                   ),
               ]
             )
           ),
 
         if (places.isEmpty && isLoading == true)
-          Container(
-            margin: EdgeInsets.only(top:40.0),
-            child: Center(
-              child: Column(
-                children: [
-                  const CircularProgressIndicator(),
-                  Text('Chargement...', 
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontWeight: FontWeight.w700
-                    ),
-                  ),
-                ]
-              ),
-            ),
-          ),
+          const Places_Load(),
           
-
         if (places.isEmpty && isLoading == false)
-          Container(
-            margin: EdgeInsets.only(top:40.0),
-            child: Center(
-              child: Text('🔭 Nous n\'avons rien trouvé...', 
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
-                  fontWeight: FontWeight.w700
-                ),
-              ),
-            ),
-          ),
+          const Places_Empty(),
       ],
       
     )

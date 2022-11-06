@@ -44,7 +44,7 @@ class _TraficScreenState extends State<TraficScreen> {
 	Widget build(BuildContext context) => Scaffold(
 		appBar: AppBar(
 			title: Text(title),
-      centerTitle: true,
+      // centerTitle: true,
       elevation: 0,
 		),
 		body: Container(
@@ -73,7 +73,7 @@ class _TraficScreenState extends State<TraficScreen> {
                     padding: EdgeInsets.only(left:10.0, top:10.0,right:10.0,bottom:10.0),
                     width: 45,
                     height: 45,
-                    child: Image(image: const AssetImage('assets/idfm/RER_dark.png'))
+                    child: Image(image: const AssetImage('assets/icons/RER_dark.png'))
                   ),
                   Expanded(
                     child: Wrap( 
@@ -123,7 +123,7 @@ class _TraficScreenState extends State<TraficScreen> {
             padding: EdgeInsets.only(left:10.0, top:10.0,right:10.0,bottom:10.0),
             width: 45,
             height: 45,
-            child: Image(image: const AssetImage('assets/idfm/TRAIN_dark.png'))
+            child: Image(image: const AssetImage('assets/icons/TRAIN_dark.png'))
           ),
           Expanded(
             child: Wrap( 
@@ -188,7 +188,7 @@ class _TraficScreenState extends State<TraficScreen> {
             padding: EdgeInsets.only(left:10.0, top:10.0,right:10.0,bottom:10.0),
             width: 45,
             height: 45,
-            child: Image(image: const AssetImage('assets/idfm/METRO_dark.png'))
+            child: Image(image: const AssetImage('assets/icons/METRO_dark.png'))
           ),
           Expanded(
             child: Wrap( 
@@ -303,7 +303,7 @@ class _TraficScreenState extends State<TraficScreen> {
             padding: EdgeInsets.only(left:10.0, top:10.0,right:10.0,bottom:10.0),
             width: 45,
             height: 45,
-            child: Image(image: const AssetImage('assets/stif/TRAM_dark.png'))
+            child: Image(image: const AssetImage('assets/icons/TRAM_dark.png'))
           ),
           Expanded(
             child: Wrap( 

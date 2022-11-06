@@ -57,10 +57,10 @@ class HomePannel extends StatelessWidget {
           ),
           child: InkWell(
             onTap: () {
-              globals.route['arr_name'] = null;
-              globals.route['arr_id'] = null;
-              globals.route['dep_name'] = null;
-              globals.route['dep_id'] = null;
+              globals.route['dep']['name'] = null;
+              globals.route['dep']['id'] = null;
+              globals.route['arr']['name'] = null;
+              globals.route['arr']['id'] = null;
               RouteStateScope.of(context).go('/home/search');
             },
             child: Row(

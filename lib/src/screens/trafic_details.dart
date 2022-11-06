@@ -35,7 +35,7 @@ class TraficDetailsScreen extends StatelessWidget {
 		return Scaffold(
 			appBar: AppBar(
 				title: Text('Info Trafic'),
-        centerTitle: true,
+        // centerTitle: true,
         elevation: 0,
 			),
       body: Container(
