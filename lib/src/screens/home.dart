@@ -93,7 +93,29 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 	}
 
-  String getMarkerImageByType (String mode) {
+  String getMarkerImageByType (modes) {
+    if (modes.contains('physical_mode:RapidTransit')){
+      return "assets/marker/marker_rer_blue.png";
+
+    } else if (modes.contains('physical_mode:Train') || modes.contains('physical_mode:RailShuttle') || modes.contains('physical_mode:LocalTrain') || modes.contains('physical_mode:LongDistanceTrain')){
+      return "assets/marker/marker_train_blue.png";
+
+    } else if (modes.contains('physical_mode:Metro') || modes.contains('physical_mode:Shuttle')){
+      return "assets/marker/marker_metro_blue.png";
+
+    } else if (modes.contains('physical_mode:Tramway')){
+      return "assets/marker/marker_tram_blue.png";
+
+    } else if (modes.contains('physical_mode:SuspendedCableCar')){
+      return "assets/marker/marker_cable_blue.png";
+
+    } else if (modes.contains('physical_mode:Boat')){
+      return "assets/marker/marker_navette_fluviale_blue.png";
+
+    } else if (modes.contains('physical_mode:Bus') || modes.contains('physical_mode:BusRapidTransit') ){
+      return "assets/marker/marker_bus_blue.png";
+    }
+    // physical_mode:Funicular
     return "";
   }
 
@@ -111,8 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
       for (var stop in data['places']) {
         GeoCoordinates stopCoords = GeoCoordinates(stop['coord']['lat'], stop['coord']['lon']);
-        _controller?.addMapMarker(stopCoords, stop['modes'][0] == 'physical_mode:Bus' ? "assets/marker/marker_bus_blue.png" : "assets/marker/marker_metro_blue.png");
-        print({'INFO_', stop['modes'][0]});
+        _controller?.addMapMarker(stopCoords, getMarkerImageByType(stop['modes']));
+        print({'INFO_', stop['modes']});
       }
     }
 	}

@@ -275,14 +275,22 @@ flutter:
     - assets/val/lines_small/CDGVAL.png
     - assets/val/lines_small/ORLYVAL.png
 
+    - assets/marker/marker_bus_dark.png
+    - assets/marker/marker_cable_blue.png
+    - assets/marker/marker_cable_dark.png
     - assets/marker/marker_metro_blue.png
-    - assets/marker/marker_rer.png
+    - assets/marker/marker_metro_dark.png
+    - assets/marker/marker_navette_fluviale_blue.png
+    - assets/marker/marker_navette_fluviale_dark.png
+    - assets/marker/marker_noctilien_blue.png
+    - assets/marker/marker_noctilien_dark.png
     - assets/marker/marker_rer_blue.png
-    - assets/marker/marker_tram.png
+    - assets/marker/marker_rer_dark.png
+    - assets/marker/marker_train_blue.png
+    - assets/marker/marker_train_dark.png
     - assets/marker/marker_tram_blue.png
-    - assets/marker/marker_bus.png
+    - assets/marker/marker_tram_dark.png
     - assets/marker/marker_bus_blue.png
-    - assets/marker/marker_metro.png
     
     - assets/modal/alert.png
     - assets/modal/alert_small.png
