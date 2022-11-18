@@ -130,8 +130,9 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
                     isLoading: isLoading,
                     place: place,
                     onTap: () {
-                      globals.stopArea = place['id'];
-                      globals.stopName = place['name'];
+                      globals.schedulesStopArea = place['id'];
+                      globals.schedulesStopName = place['name'];
+                      globals.schedulesStopModes = place['modes'];
                       RouteStateScope.of(context).go('/schedules/details');
                     },
                   )

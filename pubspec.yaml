@@ -82,12 +82,6 @@ flutter:
         - asset: fonts/Segoe UI Bold.ttf
           weight: 700
 
-    - family:  Parisine
-      fonts:
-        - asset: fonts/Parisine-Regular.otf
-        - asset: fonts/Parisine-Bold.otf
-          weight: 700
-
     - family:  Diode
       fonts:
         - asset: fonts/TransilienSmall.ttf

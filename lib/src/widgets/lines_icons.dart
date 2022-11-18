@@ -35,7 +35,7 @@ class LinesIcones extends StatelessWidget {
             style: TextStyle(
               color:  HexColor.fromHex(line['text_color']),
               fontWeight: FontWeight.w800,
-              fontFamily: 'Parisine'
+              fontFamily: 'Segoe Ui'
             ),
           ),
         )

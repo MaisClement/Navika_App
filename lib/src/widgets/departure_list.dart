@@ -111,7 +111,7 @@ class DepartureList extends StatelessWidget {
                               TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                fontFamily: 'Parisine',
+                                fontFamily: 'Segoe Ui',
                                 color: Color(0xffeb2031),
                                 decoration: TextDecoration.lineThrough
                               )
@@ -119,7 +119,7 @@ class DepartureList extends StatelessWidget {
                               TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                fontFamily: 'Parisine',
+                                fontFamily: 'Segoe Ui',
                                 color: Theme.of(context).colorScheme.secondary,
                               ),
                             maxLines: 1,
@@ -174,7 +174,7 @@ class DepartureList extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 12,
                       color: Color(0xffffffff),
-                      fontFamily: 'Parisine',
+                      fontFamily: 'Segoe Ui',
                       fontWeight: FontWeight.w600,
                     ),
                     textAlign: TextAlign.center
@@ -197,7 +197,7 @@ class DepartureList extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 12,
                       color: Color(0xffffffff),
-                      fontFamily: 'Parisine',
+                      fontFamily: 'Segoe Ui',
                       fontWeight: FontWeight.w600,
                     ),
                     textAlign: TextAlign.center
@@ -220,7 +220,7 @@ class DepartureList extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 12,
                       color: Color(0xffffffff),
-                      fontFamily: 'Parisine',
+                      fontFamily: 'Segoe Ui',
                       fontWeight: FontWeight.w600,
                     ),
                     textAlign: TextAlign.center
@@ -255,7 +255,7 @@ class DepartureList extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 16,
                       color: Color(0xfffcc900),
-                      fontFamily: 'Parisine',
+                      fontFamily: 'Segoe Ui',
                     ),
                     textAlign: TextAlign.center
                   )
@@ -301,7 +301,7 @@ class DepartureList extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      fontFamily: 'Parisine',
+                      fontFamily: 'Segoe Ui',
                     ),
                     textAlign: TextAlign.center
                   )

@@ -17,8 +17,9 @@ gps.LocationData? locationData;
 double compassHeading = 0;
 bool isSetLocation = false;
 
-String stopArea = '';
-String stopName = '';
+String schedulesStopArea = '';
+String schedulesStopName = '';
+List schedulesStopModes = [];
 
 List trafic = [];
 Map? index;

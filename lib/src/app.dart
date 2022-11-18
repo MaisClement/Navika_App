@@ -55,7 +55,7 @@ class _NavikaAppState extends State<NavikaApp> {
 					// Revert back to pre-Flutter-2.5 transition behavior:
 					// https://github.com/flutter/flutter/issues/82053
 					theme: ThemeData(
-						primarySwatch: generateMaterialColor(const Color(0xff003f97)), 
+						primarySwatch: generateMaterialColor(const Color(0xff611925)),// generateMaterialColor(const Color(0xff003f97)), 
 						pageTransitionsTheme: const PageTransitionsTheme(
 							builders: {
 								TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
@@ -69,6 +69,16 @@ class _NavikaAppState extends State<NavikaApp> {
 				),
 			);
 }
+
+/*
+Vert 2A4D14
+Bleu de prusse 24445c
+Violet ML 820282
+Steel Teal 5F8895
+Phtalo Blue 020887
+Wine Red 611925
+Raw Sienna C97D54
+*/
 
 
 MaterialColor generateMaterialColor(Color color) {

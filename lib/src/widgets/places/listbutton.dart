@@ -51,7 +51,7 @@ class Places_ListButton extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'Parisine',
+                    fontFamily: 'Segoe Ui',
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
@@ -64,7 +64,7 @@ class Places_ListButton extends StatelessWidget {
                 child: Text( place['zip_code'] == '' ? place['town'] : '${place['zip_code']}, ${place['town']}',
                   style: const TextStyle(
                     color: Colors.grey,
-                    fontFamily: 'Parisine',
+                    fontFamily: 'Segoe Ui',
                   ),
                 ),
               ),
@@ -83,7 +83,7 @@ class Places_ListButton extends StatelessWidget {
                     Text('${place['distance']}m',
                       style: const TextStyle(
                         color: Colors.grey,
-                        fontFamily: 'Parisine',
+                        fontFamily: 'Segoe Ui',
                       ),
                     ),
                     Container(
@@ -92,7 +92,7 @@ class Places_ListButton extends StatelessWidget {
                     Text( place['zip_code'] == '' ? place['town'] : '${place['zip_code']}, ${place['town']}',
                       style: const TextStyle(
                         color: Colors.grey,
-                        fontFamily: 'Parisine',
+                        fontFamily: 'Segoe Ui',
                       ),
                     ),
                   ],

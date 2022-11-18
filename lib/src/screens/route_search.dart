@@ -318,7 +318,7 @@ class _RouteSearchState extends State<RouteSearch> {
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
-                                    fontFamily: 'Parisine',
+                                    fontFamily: 'Segoe Ui',
                                     color: Theme.of(context).colorScheme.secondary,
                                   ),
                                 ),

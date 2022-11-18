@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../extensions/hexcolor.dart';
-import '../widgets/lines_icons.dart';
-import '../widgets/mode_icons.dart';
-import '../widgets/timer_block.dart';
+import '../../extensions/hexcolor.dart';
+import '../lines_icons.dart';
+import '../mode_icons.dart';
+import '../timer_block.dart';
 
 class SchedulesList extends StatelessWidget {
 	final List schedules;
@@ -18,7 +18,7 @@ class SchedulesList extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) => ListView(
     children: [
-      for (var schedule in this.schedules)
+      for (var schedule in schedules)
         if (modes.contains(schedule['line']['commercial_mode']['id']))
           Container(
             margin: EdgeInsets.only(left:5.0, top:5.0,right:5.0,bottom:0.0),
@@ -63,7 +63,7 @@ class SchedulesList extends StatelessWidget {
                             style: TextStyle(
                               color:  HexColor.fromHex(schedule['line']['text_color']),
                               fontWeight: FontWeight.w800,
-                              fontFamily: 'Parisine'
+                              fontFamily: 'Segoe Ui'
                             )
                           )
                         )
@@ -86,7 +86,7 @@ class SchedulesList extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,
-                                  fontFamily: 'Parisine',
+                                  fontFamily: 'Segoe Ui',
                                   color: Theme.of(context).colorScheme.secondary,
                                 )
                               ),
@@ -108,7 +108,7 @@ class SchedulesList extends StatelessWidget {
                                   const Text('Aucune information', 
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
-                                      fontFamily: 'Parisine',
+                                      fontFamily: 'Segoe Ui',
                                     )
                                   ),
 

@@ -52,7 +52,7 @@ class TimerBlock extends StatelessWidget {
         style: const TextStyle(
           color: Color(0xfffcc900),
           fontWeight: FontWeight.w700,
-          fontFamily: 'Parisine',
+          fontFamily: 'Segoe Ui',
         ),
         textAlign: TextAlign.center,
       ),
