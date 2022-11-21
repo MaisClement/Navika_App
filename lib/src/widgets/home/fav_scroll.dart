@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../data/global.dart' as globals;
+import '../../data/global.dart' as globals;
 
-import '../routing.dart';
+import '../../routing.dart';
 
 class HomeBodyFavScroll extends StatelessWidget {
 
@@ -28,12 +28,10 @@ class HomeBodyFavScroll extends StatelessWidget {
             color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5), //color of shadow
-                  spreadRadius: 5, //spread radius
-                  blurRadius: 7, // blur radius
-                  offset: Offset(0, 2), // changes position of shadow
-                  //first paramerter of offset is left-right
-                  //second parameter is top to down
+                  color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
                 )
               ]
           ),
@@ -68,12 +66,10 @@ class HomeBodyFavScroll extends StatelessWidget {
             color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5), //color of shadow
-                  spreadRadius: 5, //spread radius
-                  blurRadius: 7, // blur radius
-                  offset: Offset(0, 2), // changes position of shadow
-                  //first paramerter of offset is left-right
-                  //second parameter is top to down
+                  color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
                 )
               ]
           ),
@@ -108,12 +104,10 @@ class HomeBodyFavScroll extends StatelessWidget {
             color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5), //color of shadow
-                  spreadRadius: 5, //spread radius
-                  blurRadius: 7, // blur radius
-                  offset: Offset(0, 2), // changes position of shadow
-                  //first paramerter of offset is left-right
-                  //second parameter is top to down
+                  color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
                 )
               ]
           ),

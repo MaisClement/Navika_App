@@ -333,6 +333,9 @@ flutter:
     - assets/train.svg
     - assets/university.svg
     - assets/walking.svg
+    - assets/sign.svg
+    - assets/sign_top.svg
+    - assets/cancel.svg
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

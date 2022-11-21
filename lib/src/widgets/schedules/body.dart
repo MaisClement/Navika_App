@@ -4,21 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 
-import '../trafic_block.dart';
-import '../home_body_fav_scroll.dart';
+import '../../icons/scaffold_icon_icons.dart';
+import 'list.dart';
 import '../../data/global.dart' as globals;
 
 import '../../routing.dart';
-import '../home/messages.dart';
-
-class SchedulesBody extends StatefulWidget {
-  const SchedulesBody({super.key});
+class Schedules_Body extends StatefulWidget {
+  const Schedules_Body({super.key});
 
   @override
-  State<SchedulesBody> createState() => _SchedulesBodyState();
+  State<Schedules_Body> createState() => _Schedules_BodyState();
 }
 
-class _SchedulesBodyState extends State<SchedulesBody>
+class _Schedules_BodyState extends State<Schedules_Body>
     with SingleTickerProviderStateMixin {
 
   final String name = globals.schedulesStopName;
@@ -26,7 +24,7 @@ class _SchedulesBodyState extends State<SchedulesBody>
   final List modes = globals.schedulesStopModes;
   late TabController _tabController;
 
-  Map schedules = {};
+  List schedules = [];
   late Timer _timer;
 
   @override
@@ -61,21 +59,21 @@ class _SchedulesBodyState extends State<SchedulesBody>
 	}
 
   Future<void> _getSchedules() async {
+    print({'INFO_', globals.schedulesStopArea});
     try {
-      final response = await http.get(Uri.parse(
-          '${globals.API_SCHEDULES}?stoparea=${globals.schedulesStopArea}'));
+      final response = await http.get(Uri.parse('${globals.API_SCHEDULES}?s=${globals.schedulesStopArea}'));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
 
         if (mounted) {
           setState(() {
-            schedules = data;
+            schedules = data['schedules'];
           });
         }
       }
 
-      _timer = Timer(const Duration(seconds: 40), () {
+      _timer = Timer(const Duration(seconds: 30), () {
         _getSchedules();
       });
     } on Exception catch (_) {
@@ -112,50 +110,92 @@ class _SchedulesBodyState extends State<SchedulesBody>
         modes.contains('physical_mode:RailShuttle') ||
         modes.contains('physical_mode:LocalTrain') ||
         modes.contains('physical_mode:LongDistanceTrain')) {
-      tabs.add(Tab(text: 'Train / RER'));
+      tabs.add(const Tab(
+                icon: Icon(Scaffold_icon.train),
+                text: 'Train et RER',
+              ));
     }
     if (modes.contains('physical_mode:Metro') ||
         modes.contains('physical_mode:RailShuttle')) {
-      tabs.add(Tab(text: 'Métro'));
+      tabs.add(const Tab(
+                icon: Icon(Scaffold_icon.metro),
+                text: 'Métro',
+              ));
     }
     if (modes.contains('physical_mode:Tramway')) {
-      tabs.add(Tab(text: 'Tram'));
+      tabs.add(const Tab(
+                icon: Icon(Scaffold_icon.tram),
+                text: 'Tramway',
+              ));
     }
     if (modes.contains('physical_mode:Bus')) {
-      tabs.add(Tab(text: 'Bus'));
+      tabs.add(const Tab(
+                icon: Icon(Scaffold_icon.bus),
+                text: 'Bus',
+              ));
     }
-    print({'INFO_', modes});
-    print({'INFO_', tabs});
+    return tabs;
+  }
+
+  List<Widget> getModesView(List modes, schedules) {
+    List<Widget> tabs = [];
+    if (modes.contains('physical_mode:RapidTransit') ||
+        modes.contains('physical_mode:Train') ||
+        modes.contains('physical_mode:RailShuttle') ||
+        modes.contains('physical_mode:LocalTrain') ||
+        modes.contains('physical_mode:LongDistanceTrain')) {
+      tabs.add(Schedules_List(
+                schedules: schedules,
+                modes: 'rail',
+              ));
+    }
+    if (modes.contains('physical_mode:Metro') ||
+        modes.contains('physical_mode:RailShuttle')) {
+      tabs.add(Schedules_List(
+                schedules: schedules,
+                modes: 'metro',
+              ));
+    }
+    if (modes.contains('physical_mode:Tramway')) {
+      tabs.add(Schedules_List(
+                schedules: schedules,
+                modes: 'tram',
+              ));
+    }
+    if (modes.contains('physical_mode:Bus')) {
+      tabs.add(Schedules_List(
+                schedules: schedules,
+                modes: 'bus',
+              ));
+    }
     return tabs;
   }
 
   @override
   Widget build(BuildContext context) => Column(
     children: [
-      Container(
-        margin: const EdgeInsets.all(10),
-        height: kToolbarHeight - 8.0,
-        decoration: BoxDecoration(
-          color: Colors.grey.shade200,
-          borderRadius: BorderRadius.circular(8.0),
+      if ( getModesLength(globals.schedulesStopModes) > 1 )
+        Container(
+          margin: const EdgeInsets.all(10),
+          height: kToolbarHeight + 8,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade200,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: TabBar(
+            controller: _tabController,
+            indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                color: Theme.of(context).colorScheme.secondary),
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.black,
+            tabs: getModesTabs(globals.schedulesStopModes),
+          ),
         ),
-        child: TabBar(
-          controller: _tabController,
-          indicator: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              color: Theme.of(context).colorScheme.secondary),
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.black,
-          tabs: getModesTabs(globals.schedulesStopModes),
-        ),
-      ),
       Expanded(
         child: TabBarView(
-          children: [
-            Text('people'),
-            Text('Person')  
-          ],
           controller: _tabController,
+          children: getModesView(modes, schedules),
         ),
       ),
     ]

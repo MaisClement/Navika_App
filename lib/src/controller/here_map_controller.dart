@@ -1,6 +1,8 @@
+import 'package:here_sdk/gestures.dart';
 import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
+import 'package:navika/src/routing/route_state.dart';
 
 import '../data/global.dart' as globals;
 
@@ -17,7 +19,6 @@ class HereController {
     MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
     //GeoCoordinates geoCoords = GeoCoordinates(globals.locationData.latitude ?? 52.520798, globals.locationData.longitude ?? 13.409408);
     _hereMapController.camera.lookAtPointWithMeasure(GeoCoordinates(52.520798, 13.409408), mapMeasureZoom);
-
   }
 
   Location defineLocation(gps.LocationData locationData, double heading) {
@@ -70,13 +71,22 @@ class HereController {
     locationIndicator.isActive = isActive;
   }
 
-  void addMapMarker(GeoCoordinates geoCoordinates, imgPath) {
+  void addMapMarker(GeoCoordinates geoCoordinates, imgPath, Metadata metadata) {
     int imageWidth = 100;
     int imageHeight = 100;
     Anchor2D anchor2D = Anchor2D.withHorizontalAndVertical(0.5, 1);
     MapImage mapImage = MapImage.withFilePathAndWidthAndHeight(imgPath, imageWidth, imageHeight);
     MapMarker mapMarker = MapMarker.withAnchor(geoCoordinates, mapImage, anchor2D);
+    mapMarker.metadata = metadata;
     _hereMapController.mapScene.addMapMarker(mapMarker);
+  }
+
+  void addTapListener(tapListener) {
+    _hereMapController.gestures.tapListener = tapListener;
+  }
+
+  void pickMapItems(Point2D centerPoint, double radius, void Function(PickMapItemsResult?) callback) {
+    _hereMapController.pickMapItems(centerPoint, radius, callback);
   }
 
   bool isOverLocation(){

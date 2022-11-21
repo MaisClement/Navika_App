@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
+import 'package:navika/src/routing/route_state.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,8 +16,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../data/global.dart' as globals;
 import '../controller/here_map_controller.dart';
 
-import '../widgets/home_body.dart';
-import '../widgets/home_header.dart';
+import '../widgets/home/body.dart';
+import '../widgets/home/header.dart';
 
 class HomeScreen extends StatefulWidget {
 	const HomeScreen({super.key});
@@ -133,8 +134,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
       for (var stop in data['places']) {
         GeoCoordinates stopCoords = GeoCoordinates(stop['coord']['lat'], stop['coord']['lon']);
-        _controller?.addMapMarker(stopCoords, getMarkerImageByType(stop['modes']));
-        print({'INFO_', stop['modes']});
+        Metadata metadata = Metadata();
+        metadata.setString("id", stop['id']);
+        metadata.setString("name", stop['name']);
+        metadata.setString("modes", json.encode(stop['modes']));
+        
+        _controller?.addMapMarker(stopCoords, getMarkerImageByType(stop['modes']), metadata);
       }
     }
 	}
@@ -252,12 +257,14 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     });
   }
+  
   @override
   void dispose() async {
     super.dispose();
     globals.isSetLocation = false;
     _timer.cancel();
   }
+
   void getInBox(){
     bool isInBox;
     isInBox = _controller?.isOverLocation() ?? false;
@@ -315,8 +322,46 @@ class _HomeScreenState extends State<HomeScreen> {
       } );
 
       _controller?.addLocationIndicator(globals.locationData, LocationIndicatorIndicatorStyle.pedestrian, globals.compassHeading, false);
-
+      _addTapListener();
       _getPoints();
+    });
+  }
+
+  void _addTapListener() {
+    var tapListener = TapListener((Point2D touchPoint) {
+      _pickMapMarker(touchPoint);
+    });
+    _controller?.addTapListener(tapListener); 
+  }
+  
+
+  void _pickMapMarker(Point2D touchPoint) {
+    double radiusInPixel = 2;
+      _controller?.pickMapItems(touchPoint, radiusInPixel, (pickMapItemsResult) {
+      if (pickMapItemsResult == null) {
+        print("Pick operation failed.");
+        return;
+      }
+      List<MapMarker> mapMarkerList = pickMapItemsResult.markers;
+      if (mapMarkerList.length == 0) {
+        print("No map markers found.");
+        return;
+      }
+
+      MapMarker topmostMapMarker = mapMarkerList.first;
+      Metadata? metadata = topmostMapMarker.metadata;
+      if (metadata != null) {
+        // String message = metadata.getString("key_poi") ?? "No message found.";
+        print(metadata.getString("id"));
+        print(metadata.getString("name"));
+        print(metadata.getString("modes"));
+
+        globals.schedulesStopArea = metadata.getString("id") ?? "";
+        globals.schedulesStopName = metadata.getString("name") ?? "";
+        globals.schedulesStopModes = json.decode(metadata.getString("modes") ?? "");
+        RouteStateScope.of(context).go('/schedules/details');
+        return;
+      }
     });
   }
 

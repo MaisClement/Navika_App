@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../widgets/trafic_block.dart';
-import '../widgets/home_body_fav_scroll.dart';
-import '../data/global.dart' as globals;
+import '../trafic_block.dart';
+import 'fav_scroll.dart';
+import '../../data/global.dart' as globals;
 
-import '../routing.dart';
-import 'home/messages.dart';
+import '../../routing.dart';
+import 'messages.dart';
 
 class HomeBody extends StatelessWidget {
 	final ScrollController scrollController;

@@ -29,9 +29,9 @@ class _SchedulesDetailsScreenState extends State<SchedulesDetailsScreen>
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        title: Text(schedulesStopName),
-        // centerTitle: true,
-      ),
-      body: SchedulesBody());
+    appBar: AppBar(
+      title: Text(schedulesStopName),
+    ),
+    body: Schedules_Body()
+  );
 }

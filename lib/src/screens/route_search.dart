@@ -149,8 +149,6 @@ class _RouteSearchState extends State<RouteSearch> {
         FocusScope.of(context).unfocus();
       }
     } 
-
-    print({'INFO_', globals.route});
   }
 
   void _onTapText(current) {
@@ -169,8 +167,6 @@ class _RouteSearchState extends State<RouteSearch> {
       globals.route[current]['id'] = null;
       globals.route[current]['name'] = null;
     }
-
-    print({'INFO_', globals.route});
   }
 
   void _onChangeText(current, value){

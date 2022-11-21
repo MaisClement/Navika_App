@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../routing.dart';
-import '../data/global.dart' as globals;
+import '../../routing.dart';
+import '../../data/global.dart' as globals;
 
 class HomePannel extends StatelessWidget {
   final void Function()? tooglePanel;
@@ -27,13 +27,13 @@ class HomePannel extends StatelessWidget {
         GestureDetector(
           onTap: tooglePanel,
           child: Container(
-              width: 40,
-              height: 5,
-              decoration: BoxDecoration(
-                color: Colors.grey[400],
-                borderRadius: BorderRadius.circular(30),
-              ),
+            width: 40,
+            height: 5,
+            decoration: BoxDecoration(
+              color: Colors.grey[400],
+              borderRadius: BorderRadius.circular(30),
             ),
+          ),
         ),
         Container(
           height: 20,
@@ -46,12 +46,10 @@ class HomePannel extends StatelessWidget {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.5), //color of shadow
-                spreadRadius: 5, //spread radius
-                blurRadius: 7, // blur radius
-                offset: const Offset(0, 2), // changes position of shadow
-                //first paramerter of offset is left-right
-                //second parameter is top to down
+                color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                spreadRadius: 3,
+                blurRadius: 5,
+                offset: const Offset(0, 2),
               )
             ]
           ),
