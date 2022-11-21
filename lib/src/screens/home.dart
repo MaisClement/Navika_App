@@ -18,6 +18,8 @@ import '../controller/here_map_controller.dart';
 
 import '../widgets/home/body.dart';
 import '../widgets/home/header.dart';
+import '../widgets/schedules/body.dart';
+import '../widgets/schedules/header.dart';
 
 class HomeScreen extends StatefulWidget {
 	const HomeScreen({super.key});
@@ -48,6 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List pointNearby = [];
   Map index = {};
+
+  String _panel = '';
 
   Future<void> _getLocation() async {
     bool serviceEnabled;
@@ -138,7 +142,9 @@ class _HomeScreenState extends State<HomeScreen> {
         metadata.setString("id", stop['id']);
         metadata.setString("name", stop['name']);
         metadata.setString("modes", json.encode(stop['modes']));
-        
+        metadata.setDouble("lat", stop['coord']['lat']);
+        metadata.setDouble("lon", stop['coord']['lon']);
+
         _controller?.addMapMarker(stopCoords, getMarkerImageByType(stop['modes']), metadata);
       }
     }
@@ -189,16 +195,23 @@ class _HomeScreenState extends State<HomeScreen> {
           controller: panelController,
           onPanelSlide: (position) => onPanelSlide(position),
 
-          header: HomePannel(
-            tooglePanel: tooglePanel
-          ),
+          header: _panel == 'schedules'
+            ? SchedulesPannel(
+                tooglePanel: tooglePanel
+              )
+            : HomePannel(
+                tooglePanel: tooglePanel
+              ),
 
-          //panel: BodyPanel(),
-          panelBuilder: (ScrollController scrollController) => HomeBody(
-              scrollController: scrollController,
-              pointNearby: pointNearby,
-              index: index,
-            ),
+          panelBuilder: (ScrollController scrollController) => _panel == 'schedules'
+            ? Container(
+                padding: const EdgeInsets.only(top:40),
+                child: Schedules_Body()
+              )
+            : HomeBody(
+                scrollController: scrollController,
+                index: index,
+              ),
 
           body: HereMap(onMapCreated: _onMapCreated),
           
@@ -252,9 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _getIndex();
       _getPoints();
       getInBox();
-      panelController.animatePanelToSnapPoint(
-        //duration: const Duration(milliseconds: 500)
-      );
+      panelController.animatePanelToSnapPoint( );
     });
   }
   
@@ -311,7 +322,6 @@ class _HomeScreenState extends State<HomeScreen> {
               isPanned = true;
             });
           }
-
           if (state == GestureState.end) {
             setState(() {
               camGeoCoords = _controller?.getOverLocation() ?? camGeoCoords;
@@ -351,15 +361,18 @@ class _HomeScreenState extends State<HomeScreen> {
       MapMarker topmostMapMarker = mapMarkerList.first;
       Metadata? metadata = topmostMapMarker.metadata;
       if (metadata != null) {
-        // String message = metadata.getString("key_poi") ?? "No message found.";
-        print(metadata.getString("id"));
-        print(metadata.getString("name"));
-        print(metadata.getString("modes"));
-
         globals.schedulesStopArea = metadata.getString("id") ?? "";
         globals.schedulesStopName = metadata.getString("name") ?? "";
         globals.schedulesStopModes = json.decode(metadata.getString("modes") ?? "");
-        RouteStateScope.of(context).go('/schedules/details');
+        if (mounted) {
+          setState(() {
+            _panel = 'schedules';
+            isPanned = true;
+          });
+        }
+        GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(metadata.getDouble("lat") ?? 0, metadata.getDouble("lon") ?? 0);
+        _controller?.zoomTo(geoCoords);
+        panelController.animatePanelToSnapPoint();
         return;
       }
     });
@@ -388,6 +401,17 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     } 
     _controller?.updateLocationIndicator(globals.locationData, heading);
+  }
+
+  void _zoomTo() {
+    var isOverLocation = _controller?.isOverLocation() ?? false;
+    if (isOverLocation) {
+      setState(() {
+        is3dMap = !is3dMap;
+        isPanned = false;
+      });
+    }
+    _controller?.zoomOnLocationIndicator(is3dMap);
   }
 
   void _zoomOn() {

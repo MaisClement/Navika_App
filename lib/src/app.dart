@@ -50,6 +50,7 @@ class _NavikaAppState extends State<NavikaApp> {
 	Widget build(BuildContext context) => RouteStateScope(
 				notifier: _routeState,
 				child: MaterialApp.router(
+					debugShowCheckedModeBanner: false,
 					routerDelegate: _routerDelegate,
 					routeInformationParser: _routeParser,
 					// Revert back to pre-Flutter-2.5 transition behavior:

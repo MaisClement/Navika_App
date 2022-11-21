@@ -65,6 +65,14 @@ class HereController {
     }
   }
 
+  void zoomTo(GeoCoordinatesUpdate geoCoords){
+    if (globals.locationData != null){
+      double distanceToEarthInMeters = 1000;
+      MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
+      _hereMapController.camera.startAnimation(MapCameraAnimationFactory.flyToWithZoom(geoCoords, mapMeasureZoom, 0, Duration(seconds: 1)));
+    }
+  }
+
   void updateLocationIndicator(gps.LocationData? locationData, double heading, [bool isActive = true]){
     if (locationData == null) return;
     locationIndicator.updateLocation(defineLocation(locationData, heading));

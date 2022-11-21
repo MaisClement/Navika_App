@@ -10,10 +10,12 @@ import 'messages.dart';
 
 class HomeBody extends StatelessWidget {
 	final ScrollController scrollController;
+	final List pointNearby;
   final Map index;
 
 	const HomeBody({
 		required this.scrollController,
+		required this.pointNearby,
     required this.index,
 		super.key,
 	});

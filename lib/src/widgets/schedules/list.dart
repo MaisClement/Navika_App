@@ -35,7 +35,7 @@ class Schedules_List extends StatelessWidget {
         for (var line in schedules)
           if (modes.contains(line['mode']))
             Container(
-              margin: EdgeInsets.only(left:5.0, top:5.0,right:5.0,bottom:0.0),
+              margin: EdgeInsets.only(left:10.0, top:5.0,right:10.0,bottom:0.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: HexColor.fromHex(line['color']).withOpacity(0.2), // Color.fromARGB(255, 230, 230, 230), // 

@@ -19,21 +19,21 @@ class Schedules_Body extends StatefulWidget {
 class _Schedules_BodyState extends State<Schedules_Body>
     with SingleTickerProviderStateMixin {
 
-  final String name = globals.schedulesStopName;
-  final String id = globals.schedulesStopArea;
-  final List modes = globals.schedulesStopModes;
+  String name = globals.schedulesStopName;
+  String id = globals.schedulesStopArea;
+  List modes = globals.schedulesStopModes;
   late TabController _tabController;
 
   List schedules = [];
   late Timer _timer;
+  late Timer _update;
 
   @override
 	void initState() {
 		super.initState();
 
-    _tabController = TabController(vsync: this, length: getModesLength(globals.schedulesStopModes))
-    ..addListener(_handleTabIndexChanged);
-      
+    _tabController = TabController(vsync: this, length: getModesLength(globals.schedulesStopModes));
+    checkUpdates();  
     WidgetsBinding.instance.addPostFrameCallback((_) async{
       await _getSchedules();
     });
@@ -43,19 +43,20 @@ class _Schedules_BodyState extends State<Schedules_Body>
 	void didChangeDependencies() {
 		super.didChangeDependencies();
 
-		final newPath = _routeState.route.pathTemplate;
-		if (newPath.startsWith('/schedules/details')) {
-			_tabController.index = 0;
-		} else if (newPath.startsWith('/schedules/details')) {
-			_tabController.index = 1;
-		} 
+		// final newPath = _routeState.route.pathTemplate;
+		// if (newPath.startsWith('/schedules/details')) {
+		// 	_tabController.index = 0;
+		// } else if (newPath.startsWith('/schedules/details')) {
+		// 	_tabController.index = 1;
+		// } 
 	}
 
 	@override
 	void dispose() {
 		super.dispose();
-		_tabController.removeListener(_handleTabIndexChanged);
+		// _tabController.removeListener(_handleTabIndexChanged);
     _timer.cancel();
+    _update.cancel();
 	}
 
   Future<void> _getSchedules() async {
@@ -79,6 +80,20 @@ class _Schedules_BodyState extends State<Schedules_Body>
     } on Exception catch (_) {
       print('OULA PAS CONTENT');
     }
+  }
+
+  void checkUpdates() {
+    _update = Timer(const Duration(milliseconds : 100), () {
+      checkUpdates();
+      if (id != globals.schedulesStopArea) {
+        setState(() {
+          id = globals.schedulesStopArea;
+          schedules = [];
+        });
+        _getSchedules();
+        // _tabController = TabController(vsync: this, length: getModesLength(globals.schedulesStopModes));
+      }
+    });
   }
 
   int getModesLength(List modes) {
@@ -201,17 +216,17 @@ class _Schedules_BodyState extends State<Schedules_Body>
     ]
   );
 
-  RouteState get _routeState => RouteStateScope.of(context);
+  // RouteState get _routeState => RouteStateScope.of(context);
 
-	void _handleTabIndexChanged() {
-		switch (_tabController.index) {
-			case 1:
-				_routeState.go('/schedules/details');
-				break;
-			case 0:
-			default:
-				_routeState.go('/schedules/details');
-				break;
-		}
-	}
+	// void _handleTabIndexChanged() {
+	// 	switch (_tabController.index) {
+	// 		case 1:
+	// 			_routeState.go('/schedules/details');
+	// 			break;
+	// 		case 0:
+	// 		default:
+	// 			_routeState.go('/schedules/details');
+	// 			break;
+	// 	}
+	// }
 }

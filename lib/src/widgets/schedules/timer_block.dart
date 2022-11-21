@@ -29,7 +29,6 @@ class TimerBlock extends StatelessWidget {
   }
 
   TextStyle getStyleByState(state, context) {
-    print({'INFO_', state});
     if (state == "onTime") {
       return TextStyle( color: getColorByState(state, context), fontWeight: FontWeight.w700, fontFamily: 'Segoe Ui' );
 
