@@ -9,17 +9,20 @@ import 'timer_block.dart';
 class Schedules_List extends StatelessWidget {
 	final List schedules;
   final String modes;
+  final ScrollController scrollController;
 
 	const Schedules_List({
 		required this.schedules,
 		required this.modes,
+    required this.scrollController,
 		super.key,
 	});
 
 	@override
 	Widget build(BuildContext context) => ListView(
+    controller: scrollController,
     children: [
-      if (schedules.length < 1)
+      if (schedules.isEmpty)
         Column(
           children: [
             const CircularProgressIndicator(),
@@ -35,17 +38,25 @@ class Schedules_List extends StatelessWidget {
         for (var line in schedules)
           if (modes.contains(line['mode']))
             Container(
-              margin: EdgeInsets.only(left:10.0, top:5.0,right:10.0,bottom:0.0),
+              margin: EdgeInsets.only(left:10.0, top:10.0,right:10.0,bottom:0.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
-                color: HexColor.fromHex(line['color']).withOpacity(0.2), // Color.fromARGB(255, 230, 230, 230), // 
+                color: HexColor.fromHex(line['color']).withOpacity(0.1), // Color.fromARGB(255, 230, 230, 230), // 
               ),
               child: Column(
                 children: [
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color:  HexColor.fromHex(line['color']),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                          spreadRadius: 3,
+                          blurRadius: 5,
+                          offset: const Offset(0, 2),
+                        )
+                      ]
                     ),
                     child: Row(
                       children: [
@@ -53,7 +64,7 @@ class Schedules_List extends StatelessWidget {
                           line: line,
                           i: 0,
                           size: 30,
-                          isDark: line['text_color'] == "000000",
+                          isDark: true,
                         ),
                         LinesIcones(
                           line: line,
@@ -81,69 +92,86 @@ class Schedules_List extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        for (var terminus in line['terminus_schedules'])
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        if (line['terminus_schedules'].isEmpty) 
+                          Row(
                             children: [
-                              Container(
-                                margin: EdgeInsets.only(top:5.0,bottom:5.0),
-                                child: Text('➜ ' + terminus['name'], 
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Segoe Ui',
-                                    color: Theme.of(context).colorScheme.secondary,
-                                  )
+                              SvgPicture.asset('assets/cancel.svg',
+                                  color: Theme.of(context).colorScheme.secondary,
+                                  height: 18
                                 ),
-                              ),
-                              Container(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    if (terminus['schedules'].length > 0)
-                                      for (var departure in terminus['schedules'].sublist(0, terminus['schedules'].length > 5 ? 5 : terminus['schedules'].length))
-                                      TimerBlock(
-                                          time: departure['departure_date_time'],
-                                          state: departure['state'],
-                                        )
-                                    else
-                                    Container(
-                                      padding: EdgeInsets.only(left:10.0, top:5.0,right:10.0,bottom:5.0),
-                                      margin: EdgeInsets.only(left:0.0, top:5.0,right:10.0,bottom:5.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
-                                            spreadRadius: 3,
-                                            blurRadius: 5,
-                                            offset: const Offset(0, 2),
-                                          )
-                                        ]
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset('assets/cancel.svg',
-                                              color: Color(0xffa9a9a9),
-                                              height: 15
-                                            ),
-                                          const Text(
-                                          'Aucune information',
-                                          style: TextStyle(
-                                            color: Color(0xffa9a9a9),
-                                            fontWeight: FontWeight.w700,
-                                            fontFamily: 'Segoe Ui'
-                                          ),
-                                        ),
-                                        ],
-                                      )
-                                    )
-                                  ],
+                              Text('Aucune information',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.secondary,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: 'Segoe Ui'
                                 ),
                               ),
                             ],
                           )
+                        else
+                          for (var terminus in line['terminus_schedules'])
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(top:5.0,bottom:5.0),
+                                  child: Text('➜ ' + terminus['name'], 
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'Segoe Ui',
+                                      color: Theme.of(context).colorScheme.secondary,
+                                    )
+                                  ),
+                                ),
+                                Container(
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      if (terminus['schedules'].length > 0)
+                                        for (var departure in terminus['schedules'].sublist(0, terminus['schedules'].length > 5 ? 5 : terminus['schedules'].length))
+                                        TimerBlock(
+                                            time: departure['departure_date_time'],
+                                            state: departure['state'],
+                                          )
+                                      else
+                                        Container(
+                                          padding: EdgeInsets.only(left:10.0, top:5.0,right:10.0,bottom:5.0),
+                                          margin: EdgeInsets.only(left:0.0, top:5.0,right:10.0,bottom:5.0),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(5),
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                                                spreadRadius: 3,
+                                                blurRadius: 5,
+                                                offset: const Offset(0, 2),
+                                              )
+                                            ]
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              SvgPicture.asset('assets/cancel.svg',
+                                                  color: Color(0xffa9a9a9),
+                                                  height: 15
+                                                ),
+                                              const Text('Aucune information',
+                                                style: TextStyle(
+                                                  color: Color(0xffa9a9a9),
+                                                  fontWeight: FontWeight.w700,
+                                                  fontFamily: 'Segoe Ui'
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )
                       ],
                     ),
                   ),

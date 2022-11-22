@@ -17,6 +17,15 @@ class SchedulesPannel extends StatelessWidget {
     width: MediaQuery.of(context).size.width,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(5),
+      color: Colors.white,
+      boxShadow: [
+        BoxShadow(
+          color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+          spreadRadius: 3,
+          blurRadius: 5,
+          offset: const Offset(0, 2),
+        )
+      ]
     ),
     child: Column(
       children: [
@@ -35,11 +44,11 @@ class SchedulesPannel extends StatelessWidget {
           ),
         ),
         Container(
-          height: 20,
+          height: 10,
         ),
         Container(
           margin: const EdgeInsets.only(left: 10, right: 10),
-          padding: const EdgeInsets.only(left: 10.0),
+          padding: const EdgeInsets.only(left: 10.0, bottom: 15),
           child: Text(globals.schedulesStopName, 
             style: TextStyle(
               fontSize: 20,

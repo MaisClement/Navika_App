@@ -73,7 +73,6 @@ class _SchedulesScreenState extends State<SchedulesScreen> {
 	Widget build(BuildContext context) => Scaffold(
 		appBar: AppBar(
 			title: Text(title),
-      // centerTitle: true,
       elevation: 0,
 		),
 		body: Column(

@@ -12,7 +12,12 @@ migrate_working_dir/
 
 # here sdk
 /plugins/here_sdk/
+
+# credentials
 *credentials.dart
+
+# OLD files
+*OLD_*
 
 # IntelliJ related
 *.iml

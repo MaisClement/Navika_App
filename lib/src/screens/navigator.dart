@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../routing.dart';
 import '../widgets/fade_transition_page.dart';
+import 'home.dart';
 import 'trafic_details.dart';
 import 'schedules_details.dart';
 import 'scaffold.dart';
@@ -37,14 +38,21 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 		}
 
     String? selectedNavPos;
-		if (pathTemplate == '/schedules/:navpos') {
-			selectedNavPos = routeState.route.parameters['navpos'];
+		if (pathTemplate == '/schedules/:stop_area') {
+			selectedNavPos = routeState.route.parameters['stop_area'];
 		}
 
 		bool? route_search;
 		if (pathTemplate == '/home/search') {
 			route_search = true;
 		}
+
+		bool? displaySchedules;
+		if (pathTemplate == '/stops') {
+			displaySchedules = true;
+		}
+
+		print({'INFO_route3', pathTemplate});
 
 		return Navigator(
 			key: widget.navigatorKey,
@@ -55,12 +63,16 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 					routeState.go('/trafic');
 				}
 
-        if (pathTemplate == '/schedules/:navpos') {
+        if (pathTemplate == '/schedules/:stop_area') {
           routeState.go('/schedules');
         }
 
 				if (pathTemplate == '/home/search') {
           routeState.go('/home');
+        }
+
+				if (pathTemplate == '/stops') {
+          routeState.go('/stops');
         }
 
 				return route.didPop(result);

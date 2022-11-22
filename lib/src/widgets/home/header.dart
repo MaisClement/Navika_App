@@ -36,7 +36,7 @@ class HomePannel extends StatelessWidget {
           ),
         ),
         Container(
-          height: 20,
+          height: 15,
         ),
         Container(
           margin: const EdgeInsets.only(left: 10, right: 10),

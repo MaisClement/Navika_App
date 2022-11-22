@@ -22,7 +22,12 @@ import '../widgets/schedules/body.dart';
 import '../widgets/schedules/header.dart';
 
 class HomeScreen extends StatefulWidget {
-	const HomeScreen({super.key});
+  final bool displaySchedules;
+
+	const HomeScreen({
+    this.displaySchedules = false,
+		super.key,
+	});
 
 	@override
 	State<HomeScreen> createState() => _HomeScreenState();
@@ -46,7 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
   double panelButtonBottomOffsetClosed = 120;
   double panelButtonBottomOffset = 120;
   double _position = 0;
-  int _index = 0;
 
   List pointNearby = [];
   Map index = {};
@@ -54,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String _panel = '';
 
   Future<void> _getLocation() async {
+    print({'INFO_Widget', widget.displaySchedules});
     bool serviceEnabled;
     gps.PermissionStatus permissionGranted;
     gps.LocationData locationData;
@@ -172,90 +177,92 @@ class _HomeScreenState extends State<HomeScreen> {
 	}
 
   Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness : Brightness.dark,
-      ),
-      child:Scaffold(
-    body: Stack(
-      alignment: Alignment.topCenter,
-      children: [
-        SlidingUpPanel(
-          parallaxEnabled: true,
-          parallaxOffset: 0.6,
-          color: const Color(0xfffafafa),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-            bottomLeft: Radius.zero,
-            bottomRight: Radius.zero,
-          ),
-          snapPoint: 0.65,
-          maxHeight: (MediaQuery.of(context).size.height - 110),
-          controller: panelController,
-          onPanelSlide: (position) => onPanelSlide(position),
-
-          header: _panel == 'schedules'
-            ? SchedulesPannel(
-                tooglePanel: tooglePanel
-              )
-            : HomePannel(
-                tooglePanel: tooglePanel
-              ),
-
-          panelBuilder: (ScrollController scrollController) => _panel == 'schedules'
-            ? Container(
-                padding: const EdgeInsets.only(top:40),
-                child: Schedules_Body()
-              )
-            : HomeBody(
-                scrollController: scrollController,
-                index: index,
-              ),
-
-          body: HereMap(onMapCreated: _onMapCreated),
-          
-        ),
-
-        Positioned(
-          right: 20,
-          bottom: panelButtonBottomOffset,
-          child: Opacity(
-            opacity: _position > 0.7 ? ((1 / _position - 1) * 2.33) : 1,
-            child: FloatingActionButton(
-              backgroundColor: Colors.grey[200],
-              child: _isInBox ?
-                SvgPicture.asset(
-                  'assets/location-indicator.svg',
-                  width: 30
-                )
-              : SvgPicture.asset(
-                  'assets/locate.svg',
-                  width: 30
-                ),
-              onPressed: () {
-                _zoomOn();
-                closePanel();
-              }
-            )
-          ),
-        ),
-        
-        Positioned(
-          left: 10,
-          bottom: panelButtonBottomOffset - 20,
-          child: Opacity(
-            opacity: _position > 0.7 ? ((1 / _position - 1) * 2.33) : 1,
-            child: const Image(
-              width: 50,
-              image: AssetImage('assets/Here.png')
-            )
-          ),
-        ),
-
-      ],
+    value: const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness : Brightness.dark,
     ),
-  ),
+    child: Scaffold(
+      body: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          SlidingUpPanel(
+            parallaxEnabled: true,
+            parallaxOffset: 0.6,
+            color: const Color(0xfffafafa),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+              bottomLeft: Radius.zero,
+              bottomRight: Radius.zero,
+            ),
+            snapPoint: 0.55,
+            minHeight: widget.displaySchedules ? 75 : 100,
+            maxHeight: (MediaQuery.of(context).size.height - 110),
+            controller: panelController,
+            onPanelSlide: (position) => onPanelSlide(position),
+
+            header: widget.displaySchedules
+              ? SchedulesPannel(
+                  tooglePanel: tooglePanel
+                )
+              : HomePannel(
+                  tooglePanel: tooglePanel
+                ),
+
+            panelBuilder: (ScrollController scrollController) => widget.displaySchedules
+              ? Container(
+                  margin: const EdgeInsets.only(top:40),
+                  child: Schedules_Body(
+                    scrollController: scrollController
+                  )
+                )
+              : HomeBody(
+                  scrollController: scrollController,
+                  index: index,
+                ),
+
+            body: HereMap(onMapCreated: _onMapCreated),
+            
+          ),
+
+          Positioned(
+            right: 20,
+            bottom: panelButtonBottomOffset,
+            child: Opacity(
+              opacity: _position > 0.7 ? ((1 / _position - 1) * 2.33) : 1,
+              child: FloatingActionButton(
+                backgroundColor: Colors.grey[200],
+                child: _isInBox ?
+                  SvgPicture.asset(
+                    'assets/location-indicator.svg',
+                    width: 30
+                  )
+                : SvgPicture.asset(
+                    'assets/locate.svg',
+                    width: 30
+                  ),
+                onPressed: () {
+                  _zoomOn();
+                  closePanel();
+                }
+              )
+            ),
+          ),
+          
+          Positioned(
+            left: 10,
+            bottom: panelButtonBottomOffset - 20,
+            child: Opacity(
+              opacity: _position > 0.7 ? ((1 / _position - 1) * 2.33) : 1,
+              child: const Image(
+                width: 50,
+                image: AssetImage('assets/Here.png')
+              )
+            ),
+          ),
+        ],
+      ),
+    ),
   );
 
   @override
@@ -366,13 +373,14 @@ class _HomeScreenState extends State<HomeScreen> {
         globals.schedulesStopModes = json.decode(metadata.getString("modes") ?? "");
         if (mounted) {
           setState(() {
-            _panel = 'schedules';
+            //_panel = 'schedules';
             isPanned = true;
           });
         }
         GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(metadata.getDouble("lat") ?? 0, metadata.getDouble("lon") ?? 0);
         _controller?.zoomTo(geoCoords);
-        panelController.animatePanelToSnapPoint();
+        panelController.animatePanelToSnapPoint( );
+        RouteStateScope.of(context).go('/stops');
         return;
       }
     });

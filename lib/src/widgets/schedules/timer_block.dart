@@ -28,25 +28,18 @@ class TimerBlock extends StatelessWidget {
     return '${dthour}h${dtminute}';
   }
 
-  TextStyle getStyleByState(state, context) {
-    if (state == "onTime") {
-      return TextStyle( color: getColorByState(state, context), fontWeight: FontWeight.w700, fontFamily: 'Segoe Ui' );
-
-    } else if (state == "noReport") {
-      return TextStyle( color: getColorByState(state, context),   fontWeight: FontWeight.w700,   fontFamily: 'Segoe Ui');
-
-    }
-    return TextStyle( color: getColorByState(state, context),  fontWeight: FontWeight.w700,  fontFamily: 'Segoe Ui');
-  }
-
   Color getColorByState(state, context) {
     if (state == "onTime") {
       return Theme.of(context).colorScheme.secondary;
+
     } else if (state == "noReport") {
-      return Color(0xffa9a9a9);
+      return const Color(0xffa9a9a9);
+
+    } else if (state == "cancelled") {
+      return const Color(0xffeb2031);
+
     }
-    return Color(0xfff68f53);
-    
+    return const Color(0xfff68f53);
   }
 
 
@@ -57,9 +50,9 @@ class TimerBlock extends StatelessWidget {
     ? getTimeDifference(time) < 99
       ? Container(
           clipBehavior: Clip.hardEdge,
-          padding: state == "noReport" ? EdgeInsets.only(left:10.0, top:5.0, right:10.0,bottom:5.0) : EdgeInsets.only(left:10.0, top:5.0, right:0.0,bottom:5.0),
-          margin: EdgeInsets.only(left:0.0, top:5.0, right:10.0,bottom:5.0),
-          constraints: BoxConstraints( minWidth: 60 ),
+          padding: state == "noReport" ? const EdgeInsets.only(left:10.0, top:5.0, right:10.0,bottom:5.0) : const EdgeInsets.only(left:10.0, top:5.0, right:0.0,bottom:5.0),
+          margin: const EdgeInsets.only(left:0.0, top:5.0, right:10.0,bottom:5.0),
+          constraints: const BoxConstraints( minWidth: 60 ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             color: Colors.white,
@@ -77,12 +70,17 @@ class TimerBlock extends StatelessWidget {
             children: [
               Container(
                 child: Text('${getTimeDifference(time).toString()} min',
-                    style: getStyleByState(state, context),
+                    style: TextStyle(
+                      color: getColorByState(state, context),
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Segoe Ui',
+                      decoration: state == "cancelled" ? TextDecoration.lineThrough : null,
+                    ),
                     textAlign: TextAlign.center,
                   ),
               ),
               state == "noReport"
-              ? Text('')
+              ? const Text('')
               : SvgPicture.asset('assets/sign_top.svg',
                   color: getColorByState(state, context),
                   height: 15
@@ -91,8 +89,8 @@ class TimerBlock extends StatelessWidget {
           ),
         )
       : Container(
-          padding: EdgeInsets.only(left:10.0, top:5.0,right:10.0,bottom:5.0),
-          margin: EdgeInsets.only(left:0.0, top:5.0,right:10.0,bottom:5.0),
+          padding: const EdgeInsets.only(left:10.0, top:5.0,right:10.0,bottom:5.0),
+          margin: const EdgeInsets.only(left:0.0, top:5.0,right:10.0,bottom:5.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             color: Colors.white,
@@ -107,7 +105,11 @@ class TimerBlock extends StatelessWidget {
           ),
           child: Text(
             getTime(time),
-            style: getStyleByState(state, context),
+            style: const TextStyle(
+              color: Color(0xffa9a9a9),
+              fontWeight: FontWeight.w700,
+              fontFamily: 'Segoe Ui'
+            ),
             textAlign: TextAlign.center,
           ),
         )

@@ -18,6 +18,7 @@ class NavikaAppScaffoldBody extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) {
 		var currentRoute = RouteStateScope.of(context).route;
+		print({'INFO_route', currentRoute});
 
 		// A nested Router isn't necessary because the back button behavior doesn't
 		// need to be customized.
@@ -25,7 +26,14 @@ class NavikaAppScaffoldBody extends StatelessWidget {
 			key: navigatorKey,
 			onPopPage: (route, dynamic result) => route.didPop(result),
 			pages: [
-				if (currentRoute.pathTemplate.startsWith('/home'))
+				if (currentRoute.path == '/stops')
+					const FadeTransitionPage<void>(
+						key: ValueKey('home'),
+						child: HomeScreen(
+							displaySchedules: true,
+						),
+					)
+				else if (currentRoute.pathTemplate.startsWith('/home'))
 					const FadeTransitionPage<void>(
 						key: ValueKey('home'),
 						child: HomeScreen(),

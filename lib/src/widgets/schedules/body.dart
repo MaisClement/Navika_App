@@ -5,12 +5,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 
 import '../../icons/scaffold_icon_icons.dart';
+import '../departures/list.dart';
 import 'list.dart';
 import '../../data/global.dart' as globals;
 
 import '../../routing.dart';
 class Schedules_Body extends StatefulWidget {
-  const Schedules_Body({super.key});
+  final ScrollController scrollController;
+
+  const Schedules_Body({
+    required this.scrollController,
+    super.key
+    });
 
   @override
   State<Schedules_Body> createState() => _Schedules_BodyState();
@@ -25,6 +31,7 @@ class _Schedules_BodyState extends State<Schedules_Body>
   late TabController _tabController;
 
   List schedules = [];
+  List departures = [];
   late Timer _timer;
   late Timer _update;
 
@@ -70,6 +77,9 @@ class _Schedules_BodyState extends State<Schedules_Body>
         if (mounted) {
           setState(() {
             schedules = data['schedules'];
+            if (data['departures'] != null) {
+              departures = data['departures'];
+            }
           });
         }
       }
@@ -152,16 +162,16 @@ class _Schedules_BodyState extends State<Schedules_Body>
     return tabs;
   }
 
-  List<Widget> getModesView(List modes, schedules) {
+  List<Widget> getModesView(List modes, schedules, departures, scrollController) {
     List<Widget> tabs = [];
     if (modes.contains('physical_mode:RapidTransit') ||
         modes.contains('physical_mode:Train') ||
         modes.contains('physical_mode:RailShuttle') ||
         modes.contains('physical_mode:LocalTrain') ||
         modes.contains('physical_mode:LongDistanceTrain')) {
-      tabs.add(Schedules_List(
-                schedules: schedules,
-                modes: 'rail',
+      tabs.add(DepartureList(
+                departures: departures,
+                scrollController: scrollController,
               ));
     }
     if (modes.contains('physical_mode:Metro') ||
@@ -169,18 +179,21 @@ class _Schedules_BodyState extends State<Schedules_Body>
       tabs.add(Schedules_List(
                 schedules: schedules,
                 modes: 'metro',
+                scrollController: scrollController,
               ));
     }
     if (modes.contains('physical_mode:Tramway')) {
       tabs.add(Schedules_List(
                 schedules: schedules,
                 modes: 'tram',
+                scrollController: scrollController,
               ));
     }
     if (modes.contains('physical_mode:Bus')) {
       tabs.add(Schedules_List(
                 schedules: schedules,
                 modes: 'bus',
+                scrollController: scrollController,
               ));
     }
     return tabs;
@@ -191,8 +204,8 @@ class _Schedules_BodyState extends State<Schedules_Body>
     children: [
       if ( getModesLength(globals.schedulesStopModes) > 1 )
         Container(
-          margin: const EdgeInsets.all(10),
-          height: kToolbarHeight + 8,
+          margin: const EdgeInsets.only(top:10, right:10, left: 10, bottom: 10),
+          height: 60, // kToolbarHeight + 8,
           decoration: BoxDecoration(
             color: Colors.grey.shade200,
             borderRadius: BorderRadius.circular(8.0),
@@ -210,7 +223,7 @@ class _Schedules_BodyState extends State<Schedules_Body>
       Expanded(
         child: TabBarView(
           controller: _tabController,
-          children: getModesView(modes, schedules),
+          children: getModesView(modes, schedules, departures, widget.scrollController),
         ),
       ),
     ]

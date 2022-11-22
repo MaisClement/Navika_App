@@ -15,20 +15,20 @@ class ModeIcones extends StatelessWidget {
     this.size = 20,
 		super.key,
 	});
-
+  
 	@override
 	Widget build(BuildContext context) => 
-    LINES.isLineById(line['id'].replaceAll('line:IDFM:', '')) ?
-
-      Container(
+    LINES.isLineById(line['id'])
+    
+    ? Container(
         width: size,
         height: size,
         margin: i == 0 ? EdgeInsets.only(left:5.0, top:5.0,right:0.0,bottom:5.0) : EdgeInsets.only(left:20.0, top:5.0,right:0.0,bottom:5.0),
         child: 
           isDark ?
-            Image(image: LINES.getLinesById(line['id'].replaceAll('line:IDFM:', '')).image_mode_dark)
+            Image(image: LINES.getLinesById(line['id']).image_mode_dark)
           :
-            Image(image: LINES.getLinesById(line['id'].replaceAll('line:IDFM:', '')).image_mode_white),
+            Image(image: LINES.getLinesById(line['id']).image_mode_white),
       )
     :
       Container(

@@ -15,15 +15,14 @@ class LinesIcones extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) => 
-    LINES.isLineById(line['id'].replaceAll('line:IDFM:', '')) ?
-      Container(
+    LINES.isLineById(line['id'])
+    ? Container(
         width: size,
         height: size,
         margin: EdgeInsets.only(left:5.0, top:5.0,right:0.0,bottom:5.0),
-        child: Image(image: LINES.getLinesById(line['id'].replaceAll('line:IDFM:', '')).image),
+        child: Image(image: LINES.getLinesById(line['id']).image),
       )
-    :
-      Container(
+    : Container(
         width: size,
         height: size * 0.64,
         margin: EdgeInsets.only(left:5.0, top:9.0,right:0.0,bottom:9.0),

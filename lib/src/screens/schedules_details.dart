@@ -32,6 +32,8 @@ class _SchedulesDetailsScreenState extends State<SchedulesDetailsScreen>
     appBar: AppBar(
       title: Text(schedulesStopName),
     ),
-    body: Schedules_Body()
+    body: Schedules_Body(
+      scrollController: ScrollController()
+    )
   );
 }
