@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import '../trafic_block.dart';
 import 'fav_scroll.dart';
-import '../../data/global.dart' as globals;
-
-import '../../routing.dart';
 import 'messages.dart';
 
 class HomeBody extends StatelessWidget {
@@ -29,11 +23,11 @@ class HomeBody extends StatelessWidget {
     ),
     child: Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 80,
           child: HomeBodyFavScroll(),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
 

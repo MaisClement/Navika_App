@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/lines_icons.dart';
-import '../widgets/mode_icons.dart';
+import 'package:navika/src/widgets/icons/lines.dart';
+import 'package:navika/src/widgets/icons/mode.dart';
 
 class Icones extends StatelessWidget {
 	final Map line;
@@ -19,13 +19,11 @@ class Icones extends StatelessWidget {
 	Widget build(BuildContext context) => Wrap(
     children: [
       
-      (old_line['mode'] != line['mode'] || i == 0) ?
+      if (old_line['mode'] != line['mode'] || i == 0)
         ModeIcones(
           line: line,
           i: i
-        )
-        :
-        Text(''),
+        ),
 
       LinesIcones(
         line: line

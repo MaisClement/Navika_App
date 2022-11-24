@@ -1,7 +1,7 @@
 import 'package:adaptive_navigation/adaptive_navigation.dart';
 import 'package:flutter/material.dart';
 
-import '../icons/scaffold_icon_icons.dart';
+import '../icons/Scaffold_icon_icons.dart';
 import '../routing.dart';
 import 'scaffold_body.dart';
 

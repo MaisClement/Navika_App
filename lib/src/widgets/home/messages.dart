@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../trafic_block.dart';
+import '../trafic/block.dart';
 
 class Home_Messages extends StatelessWidget {
   Map message;
@@ -26,8 +26,8 @@ class Home_Messages extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) => Container(
-    padding: EdgeInsets.only(left:15.0, top:10, right:15.0, bottom:10.0),
-    margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+    padding: const EdgeInsets.only(left:15.0, top:10, right:15.0, bottom:10.0),
+    margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
     decoration: BoxDecoration(
       color: getSlugBack(message['severity'], 1),
       borderRadius: BorderRadius.circular(5),
@@ -41,7 +41,7 @@ class Home_Messages extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  margin: EdgeInsets.only(right:5),
+                  margin: const EdgeInsets.only(right:5),
                   child: Image(
                     image: getSlugImage(message['severity'], 1),
                     height: 25,

@@ -21,19 +21,19 @@ import '../widgets/home/header.dart';
 import '../widgets/schedules/body.dart';
 import '../widgets/schedules/header.dart';
 
-class HomeScreen extends StatefulWidget {
+class Home extends StatefulWidget {
   final bool displaySchedules;
 
-	const HomeScreen({
+	const Home({
     this.displaySchedules = false,
 		super.key,
 	});
 
 	@override
-	State<HomeScreen> createState() => _HomeScreenState();
+	State<Home> createState() => _HomeState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeState extends State<Home> {
   HereController? _controller;
   PanelController panelController = PanelController();
 
@@ -212,7 +212,7 @@ class _HomeScreenState extends State<HomeScreen> {
             panelBuilder: (ScrollController scrollController) => widget.displaySchedules
               ? Container(
                   margin: const EdgeInsets.only(top:40),
-                  child: Schedules_Body(
+                  child: SchedulesBody(
                     scrollController: scrollController
                   )
                 )
@@ -380,7 +380,7 @@ class _HomeScreenState extends State<HomeScreen> {
         GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(metadata.getDouble("lat") ?? 0, metadata.getDouble("lon") ?? 0);
         _controller?.zoomTo(geoCoords);
         panelController.animatePanelToSnapPoint( );
-        RouteStateScope.of(context).go('/stops');
+        RouteStateScope.of(context).go('/stops/${metadata.getString("id")}');
         return;
       }
     });

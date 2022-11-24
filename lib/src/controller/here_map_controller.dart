@@ -1,8 +1,6 @@
-import 'package:here_sdk/gestures.dart';
 import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
-import 'package:navika/src/routing/route_state.dart';
 
 import '../data/global.dart' as globals;
 
@@ -10,7 +8,7 @@ import '../data/global.dart' as globals;
 typedef ShowDialogFunction = void Function(String title, String message);
 
 class HereController {
-  HereMapController _hereMapController;
+  final HereMapController _hereMapController;
   late LocationIndicator locationIndicator;
 
   HereController(HereMapController hereMapController)
@@ -61,7 +59,7 @@ class HereController {
       GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(globals.locationData?.latitude ?? 0, globals.locationData?.longitude ?? 0);
       GeoOrientationUpdate geoOrient = GeoOrientationUpdate(is3dMap ? globals.compassHeading : 0, is3dMap ? 50 : 0);
 
-      _hereMapController.camera.startAnimation(MapCameraAnimationFactory.flyToWithOrientationAndZoom(geoCoords, geoOrient, mapMeasureZoom, 0, is3dMap ? Duration(milliseconds: 300) : Duration(seconds: 1)));
+      _hereMapController.camera.startAnimation(MapCameraAnimationFactory.flyToWithOrientationAndZoom(geoCoords, geoOrient, mapMeasureZoom, 0, is3dMap ? const Duration(milliseconds: 300) : const Duration(seconds: 1)));
     }
   }
 
@@ -69,7 +67,7 @@ class HereController {
     if (globals.locationData != null){
       double distanceToEarthInMeters = 1000;
       MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
-      _hereMapController.camera.startAnimation(MapCameraAnimationFactory.flyToWithZoom(geoCoords, mapMeasureZoom, 0, Duration(seconds: 1)));
+      _hereMapController.camera.startAnimation(MapCameraAnimationFactory.flyToWithZoom(geoCoords, mapMeasureZoom, 0, const Duration(seconds: 1)));
     }
   }
 

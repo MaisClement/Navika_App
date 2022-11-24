@@ -22,24 +22,26 @@ class TimerBlock extends StatelessWidget {
   String getTime(String time){
     DateTime dttime = DateTime.parse(time);
 
-    String dthour = dttime.hour < 10 ? "0" + dttime.hour.toString() : dttime.hour.toString();
-    String dtminute = dttime.minute < 10 ? "0" + dttime.minute.toString() : dttime.minute.toString();
+    String dthour = dttime.hour < 10 ? "0${dttime.hour}" : dttime.hour.toString();
+    String dtminute = dttime.minute < 10 ? "0${dttime.minute}" : dttime.minute.toString();
 
     return '${dthour}h${dtminute}';
   }
 
   Color getColorByState(state, context) {
-    if (state == "onTime") {
-      return Theme.of(context).colorScheme.secondary;
+    switch (state) {
+      case 'cancelled':
+        return const Color(0xffeb2031);
+      
+      case 'delayed':
+        return const Color(0xfff68f53);
 
-    } else if (state == "noReport") {
-      return const Color(0xffa9a9a9);
+      case 'ontime':
+        return Theme.of(context).colorScheme.secondary;
 
-    } else if (state == "cancelled") {
-      return const Color(0xffeb2031);
-
+      default: 
+        return const Color(0xffa9a9a9);
     }
-    return const Color(0xfff68f53);
   }
 
 
@@ -50,7 +52,7 @@ class TimerBlock extends StatelessWidget {
     ? getTimeDifference(time) < 99
       ? Container(
           clipBehavior: Clip.hardEdge,
-          padding: state == "noReport" ? const EdgeInsets.only(left:10.0, top:5.0, right:10.0,bottom:5.0) : const EdgeInsets.only(left:10.0, top:5.0, right:0.0,bottom:5.0),
+          padding: state == "theorical" ? const EdgeInsets.only(left:10.0, top:5.0, right:10.0,bottom:5.0) : const EdgeInsets.only(left:10.0, top:5.0, right:0.0,bottom:5.0),
           margin: const EdgeInsets.only(left:0.0, top:5.0, right:10.0,bottom:5.0),
           constraints: const BoxConstraints( minWidth: 60 ),
           decoration: BoxDecoration(
@@ -68,18 +70,16 @@ class TimerBlock extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                child: Text('${getTimeDifference(time).toString()} min',
-                    style: TextStyle(
-                      color: getColorByState(state, context),
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Segoe Ui',
-                      decoration: state == "cancelled" ? TextDecoration.lineThrough : null,
-                    ),
-                    textAlign: TextAlign.center,
+              Text('${getTimeDifference(time).toString()} min',
+                  style: TextStyle(
+                    color: getColorByState(state, context),
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'Segoe Ui',
+                    decoration: state == "cancelled" ? TextDecoration.lineThrough : null,
                   ),
-              ),
-              state == "noReport"
+                  textAlign: TextAlign.center,
+                ),
+              state == "theorical"
               ? const Text('')
               : SvgPicture.asset('assets/sign_top.svg',
                   color: getColorByState(state, context),

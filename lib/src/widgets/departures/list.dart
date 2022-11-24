@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:navika/src/widgets/departures/time_block.dart';
-import 'package:navika/src/widgets/schedules/timer_block.dart';
 
-import '../../extensions/hexcolor.dart';
-import '../lines_icons.dart';
-import '../mode_icons.dart';
+import '../../data/global.dart' as globals;
+
+import 'package:navika/src/extensions/hexcolor.dart';
+import 'package:navika/src/routing/route_state.dart';
+import 'package:navika/src/widgets/departures/message_block.dart';
+import 'package:navika/src/widgets/departures/time_block.dart';
+import 'package:navika/src/widgets/icons/lines.dart';
+import 'package:navika/src/widgets/icons/mode.dart';
 
 class DepartureList extends StatelessWidget {
 	final List departures;
@@ -79,7 +82,7 @@ class DepartureList extends StatelessWidget {
       else
         for (var departure in this.departures)
           Container(
-            margin: EdgeInsets.only(left:10.0, top:5.0,right:10.0,bottom:10.0),
+            margin: const EdgeInsets.only(left:10.0, top:5.0,right:10.0,bottom:10.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: HexColor.fromHex(departure['color']).withOpacity(0.1), // Color.fromARGB(255, 230, 230, 230), // 
@@ -129,7 +132,7 @@ class DepartureList extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left:5.0, top:5.0,right:5.0,bottom:5.0),
+                  margin: const EdgeInsets.only(left:5.0, top:5.0,right:5.0,bottom:5.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -153,7 +156,8 @@ class DepartureList extends StatelessWidget {
                       else
                         for (var trains in departure['departures'].sublist(0, departure['departures'].length > 5 ? 5 : departure['departures'].length))
                           Container(
-                            margin: EdgeInsets.only(left:0.0, top:5.0,right:0.0,bottom:5.0),
+                            margin: const EdgeInsets.only(left:0.0, top:5.0, right:0.0, bottom:5.0),
+                            padding: const EdgeInsets.only(left:10.0, top:0.0, right:0.0, bottom:0.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                               color: Colors.white.withOpacity(0.8) // 
@@ -162,7 +166,6 @@ class DepartureList extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-
                                     // Row(
                                     //   children: [
                                     //     ModeIcones(
@@ -181,22 +184,18 @@ class DepartureList extends StatelessWidget {
                                         children: [
                                           Row(
                                             children: [
-                                              Container(
-                                                width: 10,
-                                              ),
                                               Expanded(
                                                 child: Text(trains['informations']['direction']['name'],
-                                                  style: trains['stop_date_time']['state'] == 'cancelled' ?
-                                                    const TextStyle(
+                                                  style: trains['stop_date_time']['state'] == 'cancelled'
+                                                  ? const TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w600,
                                                       fontFamily: 'Segoe Ui',
                                                       color: Color(0xffeb2031),
                                                       decoration: TextDecoration.lineThrough
                                                     )
-                                                  :
-                                                    TextStyle(
-                                                      fontSize: 16,
+                                                  : TextStyle(
+                                                      fontSize: 18,
                                                       fontWeight: FontWeight.w600,
                                                       fontFamily: 'Segoe Ui',
                                                       color: Theme.of(context).colorScheme.secondary,
@@ -210,9 +209,6 @@ class DepartureList extends StatelessWidget {
                                           ),
                                           Row(
                                             children: [
-                                              Container(
-                                                width: 10,
-                                              ),
                                               Text(trains['informations']['headsign'],
                                                 style: const TextStyle(
                                                   fontSize: 18,
@@ -235,43 +231,53 @@ class DepartureList extends StatelessWidget {
                                         ]
                                       ),
                                     ),
-                                    
-                                    TimeBlock(
-                                      time: trains['stop_date_time']['departure_date_time'],
-                                      state: trains['stop_date_time']['state']
-                                    ),
 
-                                    // Container(
-                                    //   padding: EdgeInsets.only(left:10.0, top:5.0,right:10.0,bottom:5.0),
-                                    //   margin: EdgeInsets.only(left:0.0, top:5.0,right:10.0,bottom:5.0),
-                                    //   decoration: BoxDecoration(
-                                    //     borderRadius: BorderRadius.circular(5),
-                                    //     color: Colors.white,
-                                    //     boxShadow: [
-                                    //       BoxShadow(
-                                    //         color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
-                                    //         spreadRadius: 3,
-                                    //         blurRadius: 5,
-                                    //         offset: const Offset(0, 2),
-                                    //       )
-                                    //     ]
-                                    //   ),
-                                    //   child: Text('16:32',
-                                    //     style: TextStyle(
-                                    //       color: Theme.of(context).colorScheme.secondary,
-                                    //       fontWeight: FontWeight.w700,
-                                    //       fontFamily: 'Segoe Ui'
-                                    //     ),
-                                    //   ),
-                                    // )
-                                    
-
+                                    if (trains['informations']['message'] == "terminus")
+                                      const MessageBlock(
+                                        message: "Terminus"
+                                      )
+                                    else 
+                                      TimeBlock(
+                                        time: trains['stop_date_time']['departure_date_time'],
+                                        state: trains['stop_date_time']['state']
+                                      )
+                                      
                                   ]
                                 ),
                                 
                               ]
                             ),
-                          )
+                          ),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(left:0.0, top:5.0,right:0.0,bottom:5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white.withOpacity(0.8)
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                RouteStateScope.of(context).go('/schedules/${globals.schedulesStopArea}/departures/${departure['id']}');
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.only(left:10.0, top:5.0, right:10.0, bottom:5.0),
+                                child: Text('Voir le reste ➜',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Segoe Ui',
+                                    color: Theme.of(context).colorScheme.secondary,
+                                  ),
+                                ),
+                              )
+                            ),
+                          ),
+                        ],
+                      )
+                          
                     ],
                   ),
                 ),

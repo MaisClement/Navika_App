@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/lines_icons.dart';
-import '../widgets/mode_icons.dart';
+import 'package:navika/src/widgets/icons/lines.dart';
+import 'package:navika/src/widgets/icons/mode.dart';
 
 class DepartureList extends StatelessWidget {
 	final List departures;
@@ -29,26 +29,26 @@ class DepartureList extends StatelessWidget {
   }
   Color getState(Map departure){
     if (departure['informations']['state'] == 'cancelled'){
-      return Color(0xffeb2031);
+      return const Color(0xffeb2031);
     } else if (departure['informations']['state'] == 'delayed'){
-      return Color(0xfff68f53);
+      return const Color(0xfff68f53);
      }else if (getDelay(departure['stop_date_time']['base_departure_date_time'], departure['stop_date_time']['departure_date_time']) > 0){
-      return Color(0xfff68f53);
+      return const Color(0xfff68f53);
     } else{
-      return Color(0x00000000);
+      return const Color(0x00000000);
     }
   }
   Color getContainerState(Map departure){
     if (departure['informations']['state'] == 'cancelled') {
-      return Color(0xffeb2031);
+      return const Color(0xffeb2031);
     } else if (departure['informations']['state'] == 'delayed') {
-      return Color(0xfff68f53);
+      return const Color(0xfff68f53);
     } else if (getDelay(departure['stop_date_time']['base_departure_date_time'], departure['stop_date_time']['departure_date_time']) > 0){
-      return Color(0xfff68f53);
+      return const Color(0xfff68f53);
     } else if (departure['informations']['message'] == 'terminus'){
-      return Color(0xff888888);
+      return const Color(0xff888888);
     } else {
-      return Color(0x00000000);
+      return const Color(0x00000000);
     }
   }
 
@@ -58,11 +58,11 @@ class DepartureList extends StatelessWidget {
       for (var departure in this.departures)
       if (departure['informations']['direction']['name'] != '')
         Container(
-          margin: EdgeInsets.only(left:3.0, top:5.0, right:3.0, bottom:0.0),
-          padding: EdgeInsets.only(left:5.0, top:2.0, right:8.0, bottom:2.0),
+          margin: const EdgeInsets.only(left:3.0, top:5.0, right:3.0, bottom:0.0),
+          padding: const EdgeInsets.only(left:5.0, top:2.0, right:8.0, bottom:2.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color:  Color.fromARGB(255, 230, 230, 230),
+            color:  const Color.fromARGB(255, 230, 230, 230),
             border: Border(
               top: BorderSide(
                 width: 3,
@@ -108,7 +108,7 @@ class DepartureList extends StatelessWidget {
                         Expanded(
                           child: Text(departure['informations']['direction']['name'],
                             style: departure['informations']['state'] == 'cancelled' ?
-                              TextStyle(
+                              const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 fontFamily: 'Segoe Ui',
@@ -135,7 +135,7 @@ class DepartureList extends StatelessWidget {
                           width: 10,
                         ),
                         Text(departure['informations']['headsign'],
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontFamily: 'Diode',
                           )
@@ -145,7 +145,7 @@ class DepartureList extends StatelessWidget {
                             width: 10,
                           ),
                         Text(departure['informations']['trip_name'],
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontFamily: 'Diode',
                           )
@@ -170,8 +170,8 @@ class DepartureList extends StatelessWidget {
                       bottomRight: Radius.zero,
                     )
                   ),
-                  child: Text('Terminus',
-                    style: const TextStyle(
+                  child: const Text('Terminus',
+                    style: TextStyle(
                       fontSize: 12,
                       color: Color(0xffffffff),
                       fontFamily: 'Segoe Ui',
@@ -193,8 +193,8 @@ class DepartureList extends StatelessWidget {
                       bottomRight: Radius.zero,
                     )
                   ),
-                  child: Text('Supprimé',
-                    style: const TextStyle(
+                  child: const Text('Supprimé',
+                    style: TextStyle(
                       fontSize: 12,
                       color: Color(0xffffffff),
                       fontFamily: 'Segoe Ui',
@@ -232,7 +232,7 @@ class DepartureList extends StatelessWidget {
                 height: 30,
                 decoration: BoxDecoration(
                   color: getContainerState(departure),
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(5),
                     topRight: Radius.zero,
                     bottomLeft: Radius.zero,

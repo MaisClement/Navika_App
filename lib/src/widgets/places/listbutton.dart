@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../icons.dart';
+import 'package:navika/src/widgets/icons/icons.dart';
 
 class Places_ListButton extends StatelessWidget {
   bool isLoading;
@@ -33,7 +33,7 @@ class Places_ListButton extends StatelessWidget {
     child: Opacity(
       opacity: isLoading ? 0.4 : 1,
       child: Container(
-        padding: const EdgeInsets.only(left:20.0, top:5.0,right:20.0,bottom:5.0),
+        padding: const EdgeInsets.only(left:20.0, top:5.0,right:5.0,bottom:5.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -47,12 +47,17 @@ class Places_ListButton extends StatelessWidget {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(place['name'],
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
-                    color: Theme.of(context).colorScheme.secondary,
+                Expanded(
+                  child: Text(place['name'],
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Segoe Ui',
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    maxLines: 1,
+                    softWrap: false,
+                    overflow: TextOverflow.fade,
                   ),
                 ),
               ],

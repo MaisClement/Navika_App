@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:navika/src/screens/route_search.dart';
+import 'package:navika/src/screens/schedules_departures.dart';
 
 import '../routing.dart';
 import '../widgets/fade_transition_page.dart';
-import 'home.dart';
 import 'trafic_details.dart';
 import 'schedules_details.dart';
 import 'scaffold.dart';
-import 'route_search.dart';
 
 /// Builds the top-level navigator for the app. The pages to display are based
 /// on the `routeState` that was parsed by the TemplateRouteParser.
@@ -42,13 +42,20 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 			selectedNavPos = routeState.route.parameters['stop_area'];
 		}
 
-		bool? route_search;
+		String? departuresStop;
+		String? departuresLine;
+		if (pathTemplate == '/schedules/:stop_area/departures/:line_id') {
+			departuresStop = routeState.route.parameters['stop_area'];
+			departuresLine = routeState.route.parameters['line_id'];
+		}
+
+		bool? routeSearch;
 		if (pathTemplate == '/home/search') {
-			route_search = true;
+			routeSearch = true;
 		}
 
 		bool? displaySchedules;
-		if (pathTemplate == '/stops') {
+		if (pathTemplate == '/stops/:stop_area') {
 			displaySchedules = true;
 		}
 
@@ -67,12 +74,16 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           routeState.go('/schedules');
         }
 
+				if (pathTemplate == '/schedules/:stop_area/departures/:line_id') {
+          routeState.go('/schedules/${departuresStop}');
+        }
+
 				if (pathTemplate == '/home/search') {
           routeState.go('/home');
         }
 
-				if (pathTemplate == '/stops') {
-          routeState.go('/stops');
+				if (pathTemplate == '/stops/:stop_area') {
+          routeState.go('/home');
         }
 
 				return route.didPop(result);
@@ -88,21 +99,28 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 					if (selectedLine != null)
 						MaterialPage<void>(
 							key: _authorDetailsKey,
-							child: TraficDetailsScreen(
+							child: TraficDetails(
 								lineId: selectedLine,
 							),
 						)
           else if (selectedNavPos != null)
 						MaterialPage<void>(
 							key: _authorDetailsKey,
-							child: SchedulesDetailsScreen(
+							child: SchedulesDetails(
                 navPos: selectedNavPos,
 							),
 						)
-					else if (route_search != null)
+						
+					else if (pathTemplate == '/home/search')
 						MaterialPage<void>(
 							key: _authorDetailsKey,
-							child: RouteSearch(),
+							child: const RouteSearch(),
+						)
+
+					else if (pathTemplate == '/schedules/:stop_area/departures/:line_id')
+						MaterialPage<void>(
+							key: _authorDetailsKey,
+							child: DepartureDetails(),
 						)
 			],
 		);

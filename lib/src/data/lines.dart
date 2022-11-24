@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 
-class Lines_Info {
+class LinesInfo {
   final lines = <Info>[]; 
 
-  void addLine(String id, String name, String libelle, AssetImage image, String mode, AssetImage image_mode_dark, AssetImage image_mode_white) {
-    var line = Info(id, name, libelle, image, mode, image_mode_dark, image_mode_white);
+  void addLine(String id, String name, String libelle, AssetImage image, String mode, AssetImage imageModeDark, AssetImage imageModeWhite) {
+    var line = Info(id, name, libelle, image, mode, imageModeDark, imageModeWhite);
     lines.add(line);
   }
 
@@ -43,13 +43,13 @@ class Info {
   final String libelle;
   final AssetImage image;
   final String mode;
-  final AssetImage image_mode_dark;
-  final AssetImage image_mode_white;
+  final AssetImage imageModeDark;
+  final AssetImage imageModeWhite;
 
-  Info(this.id, this.name, this.libelle, this.image, this.mode, this.image_mode_dark, this.image_mode_white);
+  Info(this.id, this.name, this.libelle, this.image, this.mode, this.imageModeDark, this.imageModeWhite);
 }
 
-final LINES = Lines_Info()
+final LINES = LinesInfo()
 ..addLine('0', '0', '0', const AssetImage('assets/null.png'), '0', const AssetImage('assets/null.png'), const AssetImage('assets/null.png'))
 ..addLine('C01742', 'RER A', 'RER A', const AssetImage('assets/icons/lines_small/RER_A.png'), 'RER', const AssetImage('assets/icons/RER_dark.png'), const AssetImage('assets/icons/RER_white.png'))
 ..addLine('C01743', 'RER B', 'RER B', const AssetImage('assets/icons/lines_small/RER_B.png'), 'RER', const AssetImage('assets/icons/RER_dark.png'), const AssetImage('assets/icons/RER_white.png'))

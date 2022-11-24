@@ -5,20 +5,19 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../routing.dart';
-import '../widgets/icons.dart';
 import '../data/global.dart' as globals;
 import '../widgets/places/empty.dart';
 import '../widgets/places/listbutton.dart';
 import '../widgets/places/load.dart';
 
-class SchedulesScreen extends StatefulWidget {
-	const SchedulesScreen({super.key});
+class Schedules extends StatefulWidget {
+	const Schedules({super.key});
 
 	@override
-	State<SchedulesScreen> createState() => _SchedulesScreenState();
+	State<Schedules> createState() => _SchedulesState();
 }
 
-class _SchedulesScreenState extends State<SchedulesScreen> {
+class _SchedulesState extends State<Schedules> {
   final myController = TextEditingController();
 	final String title = 'Arrêts';
   

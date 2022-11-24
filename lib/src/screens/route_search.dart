@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../routing.dart';
-import '../widgets/icons.dart';
 import '../widgets/places/empty.dart';
 import '../widgets/places/load.dart';
 import '../widgets/places/listbutton.dart';

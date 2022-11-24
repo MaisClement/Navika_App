@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../routing.dart';
 import '../../data/global.dart' as globals;
 
 class SchedulesPannel extends StatelessWidget {

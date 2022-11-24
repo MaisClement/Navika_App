@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/widgets/schedules/body.dart';
 import '../data/global.dart' as globals;
 
-class SchedulesDetails extends StatefulWidget {
+class DepartureDetails extends StatefulWidget {
   final String? navPos;
 
-  const SchedulesDetails({this.navPos, super.key});
+  const DepartureDetails({this.navPos, super.key});
 
   @override
-  State<SchedulesDetails> createState() => _SchedulesDetailsState();
+  State<DepartureDetails> createState() => _DepartureDetailsState();
 }
 
-class _SchedulesDetailsState extends State<SchedulesDetails>
+class _DepartureDetailsState extends State<DepartureDetails>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   bool state = false;
@@ -20,10 +20,10 @@ class _SchedulesDetailsState extends State<SchedulesDetails>
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-      title: Text(globals.schedulesStopName),
+      title: Text(':D'),
     ),
-    body: SchedulesBody(
-      scrollController: ScrollController()
+    body: Container(
+      child: Text('Test'),
     )
   );
 }

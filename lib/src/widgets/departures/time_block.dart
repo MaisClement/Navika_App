@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class TimeBlock extends StatelessWidget {
 	final String time;
@@ -27,21 +26,21 @@ class TimeBlock extends StatelessWidget {
 
     return '${dthour}:${dtminute}';
   }
-
   Color getColorByState(state, context) {
-    if (state == "onTime") {
-      return Theme.of(context).colorScheme.secondary;
+    switch (state) {
+      case 'cancelled':
+        return const Color(0xffeb2031);
+      
+      case 'delayed':
+        return const Color(0xfff68f53);
 
-    } else if (state == "noReport") {
-      return const Color(0xffa9a9a9);
+      case 'ontime':
+        return Theme.of(context).colorScheme.secondary;
 
-    } else if (state == "cancelled") {
-      return const Color(0xffeb2031);
-
+      default: 
+        return const Color(0xffa9a9a9);
     }
-    return const Color(0xfff68f53);
   }
-
 
 	@override
 	Widget build(BuildContext context) => 

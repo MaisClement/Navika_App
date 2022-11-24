@@ -24,10 +24,11 @@ class _NavikaAppState extends State<NavikaApp> {
 		_routeParser = TemplateRouteParser(
 			allowedPaths: [
 				'/home',
-				'/stops',
+				'/stops/:stop_area',
 				'/home/search',
 				'/schedules',
         '/schedules/:stop_area',
+        '/schedules/:stop_area/departures/:line_id',
 				'/trafic',
         '/trafic/:lineId',
 			],

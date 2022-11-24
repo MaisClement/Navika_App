@@ -26,27 +26,27 @@ class NavikaAppScaffoldBody extends StatelessWidget {
 			key: navigatorKey,
 			onPopPage: (route, dynamic result) => route.didPop(result),
 			pages: [
-				if (currentRoute.path == '/stops')
+				if (currentRoute.pathTemplate == '/stops/:stop_area')
 					const FadeTransitionPage<void>(
 						key: ValueKey('home'),
-						child: HomeScreen(
+						child: Home(
 							displaySchedules: true,
 						),
 					)
 				else if (currentRoute.pathTemplate.startsWith('/home'))
 					const FadeTransitionPage<void>(
 						key: ValueKey('home'),
-						child: HomeScreen(),
+						child: Home(),
 					)
 				else if (currentRoute.pathTemplate.startsWith('/schedules'))
 					const FadeTransitionPage<void>(
 						key: ValueKey('schedules'),
-						child: SchedulesScreen(),
+						child: Schedules(),
 					)
 				else if (currentRoute.pathTemplate.startsWith('/trafic'))
 					const FadeTransitionPage<void>(
 						key: ValueKey('trafic'),
-						child: TraficScreen(),
+						child: Trafic(),
 					)
 
 				// Avoid building a Navigator with an empty `pages` list when the

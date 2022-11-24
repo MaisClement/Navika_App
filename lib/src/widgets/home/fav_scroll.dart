@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../data/global.dart' as globals;
-
-import '../../routing.dart';
-
 class HomeBodyFavScroll extends StatelessWidget {
 
 	const HomeBodyFavScroll({
@@ -48,7 +44,7 @@ class HomeBodyFavScroll extends StatelessWidget {
               Container(
                 height: 10,
               ),
-              Text('Ajouter'),
+              const Text('Ajouter'),
             ],
           ),
         ),
@@ -86,7 +82,7 @@ class HomeBodyFavScroll extends StatelessWidget {
               Container(
                 height: 10,
               ),
-              Text('Ajouter'),
+              const Text('Ajouter'),
             ],
           ),
         ),
@@ -124,7 +120,7 @@ class HomeBodyFavScroll extends StatelessWidget {
               Container(
                 height: 10,
               ),
-              Text('Ajouter'),
+              const Text('Ajouter'),
             ],
           ),
         ),

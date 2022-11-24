@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../routing.dart';
-import '../data/lines.dart';
-import '../data/global.dart' as globals;
+import '../../routing.dart';
+import '../../data/lines.dart';
+import '../../data/global.dart' as globals;
 
 Map getTraficLines(String name){
   for(var lines in globals.trafic){

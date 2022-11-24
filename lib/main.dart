@@ -6,7 +6,6 @@ import 'package:url_strategy/url_strategy.dart';
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/core.engine.dart';
 import 'package:here_sdk/core.errors.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'src/data/credentials.dart' as credentials;

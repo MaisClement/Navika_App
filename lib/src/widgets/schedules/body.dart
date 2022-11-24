@@ -1,28 +1,26 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 
-import '../../icons/scaffold_icon_icons.dart';
+import '../../icons/Scaffold_icon_icons.dart';
 import '../departures/list.dart';
 import 'list.dart';
 import '../../data/global.dart' as globals;
 
-import '../../routing.dart';
-class Schedules_Body extends StatefulWidget {
+class SchedulesBody extends StatefulWidget {
   final ScrollController scrollController;
 
-  const Schedules_Body({
+  const SchedulesBody({
     required this.scrollController,
     super.key
     });
 
   @override
-  State<Schedules_Body> createState() => _Schedules_BodyState();
+  State<SchedulesBody> createState() => _SchedulesBodyState();
 }
 
-class _Schedules_BodyState extends State<Schedules_Body>
+class _SchedulesBodyState extends State<SchedulesBody>
     with SingleTickerProviderStateMixin {
 
   String name = globals.schedulesStopName;
