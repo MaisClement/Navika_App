@@ -78,10 +78,13 @@ class Schedules_List extends StatelessWidget {
                             child: Text(
                               line['name'],
                               style: TextStyle(
-                                color:  HexColor.fromHex(line['text_color']),
+                                color: Theme.of(context).colorScheme.secondary,
                                 fontWeight: FontWeight.w800,
                                 fontFamily: 'Segoe Ui'
-                              )
+                              ),
+                              maxLines: 1,
+                              softWrap: false,
+                              overflow: TextOverflow.fade,
                             )
                           )
                       ],

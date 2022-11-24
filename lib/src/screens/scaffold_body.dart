@@ -17,33 +17,48 @@ class NavikaAppScaffoldBody extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
-		var currentRoute = RouteStateScope.of(context).route;
-		print({'INFO_route', currentRoute});
+		final routeState = RouteStateScope.of(context);
+		final pathTemplate = routeState.route.pathTemplate;
+		print({'INFO_route', pathTemplate});
 
 		// A nested Router isn't necessary because the back button behavior doesn't
 		// need to be customized.
 		return Navigator(
 			key: navigatorKey,
-			onPopPage: (route, dynamic result) => route.didPop(result),
+			onPopPage: (route, dynamic result) {
+				// When a page that is stacked on top of the scaffold is popped, display
+				// the /books or /schedules tab in NavikaAppScaffold.
+				if (pathTemplate == '/home/search') {
+          routeState.go('/home');
+        }
+
+				print({'INFO_4', pathTemplate});
+
+				if (pathTemplate == '/stops/:stop_area') {
+          routeState.go('/home');
+        }
+
+				return route.didPop(result);
+			},
 			pages: [
-				if (currentRoute.pathTemplate == '/stops/:stop_area')
+				if (pathTemplate.startsWith('/home'))
+					const FadeTransitionPage<void>(
+						key: ValueKey('home'),
+						child: Home(),
+					)
+				else if (pathTemplate == '/stops/:stop_area')
 					const FadeTransitionPage<void>(
 						key: ValueKey('home'),
 						child: Home(
 							displaySchedules: true,
 						),
 					)
-				else if (currentRoute.pathTemplate.startsWith('/home'))
-					const FadeTransitionPage<void>(
-						key: ValueKey('home'),
-						child: Home(),
-					)
-				else if (currentRoute.pathTemplate.startsWith('/schedules'))
+				else if (pathTemplate.startsWith('/schedules'))
 					const FadeTransitionPage<void>(
 						key: ValueKey('schedules'),
 						child: Schedules(),
 					)
-				else if (currentRoute.pathTemplate.startsWith('/trafic'))
+				else if (pathTemplate.startsWith('/trafic'))
 					const FadeTransitionPage<void>(
 						key: ValueKey('trafic'),
 						child: Trafic(),

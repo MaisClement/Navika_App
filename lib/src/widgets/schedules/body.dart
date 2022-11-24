@@ -36,6 +36,7 @@ class _SchedulesBodyState extends State<SchedulesBody>
   @override
 	void initState() {
 		super.initState();
+    print({'INFO_d', globals.schedulesStopArea});
 
     _tabController = TabController(vsync: this, length: getModesLength(globals.schedulesStopModes));
     checkUpdates();  
@@ -100,6 +101,7 @@ class _SchedulesBodyState extends State<SchedulesBody>
         });
         _getSchedules();
         // _tabController = TabController(vsync: this, length: getModesLength(globals.schedulesStopModes));
+        print({'INFO_debug', id});
       }
     });
   }
@@ -127,6 +129,7 @@ class _SchedulesBodyState extends State<SchedulesBody>
   }
   
   List<Widget> getModesTabs(List modes) {
+    print({'INFO_', globals.schedulesStopArea});
     List<Widget> tabs = [];
     if (modes.contains('physical_mode:RapidTransit') ||
         modes.contains('physical_mode:Train') ||

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:navika/src/data.dart';
 
 import '../../data/global.dart' as globals;
 
@@ -117,17 +118,18 @@ class DepartureList extends StatelessWidget {
                       Container(
                         width: 10,
                       ),
-                      if (departure['code'] != departure['name'])
-                        Expanded(
-                          child: Text(
-                            departure['name'],
+                      if (LINES.getLinesById(departure['id']).libelle != "")
+                          Text(LINES.getLinesById(departure['id']).libelle,
                             style: TextStyle(
-                              color:  HexColor.fromHex(departure['text_color']),
-                              fontWeight: FontWeight.w800,
-                              fontFamily: 'Segoe Ui'
-                            )
-                          )
-                        )
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Segoe Ui',
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
+                            maxLines: 1,
+                            softWrap: false,
+                            overflow: TextOverflow.fade,
+                          ) 
                     ],
                   ),
                 ),
@@ -166,19 +168,6 @@ class DepartureList extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    // Row(
-                                    //   children: [
-                                    //     ModeIcones(
-                                    //       line: departure['informations']['line'],
-                                    //       i: 0,
-                                    //       size: 23,
-                                    //     ),
-                                    //     LinesIcones(
-                                    //       line: departure['informations']['line'],
-                                    //       size: 23
-                                    //     ),
-                                    //   ],
-                                    // ),
                                     Expanded( 
                                       child: Column(
                                         children: [
@@ -195,7 +184,7 @@ class DepartureList extends StatelessWidget {
                                                       decoration: TextDecoration.lineThrough
                                                     )
                                                   : TextStyle(
-                                                      fontSize: 18,
+                                                      fontSize: 16,
                                                       fontWeight: FontWeight.w600,
                                                       fontFamily: 'Segoe Ui',
                                                       color: Theme.of(context).colorScheme.secondary,
@@ -260,6 +249,7 @@ class DepartureList extends StatelessWidget {
                             ),
                             child: InkWell(
                               onTap: () {
+                                globals.schedulesDeparture = departure;
                                 RouteStateScope.of(context).go('/schedules/${globals.schedulesStopArea}/departures/${departure['id']}');
                               },
                               child: Container(

@@ -50,7 +50,7 @@ class Info {
 }
 
 final LINES = LinesInfo()
-..addLine('0', '0', '0', const AssetImage('assets/null.png'), '0', const AssetImage('assets/null.png'), const AssetImage('assets/null.png'))
+..addLine('0', '', '', const AssetImage('assets/null.png'), '0', const AssetImage('assets/null.png'), const AssetImage('assets/null.png'))
 ..addLine('C01742', 'RER A', 'RER A', const AssetImage('assets/icons/lines_small/RER_A.png'), 'RER', const AssetImage('assets/icons/RER_dark.png'), const AssetImage('assets/icons/RER_white.png'))
 ..addLine('C01743', 'RER B', 'RER B', const AssetImage('assets/icons/lines_small/RER_B.png'), 'RER', const AssetImage('assets/icons/RER_dark.png'), const AssetImage('assets/icons/RER_white.png'))
 ..addLine('C01727', 'RER C', 'RER C', const AssetImage('assets/icons/lines_small/RER_C.png'), 'RER', const AssetImage('assets/icons/RER_dark.png'), const AssetImage('assets/icons/RER_white.png'))

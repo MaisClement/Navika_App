@@ -64,8 +64,13 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 		return Navigator(
 			key: widget.navigatorKey,
 			onPopPage: (route, dynamic result) {
-				// When a page that is stacked on top of the scaffold is popped, display
-				// the /books or /schedules tab in NavikaAppScaffold.
+				// Il y'a aussi des retour dans scaffold_body.dart
+				print({'INFO_4', pathTemplate});
+
+				if (pathTemplate == '/stops/:stop_area') {
+          routeState.go('/home');
+        }
+				
         if (pathTemplate == '/trafic/:lineId') {
 					routeState.go('/trafic');
 				}
@@ -76,14 +81,6 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 
 				if (pathTemplate == '/schedules/:stop_area/departures/:line_id') {
           routeState.go('/schedules/${departuresStop}');
-        }
-
-				if (pathTemplate == '/home/search') {
-          routeState.go('/home');
-        }
-
-				if (pathTemplate == '/stops/:stop_area') {
-          routeState.go('/home');
         }
 
 				return route.didPop(result);
@@ -120,7 +117,10 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 					else if (pathTemplate == '/schedules/:stop_area/departures/:line_id')
 						MaterialPage<void>(
 							key: _authorDetailsKey,
-							child: DepartureDetails(),
+							child: DepartureDetails(
+								stopArea: departuresStop,
+								stopLine: departuresLine,
+							),
 						)
 			],
 		);

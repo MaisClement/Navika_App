@@ -23,21 +23,19 @@ String schedulesStopArea = '';
 String schedulesStopName = '';
 List schedulesStopModes = [];
 
+Map schedulesDeparture = {};
+
 List trafic = [];
+
+
 Map? index;
-
-Map _dep = {
+Map _r = {
     'id': null,
     'name': null
 };
-Map _arr = {
-    'id': null,
-    'name': null
-};
-
 Map route = {
-  'dep' : _dep,
-  'arr' : _arr
+  'dep' : _r,
+  'arr' : _r
 };
 
 //
