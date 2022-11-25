@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/data.dart';
@@ -6,6 +9,7 @@ import 'package:navika/src/widgets/departures/message_block.dart';
 import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
+import 'package:http/http.dart' as http;
 
 import '../data/global.dart' as globals;
 
@@ -26,6 +30,61 @@ class DepartureDetails extends StatefulWidget {
 class _DepartureDetailsState extends State<DepartureDetails>
     with SingleTickerProviderStateMixin {
 
+  late Timer _timer;
+  Map departure = globals.schedulesDeparture;
+
+  @override
+	void initState() {
+		super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async{
+      _timer = Timer(const Duration(seconds: 30), () {
+        _getDepature();
+      });
+    });
+	}
+
+	@override
+	void didChangeDependencies() {
+		super.didChangeDependencies();
+	}
+
+	@override
+	void dispose() {
+		super.dispose();
+    _timer.cancel();
+	}
+
+  Future<void> _getDepature() async {
+    print({'INFO_get', globals.schedulesStopArea});
+    try {
+      final response = await http.get(Uri.parse('${globals.API_SCHEDULES}?s=${globals.schedulesStopArea}'));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        if (mounted) {
+          setState(() {
+            if (data['departures'] != null) {
+              for(var i = 0; i < data['departures'].length; i++) {
+                if (data['departures'][i]['id'] == widget.stopLine) {
+                  departure = data['departures'][i];
+                  break;
+                }
+              }
+              
+            }
+          });
+        }
+      }
+
+      _timer = Timer(const Duration(seconds: 30), () {
+        _getDepature();
+      });
+    } on Exception catch (_) {
+      print('OULA PAS CONTENT');
+    }
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
@@ -33,7 +92,7 @@ class _DepartureDetailsState extends State<DepartureDetails>
       elevation: 0,
     ),
     body: Container(
-      color: HexColor.fromHex(globals.schedulesDeparture['color']).withOpacity(0.1),
+      color: HexColor.fromHex(departure['color']).withOpacity(0.1),
       child: ListView(
         shrinkWrap: true,
         children: [
@@ -52,20 +111,20 @@ class _DepartureDetailsState extends State<DepartureDetails>
             child: Row(
               children: [
                 ModeIcones(
-                  line: globals.schedulesDeparture,
+                  line: departure,
                   i: 0,
                   size: 35,
                   isDark: true,
                 ),
                 LinesIcones(
-                  line: globals.schedulesDeparture,
+                  line: departure,
                   size: 35
                 ),
                 Container(
                   width: 10,
                 ),
-                if (LINES.getLinesById(globals.schedulesDeparture['id']).libelle != "")
-                  Text(LINES.getLinesById(globals.schedulesDeparture['id']).libelle,
+                if (LINES.getLinesById(departure['id']).libelle != "")
+                  Text(LINES.getLinesById(departure['id']).libelle,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -77,7 +136,7 @@ class _DepartureDetailsState extends State<DepartureDetails>
             ),
           ),
 
-          if (globals.schedulesDeparture['departures'].isEmpty) 
+          if (departure['departures'].isEmpty) 
             Row(
               children: [
                 SvgPicture.asset('assets/cancel.svg',
@@ -95,7 +154,7 @@ class _DepartureDetailsState extends State<DepartureDetails>
               ],
             )
           else
-            for (var trains in globals.schedulesDeparture['departures'])
+            for (var trains in departure['departures'])
               Container(
                 margin: const EdgeInsets.only(left:5.0, top:5.0, right:5.0, bottom:5.0),
                 padding: const EdgeInsets.only(left:10.0, top:3.0, right:0.0, bottom:3.0),
@@ -167,7 +226,8 @@ class _DepartureDetailsState extends State<DepartureDetails>
                         else 
                           TimeBlock(
                             time: trains['stop_date_time']['departure_date_time'],
-                            state: trains['stop_date_time']['state']
+                            state: trains['stop_date_time']['state'],
+                            track: trains['stop_date_time']['platform']
                           )
                           
                       ]

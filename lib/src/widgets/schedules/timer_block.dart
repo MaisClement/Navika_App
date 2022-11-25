@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../bottom_sheet_details.dart';
+import '../../data/global.dart' as globals;
 
 class TimerBlock extends StatelessWidget {
 	final String time;
   final String state;
+  final bool disabled;
 
 	const TimerBlock({
 		required this.time,
 		required this.state,
+    this.disabled = false,
 		super.key,
 	});
 
@@ -17,7 +21,7 @@ class TimerBlock extends StatelessWidget {
 
     Duration diff = dttime.difference(dtnow);
 
-    return diff.inMinutes;
+    return diff.inMinutes + 1;
   }
   String getTime(String time){
     DateTime dttime = DateTime.parse(time);
@@ -37,7 +41,8 @@ class TimerBlock extends StatelessWidget {
         return const Color(0xfff68f53);
 
       case 'ontime':
-        return Theme.of(context).colorScheme.secondary;
+        // return Color.fromARGB(255, 126, 179, 204);
+        return const Color(0xfffcc900);
 
       default: 
         return const Color(0xffa9a9a9);
@@ -49,28 +54,43 @@ class TimerBlock extends StatelessWidget {
 	Widget build(BuildContext context) => 
 
   getTimeDifference(time) >= 0 && time != "" 
-    ? getTimeDifference(time) < 99
-      ? Container(
-          clipBehavior: Clip.hardEdge,
-          padding: state == "theorical" ? const EdgeInsets.only(left:10.0, top:5.0, right:10.0,bottom:5.0) : const EdgeInsets.only(left:10.0, top:5.0, right:0.0,bottom:5.0),
-          margin: const EdgeInsets.only(left:0.0, top:5.0, right:10.0,bottom:5.0),
-          constraints: const BoxConstraints( minWidth: 60 ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
-                spreadRadius: 3,
-                blurRadius: 5,
-                offset: const Offset(0, 2),
-              )
-            ]
-          ),
+    ? Container(
+      margin: const EdgeInsets.only(left:0.0, top:5.0, right:10.0, bottom:5.0),
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: Color(0xff333333),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+            spreadRadius: 3,
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          )
+        ]
+      ),
+      constraints: const BoxConstraints( minWidth: 60 ),
+      child: InkWell(
+        onTap: () {
+          if (disabled == false){
+            showModalBottomSheet<void>(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              isScrollControlled: true,
+              context: context, 
+              builder: (BuildContext context) => 
+                BottomSchedules());
+          }
+        },
+        child: Container(
+          padding: state == "theorical" ? const EdgeInsets.only(left:10.0, top:5.0, right:10.0, bottom:5.0) : const EdgeInsets.only(left:10.0, top:5.0, right:0.0, bottom:5.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('${getTimeDifference(time).toString()} min',
+              Text((getTimeDifference(time) < 99) && globals.hiveBox?.get('displayMode') != 'hour'
+                    ? '${getTimeDifference(time).toString()} min'
+                    : getTime(time),
                   style: TextStyle(
                     color: getColorByState(state, context),
                     fontWeight: FontWeight.w700,
@@ -88,31 +108,8 @@ class TimerBlock extends StatelessWidget {
             ],
           ),
         )
-      : Container(
-          padding: const EdgeInsets.only(left:10.0, top:5.0,right:10.0,bottom:5.0),
-          margin: const EdgeInsets.only(left:0.0, top:5.0,right:10.0,bottom:5.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
-                spreadRadius: 3,
-                blurRadius: 5,
-                offset: const Offset(0, 2),
-              )
-            ]
-          ),
-          child: Text(
-            getTime(time),
-            style: const TextStyle(
-              color: Color(0xffa9a9a9),
-              fontWeight: FontWeight.w700,
-              fontFamily: 'Segoe Ui'
-            ),
-            textAlign: TextAlign.center,
-          ),
-        )
+      ),
+    )
     : const Text('');
 }
 

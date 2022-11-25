@@ -228,7 +228,8 @@ class DepartureList extends StatelessWidget {
                                     else 
                                       TimeBlock(
                                         time: trains['stop_date_time']['departure_date_time'],
-                                        state: trains['stop_date_time']['state']
+                                        state: trains['stop_date_time']['state'],
+                                        track: trains['stop_date_time']['platform']
                                       )
                                       
                                   ]

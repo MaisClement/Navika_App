@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:navika/src/widgets/bottom_sheet_details.dart';
+import '../../data/global.dart' as globals;
 
 class TimeBlock extends StatelessWidget {
 	final String time;
   final String state;
+  final String track;
+  final bool disabled;
 
 	const TimeBlock({
 		required this.time,
 		required this.state,
+		required this.track,
+    this.disabled = false,
 		super.key,
 	});
 
@@ -35,7 +41,7 @@ class TimeBlock extends StatelessWidget {
         return const Color(0xfff68f53);
 
       case 'ontime':
-        return Theme.of(context).colorScheme.secondary;
+        return const Color(0xfffcc900);
 
       default: 
         return const Color(0xffa9a9a9);
@@ -43,35 +49,96 @@ class TimeBlock extends StatelessWidget {
   }
 
 	@override
-	Widget build(BuildContext context) => 
+	Widget build(BuildContext context) => Container(
+    margin: const EdgeInsets.only(left:0.0, top:5.0, right:7, bottom:5.0),
+    padding: const EdgeInsets.only(left:3.0, top:3.0, right:3.0, bottom:3.0),
+    decoration: BoxDecoration(
+      color: const Color(0xff333333),
+      boxShadow: [
+        BoxShadow(
+          color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+          spreadRadius: 3,
+          blurRadius: 5,
+          offset: const Offset(0, 2),
+        )
+      ],
+      borderRadius: const BorderRadius.all(Radius.circular(5)),
+    ),
+	  child: InkWell(
+      onTap: () {
+        if (disabled == false){
+          showModalBottomSheet<void>(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            isScrollControlled: true,
+            context: context, 
+            builder: (BuildContext context) => 
+              BottomSchedules(
+                isDeparture: true,
+              ));
+        }
+      },
+	    child: Wrap(
+        children: [
 
-  time != "" && time.length > 1 && getTimeDifference(time) >= 0
-    ? Container(
-        padding: const EdgeInsets.only(left:10.0, top:5.0,right:10.0,bottom:5.0),
-        margin: const EdgeInsets.only(left:0.0, top:5.0,right:7.5,bottom:5.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
-              spreadRadius: 3,
-              blurRadius: 5,
-              offset: const Offset(0, 2),
-            )
-          ]
-        ),
-        child: Text(
-          getTime(time),
-          style: TextStyle(
-            color: getColorByState(state, context),
-            fontWeight: FontWeight.w700,
-            fontFamily: 'Segoe Ui',
-            decoration: state == "cancelled" ? TextDecoration.lineThrough : null,
+      time != "" && time.length > 1 && getTimeDifference(time) >= 0
+        ? Container(
+            padding: const EdgeInsets.only(left:7.0, top:2.0, right:7.0, bottom:2.0),
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(5),
+                bottomLeft: Radius.circular(5)
+              ),
+              color: const Color(0xff333333),
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
+                )
+              ]
+            ),
+            child: Text(globals.hiveBox?.get('displayMode') == 'minutes'
+                    ? '${getTimeDifference(time).toString()} min'
+                    : getTime(time),
+              style: TextStyle(
+                color: getColorByState(state, context),
+                fontWeight: FontWeight.w700,
+                fontFamily: 'Segoe Ui',
+                decoration: state == "cancelled" ? TextDecoration.lineThrough : null,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          )
+        : const Text(''),
+
+          Container(
+            padding: const EdgeInsets.only(left:7.0, top:2.0, right:7.0, bottom:2.0),
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 255, 255, 255),
+              borderRadius: const BorderRadius.only(
+                topRight : Radius.circular(5),
+                bottomRight : Radius.circular(5)
+              ),
+            ),
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: Text(track ?? "-",
+                style: TextStyle(
+                  color: Color(0xff333333),
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'Segoe Ui',
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
-          textAlign: TextAlign.center,
-        ),
-      )
-    : const Text('');
+
+        ]
+	    ),
+	  ),
+	);
 }
 

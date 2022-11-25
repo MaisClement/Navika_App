@@ -15,14 +15,6 @@ class MessageBlock extends StatelessWidget {
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(5),
       color: Colors.white,
-      boxShadow: [
-        BoxShadow(
-          color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
-          spreadRadius: 3,
-          blurRadius: 5,
-          offset: const Offset(0, 2),
-        )
-      ]
     ),
     child: Text(message,
       style: const TextStyle(
