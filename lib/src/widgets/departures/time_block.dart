@@ -44,7 +44,7 @@ class TimeBlock extends StatelessWidget {
         return const Color(0xfffcc900);
 
       default: 
-        return const Color(0xffa9a9a9);
+        return Color(0xffa9a9a9);
     }
   }
 
@@ -53,10 +53,10 @@ class TimeBlock extends StatelessWidget {
     margin: const EdgeInsets.only(left:0.0, top:5.0, right:7, bottom:5.0),
     padding: const EdgeInsets.only(left:3.0, top:3.0, right:3.0, bottom:3.0),
     decoration: BoxDecoration(
-      color: const Color(0xff333333),
+      color: const Color(0xff202020),
       boxShadow: [
         BoxShadow(
-          color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
           spreadRadius: 3,
           blurRadius: 5,
           offset: const Offset(0, 2),
@@ -74,7 +74,7 @@ class TimeBlock extends StatelessWidget {
             isScrollControlled: true,
             context: context, 
             builder: (BuildContext context) => 
-              BottomSchedules(
+              const BottomSchedules(
                 isDeparture: true,
               ));
         }
@@ -90,10 +90,10 @@ class TimeBlock extends StatelessWidget {
                 topLeft: Radius.circular(5),
                 bottomLeft: Radius.circular(5)
               ),
-              color: const Color(0xff333333),
+              color: const Color(0xff202020),
               boxShadow: [
                 BoxShadow(
-                  color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                   spreadRadius: 3,
                   blurRadius: 5,
                   offset: const Offset(0, 2),
@@ -116,18 +116,18 @@ class TimeBlock extends StatelessWidget {
 
           Container(
             padding: const EdgeInsets.only(left:7.0, top:2.0, right:7.0, bottom:2.0),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color.fromARGB(255, 255, 255, 255),
-              borderRadius: const BorderRadius.only(
-                topRight : Radius.circular(5),
-                bottomRight : Radius.circular(5)
+              borderRadius: BorderRadius.only(
+                topRight : Radius.circular(3),
+                bottomRight : Radius.circular(3)
               ),
             ),
             child: FittedBox(
               fit: BoxFit.contain,
-              child: Text(track ?? "-",
-                style: TextStyle(
-                  color: Color(0xff333333),
+              child: Text(track,
+                style: const TextStyle(
+                  color: Color(0xff202020),
                   fontWeight: FontWeight.w700,
                   fontFamily: 'Segoe Ui',
                 ),

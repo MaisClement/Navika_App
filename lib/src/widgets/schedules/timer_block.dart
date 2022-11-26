@@ -59,10 +59,10 @@ class TimerBlock extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: Color(0xff333333),
+        color: const Color(0xff202020),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
             spreadRadius: 3,
             blurRadius: 5,
             offset: const Offset(0, 2),
@@ -80,7 +80,7 @@ class TimerBlock extends StatelessWidget {
               isScrollControlled: true,
               context: context, 
               builder: (BuildContext context) => 
-                BottomSchedules());
+                const BottomSchedules());
           }
         },
         child: Container(

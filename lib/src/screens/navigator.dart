@@ -59,14 +59,10 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 			displaySchedules = true;
 		}
 
-		print({'INFO_route3', pathTemplate});
-
 		return Navigator(
 			key: widget.navigatorKey,
 			onPopPage: (route, dynamic result) {
 				// Il y'a aussi des retour dans scaffold_body.dart
-				print({'INFO_4', pathTemplate});
-
 				if (pathTemplate == '/stops/:stop_area') {
           routeState.go('/home');
         }
@@ -87,12 +83,16 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 			},
 			pages: [
 				// Display the app
-					FadeTransitionPage<void>(
+					// FadeTransitionPage<void>(
+					// 	key: _scaffoldKey,
+					// 	child: const NavikaAppScaffold(),
+					// ),
+
+					MaterialPage<void>(
 						key: _scaffoldKey,
 						child: const NavikaAppScaffold(),
 					),
-					// Add an additional page to the stack if the user is viewing a book
-					// or an author
+
 					if (selectedLine != null)
 						MaterialPage<void>(
 							key: _authorDetailsKey,

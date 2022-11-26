@@ -74,7 +74,7 @@ class DepartureList extends StatelessWidget {
             const CircularProgressIndicator(),
             Text('Chargement...', 
               style: TextStyle(
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.w700
               ),
             ),
@@ -96,7 +96,7 @@ class DepartureList extends StatelessWidget {
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                        color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                         spreadRadius: 3,
                         blurRadius: 5,
                         offset: const Offset(0, 2),
@@ -124,7 +124,7 @@ class DepartureList extends StatelessWidget {
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Segoe Ui',
-                              color: Theme.of(context).colorScheme.secondary,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                             maxLines: 1,
                             softWrap: false,
@@ -142,12 +142,12 @@ class DepartureList extends StatelessWidget {
                         Row(
                           children: [
                             SvgPicture.asset('assets/cancel.svg',
-                                color: Theme.of(context).colorScheme.secondary,
+                                color: Theme.of(context).colorScheme.primary,
                                 height: 18
                               ),
                             Text('Aucune information',
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.secondary,
+                                color: Theme.of(context).colorScheme.primary,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'Segoe Ui'
@@ -187,7 +187,7 @@ class DepartureList extends StatelessWidget {
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w600,
                                                       fontFamily: 'Segoe Ui',
-                                                      color: Theme.of(context).colorScheme.secondary,
+                                                      color: Theme.of(context).colorScheme.primary,
                                                     ),
                                                   maxLines: 1,
                                                   softWrap: false,
@@ -260,7 +260,7 @@ class DepartureList extends StatelessWidget {
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                     fontFamily: 'Segoe Ui',
-                                    color: Theme.of(context).colorScheme.secondary,
+                                    color: Theme.of(context).colorScheme.primary,
                                   ),
                                 ),
                               )

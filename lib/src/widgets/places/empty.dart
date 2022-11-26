@@ -12,7 +12,7 @@ class Places_Empty extends StatelessWidget {
     child: Center(
       child: Text('🔭 Nous n\'avons rien trouvé...', 
         style: TextStyle(
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).colorScheme.primary,
           fontWeight: FontWeight.w700
         ),
       ),

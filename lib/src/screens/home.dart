@@ -58,7 +58,6 @@ class _HomeState extends State<Home> {
   String _panel = '';
 
   Future<void> _getLocation() async {
-    print({'INFO_Widget', widget.displaySchedules});
     bool serviceEnabled;
     gps.PermissionStatus permissionGranted;
     gps.LocationData locationData;
@@ -224,14 +223,13 @@ class _HomeState extends State<Home> {
             body: HereMap(onMapCreated: _onMapCreated),
             
           ),
-
           Positioned(
             right: 20,
             bottom: panelButtonBottomOffset,
             child: Opacity(
               opacity: _position > 0.7 ? ((1 / _position - 1) * 2.33) : 1,
               child: FloatingActionButton(
-                backgroundColor: Colors.grey[200],
+                backgroundColor: widget.displaySchedules ? Colors.white : Colors.grey[200],
                 child: _isInBox ?
                   SvgPicture.asset(
                     'assets/location-indicator.svg',
@@ -265,6 +263,14 @@ class _HomeState extends State<Home> {
     ),
   );
 
+  int getOpacity(position) {
+    if (position < 0.6) {
+      return 1;
+    } 
+    return 0;
+
+  }
+
   @override
   void initState() {
     super.initState();
@@ -295,6 +301,7 @@ class _HomeState extends State<Home> {
   }
 
   void _onMapCreated(HereMapController hereMapController) {
+    //THEME
     hereMapController.mapScene.loadSceneForMapScheme(MapScheme.normalDay, (MapError? error) {
       if (error != null) {
         return;
@@ -351,7 +358,6 @@ class _HomeState extends State<Home> {
     _controller?.addTapListener(tapListener); 
   }
   
-
   void _pickMapMarker(Point2D touchPoint) {
     double radiusInPixel = 2;
       _controller?.pickMapItems(touchPoint, radiusInPixel, (pickMapItemsResult) {
@@ -373,7 +379,6 @@ class _HomeState extends State<Home> {
         globals.schedulesStopModes = json.decode(metadata.getString("modes") ?? "");
         if (mounted) {
           setState(() {
-            //_panel = 'schedules';
             isPanned = true;
           });
         }

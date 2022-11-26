@@ -24,15 +24,12 @@ class HomePannel extends StatelessWidget {
         Container(
           height: 20,
         ),
-        GestureDetector(
-          onTap: tooglePanel,
-          child: Container(
-            width: 40,
-            height: 5,
-            decoration: BoxDecoration(
-              color: Colors.grey[400],
-              borderRadius: BorderRadius.circular(30),
-            ),
+        Container(
+          width: 40,
+          height: 5,
+          decoration: BoxDecoration(
+            color: Colors.grey[500],
+            borderRadius: BorderRadius.circular(30),
           ),
         ),
         Container(
@@ -46,7 +43,7 @@ class HomePannel extends StatelessWidget {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                 spreadRadius: 3,
                 blurRadius: 5,
                 offset: const Offset(0, 2),
@@ -65,7 +62,7 @@ class HomePannel extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   'assets/search.svg',
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.primary,
                   height: 30
                 ),
                 Container(
@@ -74,7 +71,7 @@ class HomePannel extends StatelessWidget {
                   child: Text("Où allons nous ?",
                     style: TextStyle(
                       fontSize: 16,
-                      color: Theme.of(context).colorScheme.secondary, // Colors.grey,
+                      color: Theme.of(context).colorScheme.primary, // Colors.grey,
                     ),
                   ),
                 ),

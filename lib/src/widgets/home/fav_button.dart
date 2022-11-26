@@ -20,7 +20,7 @@ class Home_FavButton extends StatelessWidget {
       height: 100,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        border: Border.all(width: 2.0, color: Theme.of(context).colorScheme.secondary)
+        border: Border.all(width: 2.0, color: Theme.of(context).colorScheme.primary)
       ),
       child: Column(
         children: [
@@ -29,7 +29,7 @@ class Home_FavButton extends StatelessWidget {
           ),
           SvgPicture.asset(
             'assets/star.svg',
-            color: Theme.of(context).colorScheme.secondary,
+            color: Theme.of(context).colorScheme.primary,
             height: 30
           ),
           Container(

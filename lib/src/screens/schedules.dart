@@ -78,7 +78,7 @@ class _SchedulesState extends State<Schedules> {
       
       children: [
         Container(
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).colorScheme.primary,
           padding: const EdgeInsets.only(left:20.0, top:10.0,right:20.0,bottom:20.0),
           child: Container(
             padding: const EdgeInsets.only(left:10.0),
@@ -90,7 +90,7 @@ class _SchedulesState extends State<Schedules> {
               children: [
                 SvgPicture.asset(
                   'assets/search.svg',
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.primary,
                   height: 30
                 ),
                 Flexible(

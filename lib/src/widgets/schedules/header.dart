@@ -17,7 +17,7 @@ class SchedulesPannel extends StatelessWidget {
       color: Colors.white,
       boxShadow: [
         BoxShadow(
-          color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
           spreadRadius: 3,
           blurRadius: 5,
           offset: const Offset(0, 2),
@@ -51,7 +51,7 @@ class SchedulesPannel extends StatelessWidget {
               fontSize: 20,
               fontWeight: FontWeight.w600,
               fontFamily: 'Segoe Ui',
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).colorScheme.primary,
             )
           ),
         ),

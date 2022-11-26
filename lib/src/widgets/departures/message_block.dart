@@ -17,8 +17,8 @@ class MessageBlock extends StatelessWidget {
       color: Colors.white,
     ),
     child: Text(message,
-      style: const TextStyle(
-        color: Color(0xffa9a9a9),
+      style: TextStyle(
+        color: Colors.grey[500],
         fontWeight: FontWeight.w700,
         fontFamily: 'Segoe Ui',
       ),

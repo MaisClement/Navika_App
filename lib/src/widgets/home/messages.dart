@@ -1,28 +1,52 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import '../trafic/block.dart';
 
-class Home_Messages extends StatelessWidget {
-  Map message;
+Color getSlugColor(severity, [type]){
+  if (severity == 0 && (type == null || type == 0)){
+    return Colors.transparent;
+  } else if (severity == 0 && type != null && type == 1){
+    return const Color(0xff008b5b);
+  } else if (severity == 5){
+    return const Color(0xffeb2031);
+  } else if (severity == 4){
+    return const Color(0xfff68f53);
+  } else if (severity == 3){
+    return const Color(0xfff68f53);
+  } else if (severity == 2){
+    return const Color(0xfff68f53);
+  } else if (severity == 1){
+    return const Color(0xff005bbc);
+  } else if (type != null && type == 1) {
+    return const Color(0xff008b5b);
+  } else {
+    return Colors.transparent;
+  }
+}
+
+String getTime(String time){
+  DateTime dttime = DateTime.parse(time);
+
+  String dtday = dttime.day < 10 ? "0" + dttime.day.toString() : dttime.day.toString();
+  String dtmonth = dttime.month < 10 ? "0" + dttime.month.toString() : dttime.month.toString();
+  String dtyear = dttime.year.toString();
+  String dthour = dttime.hour < 10 ? "0" + dttime.hour.toString() : dttime.hour.toString();
+  String dtminute = dttime.minute < 10 ? "0" + dttime.minute.toString() : dttime.minute.toString();
+
+  return '$dtday/$dtmonth/$dtyear $dthour:$dtminute';
+}
+
+class HomeMessage extends StatelessWidget {
+  final Map message;
   void Function()? onTap;
 
-	Home_Messages({
+	HomeMessage({
     required this.message,
     this.onTap,
 		super.key,
 	});
 
-  String getPlaceIcon(type){
-    if (type == 'stop_area'){
-      return "assets/train.svg";
-    } else if (type == 'address'){
-      return "assets/marker.svg";
-    } else if (type == 'administrative_region'){
-      return "assets/city.svg";
-    } else {
-      return "assets/null.png";
-    } 
-  }
+  final ChromeSafariBrowser browser = ChromeSafariBrowser();
 
 	@override
 	Widget build(BuildContext context) => Container(
@@ -68,6 +92,27 @@ class Home_Messages extends StatelessWidget {
             fontSize: 16
           ),
         ),
+        Text('Mis à jour: ${getTime(message['updated_at'])}',
+          style: const TextStyle(
+            fontSize: 12
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Center(
+          child: ElevatedButton(
+            onPressed: () async {
+              await browser.open(
+                url: Uri.parse( message['message']['link'] ),
+                options: ChromeSafariBrowserClassOptions());
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: getSlugColor(message['severity'], 1),
+            ),
+            child: Text(message['message']['button']),
+          ),
+        )
       ]
     ),
   );

@@ -15,7 +15,7 @@ class Places_Load extends StatelessWidget {
           const CircularProgressIndicator(),
           Text('Chargement...', 
             style: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).colorScheme.primary,
               fontWeight: FontWeight.w700
             ),
           ),

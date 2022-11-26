@@ -33,7 +33,7 @@ class HomeBody extends StatelessWidget {
         // Messages de l'index
         if (index['message'] != null)
           for (var message in index['message'])
-            Home_Messages(
+            HomeMessage(
               message: message
             ),
 

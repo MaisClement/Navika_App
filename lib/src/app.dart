@@ -31,6 +31,7 @@ class _NavikaAppState extends State<NavikaApp> {
         '/schedules/:stop_area/departures/:line_id',
 				'/trafic',
         '/trafic/:lineId',
+				'/web/:uri'
 			],
 			initialRoute: '/home',
 		);
@@ -55,10 +56,15 @@ class _NavikaAppState extends State<NavikaApp> {
 					debugShowCheckedModeBanner: false,
 					routerDelegate: _routerDelegate,
 					routeInformationParser: _routeParser,
-					// Revert back to pre-Flutter-2.5 transition behavior:
-					// https://github.com/flutter/flutter/issues/82053
+					
+					//THEME
 					theme: ThemeData(
-						primarySwatch: generateMaterialColor(Color(0xff025982)), // generateMaterialColor(const Color(0xff611925)),
+						brightness: Brightness.light,
+						primarySwatch: generateMaterialColor(const Color(0xff025982)), // generateMaterialColor(const Color(0xff611925)),
+						// primaryColor: Colors.black,
+						// brightness: Brightness.dark,
+						// backgroundColor: const Color(0xFF212121),
+						// dividerColor: Colors.black12,
 						pageTransitionsTheme: const PageTransitionsTheme(
 							builders: {
 								TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
@@ -69,6 +75,13 @@ class _NavikaAppState extends State<NavikaApp> {
 							},
 						),
 					),
+					darkTheme: ThemeData(
+						brightness: Brightness.dark,
+						primarySwatch: generateMaterialColor(Color(0xff0482bd)), // generateMaterialColor(const Color(0xff611925)),
+						
+					),
+					//THEME
+					themeMode: ThemeMode.light, 
 				),
 			);
 }

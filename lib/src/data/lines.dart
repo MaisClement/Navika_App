@@ -29,7 +29,6 @@ class LinesInfo {
   Info getLines(name) {
     for (var line in lines) {
       if (line.name == name) {
-        print ({name, line.id});
         return line;
       }
     }

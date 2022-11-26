@@ -24,7 +24,7 @@ class HomeBodyFavScroll extends StatelessWidget {
             color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                   spreadRadius: 3,
                   blurRadius: 5,
                   offset: const Offset(0, 2),
@@ -38,7 +38,7 @@ class HomeBodyFavScroll extends StatelessWidget {
               ),
               SvgPicture.asset(
                 'assets/plus.svg',
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).colorScheme.primary,
                 height: 30
               ),
               Container(
@@ -62,7 +62,7 @@ class HomeBodyFavScroll extends StatelessWidget {
             color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                   spreadRadius: 3,
                   blurRadius: 5,
                   offset: const Offset(0, 2),
@@ -76,7 +76,7 @@ class HomeBodyFavScroll extends StatelessWidget {
               ),
               SvgPicture.asset(
                 'assets/plus.svg',
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).colorScheme.primary,
                 height: 30
               ),
               Container(
@@ -100,7 +100,7 @@ class HomeBodyFavScroll extends StatelessWidget {
             color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                   spreadRadius: 3,
                   blurRadius: 5,
                   offset: const Offset(0, 2),
@@ -114,7 +114,7 @@ class HomeBodyFavScroll extends StatelessWidget {
               ),
               SvgPicture.asset(
                 'assets/plus.svg',
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).colorScheme.primary,
                 height: 30
               ),
               Container(

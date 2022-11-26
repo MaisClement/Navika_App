@@ -201,7 +201,7 @@ class _RouteSearchState extends State<RouteSearch> {
       
       children: [
         Container(
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).colorScheme.primary,
           padding: const EdgeInsets.only(left:20.0, top: 10.0,right: 20.0),
           child: Container(
             padding: const EdgeInsets.only(left:10.0),
@@ -213,7 +213,7 @@ class _RouteSearchState extends State<RouteSearch> {
               children: [
                 SvgPicture.asset(
                   'assets/marker.svg',
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.primary,
                   height: 30
                 ),
                 Flexible(
@@ -242,7 +242,7 @@ class _RouteSearchState extends State<RouteSearch> {
           )
         ),
         Container(
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).colorScheme.primary,
           padding: const EdgeInsets.only(left:20.0, top:10.0,right:20.0,bottom:20.0),
           child: Container(
             padding: const EdgeInsets.only(left:10.0),
@@ -254,7 +254,7 @@ class _RouteSearchState extends State<RouteSearch> {
               children: [
                 SvgPicture.asset(
                   'assets/finish-flag.svg',
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.primary,
                   height: 30
                 ),
                 Flexible(
@@ -302,7 +302,7 @@ class _RouteSearchState extends State<RouteSearch> {
                               children: [
                                 SvgPicture.asset(
                                   'assets/location-indicator.svg',
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color: Theme.of(context).colorScheme.primary,
                                   height: 25
                                 ),
                                 const SizedBox(
@@ -313,7 +313,7 @@ class _RouteSearchState extends State<RouteSearch> {
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
                                     fontFamily: 'Segoe Ui',
-                                    color: Theme.of(context).colorScheme.secondary,
+                                    color: Theme.of(context).colorScheme.primary,
                                   ),
                                 ),
                               ],

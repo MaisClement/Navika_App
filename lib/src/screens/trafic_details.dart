@@ -40,7 +40,7 @@ class TraficDetails extends StatelessWidget {
 			),
       body: Container(
         padding: const EdgeInsets.only(left:20.0, top:20.0,right:20.0,bottom:20.0),
-        color: Theme.of(context).colorScheme.secondary,
+        color: Theme.of(context).colorScheme.primary,
         width: double.infinity,
         child: ListView(
           children: [
@@ -64,7 +64,7 @@ class TraficDetails extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                             width: 3.0,
-                            color: getSlug(LINES.getLines(lineId).id, 1),
+                            color: getSlug( getTraficLines(LINES.getLines(lineId).id)['severity'] , 1),
                           ),
                         ),
                         child: Image(image: LINES.getLines(lineId).image),
@@ -74,14 +74,14 @@ class TraficDetails extends StatelessWidget {
                         height: 20,
                         top: 43,
                         left: 43,
-                        child: Image(image: getSlugImage(LINES.getLines(lineId).id, 1)),
+                        child: Image(image: getSlugImage( getTraficLines(LINES.getLines(lineId).id)['severity'] , 1)),
                       )
                     ],
                   ),
                   Expanded(
                     child: Wrap(
                       children: [
-                        Text('${LINES.getLines(lineId).libelle} : ${getSlugTitle(LINES.getLines(lineId).id)}',
+                        Text('${LINES.getLines(lineId).libelle} : ${getSlugTitle( getTraficLines(LINES.getLines(lineId).id)['severity'] )}',
                           style: const TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 20

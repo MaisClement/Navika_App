@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "luca",
+            "name": "Navika",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "luca (profile mode)",
+            "name": "Navika (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "luca (release mode)",
+            "name": "Navika (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

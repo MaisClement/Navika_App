@@ -49,7 +49,7 @@ class _TraficState extends State<Trafic> {
 		),
 		body: Container(
 			padding: const EdgeInsets.only(left:20.0, top:20.0,right:20.0,bottom:20.0),
-			color: Theme.of(context).colorScheme.secondary,
+			color: Theme.of(context).colorScheme.primary,
 			width: double.infinity,
 			child: Container(
 
@@ -307,7 +307,7 @@ class _TraficState extends State<Trafic> {
                 const CircularProgressIndicator(),
                 Text('Chargement...', 
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.w700
                   ),
                 ),

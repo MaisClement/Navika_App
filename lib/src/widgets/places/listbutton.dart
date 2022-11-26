@@ -41,7 +41,7 @@ class Places_ListButton extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   getPlaceIcon(place['type']),
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.primary,
                   height: 25
                 ),
                 const SizedBox(
@@ -53,7 +53,7 @@ class Places_ListButton extends StatelessWidget {
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       fontFamily: 'Segoe Ui',
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                     maxLines: 1,
                     softWrap: false,

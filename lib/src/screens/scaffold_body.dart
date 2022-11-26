@@ -32,8 +32,6 @@ class NavikaAppScaffoldBody extends StatelessWidget {
           routeState.go('/home');
         }
 
-				print({'INFO_4', pathTemplate});
-
 				if (pathTemplate == '/stops/:stop_area') {
           routeState.go('/home');
         }

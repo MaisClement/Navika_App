@@ -48,19 +48,11 @@ class _SchedulesBodyState extends State<SchedulesBody>
 	@override
 	void didChangeDependencies() {
 		super.didChangeDependencies();
-
-		// final newPath = _routeState.route.pathTemplate;
-		// if (newPath.startsWith('/schedules/details')) {
-		// 	_tabController.index = 0;
-		// } else if (newPath.startsWith('/schedules/details')) {
-		// 	_tabController.index = 1;
-		// } 
 	}
 
 	@override
 	void dispose() {
 		super.dispose();
-		// _tabController.removeListener(_handleTabIndexChanged);
     _timer.cancel();
     _update.cancel();
 	}
@@ -100,8 +92,6 @@ class _SchedulesBodyState extends State<SchedulesBody>
           schedules = [];
         });
         _getSchedules();
-        // _tabController = TabController(vsync: this, length: getModesLength(globals.schedulesStopModes));
-        print({'INFO_debug', id});
       }
     });
   }
@@ -215,7 +205,7 @@ class _SchedulesBodyState extends State<SchedulesBody>
             controller: _tabController,
             indicator: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
-                color: Theme.of(context).colorScheme.secondary),
+                color: Theme.of(context).colorScheme.primary),
             labelColor: Colors.white,
             unselectedLabelColor: Colors.black,
             tabs: getModesTabs(globals.schedulesStopModes),

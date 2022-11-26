@@ -3,6 +3,11 @@ import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/schedules/timer_block.dart';
 import '../data/global.dart' as globals;
 
+String getTime(){
+  var d1 = DateTime.now();
+  return DateTime(d1.year, d1.month, d1.day, d1.hour, d1.minute + 4).toString();
+}
+
 class BottomSchedules extends StatefulWidget {
   final bool isDeparture;
 
@@ -17,11 +22,6 @@ class BottomSchedules extends StatefulWidget {
 
 class _BottomSchedulesState extends State<BottomSchedules>
     with SingleTickerProviderStateMixin {
-      
-  String getTime(){
-    var d1 = DateTime.now();
-    return DateTime(d1.year, d1.month, d1.day, d1.hour, d1.minute + 4).toString();
-  }
 
   String displayMode = globals.hiveBox.get('displayMode') ?? 'default';
 
@@ -33,7 +33,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
       color: Colors.grey[200],
       boxShadow: [
         BoxShadow(
-          color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
           spreadRadius: 3,
           blurRadius: 5,
           offset: const Offset(0, 2),
@@ -50,7 +50,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
               fontSize: 25,
               fontWeight: FontWeight.w600,
               fontFamily: 'Segoe Ui',
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           const Divider(),
@@ -77,7 +77,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               )
@@ -107,7 +107,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               )
@@ -136,7 +136,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               )
@@ -165,7 +165,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               )
@@ -179,7 +179,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
               fontSize: 17,
               fontWeight: FontWeight.w600,
               fontFamily: 'Segoe Ui',
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           const Divider(),
