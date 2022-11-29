@@ -44,8 +44,9 @@ class _TraficState extends State<Trafic> {
 	Widget build(BuildContext context) => Scaffold(
 		appBar: AppBar(
 			title: Text(title),
-      // centerTitle: true,
       elevation: 0,
+      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+      foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
 		),
 		body: Container(
 			padding: const EdgeInsets.only(left:20.0, top:20.0,right:20.0,bottom:20.0),

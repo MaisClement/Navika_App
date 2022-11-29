@@ -1,34 +1,12 @@
-import 'dart:async';
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../bottom_sheet_details.dart';
 import '../../data/global.dart' as globals;
 
-class TimerBlock extends StatelessWidget {
-	final String time;
-  final String state;
-  final bool disabled;
-
-	const TimerBlock({
-		required this.time,
-		required this.state,
-    this.disabled = false,
-		super.key,
-	});
-
-  int getTimeDifference(String time){
+int getTimeDifference(String time){
     DateTime dttime = DateTime.parse(time);
     DateTime dtnow = DateTime.now();
-    
-    if (dtnow.isAfter(dttime)){
-      return -1;
-    }
-
     Duration diff = dttime.difference(dtnow);
-    // int diff = dttime.minute - dtnow.minute;
-    // print({'INFO_', dttime, dtnow, diff});
 
     return diff.inMinutes;
   }
@@ -40,7 +18,6 @@ class TimerBlock extends StatelessWidget {
 
     return '${dthour}h${dtminute}';
   }
-
   Color getColorByState(state, context) {
     switch (state) {
       case 'cancelled':
@@ -58,6 +35,17 @@ class TimerBlock extends StatelessWidget {
     }
   }
 
+class TimerBlock extends StatelessWidget {
+	final String time;
+  final String state;
+  final bool disabled;
+
+	const TimerBlock({
+		required this.time,
+		required this.state,
+    this.disabled = false,
+		super.key,
+	});
 
 	@override
 	Widget build(BuildContext context) => 
@@ -106,16 +94,16 @@ class TimerBlock extends StatelessWidget {
                   //   )
                   // : 
                   Text((getTimeDifference(time) < 99) && globals.hiveBox?.get('displayMode') != 'hour'
-                      ? '${getTimeDifference(time).toString()} min'
-                      : getTime(time),
-                      style: TextStyle(
-                        color: getColorByState(state, context),
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Segoe Ui',
-                        decoration: state == "cancelled" ? TextDecoration.lineThrough : null,
-                      ),
-                      textAlign: TextAlign.center,
-                    )
+                    ? '${getTimeDifference(time).toString()} min'
+                    : getTime(time),
+                    style: TextStyle(
+                      color: getColorByState(state, context),
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Segoe Ui',
+                      decoration: state == "cancelled" ? TextDecoration.lineThrough : null,
+                    ),
+                    textAlign: TextAlign.center,
+                  )
                 ),
                 state == "theorical"
                 ? const Text('')

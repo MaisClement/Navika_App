@@ -73,6 +73,8 @@ class _SchedulesState extends State<Schedules> {
 		appBar: AppBar(
 			title: Text(title),
       elevation: 0,
+      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+      foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
 		),
 		body: Column(
       

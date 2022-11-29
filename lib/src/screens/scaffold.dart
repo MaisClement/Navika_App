@@ -16,9 +16,8 @@ class NavikaAppScaffold extends StatelessWidget {
 		final selectedIndex = _getSelectedIndex(routeState.route.pathTemplate);
 
 		return Scaffold(
-			body: AdaptiveNavigationScaffold(
+			bottomNavigationBar: NavigationBar(
 				selectedIndex: selectedIndex,
-				body: const NavikaAppScaffoldBody(),
 				onDestinationSelected: (idx) {
 					if (idx == 0) routeState.go('/home');
 					if (idx == 1) routeState.go('/schedules');
@@ -26,24 +25,25 @@ class NavikaAppScaffold extends StatelessWidget {
 					if (idx == 3) routeState.go('/trafic');
 				},
 				destinations: const [
-					AdaptiveScaffoldDestination(
-						title: 'Accueil',
-						icon: Scaffold_icon.home,
+					NavigationDestination(
+						label: 'Accueil',
+						icon: Icon(Scaffold_icon.home),
 					),
-					AdaptiveScaffoldDestination(
-						title: 'Arrêts',
-						icon: Scaffold_icon.clock,
+					NavigationDestination(
+						label: 'Arrêts',
+						icon: Icon(Scaffold_icon.clock),
 					),
-					AdaptiveScaffoldDestination(
-						title: 'Books',
-						icon: Icons.book,
+					NavigationDestination(
+						label: 'Books',
+						icon: Icon(Icons.book),
 					),
-					AdaptiveScaffoldDestination(
-						title: 'Trafic',
-						icon: Scaffold_icon.cone,
+					NavigationDestination(
+						label: 'Trafic',
+						icon: Icon(Scaffold_icon.cone),
 					),
 				],
 			),
+      body: const NavikaAppScaffoldBody(),
 		);
 	}
 

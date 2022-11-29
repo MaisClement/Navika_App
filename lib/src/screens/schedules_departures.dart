@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/data.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
-import 'package:navika/src/widgets/departures/message_block.dart';
+import 'package:navika/src/widgets/departures/list.dart';
+import 'package:navika/src/widgets/departures/message.dart';
 import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
@@ -90,6 +91,8 @@ class _DepartureDetailsState extends State<DepartureDetails>
     appBar: AppBar(
       title: Text(globals.schedulesStopName),
       elevation: 0,
+      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+      foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
     ),
     body: Container(
       color: HexColor.fromHex(departure['color']).withOpacity(0.1),
@@ -154,88 +157,13 @@ class _DepartureDetailsState extends State<DepartureDetails>
               ],
             )
           else
-            for (var trains in departure['departures'])
+            for (var train in departure['departures'])
               Container(
-                margin: const EdgeInsets.only(left:5.0, top:5.0, right:5.0, bottom:5.0),
-                padding: const EdgeInsets.only(left:10.0, top:3.0, right:0.0, bottom:3.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.white.withOpacity(0.8) // 
+                margin: const EdgeInsets.only(left:5.0, top:0.0, right:5.0, bottom:0.0),
+                child: DepartureList(
+                  train: train,
                 ),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded( 
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(trains['informations']['direction']['name'],
-                                      style: trains['stop_date_time']['state'] == 'cancelled'
-                                      ? const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: 'Segoe Ui',
-                                          color: Color(0xffeb2031),
-                                          decoration: TextDecoration.lineThrough
-                                        )
-                                      : TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600,
-                                          fontFamily: 'Segoe Ui',
-                                          color: Theme.of(context).colorScheme.primary,
-                                        ),
-                                      maxLines: 1,
-                                      softWrap: false,
-                                      overflow: TextOverflow.fade,
-                                    ),
-                                  )
-                                ]
-                              ),
-                              Row(
-                                children: [
-                                  Text(trains['informations']['headsign'],
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontFamily: 'Diode',
-                                    )
-                                  ),
-                                  if (trains['informations']['headsign'] != '')
-                                    Container(
-                                      width: 10,
-                                    ),
-                                  Text(trains['informations']['trip_name'],
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontFamily: 'Diode',
-                                    )
-                                  ),
-                                  
-                                ]
-                              ),
-                            ]
-                          ),
-                        ),
-
-                        if (trains['informations']['message'] == "terminus")
-                          const MessageBlock(
-                            message: "Terminus"
-                          )
-                        else 
-                          TimeBlock(
-                            time: trains['stop_date_time']['departure_date_time'],
-                            state: trains['stop_date_time']['state'],
-                            track: trains['stop_date_time']['platform']
-                          )
-                          
-                      ]
-                    ),
-                    
-                  ]
-                ),
-              ),
+              )
         ],
       ),
     ),

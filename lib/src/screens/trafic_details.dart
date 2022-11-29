@@ -35,8 +35,9 @@ class TraficDetails extends StatelessWidget {
 		return Scaffold(
 			appBar: AppBar(
 				title: const Text('Info Trafic'),
-        // centerTitle: true,
         elevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+        foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
 			),
       body: Container(
         padding: const EdgeInsets.only(left:20.0, top:20.0,right:20.0,bottom:20.0),

@@ -229,7 +229,7 @@ class _HomeState extends State<Home> {
             child: Opacity(
               opacity: _position > 0.7 ? ((1 / _position - 1) * 2.33) : 1,
               child: FloatingActionButton(
-                backgroundColor: widget.displaySchedules ? Colors.white : Colors.grey[200],
+                backgroundColor: Colors.white,
                 child: _isInBox ?
                   SvgPicture.asset(
                     'assets/location-indicator.svg',

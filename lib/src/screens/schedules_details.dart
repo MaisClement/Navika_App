@@ -11,6 +11,8 @@ class SchedulesDetails extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       title: Text(globals.schedulesStopName),
+      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+      foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
     ),
     body: SchedulesBody(
       scrollController: ScrollController()

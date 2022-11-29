@@ -5,7 +5,7 @@ import '../data/global.dart' as globals;
 
 String getTime(){
   var d1 = DateTime.now();
-  return DateTime(d1.year, d1.month, d1.day, d1.hour, d1.minute + 4).toString();
+  return DateTime(d1.year, d1.month, d1.day, d1.hour, d1.minute + 7).toString();
 }
 
 class BottomSchedules extends StatefulWidget {
@@ -59,18 +59,6 @@ class _BottomSchedulesState extends State<BottomSchedules>
           ),
           Row(
             children: [
-              widget.isDeparture
-              ? TimeBlock(
-                  time: getTime(),
-                  state: 'ontime',
-                  track: "B",
-                  disabled: true,
-                )
-              : TimerBlock(
-                  time: getTime(),
-                  state: 'ontime',
-                  disabled: true,
-                ),
               Expanded(
                 child: Text('À l\'heure.',
                   style: TextStyle(
@@ -80,7 +68,20 @@ class _BottomSchedulesState extends State<BottomSchedules>
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
-              )
+              ),
+              widget.isDeparture
+              ? TimeBlock(
+                  time: getTime(),
+                  state: 'ontime',
+                  late: 0,
+                  track: "B",
+                  disabled: true,
+                )
+              : TimerBlock(
+                  time: getTime(),
+                  state: 'ontime',
+                  disabled: true,
+                ),
             ],
           ),
           const SizedBox(
@@ -88,19 +89,6 @@ class _BottomSchedulesState extends State<BottomSchedules>
           ),
           Row(
             children: [
-              widget.isDeparture
-              ? TimeBlock(
-                  time: getTime(),
-                  state: 'delayed',
-                  track: "B",
-                  disabled: true,
-                )
-              : TimerBlock(
-                  time: getTime(),
-                  state: 'delayed',
-                  disabled: true,
-                ),
-              
               Expanded(
                 child: Text('Retardé.',
                   style: TextStyle(
@@ -110,7 +98,20 @@ class _BottomSchedulesState extends State<BottomSchedules>
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
-              )
+              ),
+              widget.isDeparture
+              ? TimeBlock(
+                  time: getTime(),
+                  state: 'delayed',
+                  late: 5,
+                  track: "B",
+                  disabled: true,
+                )
+              : TimerBlock(
+                  time: getTime(),
+                  state: 'delayed',
+                  disabled: true,
+                ),
             ],
           ),
           const SizedBox(
@@ -118,18 +119,6 @@ class _BottomSchedulesState extends State<BottomSchedules>
           ),
           Row(
             children: [
-              widget.isDeparture
-              ? TimeBlock(
-                  time: getTime(),
-                  state: 'cancelled',
-                  track: "B",
-                  disabled: true,
-                )
-              : TimerBlock(
-                  time: getTime(),
-                  state: 'cancelled',
-                  disabled: true,
-                ),
               Expanded(
                 child: Text('Supprimé.',
                   style: TextStyle(
@@ -139,7 +128,20 @@ class _BottomSchedulesState extends State<BottomSchedules>
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
-              )
+              ),
+              widget.isDeparture
+              ? TimeBlock(
+                  time: getTime(),
+                  state: 'cancelled',
+                  late: 0,
+                  track: "B",
+                  disabled: true,
+                )
+              : TimerBlock(
+                  time: getTime(),
+                  state: 'cancelled',
+                  disabled: true,
+                ),
             ],
           ),
           const SizedBox(
@@ -147,18 +149,6 @@ class _BottomSchedulesState extends State<BottomSchedules>
           ),
           Row(
             children: [
-              widget.isDeparture
-              ? TimeBlock(
-                  time: getTime(),
-                  state: 'theorical',
-                  track: "B",
-                  disabled: true,
-                )
-              : TimerBlock(
-                  time: getTime(),
-                  state: 'theorical',
-                  disabled: true,
-                ),
               Expanded(
                 child: Text('Horaire théorique.',
                   style: TextStyle(
@@ -168,7 +158,20 @@ class _BottomSchedulesState extends State<BottomSchedules>
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
-              )
+              ),
+              widget.isDeparture
+              ? TimeBlock(
+                  time: getTime(),
+                  state: 'theorical',
+                  late: 0,
+                  track: "B",
+                  disabled: true,
+                )
+              : TimerBlock(
+                  time: getTime(),
+                  state: 'theorical',
+                  disabled: true,
+                ),
             ],
           ),
           const SizedBox(
@@ -219,6 +222,10 @@ class _BottomSchedulesState extends State<BottomSchedules>
 
           Center(
             child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+              ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
               child: const Text('Fermer'),
               onPressed: () => Navigator.pop(context),
             ),  

@@ -18,7 +18,7 @@ class HomeBody extends StatelessWidget {
     padding: const EdgeInsets.only(top:110),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(5),
-      color: Colors.grey[200],
+      color: Colors.white,
     ),
     child: Column(
       children: [

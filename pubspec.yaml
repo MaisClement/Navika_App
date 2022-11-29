@@ -69,11 +69,11 @@ flutter:
   uses-material-design: true
 
   fonts:
-    - family:  Scaffold_icon
+    - family: Scaffold_icon
       fonts:
         - asset: fonts/Scaffold_icon.ttf
 
-    - family:  Segoe Ui
+    - family: Segoe Ui
       fonts:
         - asset: fonts/Segoe UI.ttf
         - asset: fonts/Segoe UI Bold.ttf

@@ -194,8 +194,9 @@ class _RouteSearchState extends State<RouteSearch> {
 	Widget build(BuildContext context) => Scaffold(
 		appBar: AppBar(
 			title: Text(title),
-      // centerTitle: true,
       elevation: 0,
+      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+      foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
 		),
 		body: Column(
       

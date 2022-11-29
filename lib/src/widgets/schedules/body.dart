@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:navika/src/widgets/departures/block.dart';
 
 import '../../icons/Scaffold_icon_icons.dart';
 import '../departures/list.dart';
@@ -160,7 +161,7 @@ class _SchedulesBodyState extends State<SchedulesBody>
         modes.contains('physical_mode:RailShuttle') ||
         modes.contains('physical_mode:LocalTrain') ||
         modes.contains('physical_mode:LongDistanceTrain')) {
-      tabs.add(DepartureList(
+      tabs.add(DepartureBlock(
                 departures: departures,
                 scrollController: scrollController,
               ));

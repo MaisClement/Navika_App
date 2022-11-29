@@ -59,8 +59,11 @@ class _NavikaAppState extends State<NavikaApp> {
 					
 					//THEME
 					theme: ThemeData(
+            useMaterial3: true,
 						brightness: Brightness.light,
 						primarySwatch: generateMaterialColor(const Color(0xff025982)), // generateMaterialColor(const Color(0xff611925)),
+
+            bottomAppBarColor: Theme.of(context).colorScheme.onSecondaryContainer,
 						// primaryColor: Colors.black,
 						// brightness: Brightness.dark,
 						// backgroundColor: const Color(0xFF212121),
@@ -76,6 +79,8 @@ class _NavikaAppState extends State<NavikaApp> {
 						),
 					),
 					darkTheme: ThemeData(
+            useMaterial3: true,
+            fontFamily: 'Segoe Ui',
 						brightness: Brightness.dark,
 						primarySwatch: generateMaterialColor(Color(0xff0482bd)), // generateMaterialColor(const Color(0xff611925)),
 						
