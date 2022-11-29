@@ -77,6 +77,14 @@ class _NavikaAppState extends State<NavikaApp> {
 								TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
 							},
 						),
+						navigationBarTheme: NavigationBarThemeData(
+							indicatorColor: Color(0xff025982).withOpacity(0.3),
+							iconTheme: MaterialStateProperty.all(
+								IconThemeData(
+									color: Colors.black
+								)
+							)
+						)
 					),
 					darkTheme: ThemeData(
             useMaterial3: true,

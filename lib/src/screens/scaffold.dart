@@ -27,11 +27,13 @@ class NavikaAppScaffold extends StatelessWidget {
 				destinations: const [
 					NavigationDestination(
 						label: 'Accueil',
-						icon: Icon(Scaffold_icon.home),
+						icon: Icon(Scaffold_icon.home_regular),
+						selectedIcon: Icon(Scaffold_icon.home),
 					),
 					NavigationDestination(
 						label: 'Arrêts',
-						icon: Icon(Scaffold_icon.clock),
+						icon: Icon(Scaffold_icon.clock_regular),
+						selectedIcon: Icon(Scaffold_icon.clock),
 					),
 					NavigationDestination(
 						label: 'Books',
@@ -39,7 +41,8 @@ class NavikaAppScaffold extends StatelessWidget {
 					),
 					NavigationDestination(
 						label: 'Trafic',
-						icon: Icon(Scaffold_icon.cone),
+						icon: Icon(Scaffold_icon.cone_regular),
+						selectedIcon: Icon(Scaffold_icon.cone),
 					),
 				],
 			),
