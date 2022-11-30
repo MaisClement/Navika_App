@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 
 class Scaffold_icon {
-  Scaffold_icon._();
 
   static const _kFontFam = 'Scaffold_icon';
   static const String? _kFontPkg = null;

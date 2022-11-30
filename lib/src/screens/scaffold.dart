@@ -24,7 +24,7 @@ class NavikaAppScaffold extends StatelessWidget {
 					if (idx == 2) routeState.go('/books/popular');
 					if (idx == 3) routeState.go('/trafic');
 				},
-				destinations: const [
+				destinations: [
 					NavigationDestination(
 						label: 'Accueil',
 						icon: Icon(Scaffold_icon.home_regular),
