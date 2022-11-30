@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:navika/src/icons/Scaffold_icon_icons.dart';
 
 import '../widgets/places/empty.dart';
 import '../widgets/places/load.dart';
@@ -212,10 +213,9 @@ class _RouteSearchState extends State<RouteSearch> {
             ),
             child: Row(
               children: [
-                SvgPicture.asset(
-                  'assets/marker.svg',
+                Icon(Scaffold_icon.marker,
                   color: Theme.of(context).colorScheme.primary,
-                  height: 30
+                  size: 30
                 ),
                 Flexible(
                   child: TextField(
@@ -253,10 +253,9 @@ class _RouteSearchState extends State<RouteSearch> {
             ),
             child: Row(
               children: [
-                SvgPicture.asset(
-                  'assets/finish-flag.svg',
+                Icon(Scaffold_icon.finish_flag,
                   color: Theme.of(context).colorScheme.primary,
-                  height: 30
+                  size: 30
                 ),
                 Flexible(
                   child: TextField(
@@ -301,11 +300,11 @@ class _RouteSearchState extends State<RouteSearch> {
                           children: [
                             Row(
                               children: [
-                                SvgPicture.asset(
-                                  'assets/location-indicator.svg',
+                                Icon(Scaffold_icon.location_indicator,
                                   color: Theme.of(context).colorScheme.primary,
-                                  height: 25
+                                  size: 30
                                 ),
+                                
                                 const SizedBox(
                                   width: 10,
                                 ),

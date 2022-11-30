@@ -13,6 +13,7 @@ import 'package:navika/src/widgets/icons/mode.dart';
 import 'package:http/http.dart' as http;
 
 import '../data/global.dart' as globals;
+import '../style/style.dart';
 
 class DepartureDetails extends StatefulWidget {
   final String? stopArea;
@@ -89,56 +90,25 @@ class _DepartureDetailsState extends State<DepartureDetails>
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-      title: Text(globals.schedulesStopName),
-      elevation: 0,
-      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-      foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(globals.schedulesStopName,
+              style: appBarTitle
+            ),
+
+          if (LINES.getLinesById(departure['id']).libelle != "")
+            Text(LINES.getLinesById(departure['id']).libelle,
+              style: appBarSubtitle
+            ),
+        ],
+      ),
     ),
     body: Container(
       color: HexColor.fromHex(departure['color']).withOpacity(0.1),
       child: ListView(
         shrinkWrap: true,
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  spreadRadius: 3,
-                  blurRadius: 5,
-                  offset: const Offset(0, 2),
-                )
-              ]
-            ),
-            child: Row(
-              children: [
-                ModeIcones(
-                  line: departure,
-                  i: 0,
-                  size: 35,
-                  isDark: true,
-                ),
-                LinesIcones(
-                  line: departure,
-                  size: 35
-                ),
-                Container(
-                  width: 10,
-                ),
-                if (LINES.getLinesById(departure['id']).libelle != "")
-                  Text(LINES.getLinesById(departure['id']).libelle,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Segoe Ui',
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ) 
-              ],
-            ),
-          ),
-
           if (departure['departures'].isEmpty) 
             Row(
               children: [

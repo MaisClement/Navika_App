@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:navika/src/widgets/home/fav_button.dart';
+
+import '../../routing.dart';
+import '../../data/global.dart' as globals;
 
 class HomeBodyFavScroll extends StatelessWidget {
 
@@ -13,118 +17,41 @@ class HomeBodyFavScroll extends StatelessWidget {
     children: [
 
       // Maison
-      InkWell(
-        onTap: () {},
-        child: Container(
-          margin: const EdgeInsets.only(left: 10,),
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  spreadRadius: 3,
-                  blurRadius: 5,
-                  offset: const Offset(0, 2),
-                )
-              ]
-          ),
-          child: Column(
-            children: [
-              Container(
-                height: 10,
-              ),
-              SvgPicture.asset(
-                'assets/plus.svg',
-                color: Theme.of(context).colorScheme.primary,
-                height: 30
-              ),
-              Container(
-                height: 10,
-              ),
-              const Text('Ajouter'),
-            ],
-          ),
-        ),
+      FavButton(
+        name: 'Ajouter',
+        img: 'assets/plus.svg',
+        onTap: () {
+          globals.route['dep']['name'] = null;
+          globals.route['dep']['id'] = null;
+          globals.route['arr']['name'] = null;
+          globals.route['arr']['id'] = null;
+          RouteStateScope.of(context).go('/home/search');
+        }
       ),
 
-      // Ajout favoris
-      InkWell(
-        onTap: () {},
-        child: Container(
-          margin: const EdgeInsets.only(left: 10,),
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  spreadRadius: 3,
-                  blurRadius: 5,
-                  offset: const Offset(0, 2),
-                )
-              ]
-          ),
-          child: Column(
-            children: [
-              Container(
-                height: 10,
-              ),
-              SvgPicture.asset(
-                'assets/plus.svg',
-                color: Theme.of(context).colorScheme.primary,
-                height: 30
-              ),
-              Container(
-                height: 10,
-              ),
-              const Text('Ajouter'),
-            ],
-          ),
-        ),
+      FavButton(
+        name: 'Ajouter',
+        img: 'assets/plus.svg',
+        onTap: () {
+          globals.route['dep']['name'] = null;
+          globals.route['dep']['id'] = null;
+          globals.route['arr']['name'] = null;
+          globals.route['arr']['id'] = null;
+          RouteStateScope.of(context).go('/home/search');
+        }
       ),
 
-      // Ajout favoris
-      InkWell(
-        onTap: () {},
-        child: Container(
-          margin: const EdgeInsets.only(left: 10,),
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  spreadRadius: 3,
-                  blurRadius: 5,
-                  offset: const Offset(0, 2),
-                )
-              ]
-          ),
-          child: Column(
-            children: [
-              Container(
-                height: 10,
-              ),
-              SvgPicture.asset(
-                'assets/plus.svg',
-                color: Theme.of(context).colorScheme.primary,
-                height: 30
-              ),
-              Container(
-                height: 10,
-              ),
-              const Text('Ajouter'),
-            ],
-          ),
-        ),
-      )
+      FavButton(
+        name: 'Ajouter',
+        img: 'assets/plus.svg',
+        onTap: () {
+          globals.route['dep']['name'] = null;
+          globals.route['dep']['id'] = null;
+          globals.route['arr']['name'] = null;
+          globals.route['arr']['id'] = null;
+          RouteStateScope.of(context).go('/home/search');
+        }
+      ),
 
     ],
   );

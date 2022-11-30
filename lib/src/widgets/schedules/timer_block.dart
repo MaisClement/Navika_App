@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../bottom_sheet_details.dart';
+import '../bottom_schedules.dart';
 import '../../data/global.dart' as globals;
 
 int getTimeDifference(String time){
@@ -27,8 +27,8 @@ int getTimeDifference(String time){
         return const Color(0xfff68f53);
 
       case 'ontime':
-        // return Color.fromARGB(255, 126, 179, 204);
-        return const Color(0xfffcc900);
+        return Theme.of(context).colorScheme.primary;
+        // return const Color(0xfffcc900);
 
       default: 
         return const Color(0xffa9a9a9);
@@ -55,7 +55,7 @@ class TimerBlock extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: const Color(0xff202020),
+          color: const Color(0xffffffff),
           boxShadow: [
             BoxShadow(
               color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
@@ -87,12 +87,6 @@ class TimerBlock extends StatelessWidget {
                 
                 Container(
                   child: 
-                  // getTimeDifference(time) == 0 && state != "cancelled"
-                  // ?  BlinkText(
-                  //     text: '${getTimeDifference(time).toString()} min',
-                  //     color: getColorByState(state, context),
-                  //   )
-                  // : 
                   Text((getTimeDifference(time) < 99) && globals.hiveBox?.get('displayMode') != 'hour'
                     ? '${getTimeDifference(time).toString()} min'
                     : getTime(time),
@@ -118,53 +112,3 @@ class TimerBlock extends StatelessWidget {
       )
       : const Text('');
 }
-
-/*
-class BlinkText extends StatefulWidget {
-  final String text;
-  final Color color;
-
-	const BlinkText({
-		required this.text,
-		required this.color,
-		super.key,
-	});
-
-  @override
-  _BlinkTextState createState() => _BlinkTextState();
-}
-
-class _BlinkTextState extends State<BlinkText> {
-  bool _show = true;
-  Timer? _timer;
-
-  @override
-  void initState() {
-    _timer = Timer.periodic(const Duration(milliseconds: 500), (_) {
-      setState(() => _show = !_show);
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) => Text(widget.text,
-      style: _show
-          ? TextStyle(
-              color: widget.color,
-              fontWeight: FontWeight.w700,
-              fontFamily: 'Segoe Ui',
-            )
-          : TextStyle(
-              color: widget.color.withOpacity(0.5),
-              fontWeight: FontWeight.w700,
-              fontFamily: 'Segoe Ui',
-            )
-  );
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-}
-*/

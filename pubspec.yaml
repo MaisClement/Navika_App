@@ -46,14 +46,14 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   flutter_svg: ^1.1.6
+  flutter_inappwebview: ^5.7.2
 
   here_sdk:
     path: plugins/here_sdk
 
-  flutter_compass:
-    git: https://github.com/hemanthrajv/flutter_compass.git
-
-  flutter_inappwebview: ^5.7.2
+  flutter_compass: ^0.7.0
+  # flutter_compass:
+  #   git: https://github.com/hemanthrajv/flutter_compass.git
   
 dev_dependencies:
   hive_generator: ^1.1.3
@@ -325,8 +325,8 @@ flutter:
     - assets/null.png
     - assets/plus.svg
     - assets/search.svg
+    - assets/star_regular.svg
     - assets/star.svg
-    - assets/star-filled.svg
     - assets/train.svg
     - assets/university.svg
     - assets/walking.svg

@@ -5,13 +5,15 @@ import 'package:navika/src/widgets/icons/mode.dart';
 
 class Icones extends StatelessWidget {
 	final Map line;
-  final Map old_line;
+  final Map oldLine;
   final int i;
+  final double size;
 
 	const Icones({
 		required this.line,
-    required this.old_line,
+    required this.oldLine,
     required this.i,
+    this.size = 20,
 		super.key,
 	});
 
@@ -19,14 +21,16 @@ class Icones extends StatelessWidget {
 	Widget build(BuildContext context) => Wrap(
     children: [
       
-      if (old_line['mode'] != line['mode'] || i == 0)
+      if (oldLine['mode'] != line['mode'] || i == 0)
         ModeIcones(
           line: line,
-          i: i
+          i: i,
+          size: size,
         ),
 
       LinesIcones(
-        line: line
+        line: line,
+        size: size,
       )
 
     ],

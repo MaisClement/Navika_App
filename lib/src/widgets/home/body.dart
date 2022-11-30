@@ -23,7 +23,7 @@ class HomeBody extends StatelessWidget {
     child: Column(
       children: [
         SizedBox(
-          height: 80,
+          height: 85,
           child: HomeBodyFavScroll(),
         ),
         SizedBox(

@@ -12,6 +12,23 @@ import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
 
+List clearTrain(List departures) {
+  bool hide = globals.hiveBox?.get('hideTerminusTrain') ?? false;
+  // hide = true;
+
+  if (hide){
+    List list = [];
+    for (var departure in departures){
+      if (departure['informations']['message'] != 'terminus'){
+        list.add(departure);
+      }
+    }
+    return list;
+  } 
+
+  return departures;
+}
+
 class DepartureBlock extends StatelessWidget {
 	final List departures;
   final ScrollController scrollController;
@@ -21,23 +38,6 @@ class DepartureBlock extends StatelessWidget {
     required this.scrollController,
 		super.key,
 	});
-  
-  List clearTrain(List departures) {
-    bool hide = globals.hiveBox?.get('hideTerminusTrain') ?? false;
-    // hide = true;
-
-    if (hide){
-      List list = [];
-      for (var departure in departures){
-        if (departure['informations']['message'] != 'terminus'){
-          list.add(departure);
-        }
-      }
-      return list;
-    } 
-
-    return departures;
-  }
 
 	@override
 	Widget build(BuildContext context) => ListView(
@@ -81,7 +81,7 @@ class DepartureBlock extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       globals.schedulesDeparture = departure;
-                      RouteStateScope.of(context).go('/schedules/${globals.schedulesStopArea}/departures/${departure['id']}');
+                      RouteStateScope.of(context).go('/schedules/stops/${globals.schedulesStopArea}/departures/${departure['id']}');
                     },
                     child: Row(
                       children: [
@@ -154,7 +154,7 @@ class DepartureBlock extends StatelessWidget {
                             child: InkWell(
                               onTap: () {
                                 globals.schedulesDeparture = departure;
-                                RouteStateScope.of(context).go('/schedules/${globals.schedulesStopArea}/departures/${departure['id']}');
+                                RouteStateScope.of(context).go('/schedules/stops/${globals.schedulesStopArea}/departures/${departure['id']}');
                               },
                               child: Container(
                                 padding: const EdgeInsets.only(left:10.0, top:5.0, right:10.0, bottom:5.0),

@@ -1,0 +1,136 @@
+import 'package:flutter/material.dart';
+import 'package:navika/src/screens/schedules_details.dart';
+import 'package:navika/src/widgets/departures/time_block.dart';
+import 'package:navika/src/widgets/icons/icons.dart';
+import 'package:navika/src/widgets/schedules/timer_block.dart';
+import '../data/global.dart' as globals;
+import '../routing.dart';
+
+int getFavoritesPos(id, line) {
+  List favs = globals.hiveBox?.get('stopsFavorites') ?? [];
+
+  if (favs.isNotEmpty) {
+    var i = 0;
+    for (var fav in favs) {
+      if (fav['id'] == id && fav['line'] == line) {
+        return i;
+      } 
+      i++;
+    }
+  }
+  return -1;
+}
+
+class BottomRemoveFavorite extends StatefulWidget {
+  final String name;
+  final String id;
+  final String line;
+
+	const BottomRemoveFavorite({
+    required this.name,
+    required this.id,
+    required this.line,
+		super.key,
+	});
+
+  @override
+  State<BottomRemoveFavorite> createState() => _BottomRemoveFavoriteState();
+}
+
+class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite>
+    with SingleTickerProviderStateMixin {
+
+  List stopsFavorites = globals.hiveBox.get('stopsFavorites') ?? [];
+
+	@override
+	Widget build(BuildContext context) => Container(
+    height: 250,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(5),
+      color: Colors.grey[200],
+      boxShadow: [
+        BoxShadow(
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+          spreadRadius: 3,
+          blurRadius: 5,
+          offset: const Offset(0, 2),
+        )
+      ]
+    ),
+    child: Container(
+      padding: const EdgeInsets.only(left:20.0, top:30.0, right:20.0, bottom:10.0), 
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Supprimer ce favori',
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Segoe Ui',
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+          const Divider(),
+          const SizedBox(
+            height: 10,
+          ),
+
+          Expanded(
+            child: Text('Etes-vous sur de supprimer ce favori ?',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Segoe Ui',
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ),
+
+          const SizedBox(
+            height: 20,
+          ),
+
+          Center(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xffeb2031),
+                foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+              ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+              child: const Text('Supprimer'),
+              onPressed: () {
+                List list = globals.hiveBox.get('stopsFavorites');
+
+                int pos = getFavoritesPos(widget.id, widget.line);
+
+                if (pos >= 0) {
+                  list.removeAt(pos);
+                  globals.hiveBox.put('stopsFavorites', list);
+                  Navigator.pop(context);
+                  RouteStateScope.of(context).go('/schedules');
+                } else {
+                  var snackBar = const SnackBar(
+                    content: Text('Suppression impossible.'),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+
+                var snackBar = const SnackBar(
+                  content: Text('Favoris supprimé.'),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              },
+            ),  
+          ),
+          Center(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+              ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+              child: const Text('Annuler'),
+              onPressed: () => Navigator.pop(context),
+            ),  
+          )
+        ],
+      ),
+    ),
+  );
+}

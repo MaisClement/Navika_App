@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../data/lines.dart';
+import '../style/style.dart';
 import '../widgets/trafic/block.dart';
 
 class TraficDetails extends StatelessWidget {
@@ -34,7 +35,9 @@ class TraficDetails extends StatelessWidget {
 		}
 		return Scaffold(
 			appBar: AppBar(
-				title: const Text('Info Trafic'),
+				title: const Text('Info Trafic',
+              style: appBarTitle
+            ),
         elevation: 0,
         backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
         foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,

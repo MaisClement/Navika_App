@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/widgets/bottom_sheet_details.dart';
+import 'package:navika/src/widgets/bottom_schedules.dart';
 import 'package:navika/src/widgets/departures/list.dart';
 import '../../data/global.dart' as globals;
 

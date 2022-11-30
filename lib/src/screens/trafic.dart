@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; 
 
+import '../style/style.dart';
 import '../widgets/trafic/block.dart';
 import '../data/global.dart' as globals;
 
@@ -43,7 +44,9 @@ class _TraficState extends State<Trafic> {
 	@override
 	Widget build(BuildContext context) => Scaffold(
 		appBar: AppBar(
-			title: Text(title),
+			title: Text(title,
+              style: appBarTitle
+            ),
       elevation: 0,
       backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
       foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,

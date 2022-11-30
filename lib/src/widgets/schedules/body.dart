@@ -130,6 +130,7 @@ class _SchedulesBodyState extends State<SchedulesBody>
       tabs.add(const Tab(
                 icon: Icon(Scaffold_icon.train),
                 text: 'Train et RER',
+                iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)
               ));
     }
     if (modes.contains('physical_mode:Metro') ||
@@ -137,18 +138,21 @@ class _SchedulesBodyState extends State<SchedulesBody>
       tabs.add(const Tab(
                 icon: Icon(Scaffold_icon.metro),
                 text: 'Métro',
+                iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)
               ));
     }
     if (modes.contains('physical_mode:Tramway')) {
       tabs.add(const Tab(
                 icon: Icon(Scaffold_icon.tram),
                 text: 'Tramway',
+                iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)
               ));
     }
     if (modes.contains('physical_mode:Bus')) {
       tabs.add(const Tab(
                 icon: Icon(Scaffold_icon.bus),
                 text: 'Bus',
+                iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)
               ));
     }
     return tabs;
@@ -168,21 +172,21 @@ class _SchedulesBodyState extends State<SchedulesBody>
     }
     if (modes.contains('physical_mode:Metro') ||
         modes.contains('physical_mode:RailShuttle')) {
-      tabs.add(Schedules_List(
+      tabs.add(SchedulesList(
                 schedules: schedules,
                 modes: 'metro',
                 scrollController: scrollController,
               ));
     }
     if (modes.contains('physical_mode:Tramway')) {
-      tabs.add(Schedules_List(
+      tabs.add(SchedulesList(
                 schedules: schedules,
                 modes: 'tram',
                 scrollController: scrollController,
               ));
     }
     if (modes.contains('physical_mode:Bus')) {
-      tabs.add(Schedules_List(
+      tabs.add(SchedulesList(
                 schedules: schedules,
                 modes: 'bus',
                 scrollController: scrollController,
@@ -197,7 +201,7 @@ class _SchedulesBodyState extends State<SchedulesBody>
       if ( getModesLength(globals.schedulesStopModes) > 1 )
         Container(
           margin: const EdgeInsets.only(top:10, right:10, left: 10, bottom: 10),
-          height: 60, // kToolbarHeight + 8,
+          height: 70, // kToolbarHeight + 8,
           decoration: BoxDecoration(
             color: Colors.grey.shade200,
             borderRadius: BorderRadius.circular(8.0),

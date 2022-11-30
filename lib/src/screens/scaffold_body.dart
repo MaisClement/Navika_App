@@ -28,10 +28,6 @@ class NavikaAppScaffoldBody extends StatelessWidget {
 			onPopPage: (route, dynamic result) {
 				// When a page that is stacked on top of the scaffold is popped, display
 				// the /books or /schedules tab in NavikaAppScaffold.
-				if (pathTemplate == '/home/search') {
-          routeState.go('/home');
-        }
-
 				if (pathTemplate == '/stops/:stop_area') {
           routeState.go('/home');
         }

@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
+import 'package:navika/src/icons/Scaffold_icon_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_compass/flutter_compass.dart';
@@ -146,6 +147,7 @@ class _HomeState extends State<Home> {
         metadata.setString("id", stop['id']);
         metadata.setString("name", stop['name']);
         metadata.setString("modes", json.encode(stop['modes']));
+        metadata.setString("lines", json.encode(stop['lines']));
         metadata.setDouble("lat", stop['coord']['lat']);
         metadata.setDouble("lon", stop['coord']['lon']);
 
@@ -196,7 +198,7 @@ class _HomeState extends State<Home> {
             ),
             snapPoint: 0.55,
             minHeight: widget.displaySchedules ? 75 : 100,
-            maxHeight: (MediaQuery.of(context).size.height - 110),
+            maxHeight: (MediaQuery.of(context).size.height - 130),
             controller: panelController,
             onPanelSlide: (position) => onPanelSlide(position),
 
@@ -231,13 +233,13 @@ class _HomeState extends State<Home> {
               child: FloatingActionButton(
                 backgroundColor: Colors.white,
                 child: _isInBox ?
-                  SvgPicture.asset(
-                    'assets/location-indicator.svg',
-                    width: 30
+                  const Icon(Scaffold_icon.location_indicator,
+                    color: Color(0xff000000),
+                    size: 30
                   )
-                : SvgPicture.asset(
-                    'assets/locate.svg',
-                    width: 30
+                : const Icon(Scaffold_icon.locate,
+                    color: Color(0xff000000),
+                    size: 30
                   ),
                 onPressed: () {
                   _zoomOn();
@@ -263,14 +265,7 @@ class _HomeState extends State<Home> {
     ),
   );
 
-  int getOpacity(position) {
-    if (position < 0.6) {
-      return 1;
-    } 
-    return 0;
-
-  }
-
+  
   @override
   void initState() {
     super.initState();
@@ -377,6 +372,7 @@ class _HomeState extends State<Home> {
         globals.schedulesStopArea = metadata.getString("id") ?? "";
         globals.schedulesStopName = metadata.getString("name") ?? "";
         globals.schedulesStopModes = json.decode(metadata.getString("modes") ?? "");
+        globals.schedulesStopLines = json.decode(metadata.getString("modes") ?? "");
         if (mounted) {
           setState(() {
             isPanned = true;

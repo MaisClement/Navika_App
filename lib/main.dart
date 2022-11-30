@@ -32,10 +32,13 @@ void setupWindow() {
 
 void _initializeHive() async{
   await Hive.initFlutter();
-
   globals.hiveBox = await Hive.openBox('Home');
-  
-  print({'HIVETEST_latitude:', globals.hiveBox.get('latitude')});
+
+  if (globals.hiveBox.get('stopsFavorites') == null) {
+    globals.hiveBox.put('stopsFavorites', []);
+  }
+
+  print({'HIVETEST_:', globals.hiveBox.get('stopsFavorites')});
 }
 
 void _initializeHERESDK() async {

@@ -54,7 +54,7 @@ class HomeMessage extends StatelessWidget {
     margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
     decoration: BoxDecoration(
       color: getSlugBack(message['severity'], 1),
-      borderRadius: BorderRadius.circular(5),
+      borderRadius: BorderRadius.circular(10),
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,7 +109,8 @@ class HomeMessage extends StatelessWidget {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: getSlugColor(message['severity'], 1),
-            ),
+              foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
             child: Text(message['message']['button']),
           ),
         )

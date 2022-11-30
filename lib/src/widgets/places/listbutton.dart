@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:navika/src/icons/scaffold_icon_icons.dart';
 
 import 'package:navika/src/widgets/icons/icons.dart';
 
@@ -15,15 +16,15 @@ class Places_ListButton extends StatelessWidget {
 		super.key,
 	});
 
-  String getPlaceIcon(type){
+  IconData getPlaceIcon(type){
     if (type == 'stop_area'){
-      return "assets/train.svg";
+      return Scaffold_icon.train_2;
     } else if (type == 'address'){
-      return "assets/marker.svg";
+      return Scaffold_icon.marker;
     } else if (type == 'administrative_region'){
-      return "assets/city.svg";
+      return Scaffold_icon.city;
     } else {
-      return "assets/null.png";
+      return Scaffold_icon.university;
     } 
   }
 
@@ -39,10 +40,9 @@ class Places_ListButton extends StatelessWidget {
           children: [
             Row(
               children: [
-                SvgPicture.asset(
-                  getPlaceIcon(place['type']),
+                Icon(getPlaceIcon(place['type']),
                   color: Theme.of(context).colorScheme.primary,
-                  height: 25
+                  size: 25
                 ),
                 const SizedBox(
                   width: 10,
@@ -79,12 +79,10 @@ class Places_ListButton extends StatelessWidget {
                 margin: const EdgeInsets.only(left:5.0, top:4.0),
                 child: Row(
                   children: [
-                    SvgPicture.asset(
-                      'assets/walking.svg',
+                    const Icon(Scaffold_icon.walking,
                       color: Colors.grey,
-                      height: 15
+                      size: 25
                     ),
-                    
                     Text('${place['distance']}m',
                       style: const TextStyle(
                         color: Colors.grey,
@@ -110,7 +108,7 @@ class Places_ListButton extends StatelessWidget {
                 
                   Icones(
                     line: place['lines'][i],
-                    old_line: i > 0 ? place['lines'][i - 1] : place['lines'][i],
+                    oldLine: i > 0 ? place['lines'][i - 1] : place['lines'][i],
                     i: i,
                   )
                 

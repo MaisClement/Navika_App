@@ -20,7 +20,7 @@ class NavikaAppScaffold extends StatelessWidget {
 				selectedIndex: selectedIndex,
 				onDestinationSelected: (idx) {
 					if (idx == 0) routeState.go('/home');
-					if (idx == 1) routeState.go('/schedules');
+					if (idx == 1) routeState.go('/schedules');  
 					if (idx == 2) routeState.go('/books/popular');
 					if (idx == 3) routeState.go('/trafic');
 				},

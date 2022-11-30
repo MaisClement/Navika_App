@@ -6,12 +6,12 @@ import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
 import 'timer_block.dart';
 
-class Schedules_List extends StatelessWidget {
+class SchedulesList extends StatelessWidget {
 	final List schedules;
   final String modes;
   final ScrollController scrollController;
 
-	const Schedules_List({
+	const SchedulesList({
 		required this.schedules,
 		required this.modes,
     required this.scrollController,

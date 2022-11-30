@@ -27,8 +27,9 @@ class _NavikaAppState extends State<NavikaApp> {
 				'/stops/:stop_area',
 				'/home/search',
 				'/schedules',
-        '/schedules/:stop_area',
-        '/schedules/:stop_area/departures/:line_id',
+				'/schedules/search',
+        '/schedules/stops/:stop_area',
+        '/schedules/stops/:stop_area/departures/:line_id',
 				'/trafic',
         '/trafic/:lineId',
 				'/web/:uri'
@@ -62,8 +63,6 @@ class _NavikaAppState extends State<NavikaApp> {
             useMaterial3: true,
 						brightness: Brightness.light,
 						primarySwatch: generateMaterialColor(const Color(0xff025982)), // generateMaterialColor(const Color(0xff611925)),
-
-            bottomAppBarColor: Theme.of(context).colorScheme.onSecondaryContainer,
 						// primaryColor: Colors.black,
 						// brightness: Brightness.dark,
 						// backgroundColor: const Color(0xFF212121),
@@ -78,9 +77,9 @@ class _NavikaAppState extends State<NavikaApp> {
 							},
 						),
 						navigationBarTheme: NavigationBarThemeData(
-							indicatorColor: Color(0xff025982).withOpacity(0.3),
+							indicatorColor: const Color(0xff025982).withOpacity(0.2),
 							iconTheme: MaterialStateProperty.all(
-								IconThemeData(
+								const IconThemeData(
 									color: Colors.black
 								)
 							)
@@ -90,7 +89,7 @@ class _NavikaAppState extends State<NavikaApp> {
             useMaterial3: true,
             fontFamily: 'Segoe Ui',
 						brightness: Brightness.dark,
-						primarySwatch: generateMaterialColor(Color(0xff0482bd)), // generateMaterialColor(const Color(0xff611925)),
+						primarySwatch: generateMaterialColor(const Color(0xff0482bd)), // generateMaterialColor(const Color(0xff611925)),
 						
 					),
 					//THEME
