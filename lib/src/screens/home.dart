@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:here_sdk/gestures.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:http/http.dart' as http; 
 import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
@@ -12,7 +14,6 @@ import 'package:navika/src/icons/Scaffold_icon_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_compass/flutter_compass.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../data/global.dart' as globals;
 import '../controller/here_map_controller.dart';
@@ -55,8 +56,7 @@ class _HomeState extends State<Home> {
 
   List pointNearby = [];
   Map index = {};
-
-  String _panel = '';
+  List favs = globals.hiveBox?.get('stopsFavorites') ?? [];
 
   Future<void> _getLocation() async {
     bool serviceEnabled;
@@ -177,6 +177,14 @@ class _HomeState extends State<Home> {
     }
 	}
 
+  Future<void> _getFavorites() async {
+    var box = await Hive.openBox('Home');
+
+    setState(() {
+      favs = box.get('stopsFavorites');
+    });
+	}
+
   Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
     value: const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -220,6 +228,8 @@ class _HomeState extends State<Home> {
               : HomeBody(
                   scrollController: scrollController,
                   index: index,
+                  favs: favs,
+                  update: updateFavorites,
                 ),
 
             body: HereMap(onMapCreated: _onMapCreated),
@@ -265,12 +275,12 @@ class _HomeState extends State<Home> {
     ),
   );
 
-  
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _getIndex();
+      _getFavorites();
       _getPoints();
       getInBox();
       panelController.animatePanelToSnapPoint( );
@@ -357,12 +367,10 @@ class _HomeState extends State<Home> {
     double radiusInPixel = 2;
       _controller?.pickMapItems(touchPoint, radiusInPixel, (pickMapItemsResult) {
       if (pickMapItemsResult == null) {
-        print("Pick operation failed.");
         return;
       }
       List<MapMarker> mapMarkerList = pickMapItemsResult.markers;
       if (mapMarkerList.length == 0) {
-        print("No map markers found.");
         return;
       }
 
@@ -372,7 +380,7 @@ class _HomeState extends State<Home> {
         globals.schedulesStopArea = metadata.getString("id") ?? "";
         globals.schedulesStopName = metadata.getString("name") ?? "";
         globals.schedulesStopModes = json.decode(metadata.getString("modes") ?? "");
-        globals.schedulesStopLines = json.decode(metadata.getString("modes") ?? "");
+        globals.schedulesStopLines = json.decode(metadata.getString("lines") ?? "");
         if (mounted) {
           setState(() {
             isPanned = true;
@@ -412,15 +420,10 @@ class _HomeState extends State<Home> {
     _controller?.updateLocationIndicator(globals.locationData, heading);
   }
 
-  void _zoomTo() {
-    var isOverLocation = _controller?.isOverLocation() ?? false;
-    if (isOverLocation) {
-      setState(() {
-        is3dMap = !is3dMap;
-        isPanned = false;
-      });
-    }
-    _controller?.zoomOnLocationIndicator(is3dMap);
+  void updateFavorites() {
+    setState(() {
+      favs = globals.hiveBox.get('stopsFavorites');
+    });
   }
 
   void _zoomOn() {

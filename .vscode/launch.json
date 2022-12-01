@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Navika",
+            "name": "Navika (debug mode)",
             "request": "launch",
             "type": "dart"
         },

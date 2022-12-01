@@ -6,11 +6,22 @@ import '../../extensions/hexcolor.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
 
+import '../../routing.dart';
+import '../../data/global.dart' as globals;
+
 class FavoriteSchedules extends StatelessWidget {
+  final String id;
+  final String name;
+  final List modes;
 	final List schedules;
+  final Function update;
 
 	const FavoriteSchedules({
+    required this.id,
+    required this.name,
+    required this.modes,
 		required this.schedules,
+		required this.update,
 		super.key,
 	});
 
@@ -117,6 +128,7 @@ class FavoriteSchedules extends StatelessWidget {
                                   TimerBlock(
                                       time: departure['departure_date_time'],
                                       state: departure['state'],
+                                      update: update,
                                     )
                                 else
                                   Container(
@@ -166,7 +178,22 @@ class FavoriteSchedules extends StatelessWidget {
               )
             ]
           ),
-        )
+        ),
+        Center(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+            child: const Text('Tous les horaires ➜'),
+            onPressed: () {
+              globals.schedulesStopArea = id;
+              globals.schedulesStopName = name;
+              globals.schedulesStopModes = modes;
+              RouteStateScope.of(context).go('/schedules/stops/${id}');
+            },
+          ),
+        ),
       
     ],
   );

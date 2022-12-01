@@ -63,10 +63,6 @@ class _NavikaAppState extends State<NavikaApp> {
             useMaterial3: true,
 						brightness: Brightness.light,
 						primarySwatch: generateMaterialColor(const Color(0xff025982)), // generateMaterialColor(const Color(0xff611925)),
-						// primaryColor: Colors.black,
-						// brightness: Brightness.dark,
-						// backgroundColor: const Color(0xFF212121),
-						// dividerColor: Colors.black12,
 						pageTransitionsTheme: const PageTransitionsTheme(
 							builders: {
 								TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
@@ -87,10 +83,25 @@ class _NavikaAppState extends State<NavikaApp> {
 					),
 					darkTheme: ThemeData(
             useMaterial3: true,
-            fontFamily: 'Segoe Ui',
 						brightness: Brightness.dark,
-						primarySwatch: generateMaterialColor(const Color(0xff0482bd)), // generateMaterialColor(const Color(0xff611925)),
-						
+						primarySwatch: generateMaterialColor(const Color(0xff025982)), // generateMaterialColor(const Color(0xff611925)),
+						pageTransitionsTheme: const PageTransitionsTheme(
+							builders: {
+								TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+								TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+								TargetPlatform.linux: FadeUpwardsPageTransitionsBuilder(),
+								TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+								TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
+							},
+						),
+						navigationBarTheme: NavigationBarThemeData(
+							indicatorColor: const Color(0xff025982).withOpacity(0.2),
+							iconTheme: MaterialStateProperty.all(
+								const IconThemeData(
+									color: Colors.black
+								)
+							)
+						)
 					),
 					//THEME
 					themeMode: ThemeMode.light, 

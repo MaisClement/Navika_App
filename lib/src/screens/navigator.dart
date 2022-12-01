@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/screens/route_search.dart';
-import 'package:navika/src/screens/schedules.dart';
 import 'package:navika/src/screens/schedules_departures.dart';
 import 'package:navika/src/screens/schedules_search.dart';
 
 import '../routing.dart';
-import '../widgets/fade_transition_page.dart';
 import 'trafic_details.dart';
 import 'schedules_details.dart';
 import 'scaffold.dart';
@@ -77,7 +75,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           routeState.go('/schedules');
         }
         if (pathTemplate == '/schedules/stops/:stop_area') {
-          routeState.go('/schedules/search');
+          routeState.go('/schedules');
         }
 				if (pathTemplate == '/schedules/stops/:stop_area/departures/:line_id') {
           routeState.go('/schedules/stops/${stopArea}');

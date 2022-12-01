@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/screens/schedules_details.dart';
-import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/icons/icons.dart';
-import 'package:navika/src/widgets/schedules/timer_block.dart';
-import '../data/global.dart' as globals;
-import '../routing.dart';
+import '../../data/global.dart' as globals;
+import '../../routing.dart';
 
 class BottomAddFavorite extends StatefulWidget {
   final String name;
   final String id;
   final List lines;
+  final List modes;
 
 	const BottomAddFavorite({
     required this.name,
     required this.id,
     required this.lines,
+    required this.modes,
 		super.key,
 	});
 
@@ -29,10 +29,12 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
 
 	@override
 	Widget build(BuildContext context) => Container(
-    height: 400,
+    height: 600,
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(5),
-      color: Colors.grey[200],
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(5),
+        topRight: Radius.circular(5)
+      ),
       boxShadow: [
         BoxShadow(
           color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
@@ -46,7 +48,7 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
       padding: const EdgeInsets.only(left:20.0, top:30.0, right:20.0, bottom:10.0), 
       child: ListView(
         children: [
-          Text('Ajouter cette stations aux favoris.',
+          Text('Ajouter cet arrêts aux favoris.',
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.w600,
@@ -80,11 +82,16 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
                     list.add({
                       'id': widget.id,
                       'name': widget.name,
+                      'modes': widget.modes,
                       'line': line['id']
                     });
                     globals.hiveBox.put('stopsFavorites', list);
                     Navigator.pop(context);
                     RouteStateScope.of(context).go('/schedules');
+                    var snackBar = const SnackBar(
+                      content: Text('Favoris ajouté.'),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
                   child: Row(
                     children: [
@@ -121,7 +128,7 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
           Center(
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
               ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
               child: const Text('Annuler'),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../bottom_schedules.dart';
+import '../bottom_sheets/time.dart';
 import '../../data/global.dart' as globals;
 
 int getTimeDifference(String time){
@@ -38,11 +38,13 @@ int getTimeDifference(String time){
 class TimerBlock extends StatelessWidget {
 	final String time;
   final String state;
+  final Function update;
   final bool disabled;
 
 	const TimerBlock({
 		required this.time,
 		required this.state,
+    required this.update,
     this.disabled = false,
 		super.key,
 	});
@@ -76,7 +78,9 @@ class TimerBlock extends StatelessWidget {
                 isScrollControlled: true,
                 context: context, 
                 builder: (BuildContext context) => 
-                  const BottomSchedules());
+                  BottomSchedules(
+                    update: update,
+                  ));
             }
           },
           child: Container(

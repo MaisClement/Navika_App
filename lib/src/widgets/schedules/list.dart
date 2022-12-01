@@ -10,11 +10,13 @@ class SchedulesList extends StatelessWidget {
 	final List schedules;
   final String modes;
   final ScrollController scrollController;
+  final Function update;
 
 	const SchedulesList({
 		required this.schedules,
 		required this.modes,
     required this.scrollController,
+    required this.update,
 		super.key,
 	});
 
@@ -136,6 +138,7 @@ class SchedulesList extends StatelessWidget {
                                       TimerBlock(
                                           time: departure['departure_date_time'],
                                           state: departure['state'],
+                                          update: update,
                                         )
                                     else
                                       Container(

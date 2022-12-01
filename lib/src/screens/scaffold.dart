@@ -1,4 +1,3 @@
-import 'package:adaptive_navigation/adaptive_navigation.dart';
 import 'package:flutter/material.dart';
 
 import '../icons/Scaffold_icon_icons.dart';

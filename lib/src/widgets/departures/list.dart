@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/widgets/departures/message.dart';
 import 'package:navika/src/widgets/departures/time_block.dart';
+import '../bottom_sheets/terminus_trains.dart';
 
 String getState(String departure, String expectedDeparture, String state) {
   if (state != "ontime" && state != "theorical") {
@@ -51,9 +52,11 @@ Color getBackColorByState(state, context) {
 
 class DepartureList extends StatelessWidget {
 	final Map train;
+  final Function update;
 
 	const DepartureList({
 		required this.train,
+    required this.update,
 		super.key,
 	});
 
@@ -157,18 +160,36 @@ class DepartureList extends StatelessWidget {
                       backgroundColor: const Color(0xffeb2031),
                     ),
 
-                  const Message(
-                    message: "Terminus",
-                  ),
+                  GestureDetector(
+                    child: InkWell(
+                      onTap: () {
+                        showModalBottomSheet<void>(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          isScrollControlled: true,
+                          context: context, 
+                          builder: (BuildContext context) => 
+                            BottomTerminusTrain(
+                              update: update
+                            ));
+                      },
+                      child: const Message(
+                        message: "Terminus",
+                      )
+                    )
+                  )
                   
                 ],
               )
             else 
               TimeBlock(
                 time: train['stop_date_time']['departure_date_time'],
+                base: train['stop_date_time']['base_departure_date_time'],
                 state: getState(train['stop_date_time']['departure_date_time'], train['stop_date_time']['base_departure_date_time'], train['stop_date_time']['state']),
                 late: getLate(train['stop_date_time']['departure_date_time'], train['stop_date_time']['base_departure_date_time']),
-                track: train['stop_date_time']['platform']
+                track: train['stop_date_time']['platform'],
+                update: update
               ),
               
           ]

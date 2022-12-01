@@ -6,10 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/data.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/widgets/departures/list.dart';
-import 'package:navika/src/widgets/departures/message.dart';
-import 'package:navika/src/widgets/departures/time_block.dart';
-import 'package:navika/src/widgets/icons/lines.dart';
-import 'package:navika/src/widgets/icons/mode.dart';
+import 'package:navika/src/widgets/departures/block.dart';
 import 'package:http/http.dart' as http;
 
 import '../data/global.dart' as globals;
@@ -57,33 +54,42 @@ class _DepartureDetailsState extends State<DepartureDetails>
 	}
 
   Future<void> _getDepature() async {
-    print({'INFO_get', globals.schedulesStopArea});
+    print({'INFO_', globals.schedulesStopArea});
     try {
-      final response = await http.get(Uri.parse('${globals.API_SCHEDULES}?s=${globals.schedulesStopArea}'));
+      if (mounted) {
+        final response = await http.get(Uri.parse('${globals.API_SCHEDULES}?s=${globals.schedulesStopArea}'));
 
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
+        if (response.statusCode == 200) {
+          final data = json.decode(response.body);
 
-        if (mounted) {
-          setState(() {
-            if (data['departures'] != null) {
-              for(var i = 0; i < data['departures'].length; i++) {
-                if (data['departures'][i]['id'] == widget.stopLine) {
-                  departure = data['departures'][i];
-                  break;
+          if (mounted) {
+            setState(() {
+              if (data['departures'] != null) {
+                for(var i = 0; i < data['departures'].length; i++) {
+                  if (data['departures'][i]['id'] == widget.stopLine) {
+                    departure = data['departures'][i];
+                    break;
+                  }
                 }
+                
               }
-              
-            }
-          });
+            });
+          }
         }
       }
-
       _timer = Timer(const Duration(seconds: 30), () {
         _getDepature();
       });
     } on Exception catch (_) {
-      print('catch');
+      // TODO
+    }
+  }
+
+  void update () {
+    if (mounted) {
+      setState(() {
+        departure = departure;
+      });
     }
   }
 
@@ -127,11 +133,12 @@ class _DepartureDetailsState extends State<DepartureDetails>
               ],
             )
           else
-            for (var train in departure['departures'])
+            for (var train in clearTrain(departure['departures']) )
               Container(
                 margin: const EdgeInsets.only(left:5.0, top:0.0, right:5.0, bottom:0.0),
                 child: DepartureList(
                   train: train,
+                  update: update,
                 ),
               )
         ],

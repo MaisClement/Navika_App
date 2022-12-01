@@ -36,10 +36,13 @@ class TraficDetails extends StatelessWidget {
 		return Scaffold(
 			appBar: AppBar(
 				title: const Text('Info Trafic',
-              style: appBarTitle
-            ),
+          style: appBarTitle
+        ),
+        leading: const BackButton(
+          color: Colors.white, // <-- SEE HERE
+        ),
         elevation: 0,
-        backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
 			),
       body: Container(

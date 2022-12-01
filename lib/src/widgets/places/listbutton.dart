@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/icons/scaffold_icon_icons.dart';
 
 import 'package:navika/src/widgets/icons/icons.dart';

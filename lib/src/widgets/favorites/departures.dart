@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/data.dart';
-import 'package:navika/src/widgets/schedules/timer_block.dart';
 import 'package:navika/src/widgets/departures/block.dart';
 
 import '../../extensions/hexcolor.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
 
+import '../../routing.dart';
 import '../departures/list.dart';
+import '../../data/global.dart' as globals;
 
 class FavoriteDepartures extends StatelessWidget {
+  final String id;
+  final String name;
+  final List modes;
 	final List schedules;
+  final Function update;
 
 	const FavoriteDepartures({
+    required this.id,
+    required this.name,
+    required this.modes,
 		required this.schedules,
+    required this.update,
 		super.key,
 	});
 
@@ -44,10 +53,13 @@ class FavoriteDepartures extends StatelessWidget {
                   ]
                 ),
                 child: InkWell(
-                  // onTap: () {
-                  //   globals.schedulesDeparture = departure;
-                  //   RouteStateScope.of(context).go('/schedules/stops/${globals.schedulesStopArea}/departures/${departure['id']}');
-                  // },
+                  onTap: () {
+                    globals.schedulesStopArea = id;
+                    globals.schedulesStopName = name;
+                    globals.schedulesStopModes = modes;
+                    globals.schedulesDeparture = departure;
+                    RouteStateScope.of(context).go('/schedules/stops/${id}/departures/${departure['id']}');
+                  },
                   child: Row(
                     children: [
                       ModeIcones(
@@ -104,7 +116,8 @@ class FavoriteDepartures extends StatelessWidget {
                     else
                       for (var train in clearTrain( departure['departures'] ).sublist(0, clearTrain( departure['departures'] ).length > 3 ? 3 : clearTrain( departure['departures'] ).length))
                         DepartureList(
-                          train: train
+                          train: train,
+                          update: update,
                         ),
                         
                   ],
@@ -119,8 +132,22 @@ class FavoriteDepartures extends StatelessWidget {
               )
             ]
           ),
-        )
-      
+        ),
+        Center(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+            child: const Text('Tous les horaires ➜'),
+            onPressed: () {
+              globals.schedulesStopArea = id;
+              globals.schedulesStopName = name;
+              globals.schedulesStopModes = modes;
+              RouteStateScope.of(context).go('/schedules/stops/${id}');
+            },
+          ),
+        ),
     ],
   );
 }

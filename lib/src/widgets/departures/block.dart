@@ -2,19 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:navika/src/data.dart';
 import 'package:navika/src/widgets/departures/list.dart';
-
 import '../../data/global.dart' as globals;
-
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/routing/route_state.dart';
-import 'package:navika/src/widgets/departures/message.dart';
-import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
 
 List clearTrain(List departures) {
   bool hide = globals.hiveBox?.get('hideTerminusTrain') ?? false;
-  // hide = true;
 
   if (hide){
     List list = [];
@@ -32,10 +27,12 @@ List clearTrain(List departures) {
 class DepartureBlock extends StatelessWidget {
 	final List departures;
   final ScrollController scrollController;
+  final Function update;
 
 	const DepartureBlock({
 		required this.departures,
     required this.scrollController,
+    required this.update,
 		super.key,
 	});
 
@@ -139,35 +136,23 @@ class DepartureBlock extends StatelessWidget {
                       else
                         for (var train in clearTrain( departure['departures'] ).sublist(0, clearTrain( departure['departures'] ).length > 5 ? 5 : clearTrain( departure['departures'] ).length))
                           DepartureList(
-                            train: train
+                            train: train,
+                            update: update,
                           ),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Container(
-                            margin: const EdgeInsets.only(left:0.0, top:5.0,right:0.0,bottom:5.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white.withOpacity(0.8)
-                            ),
-                            child: InkWell(
-                              onTap: () {
-                                globals.schedulesDeparture = departure;
-                                RouteStateScope.of(context).go('/schedules/stops/${globals.schedulesStopArea}/departures/${departure['id']}');
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.only(left:10.0, top:5.0, right:10.0, bottom:5.0),
-                                child: Text('Voir le reste ➜',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Segoe Ui',
-                                    color: Theme.of(context).colorScheme.primary,
-                                  ),
-                                ),
-                              )
-                            ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: HexColor.fromHex(departure['color']),
+                              foregroundColor: HexColor.fromHex(departure['text_color']),
+                            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                            child: const Text('Voir le reste ➜'),
+                            onPressed: () {
+                              globals.schedulesDeparture = departure;
+                              RouteStateScope.of(context).go('/schedules/stops/${globals.schedulesStopArea}/departures/${departure['id']}');
+                            },
                           ),
                         ],
                       )

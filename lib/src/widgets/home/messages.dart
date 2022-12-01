@@ -27,11 +27,11 @@ Color getSlugColor(severity, [type]){
 String getTime(String time){
   DateTime dttime = DateTime.parse(time);
 
-  String dtday = dttime.day < 10 ? "0" + dttime.day.toString() : dttime.day.toString();
-  String dtmonth = dttime.month < 10 ? "0" + dttime.month.toString() : dttime.month.toString();
+  String dtday = dttime.day < 10 ? "0${dttime.day}" : dttime.day.toString();
+  String dtmonth = dttime.month < 10 ? "0${dttime.month}" : dttime.month.toString();
   String dtyear = dttime.year.toString();
-  String dthour = dttime.hour < 10 ? "0" + dttime.hour.toString() : dttime.hour.toString();
-  String dtminute = dttime.minute < 10 ? "0" + dttime.minute.toString() : dttime.minute.toString();
+  String dthour = dttime.hour < 10 ? "0${dttime.hour}" : dttime.hour.toString();
+  String dtminute = dttime.minute < 10 ? "0${dttime.minute}" : dttime.minute.toString();
 
   return '$dtday/$dtmonth/$dtyear $dthour:$dtminute';
 }
@@ -51,7 +51,7 @@ class HomeMessage extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.only(left:15.0, top:10, right:15.0, bottom:10.0),
-    margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
+    margin: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom:10.0),
     decoration: BoxDecoration(
       color: getSlugBack(message['severity'], 1),
       borderRadius: BorderRadius.circular(10),
@@ -100,20 +100,22 @@ class HomeMessage extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        Center(
-          child: ElevatedButton(
-            onPressed: () async {
-              await browser.open(
-                url: Uri.parse( message['message']['link'] ),
-                options: ChromeSafariBrowserClassOptions());
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: getSlugColor(message['severity'], 1),
-              foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
-            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-            child: Text(message['message']['button']),
-          ),
-        )
+        
+        if (message['message']['link'] != null && message['message']['button'] != null && message['message']['link'] != "" && message['message']['button'] != "")
+          Center(
+            child: ElevatedButton(
+              onPressed: () async {
+                await browser.open(
+                  url: Uri.parse( message['message']['link'] ),
+                  options: ChromeSafariBrowserClassOptions());
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: getSlugColor(message['severity'], 1),
+                foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+              ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+              child: Text(message['message']['button']),
+            ),
+          )
       ]
     ),
   );

@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:navika/src/widgets/departures/block.dart';
 
 import '../../icons/Scaffold_icon_icons.dart';
-import '../departures/list.dart';
 import 'list.dart';
 import '../../data/global.dart' as globals;
 
@@ -37,8 +36,6 @@ class _SchedulesBodyState extends State<SchedulesBody>
   @override
 	void initState() {
 		super.initState();
-    print({'INFO_d', globals.schedulesStopArea});
-
     _tabController = TabController(vsync: this, length: getModesLength(globals.schedulesStopModes));
     checkUpdates();  
     WidgetsBinding.instance.addPostFrameCallback((_) async{
@@ -61,26 +58,36 @@ class _SchedulesBodyState extends State<SchedulesBody>
   Future<void> _getSchedules() async {
     print({'INFO_', globals.schedulesStopArea});
     try {
-      final response = await http.get(Uri.parse('${globals.API_SCHEDULES}?s=${globals.schedulesStopArea}'));
+      if (mounted) {
+        final response = await http.get(Uri.parse('${globals.API_SCHEDULES}?s=${globals.schedulesStopArea}'));
 
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
+        if (response.statusCode == 200) {
+          final data = json.decode(response.body);
 
-        if (mounted) {
-          setState(() {
-            schedules = data['schedules'];
-            if (data['departures'] != null) {
-              departures = data['departures'];
-            }
-          });
+          if (mounted) {
+            setState(() {
+              schedules = data['schedules'];
+              if (data['departures'] != null) {
+                departures = data['departures'];
+              }
+            });
+          }
         }
       }
-
       _timer = Timer(const Duration(seconds: 30), () {
         _getSchedules();
       });
     } on Exception catch (_) {
-      print('OULA PAS CONTENT');
+      // TODO
+    }
+  }
+
+  void update() {
+    if (mounted) {
+      setState(() {
+        schedules = schedules;
+        departures = departures;
+      });
     }
   }
 
@@ -120,7 +127,6 @@ class _SchedulesBodyState extends State<SchedulesBody>
   }
   
   List<Widget> getModesTabs(List modes) {
-    print({'INFO_', globals.schedulesStopArea});
     List<Widget> tabs = [];
     if (modes.contains('physical_mode:RapidTransit') ||
         modes.contains('physical_mode:Train') ||
@@ -168,6 +174,7 @@ class _SchedulesBodyState extends State<SchedulesBody>
       tabs.add(DepartureBlock(
                 departures: departures,
                 scrollController: scrollController,
+                update: update,
               ));
     }
     if (modes.contains('physical_mode:Metro') ||
@@ -176,6 +183,7 @@ class _SchedulesBodyState extends State<SchedulesBody>
                 schedules: schedules,
                 modes: 'metro',
                 scrollController: scrollController,
+                update: update,
               ));
     }
     if (modes.contains('physical_mode:Tramway')) {
@@ -183,6 +191,7 @@ class _SchedulesBodyState extends State<SchedulesBody>
                 schedules: schedules,
                 modes: 'tram',
                 scrollController: scrollController,
+                update: update,
               ));
     }
     if (modes.contains('physical_mode:Bus')) {
@@ -190,6 +199,7 @@ class _SchedulesBodyState extends State<SchedulesBody>
                 schedules: schedules,
                 modes: 'bus',
                 scrollController: scrollController,
+                update: update,
               ));
     }
     return tabs;

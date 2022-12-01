@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/icons/Scaffold_icon_icons.dart';
 
 import '../widgets/places/empty.dart';
@@ -196,7 +195,7 @@ class _RouteSearchState extends State<RouteSearch> {
 		appBar: AppBar(
 			title: Text(title),
       elevation: 0,
-      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
 		),
 		body: Column(

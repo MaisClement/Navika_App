@@ -37,8 +37,7 @@ void _initializeHive() async{
   if (globals.hiveBox.get('stopsFavorites') == null) {
     globals.hiveBox.put('stopsFavorites', []);
   }
-
-  print({'HIVETEST_:', globals.hiveBox.get('stopsFavorites')});
+  print({'HIVETEST_', globals.hiveBox.get('stopsFavorites')});
 }
 
 void _initializeHERESDK() async {

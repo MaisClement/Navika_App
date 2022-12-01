@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/schedules/timer_block.dart';
-import '../data/global.dart' as globals;
+import '../../data/global.dart' as globals;
 
 String getTime(){
   var d1 = DateTime.now();
@@ -10,9 +10,11 @@ String getTime(){
 
 class BottomSchedules extends StatefulWidget {
   final bool isDeparture;
+  final Function update;
 
 	const BottomSchedules({
     this.isDeparture = false,
+    required this.update,
 		super.key,
 	});
 
@@ -29,8 +31,10 @@ class _BottomSchedulesState extends State<BottomSchedules>
 	Widget build(BuildContext context) => Container(
     height: 600,
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(5),
-      color: Colors.grey[200],
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(5),
+        topRight: Radius.circular(5)
+      ),
       boxShadow: [
         BoxShadow(
           color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
@@ -72,14 +76,17 @@ class _BottomSchedulesState extends State<BottomSchedules>
               widget.isDeparture
               ? TimeBlock(
                   time: getTime(),
+                  base: getTime(),
                   state: 'ontime',
                   late: 0,
                   track: "B",
+                  update: widget.update, // INUTILE SI disabled
                   disabled: true,
                 )
               : TimerBlock(
                   time: getTime(),
                   state: 'ontime',
+                  update: widget.update, // INUTILE SI disabled
                   disabled: true,
                 ),
             ],
@@ -102,14 +109,17 @@ class _BottomSchedulesState extends State<BottomSchedules>
               widget.isDeparture
               ? TimeBlock(
                   time: getTime(),
+                  base: getTime(),
                   state: 'delayed',
                   late: 5,
                   track: "B",
+                  update: widget.update, // INUTILE SI disabled
                   disabled: true,
                 )
               : TimerBlock(
                   time: getTime(),
                   state: 'delayed',
+                  update: widget.update, // INUTILE SI disabled
                   disabled: true,
                 ),
             ],
@@ -132,14 +142,17 @@ class _BottomSchedulesState extends State<BottomSchedules>
               widget.isDeparture
               ? TimeBlock(
                   time: getTime(),
+                  base: getTime(),
                   state: 'cancelled',
                   late: 0,
                   track: "B",
+                  update: widget.update, // INUTILE SI disabled
                   disabled: true,
                 )
               : TimerBlock(
                   time: getTime(),
                   state: 'cancelled',
+                  update: widget.update, // INUTILE SI disabled
                   disabled: true,
                 ),
             ],
@@ -162,14 +175,17 @@ class _BottomSchedulesState extends State<BottomSchedules>
               widget.isDeparture
               ? TimeBlock(
                   time: getTime(),
+                  base: getTime(),
                   state: 'theorical',
                   late: 0,
                   track: "B",
+                  update: widget.update, // INUTILE SI disabled
                   disabled: true,
                 )
               : TimerBlock(
                   time: getTime(),
                   state: 'theorical',
+                  update: widget.update, // INUTILE SI disabled
                   disabled: true,
                 ),
             ],
@@ -195,6 +211,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                 displayMode = value.toString();
               });
               globals.hiveBox.put('displayMode', value.toString());
+              widget.update();
             },
           ),
           RadioListTile(
@@ -206,6 +223,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                 displayMode = value.toString();
               });
               globals.hiveBox.put('displayMode', value.toString());
+              widget.update();
             },
           ),
           RadioListTile(
@@ -217,13 +235,14 @@ class _BottomSchedulesState extends State<BottomSchedules>
                 displayMode = value.toString();
               });
               globals.hiveBox.put('displayMode', value.toString());
+              widget.update();
             },
           ),
 
           Center(
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
               ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
               child: const Text('Fermer'),

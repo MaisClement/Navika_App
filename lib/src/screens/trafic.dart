@@ -47,19 +47,15 @@ class _TraficState extends State<Trafic> {
 			title: Text(title,
               style: appBarTitle
             ),
-      elevation: 0,
-      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-      foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
 		),
 		body: Container(
-			padding: const EdgeInsets.only(left:20.0, top:20.0,right:20.0,bottom:20.0),
-			color: Theme.of(context).colorScheme.primary,
-			width: double.infinity,
-			child: Container(
-
-				child: state ?
+      decoration: BoxDecoration(
+        color: Colors.white,
+      ),
+			child: state ?
 				Container(
-					padding: const EdgeInsets.only(left:10.0, top:10.0,right:10.0,bottom:10.0),
+					margin: const EdgeInsets.only(left:20.0, right:20.0),
+			    padding: const EdgeInsets.only(left:10.0, top:10.0,right:10.0,bottom:10.0),
 					decoration: BoxDecoration(
 						color: Colors.white,
 						borderRadius: BorderRadius.circular(5),
@@ -318,7 +314,6 @@ class _TraficState extends State<Trafic> {
               ]
             ),
           )
-        )
         )
       )
     );

@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/screens/schedules_details.dart';
-import 'package:navika/src/widgets/departures/time_block.dart';
-import 'package:navika/src/widgets/icons/icons.dart';
-import 'package:navika/src/widgets/schedules/timer_block.dart';
-import '../data/global.dart' as globals;
-import '../routing.dart';
+import '../../data/global.dart' as globals;
 
 int getFavoritesPos(id, line) {
   List favs = globals.hiveBox?.get('stopsFavorites') ?? [];
@@ -25,11 +20,13 @@ class BottomRemoveFavorite extends StatefulWidget {
   final String name;
   final String id;
   final String line;
+  final Function update;
 
 	const BottomRemoveFavorite({
     required this.name,
     required this.id,
     required this.line,
+    required this.update,
 		super.key,
 	});
 
@@ -46,8 +43,10 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite>
 	Widget build(BuildContext context) => Container(
     height: 250,
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(5),
-      color: Colors.grey[200],
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(5),
+        topRight: Radius.circular(5)
+      ),
       boxShadow: [
         BoxShadow(
           color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
@@ -99,31 +98,33 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite>
               child: const Text('Supprimer'),
               onPressed: () {
                 List list = globals.hiveBox.get('stopsFavorites');
-
                 int pos = getFavoritesPos(widget.id, widget.line);
 
                 if (pos >= 0) {
                   list.removeAt(pos);
                   globals.hiveBox.put('stopsFavorites', list);
                   Navigator.pop(context);
-                  RouteStateScope.of(context).go('/schedules');
+                  widget.update();
+
+                  var snackBar = const SnackBar(
+                    content: Text('Favoris supprimé.'),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
                 } else {
                   var snackBar = const SnackBar(
-                    content: Text('Suppression impossible.'),
+                    content: Text('Erreur lors de la suppression du favori.'),
                   );
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }
-
-                var snackBar = const SnackBar(
-                  content: Text('Favoris supprimé.'),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
             ),  
           ),
           Center(
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
               ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
               child: const Text('Annuler'),
               onPressed: () => Navigator.pop(context),

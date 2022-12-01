@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/scaffold_icon_icons.dart';
-import 'package:navika/src/widgets/bottom_add_favorite.dart';
+import 'package:navika/src/widgets/bottom_sheets/add_favorite.dart';
 import 'package:navika/src/widgets/schedules/body.dart';
 import '../data/global.dart' as globals;
 import '../style/style.dart';
@@ -57,6 +57,7 @@ class SchedulesDetails extends StatelessWidget {
                   BottomAddFavorite(
                     id: globals.schedulesStopArea,
                     name: globals.schedulesStopName,
+                    modes: globals.schedulesStopModes,
                     lines: globals.schedulesStopLines,
                   ));
           },
