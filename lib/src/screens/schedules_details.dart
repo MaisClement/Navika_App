@@ -37,7 +37,6 @@ class SchedulesDetails extends StatelessWidget {
             
   @override
   Widget build(BuildContext context) => Scaffold(
-    backgroundColor: Colors.white,
     appBar: AppBar(
       title: Text(globals.schedulesStopName,
               style: appBarTitle

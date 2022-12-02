@@ -58,6 +58,7 @@ class HomeBody extends StatelessWidget {
           modes: fav['modes'],
           line: fav['line'],
           update: update,
+          removeSeparator: favs.indexOf(fav) == 0,
         ),
 
       //

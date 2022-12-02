@@ -24,7 +24,7 @@ class HomeBodyFavScroll extends StatelessWidget {
           globals.route['dep']['id'] = null;
           globals.route['arr']['name'] = null;
           globals.route['arr']['id'] = null;
-          RouteStateScope.of(context).go('/home/search');
+          RouteStateScope.of(context).go('/home/route');
         }
       ),
 
@@ -36,7 +36,7 @@ class HomeBodyFavScroll extends StatelessWidget {
           globals.route['dep']['id'] = null;
           globals.route['arr']['name'] = null;
           globals.route['arr']['id'] = null;
-          RouteStateScope.of(context).go('/home/search');
+          RouteStateScope.of(context).go('/home/route');
         }
       ),
 
@@ -48,7 +48,7 @@ class HomeBodyFavScroll extends StatelessWidget {
           globals.route['dep']['id'] = null;
           globals.route['arr']['name'] = null;
           globals.route['arr']['id'] = null;
-          RouteStateScope.of(context).go('/home/search');
+          RouteStateScope.of(context).go('/home/route');
         }
       ),
 

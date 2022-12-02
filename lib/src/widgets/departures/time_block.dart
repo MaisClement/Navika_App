@@ -32,6 +32,10 @@ class TimeBlock extends StatelessWidget {
     return diff.inMinutes;
   }
   String getTime(String time){
+    if (time == "") {
+      return "";
+    }
+    
     DateTime dttime = DateTime.parse(time);
 
     String dthour = dttime.hour < 10 ? "0" + dttime.hour.toString() : dttime.hour.toString();

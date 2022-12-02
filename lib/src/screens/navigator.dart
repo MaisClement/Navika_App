@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/screens/route_search.dart';
+import 'package:navika/src/screens/route.dart';
 import 'package:navika/src/screens/schedules_departures.dart';
 import 'package:navika/src/screens/schedules_search.dart';
 
@@ -32,7 +32,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 		final routeState = RouteStateScope.of(context);
 		final pathTemplate = routeState.route.pathTemplate;
 
-    // /home/search
+    // /route
 
     bool? displaySchedules;
 		if (pathTemplate == '/stops/:stop_area') {
@@ -59,7 +59,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 			key: widget.navigatorKey,
 			onPopPage: (route, dynamic result) {
 				// Il y'a aussi des retour dans scaffold_body.dart
-        if (pathTemplate == '/home/search') {
+        if (pathTemplate == '/home/route') {
           routeState.go('/home');
         }
 
@@ -95,7 +95,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 						child: const NavikaAppScaffold(),
 					),
 
-          if (pathTemplate == '/home/search')
+          if (pathTemplate == '/home/route')
 						MaterialPage<void>(
 							key: _authorDetailsKey,
 							child: const RouteSearch(),

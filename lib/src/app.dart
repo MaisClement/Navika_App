@@ -18,6 +18,7 @@ class _NavikaAppState extends State<NavikaApp> {
 	late final SimpleRouterDelegate _routerDelegate;
 	late final TemplateRouteParser _routeParser;
 
+
 	@override
 	void initState() {
 		/// Configure the parser with all of the app's allowed path templates.
@@ -25,7 +26,7 @@ class _NavikaAppState extends State<NavikaApp> {
 			allowedPaths: [
 				'/home',
 				'/stops/:stop_area',
-				'/home/search',
+				'/home/route',
 				'/schedules',
 				'/schedules/search',
         '/schedules/stops/:stop_area',

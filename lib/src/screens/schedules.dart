@@ -27,7 +27,6 @@ class _SchedulesState extends State<Schedules> {
 
   @override
 	Widget build(BuildContext context) => Scaffold(
-    backgroundColor: Colors.white,
 		appBar: AppBar(
       toolbarHeight: 110,
 			title: Column(

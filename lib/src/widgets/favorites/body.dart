@@ -15,6 +15,7 @@ class FavoriteBody extends StatefulWidget {
   final List modes;
   final String line;
   final Function update;
+  final bool removeSeparator;
 
   const FavoriteBody(
       {required this.id,
@@ -22,6 +23,7 @@ class FavoriteBody extends StatefulWidget {
       required this.line,
       required this.modes,
       required this.update,
+      this.removeSeparator = false,
       super.key});
 
   @override
@@ -79,16 +81,17 @@ class _FavoriteBodyState extends State<FavoriteBody>
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 10),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      if (!widget.removeSeparator)
         Container(
           height: 5,
           color: Colors.grey[300]
         ),
-        GestureDetector(
+      Container(
+        padding: const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 10),
+        child: GestureDetector(
           onTap: () {
             globals.schedulesStopArea = widget.id;
             globals.schedulesStopName = widget.name;
@@ -136,31 +139,37 @@ class _FavoriteBodyState extends State<FavoriteBody>
             ],
           ),
         ),
-        const SizedBox(height: 5),
-        if (mode == '' && schedules.isEmpty)
-          Container(
-            margin: const EdgeInsets.only(top: 20, bottom: 20),
-            child: const SizedBox(
-              height: 30.0,
-              width: 30.0,
-              child: CircularProgressIndicator(),
-            ),
-          )
-        else if (mode == 'rail')
-          FavoriteDepartures(
+      ),
+      const SizedBox(height: 5),
+      if (mode == '' && schedules.isEmpty)
+        Container(
+          margin: const EdgeInsets.only(top: 20, bottom: 20),
+          child: const SizedBox(
+            height: 30.0,
+            width: 30.0,
+            child: CircularProgressIndicator(),
+          ),
+        )
+      else if (mode == 'rail')
+        Container(
+          padding: const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 10),
+          child: FavoriteDepartures(
             id: widget.id,
             name: widget.name,
             modes: widget.modes,
             schedules: schedules,
-            update: widget.update)
-        else
-          FavoriteSchedules(
+            update: widget.update),
+        )
+      else
+        Container(
+          padding: const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 10),
+          child: FavoriteSchedules(
             id: widget.id,
             name: widget.name,
             modes: widget.modes,
             schedules: schedules,
-            update: widget.update)
-      ],
-    ),
+            update: widget.update),
+        )
+    ],
   );
 }

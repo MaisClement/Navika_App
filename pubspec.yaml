@@ -51,9 +51,9 @@ dependencies:
   here_sdk:
     path: plugins/here_sdk
 
-  flutter_compass: ^0.7.0
-  # flutter_compass:
-  #   git: https://github.com/hemanthrajv/flutter_compass.git
+  # flutter_compass: ^0.7.0
+  flutter_compass:
+    git: https://github.com/hemanthrajv/flutter_compass.git
   
 dev_dependencies:
   hive_generator: ^1.1.3

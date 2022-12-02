@@ -74,7 +74,6 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
 
   @override
 	Widget build(BuildContext context) => Scaffold(
-    backgroundColor: Colors.white,
 		appBar: AppBar(
 			title: TextField(
         controller: myController,
