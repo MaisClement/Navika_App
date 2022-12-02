@@ -76,7 +76,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
         _getSchedules();
       });
     } on Exception catch (_) {
-      // TODO
+      print("Une erreur s'est produite !");
     }
   }
 

@@ -38,7 +38,8 @@ class TimeBlock extends StatelessWidget {
     
     DateTime dttime = DateTime.parse(time);
 
-    String dthour = dttime.hour < 10 ? "0" + dttime.hour.toString() : dttime.hour.toString();
+    int dth = dttime.hour + 1;
+    String dthour = dth < 10 ? "0" + dth.toString() : dth.toString();
     String dtminute = dttime.minute < 10 ? "0" + dttime.minute.toString() : dttime.minute.toString();
 
     return '${dthour}:${dtminute}';

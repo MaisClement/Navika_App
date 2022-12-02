@@ -61,15 +61,17 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
             height: 10,
           ),
 
-          Expanded(
-            child: Text('Selectionner la ligne à ajouter aux favoris.',
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                fontFamily: 'Segoe Ui',
-                color: Theme.of(context).colorScheme.primary,
+          Wrap(
+            children: [
+              Text('Selectionner la ligne à ajouter aux favoris.',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Segoe Ui',
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
-            ),
+            ]
           ),
 
           for (var line in widget.lines)

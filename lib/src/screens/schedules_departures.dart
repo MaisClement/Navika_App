@@ -81,7 +81,7 @@ class _DepartureDetailsState extends State<DepartureDetails>
         _getDepature();
       });
     } on Exception catch (_) {
-      // TODO
+      print("Une erreur s'est produite !");
     }
   }
 

@@ -13,14 +13,13 @@ String getState(String departure, String expectedDeparture, String state) {
   return 'ontime';
 }
 int getLate(String departure, String expectedDeparture) {
-  try {
-    DateTime dttime = DateTime.parse(departure);
-    DateTime dtexpe = DateTime.parse(expectedDeparture);
-    Duration diff = dttime.difference(dtexpe);
-    return diff.inMinutes;
-  } on Exception catch (_) {
+  if (departure == "" || expectedDeparture == ""){
     return 0;
   }
+  DateTime dttime = DateTime.parse(departure);
+  DateTime dtexpe = DateTime.parse(expectedDeparture);
+  Duration diff = dttime.difference(dtexpe);
+  return diff.inMinutes;
 }
 Color getColorByState(state, context) {
   switch (state) {
