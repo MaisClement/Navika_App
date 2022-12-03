@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class Places_Empty extends StatelessWidget {
+class PlacesEmpty extends StatelessWidget {
 
-	const Places_Empty({
+	const PlacesEmpty({
 		super.key,
 	});
 

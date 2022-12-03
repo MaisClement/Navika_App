@@ -20,7 +20,7 @@ int getTimeDifference(String time){
     String dthour = dttime.hour < 10 ? "0${dttime.hour}" : dttime.hour.toString();
     String dtminute = dttime.minute < 10 ? "0${dttime.minute}" : dttime.minute.toString();
 
-    return '${dthour}h${dtminute}';
+    return '${dthour}h$dtminute';
   }
   Color getColorByState(state, context) {
     switch (state) {
@@ -93,19 +93,16 @@ class TimerBlock extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 
-                Container(
-                  child: 
-                  Text((getTimeDifference(time) < 99) && globals.hiveBox?.get('displayMode') != 'hour'
-                    ? '${getTimeDifference(time).toString()} min'
-                    : getTime(time),
-                    style: TextStyle(
-                      color: getColorByState(state, context),
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Segoe Ui',
-                      decoration: state == "cancelled" ? TextDecoration.lineThrough : null,
-                    ),
-                    textAlign: TextAlign.center,
-                  )
+                Text((getTimeDifference(time) < 99) && globals.hiveBox?.get('displayMode') != 'hour'
+                  ? '${getTimeDifference(time).toString()} min'
+                  : getTime(time),
+                  style: TextStyle(
+                    color: getColorByState(state, context),
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'Segoe Ui',
+                    decoration: state == "cancelled" ? TextDecoration.lineThrough : null,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
                 state == "theorical"
                 ? const Text('')

@@ -15,25 +15,17 @@ class TraficDetails extends StatelessWidget {
   String getTime(String time){
     DateTime dttime = DateTime.parse(time);
 
-    String dtday = dttime.day < 10 ? "0" + dttime.day.toString() : dttime.day.toString();
-    String dtmonth = dttime.month < 10 ? "0" + dttime.month.toString() : dttime.month.toString();
+    String dtday = dttime.day < 10 ? "0${dttime.day}" : dttime.day.toString();
+    String dtmonth = dttime.month < 10 ? "0${dttime.month}" : dttime.month.toString();
     String dtyear = dttime.year.toString();
-    String dthour = dttime.hour < 10 ? "0" + dttime.hour.toString() : dttime.hour.toString();
-    String dtminute = dttime.minute < 10 ? "0" + dttime.minute.toString() : dttime.minute.toString();
+    String dthour = dttime.hour < 10 ? "0${dttime.hour}" : dttime.hour.toString();
+    String dtminute = dttime.minute < 10 ? "0${dttime.minute}" : dttime.minute.toString();
 
     return '$dtday/$dtmonth/$dtyear $dthour:$dtminute';
   }
 
 	@override
-	Widget build(BuildContext context) {
-		if (lineId == null) {
-			return const Scaffold(
-				body: Center(
-					child: Text('Pas content'),
-				),
-			);
-		}
-		return Scaffold(
+	Widget build(BuildContext context) => Scaffold(
 			appBar: AppBar(
 				title: const Text('Info Trafic',
           style: appBarTitle
@@ -304,4 +296,3 @@ class TraficDetails extends StatelessWidget {
       )
     );
 	}
-}

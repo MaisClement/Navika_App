@@ -53,7 +53,7 @@ class DepartureBlock extends StatelessWidget {
           ]
         )
       else
-        for (var departure in this.departures)
+        for (var departure in departures)
           Container(
             margin: const EdgeInsets.only(left:10.0, top:5.0,right:10.0,bottom:10.0),
             decoration: BoxDecoration(

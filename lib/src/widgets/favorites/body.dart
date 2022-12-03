@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
-import 'package:navika/src/icons/Scaffold_icon_icons.dart';
+import 'package:navika/src/icons/scaffold_icon_icons.dart';
 import 'package:navika/src/widgets/favorites/departures.dart';
 import 'package:navika/src/widgets/favorites/schedules.dart';
 import '../../data/global.dart' as globals;
@@ -110,7 +110,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
               },
               child: Row(
                 children: [
-                  Icon(Scaffold_icon.train_2,
+                  Icon(ScaffoldIcon.train_2,
                       color: Theme.of(context).colorScheme.primary, size: 25),
                   const SizedBox(
                     width: 10,

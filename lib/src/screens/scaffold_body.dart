@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 import '../routing.dart';
 import 'trafic.dart';
@@ -19,7 +20,9 @@ class NavikaAppScaffoldBody extends StatelessWidget {
 	Widget build(BuildContext context) {
 		final routeState = RouteStateScope.of(context);
 		final pathTemplate = routeState.route.pathTemplate;
-		print({'INFO_route', pathTemplate});
+		if (kDebugMode) {
+		  print({'INFO_route', pathTemplate});
+		}
 
 		// A nested Router isn't necessary because the back button behavior doesn't
 		// need to be customized.

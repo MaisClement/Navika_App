@@ -58,7 +58,7 @@ class FavoriteDepartures extends StatelessWidget {
                     globals.schedulesStopName = name;
                     globals.schedulesStopModes = modes;
                     globals.schedulesDeparture = departure;
-                    RouteStateScope.of(context).go('/schedules/stops/${id}/departures/${departure['id']}');
+                    RouteStateScope.of(context).go('/schedules/stops/$id/departures/${departure['id']}');
                   },
                   child: Row(
                     children: [
@@ -144,7 +144,7 @@ class FavoriteDepartures extends StatelessWidget {
               globals.schedulesStopArea = id;
               globals.schedulesStopName = name;
               globals.schedulesStopModes = modes;
-              RouteStateScope.of(context).go('/schedules/stops/${id}');
+              RouteStateScope.of(context).go('/schedules/stops/$id');
             },
           ),
         ),

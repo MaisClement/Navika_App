@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/data.dart';
 import 'package:navika/src/widgets/departures/list.dart';
 import 'package:navika/src/widgets/departures/block.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../data/global.dart' as globals;
@@ -53,7 +54,9 @@ class _DepartureDetailsState extends State<DepartureDetails>
 	}
 
   Future<void> _getDepature() async {
-    print({'INFO_', globals.schedulesStopArea});
+    if (kDebugMode) {
+      print({'INFO_', globals.schedulesStopArea});
+    }
     try {
       if (mounted) {
         final response = await http.get(Uri.parse('${globals.API_SCHEDULES}?s=${globals.schedulesStopArea}'));

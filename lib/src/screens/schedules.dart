@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/icons/Scaffold_icon_icons.dart';
+import 'package:navika/src/icons/scaffold_icon_icons.dart';
 import 'package:navika/src/widgets/favorites/body.dart';
 
 import '../routing.dart';
@@ -51,7 +51,7 @@ class _SchedulesState extends State<Schedules> {
               ),            
               child: Row(
                 children: [
-                  Icon(Scaffold_icon.search,
+                  Icon(ScaffoldIcon.search,
                     color: Theme.of(context).colorScheme.primary,
                     size: 25
                   ),

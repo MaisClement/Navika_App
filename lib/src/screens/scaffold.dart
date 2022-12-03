@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../icons/Scaffold_icon_icons.dart';
+import '../icons/scaffold_icon_icons.dart';
 import '../routing.dart';
 import 'scaffold_body.dart';
 
@@ -26,13 +26,13 @@ class NavikaAppScaffold extends StatelessWidget {
 				destinations: const [
 					NavigationDestination(
 						label: 'Accueil',
-						icon: Icon(Scaffold_icon.home_regular),
-						selectedIcon: Icon(Scaffold_icon.home),
+						icon: Icon(ScaffoldIcon.home_regular),
+						selectedIcon: Icon(ScaffoldIcon.home),
 					),
 					NavigationDestination(
 						label: 'Arrêts',
-						icon: Icon(Scaffold_icon.clock_regular),
-						selectedIcon: Icon(Scaffold_icon.clock),
+						icon: Icon(ScaffoldIcon.clock_regular),
+						selectedIcon: Icon(ScaffoldIcon.clock),
 					),
 					NavigationDestination(
 						label: 'Books',
@@ -40,8 +40,8 @@ class NavikaAppScaffold extends StatelessWidget {
 					),
 					NavigationDestination(
 						label: 'Trafic',
-						icon: Icon(Scaffold_icon.cone_regular),
-						selectedIcon: Icon(Scaffold_icon.cone),
+						icon: Icon(ScaffoldIcon.cone_regular),
+						selectedIcon: Icon(ScaffoldIcon.cone),
 					),
 				],
 			),

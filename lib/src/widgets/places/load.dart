@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class Places_Load extends StatelessWidget {
+class PlacesLoad extends StatelessWidget {
 
-	const Places_Load({
+	const PlacesLoad({
 		super.key,
 	});
 

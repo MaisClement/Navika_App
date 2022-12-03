@@ -2,9 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:navika/src/icons/Scaffold_icon_icons.dart';
+import 'package:navika/src/icons/scaffold_icon_icons.dart';
 
-import '../routing.dart';
 import '../style/style.dart';
 import '../widgets/places/empty.dart';
 import '../widgets/places/load.dart';
@@ -225,7 +224,7 @@ class _RouteSearchState extends State<RouteSearch> {
                 ),            
                 child: Row(
                   children: [
-                    Icon(Scaffold_icon.marker,
+                    Icon(ScaffoldIcon.marker,
                       color: Theme.of(context).colorScheme.primary,
                       size: 25
                     ),
@@ -262,7 +261,7 @@ class _RouteSearchState extends State<RouteSearch> {
                 ),            
                 child: Row(
                   children: [
-                    Icon(Scaffold_icon.finish_flag,
+                    Icon(ScaffoldIcon.finish_flag,
                       color: Theme.of(context).colorScheme.primary,
                       size: 25
                     ),
@@ -312,7 +311,7 @@ class _RouteSearchState extends State<RouteSearch> {
                           children: [
                             Row(
                               children: [
-                                Icon(Scaffold_icon.location_indicator,
+                                Icon(ScaffoldIcon.location_indicator,
                                   color: Theme.of(context).colorScheme.primary,
                                   size: 30
                                 ),
@@ -340,7 +339,7 @@ class _RouteSearchState extends State<RouteSearch> {
                   ),
 
                 for (var place in places)
-                  Places_ListButton(
+                  PlacesListButton(
                     isLoading: isLoading,
                     place: place,
                     onTap: () {
@@ -353,10 +352,10 @@ class _RouteSearchState extends State<RouteSearch> {
           ),
 
         if (places.isEmpty && isLoading == true)
-          const Places_Load(),
+          const PlacesLoad(),
           
         if (places.isEmpty && isLoading == false)
-          const Places_Empty(),
+          const PlacesEmpty(),
       ],
       
     )

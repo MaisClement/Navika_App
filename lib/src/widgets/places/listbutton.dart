@@ -3,12 +3,12 @@ import 'package:navika/src/icons/scaffold_icon_icons.dart';
 
 import 'package:navika/src/widgets/icons/icons.dart';
 
-class Places_ListButton extends StatelessWidget {
+class PlacesListButton extends StatelessWidget {
   bool isLoading;
   Map place;
   void Function() onTap;
 
-	Places_ListButton({
+	PlacesListButton({
     required this.isLoading,
     required this.place,
     required this.onTap,
@@ -17,13 +17,13 @@ class Places_ListButton extends StatelessWidget {
 
   IconData getPlaceIcon(type){
     if (type == 'stop_area'){
-      return Scaffold_icon.train_2;
+      return ScaffoldIcon.train_2;
     } else if (type == 'address'){
-      return Scaffold_icon.marker;
+      return ScaffoldIcon.marker;
     } else if (type == 'administrative_region'){
-      return Scaffold_icon.city;
+      return ScaffoldIcon.city;
     } else {
-      return Scaffold_icon.university;
+      return ScaffoldIcon.university;
     } 
   }
 
@@ -78,7 +78,7 @@ class Places_ListButton extends StatelessWidget {
                 margin: const EdgeInsets.only(left:5.0, top:4.0),
                 child: Row(
                   children: [
-                    const Icon(Scaffold_icon.walking,
+                    const Icon(ScaffoldIcon.walking,
                       color: Colors.grey,
                       size: 25
                     ),

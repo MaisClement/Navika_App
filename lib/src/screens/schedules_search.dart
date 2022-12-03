@@ -7,6 +7,7 @@ import '../routing.dart';
 import '../data/global.dart' as globals;
 import '../widgets/places/empty.dart';
 import '../widgets/places/listbutton.dart';
+import 'package:flutter/foundation.dart';
 import '../widgets/places/load.dart';
 
 class SchedulesSearch extends StatefulWidget {
@@ -26,7 +27,9 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
   List places = [];
 
   Future<void> _getPlaces() async {
-    print({'INFO_', 'getPlaces'});
+    if (kDebugMode) {
+      print({'INFO_', 'getPlaces'});
+    }
     String url = '';
 
     if ((globals.locationData?.latitude != null || globals.locationData?.longitude != null) && search != '') {
@@ -94,7 +97,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
         
         if (places.isNotEmpty)
           for (var place in places)
-            Places_ListButton(
+            PlacesListButton(
               isLoading: isLoading,
               place: place,
               onTap: () {
@@ -107,10 +110,10 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
             )
 
         else if (places.isEmpty && isLoading == true)
-          const Places_Load()
+          const PlacesLoad()
           
         else
-          const Places_Empty(),
+          const PlacesEmpty(),
       ],
       
     )

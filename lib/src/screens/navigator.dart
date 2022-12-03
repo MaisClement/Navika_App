@@ -23,9 +23,6 @@ class NavikaAppNavigator extends StatefulWidget {
 }
 
 class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
-	final _scaffoldKey = const ValueKey('App scaffold');
-	final _bookDetailsKey = const ValueKey('Book details screen');
-	final _authorDetailsKey = const ValueKey('Author details screen');
 
 	@override
 	Widget build(BuildContext context) {
@@ -34,10 +31,10 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 
     // /route
 
-    bool? displaySchedules;
-		if (pathTemplate == '/stops/:stop_area') {
-			displaySchedules = true;
-		}
+    // bool? displaySchedules;
+		// if (pathTemplate == '/stops/:stop_area') {
+		// 	displaySchedules = true;
+		// }
 
     String? lineId;
 		if (pathTemplate == '/trafic/:lineId') {
@@ -78,51 +75,46 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           routeState.go('/schedules');
         }
 				if (pathTemplate == '/schedules/stops/:stop_area/departures/:line_id') {
-          routeState.go('/schedules/stops/${stopArea}');
+          routeState.go('/schedules/stops/$stopArea');
         }
 
 				return route.didPop(result);
 			},
 			pages: [
 				// Display the app
-					// FadeTransitionPage<void>(
-					// 	key: _scaffoldKey,
-					// 	child: const NavikaAppScaffold(),
-					// ),
-
-					MaterialPage<void>(
-						key: _scaffoldKey,
-						child: const NavikaAppScaffold(),
+					const MaterialPage<void>(
+						key: ValueKey('Home'),
+						child: NavikaAppScaffold(),
 					),
 
           if (pathTemplate == '/home/route')
-						MaterialPage<void>(
-							key: _authorDetailsKey,
-							child: const RouteSearch(),
+						const MaterialPage<void>(
+							key: ValueKey('Route'),
+							child: RouteSearch(),
 						)
 
 					else if (lineId != null) // /trafic/:lineId
 						MaterialPage<void>(
-							key: _authorDetailsKey,
+							key: const ValueKey('Trafic Details'),
 							child: TraficDetails(
 								lineId: lineId,
 							),
 						)
           else if (pathTemplate == '/schedules/search')
-						MaterialPage<void>(
-							key: _authorDetailsKey,
-							child: const SchedulesSearch(),
+						const MaterialPage<void>(
+							key: ValueKey('Schdedules Search'),
+							child: SchedulesSearch(),
 						)
           else if (stopArea != null && pathTemplate == '/schedules/stops/:stop_area') // /schedules/stops/:stop_area
 						MaterialPage<void>(
-							key: _authorDetailsKey,
+							key: const ValueKey('Schedules Stops'),
 							child: SchedulesDetails(
                 navPos: stopArea,
 							),
 						)
 					else if (stopArea != null && stopLine != null && pathTemplate == '/schedules/stops/:stop_area/departures/:line_id') // /schedules/stops/:stop_area/departures/:line_id
 						MaterialPage<void>(
-							key: _authorDetailsKey,
+							key: const ValueKey('Schedules Departures Lines'),
 							child: DepartureDetails(
 								stopArea: stopArea,
 								stopLine: stopLine,

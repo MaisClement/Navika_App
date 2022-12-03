@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
-import 'package:navika/src/icons/Scaffold_icon_icons.dart';
+import 'package:navika/src/icons/scaffold_icon_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_compass/flutter_compass.dart';
@@ -163,7 +163,7 @@ class _HomeState extends State<Home> {
       });
       
     } else {
-      final response = await http.get(Uri.parse('${globals.API_INDEX}'));
+      final response = await http.get(Uri.parse(globals.API_INDEX));
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
 
@@ -185,6 +185,7 @@ class _HomeState extends State<Home> {
     });
 	}
 
+  @override
   Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
     value: const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -243,11 +244,11 @@ class _HomeState extends State<Home> {
               child: FloatingActionButton(
                 backgroundColor: Colors.white,
                 child: _isInBox ?
-                  const Icon(Scaffold_icon.location_indicator,
+                  const Icon(ScaffoldIcon.location_indicator,
                     color: Color(0xff000000),
                     size: 30
                   )
-                : const Icon(Scaffold_icon.locate,
+                : const Icon(ScaffoldIcon.locate,
                     color: Color(0xff000000),
                     size: 30
                   ),
@@ -370,7 +371,7 @@ class _HomeState extends State<Home> {
         return;
       }
       List<MapMarker> mapMarkerList = pickMapItemsResult.markers;
-      if (mapMarkerList.length == 0) {
+      if (mapMarkerList.isEmpty) {
         return;
       }
 

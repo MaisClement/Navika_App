@@ -39,10 +39,10 @@ class TimeBlock extends StatelessWidget {
     DateTime dttime = DateTime.parse(time);
 
     int dth = dttime.hour + 1;
-    String dthour = dth < 10 ? "0" + dth.toString() : dth.toString();
-    String dtminute = dttime.minute < 10 ? "0" + dttime.minute.toString() : dttime.minute.toString();
+    String dthour = dth < 10 ? "0$dth" : dth.toString();
+    String dtminute = dttime.minute < 10 ? "0${dttime.minute}" : dttime.minute.toString();
 
-    return '${dthour}:${dtminute}';
+    return '$dthour:$dtminute';
   }
   Color getColorByState(state, context) {
     if (state == 'cancelled' || state == 'delayed' || state == 'ontime'){

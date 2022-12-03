@@ -1,9 +1,11 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/widgets.dart';
 
-class Scaffold_icon {
-  Scaffold_icon._();
+class ScaffoldIcon {
+  ScaffoldIcon._();
 
-  static const _kFontFam = 'Scaffold_icon';
+  static const _kFontFam = 'ScaffoldIcon';
   static const String? _kFontPkg = null;
 
   static const IconData metro = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);

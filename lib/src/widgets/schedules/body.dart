@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:navika/src/widgets/departures/block.dart';
+import 'package:flutter/foundation.dart';
 
-import '../../icons/Scaffold_icon_icons.dart';
+import '../../icons/scaffold_icon_icons.dart';
 import 'list.dart';
 import '../../data/global.dart' as globals;
 
@@ -58,7 +59,9 @@ class _SchedulesBodyState extends State<SchedulesBody>
 	}
 
   Future<void> _getSchedules() async {
-    print({'INFO_', globals.schedulesStopArea});
+    if (kDebugMode) {
+      print({'INFO_', globals.schedulesStopArea});
+    }
     try {
       if (mounted) {
         final response = await http.get(Uri.parse('${globals.API_SCHEDULES}?s=${globals.schedulesStopArea}'));
@@ -143,7 +146,7 @@ class _SchedulesBodyState extends State<SchedulesBody>
         modes.contains('physical_mode:LocalTrain') ||
         modes.contains('physical_mode:LongDistanceTrain')) {
       tabs.add(const Tab(
-                icon: Icon(Scaffold_icon.train),
+                icon: Icon(ScaffoldIcon.train),
                 text: 'Train et RER',
                 iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)
               ));
@@ -151,21 +154,21 @@ class _SchedulesBodyState extends State<SchedulesBody>
     if (modes.contains('physical_mode:Metro') ||
         modes.contains('physical_mode:RailShuttle')) {
       tabs.add(const Tab(
-                icon: Icon(Scaffold_icon.metro),
+                icon: Icon(ScaffoldIcon.metro),
                 text: 'Métro',
                 iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)
               ));
     }
     if (modes.contains('physical_mode:Tramway')) {
       tabs.add(const Tab(
-                icon: Icon(Scaffold_icon.tram),
+                icon: Icon(ScaffoldIcon.tram),
                 text: 'Tramway',
                 iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)
               ));
     }
     if (modes.contains('physical_mode:Bus')) {
       tabs.add(const Tab(
-                icon: Icon(Scaffold_icon.bus),
+                icon: Icon(ScaffoldIcon.bus),
                 text: 'Bus',
                 iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)
               ));

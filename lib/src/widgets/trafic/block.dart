@@ -132,7 +132,7 @@ class TraficBlock extends StatelessWidget {
 
         ),
         onTap: () {
-          RouteStateScope.of(context).go('/trafic/${name}');
+          RouteStateScope.of(context).go('/trafic/$name');
         },                   
       ),
       

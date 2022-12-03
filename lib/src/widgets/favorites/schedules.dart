@@ -190,7 +190,7 @@ class FavoriteSchedules extends StatelessWidget {
               globals.schedulesStopArea = id;
               globals.schedulesStopName = name;
               globals.schedulesStopModes = modes;
-              RouteStateScope.of(context).go('/schedules/stops/${id}');
+              RouteStateScope.of(context).go('/schedules/stops/$id');
             },
           ),
         ),
