@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:navika/src/icons/Scaffold_icon_icons.dart';
 import 'package:navika/src/widgets/favorites/departures.dart';
@@ -34,6 +35,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
     with SingleTickerProviderStateMixin {
   List schedules = [];
   String mode = '';
+  String error = '';
   late Timer _timer;
 
   @override
@@ -51,7 +53,6 @@ class _FavoriteBodyState extends State<FavoriteBody>
   }
 
   Future<void> _getSchedules() async {
-    print({'INFO_', widget.id});
     try {
       if (mounted) {
         final response = await http.get(Uri.parse(
@@ -68,108 +69,151 @@ class _FavoriteBodyState extends State<FavoriteBody>
               } else {
                 schedules = data['schedules'];
               }
+              error = "";
             });
           }
+        } else {
+          setState(() {
+            error = "Récupération des informations impossible.";
+          });
         }
       }
       _timer = Timer(const Duration(seconds: 60), () {
         _getSchedules();
       });
     } on Exception catch (_) {
-      print("Une erreur s'est produite !");
+      setState(() {
+        error = "Une erreur s'est produite.";
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      if (!widget.removeSeparator)
-        Container(
-          height: 5,
-          color: Colors.grey[300]
-        ),
-      Container(
-        padding: const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 10),
-        child: GestureDetector(
-          onTap: () {
-            globals.schedulesStopArea = widget.id;
-            globals.schedulesStopName = widget.name;
-            globals.schedulesStopModes = widget.modes;
-            RouteStateScope.of(context).go('/schedules/stops/${widget.id}');
-          },
-          child: Row(
-            children: [
-              Icon(Scaffold_icon.train_2,
-                  color: Theme.of(context).colorScheme.primary, size: 25),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: Text(widget.name,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
-                    color: Theme.of(context).colorScheme.primary,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (!widget.removeSeparator)
+            Divider(
+              height: 5,
+              thickness: 5,
+              color: Colors.grey[300],
+            ),
+          Container(
+            padding:
+                const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 10),
+            child: GestureDetector(
+              onTap: () {
+                globals.schedulesStopArea = widget.id;
+                globals.schedulesStopName = widget.name;
+                globals.schedulesStopModes = widget.modes;
+                RouteStateScope.of(context).go('/schedules/stops/${widget.id}');
+              },
+              child: Row(
+                children: [
+                  Icon(Scaffold_icon.train_2,
+                      color: Theme.of(context).colorScheme.primary, size: 25),
+                  const SizedBox(
+                    width: 10,
                   ),
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.fade,
-                ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.more_horiz),
-                tooltip: 'Ajouter aux favoris',
-                onPressed: () {
-                  showModalBottomSheet<void>(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
+                  Expanded(
+                    child: Text(
+                      widget.name,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Segoe Ui',
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (BuildContext context) =>
-                          BottomRemoveFavorite(
-                              id: widget.id,
-                              name: widget.name,
-                              line: widget.line,
-                              update: widget.update));
-                },
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.more_horiz),
+                    tooltip: 'Ajouter aux favoris',
+                    onPressed: () {
+                      showModalBottomSheet<void>(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (BuildContext context) =>
+                              BottomRemoveFavorite(
+                                  id: widget.id,
+                                  name: widget.name,
+                                  line: widget.line,
+                                  update: widget.update));
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-      const SizedBox(height: 5),
-      if (mode == '' && schedules.isEmpty)
-        Container(
-          margin: const EdgeInsets.only(top: 20, bottom: 20),
-          child: const SizedBox(
-            height: 30.0,
-            width: 30.0,
-            child: CircularProgressIndicator(),
-          ),
-        )
-      else if (mode == 'rail')
-        Container(
-          padding: const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 10),
-          child: FavoriteDepartures(
-            id: widget.id,
-            name: widget.name,
-            modes: widget.modes,
-            schedules: schedules,
-            update: widget.update),
-        )
-      else
-        Container(
-          padding: const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 10),
-          child: FavoriteSchedules(
-            id: widget.id,
-            name: widget.name,
-            modes: widget.modes,
-            schedules: schedules,
-            update: widget.update),
-        )
-    ],
-  );
+          const SizedBox(height: 5),
+          if (error != '')
+            Column(
+              children: [
+                Row(
+                  children: [
+                    const SizedBox(width: 15),
+                    SvgPicture.asset(
+                      'assets/cancel.svg',
+                      color: Colors.grey[600],
+                      height: 18,
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        error,
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Segoe Ui',
+                        ),
+                        maxLines: 1,
+                        softWrap: false,
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15),
+              ],
+            )
+          else if (mode == '' && schedules.isEmpty)
+            Container(
+              margin: const EdgeInsets.only(top: 20, bottom: 20),
+              child: const SizedBox(
+                height: 30.0,
+                width: 30.0,
+                child: CircularProgressIndicator(),
+              ),
+            )
+          else if (mode == 'rail')
+            Container(
+              padding: const EdgeInsets.only(
+                  left: 10, right: 10, top: 0, bottom: 10),
+              child: FavoriteDepartures(
+                  id: widget.id,
+                  name: widget.name,
+                  modes: widget.modes,
+                  schedules: schedules,
+                  update: widget.update),
+            )
+          else
+            Container(
+              padding: const EdgeInsets.only(
+                  left: 10, right: 10, top: 0, bottom: 10),
+              child: FavoriteSchedules(
+                  id: widget.id,
+                  name: widget.name,
+                  modes: widget.modes,
+                  schedules: schedules,
+                  update: widget.update),
+            )
+        ],
+      );
 }

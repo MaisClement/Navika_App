@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:navika/src/widgets/departures/block.dart';
 
@@ -32,6 +33,7 @@ class _SchedulesBodyState extends State<SchedulesBody>
   List departures = [];
   late Timer _timer;
   late Timer _update;
+  String error = '';
 
   @override
 	void initState() {
@@ -70,15 +72,22 @@ class _SchedulesBodyState extends State<SchedulesBody>
               if (data['departures'] != null) {
                 departures = data['departures'];
               }
+              error = "";
             });
           }
+        } else {
+          setState(() {
+            error = "Récupération des informations impossible.";
+          });
         }
       }
       _timer = Timer(const Duration(seconds: 30), () {
         _getSchedules();
       });
     } on Exception catch (_) {
-      print("Une erreur s'est produite !");
+      setState(() {
+        error = "Une erreur s'est produite.";
+      });
     }
   }
 
@@ -208,6 +217,39 @@ class _SchedulesBodyState extends State<SchedulesBody>
   @override
   Widget build(BuildContext context) => Column(
     children: [
+      if (error != '')
+        Column(
+          children: [
+            const SizedBox(height: 15),
+            Row(
+              children: [
+                const SizedBox(width: 15),
+                SvgPicture.asset(
+                  'assets/cancel.svg',
+                  color: Colors.grey[600],
+                  height: 18,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    error,
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Segoe Ui',
+                    ),
+                    maxLines: 1,
+                    softWrap: false,
+                    overflow: TextOverflow.fade,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 15),
+          ],
+        ),
+        
       if ( getModesLength(globals.schedulesStopModes) > 1 )
         Container(
           margin: const EdgeInsets.only(top:10, right:10, left: 10, bottom: 10),

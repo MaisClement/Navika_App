@@ -22,7 +22,7 @@ class HomePannel extends StatelessWidget {
     child: Column(
       children: [
         Container(
-          height: 20,
+          height: 15,
         ),
         Container(
           width: 40,
@@ -33,7 +33,7 @@ class HomePannel extends StatelessWidget {
           ),
         ),
         Container(
-          height: 10,
+          height: 15,
         ),
         Container(
           margin: const EdgeInsets.only(left: 10, right: 10),
@@ -70,7 +70,9 @@ class HomePannel extends StatelessWidget {
             ),
           ),
         ),
-        
+        Container(
+          height: 7,
+        ),
       ],
     ),
   );

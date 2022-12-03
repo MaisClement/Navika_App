@@ -61,7 +61,7 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Supprimer ce favori',
+          Text('Supprimer ce favori.',
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.w600,

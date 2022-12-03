@@ -38,19 +38,32 @@ class HomeBody extends StatelessWidget {
             message: message
           ),
 
+// Favorites
       if (favs.isNotEmpty)
-        Container(
-          padding: const EdgeInsets.only(left: 10, top: 20, bottom: 10),
-          child: Text('Vos Favoris',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'Segoe Ui',
-              color: Theme.of(context).colorScheme.primary,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 10,
             ),
-          ),
+            Divider(
+              height: 5,
+              thickness: 5,
+              color: Colors.grey[300],
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: 10, bottom: 10),
+              child: Text('Vos Favoris',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Segoe Ui',
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ),
+          ],
         ),
-        
       for (var fav in favs.sublist(0, favs.length > 2 ? 2 : favs.length))
         FavoriteBody(
           id: fav['id'],

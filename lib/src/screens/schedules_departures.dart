@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/data.dart';
-import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/widgets/departures/list.dart';
 import 'package:navika/src/widgets/departures/block.dart';
 import 'package:http/http.dart' as http;

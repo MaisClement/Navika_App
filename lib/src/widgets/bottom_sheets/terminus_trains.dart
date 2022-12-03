@@ -47,7 +47,7 @@ class _BottomTerminusTrainState extends State<BottomTerminusTrain>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Supprimer ce favori',
+          Text('Détails sur vos trains.',
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.w600,
