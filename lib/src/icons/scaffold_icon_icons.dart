@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 class ScaffoldIcon {
   ScaffoldIcon._();
 
-  static const _kFontFam = 'ScaffoldIcon';
+  static const _kFontFam = 'Scaffold_icon';
   static const String? _kFontPkg = null;
 
   static const IconData metro = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
