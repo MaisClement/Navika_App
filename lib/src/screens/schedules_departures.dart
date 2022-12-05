@@ -28,7 +28,8 @@ class DepartureDetails extends StatefulWidget {
 
 class _DepartureDetailsState extends State<DepartureDetails>
     with SingleTickerProviderStateMixin {
-
+ 
+  String error = '';
   late Timer _timer;
   Map departure = globals.schedulesDeparture;
 
@@ -65,25 +66,31 @@ class _DepartureDetailsState extends State<DepartureDetails>
           final data = json.decode(response.body);
 
           if (mounted) {
-            setState(() {
-              if (data['departures'] != null) {
-                for(var i = 0; i < data['departures'].length; i++) {
-                  if (data['departures'][i]['id'] == widget.stopLine) {
-                    departure = data['departures'][i];
-                    break;
-                  }
+            if (data['departures'] != null) {
+              for(var i = 0; i < data['departures'].length; i++) {
+                if (data['departures'][i]['id'] == widget.stopLine) {
+                  setState(() {
+                  departure = data['departures'][i];
+                  error = '';
+                  });
+                  break;
                 }
-                
               }
-            });
+            }
           }
         }
-      }
       _timer = Timer(const Duration(seconds: 30), () {
         _getDepature();
       });
-    } on Exception catch (_) {
-      print("Une erreur s'est produite !");
+      } else {
+        setState(() {
+          error = "Récupération des informations impossible.";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        error = "Une erreur s'est produite.";
+      });
     }
   }
 
@@ -115,7 +122,39 @@ class _DepartureDetailsState extends State<DepartureDetails>
     body: ListView(
       shrinkWrap: true,
       children: [
-        if (departure['departures'].isEmpty) 
+        if (error != '')
+          Column(
+            children: [
+              const SizedBox(height: 15),
+              Row(
+                children: [
+                  const SizedBox(width: 15),
+                  SvgPicture.asset(
+                    'assets/cancel.svg',
+                    color: Colors.grey[600],
+                    height: 18,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      error,
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Segoe Ui',
+                      ),
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15),
+            ],
+          )
+        else if (departure['departures'].isEmpty) 
           Row(
             children: [
               SvgPicture.asset('assets/cancel.svg',

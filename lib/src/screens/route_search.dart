@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:navika/src/icons/scaffold_icon_icons.dart';
 
+import '../routing.dart';
 import '../style/style.dart';
 import '../widgets/places/empty.dart';
 import '../widgets/places/load.dart';
@@ -144,26 +145,27 @@ class _RouteSearchState extends State<RouteSearch> {
     } else {
       if (!FocusScope.of(context).hasPrimaryFocus) {
         FocusScope.of(context).unfocus();
+        RouteStateScope.of(context).go('/home/route/${globals.route["dep"]["id"]}/${globals.route["arr"]["id"]}');
       }
     } 
   }
 
   void _onTapText(current) {
-  //   if (current != 'dep' && current != 'arr') {
-  //     throw Exception ('Invalid current value: $current');
-  //   }
-  //   setState(() {
-  //     currentTextInput = current;
-  //   });
-  // 
-  //   if (textController[current].text == yourPos) {
-  //     textController[current].text = '';
-  //     setState(() {
-  //       posUsed = false;
-  //     });
-  //     globals.route[current]['id'] = null;
-  //     globals.route[current]['name'] = null;
-  //   }
+    if (current != 'dep' && current != 'arr') {
+      throw Exception ('Invalid current value: $current');
+    }
+    setState(() {
+      currentTextInput = current;
+    });
+  
+    if (textController[current].text == yourPos) {
+      textController[current].text = '';
+      setState(() {
+        posUsed = false;
+      });
+      globals.route[current]['id'] = null;
+      globals.route[current]['name'] = null;
+    }
   }
 
   void _onChangeText(current, value){
@@ -291,8 +293,7 @@ class _RouteSearchState extends State<RouteSearch> {
               )
             ],
           ),
-        )
-        ,
+        ),
         
         if (places.isNotEmpty)
           Expanded(
@@ -334,7 +335,7 @@ class _RouteSearchState extends State<RouteSearch> {
                       ),
                     ),
                     onTap: () {
-                      // RouteStateScope.of(context).go('/schedules/details');
+                      _handleClick(yourPos, '${globals.locationData?.longitude};${globals.locationData?.latitude}');
                     },                
                   ),
 
@@ -344,7 +345,6 @@ class _RouteSearchState extends State<RouteSearch> {
                     place: place,
                     onTap: () {
                       _handleClick(place['name'], place['id']);
-                      // RouteStateScope.of(context).go('/schedules/details');
                     },
                   ),
               ]

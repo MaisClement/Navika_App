@@ -27,6 +27,7 @@ class _NavikaAppState extends State<NavikaApp> {
 				'/home',
 				'/stops/:stop_area',
 				'/home/route',
+				'/home/route/:dep/:arr',
 				'/schedules',
 				'/schedules/search',
         '/schedules/stops/:stop_area',

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/screens/route.dart';
+import 'package:navika/src/screens/route_search.dart';
 import 'package:navika/src/screens/schedules_departures.dart';
 import 'package:navika/src/screens/schedules_search.dart';
 

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 
 import '../style/style.dart';
@@ -307,24 +308,58 @@ class _TraficState extends State<Trafic> {
                       ]),
                     ]),
                   ))
-              : Container(
-                  padding: const EdgeInsets.only(
-                      left: 10.0, top: 10.0, right: 10.0, bottom: 10.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Center(
-                    child: Column(children: [
-                      const CircularProgressIndicator(),
-                      Text(
-                        'Chargement...',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontWeight: FontWeight.w700),
+                  
+              : error != ''
+                ? Column(
+                    children: [
+                      const SizedBox(height: 15),
+                      Row(
+                        children: [
+                          const SizedBox(width: 15),
+                          SvgPicture.asset(
+                            'assets/cancel.svg',
+                            color: Colors.grey[600],
+                            height: 18,
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              error,
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'Segoe Ui',
+                              ),
+                              maxLines: 1,
+                              softWrap: false,
+                              overflow: TextOverflow.fade,
+                            ),
+                          ),
+                        ],
                       ),
-                    ]),
-                  ))));
+                      const SizedBox(height: 15),
+                    ],
+                  )
+                        
+                : Container(
+                    padding: const EdgeInsets.only(
+                        left: 10.0, top: 10.0, right: 10.0, bottom: 10.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Center(
+                      child: Column(children: [
+                        const CircularProgressIndicator(),
+                        Text(
+                          'Chargement...',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ]),
+                    ))));
 
   @override
   void initState() {

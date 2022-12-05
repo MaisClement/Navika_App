@@ -131,7 +131,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
                   ),
                   IconButton(
                     icon: const Icon(Icons.more_horiz),
-                    tooltip: 'Ajouter aux favoris',
+                    tooltip: 'Supprimer ce favori',
                     onPressed: () {
                       showModalBottomSheet<void>(
                           shape: RoundedRectangleBorder(

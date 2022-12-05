@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 
 import '../routing.dart';
@@ -23,6 +24,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
   
   FocusNode textFieldNode = FocusNode();
   String search = '';
+  String error = '';
   bool isLoading = false;
   List places = [];
 
@@ -50,13 +52,26 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
       isLoading = true;
     });
 
-    final response = await http.get(Uri.parse(url));
-    final data = json.decode(response.body);
+    try {
+      final response = await http.get(Uri.parse(url));
 
-    if (mounted) {
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        if (mounted) {
+          setState(() {
+            places = data['places'];
+            isLoading = false;
+          });
+        }
+      } else {
+        setState(() {
+          error = "Récupération des informations impossible.";
+        });
+      }
+    } catch (e) {
       setState(() {
-        places = data['places'];
-        isLoading = false;
+        error = "Une erreur s'est produite.";
       });
     }
 	}
@@ -94,8 +109,41 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
 		),
 		body: ListView(
       children: [
+
+        if (error != '')
+          Column(
+            children: [
+              const SizedBox(height: 15),
+              Row(
+                children: [
+                  const SizedBox(width: 15),
+                  SvgPicture.asset(
+                    'assets/cancel.svg',
+                    color: Colors.grey[600],
+                    height: 18,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      error,
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Segoe Ui',
+                      ),
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15),
+            ],
+          )
         
-        if (places.isNotEmpty)
+        else if (places.isNotEmpty)
           for (var place in places)
             PlacesListButton(
               isLoading: isLoading,
