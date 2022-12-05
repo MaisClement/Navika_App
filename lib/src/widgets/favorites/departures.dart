@@ -3,13 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/data.dart';
 import 'package:navika/src/widgets/departures/block.dart';
 
-import '../../extensions/hexcolor.dart';
+import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
 
-import '../../routing.dart';
-import '../departures/list.dart';
-import '../../data/global.dart' as globals;
+import 'package:navika/src/routing.dart';
+import 'package:navika/src/widgets/departures/list.dart';
+import 'package:navika/src/data/global.dart' as globals;
 
 class FavoriteDepartures extends StatelessWidget {
   final String id;
@@ -75,7 +75,7 @@ class FavoriteDepartures extends StatelessWidget {
                       Container(
                         width: 10,
                       ),
-                      if (LINES.getLinesById(departure['id']).libelle != "")
+                      if (LINES.getLinesById(departure['id']).libelle != '')
                         Text(LINES.getLinesById(departure['id']).libelle,
                           style: TextStyle(
                             fontSize: 16,

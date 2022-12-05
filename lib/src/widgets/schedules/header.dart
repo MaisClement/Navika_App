@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../data/global.dart' as globals;
+import 'package:navika/src/data/global.dart' as globals;
 
 class SchedulesPannel extends StatelessWidget {
   final void Function()? tooglePanel;

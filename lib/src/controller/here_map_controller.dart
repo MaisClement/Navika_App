@@ -2,7 +2,7 @@ import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
 
-import '../data/global.dart' as globals;
+import 'package:navika/src/data/global.dart' as globals;
 
 // A callback to notify the hosting widget.
 typedef ShowDialogFunction = void Function(String title, String message);

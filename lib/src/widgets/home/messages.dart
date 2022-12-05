@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import '../trafic/block.dart';
+import 'package:navika/src/widgets/trafic/block.dart';
 
 Color getSlugColor(severity, [type]){
   if (severity == 0 && (type == null || type == 0)){
@@ -27,18 +27,18 @@ Color getSlugColor(severity, [type]){
 String getTime(String time){
   DateTime dttime = DateTime.parse(time);
 
-  String dtday = dttime.day < 10 ? "0${dttime.day}" : dttime.day.toString();
-  String dtmonth = dttime.month < 10 ? "0${dttime.month}" : dttime.month.toString();
+  String dtday = dttime.day < 10 ? '0${dttime.day}' : dttime.day.toString();
+  String dtmonth = dttime.month < 10 ? '0${dttime.month}' : dttime.month.toString();
   String dtyear = dttime.year.toString();
-  String dthour = dttime.hour < 10 ? "0${dttime.hour}" : dttime.hour.toString();
-  String dtminute = dttime.minute < 10 ? "0${dttime.minute}" : dttime.minute.toString();
+  String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
+  String dtminute = dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
 
   return '$dtday/$dtmonth/$dtyear $dthour:$dtminute';
 }
 
 class HomeMessage extends StatelessWidget {
   final Map message;
-  void Function()? onTap;
+  final void Function()? onTap;
 
 	HomeMessage({
     required this.message,
@@ -101,7 +101,7 @@ class HomeMessage extends StatelessWidget {
           height: 10,
         ),
         
-        if (message['message']['link'] != null && message['message']['button'] != null && message['message']['link'] != "" && message['message']['button'] != "")
+        if (message['message']['link'] != null && message['message']['button'] != null && message['message']['link'] != '' && message['message']['button'] != '')
           Center(
             child: ElevatedButton(
               onPressed: () async {

@@ -9,8 +9,9 @@ import 'package:navika/src/widgets/departures/block.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-import '../data/global.dart' as globals;
-import '../style/style.dart';
+import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/style/style.dart';
+import 'package:navika/src/widgets/error_message.dart';
 
 class DepartureDetails extends StatefulWidget {
   final String? stopArea;
@@ -84,7 +85,7 @@ class _DepartureDetailsState extends State<DepartureDetails>
       });
       } else {
         setState(() {
-          error = "Récupération des informations impossible.";
+          error = 'Récupération des informations impossible.';
         });
       }
     } catch (e) {
@@ -112,7 +113,7 @@ class _DepartureDetailsState extends State<DepartureDetails>
               style: appBarTitle
             ),
 
-          if (LINES.getLinesById(departure['id']).libelle != "")
+          if (LINES.getLinesById(departure['id']).libelle != '')
             Text(LINES.getLinesById(departure['id']).libelle,
               style: appBarSubtitle
             ),
@@ -122,39 +123,13 @@ class _DepartureDetailsState extends State<DepartureDetails>
     body: ListView(
       shrinkWrap: true,
       children: [
+        
         if (error != '')
-          Column(
-            children: [
-              const SizedBox(height: 15),
-              Row(
-                children: [
-                  const SizedBox(width: 15),
-                  SvgPicture.asset(
-                    'assets/cancel.svg',
-                    color: Colors.grey[600],
-                    height: 18,
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      error,
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Segoe Ui',
-                      ),
-                      maxLines: 1,
-                      softWrap: false,
-                      overflow: TextOverflow.fade,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 15),
-            ],
-          )
-        else if (departure['departures'].isEmpty) 
+          ErrorMessage(
+            error: error,
+          ),
+          
+        if (departure['departures'].isEmpty) 
           Row(
             children: [
               SvgPicture.asset('assets/cancel.svg',

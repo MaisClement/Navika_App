@@ -1,3 +1,5 @@
+// ignore_for_file: always_use_package_imports
+
 import 'package:collection/collection.dart';
 import 'package:quiver/core.dart';
 

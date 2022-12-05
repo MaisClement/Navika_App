@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
-import '../favorites/body.dart';
-import 'fav_scroll.dart';
-import 'messages.dart';
+import 'package:navika/src/widgets/favorites/body.dart';
+import 'package:navika/src/widgets/home/fav_scroll.dart';
+import 'package:navika/src/widgets/home/messages.dart';
 
 class HomeBody extends StatelessWidget {
 	final ScrollController scrollController;

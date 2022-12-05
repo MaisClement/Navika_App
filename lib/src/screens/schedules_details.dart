@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/icons/scaffold_icon_icons.dart';
 import 'package:navika/src/widgets/bottom_sheets/add_favorite.dart';
 import 'package:navika/src/widgets/schedules/body.dart';
-import '../data/global.dart' as globals;
-import '../style/style.dart';
+import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/style/style.dart';
 
 bool isFavorite(id) {
   List favs = globals.hiveBox?.get('stopsFavorites') ?? [];

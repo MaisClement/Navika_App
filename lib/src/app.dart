@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'routing.dart';
-import 'screens/navigator.dart';
+import 'package:navika/src/routing.dart';
+import 'package:navika/src/screens/navigator.dart';
 
 class NavikaApp extends StatefulWidget {
 	const NavikaApp({super.key});

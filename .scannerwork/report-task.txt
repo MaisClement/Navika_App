@@ -2,5 +2,5 @@ projectKey=MaisClement_Navika_App_AYTXflNV7LBzm0n5OOs-
 serverUrl=http://hackernwar.com:9000
 serverVersion=9.7.1.62043
 dashboardUrl=http://hackernwar.com:9000/dashboard?id=MaisClement_Navika_App_AYTXflNV7LBzm0n5OOs-
-ceTaskId=AYTX_c0S7LBzm0n5OOuS
-ceTaskUrl=http://hackernwar.com:9000/api/ce/task?id=AYTX_c0S7LBzm0n5OOuS
+ceTaskId=AYTkB9TT7LBzm0n5OOuU
+ceTaskUrl=http://hackernwar.com:9000/api/ce/task?id=AYTkB9TT7LBzm0n5OOuU

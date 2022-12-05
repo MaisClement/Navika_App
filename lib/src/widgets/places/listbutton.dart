@@ -3,29 +3,29 @@ import 'package:navika/src/icons/scaffold_icon_icons.dart';
 
 import 'package:navika/src/widgets/icons/icons.dart';
 
-class PlacesListButton extends StatelessWidget {
-  bool isLoading;
-  Map place;
-  void Function() onTap;
+IconData getPlaceIcon(type){
+  if (type == 'stop_area'){
+    return ScaffoldIcon.train_2;
+  } else if (type == 'address'){
+    return ScaffoldIcon.marker;
+  } else if (type == 'administrative_region'){
+    return ScaffoldIcon.city;
+  } else {
+    return ScaffoldIcon.university;
+  } 
+}
 
-	PlacesListButton({
+class PlacesListButton extends StatelessWidget {
+  final bool isLoading;
+  final Map place;
+  final void Function() onTap;
+
+	const PlacesListButton({
     required this.isLoading,
     required this.place,
     required this.onTap,
 		super.key,
 	});
-
-  IconData getPlaceIcon(type){
-    if (type == 'stop_area'){
-      return ScaffoldIcon.train_2;
-    } else if (type == 'address'){
-      return ScaffoldIcon.marker;
-    } else if (type == 'administrative_region'){
-      return ScaffoldIcon.city;
-    } else {
-      return ScaffoldIcon.university;
-    } 
-  }
 
 	@override
 	Widget build(BuildContext context) => InkWell(

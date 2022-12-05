@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-import '../routing.dart';
-import 'trafic.dart';
-import '../widgets/fade_transition_page.dart';
-import 'schedules.dart';
-import 'scaffold.dart';
-import 'home.dart';
+import 'package:navika/src/routing.dart';
+import 'package:navika/src/screens/trafic.dart';
+import 'package:navika/src/widgets/fade_transition_page.dart';
+import 'package:navika/src/screens/schedules.dart';
+import 'package:navika/src/screens/scaffold.dart';
+import 'package:navika/src/screens/home.dart';
 
 /// Displays the contents of the body of [NavikaAppScaffold]
 class NavikaAppScaffoldBody extends StatelessWidget {

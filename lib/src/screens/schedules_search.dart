@@ -1,15 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 
-import '../routing.dart';
-import '../data/global.dart' as globals;
-import '../widgets/places/empty.dart';
-import '../widgets/places/listbutton.dart';
+import 'package:navika/src/routing.dart';
+import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/widgets/error_block.dart';
+import 'package:navika/src/widgets/places/empty.dart';
+import 'package:navika/src/widgets/places/listbutton.dart';
 import 'package:flutter/foundation.dart';
-import '../widgets/places/load.dart';
+import 'package:navika/src/widgets/places/load.dart';
 
 class SchedulesSearch extends StatefulWidget {
 	const SchedulesSearch({super.key});
@@ -62,11 +62,12 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
           setState(() {
             places = data['places'];
             isLoading = false;
+            error = '';
           });
         }
       } else {
         setState(() {
-          error = "Récupération des informations impossible.";
+          error = 'Récupération des informations impossible.';
         });
       }
     } catch (e) {
@@ -97,7 +98,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
         controller: myController,
         focusNode: textFieldNode,
         decoration: const InputDecoration(
-          hintText: "Rechercher une gare, un arrêt ou une stations"
+          hintText: 'Rechercher une gare, un arrêt ou une stations'
         ),
         onChanged: (text) {
           setState(() {
@@ -111,36 +112,8 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
       children: [
 
         if (error != '')
-          Column(
-            children: [
-              const SizedBox(height: 15),
-              Row(
-                children: [
-                  const SizedBox(width: 15),
-                  SvgPicture.asset(
-                    'assets/cancel.svg',
-                    color: Colors.grey[600],
-                    height: 18,
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      error,
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Segoe Ui',
-                      ),
-                      maxLines: 1,
-                      softWrap: false,
-                      overflow: TextOverflow.fade,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 15),
-            ],
+          ErrorBlock(
+            error: error,
           )
         
         else if (places.isNotEmpty)

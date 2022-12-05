@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/widgets/home/fav_button.dart';
 
-import '../../routing.dart';
-import '../../data/global.dart' as globals;
+import 'package:navika/src/routing.dart';
+import 'package:navika/src/data/global.dart' as globals;
 
 class HomeBodyFavScroll extends StatelessWidget {
 

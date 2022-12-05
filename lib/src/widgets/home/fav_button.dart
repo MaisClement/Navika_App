@@ -4,9 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 class FavButton extends StatelessWidget {
 	final String name;
   final String img;
-  void Function() onTap;
+  final void Function() onTap;
 
-	FavButton({
+	const FavButton({
 		required this.name,
     required this.img,
 		required this.onTap,

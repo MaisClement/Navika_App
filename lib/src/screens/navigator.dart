@@ -3,10 +3,10 @@ import 'package:navika/src/screens/route_search.dart';
 import 'package:navika/src/screens/schedules_departures.dart';
 import 'package:navika/src/screens/schedules_search.dart';
 
-import '../routing.dart';
-import 'trafic_details.dart';
-import 'schedules_details.dart';
-import 'scaffold.dart';
+import 'package:navika/src/routing.dart';
+import 'package:navika/src/screens/trafic_details.dart';
+import 'package:navika/src/screens/schedules_details.dart';
+import 'package:navika/src/screens/scaffold.dart';
 
 /// Builds the top-level navigator for the app. The pages to display are based
 /// on the `routeState` that was parsed by the TemplateRouteParser.

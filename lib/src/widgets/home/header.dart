@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/scaffold_icon_icons.dart';
 
-import '../../routing.dart';
-import '../../data/global.dart' as globals;
+import 'package:navika/src/routing.dart';
+import 'package:navika/src/data/global.dart' as globals;
 
 class HomePannel extends StatelessWidget {
   final void Function()? tooglePanel;
@@ -57,7 +57,7 @@ class HomePannel extends StatelessWidget {
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 15, bottom: 15, top: 15, right: 15),
-                      child: Text("Où allons nous ?",
+                      child: Text('Où allons nous ?',
                         style: TextStyle(
                           fontSize: 16,
                           color: Theme.of(context).colorScheme.primary, // Colors.grey,

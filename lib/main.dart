@@ -8,9 +8,9 @@ import 'package:here_sdk/core.engine.dart';
 import 'package:here_sdk/core.errors.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'src/data/credentials.dart' as credentials;
-import 'src/data/global.dart' as globals;
-import 'src/app.dart';
+import 'package:navika/src/data/credentials.dart' as credentials;
+import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/app.dart';
 
 void main() {
 	setHashUrlStrategy();
@@ -52,6 +52,6 @@ void _initializeHERESDK() async {
   try {
     await SDKNativeEngine.makeSharedInstance(sdkOptions);
   } on InstantiationException {
-    throw Exception("Failed to initialize the HERE SDK.");
+    throw Exception('Failed to initialize the HERE SDK.');
   }
 }

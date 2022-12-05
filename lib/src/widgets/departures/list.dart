@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/widgets/departures/message.dart';
 import 'package:navika/src/widgets/departures/time_block.dart';
-import '../bottom_sheets/terminus_trains.dart';
+import 'package:navika/src/widgets/bottom_sheets/terminus_trains.dart';
 
 String getState(String departure, String expectedDeparture, String state) {
-  if (state != "ontime" && state != "theorical") {
+  if (state != 'ontime' && state != 'theorical') {
     return state;
   }
   if (getLate(departure, expectedDeparture) > 0) {
@@ -13,7 +13,7 @@ String getState(String departure, String expectedDeparture, String state) {
   return 'ontime';
 }
 int getLate(String departure, String expectedDeparture) {
-  if (departure == "" || expectedDeparture == ""){
+  if (departure == '' || expectedDeparture == ''){
     return 0;
   }
   DateTime dttime = DateTime.parse(departure);
@@ -143,12 +143,12 @@ class DepartureList extends StatelessWidget {
               ),
             ),
 
-            if (train['informations']['message'] == "terminus")
+            if (train['informations']['message'] == 'terminus')
               Wrap(
                 children: [
                   if (getState(train['stop_date_time']['departure_date_time'], train['stop_date_time']['base_departure_date_time'], train['stop_date_time']['state']) == 'cancelled')
                     const MiniMessage(
-                      message: "Supprimé",
+                      message: 'Supprimé',
                       color: Colors.white,
                       backgroundColor: Color(0xffeb2031),
                     ),
@@ -174,7 +174,7 @@ class DepartureList extends StatelessWidget {
                             ));
                       },
                       child: const Message(
-                        message: "Terminus",
+                        message: 'Terminus',
                       )
                     )
                   )

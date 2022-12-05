@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:navika/src/widgets/departures/block.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../icons/scaffold_icon_icons.dart';
-import 'list.dart';
-import '../../data/global.dart' as globals;
+import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/widgets/error_message.dart';
+import 'package:navika/src/widgets/schedules/list.dart';
+import 'package:navika/src/data/global.dart' as globals;
 
 class SchedulesBody extends StatefulWidget {
   final ScrollController scrollController;
@@ -75,12 +75,12 @@ class _SchedulesBodyState extends State<SchedulesBody>
               if (data['departures'] != null) {
                 departures = data['departures'];
               }
-              error = "";
+              error = '';
             });
           }
         } else {
           setState(() {
-            error = "Récupération des informations impossible.";
+            error = 'Récupération des informations impossible.';
           });
         }
       }
@@ -221,36 +221,8 @@ class _SchedulesBodyState extends State<SchedulesBody>
   Widget build(BuildContext context) => Column(
     children: [
       if (error != '')
-        Column(
-          children: [
-            const SizedBox(height: 15),
-            Row(
-              children: [
-                const SizedBox(width: 15),
-                SvgPicture.asset(
-                  'assets/cancel.svg',
-                  color: Colors.grey[600],
-                  height: 18,
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    error,
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Segoe Ui',
-                    ),
-                    maxLines: 1,
-                    softWrap: false,
-                    overflow: TextOverflow.fade,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 15),
-          ],
+        ErrorMessage(
+          error: error,
         ),
         
       if ( getModesLength(globals.schedulesStopModes) > 1 )

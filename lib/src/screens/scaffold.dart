@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../icons/scaffold_icon_icons.dart';
-import '../routing.dart';
-import 'scaffold_body.dart';
+import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/routing.dart';
+import 'package:navika/src/screens/scaffold_body.dart';
 
 class NavikaAppScaffold extends StatelessWidget {
 	const NavikaAppScaffold({

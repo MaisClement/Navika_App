@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../data/global.dart' as globals;
+import 'package:navika/src/data/global.dart' as globals;
 
 String getTime(){
   var d1 = DateTime.now();
@@ -74,7 +74,7 @@ class _BottomTerminusTrainState extends State<BottomTerminusTrain>
           ),
           
           RadioListTile(
-            title: const Text("Affiché"),
+            title: const Text('Affiché'),
             value: false, 
             groupValue: hide, 
             onChanged: (value){
@@ -86,7 +86,7 @@ class _BottomTerminusTrainState extends State<BottomTerminusTrain>
             },
           ),
           RadioListTile(
-            title: const Text("Masqué"),
+            title: const Text('Masqué'),
             value: true, 
             groupValue: hide, 
             onChanged: (value){

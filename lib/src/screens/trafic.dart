@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 
-import '../style/style.dart';
-import '../widgets/trafic/block.dart';
-import '../data/global.dart' as globals;
+import 'package:navika/src/style/style.dart';
+import 'package:navika/src/widgets/error_block.dart';
+import 'package:navika/src/widgets/trafic/block.dart';
+import 'package:navika/src/data/global.dart' as globals;
 
 class Trafic extends StatefulWidget {
   const Trafic({super.key});
@@ -42,12 +42,12 @@ class _TraficState extends State<Trafic> {
           setState(() {
             state = true;
             trafic = data['trafic'];
-            error = "";
+            error = '';
           });
         }
       } else {
         setState(() {
-          error = "Récupération des informations impossible.";
+          error = 'Récupération des informations impossible.';
         });
       }
     } catch (e) {
@@ -95,19 +95,19 @@ class _TraficState extends State<Trafic> {
                         Expanded(
                             child: Wrap(children: const [
                           TraficBlock(
-                            name: "RER A",
+                            name: 'RER A',
                           ),
                           TraficBlock(
-                            name: "RER B",
+                            name: 'RER B',
                           ),
                           TraficBlock(
-                            name: "RER C",
+                            name: 'RER C',
                           ),
                           TraficBlock(
-                            name: "RER D",
+                            name: 'RER D',
                           ),
                           TraficBlock(
-                            name: "RER E",
+                            name: 'RER E',
                           ),
                         ])),
                       ]),
@@ -137,28 +137,28 @@ class _TraficState extends State<Trafic> {
                         Expanded(
                             child: Wrap(children: const [
                           TraficBlock(
-                            name: "TRANSILIEN H",
+                            name: 'TRANSILIEN H',
                           ),
                           TraficBlock(
-                            name: "TRANSILIEN J",
+                            name: 'TRANSILIEN J',
                           ),
                           TraficBlock(
-                            name: "TRANSILIEN K",
+                            name: 'TRANSILIEN K',
                           ),
                           TraficBlock(
-                            name: "TRANSILIEN L",
+                            name: 'TRANSILIEN L',
                           ),
                           TraficBlock(
-                            name: "TRANSILIEN N",
+                            name: 'TRANSILIEN N',
                           ),
                           TraficBlock(
-                            name: "TRANSILIEN P",
+                            name: 'TRANSILIEN P',
                           ),
                           TraficBlock(
-                            name: "TRANSILIEN R",
+                            name: 'TRANSILIEN R',
                           ),
                           TraficBlock(
-                            name: "TRANSILIEN U",
+                            name: 'TRANSILIEN U',
                           ),
                         ])),
                       ]),
@@ -188,58 +188,58 @@ class _TraficState extends State<Trafic> {
                         Expanded(
                             child: Wrap(children: const [
                           TraficBlock(
-                            name: "METRO 1",
+                            name: 'METRO 1',
                           ),
                           TraficBlock(
-                            name: "METRO 2",
+                            name: 'METRO 2',
                           ),
                           TraficBlock(
-                            name: "METRO 3",
+                            name: 'METRO 3',
                           ),
                           TraficBlock(
-                            name: "METRO 3B",
+                            name: 'METRO 3B',
                           ),
                           TraficBlock(
-                            name: "METRO 4",
+                            name: 'METRO 4',
                           ),
                           TraficBlock(
-                            name: "METRO 5",
+                            name: 'METRO 5',
                           ),
                           TraficBlock(
-                            name: "METRO 6",
+                            name: 'METRO 6',
                           ),
                           TraficBlock(
-                            name: "METRO 7",
+                            name: 'METRO 7',
                           ),
                           TraficBlock(
-                            name: "METRO 7B",
+                            name: 'METRO 7B',
                           ),
                           TraficBlock(
-                            name: "METRO 8",
+                            name: 'METRO 8',
                           ),
                           TraficBlock(
-                            name: "METRO 9",
+                            name: 'METRO 9',
                           ),
                           TraficBlock(
-                            name: "METRO 10",
+                            name: 'METRO 10',
                           ),
                           TraficBlock(
-                            name: "METRO 11",
+                            name: 'METRO 11',
                           ),
                           TraficBlock(
-                            name: "METRO 12",
+                            name: 'METRO 12',
                           ),
                           TraficBlock(
-                            name: "METRO 13",
+                            name: 'METRO 13',
                           ),
                           TraficBlock(
-                            name: "METRO 14",
+                            name: 'METRO 14',
                           ),
                           TraficBlock(
-                            name: "CDG Val",
+                            name: 'CDG Val',
                           ),
                           TraficBlock(
-                            name: "Orly val",
+                            name: 'Orly val',
                           ),
                         ])),
                       ]),
@@ -269,40 +269,40 @@ class _TraficState extends State<Trafic> {
                         Expanded(
                             child: Wrap(children: const [
                           TraficBlock(
-                            name: "T1",
+                            name: 'T1',
                           ),
                           TraficBlock(
-                            name: "T2",
+                            name: 'T2',
                           ),
                           TraficBlock(
-                            name: "T3A",
+                            name: 'T3A',
                           ),
                           TraficBlock(
-                            name: "T3B",
+                            name: 'T3B',
                           ),
                           TraficBlock(
-                            name: "T4",
+                            name: 'T4',
                           ),
                           TraficBlock(
-                            name: "T5",
+                            name: 'T5',
                           ),
                           TraficBlock(
-                            name: "T6",
+                            name: 'T6',
                           ),
                           TraficBlock(
-                            name: "T7",
+                            name: 'T7',
                           ),
                           TraficBlock(
-                            name: "T8",
+                            name: 'T8',
                           ),
                           TraficBlock(
-                            name: "T9",
+                            name: 'T9',
                           ),
                           TraficBlock(
-                            name: "T11",
+                            name: 'T11',
                           ),
                           TraficBlock(
-                            name: "T13",
+                            name: 'T13',
                           ),
                         ])),
                       ]),
@@ -310,36 +310,8 @@ class _TraficState extends State<Trafic> {
                   ))
                   
               : error != ''
-                ? Column(
-                    children: [
-                      const SizedBox(height: 15),
-                      Row(
-                        children: [
-                          const SizedBox(width: 15),
-                          SvgPicture.asset(
-                            'assets/cancel.svg',
-                            color: Colors.grey[600],
-                            height: 18,
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              error,
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Segoe Ui',
-                              ),
-                              maxLines: 1,
-                              softWrap: false,
-                              overflow: TextOverflow.fade,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                    ],
+                ? ErrorBlock(
+                    error: error,
                   )
                         
                 : Container(

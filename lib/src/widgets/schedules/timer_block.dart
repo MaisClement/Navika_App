@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../bottom_sheets/time.dart';
-import '../../data/global.dart' as globals;
+import 'package:navika/src/widgets/bottom_sheets/time.dart';
+import 'package:navika/src/data/global.dart' as globals;
 
 int getTimeDifference(String time){
     DateTime dttime = DateTime.parse(time);
@@ -11,14 +11,14 @@ int getTimeDifference(String time){
     return diff.inMinutes;
   }
   String getTime(String time){
-    if (time == "") {
-      return "";
+    if (time == '') {
+      return '';
     }
     
     DateTime dttime = DateTime.parse(time);
 
-    String dthour = dttime.hour < 10 ? "0${dttime.hour}" : dttime.hour.toString();
-    String dtminute = dttime.minute < 10 ? "0${dttime.minute}" : dttime.minute.toString();
+    String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
+    String dtminute = dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
 
     return '${dthour}h$dtminute';
   }
@@ -55,7 +55,7 @@ class TimerBlock extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) => 
-    getTimeDifference(time) >= 0 && time != "" 
+    getTimeDifference(time) >= 0 && time != '' 
       ? Container(
         margin: const EdgeInsets.only(left:0.0, top:5.0, right:10.0, bottom:5.0),
         clipBehavior: Clip.hardEdge,
@@ -88,7 +88,7 @@ class TimerBlock extends StatelessWidget {
             }
           },
           child: Container(
-            padding: state == "theorical" ? const EdgeInsets.only(left:10.0, top:5.0, right:10.0, bottom:5.0) : const EdgeInsets.only(left:10.0, top:5.0, right:0.0, bottom:5.0),
+            padding: state == 'theorical' ? const EdgeInsets.only(left:10.0, top:5.0, right:10.0, bottom:5.0) : const EdgeInsets.only(left:10.0, top:5.0, right:0.0, bottom:5.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -100,11 +100,11 @@ class TimerBlock extends StatelessWidget {
                     color: getColorByState(state, context),
                     fontWeight: FontWeight.w700,
                     fontFamily: 'Segoe Ui',
-                    decoration: state == "cancelled" ? TextDecoration.lineThrough : null,
+                    decoration: state == 'cancelled' ? TextDecoration.lineThrough : null,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                state == "theorical"
+                state == 'theorical'
                 ? const Text('')
                 : SvgPicture.asset('assets/sign_top.svg',
                     color: getColorByState(state, context),

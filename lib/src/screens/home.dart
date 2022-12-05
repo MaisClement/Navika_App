@@ -15,13 +15,13 @@ import 'package:navika/src/routing/route_state.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 
-import '../data/global.dart' as globals;
-import '../controller/here_map_controller.dart';
+import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/controller/here_map_controller.dart';
 
-import '../widgets/home/body.dart';
-import '../widgets/home/header.dart';
-import '../widgets/schedules/body.dart';
-import '../widgets/schedules/header.dart';
+import 'package:navika/src/widgets/home/body.dart';
+import 'package:navika/src/widgets/home/header.dart';
+import 'package:navika/src/widgets/schedules/body.dart';
+import 'package:navika/src/widgets/schedules/header.dart';
 
 class Home extends StatefulWidget {
   final bool displaySchedules;
@@ -105,32 +105,31 @@ class _HomeState extends State<Home> {
 
   String getMarkerImageByType (modes) {
     if (modes.contains('physical_mode:RapidTransit')){
-      return "assets/marker/marker_rer_blue.png";
+      return 'assets/marker/marker_rer_blue.png';
 
     } else if (modes.contains('physical_mode:Train') || modes.contains('physical_mode:RailShuttle') || modes.contains('physical_mode:LocalTrain') || modes.contains('physical_mode:LongDistanceTrain')){
-      return "assets/marker/marker_train_blue.png";
+      return 'assets/marker/marker_train_blue.png';
 
     } else if (modes.contains('physical_mode:Metro') || modes.contains('physical_mode:Shuttle')){
-      return "assets/marker/marker_metro_blue.png";
+      return 'assets/marker/marker_metro_blue.png';
 
     } else if (modes.contains('physical_mode:Tramway')){
-      return "assets/marker/marker_tram_blue.png";
+      return 'assets/marker/marker_tram_blue.png';
 
     } else if (modes.contains('physical_mode:SuspendedCableCar')){
-      return "assets/marker/marker_cable_blue.png";
+      return 'assets/marker/marker_cable_blue.png';
 
     } else if (modes.contains('physical_mode:Boat')){
-      return "assets/marker/marker_navette_fluviale_blue.png";
+      return 'assets/marker/marker_navette_fluviale_blue.png';
 
     } else if (modes.contains('physical_mode:Bus') || modes.contains('physical_mode:BusRapidTransit') ){
-      return "assets/marker/marker_bus_blue.png";
+      return 'assets/marker/marker_bus_blue.png';
     }
     // physical_mode:Funicular
-    return "";
+    return '';
   }
 
   Future<void> _getPoints() async {
-    // final response = await http.get(Uri.parse('${globals.API_POINTS}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}'));
     final response = await http.get(Uri.parse('${globals.API_STOP_AREA}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}'));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -144,12 +143,12 @@ class _HomeState extends State<Home> {
       for (var stop in data['places']) {
         GeoCoordinates stopCoords = GeoCoordinates(stop['coord']['lat'], stop['coord']['lon']);
         Metadata metadata = Metadata();
-        metadata.setString("id", stop['id']);
-        metadata.setString("name", stop['name']);
-        metadata.setString("modes", json.encode(stop['modes']));
-        metadata.setString("lines", json.encode(stop['lines']));
-        metadata.setDouble("lat", stop['coord']['lat']);
-        metadata.setDouble("lon", stop['coord']['lon']);
+        metadata.setString('id', stop['id']);
+        metadata.setString('name', stop['name']);
+        metadata.setString('modes', json.encode(stop['modes']));
+        metadata.setString('lines', json.encode(stop['lines']));
+        metadata.setDouble('lat', stop['coord']['lat']);
+        metadata.setDouble('lon', stop['coord']['lon']);
 
         _controller?.addMapMarker(stopCoords, getMarkerImageByType(stop['modes']), metadata);
       }
@@ -163,16 +162,28 @@ class _HomeState extends State<Home> {
       });
       
     } else {
-      final response = await http.get(Uri.parse(globals.API_INDEX));
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
+      try {
+        final response = await http.get(Uri.parse(globals.API_INDEX));
+        if (response.statusCode == 200) {
+          final data = json.decode(response.body);
 
-        if (mounted) {
-          setState(() {
-            index = data;
-          });
-          globals.index = data;
+          if (mounted) {
+            setState(() {
+              index = data;
+            });
+            globals.index = data;
+          }
+        } else {
+          var snackBar = const SnackBar(
+            content: Text('Récupération des actualités impossible.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
+      } catch (e) {
+        var snackBar = const SnackBar(
+          content: Text("Une erreur s'est produite lors de la récupération des actualités."),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     }
 	}
@@ -378,16 +389,16 @@ class _HomeState extends State<Home> {
       MapMarker topmostMapMarker = mapMarkerList.first;
       Metadata? metadata = topmostMapMarker.metadata;
       if (metadata != null) {
-        globals.schedulesStopArea = metadata.getString("id") ?? "";
-        globals.schedulesStopName = metadata.getString("name") ?? "";
-        globals.schedulesStopModes = json.decode(metadata.getString("modes") ?? "");
-        globals.schedulesStopLines = json.decode(metadata.getString("lines") ?? "");
+        globals.schedulesStopArea = metadata.getString('id') ?? '';
+        globals.schedulesStopName = metadata.getString('name') ?? '';
+        globals.schedulesStopModes = json.decode(metadata.getString('modes') ?? '');
+        globals.schedulesStopLines = json.decode(metadata.getString('lines') ?? '');
         if (mounted) {
           setState(() {
             isPanned = true;
           });
         }
-        GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(metadata.getDouble("lat") ?? 0, metadata.getDouble("lon") ?? 0);
+        GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(metadata.getDouble('lat') ?? 0, metadata.getDouble('lon') ?? 0);
         _controller?.zoomTo(geoCoords);
         panelController.animatePanelToSnapPoint( );
         RouteStateScope.of(context).go('/stops/${metadata.getString("id")}');

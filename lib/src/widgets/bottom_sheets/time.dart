@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/schedules/timer_block.dart';
-import '../../data/global.dart' as globals;
+import 'package:navika/src/data/global.dart' as globals;
 
 String getTime(){
   var d1 = DateTime.now();
@@ -79,6 +79,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   base: getTime(),
                   state: 'ontime',
                   late: 0,
+                  // ignore: prefer_single_quotes
                   track: "B",
                   update: widget.update, // INUTILE SI disabled
                   disabled: true,
@@ -112,7 +113,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   base: getTime(),
                   state: 'delayed',
                   late: 5,
-                  track: "B",
+                  track: 'B',
                   update: widget.update, // INUTILE SI disabled
                   disabled: true,
                 )
@@ -145,7 +146,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   base: getTime(),
                   state: 'cancelled',
                   late: 0,
-                  track: "B",
+                  track: 'B',
                   update: widget.update, // INUTILE SI disabled
                   disabled: true,
                 )
@@ -178,7 +179,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   base: getTime(),
                   state: 'theorical',
                   late: 0,
-                  track: "B",
+                  track: 'B',
                   update: widget.update, // INUTILE SI disabled
                   disabled: true,
                 )
@@ -204,7 +205,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
           const Divider(),
           RadioListTile(
             title: const Text("Temps d'attente"),
-            value: "minutes", 
+            value: 'minutes', 
             groupValue: displayMode, 
             onChanged: (value){
               setState(() {
@@ -215,8 +216,8 @@ class _BottomSchedulesState extends State<BottomSchedules>
             },
           ),
           RadioListTile(
-            title: const Text("Heure de passage"),
-            value: "hour", 
+            title: const Text('Heure de passage'),
+            value: 'hour', 
             groupValue: displayMode, 
             onChanged: (value){
               setState(() {
@@ -227,8 +228,8 @@ class _BottomSchedulesState extends State<BottomSchedules>
             },
           ),
           RadioListTile(
-            title: const Text("Défaut"),
-            value: "default", 
+            title: const Text('Défaut'),
+            value: 'default', 
             groupValue: displayMode, 
             onChanged: (value){
               setState(() {

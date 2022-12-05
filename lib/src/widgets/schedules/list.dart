@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../extensions/hexcolor.dart';
+import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
-import 'timer_block.dart';
+import 'package:navika/src/widgets/schedules/timer_block.dart';
 
 class SchedulesList extends StatelessWidget {
 	final List schedules;

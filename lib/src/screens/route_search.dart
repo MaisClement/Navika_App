@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:navika/src/icons/scaffold_icon_icons.dart';
 
-import '../routing.dart';
-import '../style/style.dart';
-import '../widgets/places/empty.dart';
-import '../widgets/places/load.dart';
-import '../widgets/places/listbutton.dart';
-import '../data/global.dart' as globals;
+import 'package:navika/src/routing.dart';
+import 'package:navika/src/style/style.dart';
+import 'package:navika/src/widgets/error_block.dart';
+import 'package:navika/src/widgets/places/empty.dart';
+import 'package:navika/src/widgets/places/load.dart';
+import 'package:navika/src/widgets/places/listbutton.dart';
+import 'package:navika/src/data/global.dart' as globals;
 
 class RouteSearch extends StatefulWidget {
 	const RouteSearch({super.key});
@@ -23,6 +24,7 @@ class _RouteSearchState extends State<RouteSearch> {
   final String yourPos = 'Votre position';
   
   String search = '';
+  String error = '';
   bool isLoading = false;
   bool posUsed = false;
   List places = [];
@@ -57,14 +59,25 @@ class _RouteSearchState extends State<RouteSearch> {
     setState(() {
       isLoading = true;
     });
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
 
-    final response = await http.get(Uri.parse(url));
-    final data = json.decode(response.body);
-
-    if (mounted) {
+        if (mounted) {
+          setState(() {
+            places = data['places'];
+            isLoading = false;
+          });
+        }
+      } else {
+        setState(() {
+          error = 'Récupération des informations impossible.';
+        });
+      }
+    } catch (e) {
       setState(() {
-        places = data['places'];
-        isLoading = false;
+        error = "Une erreur s'est produite.";
       });
     }
 	}
@@ -241,7 +254,7 @@ class _RouteSearchState extends State<RouteSearch> {
                           errorBorder: InputBorder.none,
                           disabledBorder: InputBorder.none,
                           contentPadding:EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                          hintText: "Départ"
+                          hintText: 'Départ'
                         ),
                         onChanged: (value) {
                           _onChangeText('dep', value);
@@ -278,7 +291,7 @@ class _RouteSearchState extends State<RouteSearch> {
                           errorBorder: InputBorder.none,
                           disabledBorder: InputBorder.none,
                           contentPadding:EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                          hintText: "Arrivée"
+                          hintText: 'Arrivée'
                         ),
                         onChanged: (value) {
                           _onChangeText('arr', value);
@@ -294,8 +307,13 @@ class _RouteSearchState extends State<RouteSearch> {
             ],
           ),
         ),
+
+        if (error != '')
+          ErrorBlock(
+            error: error,
+          )
         
-        if (places.isNotEmpty)
+        else if (places.isNotEmpty)
           Expanded(
             child: ListView(
               children: [

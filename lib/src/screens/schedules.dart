@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/icons/scaffold_icon_icons.dart';
 import 'package:navika/src/widgets/favorites/body.dart';
 
-import '../routing.dart';
-import '../data/global.dart' as globals;
-import '../style/style.dart';
+import 'package:navika/src/routing.dart';
+import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/style/style.dart';
 
 class Schedules extends StatefulWidget {
 	const Schedules({

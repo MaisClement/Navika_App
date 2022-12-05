@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../routing.dart';
-import '../../data/lines.dart';
-import '../../data/global.dart' as globals;
+import 'package:navika/src/routing.dart';
+import 'package:navika/src/data/lines.dart';
+import 'package:navika/src/data/global.dart' as globals;
 
 Map getTraficLines(String name){
   for(var lines in globals.trafic){
@@ -82,19 +82,19 @@ AssetImage getSlugImage(severity, [type]){
 
 String getSlugTitle(severity){
   if (severity == 0){
-    return "Trafic fluide";
+    return 'Trafic fluide';
   } else if (severity == 5){
-    return "Trafic fortement perturbé";
+    return 'Trafic fortement perturbé';
   } else if (severity == 4){
-    return "Trafic perturbé";
+    return 'Trafic perturbé';
   } else if (severity == 3){
-    return "Travaux";
+    return 'Travaux';
   } else if (severity == 2){
-    return "Travaux à venir";
+    return 'Travaux à venir';
   } else if (severity == 1){
-    return "Information";
+    return 'Information';
   } else {
-    return "Trafic fluide";
+    return 'Trafic fluide';
     //return "Unknown";
   }
 }

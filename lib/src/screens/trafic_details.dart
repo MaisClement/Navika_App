@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../data/lines.dart';
-import '../style/style.dart';
-import '../widgets/trafic/block.dart';
+import 'package:navika/src/data/lines.dart';
+import 'package:navika/src/style/style.dart';
+import 'package:navika/src/widgets/trafic/block.dart';
 
 class TraficDetails extends StatelessWidget {
 	final String lineId;
@@ -15,11 +15,11 @@ class TraficDetails extends StatelessWidget {
   String getTime(String time){
     DateTime dttime = DateTime.parse(time);
 
-    String dtday = dttime.day < 10 ? "0${dttime.day}" : dttime.day.toString();
-    String dtmonth = dttime.month < 10 ? "0${dttime.month}" : dttime.month.toString();
+    String dtday = dttime.day < 10 ? '0${dttime.day}' : dttime.day.toString();
+    String dtmonth = dttime.month < 10 ? '0${dttime.month}' : dttime.month.toString();
     String dtyear = dttime.year.toString();
-    String dthour = dttime.hour < 10 ? "0${dttime.hour}" : dttime.hour.toString();
-    String dtminute = dttime.minute < 10 ? "0${dttime.minute}" : dttime.minute.toString();
+    String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
+    String dtminute = dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
 
     return '$dtday/$dtmonth/$dtyear $dthour:$dtminute';
   }

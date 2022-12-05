@@ -1,14 +1,15 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/widgets/error_message.dart';
 import 'package:navika/src/widgets/favorites/departures.dart';
 import 'package:navika/src/widgets/favorites/schedules.dart';
-import '../../data/global.dart' as globals;
-import '../../routing.dart';
-import '../bottom_sheets/remove_favorite.dart';
+import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/routing.dart';
+import 'package:navika/src/widgets/bottom_sheets/remove_favorite.dart';
+import 'package:navika/src/widgets/error_block.dart';
 
 class FavoriteBody extends StatefulWidget {
   final String id;
@@ -18,14 +19,15 @@ class FavoriteBody extends StatefulWidget {
   final Function update;
   final bool removeSeparator;
 
-  const FavoriteBody(
-      {required this.id,
-      required this.name,
-      required this.line,
-      required this.modes,
-      required this.update,
-      this.removeSeparator = false,
-      super.key});
+  const FavoriteBody({
+    required this.id,
+    required this.name,
+    required this.line,
+    required this.modes,
+    required this.update,
+    this.removeSeparator = false,
+    super.key
+  });
 
   @override
   State<FavoriteBody> createState() => _FavoriteBodyState();
@@ -69,12 +71,12 @@ class _FavoriteBodyState extends State<FavoriteBody>
               } else {
                 schedules = data['schedules'];
               }
-              error = "";
+              error = '';
             });
           }
         } else {
           setState(() {
-            error = "Récupération des informations impossible.";
+            error = 'Récupération des informations impossible.';
           });
         }
       }
@@ -153,36 +155,10 @@ class _FavoriteBodyState extends State<FavoriteBody>
           ),
           const SizedBox(height: 5),
           if (error != '')
-            Column(
-              children: [
-                Row(
-                  children: [
-                    const SizedBox(width: 15),
-                    SvgPicture.asset(
-                      'assets/cancel.svg',
-                      color: Colors.grey[600],
-                      height: 18,
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        error,
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'Segoe Ui',
-                        ),
-                        maxLines: 1,
-                        softWrap: false,
-                        overflow: TextOverflow.fade,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 15),
-              ],
+            ErrorMessage(
+              error: error,
             )
+
           else if (mode == '' && schedules.isEmpty)
             Container(
               margin: const EdgeInsets.only(top: 20, bottom: 20),

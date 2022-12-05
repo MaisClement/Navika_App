@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/widgets/bottom_sheets/time.dart';
 import 'package:navika/src/widgets/departures/list.dart';
-import '../../data/global.dart' as globals;
+import 'package:navika/src/data/global.dart' as globals;
 
 class TimeBlock extends StatelessWidget {
 	final String time;
@@ -32,15 +32,15 @@ class TimeBlock extends StatelessWidget {
     return diff.inMinutes;
   }
   String getTime(String time){
-    if (time == "") {
-      return "";
+    if (time == '') {
+      return '';
     }
     
     DateTime dttime = DateTime.parse(time);
 
     int dth = dttime.hour + 1;
-    String dthour = dth < 10 ? "0$dth" : dth.toString();
-    String dtminute = dttime.minute < 10 ? "0${dttime.minute}" : dttime.minute.toString();
+    String dthour = dth < 10 ? '0$dth' : dth.toString();
+    String dtminute = dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
 
     return '$dthour:$dtminute';
   }
@@ -121,7 +121,7 @@ class TimeBlock extends StatelessWidget {
               }
             },
             child: Wrap(
-              children: [time != "" && time.length > 1 && getTimeDifference(time) >= 0
+              children: [time != '' && time.length > 1 && getTimeDifference(time) >= 0
                 ? Container(
                     padding: const EdgeInsets.only(left:7.0, top:2.0, right:7.0, bottom:2.0),
                     decoration: BoxDecoration(

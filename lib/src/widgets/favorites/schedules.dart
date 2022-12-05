@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/widgets/schedules/timer_block.dart';
 
-import '../../extensions/hexcolor.dart';
+import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
 
-import '../../routing.dart';
-import '../../data/global.dart' as globals;
+import 'package:navika/src/routing.dart';
+import 'package:navika/src/data/global.dart' as globals;
 
 class FavoriteSchedules extends StatelessWidget {
   final String id;

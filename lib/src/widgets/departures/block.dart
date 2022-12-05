@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:navika/src/data.dart';
 import 'package:navika/src/widgets/departures/list.dart';
-import '../../data/global.dart' as globals;
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
@@ -95,7 +95,7 @@ class DepartureBlock extends StatelessWidget {
                         Container(
                           width: 10,
                         ),
-                        if (LINES.getLinesById(departure['id']).libelle != "")
+                        if (LINES.getLinesById(departure['id']).libelle != '')
                           Text(LINES.getLinesById(departure['id']).libelle,
                             style: TextStyle(
                               fontSize: 16,
