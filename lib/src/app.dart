@@ -26,8 +26,9 @@ class _NavikaAppState extends State<NavikaApp> {
 			allowedPaths: [
 				'/home',
 				'/stops/:stop_area',
-				'/home/route',
-				'/home/route/:dep/:arr',
+				'/journeys',
+				'/journeys/search/:type',
+				'/journeys/journeys/:dep/:arr',
 				'/schedules',
 				'/schedules/search',
         '/schedules/stops/:stop_area',

@@ -45,7 +45,7 @@ class HomePannel extends StatelessWidget {
                 globals.route['dep']['id'] = null;
                 globals.route['arr']['name'] = null;
                 globals.route['arr']['id'] = null;
-                RouteStateScope.of(context).go('/home/route');
+                RouteStateScope.of(context).go('/journeys');
               },
               child: Container(
                 padding: const EdgeInsets.only(left: 10),

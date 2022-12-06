@@ -15,6 +15,7 @@ const String API_STOP_AREA =        '$API_BASE$API_VERSION/stop_area';
 const String API_STOP_POINT =       '$API_BASE$API_VERSION/stop_point';
 const String API_SCHEDULES =        '$API_BASE$API_VERSION/schedules';
 const String API_SCHEDULES_LINE =   '$API_BASE$API_VERSION/schedules_line';
+const String API_JOURNEYS =         '$API_BASE$API_VERSION/journeys';
 
 gps.LocationData? locationData;
 double compassHeading = 0;
@@ -29,13 +30,17 @@ Map schedulesDeparture = {};
 List trafic = [];
 
 Map? index;
-Map _r = {
+Map _d = {
+    'id': null,
+    'name': null
+};
+Map _a = {
     'id': null,
     'name': null
 };
 Map route = {
-  'dep' : _r,
-  'arr' : _r
+  'dep' : _d,
+  'arr' : _a
 };
 
 

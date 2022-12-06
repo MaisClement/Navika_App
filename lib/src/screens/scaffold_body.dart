@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:navika/src/routing.dart';
+import 'package:navika/src/screens/route.dart';
 import 'package:navika/src/screens/trafic.dart';
 import 'package:navika/src/widgets/fade_transition_page.dart';
 import 'package:navika/src/screens/schedules.dart';
@@ -59,6 +60,11 @@ class NavikaAppScaffoldBody extends StatelessWidget {
 					const FadeTransitionPage<void>(
 						key: ValueKey('trafic'),
 						child: Trafic(),
+					)
+        else if (pathTemplate.startsWith('/journeys'))
+					const FadeTransitionPage<void>(
+						key: ValueKey('trafic'),
+						child: RouteHome(),
 					)
 
 				// Avoid building a Navigator with an empty `pages` list when the

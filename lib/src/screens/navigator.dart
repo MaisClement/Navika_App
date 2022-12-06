@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:navika/src/screens/route_details.dart';
+import 'package:navika/src/screens/route.dart';
 import 'package:navika/src/screens/route_search.dart';
 import 'package:navika/src/screens/schedules_departures.dart';
 import 'package:navika/src/screens/schedules_search.dart';
@@ -29,16 +31,21 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 		final routeState = RouteStateScope.of(context);
 		final pathTemplate = routeState.route.pathTemplate;
 
-    // /route
-
-    // bool? displaySchedules;
-		// if (pathTemplate == '/stops/:stop_area') {
-		// 	displaySchedules = true;
-		// }
-
     String? lineId;
 		if (pathTemplate == '/trafic/:lineId') {
 			lineId = routeState.route.parameters['lineId'];
+		}
+
+    String? type;
+		if (pathTemplate == '/journeys/search/:type') {
+			type = routeState.route.parameters['type'];
+		}
+
+    String? dep;
+		String? arr;
+		if (pathTemplate == '/journeys/:dep/:arr') {
+			dep = routeState.route.parameters['dep'];
+			arr = routeState.route.parameters['arr'];
 		}
 
     // /schedules/search
@@ -56,8 +63,14 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 			key: widget.navigatorKey,
 			onPopPage: (route, dynamic result) {
 				// Il y'a aussi des retour dans scaffold_body.dart
-        if (pathTemplate == '/home/route') {
+        if (pathTemplate == '/journeys') {
           routeState.go('/home');
+        }
+        if (pathTemplate == '/journeys/search/:type') {
+          routeState.go('/journeys');
+        }
+        if (pathTemplate == '/journeys/r/:dep/:arr') {
+          routeState.go('/journeys');
         }
 
 				if (pathTemplate == '/stops/:stop_area') {
@@ -86,13 +99,22 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 						key: ValueKey('Home'),
 						child: NavikaAppScaffold(),
 					),
-
-          if (pathTemplate == '/home/route')
-						const MaterialPage<void>(
-							key: ValueKey('Route'),
-							child: RouteSearch(),
+          
+          if (type != null) // /trafic/:lineId
+						MaterialPage<void>(
+							key: const ValueKey('Route Search'),
+							child: RouteSearch(
+								type: type,
+							),
 						)
-
+          else if (dep != null && arr != null) // /trafic/:lineId
+						MaterialPage<void>(
+							key: const ValueKey('Route Details'),
+							child: RouteDetails(
+								dep: dep,
+                arr: arr,
+							),
+						)
 					else if (lineId != null) // /trafic/:lineId
 						MaterialPage<void>(
 							key: const ValueKey('Trafic Details'),
