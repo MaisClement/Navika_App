@@ -47,6 +47,11 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_svg: ^1.1.6
   flutter_inappwebview: ^5.7.2
+  collection: ^1.16.0
+  flutter_rounded_date_picker: ^3.0.2
+
+  flutter_localizations:
+    sdk: flutter
 
   here_sdk:
     path: plugins/here_sdk
@@ -54,7 +59,6 @@ dependencies:
   # flutter_compass: ^0.7.0
   flutter_compass:
     git: https://github.com/hemanthrajv/flutter_compass.git
-  collection: ^1.16.0
   
 dev_dependencies:
   hive_generator: ^1.1.3

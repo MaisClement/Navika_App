@@ -29,6 +29,8 @@ List schedulesStopLines = [];
 Map schedulesDeparture = {};
 List trafic = [];
 
+bool routePosUsed = false;
+
 Map? index;
 Map _d = {
     'id': null,
@@ -42,6 +44,7 @@ Map route = {
   'dep' : _d,
   'arr' : _a
 };
+
 
 
 // ignore: prefer_typing_uninitialized_variables

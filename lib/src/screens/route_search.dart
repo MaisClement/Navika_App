@@ -11,6 +11,8 @@ import 'package:navika/src/widgets/places/listbutton.dart';
 import 'package:flutter/foundation.dart';
 import 'package:navika/src/widgets/places/load.dart';
 
+import '../icons/scaffold_icon_icons.dart';
+
 class RouteSearch extends StatefulWidget {
   final String type;
 
@@ -114,9 +116,53 @@ class _RouteSearchState extends State<RouteSearch> {
         if (error != '')
           ErrorBlock(
             error: error,
-          )
+          ),
         
-        else if (places.isNotEmpty)
+        if (places.isNotEmpty && globals.routePosUsed == false && globals.locationData != null)
+          InkWell(                        
+            child: Opacity(
+              opacity: isLoading ? 0.4 : 1,
+              child: Container(
+                padding: const EdgeInsets.only(left:20.0, top:15.0,right:20.0,bottom:15.0),
+                height: 60,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(ScaffoldIcon.location_indicator,
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 30
+                        ),
+
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text('Votre position',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Segoe Ui',
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ]
+                )
+              ),
+            ),
+            onTap: () {
+              globals.route[widget.type]['id'] = '${globals.locationData?.longitude};${globals.locationData?.latitude}';
+              globals.route[widget.type]['name'] = 'Votre position';
+              setState(() {
+                globals.routePosUsed = true;
+              });
+              RouteStateScope.of(context).go('/journeys');
+            },
+          ),
+
+        if (places.isNotEmpty)
           for (var place in places)
             PlacesListButton(
               isLoading: isLoading,

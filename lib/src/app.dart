@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/navigator.dart';
@@ -60,6 +61,15 @@ class _NavikaAppState extends State<NavikaApp> {
 					debugShowCheckedModeBanner: false,
 					routerDelegate: _routerDelegate,
 					routeInformationParser: _routeParser,
+
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en', 'US'), // English
+            Locale('fr', 'FR'), // Thai
+          ],
 					
 					//THEME
 					theme: ThemeData(
