@@ -373,7 +373,7 @@ class _RouteHomeState extends State<RouteHome> {
                           errorBorder: InputBorder.none,
                           disabledBorder: InputBorder.none,
                           contentPadding:EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                          hintText: "Départ"
+                          hintText: 'Départ'
                         ),
                         onChanged: (value) {
                           _onChangeText('dep', value);
@@ -410,7 +410,7 @@ class _RouteHomeState extends State<RouteHome> {
                           errorBorder: InputBorder.none,
                           disabledBorder: InputBorder.none,
                           contentPadding:EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                          hintText: "Arrivée"
+                          hintText: 'Arrivée'
                         ),
                         onChanged: (value) {
                           _onChangeText('arr', value);
@@ -563,6 +563,7 @@ class _RouteHomeState extends State<RouteHome> {
 
         else
           const PlacesLoad()
+          
       ],
       
     )
