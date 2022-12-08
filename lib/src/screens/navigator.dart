@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/screens/route_details.dart';
 import 'package:navika/src/screens/route.dart';
-import 'package:navika/src/screens/route_search.dart';
 import 'package:navika/src/screens/schedules_departures.dart';
 import 'package:navika/src/screens/schedules_search.dart';
 
@@ -9,6 +7,8 @@ import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/trafic_details.dart';
 import 'package:navika/src/screens/schedules_details.dart';
 import 'package:navika/src/screens/scaffold.dart';
+
+import 'package:navika/src/data/global.dart' as globals;
 
 /// Builds the top-level navigator for the app. The pages to display are based
 /// on the `routeState` that was parsed by the TemplateRouteParser.
@@ -36,18 +36,6 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 			lineId = routeState.route.parameters['lineId'];
 		}
 
-    String? type;
-		if (pathTemplate == '/journeys/search/:type') {
-			type = routeState.route.parameters['type'];
-		}
-
-    String? dep;
-		String? arr;
-		if (pathTemplate == '/journeys/:dep/:arr') {
-			dep = routeState.route.parameters['dep'];
-			arr = routeState.route.parameters['arr'];
-		}
-
     // /schedules/search
     String? stopArea;
 		String? stopLine;
@@ -69,7 +57,13 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
         if (pathTemplate == '/journeys/search/:type') {
           routeState.go('/journeys');
         }
-        if (pathTemplate == '/journeys/r/:dep/:arr') {
+        if (pathTemplate == '/journeys/journeys/:dep/:arr') {
+          if (globals.route['arr']['name'] != 'Votre position') {
+            globals.route['arr']['id'] = null;
+            globals.route['arr']['name'] = null;
+          }
+          globals.route['dep']['id'] = null;
+          globals.route['dep']['name'] = null;
           routeState.go('/journeys');
         }
 
@@ -100,22 +94,12 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 						child: NavikaAppScaffold(),
 					),
           
-          if (type != null) // /trafic/:lineId
-						MaterialPage<void>(
-							key: const ValueKey('Route Search'),
-							child: RouteSearch(
-								type: type,
-							),
+          if (pathTemplate == '/journeys') // /journeys
+						const MaterialPage<void>(
+							key: ValueKey('Route'),
+							child: RouteHome(),
 						)
-          else if (dep != null && arr != null) // /trafic/:lineId
-						MaterialPage<void>(
-							key: const ValueKey('Route Details'),
-							child: RouteDetails(
-								dep: dep,
-                arr: arr,
-							),
-						)
-					else if (lineId != null) // /trafic/:lineId
+          else if (lineId != null) // /trafic/:lineId
 						MaterialPage<void>(
 							key: const ValueKey('Trafic Details'),
 							child: TraficDetails(

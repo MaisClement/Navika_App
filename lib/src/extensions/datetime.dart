@@ -13,14 +13,14 @@ extension DateOnlyCompare on DateTime {
   }
 
   bool isYesterday() {
-    final yesterday = DateTime.now().subtract(Duration(days: 1));
+    final yesterday = DateTime.now().subtract(const Duration(days: 1));
     return yesterday.day == day &&
         yesterday.month == month &&
         yesterday.year == year;
   }
 
   bool isTomorrow () {
-    final tomorrow  = DateTime.now().add(Duration(days: 1));
+    final tomorrow  = DateTime.now().add(const Duration(days: 1));
     return tomorrow.day == day &&
         tomorrow.month == month &&
         tomorrow.year == year;

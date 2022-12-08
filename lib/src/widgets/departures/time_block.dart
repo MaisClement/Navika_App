@@ -37,9 +37,9 @@ class TimeBlock extends StatelessWidget {
     }
     
     DateTime dttime = DateTime.parse(time);
-
-    int dth = dttime.hour + 1;
-    String dthour = dth < 10 ? '0$dth' : dth.toString();
+    dttime = dttime.add(const Duration(hours: 1));
+    
+    String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
     String dtminute = dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
 
     return '$dthour:$dtminute';
@@ -51,8 +51,7 @@ class TimeBlock extends StatelessWidget {
 
     return const Color(0xffa9a9a9);
   }
-
-
+  
 	@override
 	Widget build(BuildContext context) => Wrap(
 	  children: [

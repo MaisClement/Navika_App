@@ -36,6 +36,10 @@ class NavikaAppScaffoldBody extends StatelessWidget {
           routeState.go('/home');
         }
 
+        if (pathTemplate.startsWith('/journeys')) {
+          routeState.go('/home');
+        }
+
 				return route.didPop(result);
 			},
 			pages: [
@@ -61,11 +65,11 @@ class NavikaAppScaffoldBody extends StatelessWidget {
 						key: ValueKey('trafic'),
 						child: Trafic(),
 					)
-        else if (pathTemplate.startsWith('/journeys'))
-					const FadeTransitionPage<void>(
-						key: ValueKey('trafic'),
-						child: RouteHome(),
-					)
+        // else if (pathTemplate.startsWith('/journeys'))
+				// 	const FadeTransitionPage<void>(
+				// 		key: ValueKey('trafic'),
+				// 		child: RouteHome(),
+				// 	)
 
 				// Avoid building a Navigator with an empty `pages` list when the
 				// RouteState is set to an unexpected path, such as /signin.

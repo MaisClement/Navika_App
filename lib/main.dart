@@ -37,9 +37,15 @@ void _initializeHive() async{
   if (globals.hiveBox.get('stopsFavorites') == null) {
     globals.hiveBox.put('stopsFavorites', []);
   }
+  if (globals.hiveBox.get('historyRoute') == null) {
+    globals.hiveBox.put('historyRoute', []);
+  }
   if (kDebugMode) {
     print({'HIVETEST_', globals.hiveBox.get('stopsFavorites')});
   }
+
+  // stopsFavorites
+  // historyRoute
 }
 
 void _initializeHERESDK() async {
