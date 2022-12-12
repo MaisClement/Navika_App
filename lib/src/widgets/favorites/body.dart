@@ -45,6 +45,9 @@ class _FavoriteBodyState extends State<FavoriteBody>
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _getSchedules();
+      _timer = Timer.periodic(const Duration(seconds: 60), (timer) {
+        _getSchedules();
+      });
     });
   }
 
@@ -80,9 +83,6 @@ class _FavoriteBodyState extends State<FavoriteBody>
           });
         }
       }
-      _timer = Timer(const Duration(seconds: 60), () {
-        _getSchedules();
-      });
     } on Exception catch (_) {
       setState(() {
         error = "Une erreur s'est produite.";

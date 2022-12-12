@@ -38,7 +38,7 @@ class _DepartureDetailsState extends State<DepartureDetails>
 	void initState() {
 		super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async{
-      _timer = Timer(const Duration(seconds: 30), () {
+      _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
         _getDepature();
       });
     });
@@ -80,9 +80,6 @@ class _DepartureDetailsState extends State<DepartureDetails>
             }
           }
         }
-      _timer = Timer(const Duration(seconds: 30), () {
-        _getDepature();
-      });
       } else {
         setState(() {
           error = 'Récupération des informations impossible.';

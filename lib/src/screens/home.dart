@@ -146,7 +146,6 @@ class _HomeState extends State<Home> {
         metadata.setString('id', stop['id']);
         metadata.setString('name', stop['name']);
         metadata.setString('modes', json.encode(stop['modes']));
-        metadata.setString('lines', json.encode(stop['lines']));
         metadata.setDouble('lat', stop['coord']['lat']);
         metadata.setDouble('lon', stop['coord']['lon']);
 
@@ -296,6 +295,9 @@ class _HomeState extends State<Home> {
       _getPoints();
       getInBox();
       panelController.animatePanelToSnapPoint( );
+      _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+        getInBox();
+      });
     });
   }
   
@@ -311,9 +313,6 @@ class _HomeState extends State<Home> {
     isInBox = _controller?.isOverLocation() ?? false;
     setState(() {
       _isInBox = isInBox;
-    });
-    _timer = Timer(const Duration(milliseconds: 100), () {
-      getInBox();
     });
   }
 
@@ -392,7 +391,6 @@ class _HomeState extends State<Home> {
         globals.schedulesStopArea = metadata.getString('id') ?? '';
         globals.schedulesStopName = metadata.getString('name') ?? '';
         globals.schedulesStopModes = json.decode(metadata.getString('modes') ?? '');
-        globals.schedulesStopLines = json.decode(metadata.getString('lines') ?? '');
         if (mounted) {
           setState(() {
             isPanned = true;

@@ -10,6 +10,35 @@ import 'package:navika/src/widgets/error_message.dart';
 import 'package:navika/src/widgets/schedules/list.dart';
 import 'package:navika/src/data/global.dart' as globals;
 
+List getLines(data) {
+  List l = [];
+  if (data['schedules'] != null) {
+    for (var lschedules in data['schedules']) {
+      l.add({
+        'id':	        lschedules['id'],
+        'code':	      lschedules['code'],
+        'name':	      lschedules['name'],
+        'mode':	      lschedules['mode'],
+        'color':	    lschedules['color'],
+        'text_color':	lschedules['text_color'],
+      });
+    }
+  }
+  if (data['departures'] != null) {
+    for (var dschedules in data['schedules']) {
+      l.add({
+        'id':	        dschedules['id'],
+        'code':	      dschedules['code'],
+        'name':	      dschedules['name'],
+        'mode':	      dschedules['mode'],
+        'color':	    dschedules['color'],
+        'text_color':	dschedules['text_color'],
+      });
+    }
+  }
+  return l;
+}
+
 class SchedulesBody extends StatefulWidget {
   final ScrollController scrollController;
 
@@ -43,6 +72,9 @@ class _SchedulesBodyState extends State<SchedulesBody>
     checkUpdates();  
     WidgetsBinding.instance.addPostFrameCallback((_) async{
       await _getSchedules();
+      _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
+        _getSchedules();
+      });
     });
 	}
 
@@ -71,10 +103,13 @@ class _SchedulesBodyState extends State<SchedulesBody>
 
           if (mounted) {
             setState(() {
-              schedules = data['schedules'];
+              if (data['schedules'] != null) {
+                schedules = data['schedules'];
+              }
               if (data['departures'] != null) {
                 departures = data['departures'];
               }
+              globals.schedulesStopLines = getLines(data);
               error = '';
             });
           }
@@ -84,9 +119,6 @@ class _SchedulesBodyState extends State<SchedulesBody>
           });
         }
       }
-      _timer = Timer(const Duration(seconds: 30), () {
-        _getSchedules();
-      });
     } on Exception catch (_) {
       setState(() {
         error = "Une erreur s'est produite.";
@@ -251,18 +283,4 @@ class _SchedulesBodyState extends State<SchedulesBody>
       ),
     ]
   );
-
-  // RouteState get _routeState => RouteStateScope.of(context);
-
-	// void _handleTabIndexChanged() {
-	// 	switch (_tabController.index) {
-	// 		case 1:
-	// 			_routeState.go('/schedules/details');
-	// 			break;
-	// 		case 0:
-	// 		default:
-	// 			_routeState.go('/schedules/details');
-	// 			break;
-	// 	}
-	// }
 }

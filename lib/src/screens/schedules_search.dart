@@ -25,6 +25,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
   FocusNode textFieldNode = FocusNode();
   String search = '';
   String error = '';
+  int flag = 0;
   bool isLoading = false;
   List places = [];
 
@@ -33,18 +34,19 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
       print({'INFO_', 'getPlaces'});
     }
     String url = '';
+    flag++;
 
     if ((globals.locationData?.latitude != null || globals.locationData?.longitude != null) && search != '') {
-      url = '${globals.API_STOP_AREA}?q=$search&lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
+      url = '${globals.API_STOP_AREA}?q=$search&lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
 
     } else if (search != '') {
-      url = '${globals.API_STOP_AREA}?q=$search';
+      url = '${globals.API_STOP_AREA}?q=$search&flag=${flag.toString()}';
       
     } else if (globals.locationData?.latitude != null && globals.locationData?.longitude != null){
-      url = '${globals.API_STOP_AREA}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
+      url = '${globals.API_STOP_AREA}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
 
     } else {
-      url = '${globals.API_STOP_AREA}?q=';
+      url = '${globals.API_STOP_AREA}?q=&flag=${flag.toString()}';
 
     }
 
@@ -61,9 +63,14 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
         if (mounted) {
           setState(() {
             places = data['places'];
-            isLoading = false;
-            error = '';
           });
+          if (data['flag'] == flag) {
+            setState(() {
+              places = data['places'];
+              isLoading = false;
+              error = '';
+            });
+          }
         }
       } else {
         setState(() {
@@ -125,7 +132,6 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
                 globals.schedulesStopArea = place['id'];
                 globals.schedulesStopName = place['name'];
                 globals.schedulesStopModes = place['modes'];
-                globals.schedulesStopLines = place['lines'];
                 RouteStateScope.of(context).go('/schedules/stops/${place["id"]}');
               },
             )
