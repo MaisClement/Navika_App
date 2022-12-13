@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/error_block.dart';
+import 'package:navika/src/widgets/home/messages.dart';
 import 'package:navika/src/widgets/trafic/block.dart';
 import 'package:navika/src/data/global.dart' as globals;
 
@@ -59,27 +60,32 @@ class _TraficState extends State<Trafic> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        title: Text(title, style: appBarTitle),
-      ),
-      body: Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
-          child: state
-              ? Container(
-                  margin: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: RefreshIndicator(
-                    onRefresh: _getTrafic,
-                    child: ListView(children: [
+        appBar: AppBar(
+          title: Text(title, style: appBarTitle),
+        ),
+        body: state
+            ? Container(
+                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                color: Colors.white,
+                child: RefreshIndicator(
+                  onRefresh: _getTrafic,
+                  child: ListView(
+                    children: [
+                      // Messages de l'index
+                      if (globals.index?['message'] != null)
+                        for (var message in globals.index?['message'])
+                          Container(
+                            margin: const EdgeInsets.only(bottom  : 20.0),
+                            child: HomeMessage(
+                              message: message,
+                              isMarginDisabled: true,
+                            ),
+                          ),
+
 // RER
-                      Row(children: [
-                        Container(
+                      Row(
+                        children: [
+                          Container(
                             margin: const EdgeInsets.only(
                                 left: 0.0, top: 5.0, right: 0.0, bottom: 0.0),
                             padding: const EdgeInsets.only(
@@ -90,27 +96,32 @@ class _TraficState extends State<Trafic> {
                             width: 45,
                             height: 45,
                             child: const Image(
-                                image:
-                                    AssetImage('assets/icons/RER_dark.png'))),
-                        Expanded(
-                            child: Wrap(children: const [
-                          TraficBlock(
-                            name: 'RER A',
+                              image: AssetImage('assets/icons/RER_dark.png'),
+                            ),
                           ),
-                          TraficBlock(
-                            name: 'RER B',
+                          Expanded(
+                            child: Wrap(
+                              children: const [
+                                TraficBlock(
+                                  name: 'RER A',
+                                ),
+                                TraficBlock(
+                                  name: 'RER B',
+                                ),
+                                TraficBlock(
+                                  name: 'RER C',
+                                ),
+                                TraficBlock(
+                                  name: 'RER D',
+                                ),
+                                TraficBlock(
+                                  name: 'RER E',
+                                ),
+                              ],
+                            ),
                           ),
-                          TraficBlock(
-                            name: 'RER C',
-                          ),
-                          TraficBlock(
-                            name: 'RER D',
-                          ),
-                          TraficBlock(
-                            name: 'RER E',
-                          ),
-                        ])),
-                      ]),
+                        ],
+                      ),
 
                       Container(
                         margin: const EdgeInsets.only(
@@ -120,48 +131,53 @@ class _TraficState extends State<Trafic> {
                       ),
 
 // TRAIN
-                      Row(children: [
-                        Container(
-                            margin: const EdgeInsets.only(
-                                left: 0.0, top: 5.0, right: 0.0, bottom: 0.0),
-                            padding: const EdgeInsets.only(
-                                left: 10.0,
-                                top: 10.0,
-                                right: 10.0,
-                                bottom: 10.0),
-                            width: 45,
-                            height: 45,
-                            child: const Image(
-                                image:
-                                    AssetImage('assets/icons/TRAIN_dark.png'))),
-                        Expanded(
-                            child: Wrap(children: const [
-                          TraficBlock(
-                            name: 'TRANSILIEN H',
+                      Row(
+                        children: [
+                          Container(
+                              margin: const EdgeInsets.only(
+                                  left: 0.0, top: 5.0, right: 0.0, bottom: 0.0),
+                              padding: const EdgeInsets.only(
+                                  left: 10.0,
+                                  top: 10.0,
+                                  right: 10.0,
+                                  bottom: 10.0),
+                              width: 45,
+                              height: 45,
+                              child: const Image(
+                                  image: AssetImage(
+                                      'assets/icons/TRAIN_dark.png'))),
+                          Expanded(
+                            child: Wrap(
+                              children: const [
+                                TraficBlock(
+                                  name: 'TRANSILIEN H',
+                                ),
+                                TraficBlock(
+                                  name: 'TRANSILIEN J',
+                                ),
+                                TraficBlock(
+                                  name: 'TRANSILIEN K',
+                                ),
+                                TraficBlock(
+                                  name: 'TRANSILIEN L',
+                                ),
+                                TraficBlock(
+                                  name: 'TRANSILIEN N',
+                                ),
+                                TraficBlock(
+                                  name: 'TRANSILIEN P',
+                                ),
+                                TraficBlock(
+                                  name: 'TRANSILIEN R',
+                                ),
+                                TraficBlock(
+                                  name: 'TRANSILIEN U',
+                                ),
+                              ],
+                            ),
                           ),
-                          TraficBlock(
-                            name: 'TRANSILIEN J',
-                          ),
-                          TraficBlock(
-                            name: 'TRANSILIEN K',
-                          ),
-                          TraficBlock(
-                            name: 'TRANSILIEN L',
-                          ),
-                          TraficBlock(
-                            name: 'TRANSILIEN N',
-                          ),
-                          TraficBlock(
-                            name: 'TRANSILIEN P',
-                          ),
-                          TraficBlock(
-                            name: 'TRANSILIEN R',
-                          ),
-                          TraficBlock(
-                            name: 'TRANSILIEN U',
-                          ),
-                        ])),
-                      ]),
+                        ],
+                      ),
 
                       Container(
                         margin: const EdgeInsets.only(
@@ -171,8 +187,9 @@ class _TraficState extends State<Trafic> {
                       ),
 
 // METRO
-                      Row(children: [
-                        Container(
+                      Row(
+                        children: [
+                          Container(
                             margin: const EdgeInsets.only(
                                 left: 0.0, top: 5.0, right: 0.0, bottom: 0.0),
                             padding: const EdgeInsets.only(
@@ -183,66 +200,71 @@ class _TraficState extends State<Trafic> {
                             width: 45,
                             height: 45,
                             child: const Image(
-                                image:
-                                    AssetImage('assets/icons/METRO_dark.png'))),
-                        Expanded(
-                            child: Wrap(children: const [
-                          TraficBlock(
-                            name: 'METRO 1',
+                              image: AssetImage('assets/icons/METRO_dark.png'),
+                            ),
                           ),
-                          TraficBlock(
-                            name: 'METRO 2',
+                          Expanded(
+                            child: Wrap(
+                              children: const [
+                                TraficBlock(
+                                  name: 'METRO 1',
+                                ),
+                                TraficBlock(
+                                  name: 'METRO 2',
+                                ),
+                                TraficBlock(
+                                  name: 'METRO 3',
+                                ),
+                                TraficBlock(
+                                  name: 'METRO 3B',
+                                ),
+                                TraficBlock(
+                                  name: 'METRO 4',
+                                ),
+                                TraficBlock(
+                                  name: 'METRO 5',
+                                ),
+                                TraficBlock(
+                                  name: 'METRO 6',
+                                ),
+                                TraficBlock(
+                                  name: 'METRO 7',
+                                ),
+                                TraficBlock(
+                                  name: 'METRO 7B',
+                                ),
+                                TraficBlock(
+                                  name: 'METRO 8',
+                                ),
+                                TraficBlock(
+                                  name: 'METRO 9',
+                                ),
+                                TraficBlock(
+                                  name: 'METRO 10',
+                                ),
+                                TraficBlock(
+                                  name: 'METRO 11',
+                                ),
+                                TraficBlock(
+                                  name: 'METRO 12',
+                                ),
+                                TraficBlock(
+                                  name: 'METRO 13',
+                                ),
+                                TraficBlock(
+                                  name: 'METRO 14',
+                                ),
+                                TraficBlock(
+                                  name: 'CDG Val',
+                                ),
+                                TraficBlock(
+                                  name: 'Orly val',
+                                ),
+                              ],
+                            ),
                           ),
-                          TraficBlock(
-                            name: 'METRO 3',
-                          ),
-                          TraficBlock(
-                            name: 'METRO 3B',
-                          ),
-                          TraficBlock(
-                            name: 'METRO 4',
-                          ),
-                          TraficBlock(
-                            name: 'METRO 5',
-                          ),
-                          TraficBlock(
-                            name: 'METRO 6',
-                          ),
-                          TraficBlock(
-                            name: 'METRO 7',
-                          ),
-                          TraficBlock(
-                            name: 'METRO 7B',
-                          ),
-                          TraficBlock(
-                            name: 'METRO 8',
-                          ),
-                          TraficBlock(
-                            name: 'METRO 9',
-                          ),
-                          TraficBlock(
-                            name: 'METRO 10',
-                          ),
-                          TraficBlock(
-                            name: 'METRO 11',
-                          ),
-                          TraficBlock(
-                            name: 'METRO 12',
-                          ),
-                          TraficBlock(
-                            name: 'METRO 13',
-                          ),
-                          TraficBlock(
-                            name: 'METRO 14',
-                          ),
-                          TraficBlock(
-                            name: 'CDG Val',
-                          ),
-                          TraficBlock(
-                            name: 'Orly val',
-                          ),
-                        ])),
-                      ]),
+                        ],
+                      ),
 
                       Container(
                         margin: const EdgeInsets.only(
@@ -252,8 +274,9 @@ class _TraficState extends State<Trafic> {
                       ),
 
 // TRAM
-                      Row(children: [
-                        Container(
+                      Row(
+                        children: [
+                          Container(
                             margin: const EdgeInsets.only(
                                 left: 0.0, top: 5.0, right: 0.0, bottom: 0.0),
                             padding: const EdgeInsets.only(
@@ -264,74 +287,79 @@ class _TraficState extends State<Trafic> {
                             width: 45,
                             height: 45,
                             child: const Image(
-                                image:
-                                    AssetImage('assets/icons/TRAM_dark.png'))),
-                        Expanded(
-                            child: Wrap(children: const [
-                          TraficBlock(
-                            name: 'T1',
+                              image: AssetImage('assets/icons/TRAM_dark.png'),
+                            ),
                           ),
-                          TraficBlock(
-                            name: 'T2',
+                          Expanded(
+                            child: Wrap(
+                              children: const [
+                                TraficBlock(
+                                  name: 'T1',
+                                ),
+                                TraficBlock(
+                                  name: 'T2',
+                                ),
+                                TraficBlock(
+                                  name: 'T3A',
+                                ),
+                                TraficBlock(
+                                  name: 'T3B',
+                                ),
+                                TraficBlock(
+                                  name: 'T4',
+                                ),
+                                TraficBlock(
+                                  name: 'T5',
+                                ),
+                                TraficBlock(
+                                  name: 'T6',
+                                ),
+                                TraficBlock(
+                                  name: 'T7',
+                                ),
+                                TraficBlock(
+                                  name: 'T8',
+                                ),
+                                TraficBlock(
+                                  name: 'T9',
+                                ),
+                                TraficBlock(
+                                  name: 'T11',
+                                ),
+                                TraficBlock(
+                                  name: 'T13',
+                                ),
+                              ],
+                            ),
                           ),
-                          TraficBlock(
-                            name: 'T3A',
-                          ),
-                          TraficBlock(
-                            name: 'T3B',
-                          ),
-                          TraficBlock(
-                            name: 'T4',
-                          ),
-                          TraficBlock(
-                            name: 'T5',
-                          ),
-                          TraficBlock(
-                            name: 'T6',
-                          ),
-                          TraficBlock(
-                            name: 'T7',
-                          ),
-                          TraficBlock(
-                            name: 'T8',
-                          ),
-                          TraficBlock(
-                            name: 'T9',
-                          ),
-                          TraficBlock(
-                            name: 'T11',
-                          ),
-                          TraficBlock(
-                            name: 'T13',
-                          ),
-                        ])),
-                      ]),
-                    ]),
-                  ))
-                  
-              : error != ''
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            : error != ''
                 ? ErrorBlock(
                     error: error,
                   )
-                        
                 : Container(
                     padding: const EdgeInsets.only(
                         left: 10.0, top: 10.0, right: 10.0, bottom: 10.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
                     child: Center(
-                      child: Column(children: [
-                        const CircularProgressIndicator(),
-                        Text(
-                          'Chargement...',
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ]),
-                    ))));
+                      child: Column(
+                        children: [
+                          const CircularProgressIndicator(),
+                          Text(
+                            'Chargement...',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+      );
 
   @override
   void initState() {

@@ -67,8 +67,8 @@ class TraficDetails extends StatelessWidget {
     ),
     body: Container(
       padding: const EdgeInsets.only(left:10.0, right:10.0),
+      color: Colors.white,
       width: double.infinity,
-      color: Color(0xffecf1f4),
       child: ListView(
         children: [
           
