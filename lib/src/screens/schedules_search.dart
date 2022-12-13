@@ -63,14 +63,9 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
         if (mounted) {
           setState(() {
             places = data['places'];
+            isLoading = false;
+            error = '';
           });
-          if (data['flag'] == flag) {
-            setState(() {
-              places = data['places'];
-              isLoading = false;
-              error = '';
-            });
-          }
         }
       } else {
         setState(() {

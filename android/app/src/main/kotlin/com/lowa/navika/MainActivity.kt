@@ -1,4 +1,4 @@
-package com.lowa.navika_r
+package com.lowa.navika
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
