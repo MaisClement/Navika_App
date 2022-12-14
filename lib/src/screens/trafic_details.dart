@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:navika/src/data/lines.dart';
-import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/home/messages.dart';
 import 'package:navika/src/widgets/trafic/block.dart';
@@ -11,8 +10,10 @@ Color getSlugBack(severity, [type]){
     return Colors.transparent;
   } else if (severity == 0 && type != null && type == 1){
     return const Color(0xff008b5b).withOpacity(0.1);
-  } else if (severity == 5){
+  } else if (severity == 6){
     return const Color(0xffeb2031).withOpacity(0.1);
+  } else if (severity == 5){
+    return const Color(0xfff68f53).withOpacity(0.1);
   } else if (severity == 4){
     return const Color(0xfff68f53).withOpacity(0.1);
   } else if (severity == 3){
@@ -55,8 +56,8 @@ class TraficDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text('Info Trafic',
-              style: appBarTitle
-            ),
+            style: appBarTitle
+          ),
 
           if (LINES.getLines(lineId).libelle != '')
             Text(LINES.getLines(lineId).libelle,
@@ -108,7 +109,7 @@ class TraficDetails extends StatelessWidget {
                 Expanded(
                   child: Wrap(
                     children: [
-                      Text('${getSlugTitle( getTraficLines(LINES.getLines(lineId).id)['severity'] )}',
+                      Text(getSlugTitle( getTraficLines(LINES.getLines(lineId).id)['severity'] ),
                         style: const TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 20
@@ -132,7 +133,7 @@ class TraficDetails extends StatelessWidget {
                     margin: const EdgeInsets.only(top: 10),
                     decoration: BoxDecoration(
                       color: getSlugBack( ctrafic['severity'], 1),
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(5),
                         topRight: Radius.circular(5), 
                       ),
@@ -203,7 +204,7 @@ class TraficDetails extends StatelessWidget {
                   margin: const EdgeInsets.only(top: 10),
                   decoration: BoxDecoration(
                     color: getSlugBack( ctrafic['severity'], 1),
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(5),
                         topRight: Radius.circular(5), 
                       ),

@@ -7,8 +7,10 @@ Color getSlugColor(severity, [type]){
     return Colors.transparent;
   } else if (severity == 0 && type != null && type == 1){
     return const Color(0xff008b5b);
-  } else if (severity == 5){
+  } else if (severity == 6){
     return const Color(0xffeb2031);
+  } else if (severity == 5){
+    return const Color(0xfff68f53);
   } else if (severity == 4){
     return const Color(0xfff68f53);
   } else if (severity == 3){

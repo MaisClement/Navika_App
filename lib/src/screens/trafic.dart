@@ -75,7 +75,7 @@ class _TraficState extends State<Trafic> {
                       if (globals.index?['message'] != null)
                         for (var message in globals.index?['message'])
                           Container(
-                            margin: const EdgeInsets.only(bottom  : 20.0),
+                            margin: const EdgeInsets.only(bottom: 20.0),
                             child: HomeMessage(
                               message: message,
                               isMarginDisabled: true,
@@ -348,6 +348,18 @@ class _TraficState extends State<Trafic> {
                     child: Center(
                       child: Column(
                         children: [
+                          // Messages de l'index
+                          if (globals.index?['message'] != null)
+                            for (var message in globals.index?['message'])
+                              Container(
+                                margin: const EdgeInsets.only(bottom: 20.0),
+                                child: HomeMessage(
+                                  message: message,
+                                  isMarginDisabled: true,
+                                ),
+                              ),
+
+                          const SizedBox(height: 25),
                           const CircularProgressIndicator(),
                           Text(
                             'Chargement...',

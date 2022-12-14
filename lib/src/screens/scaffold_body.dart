@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:navika/src/routing.dart';
-import 'package:navika/src/screens/route.dart';
 import 'package:navika/src/screens/trafic.dart';
 import 'package:navika/src/widgets/fade_transition_page.dart';
 import 'package:navika/src/screens/schedules.dart';

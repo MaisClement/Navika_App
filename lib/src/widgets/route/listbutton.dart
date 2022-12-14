@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/icons/scaffold_icon_icons.dart';
-
-import 'package:navika/src/widgets/icons/icons.dart';
 import 'package:navika/src/widgets/route/lines.dart';
 
 String getTime(String time){    

@@ -9,7 +9,6 @@ import 'package:navika/src/widgets/favorites/schedules.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/widgets/bottom_sheets/remove_favorite.dart';
-import 'package:navika/src/widgets/error_block.dart';
 
 class FavoriteBody extends StatefulWidget {
   final String id;

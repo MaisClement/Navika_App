@@ -11,6 +11,7 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/places/load.dart';
 import 'package:navika/src/widgets/places/listbutton.dart';
+import 'package:flutter/foundation.dart';
 import 'package:navika/src/data/global.dart' as globals;
 
 const shortMonth = {
@@ -153,7 +154,9 @@ class _RouteHomeState extends State<RouteHome> {
 	}
 
   Future<void> _getJourneys() async {
-    print({'INFO_', globals.route['dep']['id'], globals.route['arr']['id']});
+    if (kDebugMode) {
+      print({'INFO_', globals.route['dep']['id'], globals.route['arr']['id']});
+    }
     String url = '${globals.API_JOURNEYS}?from=${globals.route["dep"]["id"]}&to=${globals.route["arr"]["id"]}';
 
     setState(() {
@@ -171,7 +174,6 @@ class _RouteHomeState extends State<RouteHome> {
             isLoading = false;
             error = '';
           });
-          print({'INFO_', data});
         }
       } else {
         setState(() {
