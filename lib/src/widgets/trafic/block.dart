@@ -18,10 +18,8 @@ Color getSlug(severity, [type]){
     return Colors.transparent;
   } else if (severity == 0 && type != null && type == 1){
     return const Color(0xff008b5b);
-  } else if (severity == 6){
-    return const Color(0xffeb2031);
   } else if (severity == 5){
-    return const Color(0xfff68f53);
+    return const Color(0xffeb2031);
   } else if (severity == 4){
     return const Color(0xfff68f53);
   } else if (severity == 3){
@@ -42,10 +40,8 @@ Color getSlugBack(severity, [type]){
     return Colors.transparent;
   } else if (severity == 0 && type != null && type == 1){
     return const Color(0xff008b5b).withOpacity(0.2);
-  } else if (severity == 6){
-    return const Color(0xffeb2031).withOpacity(0.2);
   } else if (severity == 5){
-    return const Color(0xfff68f53).withOpacity(0.2);
+    return const Color(0xffeb2031).withOpacity(0.2);
   } else if (severity == 4){
     return const Color(0xfff68f53).withOpacity(0.2);
   } else if (severity == 3){
@@ -66,10 +62,8 @@ AssetImage getSlugImage(severity, [type]){
     return const AssetImage('assets/null.png');
   } else if (severity == 0 && type != null && type == 1){
     return const AssetImage('assets/modal/valid_small.png');
-  } else if (severity == 6){
-    return const AssetImage('assets/modal/error_small.png');
   } else if (severity == 5){
-    return const AssetImage('assets/modal/warning_small.png');
+    return const AssetImage('assets/modal/error_small.png');
   } else if (severity == 4){
     return const AssetImage('assets/modal/warning_small.png');
   } else if (severity == 3){
@@ -89,12 +83,10 @@ AssetImage getSlugImage(severity, [type]){
 String getSlugTitle(severity){
   if (severity == 0){
     return 'Trafic fluide';
-  } else if (severity == 6){
-    return 'Trafic fortement perturbé';
   } else if (severity == 5){
-    return 'Trafic perturbé';
+    return 'Trafic fortement perturbé';
   } else if (severity == 4){
-    return 'Perturbation à venir';
+    return 'Trafic perturbé';
   } else if (severity == 3){
     return 'Travaux';
   } else if (severity == 2){
