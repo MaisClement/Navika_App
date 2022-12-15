@@ -16,6 +16,7 @@ class HomePannel extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     width: MediaQuery.of(context).size.width,
     decoration: BoxDecoration(
+      color: Colors.white,
       borderRadius: BorderRadius.circular(10),
     ),
     child: Column(

@@ -16,7 +16,6 @@ int getTimeDifference(String time){
     }
     
     DateTime dttime = DateTime.parse(time);
-    dttime = dttime.add(const Duration(hours: 1));
     
     String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
     String dtminute = dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
