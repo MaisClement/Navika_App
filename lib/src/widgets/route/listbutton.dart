@@ -1,21 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/widgets/route/lines.dart';
 
-String getTime(String time){    
+
+String getTime(String time) {
   DateTime dttime = DateTime.parse(time);
   String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
-  String dtminute = dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
+  String dtminute =
+      dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
   return '$dthour:$dtminute';
 }
 
-String getDuration (int d) {
-  Duration duration = Duration(seconds: d);
-  String res = '';
+TextStyle getTextStyle(context, int size) {
+  return TextStyle(
+    fontSize: size.toDouble(),
+    fontWeight: FontWeight.w600,
+    fontFamily: 'Segoe Ui',
+    color: Theme.of(context).colorScheme.primary,
+  );
+}
 
-  if (duration.inMinutes > 60){
-    res = '${duration.inHours.remainder(60).toString()}h${duration.inMinutes.remainder(60).toString()}';
+List<Widget> getDurationWidget(int d, context) {
+  Duration duration = Duration(seconds: d);
+  List<Widget> res = [];
+
+  if (duration.inMinutes > 60) {
+    res.add(Text(duration.inHours.remainder(60).toString(),
+        style: getTextStyle(context, 24)));
+
+    res.add(Text('h', style: getTextStyle(context, 10)));
+
+    res.add(Text(duration.inMinutes.remainder(60).toString(),
+        style: getTextStyle(context, 24)));
   } else {
-    res = '${duration.inMinutes.remainder(60).toString()}mn';
+    res.add(Text(duration.inMinutes.remainder(60).toString(),
+        style: getTextStyle(context, 24)));
+
+    res.add(Text('mn', style: getTextStyle(context, 10)));
   }
 
   return res;
@@ -25,77 +45,65 @@ class RouteListButton extends StatelessWidget {
   final Map journey;
   final void Function() onTap;
 
-	const RouteListButton({
+  const RouteListButton({
     required this.journey,
     required this.onTap,
-		super.key,
-	});
+    super.key,
+  });
 
-	@override
-	Widget build(BuildContext context) => InkWell(
-    onTap: onTap,
-    child: Container(
-      padding: const EdgeInsets.only(left:20.0, top:5.0,right:5.0,bottom:5.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+  @override
+  Widget build(BuildContext context) => InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.only(left: 5, top: 12.0, right: 5.0, bottom: 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
+              Row(
                 children: [
-                  Text(getTime( journey['departure_date_time'] ),
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Segoe Ui',
-                      color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
-                    ),
+                  const SizedBox(width: 15),
+                  Column(
+                    children: [
+                      Text(
+                        getTime(journey['departure_date_time']),
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Segoe Ui',
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      Text(
+                        getTime(journey['arrival_date_time']),
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Segoe Ui',
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(getTime( journey['arrival_date_time'] ),
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Segoe Ui',
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  RouteLines(
+                    sections: journey['sections'],
+                  ),
+                  Row(
+                    children: getDurationWidget(journey['duration'], context),
                   ),
                 ],
               ),
               const SizedBox(
-                width: 10,
+                height: 8,
               ),
-
-              RouteLines(
-                sections: journey['sections'],
+              Container(
+                height: 1,
+                decoration: BoxDecoration(color: Colors.grey[300]),
               ),
-
-              const SizedBox(
-                width: 10,
-              ),
-              Column(
-                children: [
-
-                  const SizedBox(
-                    height: 30,
-                  ),
-
-                  Text( getDuration(journey['duration']) ,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Segoe Ui',
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-
-                ]
-              ),
-              
             ],
           ),
-          
-        ]
-      )
-    ),                
-  );
+        ),
+      );
 }

@@ -21,7 +21,7 @@ class HomeBody extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) => ListView(
     controller: scrollController,
-    padding: const EdgeInsets.only(top:110),
+    padding: const EdgeInsets.only(top:100),
     children: [
       SizedBox(
         height: 85,

@@ -13,6 +13,7 @@ import 'package:navika/src/widgets/places/load.dart';
 import 'package:navika/src/widgets/places/listbutton.dart';
 import 'package:flutter/foundation.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/routing.dart';
 
 const shortMonth = {
   1: 'jan.',
@@ -86,8 +87,8 @@ class _RouteHomeState extends State<RouteHome> {
       setState(() {
         selectedDate = picked;
       });
-      _selectTime(context);
     }
+    _selectTime(context);
   }
 
   Future<void> _selectTime(BuildContext context) async {
@@ -425,47 +426,49 @@ class _RouteHomeState extends State<RouteHome> {
                   ],
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.only(left:20.0, right:20.0, top:5.0),
-                width: 190,
-                child: InkWell(
-                  onTap: () {
-                    _selectDate(context);
-                  },
-                  borderRadius: BorderRadius.circular(500),
-                  child: Container(
-                    padding: const EdgeInsets.only(left:15.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(500),
-                      color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.2),
-                    ),            
-                    child: Row(
-                      children: [
-                        Icon(ScaffoldIcon.clock_regular,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 25
-                        ),
-                        
-                        Expanded(
-                          child: Container(
-                            margin: const EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                            child: Text( getDateTitle(selectedDate, selectedTime),
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontSize: 16,
-                              ),
-                              maxLines: 1,
-                              softWrap: false,
-                              overflow: TextOverflow.fade,
-                            ),
-                          ),
-                        )
 
-                      ],
+              if (displayJourneys == false)
+                Container(
+                  margin: const EdgeInsets.only(left:20.0, right:20.0, top:5.0),
+                  width: 190,
+                  child: InkWell(
+                    onTap: () {
+                      _selectDate(context);
+                    },
+                    borderRadius: BorderRadius.circular(500),
+                    child: Container(
+                      padding: const EdgeInsets.only(left:15.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(500),
+                        color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.2),
+                      ),            
+                      child: Row(
+                        children: [
+                          Icon(ScaffoldIcon.clock_regular,
+                            color: Theme.of(context).colorScheme.primary,
+                            size: 25
+                          ),
+                          
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                              child: Text( getDateTitle(selectedDate, selectedTime),
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                maxLines: 1,
+                                softWrap: false,
+                                overflow: TextOverflow.fade,
+                              ),
+                            ),
+                          )
+
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
             ],
           ),
         ),
@@ -528,7 +531,6 @@ class _RouteHomeState extends State<RouteHome> {
                     place: place,
                     onTap: () {
                       _handleClick(place['name'], place['id']);
-                      // RouteStateScope.of(context).go('/schedules/details');
                     },
                   ),
               ]
@@ -544,14 +546,15 @@ class _RouteHomeState extends State<RouteHome> {
                 RouteListButton(
                   journey: journey,
                   onTap: () {
-                      },
-                )
+                    RouteStateScope.of(context).go('/journeys/details');
+                  },
+                ),
 
               ]
             )
           )
 
-        else if (displayJourneys == true && places.isEmpty && isLoading == true)
+        else if (displayJourneys == true && isLoading == true)
           const PlacesLoad()
 
         else if (displayJourneys == false && journeys.isEmpty && isLoading == true)

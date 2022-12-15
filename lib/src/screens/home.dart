@@ -23,6 +23,25 @@ import 'package:navika/src/widgets/home/header.dart';
 import 'package:navika/src/widgets/schedules/body.dart';
 import 'package:navika/src/widgets/schedules/header.dart';
 
+double getAppBarOpacity(double position) {
+  double res = (((position * -1 ) +1 )* -3.33) +1;
+  if (res < 0) {
+    return 0.0;
+  } else if (res > 1.0) {
+    return 1;
+  }
+  return res;
+}
+double getOpacity(position){
+  double res = ((1 / position -1.1) * 2.33) > 1 ? 1 : ((1 / position -1.1) * 2.33);
+  if (res < 0) {
+    return 0.0;
+  } else if (res > 1.0) {
+    return 1;
+  }
+  return res;
+}
+
 class Home extends StatefulWidget {
   final bool displaySchedules;
 
@@ -33,6 +52,32 @@ class Home extends StatefulWidget {
 
 	@override
 	State<Home> createState() => _HomeState();
+}
+
+String getMarkerImageByType (modes) {
+  if (modes.contains('physical_mode:RapidTransit')){
+    return 'assets/marker/marker_rer_blue.png';
+
+  } else if (modes.contains('physical_mode:Train') || modes.contains('physical_mode:RailShuttle') || modes.contains('physical_mode:LocalTrain') || modes.contains('physical_mode:LongDistanceTrain')){
+    return 'assets/marker/marker_train_blue.png';
+
+  } else if (modes.contains('physical_mode:Metro') || modes.contains('physical_mode:Shuttle')){
+    return 'assets/marker/marker_metro_blue.png';
+
+  } else if (modes.contains('physical_mode:Tramway')){
+    return 'assets/marker/marker_tram_blue.png';
+
+  } else if (modes.contains('physical_mode:SuspendedCableCar')){
+    return 'assets/marker/marker_cable_blue.png';
+
+  } else if (modes.contains('physical_mode:Boat')){
+    return 'assets/marker/marker_navette_fluviale_blue.png';
+
+  } else if (modes.contains('physical_mode:Bus') || modes.contains('physical_mode:BusRapidTransit') ){
+    return 'assets/marker/marker_bus_blue.png';
+  }
+  // physical_mode:Funicular
+  return '';
 }
 
 class _HomeState extends State<Home> {
@@ -102,32 +147,6 @@ class _HomeState extends State<Home> {
       await _getPoints();
     }
 	}
-
-  String getMarkerImageByType (modes) {
-    if (modes.contains('physical_mode:RapidTransit')){
-      return 'assets/marker/marker_rer_blue.png';
-
-    } else if (modes.contains('physical_mode:Train') || modes.contains('physical_mode:RailShuttle') || modes.contains('physical_mode:LocalTrain') || modes.contains('physical_mode:LongDistanceTrain')){
-      return 'assets/marker/marker_train_blue.png';
-
-    } else if (modes.contains('physical_mode:Metro') || modes.contains('physical_mode:Shuttle')){
-      return 'assets/marker/marker_metro_blue.png';
-
-    } else if (modes.contains('physical_mode:Tramway')){
-      return 'assets/marker/marker_tram_blue.png';
-
-    } else if (modes.contains('physical_mode:SuspendedCableCar')){
-      return 'assets/marker/marker_cable_blue.png';
-
-    } else if (modes.contains('physical_mode:Boat')){
-      return 'assets/marker/marker_navette_fluviale_blue.png';
-
-    } else if (modes.contains('physical_mode:Bus') || modes.contains('physical_mode:BusRapidTransit') ){
-      return 'assets/marker/marker_bus_blue.png';
-    }
-    // physical_mode:Funicular
-    return '';
-  }
 
   Future<void> _getPoints() async {
     final response = await http.get(Uri.parse('${globals.API_STOP_AREA}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}'));
@@ -250,7 +269,7 @@ class _HomeState extends State<Home> {
             right: 20,
             bottom: panelButtonBottomOffset,
             child: Opacity(
-              opacity: _position > 0.7 ? ((1 / _position - 1) * 2.33) : 1,
+              opacity: getOpacity(_position),
               child: FloatingActionButton(
                 backgroundColor: Colors.white,
                 child: _isInBox ?
@@ -274,7 +293,7 @@ class _HomeState extends State<Home> {
             left: 10,
             bottom: panelButtonBottomOffset - 20,
             child: Opacity(
-              opacity: _position > 0.7 ? ((1 / _position - 1) * 2.33) : 1,
+              opacity: getOpacity(_position),
               child: const Image(
                 width: 50,
                 image: AssetImage('assets/Here.png')
@@ -449,7 +468,7 @@ class _HomeState extends State<Home> {
 
   void onPanelSlide(position) {
     setState(() {
-      panelButtonBottomOffset = panelButtonBottomOffsetClosed + ((MediaQuery.of(context).size.height - 200) * position);
+      panelButtonBottomOffset = panelButtonBottomOffsetClosed + ((MediaQuery.of(context).size.height - 210) * position);
       _position = position;
     });
   }

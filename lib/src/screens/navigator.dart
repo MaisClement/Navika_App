@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/screens/route.dart';
+import 'package:navika/src/screens/route_details.dart';
 import 'package:navika/src/screens/schedules_departures.dart';
 import 'package:navika/src/screens/schedules_search.dart';
 
@@ -7,8 +8,6 @@ import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/trafic_details.dart';
 import 'package:navika/src/screens/schedules_details.dart';
 import 'package:navika/src/screens/scaffold.dart';
-
-import 'package:navika/src/data/global.dart' as globals;
 
 /// Builds the top-level navigator for the app. The pages to display are based
 /// on the `routeState` that was parsed by the TemplateRouteParser.
@@ -54,16 +53,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
         if (pathTemplate == '/journeys') {
           routeState.go('/home');
         }
-        if (pathTemplate == '/journeys/search/:type') {
-          routeState.go('/journeys');
-        }
-        if (pathTemplate == '/journeys/journeys/:dep/:arr') {
-          if (globals.route['arr']['name'] != 'Votre position') {
-            globals.route['arr']['id'] = null;
-            globals.route['arr']['name'] = null;
-          }
-          globals.route['dep']['id'] = null;
-          globals.route['dep']['name'] = null;
+        if (pathTemplate == '/journeys/details') {
           routeState.go('/journeys');
         }
 
@@ -98,6 +88,11 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 						const MaterialPage<void>(
 							key: ValueKey('Route'),
 							child: RouteHome(),
+						)
+          else if (pathTemplate == '/journeys/details') // /journeys/details
+						const MaterialPage<void>(
+							key: ValueKey('Route details'),
+							child: RouteDetails(),
 						)
           else if (lineId != null) // /trafic/:lineId
 						MaterialPage<void>(
