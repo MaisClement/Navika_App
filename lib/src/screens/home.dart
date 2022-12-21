@@ -261,9 +261,7 @@ class _HomeState extends State<Home> {
                   favs: favs,
                   update: updateFavorites,
                 ),
-
             body: HereMap(onMapCreated: _onMapCreated),
-            
           ),
           Positioned(
             right: 20,
@@ -271,14 +269,15 @@ class _HomeState extends State<Home> {
             child: Opacity(
               opacity: getOpacity(_position),
               child: FloatingActionButton(
-                backgroundColor: Colors.white,
+                backgroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
                 child: _isInBox ?
-                  const Icon(ScaffoldIcon.location_indicator,
-                    color: Color(0xff000000),
+                  Icon(ScaffoldIcon.location_indicator,
+                    //color: Color(0xff000000),
+                    color: Theme.of(context).colorScheme.primaryContainer,
                     size: 30
                   )
-                : const Icon(ScaffoldIcon.locate,
-                    color: Color(0xff000000),
+                : Icon(ScaffoldIcon.locate,
+                    color: Theme.of(context).colorScheme.primaryContainer,
                     size: 30
                   ),
                 onPressed: () {

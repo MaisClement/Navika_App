@@ -107,16 +107,16 @@ class _NavikaAppState extends State<NavikaApp> {
 							},
 						),
 						navigationBarTheme: NavigationBarThemeData(
-							indicatorColor: const Color(0xff025982).withOpacity(0.2),
+							indicatorColor: const Color(0xff025982),
 							iconTheme: MaterialStateProperty.all(
 								const IconThemeData(
-									color: Colors.black
+									color: Colors.white
 								)
 							)
 						)
 					),
 					//THEME
-					themeMode: ThemeMode.light, 
+					themeMode: ThemeMode.system, 
 				),
 			);
 }

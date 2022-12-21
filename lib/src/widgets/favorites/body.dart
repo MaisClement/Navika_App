@@ -18,15 +18,14 @@ class FavoriteBody extends StatefulWidget {
   final Function update;
   final bool removeSeparator;
 
-  const FavoriteBody({
-    required this.id,
-    required this.name,
-    required this.line,
-    required this.modes,
-    required this.update,
-    this.removeSeparator = false,
-    super.key
-  });
+  const FavoriteBody(
+      {required this.id,
+      required this.name,
+      required this.line,
+      required this.modes,
+      required this.update,
+      this.removeSeparator = false,
+      super.key});
 
   @override
   State<FavoriteBody> createState() => _FavoriteBodyState();
@@ -135,29 +134,28 @@ class _FavoriteBodyState extends State<FavoriteBody>
                     tooltip: 'Supprimer ce favori',
                     onPressed: () {
                       showModalBottomSheet<void>(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (BuildContext context) =>
-                              BottomRemoveFavorite(
-                                  id: widget.id,
-                                  name: widget.name,
-                                  line: widget.line,
-                                  update: widget.update));
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (BuildContext context) => BottomRemoveFavorite(
+                          id: widget.id,
+                          name: widget.name,
+                          line: widget.line,
+                          update: widget.update,
+                        ),
+                      );
                     },
                   ),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 5),
           if (error != '')
             ErrorMessage(
               error: error,
             )
-
           else if (mode == '' && schedules.isEmpty)
             Container(
               margin: const EdgeInsets.only(top: 20, bottom: 20),
@@ -172,22 +170,24 @@ class _FavoriteBodyState extends State<FavoriteBody>
               padding: const EdgeInsets.only(
                   left: 10, right: 10, top: 0, bottom: 10),
               child: FavoriteDepartures(
-                  id: widget.id,
-                  name: widget.name,
-                  modes: widget.modes,
-                  schedules: schedules,
-                  update: widget.update),
+                id: widget.id,
+                name: widget.name,
+                modes: widget.modes,
+                schedules: schedules,
+                update: widget.update,
+              ),
             )
           else
             Container(
               padding: const EdgeInsets.only(
                   left: 10, right: 10, top: 0, bottom: 10),
               child: FavoriteSchedules(
-                  id: widget.id,
-                  name: widget.name,
-                  modes: widget.modes,
-                  schedules: schedules,
-                  update: widget.update),
+                id: widget.id,
+                name: widget.name,
+                modes: widget.modes,
+                schedules: schedules,
+                update: widget.update,
+              ),
             )
         ],
       );
