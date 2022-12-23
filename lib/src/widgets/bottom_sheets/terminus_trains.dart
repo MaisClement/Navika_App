@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/style/style.dart';
 
 String getTime(){
   var d1 = DateTime.now();
@@ -52,10 +53,12 @@ class _BottomTerminusTrainState extends State<BottomTerminusTrain>
               fontSize: 25,
               fontWeight: FontWeight.w600,
               fontFamily: 'Segoe Ui',
-              color: Theme.of(context).colorScheme.primary,
+              color: accentColor(context),
             ),
           ),
-          const Divider(),
+          Divider(
+            color: accentColor(context),
+          ),
           const SizedBox(
             height: 10,
           ),
@@ -65,7 +68,7 @@ class _BottomTerminusTrainState extends State<BottomTerminusTrain>
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
                 fontFamily: 'Segoe Ui',
-                color: Theme.of(context).colorScheme.primary,
+                color: accentColor(context),
               ),
             ),
           ),

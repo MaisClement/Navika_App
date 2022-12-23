@@ -65,8 +65,7 @@ class _TraficState extends State<Trafic> {
         ),
         body: state
             ? Container(
-                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                color: Colors.white,
+                padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10),
                 child: RefreshIndicator(
                   onRefresh: _getTrafic,
                   child: ListView(

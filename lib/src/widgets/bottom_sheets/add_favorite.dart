@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/screens/schedules_details.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/icons/icons.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/routing.dart';
@@ -53,10 +54,12 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
               fontSize: 25,
               fontWeight: FontWeight.w600,
               fontFamily: 'Segoe Ui',
-              color: Theme.of(context).colorScheme.primary,
+              color: accentColor(context),
             ),
           ),
-          const Divider(),
+          Divider(
+            color: accentColor(context),
+          ),
           const SizedBox(
             height: 10,
           ),
@@ -68,7 +71,7 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                   fontFamily: 'Segoe Ui',
-                  color: Theme.of(context).colorScheme.primary,
+                  color: accentColor(context),
                 ),
               ),
             ]

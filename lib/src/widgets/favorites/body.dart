@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/error_message.dart';
 import 'package:navika/src/widgets/favorites/departures.dart';
 import 'package:navika/src/widgets/favorites/schedules.dart';
@@ -96,7 +97,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
             Divider(
               height: 5,
               thickness: 5,
-              color: Colors.grey[300],
+              color: dividerColor(context),
             ),
           Container(
             padding:
@@ -111,7 +112,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
               child: Row(
                 children: [
                   Icon(ScaffoldIcon.train_2,
-                      color: Theme.of(context).colorScheme.primary, size: 25),
+                      color: accentColor(context), size: 25),
                   const SizedBox(
                     width: 10,
                   ),
@@ -122,7 +123,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
                         fontFamily: 'Segoe Ui',
-                        color: Theme.of(context).colorScheme.primary,
+                        color: accentColor(context),
                       ),
                       maxLines: 1,
                       softWrap: false,

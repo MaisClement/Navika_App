@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/schedules/timer_block.dart';
 import 'package:navika/src/data/global.dart' as globals;
@@ -54,10 +55,12 @@ class _BottomSchedulesState extends State<BottomSchedules>
               fontSize: 25,
               fontWeight: FontWeight.w600,
               fontFamily: 'Segoe Ui',
-              color: Theme.of(context).colorScheme.primary,
+              color: accentColor(context),
             ),
           ),
-          const Divider(),
+          Divider(
+            color: accentColor(context),
+          ),
           const SizedBox(
             height: 10,
           ),
@@ -69,7 +72,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
-                    color: Theme.of(context).colorScheme.primary,
+                    color: accentColor(context),
                   ),
                 ),
               ),
@@ -103,7 +106,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
-                    color: Theme.of(context).colorScheme.primary,
+                    color: accentColor(context),
                   ),
                 ),
               ),
@@ -136,7 +139,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
-                    color: Theme.of(context).colorScheme.primary,
+                    color: accentColor(context),
                   ),
                 ),
               ),
@@ -169,7 +172,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
-                    color: Theme.of(context).colorScheme.primary,
+                    color: accentColor(context),
                   ),
                 ),
               ),
@@ -199,10 +202,12 @@ class _BottomSchedulesState extends State<BottomSchedules>
               fontSize: 17,
               fontWeight: FontWeight.w600,
               fontFamily: 'Segoe Ui',
-              color: Theme.of(context).colorScheme.primary,
+              color: accentColor(context),
             ),
           ),
-          const Divider(),
+          Divider(
+            color: accentColor(context),
+          ),
           RadioListTile(
             title: const Text("Temps d'attente"),
             value: 'minutes', 

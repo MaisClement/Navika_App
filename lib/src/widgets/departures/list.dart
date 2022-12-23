@@ -102,8 +102,6 @@ class DepartureList extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Segoe Ui',
                               color: Color(0xff4f4f4f),
-                              // color: Color(0xffeb2031),
-                              // decoration: TextDecoration.lineThrough
                             )
                           : TextStyle(
                               fontSize: 16,
@@ -115,8 +113,8 @@ class DepartureList extends StatelessWidget {
                           softWrap: false,
                           overflow: TextOverflow.fade,
                         ),
-                      )
-                    ]
+                      ),
+                    ],
                   ),
                   Row(
                     children: [
@@ -137,9 +135,9 @@ class DepartureList extends StatelessWidget {
                         )
                       ),
                       
-                    ]
+                    ],
                   ),
-                ]
+                ],
               ),
             ),
 

@@ -46,13 +46,13 @@ class _SchedulesState extends State<Schedules> {
             child: Container(
               padding: const EdgeInsets.only(left:15.0),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(500),
-                color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.2),
-              ),            
+      borderRadius: BorderRadius.circular(500),
+      color: boxColor(context),
+    ),            
               child: Row(
                 children: [
                   Icon(ScaffoldIcon.search,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: boxContentColor(context),
                     size: 25
                   ),
                   Expanded(
@@ -60,7 +60,7 @@ class _SchedulesState extends State<Schedules> {
                       margin: const EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
                       child: Text('Rechercher une gare, un arrêt ou une stations',
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
+                          color: boxContentColor(context),
                           fontSize: 16,
                         ),
                         maxLines: 1,
@@ -68,7 +68,7 @@ class _SchedulesState extends State<Schedules> {
                         overflow: TextOverflow.fade,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

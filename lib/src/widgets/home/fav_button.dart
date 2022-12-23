@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/style/style.dart';
 
 class FavButton extends StatelessWidget {
   final String name;
@@ -16,38 +16,41 @@ class FavButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-    margin: const EdgeInsets.only(left: 10, right: 10),
-    width: 100,
-    height: 100,
-    child: Material(
-      child: InkWell(
-        borderRadius: BorderRadius.circular(15),
-        onTap: onTap,
-        child: Container(
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
+        margin: const EdgeInsets.only(left: 10, right: 10),
+        width: 100,
+        height: 100,
+        child: Material(
+          color: backgroundColor(context),
+          child: InkWell(
             borderRadius: BorderRadius.circular(15),
-            color: Theme.of(context)
-                .colorScheme
-                .primaryContainer
-                .withOpacity(0.2),
-          ),
-          child: Column(
-            children: [
-              Container(
-                height: 10,
+            onTap: onTap,
+            child: Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: boxColor(context),
               ),
-              SvgPicture.asset(img,
-                  color: Theme.of(context).colorScheme.primary, height: 30),
-              Container(
-                height: 10,
+              child: Column(
+                children: [
+                  Container(
+                    height: 10,
+                  ),
+                  SvgPicture.asset(img,
+                      color: boxContentColor(context), height: 30),
+                  Container(
+                    height: 10,
+                  ),
+                  Text(
+                    name,
+                    style: TextStyle(
+                      color: boxContentColor(context)
+                    ),
+                  ),
+                ],
               ),
-              Text(name),
-            ],
+            ),
           ),
         ),
-      ),
-    ),
-  );
+      );
 }

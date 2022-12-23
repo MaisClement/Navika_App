@@ -95,6 +95,10 @@ class _NavikaAppState extends State<NavikaApp> {
 					),
 					darkTheme: ThemeData(
             useMaterial3: true,
+						appBarTheme: const AppBarTheme(
+							backgroundColor: Color(0xff1e1e1e)
+						),
+						scaffoldBackgroundColor: const Color(0x00000000),
 						brightness: Brightness.dark,
 						primarySwatch: generateMaterialColor(const Color(0xff025982)), // generateMaterialColor(const Color(0xff611925)),
 						pageTransitionsTheme: const PageTransitionsTheme(
@@ -107,6 +111,7 @@ class _NavikaAppState extends State<NavikaApp> {
 							},
 						),
 						navigationBarTheme: NavigationBarThemeData(
+							backgroundColor: const Color(0xff1e1e1e),
 							indicatorColor: const Color(0xff025982),
 							iconTheme: MaterialStateProperty.all(
 								const IconThemeData(

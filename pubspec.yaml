@@ -322,7 +322,6 @@ flutter:
     - assets/bussines.svg
     - assets/city.svg
     - assets/finish-flag.svg
-    - assets/Here.png
     - assets/home.svg
     - assets/locate.svg
     - assets/location-indicator.svg
@@ -338,6 +337,10 @@ flutter:
     - assets/sign.svg
     - assets/sign_top.svg
     - assets/cancel.svg
+
+
+    - assets/here/HERE_logo_full.svg
+    - assets/here/HERE_logo_full_inverted.svg
 
     - assets/maintenance.png
   #

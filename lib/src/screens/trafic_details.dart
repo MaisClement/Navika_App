@@ -66,7 +66,6 @@ class TraficDetails extends StatelessWidget {
     ),
     body: Container(
       padding: const EdgeInsets.only(left:10.0, right:10.0),
-      color: Colors.white,
       width: double.infinity,
       child: ListView(
         children: [
@@ -74,7 +73,6 @@ class TraficDetails extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(top: 10),
             decoration: BoxDecoration(
-              color: Colors.white,
               borderRadius: BorderRadius.circular(5),
             ),
             child: Row(
