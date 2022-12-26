@@ -105,7 +105,7 @@ class _BottomTerminusTrainState extends State<BottomTerminusTrain>
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+                foregroundColor: const Color(0xffffffff),
               ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
               child: const Text('Fermer'),
               onPressed: () => Navigator.pop(context),

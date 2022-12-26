@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/trafic/block.dart';
 
 Color getSlugColor(severity, [type]){
@@ -56,7 +57,7 @@ class HomeMessage extends StatelessWidget {
     margin: isMarginDisabled ? null : const EdgeInsets.only(top: 10, left: 10, right: 10, bottom:10.0),
     decoration: BoxDecoration(
       color: getSlugBack(message['severity'], 1),
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(15),
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +114,7 @@ class HomeMessage extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: getSlugColor(message['severity'], 1),
-                foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+                foregroundColor: const Color(0xffffffff),
               ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
               child: Text(message['message']['button']),
             ),

@@ -134,7 +134,7 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+                foregroundColor: const Color(0xffffffff),
               ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
               child: const Text('Annuler'),
               onPressed: () => Navigator.pop(context),

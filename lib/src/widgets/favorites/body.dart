@@ -42,11 +42,11 @@ class _FavoriteBodyState extends State<FavoriteBody>
   @override
   void initState() {
     super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 60), (timer) {
+      _getSchedules();
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _getSchedules();
-      _timer = Timer.periodic(const Duration(seconds: 60), (timer) {
-        _getSchedules();
-      });
     });
   }
 

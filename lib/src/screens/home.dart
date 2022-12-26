@@ -237,8 +237,8 @@ class _HomeState extends State<Home> {
                 parallaxOffset: 0.6,
                 color: backgroundColor(context),
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
                   bottomLeft: Radius.zero,
                   bottomRight: Radius.zero,
                 ),

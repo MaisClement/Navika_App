@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/route/lines.dart';
 
 
@@ -15,7 +16,7 @@ TextStyle getTextStyle(context, int size) {
     fontSize: size.toDouble(),
     fontWeight: FontWeight.w600,
     fontFamily: 'Segoe Ui',
-    color: Theme.of(context).colorScheme.primary,
+    color: accentColor(context),
   );
 }
 
@@ -70,7 +71,7 @@ class RouteListButton extends StatelessWidget {
                           fontSize: 17,
                           fontWeight: FontWeight.w600,
                           fontFamily: 'Segoe Ui',
-                          color: Theme.of(context).colorScheme.primary,
+                          color: accentColor(context),
                         ),
                       ),
                       Text(
@@ -79,7 +80,7 @@ class RouteListButton extends StatelessWidget {
                           fontSize: 17,
                           fontWeight: FontWeight.w600,
                           fontFamily: 'Segoe Ui',
-                          color: Theme.of(context).colorScheme.primary,
+                          color: accentColor(context),
                         ),
                       ),
                     ],

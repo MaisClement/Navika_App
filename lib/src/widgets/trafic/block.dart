@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/data/lines.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/style/style.dart';
 
 Map getTraficLines(String name){
   for(var lines in globals.trafic){
@@ -101,9 +102,11 @@ String getSlugTitle(severity){
 
 class TraficBlock extends StatelessWidget {
 	final String name;
+  final List trafic;
 
 	const TraficBlock({
 		required this.name,
+		required this.trafic,
 		super.key,
 	});
 
@@ -118,18 +121,14 @@ class TraficBlock extends StatelessWidget {
           width: 45,
           height: 45,
           decoration: BoxDecoration(
-            color: const Color(0xffeeeeee),
-            borderRadius: BorderRadius.circular(10), //border corner radius
+            color: traficBlockColor(context),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(
               width: 3.0,
-              // assign the color to the border color
-              // getTraficLines(LINES.getLines(name).id)['severity']
               color: getSlug(getTraficLines(LINES.getLines(name).id)['severity']),
             ),
           ),
-
           child: Image(image: LINES.getLines(name).image),
-
         ),
         onTap: () {
           RouteStateScope.of(context).go('/trafic/$name');

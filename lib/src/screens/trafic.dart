@@ -65,7 +65,7 @@ class _TraficState extends State<Trafic> {
         ),
         body: state
             ? Container(
-                padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10),
+                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                 child: RefreshIndicator(
                   onRefresh: _getTrafic,
                   child: ListView(
@@ -100,21 +100,26 @@ class _TraficState extends State<Trafic> {
                           ),
                           Expanded(
                             child: Wrap(
-                              children: const [
+                              children: [
                                 TraficBlock(
                                   name: 'RER A',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'RER B',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'RER C',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'RER D',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'RER E',
+                                  trafic: trafic,
                                 ),
                               ],
                             ),
@@ -147,30 +152,38 @@ class _TraficState extends State<Trafic> {
                                       'assets/icons/TRAIN_dark.png'))),
                           Expanded(
                             child: Wrap(
-                              children: const [
+                              children: [
                                 TraficBlock(
                                   name: 'TRANSILIEN H',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'TRANSILIEN J',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'TRANSILIEN K',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'TRANSILIEN L',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'TRANSILIEN N',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'TRANSILIEN P',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'TRANSILIEN R',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'TRANSILIEN U',
+                                  trafic: trafic,
                                 ),
                               ],
                             ),
@@ -204,60 +217,78 @@ class _TraficState extends State<Trafic> {
                           ),
                           Expanded(
                             child: Wrap(
-                              children: const [
+                              children: [
                                 TraficBlock(
                                   name: 'METRO 1',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'METRO 2',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'METRO 3',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'METRO 3B',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'METRO 4',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'METRO 5',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'METRO 6',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'METRO 7',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'METRO 7B',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'METRO 8',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'METRO 9',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'METRO 10',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'METRO 11',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'METRO 12',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'METRO 13',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'METRO 14',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'CDG Val',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'Orly val',
+                                  trafic: trafic,
                                 ),
                               ],
                             ),
@@ -291,42 +322,54 @@ class _TraficState extends State<Trafic> {
                           ),
                           Expanded(
                             child: Wrap(
-                              children: const [
+                              children: [
                                 TraficBlock(
                                   name: 'T1',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'T2',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'T3A',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'T3B',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'T4',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'T5',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'T6',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'T7',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'T8',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'T9',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'T11',
+                                  trafic: trafic,
                                 ),
                                 TraficBlock(
                                   name: 'T13',
+                                  trafic: trafic,
                                 ),
                               ],
                             ),

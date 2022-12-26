@@ -98,7 +98,7 @@ class _NavikaAppState extends State<NavikaApp> {
 						appBarTheme: const AppBarTheme(
 							backgroundColor: Color(0xff1e1e1e)
 						),
-						scaffoldBackgroundColor: const Color(0x00000000),
+						scaffoldBackgroundColor: const Color(0xff191919),
 						brightness: Brightness.dark,
 						primarySwatch: generateMaterialColor(const Color(0xff025982)), // generateMaterialColor(const Color(0xff611925)),
 						pageTransitionsTheme: const PageTransitionsTheme(

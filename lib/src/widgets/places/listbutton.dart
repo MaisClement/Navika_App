@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/style/style.dart';
 
 import 'package:navika/src/widgets/icons/icons.dart';
 
@@ -40,7 +41,7 @@ class PlacesListButton extends StatelessWidget {
             Row(
               children: [
                 Icon(getPlaceIcon(place['type']),
-                  color: Theme.of(context).colorScheme.primary,
+                  color: accentColor(context),
                   size: 25
                 ),
                 const SizedBox(
@@ -52,7 +53,7 @@ class PlacesListButton extends StatelessWidget {
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       fontFamily: 'Segoe Ui',
-                      color: Theme.of(context).colorScheme.primary,
+                      color: accentColor(context),
                     ),
                     maxLines: 1,
                     softWrap: false,

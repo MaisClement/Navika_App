@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navika/src/style/style.dart';
 
 class PlacesLoad extends StatelessWidget {
 
@@ -15,7 +16,7 @@ class PlacesLoad extends StatelessWidget {
           const CircularProgressIndicator(),
           Text('Chargement...', 
             style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
+              color: accentColor(context),
               fontWeight: FontWeight.w700
             ),
           ),

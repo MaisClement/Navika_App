@@ -12,6 +12,18 @@ import 'package:navika/src/data/global.dart' as globals;
 
 List getLines(data) {
   List l = [];
+  if (data['departures'] != null) {
+    for (var dschedules in data['departures']) {
+      l.add({
+        'id':	        dschedules['id'],
+        'code':	      dschedules['code'],
+        'name':	      dschedules['name'],
+        'mode':	      dschedules['mode'],
+        'color':	    dschedules['color'],
+        'text_color':	dschedules['text_color'],
+      });
+    }
+  }
   if (data['schedules'] != null) {
     for (var lschedules in data['schedules']) {
       l.add({
@@ -21,18 +33,6 @@ List getLines(data) {
         'mode':	      lschedules['mode'],
         'color':	    lschedules['color'],
         'text_color':	lschedules['text_color'],
-      });
-    }
-  }
-  if (data['departures'] != null) {
-    for (var dschedules in data['schedules']) {
-      l.add({
-        'id':	        dschedules['id'],
-        'code':	      dschedules['code'],
-        'name':	      dschedules['name'],
-        'mode':	      dschedules['mode'],
-        'color':	    dschedules['color'],
-        'text_color':	dschedules['text_color'],
       });
     }
   }

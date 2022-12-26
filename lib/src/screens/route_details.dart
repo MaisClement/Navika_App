@@ -92,8 +92,8 @@ class _RouteDetailsState extends State<RouteDetails> {
           parallaxOffset: 0.6,
           color: const Color(0xfffafafa),
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
             bottomLeft: Radius.zero,
             bottomRight: Radius.zero,
           ),
@@ -106,7 +106,7 @@ class _RouteDetailsState extends State<RouteDetails> {
           header: Container(
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(24),
             ),
             child: Column(
               children: [
@@ -120,7 +120,7 @@ class _RouteDetailsState extends State<RouteDetails> {
                     height: 5,
                     decoration: BoxDecoration(
                       color: Colors.grey[400],
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(24),
                     ),
                   ),
                 ),

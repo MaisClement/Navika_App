@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navika/src/style/style.dart';
 
 class PlacesEmpty extends StatelessWidget {
 
@@ -12,7 +13,7 @@ class PlacesEmpty extends StatelessWidget {
     child: Center(
       child: Text('🔭 Nous n\'avons rien trouvé...', 
         style: TextStyle(
-          color: Theme.of(context).colorScheme.primary,
+          color: accentColor(context),
           fontWeight: FontWeight.w700
         ),
       ),

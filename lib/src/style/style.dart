@@ -20,7 +20,7 @@ hereIcon(context) {
 
 backgroundColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return const Color(0xff1e1e1e);
+    return const Color(0xff191919);
   }
   return const Color(0xfffafafa);
 }
@@ -51,4 +51,11 @@ dividerColor(context) {
     return const Color(0xff606060);
   }
   return Colors.grey[300];
+}
+
+traficBlockColor(context) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return const Color(0xff000000);
+  }
+  return const Color(0xffeeeeee);
 }
