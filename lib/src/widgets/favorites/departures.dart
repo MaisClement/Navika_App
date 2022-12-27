@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/data.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/departures/block.dart';
 
 import 'package:navika/src/extensions/hexcolor.dart';
@@ -42,7 +43,7 @@ class FavoriteDepartures extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: Colors.white,
+                  color: schedulesBlock(context, HexColor.fromHex(departure['color'])),
                   boxShadow: [
                     BoxShadow(
                       color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
@@ -66,7 +67,7 @@ class FavoriteDepartures extends StatelessWidget {
                         line: departure,
                         i: 0,
                         size: 30,
-                        isDark: true,
+                        isDark: schedulesIsDark(context, departure['text_color']),
                       ),
                       LinesIcones(
                         line: departure,
@@ -81,7 +82,7 @@ class FavoriteDepartures extends StatelessWidget {
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             fontFamily: 'Segoe Ui',
-                            color: Theme.of(context).colorScheme.primary,
+                            color: schedulesText(context, HexColor.fromHex(departure['text_color'])),
                           ),
                           maxLines: 1,
                           softWrap: false,
@@ -117,6 +118,7 @@ class FavoriteDepartures extends StatelessWidget {
                       for (var train in clearTrain( departure['departures'] ).sublist(0, clearTrain( departure['departures'] ).length > 3 ? 3 : clearTrain( departure['departures'] ).length))
                         DepartureList(
                           train: train,
+                          color: HexColor.fromHex(departure['color']),
                           update: update,
                         ),
                         
@@ -137,7 +139,7 @@ class FavoriteDepartures extends StatelessWidget {
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-              foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+              foregroundColor: const Color(0xffffffff),
             ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
             child: const Text('Tous les horaires ➜'),
             onPressed: () {

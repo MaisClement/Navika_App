@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/style/style.dart';
 
 class SchedulesPannel extends StatelessWidget {
   final void Function()? tooglePanel;
@@ -14,7 +15,7 @@ class SchedulesPannel extends StatelessWidget {
     width: MediaQuery.of(context).size.width,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(5),
-      color: Colors.white,
+      color: backgroundColor(context),
       boxShadow: [
         BoxShadow(
           color: Theme.of(context).colorScheme.primary.withOpacity(0.1),

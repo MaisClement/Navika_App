@@ -158,4 +158,6 @@ final LINES = LinesInfo()
 ..addLine('C01748', 'TER', 'TER Normandie', const AssetImage('assets/null.png'),  'TER', const AssetImage('assets/sncf/TER_dark.png'), const AssetImage('assets/sncf/TER_white.png'))
 ..addLine('C01857', 'TER', 'TER Centre - Val-de-Loire', const AssetImage('assets/null.png'),  'TER', const AssetImage('assets/sncf/TER_dark.png'), const AssetImage('assets/sncf/TER_white.png'))
 ..addLine('C01746', 'TER', 'TER Hauts-de-Franche', const AssetImage('assets/null.png'),  'TER', const AssetImage('assets/sncf/TER_dark.png'), const AssetImage('assets/sncf/TER_white.png'))
+
+..addLine('SNCF', 'SNCF', 'Trains SNCF', const AssetImage('assets/sncf/logo_color.png'),  'SNCF', const AssetImage('assets/sncf/logo_dark.png'), const AssetImage('assets/sncf/logo_white.png'))
 ;

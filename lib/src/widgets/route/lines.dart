@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
 
@@ -23,7 +24,7 @@ class RouteLines extends StatelessWidget {
                   line: sections[i]['informations']['line'],
                   i: 0,
                   size: 25,
-                  isDark: true,
+                  isDark: schedulesIsDark(context, sections[i]['informations']['line']['text_color']),
                 ),
                 LinesIcones(
                   line: sections[i]['informations']['line'],

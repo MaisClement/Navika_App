@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/departures/message.dart';
 import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/bottom_sheets/terminus_trains.dart';
@@ -51,10 +52,12 @@ Color getBackColorByState(state, context) {
 
 class DepartureList extends StatelessWidget {
 	final Map train;
+  final Color color;
   final Function update;
 
 	const DepartureList({
 		required this.train,
+		required this.color,
     required this.update,
 		super.key,
 	});
@@ -65,7 +68,7 @@ class DepartureList extends StatelessWidget {
     padding: const EdgeInsets.only(left:10.0, top:0.0, right:0.0, bottom:0.0),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(7),
-      color: Colors.white.withOpacity(0.8),
+      color: departureList(context, color),
       border: Border(
         top: BorderSide(
           width: 3,
@@ -107,7 +110,7 @@ class DepartureList extends StatelessWidget {
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Segoe Ui',
-                              color: Theme.of(context).colorScheme.primary,
+                              color: accentColor(context),
                             ),
                           maxLines: 1,
                           softWrap: false,

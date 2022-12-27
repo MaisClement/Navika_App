@@ -275,12 +275,10 @@ class _HomeState extends State<Home> {
                     child: _isInBox
                         ? Icon(ScaffoldIcon.location_indicator,
                             //color: Color(0xff000000),
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
+                            color: tabLabelColor(context),
                             size: 30)
                         : Icon(ScaffoldIcon.locate,
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
+                            color: tabLabelColor(context),
                             size: 30),
                     onPressed: () {
                       _zoomOn();

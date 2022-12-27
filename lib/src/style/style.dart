@@ -53,9 +53,56 @@ dividerColor(context) {
   return Colors.grey[300];
 }
 
+
+tabBackgroundColor(context) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return Colors.grey[900];
+  }
+  return Colors.grey[200];
+}
+
+tabLabelColor(context) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return Colors.white;
+  }
+  return Colors.black;
+}
+
 traficBlockColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return const Color(0xff000000);
   }
   return const Color(0xffeeeeee);
+}
+
+schedulesBlock(context, Color color) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return color;
+  }
+  return Colors.white;
+}
+
+schedulesText(context, Color color) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return color;
+  }
+  return Theme.of(context).colorScheme.primary;
+}
+
+departureList(context, Color color) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return color.withOpacity(0.2);
+  }
+  return Colors.white.withOpacity(0.8);
+}
+
+schedulesIsDark(context, color) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    if (color == '000000'){
+      return true;
+    } else {
+      return false;
+    }
+  }
+  return true;
 }

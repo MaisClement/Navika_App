@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:navika/src/extensions/hexcolor.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
 import 'package:navika/src/widgets/schedules/timer_block.dart';
@@ -50,7 +51,7 @@ class SchedulesList extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: Colors.white,
+                      color: schedulesBlock(context, HexColor.fromHex(line['color'])),
                       boxShadow: [
                         BoxShadow(
                           color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
@@ -66,7 +67,7 @@ class SchedulesList extends StatelessWidget {
                           line: line,
                           i: 0,
                           size: 30,
-                          isDark: true,
+                          isDark: schedulesIsDark(context, line['text_color']),
                         ),
                         LinesIcones(
                           line: line,
@@ -80,7 +81,7 @@ class SchedulesList extends StatelessWidget {
                             child: Text(
                               line['name'],
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
+                                color: schedulesText(context, HexColor.fromHex(line['text_color'])),
                                 fontWeight: FontWeight.w800,
                                 fontFamily: 'Segoe Ui'
                               ),
@@ -126,7 +127,7 @@ class SchedulesList extends StatelessWidget {
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
                                       fontFamily: 'Segoe Ui',
-                                      color: Theme.of(context).colorScheme.primary,
+                                      color: accentColor(context),
                                     )
                                   ),
                                 ),

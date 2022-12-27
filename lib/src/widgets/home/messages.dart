@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/trafic/block.dart';
 
 Color getSlugColor(severity, [type]){

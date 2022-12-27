@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/departures/block.dart';
 import 'package:flutter/foundation.dart';
 
@@ -260,9 +261,9 @@ class _SchedulesBodyState extends State<SchedulesBody>
       if ( getModesLength(globals.schedulesStopModes) > 1 )
         Container(
           margin: const EdgeInsets.only(top:10, right:10, left: 10, bottom: 10),
-          height: 70, // kToolbarHeight + 8,
+          height: 70,
           decoration: BoxDecoration(
-            color: Colors.grey.shade200,
+            color: tabBackgroundColor(context),
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: TabBar(
@@ -271,7 +272,7 @@ class _SchedulesBodyState extends State<SchedulesBody>
                 borderRadius: BorderRadius.circular(8.0),
                 color: Theme.of(context).colorScheme.primary),
             labelColor: Colors.white,
-            unselectedLabelColor: Colors.black,
+            unselectedLabelColor: tabLabelColor(context),
             tabs: getModesTabs(globals.schedulesStopModes),
           ),
         ),

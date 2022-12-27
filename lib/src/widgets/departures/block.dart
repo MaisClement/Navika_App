@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:navika/src/data.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/departures/list.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/extensions/hexcolor.dart';
@@ -65,7 +66,7 @@ class DepartureBlock extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: Colors.white,
+                    color: schedulesBlock(context, HexColor.fromHex(departure['color'])),
                     boxShadow: [
                       BoxShadow(
                         color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
@@ -86,7 +87,7 @@ class DepartureBlock extends StatelessWidget {
                           line: departure,
                           i: 0,
                           size: 30,
-                          isDark: true,
+                          isDark: schedulesIsDark(context, departure['text_color']),
                         ),
                         LinesIcones(
                           line: departure,
@@ -101,7 +102,7 @@ class DepartureBlock extends StatelessWidget {
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Segoe Ui',
-                              color: Theme.of(context).colorScheme.primary,
+                              color: schedulesText(context, HexColor.fromHex(departure['text_color'])),
                             ),
                             maxLines: 1,
                             softWrap: false,
@@ -137,6 +138,7 @@ class DepartureBlock extends StatelessWidget {
                         for (var train in clearTrain( departure['departures'] ).sublist(0, clearTrain( departure['departures'] ).length > 5 ? 5 : clearTrain( departure['departures'] ).length))
                           DepartureList(
                             train: train,
+                            color: HexColor.fromHex(departure['color']),
                             update: update,
                           ),
 
