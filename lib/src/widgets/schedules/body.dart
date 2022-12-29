@@ -99,8 +99,12 @@ class _SchedulesBodyState extends State<SchedulesBody>
       if (mounted) {
         final response = await http.get(Uri.parse('${globals.API_SCHEDULES}?s=${globals.schedulesStopArea}'));
 
+        print('${globals.API_SCHEDULES}?s=${globals.schedulesStopArea}');
+
         if (response.statusCode == 200) {
           final data = json.decode(response.body);
+
+          print({'INFO_', data});
 
           if (mounted) {
             setState(() {
@@ -155,17 +159,22 @@ class _SchedulesBodyState extends State<SchedulesBody>
         modes.contains('physical_mode:Train') ||
         modes.contains('physical_mode:RailShuttle') ||
         modes.contains('physical_mode:LocalTrain') ||
-        modes.contains('physical_mode:LongDistanceTrain')) {
+        modes.contains('physical_mode:LongDistanceTrain') ||
+        modes.contains('rail')) {
       i++;
     }
     if (modes.contains('physical_mode:Metro') ||
-        modes.contains('physical_mode:RailShuttle')) {
+        modes.contains('physical_mode:RailShuttle') ||
+        modes.contains('metro') ||
+        modes.contains('funicular')) {
       i++;
     }
-    if (modes.contains('physical_mode:Tramway')) {
+    if (modes.contains('physical_mode:Tramway') ||
+        modes.contains('tram')) {
       i++;
     }
-    if (modes.contains('physical_mode:Bus')) {
+    if (modes.contains('physical_mode:Bus') ||
+        modes.contains('bus')) {
       i++;
     }
     return i;
@@ -177,7 +186,8 @@ class _SchedulesBodyState extends State<SchedulesBody>
         modes.contains('physical_mode:Train') ||
         modes.contains('physical_mode:RailShuttle') ||
         modes.contains('physical_mode:LocalTrain') ||
-        modes.contains('physical_mode:LongDistanceTrain')) {
+        modes.contains('physical_mode:LongDistanceTrain') ||
+        modes.contains('rail')) {
       tabs.add(const Tab(
                 icon: Icon(ScaffoldIcon.train),
                 text: 'Train et RER',
@@ -185,21 +195,25 @@ class _SchedulesBodyState extends State<SchedulesBody>
               ));
     }
     if (modes.contains('physical_mode:Metro') ||
-        modes.contains('physical_mode:RailShuttle')) {
+        modes.contains('physical_mode:RailShuttle') ||
+        modes.contains('metro') ||
+        modes.contains('funicular')) {
       tabs.add(const Tab(
                 icon: Icon(ScaffoldIcon.metro),
                 text: 'Métro',
                 iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)
               ));
     }
-    if (modes.contains('physical_mode:Tramway')) {
+    if (modes.contains('physical_mode:Tramway') ||
+        modes.contains('tram')) {
       tabs.add(const Tab(
                 icon: Icon(ScaffoldIcon.tram),
                 text: 'Tramway',
                 iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)
               ));
     }
-    if (modes.contains('physical_mode:Bus')) {
+    if (modes.contains('physical_mode:Bus') ||
+        modes.contains('bus')) {
       tabs.add(const Tab(
                 icon: Icon(ScaffoldIcon.bus),
                 text: 'Bus',
@@ -215,7 +229,8 @@ class _SchedulesBodyState extends State<SchedulesBody>
         modes.contains('physical_mode:Train') ||
         modes.contains('physical_mode:RailShuttle') ||
         modes.contains('physical_mode:LocalTrain') ||
-        modes.contains('physical_mode:LongDistanceTrain')) {
+        modes.contains('physical_mode:LongDistanceTrain') ||
+        modes.contains('rail')) {
       tabs.add(DepartureBlock(
                 departures: departures,
                 scrollController: scrollController,
@@ -223,7 +238,9 @@ class _SchedulesBodyState extends State<SchedulesBody>
               ));
     }
     if (modes.contains('physical_mode:Metro') ||
-        modes.contains('physical_mode:RailShuttle')) {
+        modes.contains('physical_mode:RailShuttle') ||
+        modes.contains('metro') ||
+        modes.contains('funicular')) {
       tabs.add(SchedulesList(
                 schedules: schedules,
                 modes: 'metro',
@@ -231,7 +248,8 @@ class _SchedulesBodyState extends State<SchedulesBody>
                 update: update,
               ));
     }
-    if (modes.contains('physical_mode:Tramway')) {
+    if (modes.contains('physical_mode:Tramway') ||
+        modes.contains('tram')) {
       tabs.add(SchedulesList(
                 schedules: schedules,
                 modes: 'tram',
@@ -239,7 +257,8 @@ class _SchedulesBodyState extends State<SchedulesBody>
                 update: update,
               ));
     }
-    if (modes.contains('physical_mode:Bus')) {
+    if (modes.contains('physical_mode:Bus') ||
+        modes.contains('bus')) {
       tabs.add(SchedulesList(
                 schedules: schedules,
                 modes: 'bus',

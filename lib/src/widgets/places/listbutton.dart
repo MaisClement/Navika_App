@@ -42,7 +42,7 @@ class PlacesListButton extends StatelessWidget {
               children: [
                 Icon(getPlaceIcon(place['type']),
                   color: accentColor(context),
-                  size: 25
+                  size: 25,
                 ),
                 const SizedBox(
                   width: 10,
@@ -110,6 +110,7 @@ class PlacesListButton extends StatelessWidget {
                     line: place['lines'][i],
                     oldLine: i > 0 ? place['lines'][i - 1] : place['lines'][i],
                     i: i,
+                    isDark: Brightness.dark != Theme.of(context).colorScheme.brightness
                   )
                 
               ]

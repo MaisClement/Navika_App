@@ -59,17 +59,18 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-
         if (mounted) {
-          setState(() {
-            places = data['places'];
-            isLoading = false;
-            error = '';
-          });
+          if (data['flag'] == flag) {
+            setState(() {
+              places = data['places'];
+              isLoading = false;
+              error = '';
+            });
+          } 
         }
       } else {
         setState(() {
-          error = 'Récupération des informations impossible.';
+          error = 'Récupération des informations impossible. ?';
         });
       }
     } catch (e) {
