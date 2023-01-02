@@ -21,7 +21,10 @@ class ModeIcones extends StatelessWidget {
     children: [
 
     if (LINES.isLineById(line['id']))
-      Container(
+      if (LINES.getLinesById(line['id']).name == 'TER')
+          const Text('')
+      else
+        Container(
         width: size,
         height: size,
         margin: i == 0 ? const EdgeInsets.only(left:5.0, top:5.0,right:0.0,bottom:5.0) : const EdgeInsets.only(left:20.0, top:5.0,right:0.0,bottom:5.0),

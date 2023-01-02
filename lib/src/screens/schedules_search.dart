@@ -70,7 +70,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
         }
       } else {
         setState(() {
-          error = 'Récupération des informations impossible. ?';
+          error = 'Récupération des informations impossible.';
         });
       }
     } catch (e) {

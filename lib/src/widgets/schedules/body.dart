@@ -160,7 +160,9 @@ class _SchedulesBodyState extends State<SchedulesBody>
         modes.contains('physical_mode:RailShuttle') ||
         modes.contains('physical_mode:LocalTrain') ||
         modes.contains('physical_mode:LongDistanceTrain') ||
-        modes.contains('rail')) {
+        modes.contains('rail') ||
+        modes.contains('nationalrail') ||
+        modes.contains('regionalrail')) {
       i++;
     }
     if (modes.contains('physical_mode:Metro') ||
@@ -187,7 +189,9 @@ class _SchedulesBodyState extends State<SchedulesBody>
         modes.contains('physical_mode:RailShuttle') ||
         modes.contains('physical_mode:LocalTrain') ||
         modes.contains('physical_mode:LongDistanceTrain') ||
-        modes.contains('rail')) {
+        modes.contains('rail') ||
+        modes.contains('nationalrail') ||
+        modes.contains('regionalrail')) {
       tabs.add(const Tab(
                 icon: Icon(ScaffoldIcon.train),
                 text: 'Train et RER',
@@ -230,7 +234,9 @@ class _SchedulesBodyState extends State<SchedulesBody>
         modes.contains('physical_mode:RailShuttle') ||
         modes.contains('physical_mode:LocalTrain') ||
         modes.contains('physical_mode:LongDistanceTrain') ||
-        modes.contains('rail')) {
+        modes.contains('rail') ||
+        modes.contains('nationalrail') ||
+        modes.contains('regionalrail')) {
       tabs.add(DepartureBlock(
                 departures: departures,
                 scrollController: scrollController,

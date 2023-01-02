@@ -102,12 +102,12 @@ class SchedulesList extends StatelessWidget {
                           Row(
                             children: [
                               SvgPicture.asset('assets/cancel.svg',
-                                  color: Theme.of(context).colorScheme.primary,
+                                  color: accentColor(context),
                                   height: 18
                                 ),
                               Text('Aucune information',
                                 style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
+                                  color: accentColor(context),
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700,
                                   fontFamily: 'Segoe Ui'
