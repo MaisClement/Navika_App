@@ -15,6 +15,7 @@ migrate_working_dir/
 
 # credentials
 *credentials.dart
+google-services.json
 
 # OLD files
 *OLD_*

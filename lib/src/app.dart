@@ -19,7 +19,6 @@ class _NavikaAppState extends State<NavikaApp> {
 	late final SimpleRouterDelegate _routerDelegate;
 	late final TemplateRouteParser _routeParser;
 
-
 	@override
 	void initState() {
 		/// Configure the parser with all of the app's allowed path templates.
@@ -55,76 +54,78 @@ class _NavikaAppState extends State<NavikaApp> {
 
 	@override
 	Widget build(BuildContext context) => RouteStateScope(
-				notifier: _routeState,
-				child: MaterialApp.router(
-					debugShowCheckedModeBanner: false,
-					routerDelegate: _routerDelegate,
-					routeInformationParser: _routeParser,
+    notifier: _routeState,
+    child: MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      routerDelegate: _routerDelegate,
+      routeInformationParser: _routeParser,
 
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('en', 'US'), // English
-            Locale('fr', 'FR'), // Thai
-          ],
-					
-					//THEME
-					theme: ThemeData(
-            useMaterial3: true,
-						brightness: Brightness.light,
-						primarySwatch: generateMaterialColor(const Color(0xff025982)), // generateMaterialColor(const Color(0xff611925)),
-						pageTransitionsTheme: const PageTransitionsTheme(
-							builders: {
-								TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
-								TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-								TargetPlatform.linux: FadeUpwardsPageTransitionsBuilder(),
-								TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
-								TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
-							},
-						),
-						navigationBarTheme: NavigationBarThemeData(
-							indicatorColor: const Color(0xff025982).withOpacity(0.2),
-							iconTheme: MaterialStateProperty.all(
-								const IconThemeData(
-									color: Colors.black
-								)
-							)
-						)
-					),
-					darkTheme: ThemeData(
-            useMaterial3: true,
-						appBarTheme: const AppBarTheme(
-							backgroundColor: Color(0xff1e1e1e)
-						),
-						scaffoldBackgroundColor: const Color(0xff191919),
-						brightness: Brightness.dark,
-						primarySwatch: generateMaterialColor(const Color(0xff025982)), // generateMaterialColor(const Color(0xff611925)),
-						pageTransitionsTheme: const PageTransitionsTheme(
-							builders: {
-								TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
-								TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-								TargetPlatform.linux: FadeUpwardsPageTransitionsBuilder(),
-								TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
-								TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
-							},
-						),
-						navigationBarTheme: NavigationBarThemeData(
-							backgroundColor: const Color(0xff1e1e1e),
-							indicatorColor: const Color(0xff025982),
-							iconTheme: MaterialStateProperty.all(
-								const IconThemeData(
-									color: Colors.white
-								)
-							)
-						)
-					),
-					//THEME
-					themeMode: ThemeMode.system, 
-				),
-			);
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', 'US'), // English
+        Locale('fr', 'FR'), // Thai
+      ],
+      
+      //THEME
+      theme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.light,
+        primarySwatch: generateMaterialColor(const Color(0xff025982)), // generateMaterialColor(const Color(0xff611925)),
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.linux: FadeUpwardsPageTransitionsBuilder(),
+            TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
+          },
+        ),
+        navigationBarTheme: NavigationBarThemeData(
+          indicatorColor: const Color(0xff025982).withOpacity(0.2),
+          iconTheme: MaterialStateProperty.all(
+            const IconThemeData(
+              color: Colors.black
+            )
+          )
+        )
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xff1e1e1e)
+        ),
+        scaffoldBackgroundColor: const Color(0xff191919),
+        brightness: Brightness.dark,
+        primarySwatch: generateMaterialColor(const Color(0xff025982)), // generateMaterialColor(const Color(0xff611925)),
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.linux: FadeUpwardsPageTransitionsBuilder(),
+            TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
+          },
+        ),
+        navigationBarTheme: NavigationBarThemeData(
+          backgroundColor: const Color(0xff1e1e1e),
+          indicatorColor: const Color(0xff025982),
+          iconTheme: MaterialStateProperty.all(
+            const IconThemeData(
+              color: Colors.white
+            )
+          )
+        )
+      ),
+      //THEME
+      themeMode: ThemeMode.system, 
+    ),
+  );
 }
+
+
 
 /*
 Vert 2A4D14
