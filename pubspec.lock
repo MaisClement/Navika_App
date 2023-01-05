@@ -91,7 +91,7 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.2"
+    version: "2.3.3"
   build_runner_core:
     dependency: transitive
     description:
@@ -126,7 +126,7 @@ packages:
       name: checked_yaml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   clock:
     dependency: transitive
     description:
@@ -140,7 +140,7 @@ packages:
       name: code_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.0"
+    version: "4.4.0"
   collection:
     dependency: "direct main"
     description:
@@ -266,7 +266,7 @@ packages:
       name: flutter_inappwebview
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.7.2"
+    version: "5.7.2+3"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -330,7 +330,7 @@ packages:
       path: "plugins/here_sdk"
       relative: true
     source: path
-    version: "4.12.11"
+    version: "4.13.0"
   hive:
     dependency: "direct main"
     description:
@@ -463,7 +463,7 @@ packages:
       name: mime
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   package_config:
     dependency: transitive
     description:
@@ -603,7 +603,7 @@ packages:
       name: quiver
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.0"
+    version: "3.2.1"
   shelf:
     dependency: transitive
     description:
