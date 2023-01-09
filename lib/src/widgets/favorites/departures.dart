@@ -58,6 +58,7 @@ class FavoriteDepartures extends StatelessWidget {
                     globals.schedulesStopArea = id;
                     globals.schedulesStopName = name;
                     globals.schedulesStopModes = modes;
+                    globals.schedulesStopLines = [];
                     globals.schedulesDeparture = departure;
                     RouteStateScope.of(context).go('/schedules/stops/$id/departures/${departure['id']}');
                   },
@@ -146,6 +147,7 @@ class FavoriteDepartures extends StatelessWidget {
               globals.schedulesStopArea = id;
               globals.schedulesStopName = name;
               globals.schedulesStopModes = modes;
+              globals.schedulesStopLines = [];
               RouteStateScope.of(context).go('/schedules/stops/$id');
             },
           ),

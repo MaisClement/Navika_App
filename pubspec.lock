@@ -198,7 +198,7 @@ packages:
     source: hosted
     version: "6.1.4"
   firebase_core:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
@@ -330,7 +330,7 @@ packages:
       path: "plugins/here_sdk"
       relative: true
     source: path
-    version: "4.12.11"
+    version: "4.13.0"
   hive:
     dependency: "direct main"
     description:

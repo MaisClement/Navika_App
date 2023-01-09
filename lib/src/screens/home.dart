@@ -185,7 +185,7 @@ class _HomeState extends State<Home> {
       });
     } else {
       try {
-        final response = await http.get(Uri.parse(globals.API_INDEX));
+        final response = await http.get(Uri.parse('${globals.API_INDEX}?v=${globals.VERSION}'));
         if (response.statusCode == 200) {
           final data = json.decode(response.body);
 

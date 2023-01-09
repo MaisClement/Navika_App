@@ -128,6 +128,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
                 globals.schedulesStopArea = place['id'];
                 globals.schedulesStopName = place['name'];
                 globals.schedulesStopModes = place['modes'];
+                globals.schedulesStopLines = [];
                 RouteStateScope.of(context).go('/schedules/stops/${place["id"]}');
               },
             )

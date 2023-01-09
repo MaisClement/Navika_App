@@ -99,8 +99,6 @@ class _SchedulesBodyState extends State<SchedulesBody>
       if (mounted) {
         final response = await http.get(Uri.parse('${globals.API_SCHEDULES}?s=${globals.schedulesStopArea}'));
 
-        print('${globals.API_SCHEDULES}?s=${globals.schedulesStopArea}');
-
         if (response.statusCode == 200) {
           final data = json.decode(response.body);
 

@@ -107,6 +107,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
                 globals.schedulesStopArea = widget.id;
                 globals.schedulesStopName = widget.name;
                 globals.schedulesStopModes = widget.modes;
+                globals.schedulesStopLines = [];
                 RouteStateScope.of(context).go('/schedules/stops/${widget.id}');
               },
               child: Row(
