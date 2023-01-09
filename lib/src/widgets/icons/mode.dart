@@ -21,7 +21,7 @@ class ModeIcones extends StatelessWidget {
     children: [
 
     if (LINES.isLineById(line['id']))
-      if (LINES.getLinesById(line['id']).name == 'TER')
+      if (line['id'] == 'TER')
           const Text('')
       else
         Container(
