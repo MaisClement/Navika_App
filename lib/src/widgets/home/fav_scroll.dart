@@ -102,11 +102,11 @@ class HomeBodyFavScroll extends StatelessWidget {
                 onTap: () {
                   RouteStateScope.of(context).go('/home/address/work');
                 },
-                onLongPress: () {}),
+                onLongPress: () {},),
 
 // Le reste
           for (var fav in address)
-            if (fav['type'] != 'home' && fav['work'] != 'home')
+            if (fav['type'] != 'home' && fav['type'] != 'work')
               FavButton(
                 name: fav['name'],
                 img: getPlaceIcon(fav['type']),

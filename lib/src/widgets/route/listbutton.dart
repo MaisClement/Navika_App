@@ -24,7 +24,7 @@ List<Widget> getDurationWidget(int d, context) {
   Duration duration = Duration(seconds: d);
   List<Widget> res = [];
 
-  if (duration.inMinutes > 60) {
+  if (duration.inMinutes >= 60) {
     res.add(Text(duration.inHours.toString(),
         style: getTextStyle(context, 24)));
 
