@@ -33,7 +33,7 @@ class _DepartureDetailsState extends State<DepartureDetails>
  
   String error = '';
   late Timer _timer;
-  Map departure = globals.schedulesDeparture;
+  Map departure = globals.departure;
 
   @override
 	void initState() {

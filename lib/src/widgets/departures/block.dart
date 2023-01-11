@@ -47,7 +47,7 @@ class DepartureBlock extends StatelessWidget {
             const CircularProgressIndicator(),
             Text('Chargement...', 
               style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
+                color: accentColor(context),
                 fontWeight: FontWeight.w700
               ),
             ),
@@ -78,7 +78,7 @@ class DepartureBlock extends StatelessWidget {
                   ),
                   child: InkWell(
                     onTap: () {
-                      globals.schedulesDeparture = departure;
+                      globals.departure = departure;
                       RouteStateScope.of(context).go('/schedules/stops/${globals.schedulesStopArea}/departures/${departure['id']}');
                     },
                     child: Row(
@@ -152,7 +152,7 @@ class DepartureBlock extends StatelessWidget {
                             ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                             child: const Text('Voir le reste ➜'),
                             onPressed: () {
-                              globals.schedulesDeparture = departure;
+                              globals.departure = departure;
                               RouteStateScope.of(context).go('/schedules/stops/${globals.schedulesStopArea}/departures/${departure['id']}');
                             },
                           ),

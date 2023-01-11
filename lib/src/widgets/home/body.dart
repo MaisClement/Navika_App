@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/favorites/body.dart';
@@ -8,12 +7,14 @@ import 'package:navika/src/widgets/home/messages.dart';
 class HomeBody extends StatelessWidget {
   final ScrollController scrollController;
   final Map index;
+  final List address;
   final List favs;
   final Function update;
 
   const HomeBody({
     required this.scrollController,
     required this.index,
+    required this.address,
     required this.favs,
     required this.update,
     super.key,
@@ -26,9 +27,11 @@ class HomeBody extends StatelessWidget {
         children: [
           SizedBox(
             height: 85,
-            child: HomeBodyFavScroll(),
+            child: HomeBodyFavScroll(
+              address: address,
+            ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
 
@@ -41,7 +44,7 @@ class HomeBody extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Divider(

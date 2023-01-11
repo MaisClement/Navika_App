@@ -1,12 +1,10 @@
-// ignore_for_file: always_use_package_imports
-
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
-import 'parsed_route.dart';
-import 'route_state.dart';
+import 'package:navika/src/routing/parsed_route.dart';
+import 'package:navika/src/routing/route_state.dart';
 
 class SimpleRouterDelegate extends RouterDelegate<ParsedRoute>
 		with ChangeNotifier, PopNavigatorRouterDelegateMixin<ParsedRoute> {

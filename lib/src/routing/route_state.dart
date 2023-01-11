@@ -1,9 +1,7 @@
-// ignore_for_file: always_use_package_imports
-
 import 'package:flutter/widgets.dart';
 
-import 'parsed_route.dart';
-import 'parser.dart';
+import 'package:navika/src/routing/parsed_route.dart';
+import 'package:navika/src/routing/parser.dart';
 
 /// The current route state. To change the current route, call obtain the state
 /// using `RouteStateScope.of(context)` and call `go()`:

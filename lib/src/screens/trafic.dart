@@ -94,8 +94,10 @@ class _TraficState extends State<Trafic> {
                                 bottom: 10.0),
                             width: 45,
                             height: 45,
-                            child: const Image(
-                              image: AssetImage('assets/icons/RER_dark.png'),
+                            child: Image(
+                              image: AssetImage(Brightness.dark == Theme.of(context).colorScheme.brightness
+                              ? 'assets/icons/RER_white.png'
+                              : 'assets/icons/RER_dark.png'),
                             ),
                           ),
                           Expanded(
@@ -147,9 +149,10 @@ class _TraficState extends State<Trafic> {
                                   bottom: 10.0),
                               width: 45,
                               height: 45,
-                              child: const Image(
-                                  image: AssetImage(
-                                      'assets/icons/TRAIN_dark.png'))),
+                              child: Image(
+                                  image: AssetImage(Brightness.dark == Theme.of(context).colorScheme.brightness
+                              ? 'assets/icons/TRAIN_white.png'
+                              : 'assets/icons/TRAIN_dark.png'))),
                           Expanded(
                             child: Wrap(
                               children: [
@@ -211,8 +214,10 @@ class _TraficState extends State<Trafic> {
                                 bottom: 10.0),
                             width: 45,
                             height: 45,
-                            child: const Image(
-                              image: AssetImage('assets/icons/METRO_dark.png'),
+                            child: Image(
+                              image: AssetImage(Brightness.dark == Theme.of(context).colorScheme.brightness
+                              ? 'assets/icons/METRO_white.png'
+                              : 'assets/icons/METRO_dark.png'),
                             ),
                           ),
                           Expanded(
@@ -316,8 +321,10 @@ class _TraficState extends State<Trafic> {
                                 bottom: 10.0),
                             width: 45,
                             height: 45,
-                            child: const Image(
-                              image: AssetImage('assets/icons/TRAM_dark.png'),
+                            child: Image(
+                              image: AssetImage(Brightness.dark == Theme.of(context).colorScheme.brightness
+                              ? 'assets/icons/TRAM_white.png'
+                              : 'assets/icons/TRAM_dark.png'),
                             ),
                           ),
                           Expanded(
@@ -406,7 +413,7 @@ class _TraficState extends State<Trafic> {
                           Text(
                             'Chargement...',
                             style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
+                                color: accentColor(context),
                                 fontWeight: FontWeight.w700),
                           ),
                         ],

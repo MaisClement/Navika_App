@@ -31,7 +31,7 @@ class SchedulesList extends StatelessWidget {
             const CircularProgressIndicator(),
             Text('Chargement...', 
               style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
+                color: accentColor(context),
                 fontWeight: FontWeight.w700
               ),
             ),

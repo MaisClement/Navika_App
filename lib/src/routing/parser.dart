@@ -1,9 +1,7 @@
-// ignore_for_file: always_use_package_imports
-
 import 'package:flutter/widgets.dart';
 import 'package:path_to_regexp/path_to_regexp.dart';
 
-import 'parsed_route.dart';
+import 'package:navika/src/routing/parsed_route.dart';
 
 /// Used by [TemplateRouteParser] to guard access to routes.
 typedef RouteGuard<T> = Future<T> Function(T from);

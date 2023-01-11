@@ -105,6 +105,7 @@ class _HomeState extends State<Home> {
   List pointNearby = [];
   Map index = {};
   List favs = globals.hiveBox?.get('stopsFavorites') ?? [];
+  List address= globals.hiveBox?.get('AddressFavorites') ?? [];
 
   Future<void> _getLocation() async {
     bool serviceEnabled;
@@ -216,6 +217,7 @@ class _HomeState extends State<Home> {
 
     setState(() {
       favs = box.get('stopsFavorites');
+      address = box.get('AddressFavorites');
     });
   }
 
@@ -259,6 +261,7 @@ class _HomeState extends State<Home> {
                     : HomeBody(
                         scrollController: scrollController,
                         index: index,
+                        address: address,
                         favs: favs,
                         update: updateFavorites,
                       ),
@@ -309,10 +312,11 @@ class _HomeState extends State<Home> {
       _getIndex();
       _getFavorites();
       _getPoints();
-      getInBox();
+      _getInBox();
       panelController.animatePanelToSnapPoint();
       _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
-        getInBox();
+        _getInBox();
+        _getFavorites();
       });
     });
   }
@@ -324,7 +328,7 @@ class _HomeState extends State<Home> {
     _timer.cancel();
   }
 
-  void getInBox() {
+  void _getInBox() {
     bool isInBox;
     isInBox = _controller?.isOverLocation() ?? false;
     setState(() {

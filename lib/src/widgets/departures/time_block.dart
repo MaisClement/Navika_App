@@ -119,7 +119,7 @@ class TimeBlock extends StatelessWidget {
               }
             },
             child: Wrap(
-              children: [time != '' && time.length > 1 && getTimeDifference(time) >= 0
+              children: [time != '' && time.length > 1
                 ? Container(
                     padding: const EdgeInsets.only(left:7.0, top:2.0, right:7.0, bottom:2.0),
                     decoration: BoxDecoration(
@@ -141,7 +141,7 @@ class TimeBlock extends StatelessWidget {
                             ? '${getTimeDifference(time).toString()} min'
                             : getTime(base),
                       style: TextStyle(
-                        color: getColorByState(state, context),
+                        color: getColorByState(getTimeDifference(time) >= 0 ? state : 'theorical', context),
                         fontWeight: FontWeight.w700,
                         fontFamily: 'Segoe Ui',
                       ),

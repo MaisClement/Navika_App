@@ -68,7 +68,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
           if (mounted) {
             setState(() {
               mode = data['mode'];
-              if (mode == 'rail' || mode == 'nationalrail' || mode == 'regionalrail') {
+              if (mode == 'rail' || mode == 'nationalrail') {
                 schedules = data['departures'];
               } else {
                 schedules = data['schedules'];
@@ -167,7 +167,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
                 child: CircularProgressIndicator(),
               ),
             )
-          else if (mode == 'rail' || mode == 'nationalrail' || mode == 'regionalrail')
+          else if (mode == 'rail' || mode == 'nationalrail')
             Container(
               padding: const EdgeInsets.only(
                   left: 10, right: 10, top: 0, bottom: 10),

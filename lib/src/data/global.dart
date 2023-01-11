@@ -26,7 +26,9 @@ String schedulesStopName = '';
 List schedulesStopModes = [];
 List schedulesStopLines = [];
 
-Map schedulesDeparture = {};
+
+Map journey = {};
+Map departure = {};
 List trafic = [];
 
 bool routePosUsed = false;

@@ -46,7 +46,7 @@ class HomePannel extends StatelessWidget {
                     globals.route['dep']['id'] = null;
                     globals.route['arr']['name'] = null;
                     globals.route['arr']['id'] = null;
-                    RouteStateScope.of(context).go('/journeys');
+                    RouteStateScope.of(context).go('/home/journeys');
                   },
                   borderRadius: BorderRadius.circular(500),
                   child: Container(

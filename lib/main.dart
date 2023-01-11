@@ -21,7 +21,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
 
-  print({'INFO_f', "Handling a background message: ${message.messageId}"});
+  print({'INFO_f', 'Handling a background message: ${message.messageId}'});
 }
 
 void main() {
@@ -52,11 +52,11 @@ void _initializeHive() async {
   if (globals.hiveBox.get('stopsFavorites') == null) {
     globals.hiveBox.put('stopsFavorites', []);
   }
-  if (globals.hiveBox.get('historyRoute') == null) {
-    globals.hiveBox.put('historyRoute', []);
+  if (globals.hiveBox.get('AddressFavorites') == null) {
+    globals.hiveBox.put('AddressFavorites', []);
   }
   if (kDebugMode) {
-    print({'HIVETEST_', globals.hiveBox.get('stopsFavorites')});
+    print({'HIVETEST_', globals.hiveBox.get('AddressFavorites')});
   }
 }
 

@@ -18,6 +18,13 @@ hereIcon(context) {
   return 'assets/here/HERE_logo_full.svg';
 }
 
+topBarColor(context) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return const Color(0xff000000);
+  }
+  return const Color(0xffffffff);
+}
+
 backgroundColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return const Color(0xff191919);
@@ -53,7 +60,6 @@ dividerColor(context) {
   return Colors.grey[300];
 }
 
-
 tabBackgroundColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return Colors.grey[900];
@@ -66,6 +72,13 @@ tabLabelColor(context) {
     return Colors.white;
   }
   return Colors.black;
+}
+
+walkingColor(context) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return Colors.grey[300];
+  }
+  return Colors.grey[700];
 }
 
 traficBlockColor(context) {

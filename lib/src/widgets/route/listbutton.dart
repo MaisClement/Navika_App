@@ -25,12 +25,14 @@ List<Widget> getDurationWidget(int d, context) {
   List<Widget> res = [];
 
   if (duration.inMinutes > 60) {
-    res.add(Text(duration.inHours.remainder(60).toString(),
+    res.add(Text(duration.inHours.toString(),
         style: getTextStyle(context, 24)));
 
     res.add(Text('h', style: getTextStyle(context, 10)));
 
-    res.add(Text(duration.inMinutes.remainder(60).toString(),
+    res.add(Text(duration.inMinutes.remainder(60) < 10
+      ? '0${duration.inMinutes.remainder(60).toString()}'
+      : duration.inMinutes.remainder(60).toString(),
         style: getTextStyle(context, 24)));
   } else {
     res.add(Text(duration.inMinutes.remainder(60).toString(),
@@ -101,7 +103,7 @@ class RouteListButton extends StatelessWidget {
               ),
               Container(
                 height: 1,
-                decoration: BoxDecoration(color: Colors.grey[300]),
+                decoration: BoxDecoration(color: dividerColor(context)),
               ),
             ],
           ),

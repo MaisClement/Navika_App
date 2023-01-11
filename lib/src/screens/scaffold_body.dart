@@ -35,7 +35,7 @@ class NavikaAppScaffoldBody extends StatelessWidget {
           routeState.go('/home');
         }
 
-        if (pathTemplate.startsWith('/journeys')) {
+        if (pathTemplate.startsWith('/home/journeys')) {
           routeState.go('/home');
         }
 
@@ -64,7 +64,7 @@ class NavikaAppScaffoldBody extends StatelessWidget {
 						key: ValueKey('trafic'),
 						child: Trafic(),
 					)
-        // else if (pathTemplate.startsWith('/journeys'))
+        // else if (pathTemplate.startsWith('/home/journeys'))
 				// 	const FadeTransitionPage<void>(
 				// 		key: ValueKey('trafic'),
 				// 		child: RouteHome(),

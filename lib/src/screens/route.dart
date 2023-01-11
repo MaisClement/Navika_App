@@ -144,7 +144,7 @@ class _RouteHomeState extends State<RouteHome> {
         }
       } else {
         setState(() {
-          error = 'Récupération des trajets impossible.';
+          error = 'Récupération des lieux impossible.';
         });
       }
     } catch (e) {
@@ -196,7 +196,7 @@ class _RouteHomeState extends State<RouteHome> {
       } else {
         textController['dep'].text = yourPos;
         globals.route['dep']['name'] = yourPos;
-        globals.route['dep']['id'] = '${globals.locationData?.latitude};${globals.locationData?.longitude}';
+        globals.route['dep']['id'] = '${globals.locationData?.longitude};${globals.locationData?.latitude}';
         setState(() {
           posUsed = true;
         });
@@ -232,6 +232,7 @@ class _RouteHomeState extends State<RouteHome> {
     
     else if (globals.route['arr']['id'] != null) { // On a une arrivée
       textController['arr'].text = globals.route['arr']['name'];
+
       setState(() {
         currentTextInput = 'dep';
       });
@@ -462,8 +463,7 @@ class _RouteHomeState extends State<RouteHome> {
                                 overflow: TextOverflow.fade,
                               ),
                             ),
-                          )
-
+                          ),
                         ],
                       ),
                     ),
@@ -512,13 +512,15 @@ class _RouteHomeState extends State<RouteHome> {
                                 ),
                               ],
                             ),
-                          ]
-                        )
+                          ],
+                        ),
                       ),
                     ),
                     onTap: () {
-                      globals.route[currentTextInput]['id'] = '${globals.locationData?.longitude};${globals.locationData?.latitude}';
-                      globals.route[currentTextInput]['name'] = 'Votre position';
+                      _handleClick(
+                        '${globals.locationData?.longitude};${globals.locationData?.latitude}',
+                        yourPos
+                      );
                       setState(() {
                         posUsed = true;
                       });
@@ -533,8 +535,8 @@ class _RouteHomeState extends State<RouteHome> {
                       _handleClick(place['name'], place['id']);
                     },
                   ),
-              ]
-            )
+              ],
+            ),
           )
 
         else if (displayJourneys == false && journeys.isNotEmpty && isLoading == false)
@@ -546,7 +548,8 @@ class _RouteHomeState extends State<RouteHome> {
                 RouteListButton(
                   journey: journey,
                   onTap: () {
-                    RouteStateScope.of(context).go('/journeys/details');
+                    globals.journey = journey;
+                    RouteStateScope.of(context).go('/home/journeys/details');
                   },
                 ),
 

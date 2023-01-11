@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/style/style.dart';
 
 class FavButton extends StatelessWidget {
   final String name;
-  final String img;
+  final IconData img;
   final void Function() onTap;
+  final void Function() onLongPress;
 
   const FavButton({
     required this.name,
     required this.img,
     required this.onTap,
-    super.key,
+    required this.onLongPress,
+    super.key, 
   });
 
   @override
@@ -24,6 +25,7 @@ class FavButton extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(15),
             onTap: onTap,
+            onLongPress: onLongPress,
             child: Container(
               width: 100,
               height: 100,
@@ -36,8 +38,10 @@ class FavButton extends StatelessWidget {
                   Container(
                     height: 10,
                   ),
-                  SvgPicture.asset(img,
-                      color: boxContentColor(context), height: 30),
+                  Icon(img,
+                    color: accentColor(context),
+                    size: 30,
+                  ),
                   Container(
                     height: 10,
                   ),

@@ -24,7 +24,7 @@ class RouteLines extends StatelessWidget {
                   line: sections[i]['informations']['line'],
                   i: 0,
                   size: 25,
-                  isDark: schedulesIsDark(context, sections[i]['informations']['line']['text_color']),
+                  isDark: schedulesIsDark(context, 'ffffff'),
                 ),
                 LinesIcones(
                   line: sections[i]['informations']['line'],
@@ -37,7 +37,7 @@ class RouteLines extends StatelessWidget {
                     height: 5,
                     width: 5,
                     decoration: BoxDecoration(
-                      color: Colors.grey[700],
+                      color: dividerColor(context), //Colors.grey[700],
                       borderRadius: BorderRadius.circular(500)
                     ),
                   )
@@ -48,7 +48,7 @@ class RouteLines extends StatelessWidget {
             Wrap(
               children: [
                 Icon(ScaffoldIcon.walking,
-                  color: Colors.grey[700],
+                  color: walkingColor(context), //Colors.grey[700],
                   size: 25
                 ),
 
@@ -58,7 +58,7 @@ class RouteLines extends StatelessWidget {
                     height: 5,
                     width: 5,
                     decoration: BoxDecoration(
-                      color: Colors.grey[700],
+                      color: dividerColor(context),
                       borderRadius: BorderRadius.circular(500)
                     ),
                   )

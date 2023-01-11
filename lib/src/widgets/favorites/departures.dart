@@ -59,7 +59,7 @@ class FavoriteDepartures extends StatelessWidget {
                     globals.schedulesStopName = name;
                     globals.schedulesStopModes = modes;
                     globals.schedulesStopLines = [];
-                    globals.schedulesDeparture = departure;
+                    globals.departure = departure;
                     RouteStateScope.of(context).go('/schedules/stops/$id/departures/${departure['id']}');
                   },
                   child: Row(
