@@ -91,7 +91,7 @@ class TraficDetails extends StatelessWidget {
                           color: getSlug( getTraficLines(LINES.getLines(lineId).id)['severity'] , 1),
                         ),
                       ),
-                      child: Image(image: LINES.getLines(lineId).image),
+                      child: Image(image: AssetImage(LINES.getLines(lineId).image)),
                     ),
                     Positioned(
                       width: 20,

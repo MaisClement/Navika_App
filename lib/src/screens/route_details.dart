@@ -2,18 +2,40 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:here_sdk/core.errors.dart';
 import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
+import 'package:navika/src/data.dart';
+import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/icons/scaffold_icon_icons.dart';
 import 'package:navika/src/screens/home.dart';
 import 'package:navika/src/widgets/route/body.dart';
+import 'package:navika/src/widgets/route/header.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/controller/here_map_controller.dart';
 import 'package:navika/src/style/style.dart';
+
+Color getColorByType(section) {
+  if (section['type'] == 'street_network' || section['type'] == 'waiting') {
+    return const Color(0xff7b7b7b);
+  }
+  if (section['informations'] != null &&
+      section['informations']['line']['color'] != null) {
+    return HexColor.fromHex(section['informations']['line']['color']);
+  }
+  return const Color(0xff202020);
+}
+
+double getLineWidthByType(String type) {
+  if (type == 'public_transport') {
+    return 20;
+  }
+  return 7;
+}
 
 class RouteDetails extends StatefulWidget {
   const RouteDetails({super.key});
@@ -40,6 +62,53 @@ class _RouteDetailsState extends State<RouteDetails> {
   double panelButtonBottomOffsetClosed = 120;
   double panelButtonBottomOffset = 120;
   double _position = 0;
+  Map journey = globals.journey;
+
+  void _createGeoJson(Map journey) {
+    for (var section in journey['sections']) {
+      if (section['geojson'] != null) {
+        _createPolylines(section['geojson'],
+            getLineWidthByType(section['type']), getColorByType(section));
+      }
+    }
+    for (var section in journey['sections']) {
+      if (section['geojson'] != null) {
+        try {
+          _addLineMarker(section);
+        } catch (e) {
+          print({'INFO_', e});
+        }
+      }
+    }
+  }
+
+  void _addLineMarker(section) {
+    if (section['informations'] != null &&
+        section['informations']['line']['id'] != null) {
+      GeoCoordinates stopCoords = GeoCoordinates(
+          section['geojson']['coordinates'][0][1].toDouble(),
+          section['geojson']['coordinates'][0][0].toDouble());
+      Metadata metadata = Metadata();
+
+      _controller?.addMapMarker(
+          stopCoords,
+          LINES.getLinesById(section['informations']['line']['id']).image,
+          metadata);
+    }
+  }
+
+  void _createPolylines(Map geojson, double width, Color lineColor) {
+    List<GeoCoordinates> coordinates = [];
+
+    for (var coords in geojson['coordinates']) {
+      coordinates.add(GeoCoordinates(coords[1], coords[0]));
+    }
+
+    GeoPolyline geoPolyline = GeoPolyline(coordinates);
+    MapPolyline mapPolyline = MapPolyline(geoPolyline, width, lineColor);
+
+    _controller?.addMapPolylines(mapPolyline);
+  }
 
   Future<void> _getLocation() async {
     bool serviceEnabled;
@@ -103,32 +172,8 @@ class _RouteDetailsState extends State<RouteDetails> {
               maxHeight: (MediaQuery.of(context).size.height - 95),
               controller: panelController,
               onPanelSlide: (position) => onPanelSlide(position),
-              header: Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 15,
-                    ),
-                    Opacity(
-                      opacity: getOpacity(_position),
-                      child: Container(
-                        width: 40,
-                        height: 5,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[400],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 15,
-                    ),
-                  ],
-                ),
+              header: RoutePannel(
+                opacity: getOpacity(_position)
               ),
               panelBuilder: (ScrollController scrollController) => RouteBody(
                 scrollController: scrollController,
@@ -292,6 +337,8 @@ class _RouteDetailsState extends State<RouteDetails> {
           LocationIndicatorIndicatorStyle.pedestrian,
           globals.compassHeading,
           false);
+
+      _createGeoJson(journey);
     });
   }
 

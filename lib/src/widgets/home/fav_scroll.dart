@@ -109,7 +109,7 @@ class HomeBodyFavScroll extends StatelessWidget {
             if (fav['type'] != 'home' && fav['type'] != 'work')
               FavButton(
                 name: fav['name'],
-                img: getPlaceIcon(fav['type']),
+                img: ScaffoldIcon.star_regular,
                 onTap: () {
                   globals.route['dep']['name'] = null;
                   globals.route['dep']['id'] = null;

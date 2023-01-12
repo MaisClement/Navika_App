@@ -119,4 +119,8 @@ class HereController {
     return _hereMapController.camera.principalPoint;
   } 
 
+  void addMapPolylines(MapPolyline polyline) {
+    _hereMapController.mapScene.addMapPolyline(polyline);
+  }
+
 }

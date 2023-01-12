@@ -30,9 +30,9 @@ class ModeIcones extends StatelessWidget {
         margin: i == 0 ? const EdgeInsets.only(left:5.0, top:5.0,right:0.0,bottom:5.0) : const EdgeInsets.only(left:20.0, top:5.0,right:0.0,bottom:5.0),
         child: 
           isDark ?
-            Image(image: LINES.getLinesById(line['id']).imageModeDark)
+            Image(image: AssetImage(LINES.getLinesById(line['id']).imageModeDark))
           :
-            Image(image: LINES.getLinesById(line['id']).imageModeWhite),
+            Image(image: AssetImage(LINES.getLinesById(line['id']).imageModeWhite)),
       )
     else 
       Container(

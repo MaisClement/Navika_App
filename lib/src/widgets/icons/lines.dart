@@ -25,7 +25,7 @@ class LinesIcones extends StatelessWidget {
             width: size,
             height: size,
             margin: const EdgeInsets.only(left:5.0, top:5.0,right:0.0,bottom:5.0),
-            child: Image(image: LINES.getLinesById(line['id']).image),
+            child: Image(image: AssetImage(LINES.getLinesById(line['id']).image)  ),
           )
       else if (line['code'] != '')
         Container(

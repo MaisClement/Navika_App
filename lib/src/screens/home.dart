@@ -59,24 +59,17 @@ class Home extends StatefulWidget {
 }
 
 String getMarkerImageByType(modes) {
-  if (modes.contains('physical_mode:RapidTransit')) {
-    return 'assets/marker/marker_rer_blue.png';
-  } else if (modes.contains('physical_mode:Train') ||
-      modes.contains('physical_mode:RailShuttle') ||
-      modes.contains('physical_mode:LocalTrain') ||
-      modes.contains('physical_mode:LongDistanceTrain')) {
+  if (modes.contains('nationalrail')) {
     return 'assets/marker/marker_train_blue.png';
-  } else if (modes.contains('physical_mode:Metro') ||
-      modes.contains('physical_mode:Shuttle')) {
+  } else if (modes.contains('metro')) {
     return 'assets/marker/marker_metro_blue.png';
-  } else if (modes.contains('physical_mode:Tramway')) {
+  } else if (modes.contains('tram')) {
     return 'assets/marker/marker_tram_blue.png';
-  } else if (modes.contains('physical_mode:SuspendedCableCar')) {
+  } else if (modes.contains('cablecar')) {
     return 'assets/marker/marker_cable_blue.png';
-  } else if (modes.contains('physical_mode:Boat')) {
+  } else if (modes.contains('boat')) {
     return 'assets/marker/marker_navette_fluviale_blue.png';
-  } else if (modes.contains('physical_mode:Bus') ||
-      modes.contains('physical_mode:BusRapidTransit')) {
+  } else if (modes.contains('bus')) {
     return 'assets/marker/marker_bus_blue.png';
   }
   // physical_mode:Funicular
@@ -105,7 +98,7 @@ class _HomeState extends State<Home> {
   List pointNearby = [];
   Map index = {};
   List favs = globals.hiveBox?.get('stopsFavorites') ?? [];
-  List address= globals.hiveBox?.get('AddressFavorites') ?? [];
+  List address = globals.hiveBox?.get('AddressFavorites') ?? [];
 
   Future<void> _getLocation() async {
     bool serviceEnabled;
@@ -165,13 +158,13 @@ class _HomeState extends State<Home> {
 
       for (var stop in data['places']) {
         GeoCoordinates stopCoords =
-            GeoCoordinates(stop['coord']['lat'], stop['coord']['lon']);
+            GeoCoordinates(stop['coord']['lat'].toDouble(), stop['coord']['lon'].toDouble());
         Metadata metadata = Metadata();
         metadata.setString('id', stop['id']);
         metadata.setString('name', stop['name']);
         metadata.setString('modes', json.encode(stop['modes']));
-        metadata.setDouble('lat', stop['coord']['lat']);
-        metadata.setDouble('lon', stop['coord']['lon']);
+        metadata.setDouble('lat', stop['coord']['lat'].toDouble());
+        metadata.setDouble('lon', stop['coord']['lon'].toDouble());
 
         _controller?.addMapMarker(
             stopCoords, getMarkerImageByType(stop['modes']), metadata);

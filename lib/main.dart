@@ -56,7 +56,7 @@ void _initializeHive() async {
     globals.hiveBox.put('AddressFavorites', []);
   }
   if (kDebugMode) {
-    print({'HIVETEST_', globals.hiveBox.get('AddressFavorites')});
+    print({'INFO_', globals.hiveBox.get('AddressFavorites')});
   }
 }
 

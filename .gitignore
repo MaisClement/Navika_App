@@ -16,7 +16,6 @@ migrate_working_dir/
 # credentials
 *credentials.dart
 *google-services.json
-*firebase_options.dart
 
 # OLD files
 *OLD_*

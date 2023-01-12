@@ -128,7 +128,7 @@ class TraficBlock extends StatelessWidget {
               color: getSlug(getTraficLines(LINES.getLines(name).id)['severity']),
             ),
           ),
-          child: Image(image: LINES.getLines(name).image),
+          child: Image(image: AssetImage(LINES.getLines(name).image)),
         ),
         onTap: () {
           RouteStateScope.of(context).go('/trafic/$name');
