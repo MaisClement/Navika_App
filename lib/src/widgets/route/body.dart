@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/style/style.dart';
-import 'package:navika/src/widgets/favorites/body.dart';
-import 'package:navika/src/widgets/home/messages.dart';
 import 'package:navika/src/widgets/route/lines.dart';
 import 'package:navika/src/widgets/route/listbutton.dart';
 
@@ -24,7 +22,7 @@ class RouteBody extends StatelessWidget {
 
           Container(
             decoration: BoxDecoration(
-              color: Colors.grey[200],
+              color: RouteBhColor(context),
             ),
             padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
             child: Row(

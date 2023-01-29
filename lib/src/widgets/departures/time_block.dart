@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/bottom_sheets/time.dart';
 import 'package:navika/src/widgets/departures/list.dart';
 import 'package:navika/src/data/global.dart' as globals;
@@ -94,7 +95,7 @@ class TimeBlock extends StatelessWidget {
           color: const Color(0xff202020),
           boxShadow: [
             BoxShadow(
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+              color: accentColor(context).withOpacity(0.1),
               spreadRadius: 3,
               blurRadius: 5,
               offset: const Offset(0, 2),
@@ -130,7 +131,7 @@ class TimeBlock extends StatelessWidget {
                       color: const Color(0xff202020),
                       boxShadow: [
                         BoxShadow(
-                          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                          color: accentColor(context).withOpacity(0.1),
                           spreadRadius: 3,
                           blurRadius: 5,
                           offset: const Offset(0, 2),

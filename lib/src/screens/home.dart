@@ -14,6 +14,8 @@ import 'package:here_sdk/mapview.dart';
 import 'package:navika/src/icons/scaffold_icon_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/style/style.dart';
+import 'package:navika/src/widgets/bike/body.dart';
+import 'package:navika/src/widgets/bike/header.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 
@@ -24,6 +26,104 @@ import 'package:navika/src/widgets/home/body.dart';
 import 'package:navika/src/widgets/home/header.dart';
 import 'package:navika/src/widgets/schedules/body.dart';
 import 'package:navika/src/widgets/schedules/header.dart';
+
+enum MarkerSize { hidden, small, large }
+
+enum MarkerMode { bike, bus, cable, metro, boat, noctilien, rer, train, tram }
+
+String getMarkerImageByType(MarkerMode mode, MarkerSize size, context) {
+  String assets = 'assets/marker/';
+
+  if (size == MarkerSize.hidden) {
+    return 'assets/null.png';
+  }
+
+  if (size == MarkerSize.small) {
+    if (mode == MarkerMode.bike) {
+      assets = '${assets}mini_bike';
+    } else {
+      assets = '${assets}mini';
+    }
+  }
+
+  if (size == MarkerSize.large) {
+    if (mode == MarkerMode.train) {
+      assets = '${assets}marker_train';
+    } else if (mode == MarkerMode.metro) {
+      assets = '${assets}marker_metro';
+    } else if (mode == MarkerMode.tram) {
+      assets = '${assets}marker_tram';
+    } else if (mode == MarkerMode.cable) {
+      assets = '${assets}marker_cable';
+    } else if (mode == MarkerMode.boat) {
+      assets = '${assets}marker_boat';
+    } else if (mode == MarkerMode.bus) {
+      assets = '${assets}marker_bus';
+    } else if (mode == MarkerMode.bike) {
+      assets = '${assets}marker_bike';
+    }
+  }
+
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    assets = '${assets}_light.png';
+  } else {
+    assets = '${assets}_dark.png';
+  }
+
+  return assets;
+}
+
+MarkerMode getMarkerMode(List modes) {
+  if (modes.contains('nationalrail') || modes.contains('rail')) {
+    return MarkerMode.train;
+  } else if (modes.contains('metro')) {
+    return MarkerMode.metro;
+  } else if (modes.contains('tram')) {
+    return MarkerMode.tram;
+  } else if (modes.contains('cablecar')) {
+    return MarkerMode.cable;
+  } else if (modes.contains('boat')) {
+    return MarkerMode.boat;
+  } else if (modes.contains('bus')) {
+    return MarkerMode.bus;
+  } else if (modes.contains('bike')) {
+    return MarkerMode.bike;
+  } else {
+    return MarkerMode.bus;
+  }
+}
+
+MarkerSize getMarkerSize(MarkerMode mode, double zoom) {
+  if (zoom > 15000 && (mode == MarkerMode.train || mode == MarkerMode.rer)) {
+    return MarkerSize.small;
+  }
+  if (zoom > 15000) {
+    return MarkerSize.hidden;
+  }
+  if (zoom > 3000 && mode == MarkerMode.bike) {
+    return MarkerSize.hidden;
+  }
+  if (zoom > 6000 && (mode != MarkerMode.train && mode != MarkerMode.rer)) {
+    return MarkerSize.small;
+  }
+  if (zoom > 3000 && mode == MarkerMode.bus) {
+    return MarkerSize.small;
+  }
+  if (zoom > 2000 && mode == MarkerMode.bike) {
+    return MarkerSize.small;
+  }
+  return MarkerSize.large;
+}
+
+int getSizeForMarker(MarkerSize size) {
+  if (size == MarkerSize.hidden) {
+    return 0;
+  }
+  if (size == MarkerSize.small) {
+    return 20;
+  }
+  return 100;
+}
 
 double getAppBarOpacity(double position) {
   double res = (((position * -1) + 1) * -3.33) + 1;
@@ -47,33 +147,15 @@ double getOpacity(position) {
 }
 
 class Home extends StatefulWidget {
-  final bool displaySchedules;
+  final String? displayType;
 
   const Home({
-    this.displaySchedules = false,
+    this.displayType,
     super.key,
   });
 
   @override
   State<Home> createState() => _HomeState();
-}
-
-String getMarkerImageByType(modes) {
-  if (modes.contains('nationalrail')) {
-    return 'assets/marker/marker_train_blue.png';
-  } else if (modes.contains('metro')) {
-    return 'assets/marker/marker_metro_blue.png';
-  } else if (modes.contains('tram')) {
-    return 'assets/marker/marker_tram_blue.png';
-  } else if (modes.contains('cablecar')) {
-    return 'assets/marker/marker_cable_blue.png';
-  } else if (modes.contains('boat')) {
-    return 'assets/marker/marker_navette_fluviale_blue.png';
-  } else if (modes.contains('bus')) {
-    return 'assets/marker/marker_bus_blue.png';
-  }
-  // physical_mode:Funicular
-  return '';
 }
 
 class _HomeState extends State<Home> {
@@ -95,7 +177,9 @@ class _HomeState extends State<Home> {
   double panelButtonBottomOffset = 120;
   double _position = 0;
 
-  List pointNearby = [];
+  List stopsNearby = [];
+  List bikeNearby = [];
+  List markers = [];
   Map index = {};
   List favs = globals.hiveBox?.get('stopsFavorites') ?? [];
   List address = globals.hiveBox?.get('AddressFavorites') ?? [];
@@ -146,28 +230,83 @@ class _HomeState extends State<Home> {
 
   Future<void> _getPoints() async {
     final response = await http.get(Uri.parse(
-        '${globals.API_STOP_AREA}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}'));
+        '${globals.API_NEAR}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}'));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
 
       if (mounted) {
         setState(() {
-          pointNearby = data['places'];
+          stopsNearby = data['stops'];
+          bikeNearby = data['bike'];
         });
       }
 
-      for (var stop in data['places']) {
-        GeoCoordinates stopCoords =
-            GeoCoordinates(stop['coord']['lat'].toDouble(), stop['coord']['lon'].toDouble());
+      _setMarker();
+    }
+  }
+
+  void _clearMarker() {
+    for (var marker in markers) {
+      _controller?.removeMapMarker(marker);
+    }
+  }
+
+  void _setMarker() {
+    for (var bike in bikeNearby) {
+      GeoCoordinates bikeCoords = GeoCoordinates(
+          bike['coord']['lat'].toDouble(), bike['coord']['lon'].toDouble());
+
+      if (_controller?.isOverLocation(bikeCoords) == true) {
         Metadata metadata = Metadata();
+        metadata.setString('type', 'bike');
+        metadata.setString('id', bike['id']);
+        metadata.setString('name', bike['name']);
+        metadata.setString('capacity', bike['capacity']);
+        metadata.setDouble('lat', bike['coord']['lat'].toDouble());
+        metadata.setDouble('lon', bike['coord']['lon'].toDouble());
+
+        MarkerMode mode = getMarkerMode(['bike']);
+        double zoom = _controller?.getZoomLevel() ?? 1000;
+        MarkerSize size = getMarkerSize(mode, zoom);
+
+        if (size != MarkerSize.hidden) {
+          setState(() {
+            markers.add(_controller?.addMapMarker(
+                bikeCoords,
+                getMarkerImageByType(mode, size, context),
+                metadata,
+                getSizeForMarker(size)));
+          });
+        }
+      }
+    }
+
+    for (var stop in stopsNearby) {
+      GeoCoordinates stopCoords = GeoCoordinates(
+          stop['coord']['lat'].toDouble(), stop['coord']['lon'].toDouble());
+
+      if (_controller?.isOverLocation(stopCoords) == true) {
+        Metadata metadata = Metadata();
+        metadata.setString('type', 'stop');
         metadata.setString('id', stop['id']);
         metadata.setString('name', stop['name']);
         metadata.setString('modes', json.encode(stop['modes']));
         metadata.setDouble('lat', stop['coord']['lat'].toDouble());
         metadata.setDouble('lon', stop['coord']['lon'].toDouble());
 
-        _controller?.addMapMarker(
-            stopCoords, getMarkerImageByType(stop['modes']), metadata);
+        MarkerMode mode = getMarkerMode(stop['modes']);
+        double zoom = _controller?.getZoomLevel() ?? 1000;
+        MarkerSize size = getMarkerSize(mode, zoom);
+
+        if (size != MarkerSize.hidden) {
+          setState(() {
+            markers.add(_controller?.addMapMarker(
+                stopCoords,
+                getMarkerImageByType(mode, size, context),
+                metadata,
+                getSizeForMarker(size)));
+          });
+        }
       }
     }
   }
@@ -179,7 +318,8 @@ class _HomeState extends State<Home> {
       });
     } else {
       try {
-        final response = await http.get(Uri.parse('${globals.API_INDEX}?v=${globals.VERSION}'));
+        final response = await http
+            .get(Uri.parse('${globals.API_INDEX}?v=${globals.VERSION}'));
         if (response.statusCode == 200) {
           final data = json.decode(response.body);
 
@@ -238,26 +378,31 @@ class _HomeState extends State<Home> {
                   bottomRight: Radius.zero,
                 ),
                 snapPoint: 0.55,
-                minHeight: widget.displaySchedules ? 75 : 100,
+                minHeight: widget.displayType != null ? 75 : 100,
                 maxHeight: (MediaQuery.of(context).size.height - 130),
                 controller: panelController,
-                onPanelSlide: (position) => onPanelSlide(position),
-                header: widget.displaySchedules
-                    ? SchedulesPannel(tooglePanel: tooglePanel)
-                    : HomePannel(tooglePanel: tooglePanel),
-                panelBuilder: (ScrollController scrollController) => widget
-                        .displaySchedules
-                    ? Container(
-                        margin: const EdgeInsets.only(top: 40),
-                        child:
-                            SchedulesBody(scrollController: scrollController))
-                    : HomeBody(
-                        scrollController: scrollController,
-                        index: index,
-                        address: address,
-                        favs: favs,
-                        update: updateFavorites,
-                      ),
+                onPanelSlide: (position) => _onPanelSlide(position),
+                header: widget.displayType == null
+                    ? HomePannel(tooglePanel: _tooglePanel)
+                    : widget.displayType == 'stops'
+                        ? SchedulesPannel(tooglePanel: _tooglePanel)
+                        : BikePannel(tooglePanel: _tooglePanel),
+                panelBuilder: (ScrollController scrollController) =>
+                    widget.displayType == null
+                        ? HomeBody(
+                            scrollController: scrollController,
+                            index: index,
+                            address: address,
+                            favs: favs,
+                            update: _updateFavorites,
+                          )
+                        : Container(
+                            margin: const EdgeInsets.only(top: 40),
+                            child: widget.displayType == 'stops'
+                                ? SchedulesBody(
+                                    scrollController: scrollController)
+                                : BikeBody(scrollController: scrollController),
+                          ),
                 body: HereMap(onMapCreated: _onMapCreated),
               ),
               Positioned(
@@ -274,11 +419,10 @@ class _HomeState extends State<Home> {
                             color: tabLabelColor(context),
                             size: 30)
                         : Icon(ScaffoldIcon.locate,
-                            color: tabLabelColor(context),
-                            size: 30),
+                            color: tabLabelColor(context), size: 30),
                     onPressed: () {
                       _zoomOn();
-                      closePanel();
+                      _closePanel();
                     },
                   ),
                 ),
@@ -288,7 +432,8 @@ class _HomeState extends State<Home> {
                 bottom: panelButtonBottomOffset - 20,
                 child: Opacity(
                   opacity: getOpacity(_position),
-                  child: SvgPicture.asset( hereIcon(context),
+                  child: SvgPicture.asset(
+                    hereIcon(context),
                     width: 50,
                   ),
                 ),
@@ -323,7 +468,10 @@ class _HomeState extends State<Home> {
 
   void _getInBox() {
     bool isInBox;
-    isInBox = _controller?.isOverLocation() ?? false;
+    GeoCoordinates geoCoords = GeoCoordinates(
+        globals.locationData?.latitude ?? 0,
+        globals.locationData?.longitude ?? 0);
+    isInBox = _controller?.isOverLocation(geoCoords) ?? false;
     setState(() {
       _isInBox = isInBox;
     });
@@ -388,6 +536,15 @@ class _HomeState extends State<Home> {
         }
       });
 
+      hereMapController.gestures.pinchRotateListener = PinchRotateListener(
+          (GestureState state, Point2D pinchOrigin, Point2D rotationOrigin,
+              double twoFingerDistance, Angle rotation) {
+        if (state == GestureState.end) {
+          _clearMarker();
+          _setMarker();
+        }
+      });
+
       _controller?.addLocationIndicator(
           globals.locationData,
           LocationIndicatorIndicatorStyle.pedestrian,
@@ -418,22 +575,35 @@ class _HomeState extends State<Home> {
 
       MapMarker topmostMapMarker = mapMarkerList.first;
       Metadata? metadata = topmostMapMarker.metadata;
+
+      if (mounted) {
+        setState(() {
+          isPanned = true;
+        });
+      }
+
       if (metadata != null) {
-        globals.schedulesStopArea = metadata.getString('id') ?? '';
-        globals.schedulesStopName = metadata.getString('name') ?? '';
-        globals.schedulesStopModes =
-            json.decode(metadata.getString('modes') ?? '');
-        if (mounted) {
-          setState(() {
-            isPanned = true;
-          });
+        if (metadata.getString('type') == 'stop') {
+          globals.schedulesStopArea = metadata.getString('id') ?? '';
+          globals.schedulesStopName = metadata.getString('name') ?? '';
+          globals.schedulesStopModes =
+              json.decode(metadata.getString('modes') ?? '');
+          GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(
+              metadata.getDouble('lat') ?? 0, metadata.getDouble('lon') ?? 0);
+          _controller?.zoomTo(geoCoords);
+          panelController.animatePanelToSnapPoint();
+          RouteStateScope.of(context).go('/stops/${metadata.getString("id")}');
+          return;
+        } else if (metadata.getString('type') == 'bike') {
+          globals.schedulesStopArea = metadata.getString('id') ?? '';
+          globals.schedulesStopName = metadata.getString('name') ?? '';
+          GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(
+              metadata.getDouble('lat') ?? 0, metadata.getDouble('lon') ?? 0);
+          _controller?.zoomTo(geoCoords);
+          panelController.animatePanelToSnapPoint();
+          RouteStateScope.of(context).go('/bike/${metadata.getString("id")}');
+          return;
         }
-        GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(
-            metadata.getDouble('lat') ?? 0, metadata.getDouble('lon') ?? 0);
-        _controller?.zoomTo(geoCoords);
-        panelController.animatePanelToSnapPoint();
-        RouteStateScope.of(context).go('/stops/${metadata.getString("id")}');
-        return;
       }
     });
   }
@@ -465,14 +635,17 @@ class _HomeState extends State<Home> {
     _controller?.updateLocationIndicator(globals.locationData, heading);
   }
 
-  void updateFavorites() {
+  void _updateFavorites() {
     setState(() {
       favs = globals.hiveBox.get('stopsFavorites');
     });
   }
 
   void _zoomOn() {
-    var isOverLocation = _controller?.isOverLocation() ?? false;
+    GeoCoordinates geoCoords = GeoCoordinates(
+        globals.locationData?.latitude ?? 0,
+        globals.locationData?.longitude ?? 0);
+    var isOverLocation = _controller?.isOverLocation(geoCoords) ?? false;
     if (isOverLocation) {
       setState(() {
         is3dMap = !is3dMap;
@@ -482,7 +655,7 @@ class _HomeState extends State<Home> {
     _controller?.zoomOnLocationIndicator(is3dMap);
   }
 
-  void onPanelSlide(position) {
+  void _onPanelSlide(position) {
     setState(() {
       panelButtonBottomOffset = panelButtonBottomOffsetClosed +
           ((MediaQuery.of(context).size.height - 210) * position);
@@ -490,7 +663,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void tooglePanel() {
+  void _tooglePanel() {
     if (panelController.isPanelOpen) {
       panelController.close();
     } else {
@@ -498,7 +671,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-  void closePanel() {
+  void _closePanel() {
     panelController.close();
   }
 }

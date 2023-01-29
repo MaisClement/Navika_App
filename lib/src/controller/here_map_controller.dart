@@ -36,7 +36,7 @@ class HereController {
     return location;
   }
 
-  void addLocationIndicator(gps.LocationData? locationData, LocationIndicatorIndicatorStyle indicatorStyle, double heading, [bool isActive = true]) {
+  void addLocationIndicator(gps.LocationData? locationData, LocationIndicatorIndicatorStyle indicatorStyle, double heading, [bool isActive = true, bool zoomAuto = true]) {
     if (locationData == null) return;
     locationIndicator = LocationIndicator();
     locationIndicator.locationIndicatorStyle = indicatorStyle;
@@ -46,9 +46,11 @@ class HereController {
     locationIndicator.updateLocation(defineLocation(locationData, heading));
     _hereMapController.addLifecycleListener(locationIndicator);
 
-    double distanceToEarthInMeters = 1000;
-    MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
-    _hereMapController.camera.lookAtPointWithMeasure(GeoCoordinates(locationData.latitude ?? 0, locationData.longitude ?? 0), mapMeasureZoom);
+    if (zoomAuto) {
+      double distanceToEarthInMeters = 1000;
+      MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
+      _hereMapController.camera.lookAtPointWithMeasure(GeoCoordinates(locationData.latitude ?? 0, locationData.longitude ?? 0), mapMeasureZoom);
+    }
   }
 
   void zoomOnLocationIndicator(bool is3dMap){
@@ -77,14 +79,18 @@ class HereController {
     locationIndicator.isActive = isActive;
   }
 
-  void addMapMarker(GeoCoordinates geoCoordinates, imgPath, Metadata metadata) {
-    int imageWidth = 100;
-    int imageHeight = 100;
+  MapMarker addMapMarker(GeoCoordinates geoCoordinates, imgPath, Metadata metadata, [int size = 100]) {
     Anchor2D anchor2D = Anchor2D.withHorizontalAndVertical(0.5, 1);
-    MapImage mapImage = MapImage.withFilePathAndWidthAndHeight(imgPath, imageWidth, imageHeight);
+    MapImage mapImage = MapImage.withFilePathAndWidthAndHeight(imgPath, size, size);
     MapMarker mapMarker = MapMarker.withAnchor(geoCoordinates, mapImage, anchor2D);
     mapMarker.metadata = metadata;
     _hereMapController.mapScene.addMapMarker(mapMarker);
+
+    return mapMarker;
+  }
+
+  void removeMapMarker(MapMarker mapMarker) {
+    _hereMapController.mapScene.removeMapMarker(mapMarker);
   }
 
   void addTapListener(tapListener) {
@@ -95,20 +101,16 @@ class HereController {
     _hereMapController.pickMapItems(centerPoint, radius, callback);
   }
 
-  bool isOverLocation(){
-    GeoCoordinates geoCoords = GeoCoordinates(globals.locationData?.latitude ?? 0, globals.locationData?.longitude ?? 0);
+  bool isOverLocation(GeoCoordinates geoCoords){
     return _hereMapController.camera.boundingBox?.containsGeoCoordinates(geoCoords) ?? false;
   }
 
+  double getZoomLevel() {
+    return _hereMapController.camera.state.distanceToTargetInMeters;
+  }
+
   GeoCoordinates getOverLocation(){
-    GeoBox def = GeoBox(GeoCoordinates(0, 0), GeoCoordinates(0, 0));
-    GeoBox geoBox = _hereMapController.camera.boundingBox ?? def;
-
-    GeoCoordinates northEastCorner = geoBox.northEastCorner;
-    GeoCoordinates southWestCorner = geoBox.southWestCorner;
-
-    GeoCoordinates center = GeoCoordinates((northEastCorner.latitude + southWestCorner.latitude) / 2, (northEastCorner.longitude + southWestCorner.longitude) / 2);
-    return center;
+    return _hereMapController.camera.state.targetCoordinates;
   }
 
   void addListener(MapCameraListener listener) {

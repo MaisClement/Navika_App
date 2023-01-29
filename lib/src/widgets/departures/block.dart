@@ -12,15 +12,15 @@ import 'package:navika/src/widgets/icons/mode.dart';
 List clearTrain(List departures) {
   bool hide = globals.hiveBox?.get('hideTerminusTrain') ?? false;
 
-  if (hide){
-    List list = [];
-    for (var departure in departures){
-      if (departure['informations']['message'] != 'terminus'){
-        list.add(departure);
-      }
-    }
-    return list;
-  } 
+  //TODO if (hide){
+  //TODO   List list = [];
+  //TODO   for (var departure in departures){
+  //TODO     if (departure['informations']['message'] != 'terminus'){
+  //TODO       list.add(departure);
+  //TODO     }
+  //TODO   }
+  //TODO   return list;
+  //TODO } 
 
   return departures;
 }
@@ -69,7 +69,7 @@ class DepartureBlock extends StatelessWidget {
                     color: schedulesBlock(context, HexColor.fromHex(departure['color'])),
                     boxShadow: [
                       BoxShadow(
-                        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                        color: accentColor(context).withOpacity(0.1),
                         spreadRadius: 3,
                         blurRadius: 5,
                         offset: const Offset(0, 2),

@@ -81,6 +81,13 @@ walkingColor(context) {
   return Colors.grey[700];
 }
 
+RouteBhColor(context) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return Colors.grey[700];
+  }
+  return Colors.grey[300];
+}
+
 traficBlockColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return const Color(0xff000000);

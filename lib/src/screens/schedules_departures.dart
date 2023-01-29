@@ -15,11 +15,11 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/error_message.dart';
 
 class DepartureDetails extends StatefulWidget {
-  final String? stopArea;
+  final String? id;
   final String? stopLine;
 
   const DepartureDetails({
-    required this.stopArea,
+    required this.id,
     required this.stopLine,
     super.key
   });

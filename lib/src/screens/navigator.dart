@@ -42,13 +42,13 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 		}
 
     // /schedules/search
-    String? stopArea;
+    String? id;
 		String? stopLine;
-		if (pathTemplate == '/schedules/stops/:stop_area') {
-			stopArea = routeState.route.parameters['stop_area'];
+		if (pathTemplate == '/schedules/stops/:id') {
+			id = routeState.route.parameters['id'];
 		}
-		if (pathTemplate == '/schedules/stops/:stop_area/departures/:line_id') {
-			stopArea = routeState.route.parameters['stop_area'];
+		if (pathTemplate == '/schedules/stops/:id/departures/:line_id') {
+			id = routeState.route.parameters['id'];
 			stopLine = routeState.route.parameters['line_id'];
 		}
 
@@ -63,9 +63,6 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           routeState.go('/home/journeys');
         }
 
-				if (pathTemplate == '/stops/:stop_area') {
-          routeState.go('/home');
-        }
 				if (pathTemplate == '/home/address/') {
           routeState.go('/home');
         }
@@ -80,11 +77,11 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
         if (pathTemplate == '/schedules/search') {
           routeState.go('/schedules');
         }
-        if (pathTemplate == '/schedules/stops/:stop_area') {
+        if (pathTemplate == '/schedules/stops/:id') {
           routeState.go('/schedules');
         }
-				if (pathTemplate == '/schedules/stops/:stop_area/departures/:line_id') {
-          routeState.go('/schedules/stops/$stopArea');
+				if (pathTemplate == '/schedules/stops/:id/departures/:line_id') {
+          routeState.go('/schedules/stops/$id');
         }
 
 				return route.didPop(result);
@@ -103,7 +100,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 						)
           else if (pathTemplate == '/home/address/:type') // /home/journeys
 						MaterialPage<void>(
-							key: ValueKey('Addresse'),
+							key: const ValueKey('Addresse'),
 							child: AddAddress(
 								predefineType: predefineType
 							),
@@ -130,18 +127,18 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 							key: ValueKey('Schdedules Search'),
 							child: SchedulesSearch(),
 						)
-          else if (stopArea != null && pathTemplate == '/schedules/stops/:stop_area') // /schedules/stops/:stop_area
+          else if (id != null && pathTemplate == '/schedules/stops/:id') // /schedules/stops/:id
 						MaterialPage<void>(
 							key: const ValueKey('Schedules Stops'),
 							child: SchedulesDetails(
-                navPos: stopArea,
+                navPos: id,
 							),
 						)
-					else if (stopArea != null && stopLine != null && pathTemplate == '/schedules/stops/:stop_area/departures/:line_id') // /schedules/stops/:stop_area/departures/:line_id
+					else if (id != null && stopLine != null && pathTemplate == '/schedules/stops/:id/departures/:line_id') // /schedules/stops/:id/departures/:line_id
 						MaterialPage<void>(
 							key: const ValueKey('Schedules Departures Lines'),
 							child: DepartureDetails(
-								stopArea: stopArea,
+								id: id,
 								stopLine: stopLine,
 							),
 						)

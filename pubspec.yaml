@@ -274,27 +274,41 @@ flutter:
     - assets/val/lines_small/CDGVAL.png
     - assets/val/lines_small/ORLYVAL.png
 
+    - assets/marker/marker_bike_light.png
+    - assets/marker/marker_bike_dark.png
     - assets/marker/marker_bus_dark.png
-    - assets/marker/marker_cable_blue.png
+    - assets/marker/marker_bus_light.png
     - assets/marker/marker_cable_dark.png
-    - assets/marker/marker_metro_blue.png
+    - assets/marker/marker_cable_light.png
     - assets/marker/marker_metro_dark.png
-    - assets/marker/marker_navette_fluviale_blue.png
+    - assets/marker/marker_metro_light.png
     - assets/marker/marker_navette_fluviale_dark.png
-    - assets/marker/marker_noctilien_blue.png
+    - assets/marker/marker_navette_fluviale_light.png
     - assets/marker/marker_noctilien_dark.png
-    - assets/marker/marker_rer_blue.png
+    - assets/marker/marker_noctilien_light.png
     - assets/marker/marker_rer_dark.png
-    - assets/marker/marker_train_blue.png
+    - assets/marker/marker_rer_light.png
     - assets/marker/marker_train_dark.png
-    - assets/marker/marker_tram_blue.png
+    - assets/marker/marker_train_light.png
     - assets/marker/marker_tram_dark.png
-    - assets/marker/marker_bus_blue.png
+    - assets/marker/marker_tram_light.png
+    - assets/marker/mini_bike_light.png
+    - assets/marker/mini_dark.png
+    - assets/marker/mini_light.png
+    - assets/marker/mini_bike_dark.png
     
+    - assets/modal/acces_ufr.png
+    - assets/modal/acces_ufr_small.png
+    - assets/modal/acces_ufr_train.png
+    - assets/modal/acces_ufr_train_small.png
     - assets/modal/alert.png
     - assets/modal/alert_small.png
     - assets/modal/alert_white.png
     - assets/modal/alert_white_small.png
+    - assets/modal/emergency_call.png
+    - assets/modal/emergency_call_small.png
+    - assets/modal/emergency_signal.png
+    - assets/modal/emergency_signal_small.png
     - assets/modal/error.png
     - assets/modal/error_small.png
     - assets/modal/error_white.png

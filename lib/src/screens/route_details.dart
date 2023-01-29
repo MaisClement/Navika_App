@@ -1,8 +1,8 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:here_sdk/core.errors.dart';
 import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
@@ -37,6 +37,32 @@ double getLineWidthByType(String type) {
   return 7;
 }
 
+double degTorad(double x) {
+  return pi * x / 180;
+}
+
+double getDistance(double lat1, double lon1, double lat2, double lon2) {
+  const double earthRadius = 6378137; // Terre = sphère de 6378km de rayon
+  double rlo1 = degTorad(lon1); // CONVERSION
+  double rla1 = degTorad(lat1);
+  double rlo2 = degTorad(lon2);
+  double rla2 = degTorad(lat2);
+  double dlo = (rlo2 - rlo1) / 2;
+  double dla = (rla2 - rla1) / 2;
+  double a =
+      (sin(dla) * sin(dla)) + sin(rla1) * cos(rla2) * (sin(dlo) * sin(dlo));
+  double d = 2 * atan2(sqrt(a), sqrt(1 - a));
+  return (earthRadius * d);
+}
+
+GeoCoordinates getCenterPoint(
+    double lat1, double lon1, double lat2, double lon2) {
+  double clon = (lon1 + lon2) / 2;
+  double clat = (lat1 + lat2) / 2;
+
+  return GeoCoordinates(clat, clon);
+}
+
 class RouteDetails extends StatefulWidget {
   const RouteDetails({super.key});
 
@@ -64,6 +90,14 @@ class _RouteDetailsState extends State<RouteDetails> {
   double _position = 0;
   Map journey = globals.journey;
 
+  Map getToCoords() {
+    return journey['sections'][0]['from']['coord'];
+  }
+
+  Map getFromCoords() {
+    return journey['sections'][journey['sections'].length - 1]['to']['coord'];
+  }
+
   void _createGeoJson(Map journey) {
     for (var section in journey['sections']) {
       if (section['geojson'] != null) {
@@ -76,7 +110,7 @@ class _RouteDetailsState extends State<RouteDetails> {
         try {
           _addLineMarker(section);
         } catch (e) {
-          print({'INFO_', e});
+          // print({'INFO_', e});
         }
       }
     }
@@ -86,14 +120,15 @@ class _RouteDetailsState extends State<RouteDetails> {
     if (section['informations'] != null &&
         section['informations']['line']['id'] != null) {
       GeoCoordinates stopCoords = GeoCoordinates(
-          section['geojson']['coordinates'][0][1].toDouble(),
-          section['geojson']['coordinates'][0][0].toDouble());
+        section['geojson']['coordinates'][0][1].toDouble(),
+        section['geojson']['coordinates'][0][0].toDouble(),
+      );
       Metadata metadata = Metadata();
 
       _controller?.addMapMarker(
           stopCoords,
           LINES.getLinesById(section['informations']['line']['id']).image,
-          metadata);
+          metadata,);
     }
   }
 
@@ -111,45 +146,45 @@ class _RouteDetailsState extends State<RouteDetails> {
   }
 
   Future<void> _getLocation() async {
-    bool serviceEnabled;
-    gps.PermissionStatus permissionGranted;
-    gps.LocationData locationData;
-
-    if (!globals.isSetLocation) {
-      serviceEnabled = await location.serviceEnabled();
-      if (!serviceEnabled) {
-        serviceEnabled = await location.requestService();
-        if (!serviceEnabled) {
-          return;
-        }
-      }
-
-      permissionGranted = await location.hasPermission();
-      if (permissionGranted == gps.PermissionStatus.denied) {
-        permissionGranted = await location.requestPermission();
-        if (permissionGranted != gps.PermissionStatus.granted) {
-          return;
-        }
-      }
-
-      locationData = await location.getLocation();
-      FlutterCompass.events?.listen((CompassEvent compassEvent) {
-        _updateCompass(compassEvent);
-      });
-      _addLocationIndicator(locationData);
-      location.onLocationChanged.listen((gps.LocationData currentLocation) {
-        _updateLocationIndicator(currentLocation);
-      });
-    } else {
-      locationData = await location.getLocation();
-
-      FlutterCompass.events?.listen((CompassEvent compassEvent) {
-        _updateCompass(compassEvent);
-      });
-      location.onLocationChanged.listen((gps.LocationData currentLocation) {
-        _updateLocationIndicator(currentLocation);
-      });
-    }
+    // bool serviceEnabled;
+    // gps.PermissionStatus permissionGranted;
+    // gps.LocationData locationData;
+//
+    // if (!globals.isSetLocation) {
+    //   serviceEnabled = await location.serviceEnabled();
+    //   if (!serviceEnabled) {
+    //     serviceEnabled = await location.requestService();
+    //     if (!serviceEnabled) {
+    //       return;
+    //     }
+    //   }
+//
+    //   permissionGranted = await location.hasPermission();
+    //   if (permissionGranted == gps.PermissionStatus.denied) {
+    //     permissionGranted = await location.requestPermission();
+    //     if (permissionGranted != gps.PermissionStatus.granted) {
+    //       return;
+    //     }
+    //   }
+//
+    //   locationData = await location.getLocation();
+    //   FlutterCompass.events?.listen((CompassEvent compassEvent) {
+    //     _updateCompass(compassEvent);
+    //   });
+    //   _addLocationIndicator(locationData);
+    //   location.onLocationChanged.listen((gps.LocationData currentLocation) {
+    //     _updateLocationIndicator(currentLocation);
+    //   });
+    // } else {
+    //   locationData = await location.getLocation();
+//
+    //   FlutterCompass.events?.listen((CompassEvent compassEvent) {
+    //     _updateCompass(compassEvent);
+    //   });
+    //   location.onLocationChanged.listen((gps.LocationData currentLocation) {
+    //     _updateLocationIndicator(currentLocation);
+    //   });
+    // }
   }
 
   @override
@@ -172,9 +207,7 @@ class _RouteDetailsState extends State<RouteDetails> {
               maxHeight: (MediaQuery.of(context).size.height - 95),
               controller: panelController,
               onPanelSlide: (position) => onPanelSlide(position),
-              header: RoutePannel(
-                opacity: getOpacity(_position)
-              ),
+              header: RoutePannel(opacity: getOpacity(_position)),
               panelBuilder: (ScrollController scrollController) => RouteBody(
                 scrollController: scrollController,
                 journey: globals.journey,
@@ -284,7 +317,10 @@ class _RouteDetailsState extends State<RouteDetails> {
 
   void _getInBox() {
     bool isInBox;
-    isInBox = _controller?.isOverLocation() ?? false;
+    GeoCoordinates geoCoords = GeoCoordinates(
+        globals.locationData?.latitude ?? 0,
+        globals.locationData?.longitude ?? 0);
+    isInBox = _controller?.isOverLocation(geoCoords) ?? false;
     setState(() {
       _isInBox = isInBox;
     });
@@ -306,26 +342,9 @@ class _RouteDetailsState extends State<RouteDetails> {
       _getLocation();
 
       GeoCoordinates geoCoords;
-      double distanceToEarthInMeters = 10000;
-      if (globals.isSetLocation) {
-        // Resume Map
-        geoCoords = GeoCoordinates(globals.locationData?.latitude ?? 48.859481,
-            globals.locationData?.longitude ?? 2.346711);
-        distanceToEarthInMeters = 1000;
-      } else if (globals.hiveBox?.get('latitude') != null &&
-          globals.hiveBox?.get('longitude') != null) {
-        // Opening App
-        geoCoords = GeoCoordinates(globals.hiveBox.get('latitude') ?? 48.859481,
-            globals.hiveBox.get('longitude') ?? 2.346711);
-        distanceToEarthInMeters = 10000;
-      } else {
-        geoCoords = GeoCoordinates(48.859481, 2.346711);
-        _controller?.addLocationIndicator(
-            globals.locationData,
-            LocationIndicatorIndicatorStyle.pedestrian,
-            globals.compassHeading,
-            true);
-      }
+      double distanceToEarthInMeters = 100000;
+      geoCoords = getCenterPoint(getFromCoords()['lat'], getFromCoords()['lon'],
+          getToCoords()['lat'], getToCoords()['lon']);
 
       MapMeasure mapMeasureZoom =
           MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
@@ -336,6 +355,7 @@ class _RouteDetailsState extends State<RouteDetails> {
           globals.locationData,
           LocationIndicatorIndicatorStyle.pedestrian,
           globals.compassHeading,
+          false,
           false);
 
       _createGeoJson(journey);
@@ -370,7 +390,10 @@ class _RouteDetailsState extends State<RouteDetails> {
   }
 
   void _zoomOn() {
-    var isOverLocation = _controller?.isOverLocation() ?? false;
+    GeoCoordinates geoCoords = GeoCoordinates(
+        globals.locationData?.latitude ?? 0,
+        globals.locationData?.longitude ?? 0);
+    var isOverLocation = _controller?.isOverLocation(geoCoords) ?? false;
     if (isOverLocation) {
       setState(() {
         is3dMap = !is3dMap;

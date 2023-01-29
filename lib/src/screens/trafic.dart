@@ -39,13 +39,13 @@ class _TraficState extends State<Trafic> {
 
         globals.trafic = data['trafic'];
 
-        if (mounted) {
-          setState(() {
-            state = true;
-            trafic = data['trafic'];
-            error = '';
-          });
-        }
+        // if (mounted) {
+        //   setState(() {
+        //     state = true;
+        //     trafic = data['trafic'];
+        //     error = '';
+        //   });
+        // }
       } else {
         setState(() {
           error = 'Récupération des informations impossible.';
@@ -95,9 +95,10 @@ class _TraficState extends State<Trafic> {
                             width: 45,
                             height: 45,
                             child: Image(
-                              image: AssetImage(Brightness.dark == Theme.of(context).colorScheme.brightness
-                              ? 'assets/icons/RER_white.png'
-                              : 'assets/icons/RER_dark.png'),
+                              image: AssetImage(Brightness.dark ==
+                                      Theme.of(context).colorScheme.brightness
+                                  ? 'assets/icons/RER_white.png'
+                                  : 'assets/icons/RER_dark.png'),
                             ),
                           ),
                           Expanded(
@@ -150,9 +151,12 @@ class _TraficState extends State<Trafic> {
                               width: 45,
                               height: 45,
                               child: Image(
-                                  image: AssetImage(Brightness.dark == Theme.of(context).colorScheme.brightness
-                              ? 'assets/icons/TRAIN_white.png'
-                              : 'assets/icons/TRAIN_dark.png'))),
+                                  image: AssetImage(Brightness.dark ==
+                                          Theme.of(context)
+                                              .colorScheme
+                                              .brightness
+                                      ? 'assets/icons/TRAIN_white.png'
+                                      : 'assets/icons/TRAIN_dark.png'))),
                           Expanded(
                             child: Wrap(
                               children: [
@@ -215,9 +219,10 @@ class _TraficState extends State<Trafic> {
                             width: 45,
                             height: 45,
                             child: Image(
-                              image: AssetImage(Brightness.dark == Theme.of(context).colorScheme.brightness
-                              ? 'assets/icons/METRO_white.png'
-                              : 'assets/icons/METRO_dark.png'),
+                              image: AssetImage(Brightness.dark ==
+                                      Theme.of(context).colorScheme.brightness
+                                  ? 'assets/icons/METRO_white.png'
+                                  : 'assets/icons/METRO_dark.png'),
                             ),
                           ),
                           Expanded(
@@ -322,9 +327,10 @@ class _TraficState extends State<Trafic> {
                             width: 45,
                             height: 45,
                             child: Image(
-                              image: AssetImage(Brightness.dark == Theme.of(context).colorScheme.brightness
-                              ? 'assets/icons/TRAM_white.png'
-                              : 'assets/icons/TRAM_dark.png'),
+                              image: AssetImage(Brightness.dark ==
+                                      Theme.of(context).colorScheme.brightness
+                                  ? 'assets/icons/TRAM_white.png'
+                                  : 'assets/icons/TRAM_dark.png'),
                             ),
                           ),
                           Expanded(
@@ -392,32 +398,34 @@ class _TraficState extends State<Trafic> {
                     error: error,
                   )
                 : Container(
-                    padding: const EdgeInsets.only(
-                        left: 10.0, top: 10.0, right: 10.0, bottom: 10.0),
-                    child: Center(
-                      child: Column(
-                        children: [
-                          // Messages de l'index
-                          if (globals.index?['message'] != null)
-                            for (var message in globals.index?['message'])
-                              Container(
-                                margin: const EdgeInsets.only(bottom: 20.0),
-                                child: HomeMessage(
-                                  message: message,
-                                  isMarginDisabled: true,
-                                ),
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                    child: ListView(
+                      children: [
+                        // Messages de l'index
+                        if (globals.index?['message'] != null)
+                          for (var message in globals.index?['message'])
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 20.0),
+                              child: HomeMessage(
+                                message: message,
+                                isMarginDisabled: true,
                               ),
+                            ),
 
-                          const SizedBox(height: 25),
-                          const CircularProgressIndicator(),
-                          Text(
-                            'Chargement...',
-                            style: TextStyle(
-                                color: accentColor(context),
-                                fontWeight: FontWeight.w700),
-                          ),
-                        ],
-                      ),
+                        Column(
+                          children: [
+                            const SizedBox(height: 25),
+                            const CircularProgressIndicator(),
+                            Text(
+                              'Chargement...',
+                              style: TextStyle(
+                                  color: accentColor(context),
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            const SizedBox(height: 20)
+                          ],
+                        )
+                      ],
                     ),
                   ),
       );

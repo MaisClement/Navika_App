@@ -5,7 +5,6 @@ import 'package:navika/src/widgets/home/fav_button.dart';
 
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/widgets/places/listbutton.dart';
 
 int getAddressPos(list, id) {
   if (list.isNotEmpty) {

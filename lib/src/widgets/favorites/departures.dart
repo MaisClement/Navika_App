@@ -46,7 +46,7 @@ class FavoriteDepartures extends StatelessWidget {
                   color: schedulesBlock(context, HexColor.fromHex(departure['color'])),
                   boxShadow: [
                     BoxShadow(
-                      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                      color: accentColor(context).withOpacity(0.1),
                       spreadRadius: 3,
                       blurRadius: 5,
                       offset: const Offset(0, 2),

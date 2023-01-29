@@ -20,8 +20,8 @@ class NavikaAppScaffold extends StatelessWidget {
 				onDestinationSelected: (idx) {
 					if (idx == 0) routeState.go('/home');
 					if (idx == 1) routeState.go('/schedules');  
-					if (idx == 2) routeState.go('/books/popular');
-					if (idx == 3) routeState.go('/trafic');
+					// SCAFFOLD if (idx == 2) routeState.go('/books/popular');
+					if (idx == 2) routeState.go('/trafic');
 				},
 				destinations: const [
 					NavigationDestination(
@@ -34,10 +34,10 @@ class NavikaAppScaffold extends StatelessWidget {
 						icon: Icon(ScaffoldIcon.clock_regular),
 						selectedIcon: Icon(ScaffoldIcon.clock),
 					),
-					NavigationDestination(
-						label: 'Books',
-						icon: Icon(Icons.book),
-					),
+					// SCAFFOLD NavigationDestination(
+					// SCAFFOLD 	label: 'Books',
+					// SCAFFOLD 	icon: Icon(Icons.book),
+					// SCAFFOLD ),
 					NavigationDestination(
 						label: 'Trafic',
 						icon: Icon(ScaffoldIcon.cone_regular),
@@ -52,8 +52,8 @@ class NavikaAppScaffold extends StatelessWidget {
 	int _getSelectedIndex(String pathTemplate) {
 		if (pathTemplate.startsWith('/home')) return 0;
 		if (pathTemplate.startsWith('/schedules')) return 1;
-		if (pathTemplate.startsWith('/books')) return 2;
-		if (pathTemplate == '/trafic') return 3;
+		// SCAFFOLD if (pathTemplate.startsWith('/books')) return 2;
+		if (pathTemplate == '/trafic') return 2;
 		return 0;
 	}
 }

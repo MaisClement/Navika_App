@@ -266,7 +266,7 @@ class TraficDetails extends StatelessWidget {
               padding: const EdgeInsets.only(left:15.0, top:15.0,right:15.0,bottom:15.0),
               margin: const EdgeInsets.only(top: 10),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                color: accentColor(context).withOpacity(0.1),
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Column(

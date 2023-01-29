@@ -1,62 +1,91 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/screens/schedules_details.dart';
 import 'package:navika/src/style/style.dart';
+import 'package:navika/src/widgets/bottom_sheets/add_favorite.dart';
 
 class SchedulesPannel extends StatelessWidget {
   final void Function()? tooglePanel;
 
-	const SchedulesPannel({
+  const SchedulesPannel({
     required this.tooglePanel,
-		super.key,
-	});
+    super.key,
+  });
 
-	@override
-	Widget build(BuildContext context) => Container(
-    width: MediaQuery.of(context).size.width,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(5),
-      color: backgroundColor(context),
-      boxShadow: [
-        BoxShadow(
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-          spreadRadius: 3,
-          blurRadius: 5,
-          offset: const Offset(0, 2),
-        )
-      ]
-    ),
-    child: Column(
-      children: [
-        Container(
-          height: 20,
-        ),
-        GestureDetector(
-          onTap: tooglePanel,
-          child: Container(
-            width: 40,
-            height: 5,
-            decoration: BoxDecoration(
-              color: Colors.grey[400],
-              borderRadius: BorderRadius.circular(30),
+  @override
+  Widget build(BuildContext context) => Container(
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: backgroundColor(context),
+          boxShadow: [
+            BoxShadow(
+              color: accentColor(context).withOpacity(0.1),
+              spreadRadius: 3,
+              blurRadius: 5,
+              offset: const Offset(0, 2),
             ),
-          ),
+          ],
         ),
-        Container(
-          height: 10,
+        child: Column(
+          children: [
+            Container(
+              height: 20,
+            ),
+            GestureDetector(
+              onTap: tooglePanel,
+              child: Container(
+                width: 40,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: Colors.grey[400],
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+            ),
+            Container(
+              height: 10,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: 48,
+                ),
+                Text(
+                  globals.schedulesStopName,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Segoe Ui',
+                    color: accentColor(context),
+                  ),
+                ),
+                IconButton(
+                  icon: isFavorite(globals.schedulesStopArea)
+                      ? const Icon(ScaffoldIcon.star)
+                      : const Icon(ScaffoldIcon.star_regular),
+                  tooltip: 'Ajouter aux favoris',
+                  onPressed: () {
+                    showModalBottomSheet<void>(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (BuildContext context) => BottomAddFavorite(
+                              id: globals.schedulesStopArea,
+                              name: globals.schedulesStopName,
+                              modes: globals.schedulesStopModes,
+                              lines: globals.schedulesStopLines,
+                            ));
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
-        Container(
-          margin: const EdgeInsets.only(left: 10, right: 10),
-          padding: const EdgeInsets.only(left: 10.0, bottom: 15),
-          child: Text(globals.schedulesStopName, 
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'Segoe Ui',
-              color: Theme.of(context).colorScheme.primary,
-            )
-          ),
-        ),
-      ],
-    ),
-  );
+      );
 }
