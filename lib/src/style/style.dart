@@ -11,6 +11,10 @@ const appBarSubtitle = TextStyle(
   fontFamily: 'Segoe Ui',
 );
 
+mainColor(context) {
+  return const Color(0xff025982);
+}
+
 hereIcon(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return 'assets/here/HERE_logo_full_inverted.svg';
@@ -36,7 +40,7 @@ accentColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return const Color(0xffffffff);
   }
-  return Theme.of(context).colorScheme.primaryContainer;
+  return Theme.of(context).colorScheme.primary;
 }
 
 boxColor(context) {
@@ -50,7 +54,7 @@ boxContentColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return Colors.white.withOpacity(0.7);
   }
-  return Theme.of(context).colorScheme.primary;
+  return const Color(0xff025982);
 }
 
 dividerColor(context) {
@@ -106,7 +110,7 @@ schedulesText(context, Color color) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return color;
   }
-  return Theme.of(context).colorScheme.primary;
+  return const Color(0xff025982);
 }
 
 departureList(context, Color color) {
