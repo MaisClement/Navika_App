@@ -12,15 +12,15 @@ import 'package:navika/src/widgets/icons/mode.dart';
 List clearTrain(List departures) {
   bool hide = globals.hiveBox?.get('hideTerminusTrain') ?? false;
 
-  //TODO if (hide){
-  //TODO   List list = [];
-  //TODO   for (var departure in departures){
-  //TODO     if (departure['informations']['message'] != 'terminus'){
-  //TODO       list.add(departure);
-  //TODO     }
-  //TODO   }
-  //TODO   return list;
-  //TODO } 
+  if (hide){
+    List list = [];
+    for (var departure in departures){
+      if (departure['informations']['message'] != 'terminus'){
+        list.add(departure);
+      }
+    }
+    return list;
+  } 
 
   return departures;
 }

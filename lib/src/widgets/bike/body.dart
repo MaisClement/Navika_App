@@ -94,70 +94,151 @@ class _BikeBodyState extends State<BikeBody>
   }
 
   @override
-  Widget build(BuildContext context) => Column(children: [
-        const SizedBox(height: 200),
-        if (bikeStation.isEmpty)
-          Column(children: [
-            const CircularProgressIndicator(),
-            Text(
-              'Chargement...',
-              style: TextStyle(
-                  color: accentColor(context), fontWeight: FontWeight.w700),
-            ),
-          ])
-        else
-          Container(
-            padding: const EdgeInsets.only(
-                left: 20.0, top: 30.0, right: 20.0, bottom: 10.0),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    const Expanded(
-                      child: Text(
-                        'Vélo mécanique',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+  Widget build(BuildContext context) => Column(
+        children: [
+          const SizedBox(height: 60),
+          if (bikeStation.isEmpty)
+            Column(children: [
+              const SizedBox(height: 40),
+              const CircularProgressIndicator(),
+              Text(
+                'Chargement...',
+                style: TextStyle(
+                    color: accentColor(context), fontWeight: FontWeight.w700),
+              ),
+            ])
+          else
+            Container(
+              padding: const EdgeInsets.only(
+                  left: 20.0, top: 30.0, right: 20.0, bottom: 10.0),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Vélo mécanique',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Segoe Ui',
+                          ),
                         ),
                       ),
-                    ),
-                    Text(bikeStation['mechanical'].toString()),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Expanded(
-                      child: Text(
-                        'Vélo électriques',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                      Container(
+                        padding: const EdgeInsets.only(
+                            left: 10.0, top: 5.0, right: 10.0, bottom: 5.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Color(0xffb7dcae)),
+                        child: Row(
+                          children: [
+                            const Image(
+                                image: AssetImage('assets/bike.png'),
+                                width: 25),
+                            Container(
+                              margin: const EdgeInsets.only(left: 7, bottom: 2),
+                              child: Text(
+                                bikeStation['mechanical'].toString(),
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Segoe Ui',
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    Text(bikeStation['ebike'].toString()),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Expanded(
-                      child: Text(
-                        'Places disponibles',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Vélo électriques',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Segoe Ui',
+                          ),
                         ),
                       ),
-                    ),
-                    Text(bikeStation['capacity'].toString()),
-                  ],
-                ),
-              ],
-            ),
-          )
-      ],);
+                      Container(
+                        padding: const EdgeInsets.only(
+                            left: 10.0, top: 5.0, right: 10.0, bottom: 5.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Color(0xffa6d6fe)),
+                        child: Row(
+                          children: [
+                            const Image(
+                                image: AssetImage('assets/e-bike.png'),
+                                width: 25),
+                            Container(
+                              margin: const EdgeInsets.only(left: 7, bottom: 2),
+                              child: Text(
+                                bikeStation['ebike'].toString(),
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Segoe Ui',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Places disponibles',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Segoe Ui',
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(
+                            left: 10.0, top: 5.0, right: 10.0, bottom: 5.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Color(0xfff6e775)),
+                        child: Row(
+                          children: [
+                            const Image(
+                                image: AssetImage('assets/e-bike.png'),
+                                width: 25),
+                            Container(
+                              margin: const EdgeInsets.only(left: 7, bottom: 2),
+                              child: Text(
+                                bikeStation['capacity'].toString(),
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Segoe Ui',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )
+        ],
+      );
 }

@@ -336,25 +336,27 @@ flutter:
     - assets/modal/work_white.png
     - assets/modal/work_white_small.png
 
+    - assets/walking.svg
+    - assets/bike.png
     - assets/bussines.svg
+    - assets/cancel.svg
     - assets/city.svg
+    - assets/e-bike.png
     - assets/finish-flag.svg
     - assets/home.svg
     - assets/locate.svg
     - assets/location-indicator.svg
+    - assets/maintenance.png
     - assets/marker.svg
     - assets/null.png
     - assets/plus.svg
     - assets/search.svg
-    - assets/star_regular.svg
-    - assets/star.svg
-    - assets/train.svg
-    - assets/university.svg
-    - assets/walking.svg
     - assets/sign.svg
     - assets/sign_top.svg
-    - assets/cancel.svg
-
+    - assets/star.svg
+    - assets/star_regular.svg
+    - assets/train.svg
+    - assets/university.svg
 
     - assets/here/HERE_logo_full.svg
     - assets/here/HERE_logo_full_inverted.svg

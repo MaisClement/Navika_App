@@ -214,7 +214,7 @@ class _HomeState extends State<Home> {
       location.onLocationChanged.listen((gps.LocationData currentLocation) {
         _updateLocationIndicator(currentLocation);
       });
-      await _getPoints();
+      await _getNearPoints();
     } else {
       locationData = await location.getLocation();
 
@@ -224,20 +224,26 @@ class _HomeState extends State<Home> {
       location.onLocationChanged.listen((gps.LocationData currentLocation) {
         _updateLocationIndicator(currentLocation);
       });
-      await _getPoints();
+      await _getNearPoints();
     }
   }
 
-  Future<void> _getPoints() async {
+  Future<void> _getNearPoints() async {
+    double zoom = _controller?.getZoomLevel() ?? 0;
     final response = await http.get(Uri.parse(
-        '${globals.API_NEAR}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}'));
+        '${globals.API_NEAR}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}&z=${zoom.toString()}'));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
 
       if (mounted) {
         setState(() {
           stopsNearby = data['stops'];
-          bikeNearby = data['bike'];
+
+          if (data['bike'] != null) {
+            bikeNearby = data['bike'];
+          } else {
+            bikeNearby = [];
+          }
         });
       }
 
@@ -249,6 +255,9 @@ class _HomeState extends State<Home> {
     for (var marker in markers) {
       _controller?.removeMapMarker(marker);
     }
+    setState(() {
+      markers = [];
+    });
   }
 
   void _setMarker() {
@@ -397,9 +406,9 @@ class _HomeState extends State<Home> {
                             update: _updateFavorites,
                           )
                         : Container(
-                            margin: const EdgeInsets.only(top: 40),
                             child: widget.displayType == 'stops'
                                 ? SchedulesBody(
+                                    addMargin: true,
                                     scrollController: scrollController)
                                 : BikeBody(scrollController: scrollController),
                           ),
@@ -415,9 +424,7 @@ class _HomeState extends State<Home> {
                         Theme.of(context).colorScheme.onSecondaryContainer,
                     child: _isInBox
                         ? Icon(ScaffoldIcon.location_indicator,
-                            //color: Color(0xff000000),
-                            color: tabLabelColor(context),
-                            size: 30)
+                            color: tabLabelColor(context), size: 30)
                         : Icon(ScaffoldIcon.locate,
                             color: tabLabelColor(context), size: 30),
                     onPressed: () {
@@ -449,7 +456,7 @@ class _HomeState extends State<Home> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _getIndex();
       _getFavorites();
-      _getPoints();
+      _getNearPoints();
       _getInBox();
       panelController.animatePanelToSnapPoint();
       _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
@@ -531,7 +538,7 @@ class _HomeState extends State<Home> {
             setState(() {
               camGeoCoords = _controller?.getOverLocation() ?? camGeoCoords;
             });
-            _getPoints();
+            _getNearPoints();
           }
         }
       });
@@ -542,6 +549,7 @@ class _HomeState extends State<Home> {
         if (state == GestureState.end) {
           _clearMarker();
           _setMarker();
+          _getNearPoints();
         }
       });
 
@@ -551,7 +559,7 @@ class _HomeState extends State<Home> {
           globals.compassHeading,
           false);
       _addTapListener();
-      _getPoints();
+      _getNearPoints();
     });
   }
 
