@@ -337,11 +337,9 @@ flutter:
     - assets/modal/work_white_small.png
 
     - assets/walking.svg
-    - assets/bike.png
     - assets/bussines.svg
     - assets/cancel.svg
     - assets/city.svg
-    - assets/e-bike.png
     - assets/finish-flag.svg
     - assets/home.svg
     - assets/locate.svg
@@ -357,6 +355,11 @@ flutter:
     - assets/star_regular.svg
     - assets/train.svg
     - assets/university.svg
+    - assets/add-to-favorites.svg
+    - assets/bike.svg
+    - assets/e-bike.svg
+    - assets/parking.svg
+    - assets/bus_schedules.png
 
     - assets/here/HERE_logo_full.svg
     - assets/here/HERE_logo_full_inverted.svg

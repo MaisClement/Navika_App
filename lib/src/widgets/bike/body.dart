@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/icons/scaffold_icon_icons.dart';
 import 'package:navika/src/style/style.dart';
 
 class BikeBody extends StatefulWidget {
@@ -128,18 +129,20 @@ class _BikeBodyState extends State<BikeBody>
                       Container(
                         padding: const EdgeInsets.only(
                             left: 10.0, top: 5.0, right: 10.0, bottom: 5.0),
+                        alignment: Alignment.center,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
-                            color: Color(0xffb7dcae)),
+                            color: const Color(0xffb7dcae)),
                         child: Row(
                           children: [
-                            const Image(
-                                image: AssetImage('assets/bike.png'),
-                                width: 25),
+                            Icon(ScaffoldIcon.bike,
+                                color: tabLabelColor(context), size: 25),
                             Container(
+                              width: 30,
                               margin: const EdgeInsets.only(left: 7, bottom: 2),
                               child: Text(
                                 bikeStation['mechanical'].toString(),
+                                textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.w600,
@@ -152,7 +155,7 @@ class _BikeBodyState extends State<BikeBody>
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -172,16 +175,17 @@ class _BikeBodyState extends State<BikeBody>
                             left: 10.0, top: 5.0, right: 10.0, bottom: 5.0),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
-                            color: Color(0xffa6d6fe)),
+                            color: const Color(0xffa6d6fe)),
                         child: Row(
                           children: [
-                            const Image(
-                                image: AssetImage('assets/e-bike.png'),
-                                width: 25),
+                            Icon(ScaffoldIcon.e_bike,
+                                color: tabLabelColor(context), size: 25),
                             Container(
+                              width: 30,
                               margin: const EdgeInsets.only(left: 7, bottom: 2),
                               child: Text(
                                 bikeStation['ebike'].toString(),
+                                textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.w600,
@@ -194,7 +198,7 @@ class _BikeBodyState extends State<BikeBody>
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -214,16 +218,17 @@ class _BikeBodyState extends State<BikeBody>
                             left: 10.0, top: 5.0, right: 10.0, bottom: 5.0),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
-                            color: Color(0xfff6e775)),
+                            color: const Color(0xfff6e775)),
                         child: Row(
                           children: [
-                            const Image(
-                                image: AssetImage('assets/e-bike.png'),
-                                width: 25),
+                            Icon(ScaffoldIcon.parking,
+                                color: tabLabelColor(context), size: 25),
                             Container(
+                              width: 30,
                               margin: const EdgeInsets.only(left: 7, bottom: 2),
                               child: Text(
                                 bikeStation['capacity'].toString(),
+                                textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.w600,

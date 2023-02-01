@@ -43,7 +43,7 @@ class SchedulesDetails extends StatelessWidget {
             ),
       actions: [
         IconButton(
-          icon: isFavorite(globals.schedulesStopArea) ? const Icon(ScaffoldIcon.star) : const Icon(ScaffoldIcon.star_regular),
+          icon: isFavorite(globals.schedulesStopArea) ? const Icon(ScaffoldIcon.star) : const Icon(ScaffoldIcon.add_to_favorites),
           tooltip: 'Ajouter aux favoris',
           onPressed: () {
             showModalBottomSheet<void>(

@@ -387,8 +387,8 @@ class _HomeState extends State<Home> {
                   bottomRight: Radius.zero,
                 ),
                 snapPoint: 0.55,
-                minHeight: widget.displayType != null ? 75 : 100,
-                maxHeight: (MediaQuery.of(context).size.height - 130),
+                minHeight: widget.displayType != null ? 80 : 100,
+                maxHeight: MediaQuery.of(context).size.height - 130,
                 controller: panelController,
                 onPanelSlide: (position) => _onPanelSlide(position),
                 header: widget.displayType == null

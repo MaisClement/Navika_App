@@ -66,7 +66,7 @@ class SchedulesPannel extends StatelessWidget {
                 IconButton(
                   icon: isFavorite(globals.schedulesStopArea)
                       ? const Icon(ScaffoldIcon.star)
-                      : const Icon(ScaffoldIcon.star_regular),
+                      : const Icon(ScaffoldIcon.add_to_favorites),
                   tooltip: 'Ajouter aux favoris',
                   onPressed: () {
                     showModalBottomSheet<void>(

@@ -39,13 +39,13 @@ class _TraficState extends State<Trafic> {
 
         globals.trafic = data['trafic'];
 
-        // if (mounted) {
-        //   setState(() {
-        //     state = true;
-        //     trafic = data['trafic'];
-        //     error = '';
-        //   });
-        // }
+        if (mounted) {
+          setState(() {
+            state = true;
+            trafic = data['trafic'];
+            error = '';
+          });
+        }
       } else {
         setState(() {
           error = 'Récupération des informations impossible.';

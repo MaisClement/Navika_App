@@ -102,8 +102,6 @@ class _SchedulesBodyState extends State<SchedulesBody>
         if (response.statusCode == 200) {
           final data = json.decode(response.body);
 
-          print({'INFO_', data});
-
           if (mounted) {
             setState(() {
               if (data['schedules'] != null) {
