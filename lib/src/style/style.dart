@@ -12,7 +12,7 @@ const appBarSubtitle = TextStyle(
 );
 
 mainColor(context) {
-  return const Color(0xff025982);
+  return Theme.of(context).colorScheme.primary;
 }
 
 hereIcon(context) {
@@ -54,7 +54,7 @@ boxContentColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return Colors.white.withOpacity(0.7);
   }
-  return const Color(0xff025982);
+  return Theme.of(context).colorScheme.primary;
 }
 
 dividerColor(context) {
@@ -110,7 +110,7 @@ schedulesText(context, Color color) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return color;
   }
-  return const Color(0xff025982);
+  return Theme.of(context).colorScheme.primary;
 }
 
 departureList(context, Color color) {
