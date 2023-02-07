@@ -6,9 +6,11 @@ import 'package:navika/src/screens/schedules_departures.dart';
 import 'package:navika/src/screens/schedules_search.dart';
 
 import 'package:navika/src/routing.dart';
+import 'package:navika/src/screens/settings.dart';
 import 'package:navika/src/screens/trafic_details.dart';
 import 'package:navika/src/screens/schedules_details.dart';
 import 'package:navika/src/screens/scaffold.dart';
+import 'package:navika/src/screens/trip_details.dart';
 
 /// Builds the top-level navigator for the app. The pages to display are based
 /// on the `routeState` that was parsed by the TemplateRouteParser.
@@ -52,6 +54,12 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 			stopLine = routeState.route.parameters['line_id'];
 		}
 
+    String? tripId;
+		if (pathTemplate == '/trip/details/:id') {
+			tripId = routeState.route.parameters['id'];
+		}
+		
+
 		return Navigator(
 			key: widget.navigatorKey,
 			onPopPage: (route, dynamic result) {
@@ -69,6 +77,9 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 				if (pathTemplate == '/home/address/:type') {
           routeState.go('/home');
         }
+				if (pathTemplate == '/settings') {
+          routeState.go('/home');
+        }
 				
         if (pathTemplate == '/trafic/:lineId') {
 					routeState.go('/trafic');
@@ -83,6 +94,11 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 				if (pathTemplate == '/schedules/stops/:id/departures/:line_id') {
           routeState.go('/schedules/stops/$id');
         }
+
+				if (pathTemplate == '/schedules/stops/:id') {
+          routeState.go('/schedules');
+        }
+				
 
 				return route.didPop(result);
 			},
@@ -115,6 +131,11 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 							key: ValueKey('Route details'),
 							child: RouteDetails(),
 						)
+          else if (pathTemplate == '/settings') // /home/journeys/details
+						const MaterialPage<void>(
+							key: ValueKey('Settings'),
+							child: Settings(),
+						)
           else if (lineId != null) // /trafic/:lineId
 						MaterialPage<void>(
 							key: const ValueKey('Trafic Details'),
@@ -142,6 +163,14 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 								stopLine: stopLine,
 							),
 						)
+					else if (tripId != null && pathTemplate == '/trip/details/:id') // /schedules/stops/:id
+						MaterialPage<void>(
+							key: const ValueKey('Schedules Stops'),
+							child: TripDetails(
+                tripId: tripId,
+							),
+						)
+					
 			],
 		);
 	}

@@ -118,43 +118,47 @@ class _DepartureDetailsState extends State<DepartureDetails>
         ],
       ),
     ),
-    body: ListView(
-      shrinkWrap: true,
-      children: [
-        
-        if (error != '')
-          ErrorMessage(
-            error: error,
-          ),
+    body: Container(
+      color: HexColor.fromHex(departure['color']).withOpacity(0.1),
+      height: double.infinity,
+      child: ListView(
+        shrinkWrap: true,
+        children: [
           
-        if (departure['departures'].isEmpty) 
-          Row(
-            children: [
-              SvgPicture.asset('assets/cancel.svg',
-                  color: accentColor(context),
-                  height: 18
+          if (error != '')
+            ErrorMessage(
+              error: error,
+            ),
+            
+          if (departure['departures'].isEmpty) 
+            Row(
+              children: [
+                SvgPicture.asset('assets/cancel.svg',
+                    color: accentColor(context),
+                    height: 18
+                  ),
+                Text('Aucune information',
+                  style: TextStyle(
+                    color: accentColor(context),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'Segoe Ui'
+                  ),
                 ),
-              Text('Aucune information',
-                style: TextStyle(
-                  color: accentColor(context),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  fontFamily: 'Segoe Ui'
-                ),
-              ),
-            ],
-          )
-        else
-          for (var train in clearTrain(departure['departures']) )
-            Container(
-              margin: const EdgeInsets.only(left:5.0, top:0.0, right:5.0, bottom:0.0),
-              child: DepartureList(
-                train: train,
-                color: HexColor.fromHex(departure['color']),
-                update: update,
-              ),
+              ],
             )
-      ],
+          else
+            for (var train in clearTrain(departure['departures']) )
+              Container(
+                margin: const EdgeInsets.only(left:5.0, top:0.0, right:5.0, bottom:0.0),
+                child: DepartureList(
+                  train: train,
+                  color: HexColor.fromHex(departure['color']),
+                  update: update,
+                ),
+              )
+        ],
+      ),
     ),
   );
 }

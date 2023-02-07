@@ -3,7 +3,8 @@
 library my_prj.globals;
 import 'package:location/location.dart' as gps;
 
-const double VERSION = 0.1;
+const String NAME = 'Navika';
+const String VERSION = 'v0.1-dev';
 const String API_VERSION = 'v0.1';
 
 const String API_BASE = 'https://navika.hackernwar.com/';
@@ -18,6 +19,7 @@ const String API_SCHEDULES =        '$API_BASE$API_VERSION/schedules';
 const String API_SCHEDULES_LINE =   '$API_BASE$API_VERSION/schedules_line';
 const String API_BIKE_STATIONS =    '$API_BASE$API_VERSION/bike_station';
 const String API_JOURNEYS =         '$API_BASE$API_VERSION/journeys';
+const String API_VEHICLE_JOURNEY =         '$API_BASE$API_VERSION/vehicle_journey';
 
 gps.LocationData? locationData;
 double compassHeading = 0;

@@ -21,7 +21,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
 
-  print({'INFO_f', 'Handling a background message: ${message.messageId}'});
+  if (kDebugMode) {
+    print({'INFO_f', 'Handling a background message: ${message.messageId}'});
+  }
 }
 
 void main() {
@@ -96,29 +98,38 @@ void _initializeFirebase() async {
     sound: true,
   );
 
-  print({'INFO_f', 'User granted permission: ${settings.authorizationStatus}'});
-
-  print({'INFO_f', 'firebase up !'});
+  if (kDebugMode) {
+    print({'INFO_f', 'User granted permission: ${settings.authorizationStatus}'});
+  }
 
   final fcmToken = await FirebaseMessaging.instance.getToken();
 
   FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
-    // TODO: If necessary send token to application server.
 
     // Note: This callback is fired at each app startup and whenever a new
     // token is generated.
-    print({'INFO_f', 'firebaseMessaging up !'});
+    if (kDebugMode) {
+      print({'INFO_f', 'firebaseMessaging up !'});
+    }
   }).onError((err) {
     // Error getting token.
-    print({'INFO_f', 'firebaseMessaging pas content !'});
+    if (kDebugMode) {
+      print({'INFO_f', 'firebaseMessaging pas content !'});
+    }
   });
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print({'INFO_f', 'Got a message whilst in the foreground!'});
-    print({'INFO_f', 'Message data: ${message.data}'});
+    if (kDebugMode) {
+      print({'INFO_f', 'Got a message whilst in the foreground!'});
+    }
+    if (kDebugMode) {
+      print({'INFO_f', 'Message data: ${message.data}'});
+    }
 
     if (message.notification != null) {
-      print({'INFO_f', 'Message also contained a notification: ${message.notification}'});
+      if (kDebugMode) {
+        print({'INFO_f', 'Message also contained a notification: ${message.notification}'});
+      }
     }
   });
 }

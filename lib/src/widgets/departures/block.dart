@@ -39,6 +39,7 @@ class DepartureBlock extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) => ListView(
+        padding: EdgeInsets.zero,
     controller: scrollController,
     children: [
       if (departures.isEmpty)

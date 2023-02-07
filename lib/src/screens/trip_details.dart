@@ -13,12 +13,12 @@ import 'package:http/http.dart' as http;
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/error_message.dart';
+import 'package:navika/src/widgets/trip/block.dart';
 
 class TripDetails extends StatefulWidget {
-  final String? id;
-  final String? stopLine;
+  final String? tripId;
 
-  const TripDetails({required this.id, required this.stopLine, super.key});
+  const TripDetails({required this.tripId, super.key});
 
   @override
   State<TripDetails> createState() => _TripDetailsState();
@@ -27,16 +27,15 @@ class TripDetails extends StatefulWidget {
 class _TripDetailsState extends State<TripDetails>
     with SingleTickerProviderStateMixin {
   String error = '';
-  late Timer _timer;
-  Map departure = globals.departure;
+  String title = 'Trajets';
+
+  Map? vehicleJourney;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
-        _getDepature();
-      });
+      _getVehicleJourneys();
     });
   }
 
@@ -48,33 +47,28 @@ class _TripDetailsState extends State<TripDetails>
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
   }
 
-  Future<void> _getDepature() async {
+  Future<void> _getVehicleJourneys() async {
     if (kDebugMode) {
-      print({'INFO_', globals.schedulesStopArea});
+      print({'INFO_', widget.tripId});
     }
     try {
       if (mounted) {
-        final response = await http.get(Uri.parse(
-            '${globals.API_SCHEDULES}?s=${globals.schedulesStopArea}'));
+        final response = await http.get(
+            Uri.parse('${globals.API_VEHICLE_JOURNEY}?v=${widget.tripId}'));
 
         if (response.statusCode == 200) {
           final data = json.decode(response.body);
 
           if (mounted) {
-            if (data['departures'] != null) {
-              for (var i = 0; i < data['departures'].length; i++) {
-                if (data['departures'][i]['id'] == widget.stopLine) {
-                  setState(() {
-                    departure = data['departures'][i];
-                    error = '';
-                  });
-                  break;
-                }
+            setState(() {
+              if (data['vehicle_journey'] != null) {
+                vehicleJourney = data['vehicle_journey'];
+              } else {
+                error = 'Récupération des informations impossible.';
               }
-            }
+            });
           }
         }
       } else {
@@ -89,23 +83,16 @@ class _TripDetailsState extends State<TripDetails>
     }
   }
 
-  void update() {
-    if (mounted) {
-      setState(() {
-        departure = departure;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(globals.schedulesStopName, style: appBarTitle),
-              if (LINES.getLinesById(departure['id']).libelle != '')
-                Text(LINES.getLinesById(departure['id']).libelle,
+              Text(title, style: appBarTitle),
+              if (vehicleJourney != null)
+                Text(
+                    "Train n°${vehicleJourney?['informations']['name']} - ${vehicleJourney?['informations']['direction']['name']}",
                     style: appBarSubtitle),
             ],
           ),
@@ -117,31 +104,24 @@ class _TripDetailsState extends State<TripDetails>
               ErrorMessage(
                 error: error,
               ),
-            if (departure['departures'].isEmpty)
-              Row(
+            if (vehicleJourney == null)
+              Column(
                 children: [
-                  SvgPicture.asset('assets/cancel.svg',
-                      color: accentColor(context), height: 18),
+                  const SizedBox(height: 25),
+                  const CircularProgressIndicator(),
                   Text(
-                    'Aucune information',
+                    'Chargement...',
                     style: TextStyle(
                         color: accentColor(context),
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Segoe Ui'),
+                        fontWeight: FontWeight.w700),
                   ),
+                  const SizedBox(height: 20)
                 ],
               )
             else
-              for (var train in clearTrain(departure['departures']))
-                Container(
-                  margin: const EdgeInsets.only(
-                      left: 5.0, top: 0.0, right: 5.0, bottom: 0.0),
-                  child: DepartureList(
-                    train: train,
-                    color: HexColor.fromHex(departure['color']),
-                    update: update,
-                  ),
+              for (var stop in vehicleJourney?['stop_times'])
+                TripBlock(
+                  stopTime: stop,
                 )
           ],
         ),

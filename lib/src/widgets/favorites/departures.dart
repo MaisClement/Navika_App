@@ -116,7 +116,7 @@ class FavoriteDepartures extends StatelessWidget {
                         ],
                       )
                     else
-                      for (var train in clearTrain( departure['departures'] ).sublist(0, clearTrain( departure['departures'] ).length > 3 ? 3 : clearTrain( departure['departures'] ).length))
+                      for (var train in clearTrain( departure['departures'] ).sublist(0, clearTrain( departure['departures'] ).length > 2 ? 2 : clearTrain( departure['departures'] ).length))
                         DepartureList(
                           train: train,
                           color: HexColor.fromHex(departure['color']),

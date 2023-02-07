@@ -27,6 +27,7 @@ class _NavikaAppState extends State<NavikaApp> {
 				'/home',
 				'/home/address',
 				'/home/address/:type',
+				'/settings',
 				'/stops/:id',
 				'/bike/:id',
 				'/home/journeys',
@@ -35,6 +36,7 @@ class _NavikaAppState extends State<NavikaApp> {
 				'/schedules/search',
         '/schedules/stops/:id',
         '/schedules/stops/:id/departures/:line_id',
+        '/trip/details/:id',
 				'/trafic',
         '/trafic/:lineId',
 				'/web/:uri'

@@ -118,13 +118,20 @@ class SchedulesList extends StatelessWidget {
                                   Container(
                                     margin: const EdgeInsets.only(
                                         top: 5.0, bottom: 5.0),
-                                    child: Text('➜ ${terminus["name"]}',
+                                    child: Expanded(
+                                      child: Text(
+                                        '➜ ${terminus["name"]}',
                                         style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w600,
                                           fontFamily: 'Segoe Ui',
                                           color: accentColor(context),
-                                        )),
+                                        ),
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        overflow: TextOverflow.fade,
+                                      ),
+                                    ),
                                   ),
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -146,15 +153,17 @@ class SchedulesList extends StatelessWidget {
                                       else
                                         Container(
                                             padding: const EdgeInsets.only(
-                                                left: 10.0,
-                                                top: 5.0,
-                                                right: 10.0,
-                                                bottom: 5.0),
+                                              left: 10.0,
+                                              top: 5.0,
+                                              right: 10.0,
+                                              bottom: 5.0,
+                                            ),
                                             margin: const EdgeInsets.only(
-                                                left: 0.0,
-                                                top: 5.0,
-                                                right: 10.0,
-                                                bottom: 5.0),
+                                              left: 0.0,
+                                              top: 5.0,
+                                              right: 10.0,
+                                              bottom: 5.0,
+                                            ),
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(5),

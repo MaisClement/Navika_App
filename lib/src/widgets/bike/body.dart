@@ -58,8 +58,6 @@ class _BikeBodyState extends State<BikeBody>
         if (response.statusCode == 200) {
           final data = json.decode(response.body);
 
-          print({'INFO_', data});
-
           if (mounted) {
             setState(() {
               if (data['station'] != null) {

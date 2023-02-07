@@ -21,7 +21,7 @@ int getTimeDifference(String time){
     String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
     String dtminute = dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
 
-    return '${dthour}h$dtminute';
+    return '$dthour:$dtminute';
   }
   Color getColorByState(state, context) {
     switch (state) {

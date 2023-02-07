@@ -415,6 +415,36 @@ class _HomeState extends State<Home> {
                 body: HereMap(onMapCreated: _onMapCreated),
               ),
               Positioned(
+                top: 0,
+                left: 0,
+                child: Opacity(
+                  opacity: getOpacity(_position),
+                  child: SafeArea(
+                    child: Container(
+                      margin:
+                          const EdgeInsets.only(top: 10, left: 8, bottom: 15),
+                      width: 40,
+                      height: 40,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(500),
+                        elevation: 16.0,
+                        shadowColor:
+                            Colors.black.withOpacity(getOpacity(_position)),
+                        color:
+                            Theme.of(context).colorScheme.onSecondaryContainer,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(500),
+                          onTap: () {
+                            RouteStateScope.of(context).go('/settings');
+                          },
+                          child: const Icon(ScaffoldIcon.settings),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
                 right: 20,
                 bottom: panelButtonBottomOffset,
                 child: Opacity(

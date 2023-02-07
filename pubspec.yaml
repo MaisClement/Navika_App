@@ -76,9 +76,9 @@ flutter:
   uses-material-design: true
 
   fonts:
-    - family: Scaffold_icon
+    - family: ScaffoldIcon
       fonts:
-        - asset: fonts/Scaffold_icon.ttf
+        - asset: fonts/ScaffoldIcon.ttf
 
     - family: Segoe Ui
       fonts:
