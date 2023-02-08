@@ -45,6 +45,16 @@ Color getColorByState(state, context) {
   }
 }
 
+Color getColorForDirectionByState(state, context) {
+  if (state.contains('cancelled')) {
+    return const Color(0xffeb2031);
+  } else if (state.contains('modified')) {
+    return const Color(0xfff68f53);
+  } else {
+    return accentColor(context);
+  }
+}
+
 Color getBackColorByState(state, context) {
   if (state.contains('cancelled')) {
     return const Color(0xffeb2031);
@@ -76,6 +86,7 @@ class DepartureList extends StatelessWidget {
             RouteStateScope.of(context)
                 .go("/trip/details/${train['informations']['id']}");
           },
+              borderRadius: BorderRadius.circular(7),
           child: Container(
             padding: const EdgeInsets.only(
                 left: 10.0, top: 0.0, right: 0.0, bottom: 0.0),
@@ -139,7 +150,7 @@ class DepartureList extends StatelessWidget {
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600,
                                           fontFamily: 'Segoe Ui',
-                                          color: getColorByState(
+                                          color: getColorForDirectionByState(
                                               getState(
                                                   train['stop_date_time']
                                                       ['departure_date_time'],
