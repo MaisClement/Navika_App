@@ -5,14 +5,22 @@ import 'package:navika/src/widgets/departures/message.dart';
 import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/bottom_sheets/terminus_trains.dart';
 
-String getState(String departure, String expectedDeparture, String state) {
+List getState(String departure, String expectedDeparture, String state) {
+  List res = [];
+  if (state == 'modified') {
+    res.add('modified');
+  }
   if (state != 'ontime' && state != 'theorical') {
-    return state;
+    res.add(state);
   }
   if (getLate(departure, expectedDeparture) > 0) {
-    return 'delayed';
+    res.add('delayed');
+  } 
+  //else {
+  if (res.isEmpty) {
+    res.add('ontime');
   }
-  return 'ontime';
+  return res;
 }
 
 int getLate(String departure, String expectedDeparture) {
@@ -26,31 +34,24 @@ int getLate(String departure, String expectedDeparture) {
 }
 
 Color getColorByState(state, context) {
-  switch (state) {
-    case 'cancelled':
-      return const Color(0xffeb2031);
-
-    case 'delayed':
-      return const Color(0xfff68f53);
-
-    case 'ontime':
-      return Colors.white.withOpacity(0);
-
-    default:
-      return const Color(0xffa9a9a9);
+  if (state.contains('cancelled')) {
+    return const Color(0xffeb2031);
+  } else if (state.contains('delayed') || state.contains('modified')) {
+    return const Color(0xfff68f53);
+  } else if (state.contains('ontime')) {
+    return Colors.white.withOpacity(0);
+  } else {
+    return const Color(0xffa9a9a9);
   }
 }
 
 Color getBackColorByState(state, context) {
-  switch (state) {
-    case 'cancelled':
-      return const Color(0xffeb2031);
-
-    case 'delayed':
-      return const Color(0xfff68f53);
-
-    default:
-      return Colors.white.withOpacity(0);
+  if (state.contains('cancelled')) {
+    return const Color(0xffeb2031);
+  } else if (state.contains('delayed') || state.contains('modified')) {
+    return const Color(0xfff68f53);
+  } else {
+    return Colors.white.withOpacity(0);
   }
 }
 
@@ -120,86 +121,98 @@ class DepartureList extends StatelessWidget {
                 ),
               ),
             ),
-            child: Column(children: [
-              Row(children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                      Row(
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
                         children: [
-                          Expanded(
-                            child: Text(
-                              train['informations']['direction']['name'],
-                              style: train['stop_date_time']['state'] ==
-                                      'cancelled'
-                                  ? const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'Segoe Ui',
-                                      color: Color(0xff4f4f4f),
-                                    )
-                                  : TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'Segoe Ui',
-                                      color: accentColor(context),
-                                    ),
-                              maxLines: 1,
-                              softWrap: false,
-                              overflow: TextOverflow.fade,
-                            ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  train['informations']['direction']['name'],
+                                  style: train['stop_date_time']['state'] !=
+                                          'ontime'
+                                      ? TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: 'Segoe Ui',
+                                          color: getColorByState(
+                                              getState(
+                                                  train['stop_date_time']
+                                                      ['departure_date_time'],
+                                                  train['stop_date_time'][
+                                                      'base_departure_date_time'],
+                                                  train['stop_date_time']
+                                                      ['state']),
+                                              context),
+                                        )
+                                      : TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: 'Segoe Ui',
+                                          color: accentColor(context),
+                                        ),
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  overflow: TextOverflow.fade,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(train['informations']['headsign'],
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: 'Diode',
+                                  )),
+                              if (train['informations']['headsign'] != '')
+                                Container(
+                                  width: 10,
+                                ),
+                              Text(train['informations']['trip_name'],
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: 'Diode',
+                                  )),
+                            ],
                           ),
                         ],
                       ),
-                      Row(
+                    ),
+                    if (train['informations']['message'] == 'terminus')
+                      Wrap(
                         children: [
-                          Text(train['informations']['headsign'],
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontFamily: 'Diode',
-                              )),
-                          if (train['informations']['headsign'] != '')
-                            Container(
-                              width: 10,
+                          if (train['stop_date_time']['state'] == 'cancelled')
+                            const MiniMessage(
+                              message: 'Supprimé',
+                              color: Colors.white,
+                              backgroundColor: Color(0xffeb2031),
                             ),
-                          Text(train['informations']['trip_name'],
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontFamily: 'Diode',
-                              )),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                if (train['informations']['message'] == 'terminus')
-                  Wrap(
-                    children: [
-                      if (getState(
-                              train['stop_date_time']['departure_date_time'],
-                              train['stop_date_time']
-                                  ['base_departure_date_time'],
-                              train['stop_date_time']['state']) ==
-                          'cancelled')
-                        const MiniMessage(
-                          message: 'Supprimé',
-                          color: Colors.white,
-                          backgroundColor: Color(0xffeb2031),
-                        ),
-                      if (getState(
-                              train['stop_date_time']['departure_date_time'],
-                              train['stop_date_time']
-                                  ['base_departure_date_time'],
-                              train['stop_date_time']['state']) ==
-                          'delayed')
-                        MiniMessage(
-                          message:
-                              '+${getLate(train["stop_date_time"]["departure_date_time"], train["stop_date_time"]["base_departure_date_time"])} min',
-                          color: Colors.white,
-                          backgroundColor: const Color(0xffeb2031),
-                        ),
-                      GestureDetector(
-                          child: InkWell(
+                          if (train['stop_date_time']['state'] == 'modified')
+                            const MiniMessage(
+                              message: 'Modifié',
+                              color: Colors.white,
+                              backgroundColor: Color.fromARGB(255, 32, 32, 235),
+                            ),
+                          if (getState(
+                                  train['stop_date_time']
+                                      ['departure_date_time'],
+                                  train['stop_date_time']
+                                      ['base_departure_date_time'],
+                                  train['stop_date_time']['state'])
+                              .contains('delayed'))
+                            MiniMessage(
+                              message:
+                                  '+${getLate(train["stop_date_time"]["departure_date_time"], train["stop_date_time"]["base_departure_date_time"])} min',
+                              color: Colors.white,
+                              backgroundColor: const Color(0xffeb2031),
+                            ),
+                          GestureDetector(
+                            child: InkWell(
                               onTap: () {
                                 showModalBottomSheet<void>(
                                     shape: RoundedRectangleBorder(
@@ -212,24 +225,31 @@ class DepartureList extends StatelessWidget {
                               },
                               child: const Message(
                                 message: 'Terminus',
-                              )))
-                    ],
-                  )
-                else
-                  TimeBlock(
-                      time: train['stop_date_time']['departure_date_time'],
-                      base: train['stop_date_time']['base_departure_date_time'],
-                      state: getState(
-                          train['stop_date_time']['departure_date_time'],
-                          train['stop_date_time']['base_departure_date_time'],
-                          train['stop_date_time']['state']),
-                      late: getLate(
-                          train['stop_date_time']['departure_date_time'],
-                          train['stop_date_time']['base_departure_date_time']),
-                      track: train['stop_date_time']['platform'],
-                      update: update),
-              ]),
-            ]),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    else
+                      TimeBlock(
+                        time: train['stop_date_time']['departure_date_time'],
+                        base: train['stop_date_time']
+                            ['base_departure_date_time'],
+                        state: getState(
+                            train['stop_date_time']['departure_date_time'],
+                            train['stop_date_time']['base_departure_date_time'],
+                            train['stop_date_time']['state']),
+                        late: getLate(
+                            train['stop_date_time']['departure_date_time'],
+                            train['stop_date_time']
+                                ['base_departure_date_time']),
+                        track: train['stop_date_time']['platform'],
+                        update: update,
+                      ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       );
