@@ -4,6 +4,7 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/departures/message.dart';
 import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/bottom_sheets/terminus_trains.dart';
+import 'package:navika/src/data/global.dart' as globals;
 
 List getState(String departure, String expectedDeparture, String state) {
   List res = [];
@@ -15,7 +16,7 @@ List getState(String departure, String expectedDeparture, String state) {
   }
   if (getLate(departure, expectedDeparture) > 0) {
     res.add('delayed');
-  } 
+  }
   //else {
   if (res.isEmpty) {
     res.add('ontime');
@@ -77,7 +78,7 @@ class DepartureList extends StatelessWidget {
     required this.update,
     required this.from,
     super.key,
-  });
+  });  
 
   @override
   Widget build(BuildContext context) => Container(
@@ -85,11 +86,20 @@ class DepartureList extends StatelessWidget {
             const EdgeInsets.only(left: 0.0, top: 5.0, right: 0.0, bottom: 5.0),
         child: InkWell(
           onTap: () {
-            RouteStateScope.of(context)
-                .go("/trip/details/${train['informations']['id']}/from/$from");
-          // RouteStateScope.of(context).go("/trip/details/${train['informations']['id']}/from/${from}");
+            if (train['informations']['id'] != null && train['informations']['id'] != '') {
+              globals.train = train;
+              
+              RouteStateScope.of(context).go(
+                  "/trip/details/${train['informations']['id']}/from/$from");
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content:
+                    Text('Les details ne sont pas disponibles pour ce trajet.'),
+              ));
+            }
+            // RouteStateScope.of(context).go("/trip/details/${train['informations']['id']}/from/${from}");
           },
-              borderRadius: BorderRadius.circular(7),
+          borderRadius: BorderRadius.circular(7),
           child: Container(
             padding: const EdgeInsets.only(
                 left: 10.0, top: 0.0, right: 0.0, bottom: 0.0),

@@ -28,6 +28,13 @@ String getTime(String time) {
   return '$dthour:$dtminute';
 }
 
+String makeTime(String time) {
+  if (time == '') {
+    return '';
+  }
+  return '${time.substring(0, 2)}:${time.substring(2, 4)}';
+}
+
 Color getColorByState(state, context) {
   if (state.contains('cancelled') ||
       state.contains('delayed') ||
