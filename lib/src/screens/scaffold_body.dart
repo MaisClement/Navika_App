@@ -7,6 +7,7 @@ import 'package:navika/src/widgets/fade_transition_page.dart';
 import 'package:navika/src/screens/schedules.dart';
 import 'package:navika/src/screens/scaffold.dart';
 import 'package:navika/src/screens/home.dart';
+import 'package:navika/src/data/global.dart' as globals;
 
 /// Displays the contents of the body of [NavikaAppScaffold]
 class NavikaAppScaffoldBody extends StatelessWidget {
@@ -20,6 +21,9 @@ class NavikaAppScaffoldBody extends StatelessWidget {
 	Widget build(BuildContext context) {
 		final routeState = RouteStateScope.of(context);
 		final pathTemplate = routeState.route.pathTemplate;
+
+    globals.path.add(routeState.route.path);
+
 		if (kDebugMode) {
 		  print({'INFO_route', pathTemplate});
 		}

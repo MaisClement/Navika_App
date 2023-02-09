@@ -69,11 +69,13 @@ class DepartureList extends StatelessWidget {
   final Map train;
   final Color color;
   final Function update;
+  final String from;
 
   const DepartureList({
     required this.train,
     required this.color,
     required this.update,
+    required this.from,
     super.key,
   });
 
@@ -84,7 +86,8 @@ class DepartureList extends StatelessWidget {
         child: InkWell(
           onTap: () {
             RouteStateScope.of(context)
-                .go("/trip/details/${train['informations']['id']}");
+                .go("/trip/details/${train['informations']['id']}/from/$from");
+          // RouteStateScope.of(context).go("/trip/details/${train['informations']['id']}/from/${from}");
           },
               borderRadius: BorderRadius.circular(7),
           child: Container(

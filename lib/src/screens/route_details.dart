@@ -52,7 +52,7 @@ double getDistance(double lat1, double lon1, double lat2, double lon2) {
   double a =
       (sin(dla) * sin(dla)) + sin(rla1) * cos(rla2) * (sin(dlo) * sin(dlo));
   double d = 2 * atan2(sqrt(a), sqrt(1 - a));
-  return (earthRadius * d);
+  return ((earthRadius * d) * 3);
 }
 
 GeoCoordinates getCenterPoint(
@@ -126,9 +126,10 @@ class _RouteDetailsState extends State<RouteDetails> {
       Metadata metadata = Metadata();
 
       _controller?.addMapMarker(
-          stopCoords,
-          LINES.getLinesById(section['informations']['line']['id']).image,
-          metadata,);
+        stopCoords,
+        LINES.getLinesById(section['informations']['line']['id']).image,
+        metadata,
+      );
     }
   }
 
@@ -146,45 +147,45 @@ class _RouteDetailsState extends State<RouteDetails> {
   }
 
   Future<void> _getLocation() async {
-    // bool serviceEnabled;
-    // gps.PermissionStatus permissionGranted;
-    // gps.LocationData locationData;
-//
-    // if (!globals.isSetLocation) {
-    //   serviceEnabled = await location.serviceEnabled();
-    //   if (!serviceEnabled) {
-    //     serviceEnabled = await location.requestService();
-    //     if (!serviceEnabled) {
-    //       return;
-    //     }
-    //   }
-//
-    //   permissionGranted = await location.hasPermission();
-    //   if (permissionGranted == gps.PermissionStatus.denied) {
-    //     permissionGranted = await location.requestPermission();
-    //     if (permissionGranted != gps.PermissionStatus.granted) {
-    //       return;
-    //     }
-    //   }
-//
-    //   locationData = await location.getLocation();
-    //   FlutterCompass.events?.listen((CompassEvent compassEvent) {
-    //     _updateCompass(compassEvent);
-    //   });
-    //   _addLocationIndicator(locationData);
-    //   location.onLocationChanged.listen((gps.LocationData currentLocation) {
-    //     _updateLocationIndicator(currentLocation);
-    //   });
-    // } else {
-    //   locationData = await location.getLocation();
-//
-    //   FlutterCompass.events?.listen((CompassEvent compassEvent) {
-    //     _updateCompass(compassEvent);
-    //   });
-    //   location.onLocationChanged.listen((gps.LocationData currentLocation) {
-    //     _updateLocationIndicator(currentLocation);
-    //   });
-    // }
+    bool serviceEnabled;
+    gps.PermissionStatus permissionGranted;
+    gps.LocationData locationData;
+
+    if (!globals.isSetLocation) {
+      serviceEnabled = await location.serviceEnabled();
+      if (!serviceEnabled) {
+        serviceEnabled = await location.requestService();
+        if (!serviceEnabled) {
+          return;
+        }
+      }
+
+      permissionGranted = await location.hasPermission();
+      if (permissionGranted == gps.PermissionStatus.denied) {
+        permissionGranted = await location.requestPermission();
+        if (permissionGranted != gps.PermissionStatus.granted) {
+          return;
+        }
+      }
+
+      locationData = await location.getLocation();
+      FlutterCompass.events?.listen((CompassEvent compassEvent) {
+        _updateCompass(compassEvent);
+      });
+      _addLocationIndicator(locationData);
+      location.onLocationChanged.listen((gps.LocationData currentLocation) {
+        _updateLocationIndicator(currentLocation);
+      });
+    } else {
+      locationData = await location.getLocation();
+
+      FlutterCompass.events?.listen((CompassEvent compassEvent) {
+        _updateCompass(compassEvent);
+      });
+      location.onLocationChanged.listen((gps.LocationData currentLocation) {
+        _updateLocationIndicator(currentLocation);
+      });
+    }
   }
 
   @override
@@ -247,7 +248,7 @@ class _RouteDetailsState extends State<RouteDetails> {
                   height: 40,
                   child: Material(
                     borderRadius: BorderRadius.circular(500),
-                    elevation: 16.0,
+                    elevation: 4.0,
                     shadowColor:
                         Colors.black.withOpacity(getOpacity(_position)),
                     color: Theme.of(context).colorScheme.onSecondaryContainer,
@@ -342,9 +343,12 @@ class _RouteDetailsState extends State<RouteDetails> {
       _getLocation();
 
       GeoCoordinates geoCoords;
-      double distanceToEarthInMeters = 100000;
+      //double distanceToEarthInMeters = 100000;
       geoCoords = getCenterPoint(getFromCoords()['lat'], getFromCoords()['lon'],
           getToCoords()['lat'], getToCoords()['lon']);
+
+      double distanceToEarthInMeters = getDistance(getFromCoords()['lat'],
+          getFromCoords()['lon'], getToCoords()['lat'], getToCoords()['lon']);
 
       MapMeasure mapMeasureZoom =
           MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
@@ -364,7 +368,7 @@ class _RouteDetailsState extends State<RouteDetails> {
 
   void _addLocationIndicator(gps.LocationData locationData) {
     _controller?.addLocationIndicator(locationData,
-        LocationIndicatorIndicatorStyle.pedestrian, globals.compassHeading);
+        LocationIndicatorIndicatorStyle.pedestrian, globals.compassHeading, true);
   }
 
   void _updateLocationIndicator(gps.LocationData locationData) {

@@ -15,8 +15,8 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/error_message.dart';
 
 class DepartureDetails extends StatefulWidget {
-  final String? id;
-  final String? stopLine;
+  final String id;
+  final String stopLine;
 
   const DepartureDetails({
     required this.id,
@@ -155,6 +155,7 @@ class _DepartureDetailsState extends State<DepartureDetails>
                   train: train,
                   color: HexColor.fromHex(departure['color']),
                   update: update,
+                  from: widget.id,
                 ),
               )
         ],

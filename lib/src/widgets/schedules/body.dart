@@ -139,12 +139,14 @@ class _SchedulesBodyState extends State<SchedulesBody>
   void checkUpdates() {
     _update = Timer(const Duration(milliseconds: 100), () {
       checkUpdates();
-      if (id != globals.schedulesStopArea) {
-        setState(() {
-          id = globals.schedulesStopArea;
-          schedules = [];
-        });
-        _getSchedules();
+      if (mounted) {
+        if (id != globals.schedulesStopArea) {
+          setState(() {
+            id = globals.schedulesStopArea;
+            schedules = [];
+          });
+          _getSchedules();
+        }
       }
     });
   }
@@ -227,6 +229,7 @@ class _SchedulesBodyState extends State<SchedulesBody>
         departures: departures,
         scrollController: scrollController,
         update: update,
+        from: id,
       ));
     }
     if (modes.contains('physical_mode:Metro') ||

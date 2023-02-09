@@ -8,7 +8,6 @@ import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/places/listbutton.dart';
-import 'package:flutter/foundation.dart';
 import 'package:navika/src/widgets/places/load.dart';
 
 class SchedulesSearch extends StatefulWidget {
@@ -30,9 +29,6 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
   List places = [];
 
   Future<void> _getPlaces() async {
-    if (kDebugMode) {
-      print({'INFO_', 'getPlaces'});
-    }
     String url = '';
     flag++;
 

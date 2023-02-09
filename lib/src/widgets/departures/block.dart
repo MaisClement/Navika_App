@@ -29,11 +29,13 @@ class DepartureBlock extends StatelessWidget {
 	final List departures;
   final ScrollController scrollController;
   final Function update;
+  final String from;
 
 	const DepartureBlock({
 		required this.departures,
     required this.scrollController,
     required this.update,
+    required this.from,
 		super.key,
 	});
 
@@ -141,6 +143,7 @@ class DepartureBlock extends StatelessWidget {
                             train: train,
                             color: HexColor.fromHex(departure['color']),
                             update: update,
+                          from: from,
                           ),
 
                       Row(

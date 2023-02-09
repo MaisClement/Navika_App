@@ -102,7 +102,7 @@ void _initializeFirebase() async {
     print({'INFO_f', 'User granted permission: ${settings.authorizationStatus}'});
   }
 
-  final fcmToken = await FirebaseMessaging.instance.getToken();
+  // final fcmToken = await FirebaseMessaging.instance.getToken();
 
   FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
 

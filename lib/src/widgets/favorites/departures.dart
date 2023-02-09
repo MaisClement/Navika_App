@@ -121,6 +121,7 @@ class FavoriteDepartures extends StatelessWidget {
                           train: train,
                           color: HexColor.fromHex(departure['color']),
                           update: update,
+                          from: id,
                         ),
                         
                   ],

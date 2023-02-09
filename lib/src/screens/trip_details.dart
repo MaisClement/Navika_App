@@ -2,11 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:navika/src/data.dart';
-import 'package:navika/src/extensions/hexcolor.dart';
-import 'package:navika/src/widgets/departures/list.dart';
-import 'package:navika/src/widgets/departures/block.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,10 +10,14 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/error_message.dart';
 import 'package:navika/src/widgets/trip/block.dart';
 
-class TripDetails extends StatefulWidget {
-  final String? tripId;
+enum TripBlockStatus { origin, terminus, active, inactive }
 
-  const TripDetails({required this.tripId, super.key});
+class TripDetails extends StatefulWidget {
+  final String tripId;
+  final String? fromId;
+  final String? toId;
+
+  const TripDetails({required this.tripId, this.fromId, this.toId, super.key});
 
   @override
   State<TripDetails> createState() => _TripDetailsState();
@@ -70,17 +69,49 @@ class _TripDetailsState extends State<TripDetails>
               }
             });
           }
+        } else {
+          setState(() {
+            error = 'Détails du trajet non disponible';
+          });
         }
-      } else {
-        setState(() {
-          error = 'Récupération des informations impossible.';
-        });
       }
     } catch (e) {
       setState(() {
         error = "Une erreur s'est produite.";
       });
     }
+  }
+
+  Widget _makeTripWidgets() {
+    List<Widget> res = [];
+
+    TripBlockStatus status = TripBlockStatus.inactive;
+
+    for (var stop in vehicleJourney?['stop_times']) {
+
+      if (status == TripBlockStatus.terminus) {
+        status = TripBlockStatus.inactive;
+      } else if (status == TripBlockStatus.origin) {
+        status = TripBlockStatus.active;
+      }
+
+      if (widget.fromId != null && stop['id'].contains(widget.fromId)) {
+        status = TripBlockStatus.origin;
+      } else if (widget.toId != null && stop['id'].contains(widget.toId)) {
+        status = TripBlockStatus.terminus;
+      }
+
+      res.add(
+        TripBlock(
+          stopTime: stop,
+          status: status,
+        ),
+      );
+    }
+
+    return Column(
+      children: res,
+    );
   }
 
   @override
@@ -103,8 +134,8 @@ class _TripDetailsState extends State<TripDetails>
             if (error != '')
               ErrorMessage(
                 error: error,
-              ),
-            if (vehicleJourney == null)
+              )
+            else if (vehicleJourney == null)
               Column(
                 children: [
                   const SizedBox(height: 25),
@@ -119,10 +150,7 @@ class _TripDetailsState extends State<TripDetails>
                 ],
               )
             else
-              for (var stop in vehicleJourney?['stop_times'])
-                TripBlock(
-                  stopTime: stop,
-                )
+              _makeTripWidgets()
           ],
         ),
       );

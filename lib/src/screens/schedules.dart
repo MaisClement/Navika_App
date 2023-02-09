@@ -16,7 +16,7 @@ class Schedules extends StatefulWidget {
 class _SchedulesState extends State<Schedules> {
   final String title = 'Arrêts';
 
-  List favs = globals.hiveBox.get('stopsFavorites');
+  List favs = globals.hiveBox?.get('stopsFavorites');
   void updateFavorites() {
     setState(() {
       favs = globals.hiveBox.get('stopsFavorites');

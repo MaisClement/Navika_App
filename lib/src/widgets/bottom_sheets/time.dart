@@ -80,7 +80,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
               ? TimeBlock(
                   time: getTime(),
                   base: getTime(),
-                  state: ['ontime'],
+                  state: const ['ontime'],
                   late: 0,
                   // ignore: prefer_single_quotes
                   track: "B",
@@ -114,7 +114,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
               ? TimeBlock(
                   time: getTime(),
                   base: getTime(),
-                  state: ['delayed'],
+                  state: const ['delayed'],
                   late: 5,
                   track: 'B',
                   update: widget.update, // INUTILE SI disabled
@@ -147,7 +147,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
               ? TimeBlock(
                   time: getTime(),
                   base: getTime(),
-                  state: ['cancelled'],
+                  state: const ['cancelled'],
                   late: 0,
                   track: 'B',
                   update: widget.update, // INUTILE SI disabled
@@ -180,7 +180,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
               ? TimeBlock(
                   time: getTime(),
                   base: getTime(),
-                  state: ['theorical'],
+                  state: const ['theorical'],
                   late: 0,
                   track: 'B',
                   update: widget.update, // INUTILE SI disabled

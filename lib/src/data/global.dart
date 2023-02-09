@@ -25,11 +25,12 @@ gps.LocationData? locationData;
 double compassHeading = 0;
 bool isSetLocation = false;
 
+List path = [];
+
 String schedulesStopArea = '';
 String schedulesStopName = '';
 List schedulesStopModes = [];
 List schedulesStopLines = [];
-
 
 Map journey = {};
 Map departure = {};

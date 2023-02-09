@@ -172,6 +172,7 @@ class _HomeState extends State<Home> {
   bool is3dMap = false;
   bool _isInBox = false;
   late Timer _timer;
+  bool isConnected = true;
 
   double panelButtonBottomOffsetClosed = 120;
   double panelButtonBottomOffset = 120;
@@ -244,6 +245,7 @@ class _HomeState extends State<Home> {
           } else {
             bikeNearby = [];
           }
+          isConnected = false;
         });
       }
 
@@ -335,6 +337,7 @@ class _HomeState extends State<Home> {
           if (mounted) {
             setState(() {
               index = data;
+              isConnected = false;
             });
             globals.index = data;
           }
@@ -345,10 +348,14 @@ class _HomeState extends State<Home> {
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       } catch (e) {
+        setState(() {
+          isConnected = false;
+        });
         var snackBar = const SnackBar(
           content: Text(
               "Une erreur s'est produite lors de la récupération des actualités."),
         );
+        
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     }
@@ -414,6 +421,36 @@ class _HomeState extends State<Home> {
                           ),
                 body: HereMap(onMapCreated: _onMapCreated),
               ),
+              // if (!isConnected)
+              //   Positioned(
+              //     top: 0,
+              //     child: Opacity(
+              //       opacity: 1,
+              //       child: Container(
+              //         width: MediaQuery.of(context).size.width,
+              //         color: Colors.amber,
+              //         child: SafeArea(
+              //           child: Container(
+              //             margin: const EdgeInsets.only(
+              //                 top: 12, left: 73, bottom: 15),
+              //             child: Row(
+              //               children: const [
+              //                 Icon(Icons.cloud_off),
+              //                 SizedBox(width: 10),
+              //                 Text(
+              //                   'Aucune connexion internet',
+              //                   style: TextStyle(
+              //                       fontWeight: FontWeight.w600,
+              //                       fontFamily: 'Segoe Ui',
+              //                       fontSize: 18),
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
               Positioned(
                 top: 0,
                 left: 0,
@@ -427,7 +464,7 @@ class _HomeState extends State<Home> {
                       height: 40,
                       child: Material(
                         borderRadius: BorderRadius.circular(500),
-                        elevation: 16.0,
+                        elevation: 4.0,
                         shadowColor:
                             Colors.black.withOpacity(getOpacity(_position)),
                         color:
