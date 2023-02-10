@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -342,21 +343,28 @@ class _HomeState extends State<Home> {
             globals.index = data;
           }
         } else {
-          var snackBar = const SnackBar(
-            content: Text('Récupération des actualités impossible.'),
+          FloatingSnackBar(
+            message: 'Récupération des actualités impossible.',
+            context: context,
+            textColor: Theme.of(context).colorScheme.primary,
+            textStyle: snackBarText,
+            duration: const Duration(milliseconds: 4000),
+            backgroundColor: const Color(0xff272727),
           );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       } catch (e) {
         setState(() {
           isConnected = false;
         });
-        var snackBar = const SnackBar(
-          content: Text(
-              "Une erreur s'est produite lors de la récupération des actualités."),
+        FloatingSnackBar(
+          message:
+              "Une erreur s'est produite lors de la récupération des actualités.",
+          context: context,
+          textColor: Theme.of(context).colorScheme.primary,
+          textStyle: snackBarText,
+          duration: const Duration(milliseconds: 4000),
+          backgroundColor: const Color(0xff272727),
         );
-        
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     }
   }

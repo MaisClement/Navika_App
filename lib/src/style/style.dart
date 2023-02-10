@@ -11,6 +11,11 @@ const appBarSubtitle = TextStyle(
   fontFamily: 'Segoe Ui',
 );
 
+const snackBarText = TextStyle(
+    color: Color(0xffffffff),
+    fontWeight: FontWeight.w600,
+    fontFamily: 'Segoe Ui');
+
 mainColor(context) {
   return Theme.of(context).colorScheme.primary;
 }
@@ -122,7 +127,7 @@ departureList(context, Color color) {
 
 schedulesIsDark(context, color) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    if (color == '000000'){
+    if (color == '000000') {
       return true;
     } else {
       return false;

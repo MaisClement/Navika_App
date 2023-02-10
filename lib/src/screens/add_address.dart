@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/places/listbutton.dart';
@@ -134,7 +136,8 @@ class _AddAddressState extends State<AddAddress> {
                   list.add({
                     'id': place['id'],
                     'name': place['name'],
-                    'type': widget.predefineType == '' || widget.predefineType == null
+                    'type': widget.predefineType == '' ||
+                            widget.predefineType == null
                         ? place['type']
                         : widget.predefineType,
                     'alias': 'alias',
@@ -142,10 +145,14 @@ class _AddAddressState extends State<AddAddress> {
                   globals.hiveBox.put('AddressFavorites', list);
                   Navigator.pop(context);
                   RouteStateScope.of(context).go('/home');
-                  var snackBar = const SnackBar(
-                    content: Text('Nouvelle adresse ajouté.'),
+                  FloatingSnackBar(
+                    message: 'Nouvelle adresse ajouté.',
+                    context: context,
+                    textColor: Theme.of(context).colorScheme.primary,
+                    textStyle: snackBarText,
+                    duration: const Duration(milliseconds: 4000),
+                    backgroundColor: const Color(0xff272727),
                   );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 },
               )
           else if (places.isEmpty && isLoading == true)

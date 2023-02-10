@@ -33,7 +33,6 @@ class _TripDetailsState extends State<TripDetails>
   String title = 'Trajet';
 
   Map? vehicleJourney;
-  Map? train = globals.train;
 
   @override
   void initState() {
@@ -111,8 +110,8 @@ class _TripDetailsState extends State<TripDetails>
         String time = getTime(stop['stop_time']['arrival_time']);
         String newtime = '';
         try {
-          for (var disruption in train!['disruptions']) {
-            if (train != null && disruption != null) {
+          for (var disruption in vehicleJourney!['disruptions']) {
+            if (disruption != null && disruption.length > 0) {
               if (disruption['effect'] == 'NO_SERVICE') {
                 effect = TripBlockEffect.deleted;
                 status = TripBlockStatus.inactive;
@@ -159,7 +158,7 @@ class _TripDetailsState extends State<TripDetails>
         children: res,
       );
     } catch (e) {
-      return ErrorMessage(error: "Une erreur est survenue");
+      return const ErrorMessage(error: 'Une erreur est survenue');
     }
   }
 
@@ -201,11 +200,9 @@ class _TripDetailsState extends State<TripDetails>
             else
               Column(
                 children: [
-                  if (train != null &&
-                      train!['disruptions'] != null &&
-                      train!['disruptions'].length > 0)
+                  if (vehicleJourney?['disruptions'].length > 0)
                     TripDisruptions(
-                      disruptions: train!['disruptions'],
+                      disruptions: vehicleJourney?['disruptions'],
                     ),
                   _makeTripWidgets(),
                 ],

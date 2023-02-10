@@ -1,10 +1,10 @@
+import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/departures/message.dart';
 import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/bottom_sheets/terminus_trains.dart';
-import 'package:navika/src/data/global.dart' as globals;
 
 List getState(String departure, String expectedDeparture, String state) {
   List res = [];
@@ -78,7 +78,7 @@ class DepartureList extends StatelessWidget {
     required this.update,
     required this.from,
     super.key,
-  });  
+  });
 
   @override
   Widget build(BuildContext context) => Container(
@@ -86,18 +86,24 @@ class DepartureList extends StatelessWidget {
             const EdgeInsets.only(left: 0.0, top: 5.0, right: 0.0, bottom: 5.0),
         child: InkWell(
           onTap: () {
-            if (train['informations']['id'] != null && train['informations']['id'] != '') {
-              globals.train = train;
-              
+            if (train['informations']['id'] != null &&
+                train['informations']['id'] != '') {
               RouteStateScope.of(context).go(
                   "/trip/details/${train['informations']['id']}/from/$from");
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content:
-                    Text('Les details ne sont pas disponibles pour ce trajet.'),
-              ));
+              FloatingSnackBar(
+                message: 'Les details ne sont pas disponibles pour ce trajet.',
+                context: context,
+                textColor: Theme.of(context).colorScheme.primary,
+                textStyle: const TextStyle(
+                  color: Color(0xffffffff),
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Segoe Ui',
+                ),
+                duration: const Duration(milliseconds: 4000),
+                backgroundColor: const Color(0xff272727),
+              );
             }
-            // RouteStateScope.of(context).go("/trip/details/${train['informations']['id']}/from/${from}");
           },
           borderRadius: BorderRadius.circular(7),
           child: Container(

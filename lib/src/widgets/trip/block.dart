@@ -29,11 +29,11 @@ class TripBlock extends StatelessWidget {
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Text(
                 time,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.w700,
                     fontFamily: 'Segoe Ui',
                     fontSize: 17,
-                    color: const Color(0xffeb2031),
+                    color: Color(0xffeb2031),
                     decoration: TextDecoration.lineThrough),
               ),
             )
@@ -44,11 +44,11 @@ class TripBlock extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Text(
                     newtime,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontFamily: 'Segoe Ui',
                       fontSize: 17,
-                      color: const Color(0xfff68f53),
+                      color: Color(0xfff68f53),
                     ),
                   ),
                 ),
@@ -56,11 +56,11 @@ class TripBlock extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Text(
                     time,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontFamily: 'Segoe Ui',
                       fontSize: 14,
-                      color: const Color(0xff808080),
+                      color: Color(0xff808080),
                       decoration: TextDecoration.lineThrough,
                     ),
                   ),

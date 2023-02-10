@@ -35,7 +35,6 @@ List schedulesStopLines = [];
 Map journey = {};
 Map departure = {};
 List trafic = [];
-Map train = {};
 
 bool routePosUsed = false;
 

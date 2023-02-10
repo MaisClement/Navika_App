@@ -71,7 +71,7 @@ class _SettingsState extends State<Settings> {
                           ));
                 }),
             SettingsButton(
-                name: 'Terminus',
+                name: 'Train terminus',
                 function: () {
                   showModalBottomSheet<void>(
                       shape: RoundedRectangleBorder(
