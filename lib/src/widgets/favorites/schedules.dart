@@ -110,19 +110,23 @@ class FavoriteSchedules extends StatelessWidget {
                               Container(
                                 margin: const EdgeInsets.only(
                                     top: 5.0, bottom: 5.0),
-                                child: Expanded(
-                                  child: Text(
-                                    '➜ ${terminus["name"]}',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'Segoe Ui',
-                                      color: accentColor(context),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        '➜ ${terminus["name"]}',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: 'Segoe Ui',
+                                          color: accentColor(context),
+                                        ),
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        overflow: TextOverflow.fade,
+                                      ),
                                     ),
-                                    maxLines: 1,
-                                    softWrap: false,
-                                    overflow: TextOverflow.fade,
-                                  ),
+                                  ],
                                 ),
                               ),
                               Row(

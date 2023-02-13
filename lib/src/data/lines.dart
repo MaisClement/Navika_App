@@ -158,6 +158,7 @@ final LINES = LinesInfo()
 ..addLine('C01857', 'TER', 'TER Centre - Val-de-Loire','assets/sncf/TER_color.png',  'TER','assets/sncf/TER_dark.png','assets/sncf/TER_white.png')
 ..addLine('C01746', 'TER', 'TER Hauts-de-Franche','assets/sncf/TER_color.png',  'TER','assets/sncf/TER_dark.png','assets/sncf/TER_white.png')
 
-..addLine('TER', 'TER', 'TER','assets/sncf/TER_color.png',  'TER', 'assets/sncf/TER_dark.png','assets/sncf/TER_white.png')
+
+..addLine('TER', 'TER', 'TER','assets/sncf/TER_color.png',  'TER','assets/sncf/TER_dark.png','assets/sncf/TER_white.png')
 ..addLine('SNCF', 'SNCF', 'Trains SNCF','assets/null.png',  'SNCF','assets/sncf/logo_color.png','assets/sncf/logo_white.png')
 ;
