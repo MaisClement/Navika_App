@@ -112,13 +112,14 @@ class _RouteHomeState extends State<RouteHome> {
   Future<void> _getPlaces() async {
     String url = '';
 
-    if ((globals.locationData?.latitude != null || globals.locationData?.longitude != null) && search != '') {
+    bool allowGps = await globals.hiveBox.get('allowGps') ?? false;
+    if (allowGps && (globals.locationData?.latitude != null || globals.locationData?.longitude != null) && search != '') {
       url = '${globals.API_PLACES}?q=$search&lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
 
     } else if (search != '') {
       url = '${globals.API_PLACES}?q=$search';
       
-    } else if (globals.locationData?.latitude != null && globals.locationData?.longitude != null){
+    } else if (allowGps && globals.locationData?.latitude != null && globals.locationData?.longitude != null){
       url = '${globals.API_PLACES}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
 
     } else {
@@ -188,9 +189,10 @@ class _RouteHomeState extends State<RouteHome> {
     }
   }
 
-  void _initSearch() {
+  void _initSearch() async {
     // Arrivée + départ
-    if ((globals.locationData != null || globals.route['dep']['id'] != null) && globals.route['arr']['id'] != null ){
+    bool allowGps = await globals.hiveBox.get('allowGps') ?? false;
+    if (allowGps && (globals.locationData != null || globals.route['dep']['id'] != null) && globals.route['arr']['id'] != null ){
       if (globals.route['dep']['id'] != null) {
         textController['dep'].text = globals.route['dep']['name'];
       } else {
@@ -218,7 +220,7 @@ class _RouteHomeState extends State<RouteHome> {
       FocusScope.of(context).requestFocus(textNode['arr']);
     } 
     
-    else if (globals.locationData != null) { // On a un GPS
+    else if (allowGps && globals.locationData != null) { // On a un GPS
       textController['dep'].text = yourPos;
       globals.route['dep']['name'] = yourPos;
       globals.route['dep']['id'] = '${globals.locationData?.longitude};${globals.locationData?.latitude}';

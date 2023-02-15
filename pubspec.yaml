@@ -51,6 +51,7 @@ dependencies:
   flutter_rounded_date_picker: ^3.0.2
   firebase_messaging: ^14.2.1
   firebase_core: ^2.4.1
+  floating_snackbar: ^1.0.3+1
 
   flutter_localizations:
     sdk: flutter
@@ -61,7 +62,6 @@ dependencies:
   # flutter_compass: ^0.7.0
   flutter_compass:
     git: https://github.com/hemanthrajv/flutter_compass.git
-  floating_snackbar: ^1.0.3+1
   
 dev_dependencies:
   hive_generator: ^1.1.3

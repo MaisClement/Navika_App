@@ -32,13 +32,14 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
     String url = '';
     flag++;
 
-    if ((globals.locationData?.latitude != null || globals.locationData?.longitude != null) && search != '') {
+    bool allowGps = await globals.hiveBox.get('allowGps') ?? false;
+    if (allowGps && (globals.locationData?.latitude != null || globals.locationData?.longitude != null) && search != '') {
       url = '${globals.API_STOP_AREA}?q=$search&lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
 
     } else if (search != '') {
       url = '${globals.API_STOP_AREA}?q=$search&flag=${flag.toString()}';
       
-    } else if (globals.locationData?.latitude != null && globals.locationData?.longitude != null){
+    } else if (allowGps && globals.locationData?.latitude != null && globals.locationData?.longitude != null){
       url = '${globals.API_STOP_AREA}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
 
     } else {

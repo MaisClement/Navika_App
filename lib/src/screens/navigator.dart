@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navika/src/screens/position.dart';
 import 'package:navika/src/screens/route.dart';
 import 'package:navika/src/screens/add_address.dart';
 import 'package:navika/src/screens/route_details.dart';
@@ -32,7 +33,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
   Widget build(BuildContext context) {
     final routeState = RouteStateScope.of(context);
     final pathTemplate = routeState.route.pathTemplate;
-
+   
     String? lineId;
     if (pathTemplate == '/trafic/:lineId') {
       lineId = routeState.route.parameters['lineId'];
@@ -43,7 +44,6 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
       predefineType = routeState.route.parameters['type'];
     }
 
-    // /schedules/search
     String? id;
     String? stopLine;
     if (pathTemplate == '/schedules/stops/:id') {
@@ -76,6 +76,13 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
       key: widget.navigatorKey,
       onPopPage: (route, dynamic result) {
         // Il y'a aussi des retour dans scaffold_body.dart
+        if (pathTemplate == '/settings') {
+          routeState.go('/home');
+        }
+        if (pathTemplate == '/position') {
+          routeState.go(globals.path[globals.path.length - 2]);
+        }
+
         if (pathTemplate == '/home/journeys') {
           routeState.go('/home');
         }
@@ -87,9 +94,6 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           routeState.go('/home');
         }
         if (pathTemplate == '/home/address/:type') {
-          routeState.go('/home');
-        }
-        if (pathTemplate == '/settings') {
           routeState.go('/home');
         }
 
@@ -122,7 +126,17 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           child: NavikaAppScaffold(),
         ),
 
-        if (pathTemplate == '/home/address') // /home/journeys
+        if (pathTemplate == '/settings') // /home/journeys/details
+          const MaterialPage<void>(
+            key: ValueKey('Settings'),
+            child: Settings(),
+          )
+        else if (pathTemplate == '/position') // /home/journeys/details
+          const MaterialPage<void>(
+            key: ValueKey('Posiition'),
+            child: Position(),
+          )
+        else if (pathTemplate == '/home/address') // /home/journeys
           const MaterialPage<void>(
             key: ValueKey('Addresse'),
             child: AddAddress(),
@@ -142,11 +156,6 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           const MaterialPage<void>(
             key: ValueKey('Route details'),
             child: RouteDetails(),
-          )
-        else if (pathTemplate == '/settings') // /home/journeys/details
-          const MaterialPage<void>(
-            key: ValueKey('Settings'),
-            child: Settings(),
           )
         else if (lineId != null) // /trafic/:lineId
           MaterialPage<void>(

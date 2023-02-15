@@ -3,6 +3,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/bottom_sheets/terminus_trains.dart';
 import 'package:navika/src/widgets/settings/button.dart';
@@ -23,6 +24,10 @@ class _SettingsState extends State<Settings> {
   void update() {
     return;
   }
+
+  String displayMode = globals.hiveBox.get('displayMode');
+  bool hideTerminusTrain = globals.hiveBox.get('hideTerminusTrain');
+  bool allowGps = globals.hiveBox.get('allowGps');
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -57,31 +62,50 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             SettingsButton(
-                name: "Temps d'attente",
-                function: () {
-                  showModalBottomSheet<void>(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (BuildContext context) => BottomSchedules(
-                            isDeparture: true,
-                            update: update,
-                          ));
-                }),
+              name: "Temps d'attente",
+              sub: 'Activé',
+              icon: ScaffoldIcon.clock_regular,
+              function: () {
+                showModalBottomSheet<void>(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  isScrollControlled: true,
+                  context: context,
+                  builder: (BuildContext context) => BottomSchedules(
+                    isDeparture: true,
+                    update: update,
+                  ),
+                );
+              },
+            ),
             SettingsButton(
-                name: 'Train terminus',
-                function: () {
-                  showModalBottomSheet<void>(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (BuildContext context) =>
-                          BottomTerminusTrain(update: update));
-                }),
+              name: 'Train terminus',
+              sub: hideTerminusTrain ? 'Affiché' : 'Masqué',
+              icon: ScaffoldIcon.train_2,
+              function: () {
+                showModalBottomSheet<void>(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (BuildContext context) =>
+                        BottomTerminusTrain(update: update));
+              },
+            ),
+
+            SettingsButton(
+              name: 'Position',
+              sub: allowGps ? 'Autorisé' : 'Interdit',
+              function: () {
+                RouteStateScope.of(context).go('/position');
+              },
+              icon: ScaffoldIcon.location_indicator,
+            ),
+
+            // ------------
+
             const Spacer(),
             SettingsLink(
               name: 'Github du projet ›',

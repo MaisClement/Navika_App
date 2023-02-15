@@ -27,14 +27,10 @@ class NavikaAppScaffoldBody extends StatelessWidget {
 		if (kDebugMode) {
 		  print({'INFO_route', pathTemplate});
 		}
-
-		// A nested Router isn't necessary because the back button behavior doesn't
-		// need to be customized.
+    
 		return Navigator(
 			key: navigatorKey,
 			onPopPage: (route, dynamic result) {
-				// When a page that is stacked on top of the scaffold is popped, display
-				// the /books or /schedules tab in NavikaAppScaffold.
 				if (pathTemplate == '/stops/:id') {
           routeState.go('/home');
         }
@@ -75,11 +71,6 @@ class NavikaAppScaffoldBody extends StatelessWidget {
 						key: ValueKey('trafic'),
 						child: Trafic(),
 					)
-        // else if (pathTemplate.startsWith('/home/journeys'))
-				// 	const FadeTransitionPage<void>(
-				// 		key: ValueKey('trafic'),
-				// 		child: RouteHome(),
-				// 	)
 
 				// Avoid building a Navigator with an empty `pages` list when the
 				// RouteState is set to an unexpected path, such as /signin.

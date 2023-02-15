@@ -41,17 +41,14 @@ class _AddAddressState extends State<AddAddress> {
     String url = '';
     flag++;
 
-    if ((globals.locationData?.latitude != null ||
-            globals.locationData?.longitude != null) &&
-        search != '') {
-      url =
-          '${globals.API_PLACES}?q=$search&lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
+    bool allowGps = await globals.hiveBox.get('allowGps') ?? false;
+    if (allowGps && (globals.locationData?.latitude != null || globals.locationData?.longitude != null) && search != '') {
+      url = '${globals.API_PLACES}?q=$search&lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
     } else if (search != '') {
       url = '${globals.API_PLACES}?q=$search&flag=${flag.toString()}';
-    } else if (globals.locationData?.latitude != null &&
-        globals.locationData?.longitude != null) {
-      url =
-          '${globals.API_PLACES}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
+    } else if (allowGps &&
+        globals.locationData?.latitude != null && globals.locationData?.longitude != null) {
+      url = '${globals.API_PLACES}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
     } else {
       url = '${globals.API_PLACES}?q=&flag=${flag.toString()}';
     }

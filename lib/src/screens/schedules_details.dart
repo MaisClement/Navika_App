@@ -12,11 +12,12 @@ bool isFavorite(id) {
     for (var fav in favs) {
       if (fav['id'] == id) {
         return true;
-      } 
+      }
     }
   }
   return false;
 }
+
 bool isFavoriteLine(id, line) {
   List favs = globals.hiveBox?.get('stopsFavorites') ?? [];
 
@@ -24,7 +25,7 @@ bool isFavoriteLine(id, line) {
     for (var fav in favs) {
       if (fav['id'] == id && fav['line'] == line) {
         return true;
-      } 
+      }
     }
   }
   return false;
@@ -34,37 +35,34 @@ class SchedulesDetails extends StatelessWidget {
   final String? navPos;
 
   const SchedulesDetails({this.navPos, super.key});
-            
+
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: Text(globals.schedulesStopName,
-              style: appBarTitle
-            ),
-      actions: [
-        IconButton(
-          icon: isFavorite(globals.schedulesStopArea) ? const Icon(ScaffoldIcon.star) : const Icon(ScaffoldIcon.add_to_favorites),
-          tooltip: 'Ajouter aux favoris',
-          onPressed: () {
-            showModalBottomSheet<void>(
+      appBar: AppBar(
+        title: Text(globals.schedulesStopName, style: appBarTitle),
+        actions: [
+          IconButton(
+            icon: isFavorite(globals.schedulesStopArea)
+                ? const Icon(ScaffoldIcon.star)
+                : const Icon(ScaffoldIcon.add_to_favorites),
+            tooltip: 'Ajouter aux favoris',
+            onPressed: () {
+              showModalBottomSheet<void>(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
                 isScrollControlled: true,
-                context: context, 
-                builder: (BuildContext context) => 
-                  BottomAddFavorite(
-                    id: globals.schedulesStopArea,
-                    name: globals.schedulesStopName,
-                    modes: globals.schedulesStopModes,
-                    lines: globals.schedulesStopLines,
-                  ));
-          },
-        ),
-      ]
-    ),
-    body: SchedulesBody(
-      scrollController: ScrollController()
-    )
-  );
+                context: context,
+                builder: (BuildContext context) => BottomAddFavorite(
+                  id: globals.schedulesStopArea,
+                  name: globals.schedulesStopName,
+                  modes: globals.schedulesStopModes,
+                  lines: globals.schedulesStopLines,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+      body: SchedulesBody(scrollController: ScrollController()));
 }

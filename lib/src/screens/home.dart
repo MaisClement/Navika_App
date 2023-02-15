@@ -194,6 +194,7 @@ class _HomeState extends State<Home> {
     if (!globals.isSetLocation) {
       serviceEnabled = await location.serviceEnabled();
       if (!serviceEnabled) {
+        print({'INFO_', 'serviceEnabled'});
         serviceEnabled = await location.requestService();
         if (!serviceEnabled) {
           return;
@@ -201,11 +202,13 @@ class _HomeState extends State<Home> {
       }
 
       permissionGranted = await location.hasPermission();
-      if (permissionGranted == gps.PermissionStatus.denied) {
-        permissionGranted = await location.requestPermission();
-        if (permissionGranted != gps.PermissionStatus.granted) {
-          return;
-        }
+      bool? allowGps = await globals.hiveBox.get('allowGps');
+      if (allowGps == false) {
+        return;
+      }
+      if (permissionGranted == gps.PermissionStatus.denied && allowGps == null) {
+        RouteStateScope.of(context).go('/position');
+        return;
       }
 
       locationData = await location.getLocation();
@@ -429,36 +432,36 @@ class _HomeState extends State<Home> {
                           ),
                 body: HereMap(onMapCreated: _onMapCreated),
               ),
-              // if (!isConnected)
-              //   Positioned(
-              //     top: 0,
-              //     child: Opacity(
-              //       opacity: 1,
-              //       child: Container(
-              //         width: MediaQuery.of(context).size.width,
-              //         color: Colors.amber,
-              //         child: SafeArea(
-              //           child: Container(
-              //             margin: const EdgeInsets.only(
-              //                 top: 12, left: 73, bottom: 15),
-              //             child: Row(
-              //               children: const [
-              //                 Icon(Icons.cloud_off),
-              //                 SizedBox(width: 10),
-              //                 Text(
-              //                   'Aucune connexion internet',
-              //                   style: TextStyle(
-              //                       fontWeight: FontWeight.w600,
-              //                       fontFamily: 'Segoe Ui',
-              //                       fontSize: 18),
-              //                 ),
-              //               ],
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
+              //TKT if (!isConnected)
+              //TKT   Positioned(
+              //TKT     top: 0,
+              //TKT     child: Opacity(
+              //TKT       opacity: 1,
+              //TKT       child: Container(
+              //TKT         width: MediaQuery.of(context).size.width,
+              //TKT         color: Colors.amber,
+              //TKT         child: SafeArea(
+              //TKT           child: Container(
+              //TKT             margin: const EdgeInsets.only(
+              //TKT                 top: 12, left: 73, bottom: 15),
+              //TKT             child: Row(
+              //TKT               children: const [
+              //TKT                 Icon(Icons.cloud_off),
+              //TKT                 SizedBox(width: 10),
+              //TKT                 Text(
+              //TKT                   'Aucune connexion internet',
+              //TKT                   style: TextStyle(
+              //TKT                       fontWeight: FontWeight.w600,
+              //TKT                       fontFamily: 'Segoe Ui',
+              //TKT                       fontSize: 18),
+              //TKT                 ),
+              //TKT               ],
+              //TKT             ),
+              //TKT           ),
+              //TKT         ),
+              //TKT       ),
+              //TKT     ),
+              //TKT   ),
               Positioned(
                 top: 0,
                 left: 0,

@@ -28,6 +28,7 @@ class _NavikaAppState extends State<NavikaApp> {
 				'/home/address',
 				'/home/address/:type',
 				'/settings',
+				'/position',
 				'/stops/:id',
 				'/bike/:id',
 				'/home/journeys',
@@ -73,7 +74,7 @@ class _NavikaAppState extends State<NavikaApp> {
       ],
       supportedLocales: const [
         Locale('en', 'US'), // English
-        Locale('fr', 'FR'), // Thai
+        Locale('fr', 'FR'), // French
       ],
       
       //THEME
@@ -131,24 +132,6 @@ class _NavikaAppState extends State<NavikaApp> {
     ),
   );
 }
-
-
-
-/*
-Vert 2A4D14
-Bleu de prusse 24445c
-Steel Teal 5F8895
-Phtalo Blue 020887
-1b007f
-Wine Red 611925
-Raw Sienna C97D54
-*/
-
-/*
-820226
-025982
-*/
-
 
 MaterialColor generateMaterialColor(Color color) {
 	return MaterialColor(color.value, {
