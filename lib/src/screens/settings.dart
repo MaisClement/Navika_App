@@ -22,12 +22,16 @@ class _SettingsState extends State<Settings> {
   final ChromeSafariBrowser browser = ChromeSafariBrowser();
 
   void update() {
-    return;
+    setState(() {
+      displayMode = globals.hiveBox.get('displayMode') ?? 'default';
+      hideTerminusTrain = globals.hiveBox.get('hideTerminusTrain') ?? false;
+      allowGps = globals.hiveBox.get('allowGps') ?? false;
+    });
   }
 
-  String displayMode = globals.hiveBox.get('displayMode');
-  bool hideTerminusTrain = globals.hiveBox.get('hideTerminusTrain');
-  bool allowGps = globals.hiveBox.get('allowGps');
+  String displayMode = globals.hiveBox.get('displayMode') ?? 'default';
+  bool hideTerminusTrain = globals.hiveBox.get('hideTerminusTrain') ?? false;
+  bool allowGps = globals.hiveBox.get('allowGps') ?? false;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -63,7 +67,11 @@ class _SettingsState extends State<Settings> {
             ),
             SettingsButton(
               name: "Temps d'attente",
-              sub: 'Activé',
+              sub: displayMode == 'minutes'
+                  ? "Temps d'attente"
+                  : displayMode == 'hour'
+                      ? 'Heure de passage'
+                      : 'Défaut',
               icon: ScaffoldIcon.clock_regular,
               function: () {
                 showModalBottomSheet<void>(
@@ -81,7 +89,7 @@ class _SettingsState extends State<Settings> {
             ),
             SettingsButton(
               name: 'Train terminus',
-              sub: hideTerminusTrain ? 'Affiché' : 'Masqué',
+              sub: hideTerminusTrain ? 'Masqué' : 'Affiché',
               icon: ScaffoldIcon.train_2,
               function: () {
                 showModalBottomSheet<void>(

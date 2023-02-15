@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:navika/src/extensions/datetime.dart';
 import 'package:navika/src/icons/scaffold_icon_icons.dart';
@@ -332,15 +333,23 @@ class _RouteHomeState extends State<RouteHome> {
   }
 
   @override
-	Widget build(BuildContext context) => Scaffold(
-		appBar: AppBar(
-			title: Text(title,
+	Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
+    value: SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness:
+              Theme.of(context).colorScheme.brightness == Brightness.dark
+                  ? Brightness.light
+                  : Brightness.dark,
+        ),
+	  child: Scaffold(
+	  	appBar: AppBar(
+	  		title: Text(title,
         style: appBarTitle
       ),
       scrolledUnderElevation: 0,
       backgroundColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.1),
-		),
-		body: Column(
+	  	),
+	  	body: Column(
       children: [
         Container(
           padding: const EdgeInsets.only(bottom:20.0),
@@ -577,5 +586,6 @@ class _RouteHomeState extends State<RouteHome> {
       ],
       
     )
-  );
+  ),
+	);
 }

@@ -361,6 +361,7 @@ flutter:
     - assets/e-bike.svg
     - assets/parking.svg
     - assets/bus_schedules.png
+    - assets/position.png
 
     - assets/here/HERE_logo_full.svg
     - assets/here/HERE_logo_full_inverted.svg

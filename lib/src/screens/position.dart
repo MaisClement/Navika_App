@@ -39,8 +39,19 @@ class _PositionState extends State<Position> {
         body: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(
+                height: 40,
+              ),
+              const Image(
+                image: AssetImage(
+                  'assets/position.png',
+                ),
+                width: 80,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               const Text(
                 'Autoriser Navika à accéder à votre position ?',
                 style: TextStyle(
@@ -49,6 +60,7 @@ class _PositionState extends State<Position> {
                   fontSize: 20,
                   color: Colors.white,
                 ),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(
                 height: 80,

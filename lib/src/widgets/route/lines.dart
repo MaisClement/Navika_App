@@ -13,7 +13,7 @@ class RouteLines extends StatelessWidget {
 	});
 
 	@override
-	Widget build(BuildContext context) => Expanded(
+	Widget build(BuildContext context) => Expanded (
     child: Row(
       children: [
         for(var i = 0; i < sections.length; i++)
@@ -44,26 +44,26 @@ class RouteLines extends StatelessWidget {
               ],
             )
 
-          else if (sections[i]['mode'] == 'walking')
-            Wrap(
-              children: [
-                Icon(ScaffoldIcon.walking,
-                  color: walkingColor(context), //Colors.grey[700],
-                  size: 25
-                ),
-
-                if (i != sections.length -1)
-                  Container(
-                    margin: const EdgeInsets.only(top: 9, left: 2, right: 2),
-                    height: 5,
-                    width: 5,
-                    decoration: BoxDecoration(
-                      color: dividerColor(context),
-                      borderRadius: BorderRadius.circular(500)
-                    ),
-                  )
-              ],
-            ),
+          // else if (sections[i]['mode'] == 'walking')
+          //   Wrap(
+          //     children: [
+          //       Icon(ScaffoldIcon.walking,
+          //         color: walkingColor(context), //Colors.grey[700],
+          //         size: 25
+          //       ),
+// 
+          //       if (i != sections.length -1)
+          //         Container(
+          //           margin: const EdgeInsets.only(top: 9, left: 2, right: 2),
+          //           height: 5,
+          //           width: 5,
+          //           decoration: BoxDecoration(
+          //             color: dividerColor(context),
+          //             borderRadius: BorderRadius.circular(500)
+          //           ),
+          //         )
+          //     ],
+          //   ),
           
         ],
       )

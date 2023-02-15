@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/route/lines.dart';
 
-
 String getTime(String time) {
   DateTime dttime = DateTime.parse(time);
   String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
@@ -25,14 +24,15 @@ List<Widget> getDurationWidget(int d, context) {
   List<Widget> res = [];
 
   if (duration.inMinutes >= 60) {
-    res.add(Text(duration.inHours.toString(),
-        style: getTextStyle(context, 24)));
+    res.add(
+        Text(duration.inHours.toString(), style: getTextStyle(context, 24)));
 
     res.add(Text('h', style: getTextStyle(context, 10)));
 
-    res.add(Text(duration.inMinutes.remainder(60) < 10
-      ? '0${duration.inMinutes.remainder(60).toString()}'
-      : duration.inMinutes.remainder(60).toString(),
+    res.add(Text(
+        duration.inMinutes.remainder(60) < 10
+            ? '0${duration.inMinutes.remainder(60).toString()}'
+            : duration.inMinutes.remainder(60).toString(),
         style: getTextStyle(context, 24)));
   } else {
     res.add(Text(duration.inMinutes.remainder(60).toString(),
@@ -58,7 +58,8 @@ class RouteListButton extends StatelessWidget {
   Widget build(BuildContext context) => InkWell(
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.only(left: 5, top: 12.0, right: 5.0, bottom: 0),
+          padding:
+              const EdgeInsets.only(left: 5, top: 12.0, right: 0.0, bottom: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -93,8 +94,12 @@ class RouteListButton extends StatelessWidget {
                   RouteLines(
                     sections: journey['sections'],
                   ),
-                  Row(
-                    children: getDurationWidget(journey['duration'], context),
+                  Container(
+                    padding: const EdgeInsets.only(right: 5),
+                    color: backgroundColor(context),
+                    child: Row(
+                      children: getDurationWidget(journey['duration'], context),
+                    ),
                   ),
                 ],
               ),

@@ -71,10 +71,10 @@ class _SchedulesBodyState extends State<SchedulesBody>
         vsync: this, length: getModesLength(globals.schedulesStopModes));
     checkUpdates();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await _getSchedules();
       _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
         _getSchedules();
       });
+      await _getSchedules();
     });
   }
 

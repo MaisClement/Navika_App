@@ -88,7 +88,7 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
                         });
                         globals.hiveBox.put('stopsFavorites', list);
                         Navigator.pop(context);
-                        RouteStateScope.of(context).go('/schedules');
+                        //RouteStateScope.of(context).go('/schedules');
                         FloatingSnackBar(
                           message: 'Favoris ajouté.',
                           context: context,

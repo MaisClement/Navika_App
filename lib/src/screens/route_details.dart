@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
@@ -189,112 +190,121 @@ class _RouteDetailsState extends State<RouteDetails> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            SlidingUpPanel(
-              parallaxEnabled: true,
-              parallaxOffset: 0.6,
-              color: backgroundColor(context),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-                bottomLeft: Radius.zero,
-                bottomRight: Radius.zero,
+  Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness:
+              Theme.of(context).colorScheme.brightness == Brightness.dark
+                  ? Brightness.light
+                  : Brightness.dark,
+        ),
+        child: Scaffold(
+          body: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              SlidingUpPanel(
+                parallaxEnabled: true,
+                parallaxOffset: 0.6,
+                color: backgroundColor(context),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                  bottomLeft: Radius.zero,
+                  bottomRight: Radius.zero,
+                ),
+                snapPoint: 0.55,
+                minHeight: 100,
+                maxHeight: (MediaQuery.of(context).size.height - 95),
+                controller: panelController,
+                onPanelSlide: (position) => onPanelSlide(position),
+                header: RoutePannel(opacity: getOpacity(_position)),
+                panelBuilder: (ScrollController scrollController) => RouteBody(
+                  scrollController: scrollController,
+                  journey: globals.journey,
+                ),
+                body: HereMap(onMapCreated: _onMapCreated),
               ),
-              snapPoint: 0.55,
-              minHeight: 100,
-              maxHeight: (MediaQuery.of(context).size.height - 95),
-              controller: panelController,
-              onPanelSlide: (position) => onPanelSlide(position),
-              header: RoutePannel(opacity: getOpacity(_position)),
-              panelBuilder: (ScrollController scrollController) => RouteBody(
-                scrollController: scrollController,
-                journey: globals.journey,
-              ),
-              body: HereMap(onMapCreated: _onMapCreated),
-            ),
-            Positioned(
-              top: 0,
-              child: Opacity(
-                opacity: getAppBarOpacity(_position),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  color: Theme.of(context).colorScheme.onSecondaryContainer,
-                  child: SafeArea(
-                    child: Container(
-                      margin:
-                          const EdgeInsets.only(top: 12, left: 73, bottom: 15),
-                      child: const Text(
-                        'Itinéraires',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Segoe Ui',
-                            fontSize: 22),
+              Positioned(
+                top: 0,
+                child: Opacity(
+                  opacity: getAppBarOpacity(_position),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    child: SafeArea(
+                      child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 12, left: 73, bottom: 15),
+                        child: const Text(
+                          'Itinéraires',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Segoe Ui',
+                              fontSize: 22),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              top: 0,
-              left: 0,
-              child: SafeArea(
-                child: Container(
-                  margin: const EdgeInsets.only(top: 10, left: 8, bottom: 15),
-                  width: 40,
-                  height: 40,
-                  child: Material(
-                    borderRadius: BorderRadius.circular(500),
-                    elevation: 4.0,
-                    shadowColor:
-                        Colors.black.withOpacity(getOpacity(_position)),
-                    color: Theme.of(context).colorScheme.onSecondaryContainer,
-                    child: InkWell(
+              Positioned(
+                top: 0,
+                left: 0,
+                child: SafeArea(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 10, left: 8, bottom: 15),
+                    width: 40,
+                    height: 40,
+                    child: Material(
                       borderRadius: BorderRadius.circular(500),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(Icons.arrow_back),
+                      elevation: 4.0,
+                      shadowColor:
+                          Colors.black.withOpacity(getOpacity(_position)),
+                      color: Theme.of(context).colorScheme.onSecondaryContainer,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(500),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Icon(Icons.arrow_back),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              right: 20,
-              bottom: panelButtonBottomOffset,
-              child: Opacity(
-                opacity: getOpacity(_position),
-                child: FloatingActionButton(
-                  backgroundColor:
-                      Theme.of(context).colorScheme.onSecondaryContainer,
-                  child: _isInBox
-                      ? Icon(ScaffoldIcon.location_indicator,
-                          color: tabLabelColor(context), size: 30)
-                      : Icon(ScaffoldIcon.locate,
-                          color: tabLabelColor(context), size: 30),
-                  onPressed: () {
-                    _zoomOn();
-                    closePanel();
-                  },
+              Positioned(
+                right: 20,
+                bottom: panelButtonBottomOffset,
+                child: Opacity(
+                  opacity: getOpacity(_position),
+                  child: FloatingActionButton(
+                    backgroundColor:
+                        Theme.of(context).colorScheme.onSecondaryContainer,
+                    child: _isInBox
+                        ? Icon(ScaffoldIcon.location_indicator,
+                            color: tabLabelColor(context), size: 30)
+                        : Icon(ScaffoldIcon.locate,
+                            color: tabLabelColor(context), size: 30),
+                    onPressed: () {
+                      _zoomOn();
+                      closePanel();
+                    },
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              left: 10,
-              bottom: panelButtonBottomOffset - 20,
-              child: Opacity(
-                opacity: getOpacity(_position),
-                child: SvgPicture.asset(
-                  hereIcon(context),
-                  width: 50,
+              Positioned(
+                left: 10,
+                bottom: panelButtonBottomOffset - 20,
+                child: Opacity(
+                  opacity: getOpacity(_position),
+                  child: SvgPicture.asset(
+                    hereIcon(context),
+                    width: 50,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
 
@@ -367,8 +377,11 @@ class _RouteDetailsState extends State<RouteDetails> {
   }
 
   void _addLocationIndicator(gps.LocationData locationData) {
-    _controller?.addLocationIndicator(locationData,
-        LocationIndicatorIndicatorStyle.pedestrian, globals.compassHeading, true);
+    _controller?.addLocationIndicator(
+        locationData,
+        LocationIndicatorIndicatorStyle.pedestrian,
+        globals.compassHeading,
+        true);
   }
 
   void _updateLocationIndicator(gps.LocationData locationData) {

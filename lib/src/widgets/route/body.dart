@@ -24,14 +24,15 @@ class RouteBody extends StatelessWidget {
             decoration: BoxDecoration(
               color: RouteBhColor(context),
             ),
-            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+            padding: const EdgeInsets.only(left: 10, bottom: 10),
             child: Row(
               children: [
                 RouteLines(
                   sections: journey['sections'],
                 ),
                 Container(
-                  padding: const EdgeInsets.only(bottom: 5),
+                  padding: const EdgeInsets.only(bottom: 5, right: 10),
+                  color: RouteBhColor(context),
                   child: Row(
                     children: getDurationWidget(journey['duration'], context),
                   ),
