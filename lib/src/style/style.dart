@@ -36,9 +36,9 @@ topBarColor(context) {
 
 backgroundColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return const Color(0xff191919);
+    return const Color(0xff000000);
   }
-  return const Color(0xfffafafa);
+  return const Color(0xffffffff);
 }
 
 accentColor(context) {
@@ -116,6 +116,13 @@ departureList(context, Color color) {
     return color.withOpacity(0.2);
   }
   return Colors.white.withOpacity(0.8);
+}
+
+departureListNoColor(context) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return Color(0xff222222);
+  }
+  return Color(0xffeeeeee);
 }
 
 schedulesIsDark(context, color) {

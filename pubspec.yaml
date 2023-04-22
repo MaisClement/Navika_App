@@ -52,7 +52,7 @@ dependencies:
   firebase_messaging: ^14.2.1
   firebase_core: ^2.4.1
   floating_snackbar: ^1.0.3+1
-  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.2.19
 
   flutter_localizations:
     sdk: flutter

@@ -11,6 +11,7 @@ import 'package:navika/src/data.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/icons/scaffold_icon_icons.dart';
 import 'package:navika/src/screens/home.dart';
+import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/widgets/route/body.dart';
 import 'package:navika/src/widgets/route/header.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -199,6 +200,7 @@ class _RouteDetailsState extends State<RouteDetails> {
                   : Brightness.dark,
         ),
         child: Scaffold(
+      bottomNavigationBar: getNavigationBar(context),
           body: Stack(
             alignment: Alignment.topCenter,
             children: [
@@ -214,7 +216,7 @@ class _RouteDetailsState extends State<RouteDetails> {
                 ),
                 snapPoint: 0.55,
                 minHeight: 100,
-                maxHeight: (MediaQuery.of(context).size.height - 95),
+                maxHeight: (MediaQuery.of(context).size.height - 165),
                 controller: panelController,
                 onPanelSlide: (position) => onPanelSlide(position),
                 header: RoutePannel(opacity: getOpacity(_position)),

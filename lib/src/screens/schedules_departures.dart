@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/data.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
+import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/widgets/departures/list.dart';
 import 'package:navika/src/widgets/departures/block.dart';
 import 'package:flutter/foundation.dart';
@@ -103,6 +104,7 @@ class _DepartureDetailsState extends State<DepartureDetails>
 
   @override
   Widget build(BuildContext context) => Scaffold(
+      bottomNavigationBar: getNavigationBar(context),
     appBar: AppBar(
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,12 +120,11 @@ class _DepartureDetailsState extends State<DepartureDetails>
         ],
       ),
     ),
-    body: Container(
+    body: SizedBox(
       height: double.infinity,
       child: ListView(
         shrinkWrap: true,
-        children: [
-          
+        children: [          
           if (error != '')
             ErrorMessage(
               error: error,
@@ -152,7 +153,7 @@ class _DepartureDetailsState extends State<DepartureDetails>
                 margin: const EdgeInsets.only(left:5.0, top:0.0, right:5.0, bottom:0.0),
                 child: DepartureList(
                   train: train,
-                  color: Color(0xff000000),
+                  color: departureListNoColor(context),
                   update: update,
                   from: widget.id,
                 ),

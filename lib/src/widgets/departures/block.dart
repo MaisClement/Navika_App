@@ -59,7 +59,7 @@ class DepartureBlock extends StatelessWidget {
       else
         for (var departure in departures)
           Container(
-            margin: const EdgeInsets.only(bottom:10.0),
+            margin: const EdgeInsets.only(bottom:10.0, left: 10, right: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: HexColor.fromHex(departure['color']).withOpacity(0.1), // Color.fromARGB(255, 230, 230, 230), // 
@@ -141,7 +141,7 @@ class DepartureBlock extends StatelessWidget {
                         for (var train in clearTrain( departure['departures'] ).sublist(0, clearTrain( departure['departures'] ).length > 5 ? 5 : clearTrain( departure['departures'] ).length))
                           DepartureList(
                             train: train,
-                            color: HexColor.fromHex(departure['color']),
+                            color: departureList(context, HexColor.fromHex(departure['color'])),
                             update: update,
                           from: from,
                           ),

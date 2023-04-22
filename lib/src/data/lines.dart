@@ -160,5 +160,5 @@ final LINES = LinesInfo()
 
 
 ..addLine('TER', 'TER', 'TER','assets/img/sncf/TER_color.png',  'TER','assets/img/sncf/TER_dark.png','assets/img/sncf/TER_white.png')
-..addLine('SNCF', 'SNCF', 'Trains SNCF','assets/img/null.png',  'SNCF','assets/img/sncf/logo_color.png','assets/img/sncf/logo_white.png')
+..addLine('SNCF', 'SNCF', 'Trains SNCF','assets/img/sncf/logo_color.png',  'SNCF','assets/img/sncf/logo_color.png','assets/img/sncf/logo_white.png')
 ;

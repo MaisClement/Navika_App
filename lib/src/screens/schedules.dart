@@ -137,6 +137,7 @@ class _SchedulesState extends State<Schedules> {
                   modes: fav['modes'],
                   line: fav['line'],
                   update: updateFavorites,
+                  removeSeparator: (favs[0] == fav),
                 ),
           ],
         ),

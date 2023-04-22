@@ -47,11 +47,6 @@ class HomeBody extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Divider(
-                  height: 5,
-                  thickness: 5,
-                  color: dividerColor(context),
-                ),
                 Container(
                   padding: const EdgeInsets.only(left: 10, bottom: 10),
                   child: Text(
@@ -73,7 +68,7 @@ class HomeBody extends StatelessWidget {
               modes: fav['modes'],
               line: fav['line'],
               update: update,
-              removeSeparator: favs.indexOf(fav) == 0,
+              removeSeparator: (favs[0] == fav),
             ),
 
           //

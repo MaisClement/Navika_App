@@ -18,10 +18,7 @@ class LinesIcones extends StatelessWidget {
 	Widget build(BuildContext context) => Stack(
     children: [
       if (LINES.isLineById(line['id']))
-        if (line['id'] == 'SNCF' || line['id'] == 'TER')
-          const Text('')
-        else
-          Container(
+        Container(
             width: size,
             height: size,
             margin: const EdgeInsets.only(left:5.0, top:5.0,right:0.0,bottom:5.0),

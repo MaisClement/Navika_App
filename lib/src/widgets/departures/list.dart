@@ -6,7 +6,12 @@ import 'package:navika/src/widgets/departures/message.dart';
 import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/bottom_sheets/terminus_trains.dart';
 
-List getState(String departure, String expectedDeparture, String state) {
+List getState(Map train) {
+
+  String departure = train['stop_date_time']['departure_date_time'];
+  String expectedDeparture = train['stop_date_time']['base_departure_date_time'];
+  String state = train['stop_date_time']['state'];
+
   List res = [];
   if (state == 'modified') {
     res.add('modified');
@@ -14,7 +19,7 @@ List getState(String departure, String expectedDeparture, String state) {
   if (state != 'ontime' && state != 'theorical') {
     res.add(state);
   }
-  if (getLate(departure, expectedDeparture) > 0) {
+  if (getLate(train) > 0) {
     res.add('delayed');
   }
   //else {
@@ -24,7 +29,10 @@ List getState(String departure, String expectedDeparture, String state) {
   return res;
 }
 
-int getLate(String departure, String expectedDeparture) {
+int getLate(Map train) {
+  String departure = train['stop_date_time']['departure_date_time'];
+  String expectedDeparture = train['stop_date_time']['base_departure_date_time'];
+  
   if (departure == '' || expectedDeparture == '') {
     return 0;
   }
@@ -111,42 +119,30 @@ class DepartureList extends StatelessWidget {
                 left: 10.0, top: 0.0, right: 0.0, bottom: 0.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(7),
-              color: departureList(context, color),
+              color: color,
               border: Border(
                 top: BorderSide(
                   width: 3,
                   color: getColorByState(
-                      getState(
-                          train['stop_date_time']['departure_date_time'],
-                          train['stop_date_time']['base_departure_date_time'],
-                          train['stop_date_time']['state']),
+                      getState(train),
                       context),
                 ),
                 bottom: BorderSide(
                   width: 3,
                   color: getColorByState(
-                      getState(
-                          train['stop_date_time']['departure_date_time'],
-                          train['stop_date_time']['base_departure_date_time'],
-                          train['stop_date_time']['state']),
+                      getState(train),
                       context),
                 ),
                 left: BorderSide(
                   width: 3,
                   color: getColorByState(
-                      getState(
-                          train['stop_date_time']['departure_date_time'],
-                          train['stop_date_time']['base_departure_date_time'],
-                          train['stop_date_time']['state']),
+                      getState(train),
                       context),
                 ),
                 right: BorderSide(
                   width: 3,
                   color: getColorByState(
-                      getState(
-                          train['stop_date_time']['departure_date_time'],
-                          train['stop_date_time']['base_departure_date_time'],
-                          train['stop_date_time']['state']),
+                      getState(train),
                       context),
                 ),
               ),
@@ -170,13 +166,7 @@ class DepartureList extends StatelessWidget {
                                           fontWeight: FontWeight.w600,
                                           fontFamily: 'Segoe Ui',
                                           color: getColorForDirectionByState(
-                                              getState(
-                                                  train['stop_date_time']
-                                                      ['departure_date_time'],
-                                                  train['stop_date_time'][
-                                                      'base_departure_date_time'],
-                                                  train['stop_date_time']
-                                                      ['state']),
+                                              getState(train),
                                               context),
                                         )
                                       : TextStyle(
@@ -228,16 +218,11 @@ class DepartureList extends StatelessWidget {
                               color: Colors.white,
                               backgroundColor: Color.fromARGB(255, 32, 32, 235),
                             ),
-                          if (getState(
-                                  train['stop_date_time']
-                                      ['departure_date_time'],
-                                  train['stop_date_time']
-                                      ['base_departure_date_time'],
-                                  train['stop_date_time']['state'])
+                          if (getState(train)
                               .contains('delayed'))
                             MiniMessage(
                               message:
-                                  '+${getLate(train["stop_date_time"]["departure_date_time"], train["stop_date_time"]["base_departure_date_time"])} min',
+                                  '+${getLate(train)} min',
                               color: Colors.white,
                               backgroundColor: const Color(0xffeb2031),
                             ),
@@ -265,14 +250,8 @@ class DepartureList extends StatelessWidget {
                         time: train['stop_date_time']['departure_date_time'],
                         base: train['stop_date_time']
                             ['base_departure_date_time'],
-                        state: getState(
-                            train['stop_date_time']['departure_date_time'],
-                            train['stop_date_time']['base_departure_date_time'],
-                            train['stop_date_time']['state']),
-                        late: getLate(
-                            train['stop_date_time']['departure_date_time'],
-                            train['stop_date_time']
-                                ['base_departure_date_time']),
+                        state: getState(train),
+                        late: getLate(train),
                         track: train['stop_date_time']['platform'],
                         update: update,
                       ),

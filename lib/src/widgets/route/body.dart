@@ -18,8 +18,6 @@ class RouteBody extends StatelessWidget {
         controller: scrollController,
         padding: const EdgeInsets.only(top: 30),
         children: [
-// Messages de l'index
-
           Container(
             decoration: BoxDecoration(
               color: RouteBhColor(context),
@@ -40,6 +38,7 @@ class RouteBody extends StatelessWidget {
               ],
             ),
           ),
+          Text('pas content ?')
         ],
       );
 }

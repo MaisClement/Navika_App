@@ -106,10 +106,10 @@ class RouteListButton extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              Container(
+              Divider(
                 height: 1,
-                decoration: BoxDecoration(color: dividerColor(context)),
-              ),
+                color: dividerColor(context),
+              )
             ],
           ),
         ),

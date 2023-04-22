@@ -19,6 +19,9 @@ class Trafic extends StatefulWidget {
 class _TraficState extends State<Trafic> {
   final String title = 'Info Trafic';
 
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
+
   bool state = false;
   List trafic = [];
   String error = '';
@@ -63,18 +66,22 @@ class _TraficState extends State<Trafic> {
         appBar: AppBar(
           title: Text(title, style: appBarTitle),
         ),
-        body: state
-            ? Container(
+        body: error != ''
+            ? ErrorBlock(
+                error: error,
+              )
+            : Container(
                 padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                 child: RefreshIndicator(
                   onRefresh: _getTrafic,
+                  key: _refreshIndicatorKey,
                   child: ListView(
                     children: [
                       // Messages de l'index
                       if (globals.index?['message'] != null)
                         for (var message in globals.index?['message'])
                           Container(
-                            margin: const EdgeInsets.only(bottom: 20.0),
+                            margin: const EdgeInsets.only(bottom: 20.0, top: 20.0),
                             child: HomeMessage(
                               message: message,
                               isMarginDisabled: true,
@@ -85,13 +92,8 @@ class _TraficState extends State<Trafic> {
                       Row(
                         children: [
                           Container(
-                            margin: const EdgeInsets.only(
-                                left: 0.0, top: 5.0, right: 0.0, bottom: 0.0),
-                            padding: const EdgeInsets.only(
-                                left: 10.0,
-                                top: 10.0,
-                                right: 10.0,
-                                bottom: 10.0),
+                            margin: const EdgeInsets.only(top: 5.0),
+                            padding: const EdgeInsets.all(10.0),
                             width: 45,
                             height: 45,
                             child: Image(
@@ -130,24 +132,17 @@ class _TraficState extends State<Trafic> {
                         ],
                       ),
 
-                      Container(
-                        margin: const EdgeInsets.only(
-                            left: 0.0, top: 10.0, right: 0.0, bottom: 10.0),
+                      Divider(
                         color: const Color.fromARGB(255, 70, 70, 70),
-                        height: 1.5,
+                        thickness: 1.5,
                       ),
 
 // TRAIN
                       Row(
                         children: [
                           Container(
-                              margin: const EdgeInsets.only(
-                                  left: 0.0, top: 5.0, right: 0.0, bottom: 0.0),
-                              padding: const EdgeInsets.only(
-                                  left: 10.0,
-                                  top: 10.0,
-                                  right: 10.0,
-                                  bottom: 10.0),
+                              margin: const EdgeInsets.only(top: 5.0),
+                              padding: const EdgeInsets.all(10.0),
                               width: 45,
                               height: 45,
                               child: Image(
@@ -198,24 +193,17 @@ class _TraficState extends State<Trafic> {
                         ],
                       ),
 
-                      Container(
-                        margin: const EdgeInsets.only(
-                            left: 0.0, top: 10.0, right: 0.0, bottom: 10.0),
+                     Divider(
                         color: const Color.fromARGB(255, 70, 70, 70),
-                        height: 1.5,
+                        thickness: 1.5,
                       ),
 
 // METRO
                       Row(
                         children: [
                           Container(
-                            margin: const EdgeInsets.only(
-                                left: 0.0, top: 5.0, right: 0.0, bottom: 0.0),
-                            padding: const EdgeInsets.only(
-                                left: 10.0,
-                                top: 10.0,
-                                right: 10.0,
-                                bottom: 10.0),
+                            margin: const EdgeInsets.only(top: 5.0),
+                            padding: const EdgeInsets.all(10.0),
                             width: 45,
                             height: 45,
                             child: Image(
@@ -306,24 +294,17 @@ class _TraficState extends State<Trafic> {
                         ],
                       ),
 
-                      Container(
-                        margin: const EdgeInsets.only(
-                            left: 0.0, top: 10.0, right: 0.0, bottom: 10.0),
+                      Divider(
                         color: const Color.fromARGB(255, 70, 70, 70),
-                        height: 1.5,
+                        thickness: 1.5,
                       ),
 
 // TRAM
                       Row(
                         children: [
                           Container(
-                            margin: const EdgeInsets.only(
-                                left: 0.0, top: 5.0, right: 0.0, bottom: 0.0),
-                            padding: const EdgeInsets.only(
-                                left: 10.0,
-                                top: 10.0,
-                                right: 10.0,
-                                bottom: 10.0),
+                            margin: const EdgeInsets.only(top: 5.0),
+                            padding: const EdgeInsets.all(10.0),
                             width: 45,
                             height: 45,
                             child: Image(
@@ -392,48 +373,14 @@ class _TraficState extends State<Trafic> {
                     ],
                   ),
                 ),
-              )
-            : error != ''
-                ? ErrorBlock(
-                    error: error,
-                  )
-                : Container(
-                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                    child: ListView(
-                      children: [
-                        // Messages de l'index
-                        if (globals.index?['message'] != null)
-                          for (var message in globals.index?['message'])
-                            Container(
-                              margin: const EdgeInsets.only(bottom: 20.0),
-                              child: HomeMessage(
-                                message: message,
-                                isMarginDisabled: true,
-                              ),
-                            ),
-
-                        Column(
-                          children: [
-                            const SizedBox(height: 25),
-                            const CircularProgressIndicator(),
-                            Text(
-                              'Chargement...',
-                              style: TextStyle(
-                                  color: accentColor(context),
-                                  fontWeight: FontWeight.w700),
-                            ),
-                            const SizedBox(height: 20)
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
+              ),
       );
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _getTrafic());
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => {_refreshIndicatorKey.currentState?.show()});
   }
 
   @override

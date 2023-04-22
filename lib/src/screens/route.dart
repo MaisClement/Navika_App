@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:navika/src/extensions/datetime.dart';
 import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/route/listbutton.dart';
 
@@ -342,6 +343,7 @@ class _RouteHomeState extends State<RouteHome> {
                   : Brightness.dark,
         ),
 	  child: Scaffold(
+      bottomNavigationBar: getNavigationBar(context),
 	  	appBar: AppBar(
 	  		title: Text(title,
         style: appBarTitle

@@ -20,7 +20,11 @@ String getTime(String time) {
   }
 
   DateTime dttime = DateTime.parse(time);
-  dttime = dttime.add(const Duration(hours: 1));
+
+  var now = DateTime.now();
+  var timezoneOffsetInMinutes = now.timeZoneOffset.inMinutes;
+  dttime = dttime.add(Duration(minutes: timezoneOffsetInMinutes));
+
   String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
   String dtminute =
       dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
@@ -71,18 +75,16 @@ class TimeBlock extends StatelessWidget {
         children: [
           if (state.contains('cancelled'))
             TimerMessage(
-              message: 'Supprimé',
-              backgroundColor: getBackColorByState(state, context),
-              color: Colors.white,
-              allround: state.length > 1
-            ),
+                message: 'Supprimé',
+                backgroundColor: getBackColorByState(state, context),
+                color: Colors.white,
+                allround: state.length > 1),
           if (state.contains('modified'))
             TimerMessage(
-              message: 'Terminus ex.',
-              backgroundColor: getBackColorByState(state, context),
-              color: Colors.white,
-              allround: state.length > 1
-            ),
+                message: 'Terminus ex.',
+                backgroundColor: getBackColorByState(state, context),
+                color: Colors.white,
+                allround: state.length > 1),
           if (state.contains('delayed') && late > 0)
             TimerMessage(
               message: '+${late.toString()} min',
