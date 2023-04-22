@@ -119,7 +119,6 @@ class _DepartureDetailsState extends State<DepartureDetails>
       ),
     ),
     body: Container(
-      color: HexColor.fromHex(departure['color']).withOpacity(0.1),
       height: double.infinity,
       child: ListView(
         shrinkWrap: true,
@@ -133,7 +132,7 @@ class _DepartureDetailsState extends State<DepartureDetails>
           if (departure['departures'].isEmpty) 
             Row(
               children: [
-                SvgPicture.asset('assets/cancel.svg',
+                SvgPicture.asset('assets/img/cancel.svg',
                     color: accentColor(context),
                     height: 18
                   ),
@@ -153,7 +152,7 @@ class _DepartureDetailsState extends State<DepartureDetails>
                 margin: const EdgeInsets.only(left:5.0, top:0.0, right:5.0, bottom:0.0),
                 child: DepartureList(
                   train: train,
-                  color: HexColor.fromHex(departure['color']),
+                  color: Color(0xff000000),
                   update: update,
                   from: widget.id,
                 ),

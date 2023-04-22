@@ -41,9 +41,9 @@ class ModeIcones extends StatelessWidget {
         margin: i == 0 ? const EdgeInsets.only(left:5.0, top:5.0,right:0.0,bottom:5.0) : const EdgeInsets.only(left:20.0, top:5.0,right:0.0,bottom:5.0),
         child:
           isDark ?
-            const Image(image: AssetImage('assets/icons/BUS_dark.png'))
+            const Image(image: AssetImage('assets/img/icons/BUS_dark.png'))
           :
-            const Image(image: AssetImage('assets/icons/BUS_white.png')),
+            const Image(image: AssetImage('assets/img/icons/BUS_white.png')),
       )
     ],
   );

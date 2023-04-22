@@ -40,7 +40,7 @@ class SchedulesList extends StatelessWidget {
               if (modes.contains(line['mode']))
                 Container(
                   margin: const EdgeInsets.only(
-                      left: 10.0, top: 10.0, right: 10.0, bottom: 0.0),
+                      left: 10.0, right: 10.0, bottom: 10.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color: HexColor.fromHex(line['color']).withOpacity(
@@ -99,7 +99,7 @@ class SchedulesList extends StatelessWidget {
                           if (line['terminus_schedules'].isEmpty)
                             Row(
                               children: [
-                                SvgPicture.asset('assets/cancel.svg',
+                                SvgPicture.asset('assets/img/cancel.svg',
                                     color: accentColor(context), height: 18),
                                 Text(
                                   'Aucune information',
@@ -185,7 +185,7 @@ class SchedulesList extends StatelessWidget {
                                             child: Row(
                                               children: [
                                                 SvgPicture.asset(
-                                                    'assets/cancel.svg',
+                                                    'assets/img/cancel.svg',
                                                     color:
                                                         const Color(0xffa9a9a9),
                                                     height: 15),

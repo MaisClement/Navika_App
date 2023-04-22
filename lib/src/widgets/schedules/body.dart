@@ -273,23 +273,9 @@ class _SchedulesBodyState extends State<SchedulesBody>
             height: 80,
           ),
         if (getModesLength(globals.schedulesStopModes) > 1)
-          Container(
-            margin:
-                const EdgeInsets.only(top: 10, right: 10, left: 10, bottom: 10),
-            height: 70,
-            decoration: BoxDecoration(
-              color: tabBackgroundColor(context),
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: TabBar(
-              controller: _tabController,
-              indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  color: Theme.of(context).colorScheme.primary),
-              labelColor: Colors.white,
-              unselectedLabelColor: tabLabelColor(context),
-              tabs: getModesTabs(globals.schedulesStopModes),
-            ),
+          TabBar(
+            controller: _tabController,
+            tabs: getModesTabs(globals.schedulesStopModes),
           ),
         Expanded(
           child: TabBarView(

@@ -45,7 +45,7 @@ class _PositionState extends State<Position> {
               ),
               const Image(
                 image: AssetImage(
-                  'assets/position.png',
+                  'assets/img/position.png',
                 ),
                 width: 80,
               ),

@@ -101,7 +101,7 @@ class FavoriteDepartures extends StatelessWidget {
                     if (clearTrain( departure['departures'] ).isEmpty) 
                       Row(
                         children: [
-                          SvgPicture.asset('assets/cancel.svg',
+                          SvgPicture.asset('assets/img/cancel.svg',
                               color: accentColor(context),
                               height: 18
                             ),

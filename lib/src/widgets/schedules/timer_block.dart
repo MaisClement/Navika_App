@@ -108,7 +108,7 @@ class TimerBlock extends StatelessWidget {
                 ),
                 state == 'theorical'
                 ? const Text('')
-                : SvgPicture.asset('assets/sign_top.svg',
+                : SvgPicture.asset('assets/img/sign_top.svg',
                     color: getColorByState(state, context),
                     height: 15
                   )

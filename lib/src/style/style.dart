@@ -22,9 +22,9 @@ mainColor(context) {
 
 hereIcon(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return 'assets/here/HERE_logo_full_inverted.svg';
+    return 'assets/img/here/HERE_logo_full_inverted.svg';
   }
-  return 'assets/here/HERE_logo_full.svg';
+  return 'assets/img/here/HERE_logo_full.svg';
 }
 
 topBarColor(context) {
@@ -67,13 +67,6 @@ dividerColor(context) {
     return const Color(0xff606060);
   }
   return Colors.grey[300];
-}
-
-tabBackgroundColor(context) {
-  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return Colors.grey[900];
-  }
-  return Colors.grey[200];
 }
 
 tabLabelColor(context) {

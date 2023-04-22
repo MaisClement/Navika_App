@@ -59,7 +59,7 @@ class DepartureBlock extends StatelessWidget {
       else
         for (var departure in departures)
           Container(
-            margin: const EdgeInsets.only(left:10.0, top:5.0,right:10.0,bottom:10.0),
+            margin: const EdgeInsets.only(bottom:10.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: HexColor.fromHex(departure['color']).withOpacity(0.1), // Color.fromARGB(255, 230, 230, 230), // 
@@ -123,7 +123,7 @@ class DepartureBlock extends StatelessWidget {
                       if (clearTrain( departure['departures'] ).isEmpty) 
                         Row(
                           children: [
-                            SvgPicture.asset('assets/cancel.svg',
+                            SvgPicture.asset('assets/img/cancel.svg',
                                 color: accentColor(context),
                                 height: 18
                               ),

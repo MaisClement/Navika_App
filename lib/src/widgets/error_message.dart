@@ -17,7 +17,7 @@ class ErrorMessage extends StatelessWidget {
       Row(
         children: [
           const SizedBox(width: 15),
-          SvgPicture.asset('assets/cancel.svg',
+          SvgPicture.asset('assets/img/cancel.svg',
             color: Colors.grey[600],
             height: 18,
           ),

@@ -60,24 +60,24 @@ Color getSlugBack(severity, [type]){
 
 AssetImage getSlugImage(severity, [type]){
   if (severity == 0 && (type == null || type == 0)){
-    return const AssetImage('assets/null.png');
+    return const AssetImage('assets/img/null.png');
   } else if (severity == 0 && type != null && type == 1){
-    return const AssetImage('assets/modal/valid_small.png');
+    return const AssetImage('assets/img/modal/valid.png');
   } else if (severity == 5){
-    return const AssetImage('assets/modal/error_small.png');
+    return const AssetImage('assets/img/modal/error.png');
   } else if (severity == 4){
-    return const AssetImage('assets/modal/warning_small.png');
+    return const AssetImage('assets/img/modal/warning.png');
   } else if (severity == 3){
-    return const AssetImage('assets/modal/work_small.png');
+    return const AssetImage('assets/img/modal/work.png');
   } else if (severity == 2){
-    return const AssetImage('assets/modal/futur_work_small.png');
+    return const AssetImage('assets/img/modal/futur_work.png');
   } else if (severity == 1){
-    return const AssetImage('assets/modal/information_small.png');
+    return const AssetImage('assets/img/modal/information.png');
   } else if (type != null && type == 1) {
-    return const AssetImage('assets/modal/valid_small.png');
+    return const AssetImage('assets/img/modal/valid.png');
   } else {
-    return const AssetImage('assets/null.png');
-    // return const AssetImage('assets/modal/interogation_grey.png');
+    return const AssetImage('assets/img/null.png');
+    // return const AssetImage('assets/img/modal/interogation_grey.png');
   } 
 }
 

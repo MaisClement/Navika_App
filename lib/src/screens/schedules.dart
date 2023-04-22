@@ -81,7 +81,7 @@ class _SchedulesState extends State<Schedules> {
                   children: [
                     const Image(
                       image: AssetImage(
-                        'assets/bus_schedules.png',
+                        'assets/img/bus_schedules.png',
                       ),
                       width: 80,
                     ),

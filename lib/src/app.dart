@@ -60,6 +60,8 @@ class _NavikaAppState extends State<NavikaApp> {
 		super.initState();
 	}
 
+  Color mainColor = const Color(0xff025982);
+
 	@override
 	Widget build(BuildContext context) => RouteStateScope(
     notifier: _routeState,
@@ -72,6 +74,7 @@ class _NavikaAppState extends State<NavikaApp> {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
+
       supportedLocales: const [
         Locale('en', 'US'), // English
         Locale('fr', 'FR'), // French
@@ -81,7 +84,22 @@ class _NavikaAppState extends State<NavikaApp> {
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.light,
-        primarySwatch: generateMaterialColor(const Color(0xff025982)), // generateMaterialColor(const Color(0xff611925)),
+
+        colorScheme: ColorScheme(
+          brightness: Brightness.light,
+          primary: mainColor,
+          onPrimary: const Color(0xFFFFFFFF),
+          secondary: const Color(0xFFFFFFFF),
+          onSecondary: const Color(0xFFFFFFFF),
+          error: const Color(0xFFF32424),
+          onError: const Color(0xFFF32424),
+          background: const Color(0xFFF1F2F3),
+          onBackground: const Color(0xFFFFFFFF),
+          surface: const Color(0xFFFFFFFF),
+          onSurface: const Color(0xff000000),
+        ),
+        scaffoldBackgroundColor: const Color(0xffffffff),
+
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
             TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
@@ -92,31 +110,33 @@ class _NavikaAppState extends State<NavikaApp> {
           },
         ),
         navigationBarTheme: NavigationBarThemeData(
-          indicatorColor: const Color(0xff025982).withOpacity(0.2),
+          indicatorColor: mainColor.withOpacity(0.2),
           iconTheme: MaterialStateProperty.all(
-            const IconThemeData(
-              color: Colors.black
+            IconThemeData(
+              color: mainColor
             )
           )
         )
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xff1e1e1e)
-        ),
-        scaffoldBackgroundColor: const Color(0xff191919),
         brightness: Brightness.dark,
-        primarySwatch: generateMaterialColor(const Color(0xff025982)), // generateMaterialColor(const Color(0xff611925)),
-        pageTransitionsTheme: const PageTransitionsTheme(
-          builders: {
-            TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
-            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-            TargetPlatform.linux: FadeUpwardsPageTransitionsBuilder(),
-            TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
-            TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
-          },
+
+        colorScheme: ColorScheme(
+          brightness: Brightness.dark,
+          primary: mainColor,
+          onPrimary: const Color(0xff000000),
+          secondary: const Color(0xff000000),
+          onSecondary: const Color(0xff000000),
+          error: const Color(0xFFF32424),
+          onError: const Color(0xFFF32424),
+          background: const Color(0xFFF1F2F3),
+          onBackground: const Color(0xff000000),
+          surface: const Color(0xff000000),
+          onSurface: const Color(0xffffffff),
         ),
+        scaffoldBackgroundColor: const Color(0xff000000),
+        
         navigationBarTheme: NavigationBarThemeData(
           backgroundColor: const Color(0xff1e1e1e),
           indicatorColor: const Color(0xff025982),
@@ -127,6 +147,7 @@ class _NavikaAppState extends State<NavikaApp> {
           )
         )
       ),
+      
       //THEME
       themeMode: ThemeMode.system, 
     ),

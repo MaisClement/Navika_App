@@ -13,7 +13,7 @@ class ErrorBlock extends StatelessWidget {
     children: [
       const SizedBox(height: 15),
       const Image(
-        image: AssetImage('assets/maintenance.png'),
+        image: AssetImage('assets/img/maintenance.png'),
         width: 120
       ),
       Container(

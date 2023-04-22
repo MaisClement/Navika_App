@@ -90,7 +90,7 @@ class FavoriteSchedules extends StatelessWidget {
                       if (line['terminus_schedules'].isEmpty)
                         Row(
                           children: [
-                            SvgPicture.asset('assets/cancel.svg',
+                            SvgPicture.asset('assets/img/cancel.svg',
                                 color: accentColor(context), height: 18),
                             Text(
                               'Aucune information',
@@ -174,7 +174,7 @@ class FavoriteSchedules extends StatelessWidget {
                                         child: Row(
                                           children: [
                                             SvgPicture.asset(
-                                                'assets/cancel.svg',
+                                                'assets/img/cancel.svg',
                                                 color: const Color(0xffa9a9a9),
                                                 height: 15),
                                             const Text(

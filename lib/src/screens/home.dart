@@ -33,10 +33,10 @@ enum MarkerSize { hidden, small, large }
 enum MarkerMode { bike, bus, cable, metro, boat, noctilien, rer, train, tram }
 
 String getMarkerImageByType(MarkerMode mode, MarkerSize size, context) {
-  String assets = 'assets/marker/';
+  String assets = 'assets/img/marker/';
 
   if (size == MarkerSize.hidden) {
-    return 'assets/null.png';
+    return 'assets/img/null.png';
   }
 
   if (size == MarkerSize.small) {
