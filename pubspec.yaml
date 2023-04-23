@@ -52,7 +52,6 @@ dependencies:
   firebase_messaging: ^14.2.1
   firebase_core: ^2.4.1
   floating_snackbar: ^1.0.3+1
-  flutter_native_splash: ^2.2.19
 
   flutter_localizations:
     sdk: flutter
@@ -68,6 +67,10 @@ dev_dependencies:
   hive_generator: ^1.1.3
   build_runner: ^2.3.0
   flutter_launcher_icons: "^0.13.1"
+  flutter_native_splash: ^2.2.19
+
+  # $ flutter pub run flutter_launcher_icons
+  # $ flutter pub run flutter_native_splash:create
   
   flutter_test:
     sdk: flutter
@@ -94,127 +97,119 @@ flutter:
         - asset: assets/fonts/TransilienSmall.ttf
 
   assets:
-    - assets/img/icons/TRAM_white.png
-    - assets/img/icons/TRAM_white.png
-    - assets/img/icons/BUS_blue.png
-    - assets/img/icons/BUS_dark.png
-    - assets/img/icons/BUS_white.png
-    - assets/img/icons/CABLE_blue.png
-    - assets/img/icons/CABLE_dark.png
-    - assets/img/icons/CABLE_white.png
-    - assets/img/icons/METRO_blue.png
-    - assets/img/icons/METRO_dark.png
-    - assets/img/icons/METRO_white.png
-    - assets/img/icons/NAVETTE_FLUVIALE_blue.png
-    - assets/img/icons/NAVETTE_FLUVIALE_dark.png
-    - assets/img/icons/NAVETTE_FLUVIALE_white.png
-    - assets/img/icons/NOCTILIEN_blue.png
-    - assets/img/icons/NOCTILIEN_dark.png
-    - assets/img/icons/NOCTILIEN_white.png
-    - assets/img/icons/RER_blue.png
-    - assets/img/icons/RER_dark.png
-    - assets/img/icons/RER_white.png
-    - assets/img/icons/TRAIN_blue.png
-    - assets/img/icons/TRAIN_dark.png
-    - assets/img/icons/TRAIN_white.png
-    - assets/img/icons/TRAM_blue.png
-    - assets/img/icons/TRAM_dark.png
+    - assets/img/icons/bus.png
+    - assets/img/icons/bus_light.png
+    - assets/img/icons/tram_light.png
+    - assets/img/icons/cable.png
+    - assets/img/icons/metro.png
+    - assets/img/icons/cable_light.png
+    - assets/img/icons/navette_fluviale.png
+    - assets/img/icons/tram.png
+    - assets/img/icons/noctilien_light.png
+    - assets/img/icons/noctilien.png
+    - assets/img/icons/metro_light.png
+    - assets/img/icons/navette_fluviale_light.png
+    - assets/img/icons/RER_light.png
+    - assets/img/icons/train.png
+    - assets/img/icons/RER.png
+    - assets/img/icons/train_light.png
 
+    - assets/img/icons/lines/CABLE_C1.png
+    - assets/img/icons/lines/CABLE_C1_light.png
     - assets/img/icons/lines/METRO_1.png
+    - assets/img/icons/lines/METRO_1_light.png
     - assets/img/icons/lines/METRO_2.png
+    - assets/img/icons/lines/METRO_2_light.png
     - assets/img/icons/lines/METRO_3.png
+    - assets/img/icons/lines/METRO_3_light.png
     - assets/img/icons/lines/METRO_3b.png
+    - assets/img/icons/lines/METRO_3b_light.png
     - assets/img/icons/lines/METRO_4.png
+    - assets/img/icons/lines/METRO_4_light.png
     - assets/img/icons/lines/METRO_5.png
+    - assets/img/icons/lines/METRO_5_light.png
     - assets/img/icons/lines/METRO_6.png
+    - assets/img/icons/lines/METRO_6_light.png
     - assets/img/icons/lines/METRO_7.png
+    - assets/img/icons/lines/METRO_7_light.png
     - assets/img/icons/lines/METRO_7b.png
+    - assets/img/icons/lines/METRO_7b_light.png
     - assets/img/icons/lines/METRO_8.png
+    - assets/img/icons/lines/METRO_8_light.png
     - assets/img/icons/lines/METRO_9.png
+    - assets/img/icons/lines/METRO_9_light.png
     - assets/img/icons/lines/METRO_10.png
+    - assets/img/icons/lines/METRO_10_light.png
     - assets/img/icons/lines/METRO_11.png
+    - assets/img/icons/lines/METRO_11_light.png
     - assets/img/icons/lines/METRO_12.png
+    - assets/img/icons/lines/METRO_12_light.png
     - assets/img/icons/lines/METRO_13.png
+    - assets/img/icons/lines/METRO_13_light.png
     - assets/img/icons/lines/METRO_14.png
+    - assets/img/icons/lines/METRO_14_light.png
     - assets/img/icons/lines/METRO_15.png
+    - assets/img/icons/lines/METRO_15_light.png
     - assets/img/icons/lines/METRO_16.png
+    - assets/img/icons/lines/METRO_16_light.png
     - assets/img/icons/lines/METRO_17.png
+    - assets/img/icons/lines/METRO_17_light.png
     - assets/img/icons/lines/METRO_18.png
+    - assets/img/icons/lines/METRO_18_light.png
     - assets/img/icons/lines/RER_A.png
+    - assets/img/icons/lines/RER_A_light.png
     - assets/img/icons/lines/RER_B.png
+    - assets/img/icons/lines/RER_B_light.png
     - assets/img/icons/lines/RER_C.png
+    - assets/img/icons/lines/RER_C_light.png
     - assets/img/icons/lines/RER_D.png
+    - assets/img/icons/lines/RER_D_light.png
     - assets/img/icons/lines/RER_E.png
+    - assets/img/icons/lines/RER_E_light.png
     - assets/img/icons/lines/TRAIN_H.png
+    - assets/img/icons/lines/TRAIN_H_light.png
     - assets/img/icons/lines/TRAIN_J.png
+    - assets/img/icons/lines/TRAIN_J_light.png
     - assets/img/icons/lines/TRAIN_K.png
+    - assets/img/icons/lines/TRAIN_K_light.png
     - assets/img/icons/lines/TRAIN_L.png
+    - assets/img/icons/lines/TRAIN_L_light.png
     - assets/img/icons/lines/TRAIN_N.png
+    - assets/img/icons/lines/TRAIN_N_light.png
     - assets/img/icons/lines/TRAIN_P.png
+    - assets/img/icons/lines/TRAIN_P_light.png
     - assets/img/icons/lines/TRAIN_R.png
+    - assets/img/icons/lines/TRAIN_R_light.png
     - assets/img/icons/lines/TRAIN_U.png
+    - assets/img/icons/lines/TRAIN_U_light.png
     - assets/img/icons/lines/TRAM_T1.png
+    - assets/img/icons/lines/TRAM_T1_light.png
     - assets/img/icons/lines/TRAM_T2.png
+    - assets/img/icons/lines/TRAM_T2_light.png
     - assets/img/icons/lines/TRAM_T3a.png
+    - assets/img/icons/lines/TRAM_T3a_light.png
     - assets/img/icons/lines/TRAM_T3b.png
+    - assets/img/icons/lines/TRAM_T3b_light.png
     - assets/img/icons/lines/TRAM_T4.png
+    - assets/img/icons/lines/TRAM_T4_light.png
     - assets/img/icons/lines/TRAM_T5.png
+    - assets/img/icons/lines/TRAM_T5_light.png
     - assets/img/icons/lines/TRAM_T6.png
+    - assets/img/icons/lines/TRAM_T6_light.png
     - assets/img/icons/lines/TRAM_T7.png
+    - assets/img/icons/lines/TRAM_T7_light.png
     - assets/img/icons/lines/TRAM_T8.png
+    - assets/img/icons/lines/TRAM_T8_light.png
     - assets/img/icons/lines/TRAM_T9.png
+    - assets/img/icons/lines/TRAM_T9_light.png
     - assets/img/icons/lines/TRAM_T10.png
+    - assets/img/icons/lines/TRAM_T10_light.png
     - assets/img/icons/lines/TRAM_T11.png
+    - assets/img/icons/lines/TRAM_T11_light.png
     - assets/img/icons/lines/TRAM_T12.png
+    - assets/img/icons/lines/TRAM_T12_light.png
     - assets/img/icons/lines/TRAM_T13.png
-
-    - assets/img/icons/lines/METRO_1.png
-    - assets/img/icons/lines/METRO_2.png
-    - assets/img/icons/lines/METRO_3.png
-    - assets/img/icons/lines/METRO_3b.png
-    - assets/img/icons/lines/METRO_4.png
-    - assets/img/icons/lines/METRO_5.png
-    - assets/img/icons/lines/METRO_6.png
-    - assets/img/icons/lines/METRO_7.png
-    - assets/img/icons/lines/METRO_7b.png
-    - assets/img/icons/lines/METRO_8.png
-    - assets/img/icons/lines/METRO_9.png
-    - assets/img/icons/lines/METRO_10.png
-    - assets/img/icons/lines/METRO_11.png
-    - assets/img/icons/lines/METRO_12.png
-    - assets/img/icons/lines/METRO_13.png
-    - assets/img/icons/lines/METRO_14.png
-    - assets/img/icons/lines/METRO_15.png
-    - assets/img/icons/lines/METRO_16.png
-    - assets/img/icons/lines/METRO_17.png
-    - assets/img/icons/lines/METRO_18.png
-    - assets/img/icons/lines/RER_A.png
-    - assets/img/icons/lines/RER_B.png
-    - assets/img/icons/lines/RER_C.png
-    - assets/img/icons/lines/RER_D.png
-    - assets/img/icons/lines/RER_E.png
-    - assets/img/icons/lines/TRAIN_H.png
-    - assets/img/icons/lines/TRAIN_J.png
-    - assets/img/icons/lines/TRAIN_K.png
-    - assets/img/icons/lines/TRAIN_L.png
-    - assets/img/icons/lines/TRAIN_N.png
-    - assets/img/icons/lines/TRAIN_P.png
-    - assets/img/icons/lines/TRAIN_R.png
-    - assets/img/icons/lines/TRAIN_U.png
-    - assets/img/icons/lines/TRAM_T1.png
-    - assets/img/icons/lines/TRAM_T2.png
-    - assets/img/icons/lines/TRAM_T3a.png
-    - assets/img/icons/lines/TRAM_T3b.png
-    - assets/img/icons/lines/TRAM_T4.png
-    - assets/img/icons/lines/TRAM_T5.png
-    - assets/img/icons/lines/TRAM_T6.png
-    - assets/img/icons/lines/TRAM_T7.png
-    - assets/img/icons/lines/TRAM_T8.png
-    - assets/img/icons/lines/TRAM_T9.png
-    - assets/img/icons/lines/TRAM_T10.png
-    - assets/img/icons/lines/TRAM_T11.png
-    - assets/img/icons/lines/TRAM_T12.png
-    - assets/img/icons/lines/TRAM_T13.png
+    - assets/img/icons/lines/TRAM_T13_light.png
 
     - assets/img/icons/noctilien/NOCT_01.png
     - assets/img/icons/noctilien/NOCT_02.png
@@ -265,12 +260,12 @@ flutter:
     - assets/img/icons/noctilien/NOCT_153.png
     - assets/img/icons/noctilien/NOCT_154.png
 
-    - assets/img/sncf/logo_white.png
-    - assets/img/sncf/logo_color.png
-    - assets/img/sncf/logo_dark.png
-    - assets/img/sncf/TER_dark.png
-    - assets/img/sncf/TER_white.png
-    - assets/img/sncf/TER_color.png
+    - assets/img/icons/sncf/logo_white.png
+    - assets/img/icons/sncf/logo_color.png
+    - assets/img/icons/sncf/logo_dark.png
+    - assets/img/icons/sncf/TER_dark.png
+    - assets/img/icons/sncf/TER_white.png
+    - assets/img/icons/sncf/TER_color.png
 
     - assets/img/icons/lines/CDGVAL.png
     - assets/img/icons/lines/ORLYVAL.png
@@ -350,6 +345,8 @@ flutter:
     - assets/img/here/HERE_logo_full_inverted.svg
 
     - assets/img/maintenance.png
+
+    - assets/img/logo/logo_large.png
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-assets/fonts/#from-packages
