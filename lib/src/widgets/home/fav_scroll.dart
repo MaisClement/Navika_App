@@ -10,7 +10,7 @@ int getAddressPos(list, id) {
   if (list.isNotEmpty) {
     var i = 0;
     for (var fav in list) {
-      if (fav['type'] == id) {
+      if (fav['alias'] == id) {
         return i;
       }
       i++;
@@ -105,12 +105,12 @@ class HomeBodyFavScroll extends StatelessWidget {
 
 // Le reste
           for (var fav in address)
-            if (fav['type'] != 'home' && fav['type'] != 'work')
+            if (fav['alias'] != 'home' && fav['alias'] != 'work')
               FavButton(
-                name: fav['name'],
+                name: fav['alias'],
                 img: NavikaIcons.star,
                 onTap: () {
-                  globals.route['dep']['name'] = null;
+                  globals.route['dep']['alias'] = null;
                   globals.route['dep']['id'] = null;
                   globals.route['arr']['name'] = fav['name'];
                   globals.route['arr']['id'] = fav['id'];

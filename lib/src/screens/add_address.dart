@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:navika/src/icons/navika_icons_icons.dart';
 
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style/style.dart';
+import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/places/listbutton.dart';
@@ -17,7 +19,8 @@ class AddAddress extends StatefulWidget {
   final predefineType;
 
   const AddAddress({
-    this.predefineType = '', super.key
+    this.predefineType = '', 
+    super.key
   });
 
   @override
@@ -25,16 +28,77 @@ class AddAddress extends StatefulWidget {
 }
 
 class _AddAddressState extends State<AddAddress> {
-  final myController = TextEditingController();
+  final queryController = TextEditingController();
+  final labelController = TextEditingController();
 
-  FocusNode textFieldNode = FocusNode();
+  String title = 'Nouvelle adresse';
+  FocusNode queryFieldNode = FocusNode();
+  FocusNode labelFieldNode = FocusNode();
   String search = '';
+  String label = '';
   String error = '';
   int flag = 0;
   bool isLoading = false;
+  bool isDefined = false;
+  Map address = {};
   List places = [];
 
   List addressFavorites = globals.hiveBox.get('AddressFavorites') ?? [];
+
+  handleSetAddress(place) {
+    setState(() {
+      isDefined = true;
+      address = place;
+      queryController.text = place['name'];
+    });
+
+    if (widget.predefineType != '') {
+      handleSaveAddress();
+    }
+
+    if (label == '') {
+      FocusScope.of(context).requestFocus(labelFieldNode);
+    }
+  }
+
+  handleOnTapAddress() {
+    setState(() {
+      isDefined = false;
+    });
+  }
+
+  handleSaveAddress() {
+    if ((widget.predefineType != '' && !isDefined) || (!isDefined && label == '')){
+      FloatingSnackBar(
+        message: 'Adresse ou libellé non défini',
+        context: context,
+        textColor: Theme.of(context).colorScheme.primary,
+        textStyle: snackBarText,
+        duration: const Duration(milliseconds: 4000),
+        backgroundColor: const Color(0xff272727),
+      );
+    return;
+    }
+    List list = globals.hiveBox.get('AddressFavorites');
+    list.add({
+      'id': address['id'],
+      'name': address['name'],
+      'alias': widget.predefineType == '' 
+          ? label
+          : widget.predefineType,
+    });
+    globals.hiveBox.put('AddressFavorites', list);
+    Navigator.pop(context);
+    RouteStateScope.of(context).go('/home');
+    FloatingSnackBar(
+      message: 'Nouvelle adresse ajouté.',
+      context: context,
+      textColor: Theme.of(context).colorScheme.primary,
+      textStyle: snackBarText,
+      duration: const Duration(milliseconds: 4000),
+      backgroundColor: const Color(0xff272727),
+    );
+  }
 
   Future<void> _getPlaces() async {
     if (kDebugMode) {
@@ -44,13 +108,19 @@ class _AddAddressState extends State<AddAddress> {
     flag++;
 
     bool allowGps = await globals.hiveBox.get('allowGps') ?? false;
-    if (allowGps && (globals.locationData?.latitude != null || globals.locationData?.longitude != null) && search != '') {
-      url = '${globals.API_PLACES}?q=$search&lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
+    if (allowGps &&
+        (globals.locationData?.latitude != null ||
+            globals.locationData?.longitude != null) &&
+        search != '') {
+      url =
+          '${globals.API_PLACES}?q=$search&lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
     } else if (search != '') {
       url = '${globals.API_PLACES}?q=$search&flag=${flag.toString()}';
     } else if (allowGps &&
-        globals.locationData?.latitude != null && globals.locationData?.longitude != null) {
-      url = '${globals.API_PLACES}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
+        globals.locationData?.latitude != null &&
+        globals.locationData?.longitude != null) {
+      url =
+          '${globals.API_PLACES}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
     } else {
       url = '${globals.API_PLACES}?q=&flag=${flag.toString()}';
     }
@@ -89,75 +159,104 @@ class _AddAddressState extends State<AddAddress> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) =>
-        {FocusScope.of(context).requestFocus(textFieldNode), _getPlaces()});
+        {FocusScope.of(context).requestFocus(queryFieldNode), _getPlaces()});
   }
 
   @override
   void dispose() {
-    myController.dispose();
+    queryController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
-        title: Column(
-          children: [
-            TextField(
-              controller: myController,
-              focusNode: textFieldNode,
-              decoration: const InputDecoration(
-                  hintText:
-                      'Ajouter une adresse, une gare, un arrêt ou une station'),
+        title: Text(
+          title,
+          style: appBarTitle,
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              NavikaIcons.save,
+              color: isDefined && label != ''
+                ? tabLabelColor(context)
+                : RouteBhColor(context),),
+            tooltip: 'Ajouter aux favoris',
+            onPressed: () {
+              handleSaveAddress();
+            },
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+
+          if (widget.predefineType == '' )
+            Container(
+              margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+              child: Row(children: [
+                Icon(NavikaIcons.star),
+                SizedBox(
+                  width: 15,
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: labelController,
+                    focusNode: labelFieldNode,
+                    decoration: const InputDecoration(hintText: 'Libellé'),
+                    onChanged: (text) {
+                      setState(() {
+                        label = text;
+                      });
+                    },
+                  ),
+                )
+              ]),
+            ),
+          Container(
+            margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+            child: TextField(
+              controller: queryController,
+              focusNode: queryFieldNode,
+              decoration: const InputDecoration( 
+                hintText: 'Ajouter une adresse, une gare, un arrêt ou une station'
+              ),
               onChanged: (text) {
                 setState(() {
                   search = text;
                 });
                 _getPlaces();
               },
+              onTap: () {
+                handleOnTapAddress();
+              },
             ),
-          ],
-        ),
-      ),
-      body: ListView(
-        children: [
-          if (error != '')
-            ErrorBlock(
-              error: error,
-            )
-          else if (places.isNotEmpty)
-            for (var place in places)
-              PlacesListButton(
-                isLoading: isLoading,
-                place: place,
-                onTap: () {
-                  List list = globals.hiveBox.get('AddressFavorites');
-                  list.add({
-                    'id': place['id'],
-                    'name': place['name'],
-                    'type': widget.predefineType == '' ||
-                            widget.predefineType == null
-                        ? place['type']
-                        : widget.predefineType,
-                    'alias': 'alias',
-                  });
-                  globals.hiveBox.put('AddressFavorites', list);
-                  Navigator.pop(context);
-                  RouteStateScope.of(context).go('/home');
-                  FloatingSnackBar(
-                    message: 'Nouvelle adresse ajouté.',
-                    context: context,
-                    textColor: Theme.of(context).colorScheme.primary,
-                    textStyle: snackBarText,
-                    duration: const Duration(milliseconds: 4000),
-                    backgroundColor: const Color(0xff272727),
-                  );
-                },
-              )
-          else if (places.isEmpty && isLoading == true)
-            const PlacesLoad()
-          else
-            const PlacesEmpty(),
+          ),
+          if (!isDefined)
+            Expanded(
+              child: ListView(
+                children: [
+                  if (error != '')
+                    ErrorBlock(
+                      error: error,
+                    )
+                  else if (places.isNotEmpty)
+                    for (var place in places)
+                      PlacesListButton(
+                        isLoading: isLoading,
+                        place: place,
+                        onTap: () {
+                          handleSetAddress(place);
+                        },
+                      )
+                  else if (places.isEmpty && isLoading == true)
+                    const PlacesLoad()
+                  else
+                    const PlacesEmpty(),
+                ],
+              ),
+            ),
         ],
       ));
 }

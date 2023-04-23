@@ -90,7 +90,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           routeState.go('/home/journeys');
         }
 
-        if (pathTemplate == '/home/address/') {
+        if (pathTemplate == '/home/address') {
           routeState.go('/home');
         }
         if (pathTemplate == '/home/address/:type') {
