@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/favorites/body.dart';
 import 'package:navika/src/widgets/home/fav_scroll.dart';
 import 'package:navika/src/widgets/home/messages.dart';

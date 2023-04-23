@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/widgets/bottom_sheets/add_favorite.dart';
 import 'package:navika/src/widgets/schedules/body.dart';
@@ -45,8 +45,8 @@ class SchedulesDetails extends StatelessWidget {
         actions: [
           IconButton(
             icon: isFavorite(globals.schedulesStopArea)
-                ? const Icon(ScaffoldIcon.star)
-                : const Icon(ScaffoldIcon.add_to_favorites),
+                ? const Icon(NavikaIcons.favorites)
+                : const Icon(NavikaIcons.add_bookmark),
             tooltip: 'Ajouter aux favoris',
             onPressed: () {
               showModalBottomSheet<void>(

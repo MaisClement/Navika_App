@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/icons/scaffold_icon_icons.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
@@ -37,7 +36,7 @@ class RouteLines extends StatelessWidget {
                     height: 5,
                     width: 5,
                     decoration: BoxDecoration(
-                      color: dividerColor(context), //Colors.grey[700],
+                      color: Color(0xff808080), //Colors.grey[700],
                       borderRadius: BorderRadius.circular(500)
                     ),
                   )
@@ -58,7 +57,7 @@ class RouteLines extends StatelessWidget {
           //           height: 5,
           //           width: 5,
           //           decoration: BoxDecoration(
-          //             color: dividerColor(context),
+          //             color: Color(0xff808080),
           //             borderRadius: BorderRadius.circular(500)
           //           ),
           //         )

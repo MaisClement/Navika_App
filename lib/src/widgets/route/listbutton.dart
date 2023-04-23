@@ -108,7 +108,7 @@ class RouteListButton extends StatelessWidget {
               ),
               Divider(
                 height: 1,
-                color: dividerColor(context),
+                color: Color(0xff808080),
               )
             ],
           ),

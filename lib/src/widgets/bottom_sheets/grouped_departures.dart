@@ -2,33 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style/style.dart';
 
-String getTime(){
-  var d1 = DateTime.now();
-  return DateTime(d1.year, d1.month, d1.day, d1.hour, d1.minute + 7).toString();
-}
-
-class BottomTerminusTrain extends StatefulWidget {
+class BottomGroupedDepartures extends StatefulWidget {
   final bool isDeparture;
   final Function update;
 
-	const BottomTerminusTrain({
+	const BottomGroupedDepartures({
     this.isDeparture = false,
     required this.update,
 		super.key,
 	});
 
   @override
-  State<BottomTerminusTrain> createState() => _BottomTerminusTrainState();
+  State<BottomGroupedDepartures> createState() => _BottomGroupedDeparturesState();
 }
 
-class _BottomTerminusTrainState extends State<BottomTerminusTrain>
+class _BottomGroupedDeparturesState extends State<BottomGroupedDepartures>
     with SingleTickerProviderStateMixin {
 
-  bool hide = globals.hiveBox?.get('hideTerminusTrain') ?? false;
+  bool hide = globals.hiveBox?.get('ungroupDepartures') ?? false;
 
 	@override
 	Widget build(BuildContext context) => Container(
-    height: 300,
+    height: 330,
     decoration: BoxDecoration(
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(5),
@@ -48,7 +43,7 @@ class _BottomTerminusTrainState extends State<BottomTerminusTrain>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Affichage des terminus.',
+          Text('Affichage de vos trains.',
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.w600,
@@ -62,7 +57,7 @@ class _BottomTerminusTrainState extends State<BottomTerminusTrain>
           const SizedBox(
             height: 10,
           ),
-          Text("Voulez-vous masquer les trains à l'arrivée ?",
+          Text('Voulez-vous regrouper les trains selon leur ligne ?',
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
@@ -75,26 +70,26 @@ class _BottomTerminusTrainState extends State<BottomTerminusTrain>
           ),
           
           RadioListTile(
-            title: const Text('Affiché'),
+            title: const Text('Groupé'),
             value: false, 
             groupValue: hide, 
             onChanged: (value){
               setState(() {
                 hide = value ?? false;
               });
-              globals.hiveBox.put('hideTerminusTrain', value);
+              globals.hiveBox.put('ungroupDepartures', value);
               widget.update();
             },
           ),
           RadioListTile(
-            title: const Text('Masqué'),
+            title: const Text('Dégroupé'),
             value: true, 
             groupValue: hide, 
             onChanged: (value){
               setState(() {
                 hide = value ?? false;
               });
-              globals.hiveBox.put('hideTerminusTrain', value);
+              globals.hiveBox.put('ungroupDepartures', value);
               widget.update();
             },
           ),

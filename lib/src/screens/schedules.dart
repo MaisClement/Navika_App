@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/widgets/favorites/body.dart';
 
 import 'package:navika/src/routing.dart';
@@ -47,7 +47,7 @@ class _SchedulesState extends State<Schedules> {
                   ),
                   child: Row(
                     children: [
-                      Icon(ScaffoldIcon.search,
+                      Icon(NavikaIcons.search,
                           color: boxContentColor(context), size: 25),
                       Expanded(
                         child: Container(
@@ -107,7 +107,7 @@ class _SchedulesState extends State<Schedules> {
                         width: 138,
                         child: Row(
                           children: [
-                            const Icon(ScaffoldIcon.search, size: 25),
+                            const Icon(NavikaIcons.search, size: 25),
                             Container(
                               margin: const EdgeInsets.only(
                                   left: 15, bottom: 11, top: 11, right: 15),

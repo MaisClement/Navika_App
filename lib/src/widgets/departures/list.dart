@@ -7,9 +7,6 @@ import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/bottom_sheets/terminus_trains.dart';
 
 List getState(Map train) {
-
-  String departure = train['stop_date_time']['departure_date_time'];
-  String expectedDeparture = train['stop_date_time']['base_departure_date_time'];
   String state = train['stop_date_time']['state'];
 
   List res = [];

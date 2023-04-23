@@ -82,9 +82,9 @@ flutter:
   uses-material-design: true
 
   fonts:
-    - family: ScaffoldIcon
+    - family: NavikaIcons
       fonts:
-        - asset: assets/fonts/ScaffoldIcon.ttf
+        - asset: assets/fonts/NavikaIcons.ttf
 
     - family: Segoe Ui
       fonts:
@@ -262,8 +262,8 @@ flutter:
 
     - assets/img/icons/sncf/logo_white.png
     - assets/img/icons/sncf/logo_color.png
-    - assets/img/icons/sncf/logo_dark.png
-    - assets/img/icons/sncf/TER_dark.png
+    - assets/img/icons/sncf/logo.png
+    - assets/img/icons/sncf/TER.png
     - assets/img/icons/sncf/TER_white.png
     - assets/img/icons/sncf/TER_color.png
 
@@ -273,27 +273,27 @@ flutter:
     - assets/img/icons/lines/ORLYVAL.png
 
     - assets/img/marker/marker_bike_light.png
-    - assets/img/marker/marker_bike_dark.png
-    - assets/img/marker/marker_bus_dark.png
+    - assets/img/marker/marker_bike.png
+    - assets/img/marker/marker_bus.png
     - assets/img/marker/marker_bus_light.png
-    - assets/img/marker/marker_cable_dark.png
+    - assets/img/marker/marker_cable.png
     - assets/img/marker/marker_cable_light.png
-    - assets/img/marker/marker_metro_dark.png
+    - assets/img/marker/marker_metro.png
     - assets/img/marker/marker_metro_light.png
-    - assets/img/marker/marker_navette_fluviale_dark.png
+    - assets/img/marker/marker_navette_fluviale.png
     - assets/img/marker/marker_navette_fluviale_light.png
-    - assets/img/marker/marker_noctilien_dark.png
+    - assets/img/marker/marker_noctilien.png
     - assets/img/marker/marker_noctilien_light.png
-    - assets/img/marker/marker_rer_dark.png
+    - assets/img/marker/marker_rer.png
     - assets/img/marker/marker_rer_light.png
-    - assets/img/marker/marker_train_dark.png
+    - assets/img/marker/marker_train.png
     - assets/img/marker/marker_train_light.png
-    - assets/img/marker/marker_tram_dark.png
+    - assets/img/marker/marker_tram.png
     - assets/img/marker/marker_tram_light.png
     - assets/img/marker/mini_bike_light.png
-    - assets/img/marker/mini_dark.png
+    - assets/img/marker/mini.png
     - assets/img/marker/mini_light.png
-    - assets/img/marker/mini_bike_dark.png
+    - assets/img/marker/mini_bike.png
     
     - assets/img/modal/acces_ufr.png
     - assets/img/modal/acces_ufr_train.png
@@ -315,31 +315,13 @@ flutter:
     - assets/img/modal/work.png
     - assets/img/modal/work_white.png
 
-    - assets/img/walking.svg
-    - assets/img/bussines.svg
-    - assets/img/cancel.svg
-    - assets/img/city.svg
-    - assets/img/finish-flag.svg
-    - assets/img/home.svg
-    - assets/img/locate.svg
-    - assets/img/location-indicator.svg
-    - assets/img/maintenance.png
-    - assets/img/marker.svg
-    - assets/img/null.png
-    - assets/img/plus.svg
-    - assets/img/search.svg
-    - assets/img/sign.svg
     - assets/img/sign_top.svg
-    - assets/img/star.svg
-    - assets/img/star_regular.svg
-    - assets/img/train.svg
-    - assets/img/university.svg
-    - assets/img/add-to-favorites.svg
-    - assets/img/bike.svg
-    - assets/img/e-bike.svg
-    - assets/img/parking.svg
     - assets/img/bus_schedules.png
+    - assets/img/cancel.svg
+    - assets/img/maintenance.png
+    - assets/img/null.png
     - assets/img/position.png
+    - assets/img/sign.svg
 
     - assets/img/here/HERE_logo_full.svg
     - assets/img/here/HERE_logo_full_inverted.svg

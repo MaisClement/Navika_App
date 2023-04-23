@@ -4,7 +4,6 @@ import 'package:navika/src/screens/schedules_details.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/icons/icons.dart';
 import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/routing.dart';
 
 class BottomAddFavorite extends StatefulWidget {
   final String name;

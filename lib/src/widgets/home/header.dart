@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/icons/navika_icons_icons.dart';
 
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/data/global.dart' as globals;
@@ -57,7 +57,7 @@ class HomePannel extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        Icon(ScaffoldIcon.search,
+                        Icon(NavikaIcons.search,
                             color: boxContentColor(context), size: 25),
                         Expanded(
                           child: Container(

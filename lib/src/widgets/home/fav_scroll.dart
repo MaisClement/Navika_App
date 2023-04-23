@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/widgets/bottom_sheets/remove_address.dart';
 import 'package:navika/src/widgets/home/fav_button.dart';
 
@@ -35,7 +35,7 @@ class HomeBodyFavScroll extends StatelessWidget {
           if (getAddressPos(address, 'home') != -1)
             FavButton(
               name: 'Maison',
-              img: ScaffoldIcon.home_regular,
+              img: NavikaIcons.home,
               onTap: () {
                 globals.route['dep']['name'] = null;
                 globals.route['dep']['id'] = null;
@@ -61,7 +61,7 @@ class HomeBodyFavScroll extends StatelessWidget {
           else
             FavButton(
                 name: 'Non défini',
-                img: ScaffoldIcon.home_regular,
+                img: NavikaIcons.home,
                 onTap: () {
                   RouteStateScope.of(context).go('/home/address/home');
                 },
@@ -71,7 +71,7 @@ class HomeBodyFavScroll extends StatelessWidget {
           if (getAddressPos(address, 'work') != -1)
             FavButton(
               name: 'Travail',
-              img: ScaffoldIcon.bussines,
+              img: NavikaIcons.business,
               onTap: () {
                 globals.route['dep']['name'] = null;
                 globals.route['dep']['id'] = null;
@@ -97,7 +97,7 @@ class HomeBodyFavScroll extends StatelessWidget {
           else
             FavButton(
                 name: 'Non défini',
-                img: ScaffoldIcon.bussines,
+                img: NavikaIcons.business,
                 onTap: () {
                   RouteStateScope.of(context).go('/home/address/work');
                 },
@@ -108,7 +108,7 @@ class HomeBodyFavScroll extends StatelessWidget {
             if (fav['type'] != 'home' && fav['type'] != 'work')
               FavButton(
                 name: fav['name'],
-                img: ScaffoldIcon.star_regular,
+                img: NavikaIcons.star,
                 onTap: () {
                   globals.route['dep']['name'] = null;
                   globals.route['dep']['id'] = null;
@@ -132,7 +132,7 @@ class HomeBodyFavScroll extends StatelessWidget {
 
           FavButton(
               name: 'Ajouter',
-              img: ScaffoldIcon.plus,
+              img: NavikaIcons.plus,
               onTap: () {
                 RouteStateScope.of(context).go('/home/address');
               },

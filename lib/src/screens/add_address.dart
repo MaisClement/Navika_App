@@ -16,7 +16,9 @@ import 'package:navika/src/widgets/places/load.dart';
 class AddAddress extends StatefulWidget {
   final predefineType;
 
-  const AddAddress({this.predefineType = '', super.key});
+  const AddAddress({
+    this.predefineType = '', super.key
+  });
 
   @override
   State<AddAddress> createState() => _AddAddressState();

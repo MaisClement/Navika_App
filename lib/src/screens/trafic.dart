@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:navika/src/style/style.dart';
+import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/home/messages.dart';
 import 'package:navika/src/widgets/trafic/block.dart';
@@ -20,7 +21,7 @@ class _TraficState extends State<Trafic> {
   final String title = 'Info Trafic';
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
+      GlobalKey<RefreshIndicatorState>();
 
   bool state = false;
   List trafic = [];
@@ -70,18 +71,19 @@ class _TraficState extends State<Trafic> {
             ? ErrorBlock(
                 error: error,
               )
-            : Container(
+            : Padding(
                 padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                 child: RefreshIndicator(
                   onRefresh: _getTrafic,
                   key: _refreshIndicatorKey,
                   child: ListView(
                     children: [
-                      // Messages de l'index
+
+// Messages de l'index
                       if (globals.index?['message'] != null)
                         for (var message in globals.index?['message'])
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 20.0, top: 20.0),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20.0, top: 20.0),
                             child: HomeMessage(
                               message: message,
                               isMarginDisabled: true,
@@ -132,10 +134,7 @@ class _TraficState extends State<Trafic> {
                         ],
                       ),
 
-                      Divider(
-                        color: const Color.fromARGB(255, 70, 70, 70),
-                        thickness: 1.5,
-                      ),
+                      divider,
 
 // TRAIN
                       Row(
@@ -193,10 +192,7 @@ class _TraficState extends State<Trafic> {
                         ],
                       ),
 
-                     Divider(
-                        color: const Color.fromARGB(255, 70, 70, 70),
-                        thickness: 1.5,
-                      ),
+                      divider,
 
 // METRO
                       Row(
@@ -294,10 +290,7 @@ class _TraficState extends State<Trafic> {
                         ],
                       ),
 
-                      Divider(
-                        color: const Color.fromARGB(255, 70, 70, 70),
-                        thickness: 1.5,
-                      ),
+                      divider,
 
 // TRAM
                       Row(

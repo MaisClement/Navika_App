@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 
 import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style/style.dart';
 
 class BikeBody extends StatefulWidget {
@@ -134,7 +134,7 @@ class _BikeBodyState extends State<BikeBody>
                               color: const Color(0xffb7dcae)),
                           child: Row(
                             children: [
-                              Icon(ScaffoldIcon.bike,
+                              Icon(NavikaIcons.bike,
                                   color: tabLabelColor(context), size: 25),
                               Container(
                                 width: 30,
@@ -181,7 +181,7 @@ class _BikeBodyState extends State<BikeBody>
                               color: const Color(0xffb7dcae)),
                           child: Row(
                             children: [
-                              Icon(ScaffoldIcon.bike,
+                              Icon(NavikaIcons.bike,
                                   color: tabLabelColor(context), size: 25),
                               Container(
                                 width: 30,
@@ -227,7 +227,7 @@ class _BikeBodyState extends State<BikeBody>
                               color: const Color(0xffa6d6fe)),
                           child: Row(
                             children: [
-                              Icon(ScaffoldIcon.e_bike,
+                              Icon(NavikaIcons.e_bike,
                                   color: tabLabelColor(context), size: 25),
                               Container(
                                 width: 30,
@@ -273,7 +273,7 @@ class _BikeBodyState extends State<BikeBody>
                               color: const Color(0xfff6e775)),
                           child: Row(
                             children: [
-                              Icon(ScaffoldIcon.parking,
+                              Icon(NavikaIcons.parking,
                                   color: tabLabelColor(context), size: 25),
                               Container(
                                 width: 30,

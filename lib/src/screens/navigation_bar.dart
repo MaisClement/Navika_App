@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing.dart';
 
 NavigationBar getNavigationBar(context) {
@@ -17,18 +17,18 @@ NavigationBar getNavigationBar(context) {
         destinations: const [
           NavigationDestination(
             label: 'Accueil',
-            icon: Icon(ScaffoldIcon.home_regular),
-            selectedIcon: Icon(ScaffoldIcon.home),
+            icon: Icon(NavikaIcons.home),
+            selectedIcon: Icon(NavikaIcons.home_filled),
           ),
           NavigationDestination(
             label: 'Arrêts',
-            icon: Icon(ScaffoldIcon.clock_regular),
-            selectedIcon: Icon(ScaffoldIcon.clock),
+            icon: Icon(NavikaIcons.clock),
+            selectedIcon: Icon(NavikaIcons.clock_filled),
           ),
           NavigationDestination(
             label: 'Trafic',
-            icon: Icon(ScaffoldIcon.cone_regular),
-            selectedIcon: Icon(ScaffoldIcon.cone),
+            icon: Icon(NavikaIcons.cone),
+            selectedIcon: Icon(NavikaIcons.cone_filled),
           ),
         ],
       );

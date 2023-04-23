@@ -6,7 +6,7 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/departures/block.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/widgets/error_message.dart';
 import 'package:navika/src/widgets/schedules/list.dart';
 import 'package:navika/src/data/global.dart' as globals;
@@ -64,6 +64,8 @@ class _SchedulesBodyState extends State<SchedulesBody>
   late Timer _update;
   String error = '';
 
+  bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures') ?? false;
+
   @override
   void initState() {
     super.initState();
@@ -91,13 +93,13 @@ class _SchedulesBodyState extends State<SchedulesBody>
   }
 
   Future<void> _getSchedules() async {
-    if (kDebugMode) {
-      print({'INFO_', globals.schedulesStopArea});
+    String url = '${globals.API_SCHEDULES}?s=${globals.schedulesStopArea}';
+    if (ungroupDepartures) {
+      url += '&ungroupDepartures=true';
     }
     try {
       if (mounted) {
-        final response = await http.get(Uri.parse(
-            '${globals.API_SCHEDULES}?s=${globals.schedulesStopArea}'));
+        final response = await http.get(Uri.parse(url));
 
         if (response.statusCode == 200) {
           final data = json.decode(response.body);
@@ -187,7 +189,7 @@ class _SchedulesBodyState extends State<SchedulesBody>
         modes.contains('rail') ||
         modes.contains('nationalrail')) {
       tabs.add(const Tab(
-          icon: Icon(ScaffoldIcon.train),
+          icon: Icon(NavikaIcons.train),
           text: 'Train et RER',
           iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)));
     }
@@ -196,19 +198,19 @@ class _SchedulesBodyState extends State<SchedulesBody>
         modes.contains('metro') ||
         modes.contains('funicular')) {
       tabs.add(const Tab(
-          icon: Icon(ScaffoldIcon.metro),
+          icon: Icon(NavikaIcons.metro),
           text: 'Métro',
           iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)));
     }
     if (modes.contains('physical_mode:Tramway') || modes.contains('tram')) {
       tabs.add(const Tab(
-          icon: Icon(ScaffoldIcon.tram),
+          icon: Icon(NavikaIcons.tram),
           text: 'Tramway',
           iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)));
     }
     if (modes.contains('physical_mode:Bus') || modes.contains('bus')) {
       tabs.add(const Tab(
-          icon: Icon(ScaffoldIcon.bus),
+          icon: Icon(NavikaIcons.bus),
           text: 'Bus',
           iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)));
     }
@@ -263,26 +265,28 @@ class _SchedulesBodyState extends State<SchedulesBody>
   }
 
   @override
-  Widget build(BuildContext context) => Column(children: [
-        if (error != '')
-          ErrorMessage(
-            error: error,
+  Widget build(BuildContext context) => Column(
+        children: [
+          if (error != '')
+            ErrorMessage(
+              error: error,
+            ),
+          if (widget.addMargin)
+            const SizedBox(
+              height: 80,
+            ),
+          if (getModesLength(globals.schedulesStopModes) > 1)
+            TabBar(
+              controller: _tabController,
+              tabs: getModesTabs(globals.schedulesStopModes),
+            ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: getModesView(
+                  modes, schedules, departures, widget.scrollController),
+            ),
           ),
-        if (widget.addMargin)
-          const SizedBox(
-            height: 80,
-          ),
-        if (getModesLength(globals.schedulesStopModes) > 1)
-          TabBar(
-            controller: _tabController,
-            tabs: getModesTabs(globals.schedulesStopModes),
-          ),
-        Expanded(
-          child: TabBarView(
-            controller: _tabController,
-            children: getModesView(
-                modes, schedules, departures, widget.scrollController),
-          ),
-        ),
-      ]);
+        ],
+      );
 }

@@ -58,4 +58,5 @@ class NavikaIcons {
   static const IconData parking = IconData(0xe822, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData plus = IconData(0xe823, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData rer = IconData(0xe824, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData group = IconData(0xe825, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

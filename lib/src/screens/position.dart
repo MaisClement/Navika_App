@@ -3,7 +3,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:location/location.dart' as gps;
-import 'package:navika/src/routing.dart';
 import 'package:navika/src/style/style.dart';
 
 class Position extends StatefulWidget {

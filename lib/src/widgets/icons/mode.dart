@@ -1,50 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/data.dart';
-
+import 'package:navika/src/utils.dart';
 
 class ModeIcones extends StatelessWidget {
-	final Map line;
+  final Map line;
   final int i;
   final bool isDark;
   final double size;
 
-	const ModeIcones({
-		required this.line,
-		required this.i,
-		this.isDark = true,
+  const ModeIcones({
+    required this.line,
+    required this.i,
+    this.isDark = true,
     this.size = 20,
-		super.key,
-	});
-  
-	@override
-	Widget build(BuildContext context) => Stack(
-    children: [
+    super.key,
+  });
 
-    if (LINES.isLineById(line['id']))
-      if (line['id'] == 'SNCF' || line['id'] == 'TER')
-          const Text('')
-      else
-        Container(
-        width: size,
-        height: size,
-        margin: i == 0 ? const EdgeInsets.only(left:5.0, top:5.0,right:0.0,bottom:5.0) : const EdgeInsets.only(left:20.0, top:5.0,right:0.0,bottom:5.0),
-        child: 
-          isDark ?
-            Image(image: AssetImage(LINES.getLinesById(line['id']).imageModeDark))
-          :
-            Image(image: AssetImage(LINES.getLinesById(line['id']).imageModeLight)),
-      )
-    else 
-      Container(
-        width: size,
-        height: size,
-        margin: i == 0 ? const EdgeInsets.only(left:5.0, top:5.0,right:0.0,bottom:5.0) : const EdgeInsets.only(left:20.0, top:5.0,right:0.0,bottom:5.0),
-        child:
-          isDark ?
-            const Image(image: AssetImage('assets/img/icons/bus.png'))
-          :
-            const Image(image: AssetImage('assets/img/icons/bus_light.png')),
-      )
-    ],
-  );
+  @override
+  Widget build(BuildContext context) => Stack(
+        children: [
+          if (line['id'] == 'SNCF' || line['id'] == 'TER')
+            const Text('')
+          else
+            Container(
+              width: size,
+              height: size,
+              margin: i == 0
+                  ? const EdgeInsets.only(left: 5.0, top: 5.0, right: 0.0, bottom: 5.0)
+                  : const EdgeInsets.only(left: 20.0, top: 5.0, right: 0.0, bottom: 5.0),
+              child: Image(
+                  image: AssetImage(getModeImage(line['id'], isDark),
+                ),
+              ),
+            )
+        ],
+      );
 }

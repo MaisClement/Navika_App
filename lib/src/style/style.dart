@@ -62,13 +62,6 @@ boxContentColor(context) {
   return Theme.of(context).colorScheme.primary;
 }
 
-dividerColor(context) {
-  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return const Color(0xff606060);
-  }
-  return Colors.grey[300];
-}
-
 tabLabelColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return Colors.white;
@@ -127,9 +120,9 @@ departureList(context, Color color) {
 
 departureListNoColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return Color(0xff222222);
+    return const Color(0xff222222);
   }
-  return Color(0xffeeeeee);
+  return const Color(0xffeeeeee);
 }
 
 schedulesIsDark(context, color) {

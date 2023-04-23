@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:navika/src/extensions/datetime.dart';
-import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/route/listbutton.dart';
@@ -375,7 +375,7 @@ class _RouteHomeState extends State<RouteHome> {
                 ),            
                 child: Row(
                   children: [
-                    Icon(ScaffoldIcon.marker,
+                    Icon(NavikaIcons.marker,
                       color: Theme.of(context).colorScheme.primary,
                       size: 25
                     ),
@@ -412,7 +412,7 @@ class _RouteHomeState extends State<RouteHome> {
                 ),            
                 child: Row(
                   children: [
-                    Icon(ScaffoldIcon.finish_flag,
+                    Icon(NavikaIcons.finish_flag,
                       color: Theme.of(context).colorScheme.primary,
                       size: 25
                     ),
@@ -458,7 +458,7 @@ class _RouteHomeState extends State<RouteHome> {
                       ),            
                       child: Row(
                         children: [
-                          Icon(ScaffoldIcon.clock_regular,
+                          Icon(NavikaIcons.clock,
                             color: Theme.of(context).colorScheme.primary,
                             size: 25
                           ),
@@ -508,7 +508,7 @@ class _RouteHomeState extends State<RouteHome> {
                           children: [
                             Row(
                               children: [
-                                Icon(ScaffoldIcon.location_indicator,
+                                Icon(NavikaIcons.localisation,
                                   color: Theme.of(context).colorScheme.primary,
                                   size: 30
                                 ),

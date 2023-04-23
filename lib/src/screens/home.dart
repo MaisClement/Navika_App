@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
-import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/bike/body.dart';
@@ -485,7 +485,7 @@ class _HomeState extends State<Home> {
                           onTap: () {
                             RouteStateScope.of(context).go('/settings');
                           },
-                          child: const Icon(ScaffoldIcon.settings),
+                          child: const Icon(NavikaIcons.settings_filled),
                         ),
                       ),
                     ),
@@ -501,9 +501,9 @@ class _HomeState extends State<Home> {
                     backgroundColor:
                         Theme.of(context).colorScheme.onSecondaryContainer,
                     child: _isInBox
-                        ? Icon(ScaffoldIcon.location_indicator,
+                        ? Icon(NavikaIcons.localisation,
                             color: tabLabelColor(context), size: 30)
-                        : Icon(ScaffoldIcon.locate,
+                        : Icon(NavikaIcons.localisation_null,
                             color: tabLabelColor(context), size: 30),
                     onPressed: () {
                       _zoomOn();

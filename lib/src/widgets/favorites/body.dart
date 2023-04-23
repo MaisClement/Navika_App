@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/error_message.dart';
 import 'package:navika/src/widgets/favorites/departures.dart';
@@ -94,10 +94,11 @@ class _FavoriteBodyState extends State<FavoriteBody>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (!widget.removeSeparator)
-            Divider(
-              height: 5,
-              thickness: 5,
-              color: dividerColor(context),
+            const Divider(
+              color: Color(0xff808080),
+              thickness: 1.5,
+              indent: 20,
+              endIndent: 20,
             ),
           Container(
             padding:
@@ -112,7 +113,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
               },
               child: Row(
                 children: [
-                  Icon(ScaffoldIcon.train_2,
+                  Icon(NavikaIcons.train_face,
                       color: accentColor(context), size: 25),
                   const SizedBox(
                     width: 10,

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style/style.dart';
 
 import 'package:navika/src/widgets/icons/icons.dart';
 
 IconData getPlaceIcon(type){
   if (type == 'stop_area'){
-    return ScaffoldIcon.train_2;
+    return NavikaIcons.train_face;
   } else if (type == 'address'){
-    return ScaffoldIcon.marker;
+    return NavikaIcons.marker;
   } else if (type == 'administrative_region'){
-    return ScaffoldIcon.city;
+    return NavikaIcons.city;
   } else {
-    return ScaffoldIcon.university;
+    return NavikaIcons.university;
   } 
 }
 
@@ -79,7 +79,7 @@ class PlacesListButton extends StatelessWidget {
                 margin: const EdgeInsets.only(left:5.0, top:4.0),
                 child: Row(
                   children: [
-                    const Icon(ScaffoldIcon.walking,
+                    const Icon(NavikaIcons.walking,
                       color: Colors.grey,
                       size: 25
                     ),

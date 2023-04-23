@@ -9,7 +9,7 @@ import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
 import 'package:navika/src/data.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
-import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/home.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/widgets/route/body.dart';
@@ -283,9 +283,9 @@ class _RouteDetailsState extends State<RouteDetails> {
                     backgroundColor:
                         Theme.of(context).colorScheme.onSecondaryContainer,
                     child: _isInBox
-                        ? Icon(ScaffoldIcon.location_indicator,
+                        ? Icon(NavikaIcons.localisation,
                             color: tabLabelColor(context), size: 30)
-                        : Icon(ScaffoldIcon.locate,
+                        : Icon(NavikaIcons.localisation_null,
                             color: tabLabelColor(context), size: 30),
                     onPressed: () {
                       _zoomOn();

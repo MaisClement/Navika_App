@@ -13,7 +13,6 @@ import 'package:navika/src/widgets/trip/disruptions.dart';
 import 'package:navika/src/widgets/departures/time_block.dart';
 
 enum TripBlockStatus { origin, terminus, active, inactive }
-
 enum TripBlockEffect { none, added, deleted, delayed, unchanged }
 
 class TripDetails extends StatefulWidget {
@@ -21,17 +20,21 @@ class TripDetails extends StatefulWidget {
   final String? fromId;
   final String? toId;
 
-  const TripDetails({required this.tripId, this.fromId, this.toId, super.key});
+  const TripDetails({
+    required this.tripId, 
+    this.fromId, 
+    this.toId, 
+    super.key
+  });
 
   @override
   State<TripDetails> createState() => _TripDetailsState();
 }
 
-class _TripDetailsState extends State<TripDetails>
-    with SingleTickerProviderStateMixin {
-  String error = '';
-  String title = 'Trajet';
+class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStateMixin {
 
+  String title = 'Trajet';
+  String error = '';
   Map? vehicleJourney;
 
   @override
@@ -42,19 +45,9 @@ class _TripDetailsState extends State<TripDetails>
     });
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   Future<void> _getVehicleJourneys() async {
     if (kDebugMode) {
-      print({'INFO_', widget.tripId});
+      print({'INFO_', '${globals.API_VEHICLE_JOURNEY}?v=${widget.tripId}'});
     }
     try {
       if (mounted) {
@@ -96,12 +89,14 @@ class _TripDetailsState extends State<TripDetails>
       for (var stop in vehicleJourney?['stop_times']) {
         if (status == TripBlockStatus.terminus) {
           status = TripBlockStatus.inactive;
+
         } else if (status == TripBlockStatus.origin) {
           status = TripBlockStatus.active;
         }
 
         if (widget.fromId != null && stop['id'].contains(widget.fromId)) {
           status = TripBlockStatus.origin;
+
         } else if (widget.toId != null && stop['id'].contains(widget.toId)) {
           status = TripBlockStatus.terminus;
         }
@@ -109,30 +104,25 @@ class _TripDetailsState extends State<TripDetails>
         TripBlockEffect effect = TripBlockEffect.none;
         String time = getTime(stop['stop_time']['arrival_time']);
         String newtime = '';
+
         try {
           for (var disruption in vehicleJourney!['disruptions']) {
             if (disruption != null && disruption.length > 0) {
               if (disruption['effect'] == 'NO_SERVICE') {
                 effect = TripBlockEffect.deleted;
                 status = TripBlockStatus.inactive;
-              } else if (disruption['impacted_stops'] != null &&
-                  disruption['impacted_stops'][i] != null) {
-                if (disruption['impacted_stops'][i]['stop_time_effect'] ==
-                    'added') {
+
+              } else if (disruption['impacted_stops'] != null && disruption['impacted_stops'][i] != null) {
+                if (disruption['impacted_stops'][i]['stop_time_effect'] == 'added') {
                   effect = TripBlockEffect.added;
-                } else if (disruption['impacted_stops'][i]
-                        ['stop_time_effect'] ==
-                    'deleted') {
+
+                } else if (disruption['impacted_stops'][i]['stop_time_effect'] == 'deleted') {
                   effect = TripBlockEffect.deleted;
-                } else if (disruption['impacted_stops'][i]
-                        ['stop_time_effect'] ==
-                    'delayed') {
+
+                } else if (disruption['impacted_stops'][i]['stop_time_effect'] == 'delayed') {
                   effect = TripBlockEffect.delayed;
-                  //newtime = getTime(disruption['impacted_stops'][i]['amended_arrival_time']);
-                  time = makeTime(
-                      disruption['impacted_stops'][i]['base_arrival_time']);
-                  newtime = makeTime(
-                      disruption['impacted_stops'][i]['amended_arrival_time']);
+                  time = makeTime(disruption['impacted_stops'][i]['base_arrival_time']);
+                  newtime = makeTime(disruption['impacted_stops'][i]['amended_arrival_time']);
                 }
               }
             }

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/icons/scaffold_icon_icons.dart';
+import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/style/style.dart';
+import 'package:navika/src/widgets/bottom_sheets/grouped_departures.dart';
 import 'package:navika/src/widgets/bottom_sheets/terminus_trains.dart';
 import 'package:navika/src/widgets/settings/button.dart';
 import 'package:navika/src/widgets/settings/link.dart';
@@ -25,14 +26,14 @@ class _SettingsState extends State<Settings> {
     setState(() {
       displayMode = globals.hiveBox.get('displayMode') ?? 'default';
       hideTerminusTrain = globals.hiveBox.get('hideTerminusTrain') ?? false;
-      groupedByLine = globals.hiveBox.get('groupedByLine') ?? false;
+      ungroupDepartures = globals.hiveBox.get('ungroupDepartures') ?? false;
       allowGps = globals.hiveBox.get('allowGps') ?? false;
     });
   }
 
   String displayMode = globals.hiveBox.get('displayMode') ?? 'default';
   bool hideTerminusTrain = globals.hiveBox.get('hideTerminusTrain') ?? false;
-  bool groupedByLine = globals.hiveBox.get('groupedByLine') ?? false;
+  bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures') ?? false;
   bool allowGps = globals.hiveBox.get('allowGps') ?? false;
 
   @override
@@ -76,7 +77,7 @@ class _SettingsState extends State<Settings> {
                   : displayMode == 'hour'
                       ? 'Heure de passage'
                       : 'Défaut',
-              icon: ScaffoldIcon.clock_regular,
+              icon: NavikaIcons.clock,
               function: () {
                 showModalBottomSheet<void>(
                   shape: RoundedRectangleBorder(
@@ -94,7 +95,7 @@ class _SettingsState extends State<Settings> {
             SettingsButton(
               name: 'Terminus',
               sub: hideTerminusTrain ? 'Masqué' : 'Affiché',
-              icon: ScaffoldIcon.train_2,
+              icon: NavikaIcons.train_face,
               function: () {
                 showModalBottomSheet<void>(
                     shape: RoundedRectangleBorder(
@@ -108,9 +109,9 @@ class _SettingsState extends State<Settings> {
             ),
 
             SettingsButton(
-              name: 'Terminus',
-              sub: groupedByLine ? 'Masqué' : 'Groupé',
-              icon: ScaffoldIcon.train_2,
+              name: 'Tableau des départs',
+              sub: ungroupDepartures ? 'Non groupé' : 'Groupé',
+              icon: NavikaIcons.group,
               function: () {
                 showModalBottomSheet<void>(
                     shape: RoundedRectangleBorder(
@@ -119,7 +120,7 @@ class _SettingsState extends State<Settings> {
                     isScrollControlled: true,
                     context: context,
                     builder: (BuildContext context) =>
-                        BottomTerminusTrain(update: update));
+                        BottomGroupedDepartures(update: update));
               },
             ),
 
@@ -129,7 +130,7 @@ class _SettingsState extends State<Settings> {
               function: () {
                 RouteStateScope.of(context).go('/position');
               },
-              icon: ScaffoldIcon.location_indicator,
+              icon: NavikaIcons.localisation,
             ),
 
             // ------------
@@ -138,12 +139,12 @@ class _SettingsState extends State<Settings> {
             SettingsLink(
               name: 'Github du projet ›',
               url: 'https://github.com/MaisClement/Navika_App',
-              icon: ScaffoldIcon.github,
+              icon: NavikaIcons.github,
             ),
             SettingsLink(
               name: 'Icones par Icones8 ›',
               url: 'https://icones8.fr',
-              icon: ScaffoldIcon.icons8,
+              icon: NavikaIcons.icons8,
             ),
             const Padding(
               padding: EdgeInsets.only(left: 20, right: 20),
