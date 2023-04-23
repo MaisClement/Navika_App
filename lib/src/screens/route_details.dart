@@ -129,7 +129,7 @@ class _RouteDetailsState extends State<RouteDetails> {
 
       _controller?.addMapMarker(
         stopCoords,
-        LINES.getLinesById(section['informations']['line']['id']).image,
+        getIconLine(context, LINES.getLinesById(section['informations']['line']['id'])),
         metadata,
       );
     }

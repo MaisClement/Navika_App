@@ -50,7 +50,7 @@ accentColor(context) {
 
 boxColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return Theme.of(context).colorScheme.primaryContainer.withOpacity(0.4);
+    return Theme.of(context).colorScheme.primaryContainer.withOpacity(0.6);
   }
   return Theme.of(context).colorScheme.primaryContainer.withOpacity(0.2);
 }
@@ -104,6 +104,13 @@ schedulesBlock(context, Color color) {
   return Colors.white;
 }
 
+schedulesBack(context, Color color) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return color.withOpacity(0.3);
+  }
+  return color.withOpacity(0.1);
+}
+
 schedulesText(context, Color color) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return color;
@@ -134,4 +141,13 @@ schedulesIsDark(context, color) {
     }
   }
   return true;
+}
+
+// ----------------
+
+getIconLine(context, line) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return line.imageLight;
+  }
+  return line.imageDark;
 }

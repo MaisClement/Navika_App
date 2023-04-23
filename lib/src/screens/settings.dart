@@ -25,20 +25,24 @@ class _SettingsState extends State<Settings> {
     setState(() {
       displayMode = globals.hiveBox.get('displayMode') ?? 'default';
       hideTerminusTrain = globals.hiveBox.get('hideTerminusTrain') ?? false;
+      groupedByLine = globals.hiveBox.get('groupedByLine') ?? false;
       allowGps = globals.hiveBox.get('allowGps') ?? false;
     });
   }
 
   String displayMode = globals.hiveBox.get('displayMode') ?? 'default';
   bool hideTerminusTrain = globals.hiveBox.get('hideTerminusTrain') ?? false;
+  bool groupedByLine = globals.hiveBox.get('groupedByLine') ?? false;
   bool allowGps = globals.hiveBox.get('allowGps') ?? false;
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.primary,
-          title: Text(globals.NAME,
-              style: appBarTitle.copyWith(color: Colors.white)),
+          title: const Image(
+            image: AssetImage('assets/img/logo/logo_large.png'),
+            height: 22
+          ),
           leading: GestureDetector(
             child: const Icon(
               Icons.close,
@@ -88,8 +92,24 @@ class _SettingsState extends State<Settings> {
               },
             ),
             SettingsButton(
-              name: 'Train terminus',
+              name: 'Terminus',
               sub: hideTerminusTrain ? 'Masqué' : 'Affiché',
+              icon: ScaffoldIcon.train_2,
+              function: () {
+                showModalBottomSheet<void>(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (BuildContext context) =>
+                        BottomTerminusTrain(update: update));
+              },
+            ),
+
+            SettingsButton(
+              name: 'Terminus',
+              sub: groupedByLine ? 'Masqué' : 'Groupé',
               icon: ScaffoldIcon.train_2,
               function: () {
                 showModalBottomSheet<void>(

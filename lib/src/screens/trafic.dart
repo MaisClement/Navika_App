@@ -99,8 +99,8 @@ class _TraficState extends State<Trafic> {
                             child: Image(
                               image: AssetImage(Brightness.dark ==
                                       Theme.of(context).colorScheme.brightness
-                                  ? 'assets/img/icons/RER_white.png'
-                                  : 'assets/img/icons/RER_dark.png'),
+                                  ? 'assets/img/icons/RER_light.png'
+                                  : 'assets/img/icons/RER.png'),
                             ),
                           ),
                           Expanded(
@@ -150,8 +150,8 @@ class _TraficState extends State<Trafic> {
                                           Theme.of(context)
                                               .colorScheme
                                               .brightness
-                                      ? 'assets/img/icons/TRAIN_white.png'
-                                      : 'assets/img/icons/TRAIN_dark.png'))),
+                                      ? 'assets/img/icons/train_light.png'
+                                      : 'assets/img/icons/train.png'))),
                           Expanded(
                             child: Wrap(
                               children: [
@@ -209,8 +209,8 @@ class _TraficState extends State<Trafic> {
                             child: Image(
                               image: AssetImage(Brightness.dark ==
                                       Theme.of(context).colorScheme.brightness
-                                  ? 'assets/img/icons/METRO_white.png'
-                                  : 'assets/img/icons/METRO_dark.png'),
+                                  ? 'assets/img/icons/metro_light.png'
+                                  : 'assets/img/icons/metro.png'),
                             ),
                           ),
                           Expanded(
@@ -310,8 +310,8 @@ class _TraficState extends State<Trafic> {
                             child: Image(
                               image: AssetImage(Brightness.dark ==
                                       Theme.of(context).colorScheme.brightness
-                                  ? 'assets/img/icons/TRAM_white.png'
-                                  : 'assets/img/icons/TRAM_dark.png'),
+                                  ? 'assets/img/icons/tram_light.png'
+                                  : 'assets/img/icons/tram.png'),
                             ),
                           ),
                           Expanded(

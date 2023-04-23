@@ -62,7 +62,7 @@ class DepartureBlock extends StatelessWidget {
             margin: const EdgeInsets.only(bottom:10.0, left: 10, right: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
-              color: HexColor.fromHex(departure['color']).withOpacity(0.1), // Color.fromARGB(255, 230, 230, 230), // 
+              color: schedulesBack(context, HexColor.fromHex(departure['color'])),
             ),
             child: Column(
               children: [

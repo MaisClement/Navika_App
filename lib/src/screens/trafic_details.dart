@@ -96,7 +96,7 @@ class TraficDetails extends StatelessWidget {
                             ),
                           ),
                           child: Image(
-                              image: AssetImage(LINES.getLines(lineId).image)),
+                              image: AssetImage( getIconLine(context, LINES.getLines(lineId)) )),
                         ),
                         Positioned(
                           width: 20,

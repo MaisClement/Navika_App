@@ -36,7 +36,7 @@ class FavoriteDepartures extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            color: HexColor.fromHex(departure['color']).withOpacity(0.1), // Color.fromARGB(255, 230, 230, 230), // 
+            color: schedulesBack(context, HexColor.fromHex(departure['color'])),
           ),
           child: Column(
             children: [

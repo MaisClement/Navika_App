@@ -68,7 +68,7 @@ String getMarkerImageByType(MarkerMode mode, MarkerSize size, context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     assets = '${assets}_light.png';
   } else {
-    assets = '${assets}_dark.png';
+    assets = '$assets.png';
   }
 
   return assets;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:navika/src/data.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
+import 'package:navika/src/style/style.dart';
 
 
 class LinesIcones extends StatelessWidget {
@@ -22,7 +23,7 @@ class LinesIcones extends StatelessWidget {
             width: size,
             height: size,
             margin: const EdgeInsets.only(left:5.0, top:5.0,right:0.0,bottom:5.0),
-            child: Image(image: AssetImage(LINES.getLinesById(line['id']).image)  ),
+            child: Image(image: AssetImage( getIconLine(context, LINES.getLinesById(line['id'])) )),
           )
       else if (line['code'] != '')
         Container(

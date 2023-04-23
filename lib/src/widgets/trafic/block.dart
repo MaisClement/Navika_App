@@ -128,7 +128,7 @@ class TraficBlock extends StatelessWidget {
               ),
             ),
             child: InkWell(
-              child: Image(image: AssetImage(LINES.getLines(name).image)),
+              child: Image(image: AssetImage( getIconLine(context, LINES.getLines(name)) )),
               onTap: () {
                 RouteStateScope.of(context).go('/trafic/$name');
               },
