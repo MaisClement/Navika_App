@@ -4,7 +4,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
-import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/bottom_sheets/grouped_departures.dart';
 import 'package:navika/src/widgets/bottom_sheets/terminus_trains.dart';
 import 'package:navika/src/widgets/settings/button.dart';

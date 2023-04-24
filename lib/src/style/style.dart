@@ -76,7 +76,7 @@ walkingColor(context) {
   return Colors.grey[700];
 }
 
-RouteBhColor(context) {
+routeBhColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return Colors.grey[700];
   }
@@ -122,7 +122,7 @@ departureListNoColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return const Color(0xff222222);
   }
-  return const Color(0xffeeeeee);
+  return Theme.of(context).colorScheme.primary.withOpacity(0.1);
 }
 
 schedulesIsDark(context, color) {

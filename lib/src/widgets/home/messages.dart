@@ -59,7 +59,7 @@ class HomeMessage extends StatelessWidget {
             fontSize: 16
           ),
         ),
-        Text('Mis à jour: ${getTime(message['updated_at'])}',
+        Text('Mis à jour: ${getDateTime(message['updated_at'])}',
           style: const TextStyle(
             fontSize: 12
           ),

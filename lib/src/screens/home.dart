@@ -202,7 +202,7 @@ class _HomeState extends State<Home> {
       }
 
       permissionGranted = await location.hasPermission();
-      bool? allowGps = await globals.hiveBox.get('allowGps');
+      bool? allowGps = await globals.hiveBox?.get('allowGps') ?? false;
       if (allowGps == false) {
         return;
       }

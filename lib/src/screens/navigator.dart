@@ -141,7 +141,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
             key: ValueKey('Addresse'),
             child: AddAddress(),
           )
-        else if (pathTemplate == '/home/address/:type') // /home/journeys
+        else if (pathTemplate == '/home/address/:type' && predefineType != null) // /home/journeys
           MaterialPage<void>(
             key: const ValueKey('Addresse'),
             child: AddAddress(predefineType: predefineType),

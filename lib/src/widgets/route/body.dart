@@ -20,7 +20,7 @@ class RouteBody extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: RouteBhColor(context),
+              color: routeBhColor(context),
             ),
             padding: const EdgeInsets.only(left: 10, bottom: 10),
             child: Row(
@@ -30,7 +30,7 @@ class RouteBody extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.only(bottom: 5, right: 10),
-                  color: RouteBhColor(context),
+                  color: routeBhColor(context),
                   child: Row(
                     children: getDurationWidget(journey['duration'], context),
                   ),

@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/data.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
-import 'package:navika/src/widgets/departures/list.dart';
-import 'package:navika/src/widgets/departures/block.dart';
-import 'package:flutter/foundation.dart';
+import 'package:navika/src/utils.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style/style.dart';
+import 'package:navika/src/widgets/departures/lines.dart';
 import 'package:navika/src/widgets/error_message.dart';
 
 class DepartureDetails extends StatefulWidget {
@@ -137,7 +136,7 @@ class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerPr
                   Container(
                     margin: const EdgeInsets.only(
                         left: 5.0, top: 0.0, right: 5.0, bottom: 0.0),
-                    child: DepartureList(
+                    child: DepartureLines(
                       train: train,
                       color: departureListNoColor(context),
                       update: update,

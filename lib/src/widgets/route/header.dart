@@ -17,7 +17,7 @@ class RoutePannel extends StatelessWidget {
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
                   ),
-                  color: RouteBhColor(context),
+                  color: routeBhColor(context),
                 ),
                 child: Column(
                   children: [

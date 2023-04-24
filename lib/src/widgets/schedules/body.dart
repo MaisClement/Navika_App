@@ -2,11 +2,9 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:navika/src/style/style.dart';
-import 'package:navika/src/widgets/departures/block.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/widgets/departures/list.dart';
 import 'package:navika/src/widgets/error_message.dart';
 import 'package:navika/src/widgets/schedules/list.dart';
 import 'package:navika/src/data/global.dart' as globals;
@@ -40,6 +38,33 @@ List getLines(data) {
   return l;
 }
 
+Map allowedModes = {
+  'rail': ['physical_mode:RapidTransit', 'physical_mode:Train', 'physical_mode:RailShuttle', 'physical_mode:LocalTrain', 'physical_mode:LongDistanceTrain', 'rail', 'nationalrail'],
+  'metro': ['physical_mode:Metro', 'physical_mode:RailShuttle', 'metro', 'funicular'],
+  'tram': ['physical_mode:Tramway', 'tram'],
+  'bus': ['physical_mode:Bus', 'bus'],
+};
+
+Map tabsModes = {
+  'rail': {
+    'icon': const Icon(NavikaIcons.train_rer),
+    'label': 'Train et RER',
+  },
+  'metro': {
+    'icon': const Icon(NavikaIcons.metro),
+    'label': 'Métro',
+  },
+  'tram': {
+    'icon': const Icon(NavikaIcons.tram),
+    'label': 'Tramway',
+  },
+  'bus': {
+    'icon': const Icon(NavikaIcons.bus),
+    'label': 'Bus',
+  },
+};
+
+
 class SchedulesBody extends StatefulWidget {
   final ScrollController scrollController;
   final bool addMargin;
@@ -51,8 +76,8 @@ class SchedulesBody extends StatefulWidget {
   State<SchedulesBody> createState() => _SchedulesBodyState();
 }
 
-class _SchedulesBodyState extends State<SchedulesBody>
-    with SingleTickerProviderStateMixin {
+class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProviderStateMixin {
+
   String name = globals.schedulesStopName;
   String id = globals.schedulesStopArea;
   List modes = globals.schedulesStopModes;
@@ -155,111 +180,59 @@ class _SchedulesBodyState extends State<SchedulesBody>
 
   int getModesLength(List modes) {
     int i = 0;
-    if (modes.contains('physical_mode:RapidTransit') ||
-        modes.contains('physical_mode:Train') ||
-        modes.contains('physical_mode:RailShuttle') ||
-        modes.contains('physical_mode:LocalTrain') ||
-        modes.contains('physical_mode:LongDistanceTrain') ||
-        modes.contains('rail') ||
-        modes.contains('nationalrail')) {
-      i++;
+    for (var allowes in allowedModes.entries) {
+      if (modes.any((mode) => allowes.value.contains(mode))) {
+        i++;
+      }
     }
-    if (modes.contains('physical_mode:Metro') ||
-        modes.contains('physical_mode:RailShuttle') ||
-        modes.contains('metro') ||
-        modes.contains('funicular')) {
-      i++;
-    }
-    if (modes.contains('physical_mode:Tramway') || modes.contains('tram')) {
-      i++;
-    }
-    if (modes.contains('physical_mode:Bus') || modes.contains('bus')) {
-      i++;
-    }
+
     return i;
   }
 
   List<Widget> getModesTabs(List modes) {
     List<Widget> tabs = [];
-    if (modes.contains('physical_mode:RapidTransit') ||
-        modes.contains('physical_mode:Train') ||
-        modes.contains('physical_mode:RailShuttle') ||
-        modes.contains('physical_mode:LocalTrain') ||
-        modes.contains('physical_mode:LongDistanceTrain') ||
-        modes.contains('rail') ||
-        modes.contains('nationalrail')) {
-      tabs.add(const Tab(
-          icon: Icon(NavikaIcons.train),
-          text: 'Train et RER',
-          iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)));
-    }
-    if (modes.contains('physical_mode:Metro') ||
-        modes.contains('physical_mode:RailShuttle') ||
-        modes.contains('metro') ||
-        modes.contains('funicular')) {
-      tabs.add(const Tab(
-          icon: Icon(NavikaIcons.metro),
-          text: 'Métro',
-          iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)));
-    }
-    if (modes.contains('physical_mode:Tramway') || modes.contains('tram')) {
-      tabs.add(const Tab(
-          icon: Icon(NavikaIcons.tram),
-          text: 'Tramway',
-          iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)));
-    }
-    if (modes.contains('physical_mode:Bus') || modes.contains('bus')) {
-      tabs.add(const Tab(
-          icon: Icon(NavikaIcons.bus),
-          text: 'Bus',
-          iconMargin: EdgeInsets.only(bottom: 5.0, top: 5)));
+
+    for (var allowes in allowedModes.entries) {
+      if (modes.any((mode) => allowes.value.contains(mode))) {
+        tabs.add(Tab(
+          icon: tabsModes[allowes.key]['icon'],
+          text: tabsModes[allowes.key]['label'],
+          iconMargin: const EdgeInsets.only(bottom: 5, top: 5))
+        );
+      }
     }
     return tabs;
   }
 
-  List<Widget> getModesView(
-      List modes, schedules, departures, scrollController) {
+  List<Widget> getModesView(List modes, schedules, departures, scrollController) {
     List<Widget> tabs = [];
-    if (modes.contains('physical_mode:RapidTransit') ||
-        modes.contains('physical_mode:Train') ||
-        modes.contains('physical_mode:RailShuttle') ||
-        modes.contains('physical_mode:LocalTrain') ||
-        modes.contains('physical_mode:LongDistanceTrain') ||
-        modes.contains('rail') ||
-        modes.contains('nationalrail')) {
-      tabs.add(DepartureBlock(
-        departures: departures,
-        scrollController: scrollController,
-        update: update,
-        from: id,
-      ));
-    }
-    if (modes.contains('physical_mode:Metro') ||
-        modes.contains('physical_mode:RailShuttle') ||
-        modes.contains('metro') ||
-        modes.contains('funicular')) {
-      tabs.add(SchedulesList(
-        schedules: schedules,
-        modes: 'metro',
-        scrollController: scrollController,
-        update: update,
-      ));
-    }
-    if (modes.contains('physical_mode:Tramway') || modes.contains('tram')) {
-      tabs.add(SchedulesList(
-        schedules: schedules,
-        modes: 'tram',
-        scrollController: scrollController,
-        update: update,
-      ));
-    }
-    if (modes.contains('physical_mode:Bus') || modes.contains('bus')) {
-      tabs.add(SchedulesList(
-        schedules: schedules,
-        modes: 'bus',
-        scrollController: scrollController,
-        update: update,
-      ));
+
+    bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures') ?? false;
+
+    for (var allowes in allowedModes.entries) {
+      if (modes.any((mode) => allowes.value.contains(mode))) {
+
+        if (allowes.key == 'rail') {
+          tabs.add(DeparturesList(
+            departures: departures,
+            scrollController: scrollController,
+            update: update,
+            name: '',
+            modes: modes,
+            id: id,
+            ungroupDepartures: ungroupDepartures
+          ));
+
+        } else {
+          tabs.add(SchedulesList(
+            schedules: schedules,
+            modes: allowes.key,
+            scrollController: scrollController,
+            update: update,
+          ));
+        }
+        
+      }
     }
     return tabs;
   }

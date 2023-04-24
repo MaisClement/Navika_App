@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/style/style.dart';
+import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/route/lines.dart';
 
 String getTime(String time) {
@@ -106,10 +107,7 @@ class RouteListButton extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              Divider(
-                height: 1,
-                color: Color(0xff808080),
-              )
+              divider,
             ],
           ),
         ),

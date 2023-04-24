@@ -1,54 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/style/style.dart';
+import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bottom_sheets/time.dart';
-import 'package:navika/src/widgets/departures/list.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/departures/time_message.dart';
-
-int getTimeDifference(String time) {
-  DateTime dttime = DateTime.parse(time);
-  DateTime dtnow = DateTime.now();
-
-  Duration diff = dttime.difference(dtnow);
-
-  return diff.inMinutes;
-}
-
-String getTime(String time) {
-  if (time == '') {
-    return '';
-  }
-
-  DateTime dttime = DateTime.parse(time);
-
-  var now = DateTime.now();
-  var timezoneOffsetInMinutes = now.timeZoneOffset.inMinutes;
-  dttime = dttime.add(Duration(minutes: timezoneOffsetInMinutes));
-
-  String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
-  String dtminute =
-      dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
-
-  return '$dthour:$dtminute';
-}
-
-String makeTime(String time) {
-  if (time == '') {
-    return '';
-  }
-  return '${time.substring(0, 2)}:${time.substring(2, 4)}';
-}
-
-Color getColorByState(state, context) {
-  if (state.contains('cancelled') ||
-      state.contains('delayed') ||
-      state.contains('modified') ||
-      state.contains('ontime')) {
-    return const Color(0xfffcc900);
-  }
-
-  return const Color(0xffa9a9a9);
-}
 
 class TimeBlock extends StatelessWidget {
   final String time;
@@ -152,12 +107,11 @@ class TimeBlock extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            child: Text(
-                              globals.hiveBox?.get('displayMode') == 'minutes'
+                            child: Text( globals.hiveBox?.get('displayMode') == 'minutes'
                                   ? '${getTimeDifference(time).toString()} min'
                                   : getTime(base),
                               style: TextStyle(
-                                color: getColorByState(
+                                color: getDeparturesColorByState(
                                     getTimeDifference(time) >= 0
                                         ? state
                                         : 'theorical',

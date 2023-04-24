@@ -4,7 +4,7 @@ import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/schedules/timer_block.dart';
 import 'package:navika/src/data/global.dart' as globals;
 
-String getTime(){
+String getDt(){
   var d1 = DateTime.now();
   return DateTime(d1.year, d1.month, d1.day, d1.hour, d1.minute + 7).toString();
 }
@@ -78,8 +78,8 @@ class _BottomSchedulesState extends State<BottomSchedules>
               ),
               widget.isDeparture
               ? TimeBlock(
-                  time: getTime(),
-                  base: getTime(),
+                  time: getDt(),
+                  base: getDt(),
                   state: const ['ontime'],
                   late: 0,
                   // ignore: prefer_single_quotes
@@ -88,7 +88,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   disabled: true,
                 )
               : TimerBlock(
-                  time: getTime(),
+                  time: getDt(),
                   state: 'ontime',
                   update: widget.update, // INUTILE SI disabled
                   disabled: true,
@@ -112,8 +112,8 @@ class _BottomSchedulesState extends State<BottomSchedules>
               ),
               widget.isDeparture
               ? TimeBlock(
-                  time: getTime(),
-                  base: getTime(),
+                  time: getDt(),
+                  base: getDt(),
                   state: const ['delayed'],
                   late: 5,
                   track: 'B',
@@ -121,7 +121,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   disabled: true,
                 )
               : TimerBlock(
-                  time: getTime(),
+                  time: getDt(),
                   state: 'delayed',
                   update: widget.update, // INUTILE SI disabled
                   disabled: true,
@@ -145,8 +145,8 @@ class _BottomSchedulesState extends State<BottomSchedules>
               ),
               widget.isDeparture
               ? TimeBlock(
-                  time: getTime(),
-                  base: getTime(),
+                  time: getDt(),
+                  base: getDt(),
                   state: const ['cancelled'],
                   late: 0,
                   track: 'B',
@@ -154,7 +154,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   disabled: true,
                 )
               : TimerBlock(
-                  time: getTime(),
+                  time: getDt(),
                   state: 'cancelled',
                   update: widget.update, // INUTILE SI disabled
                   disabled: true,
@@ -178,8 +178,8 @@ class _BottomSchedulesState extends State<BottomSchedules>
               ),
               widget.isDeparture
               ? TimeBlock(
-                  time: getTime(),
-                  base: getTime(),
+                  time: getDt(),
+                  base: getDt(),
                   state: const ['theorical'],
                   late: 0,
                   track: 'B',
@@ -187,7 +187,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   disabled: true,
                 )
               : TimerBlock(
-                  time: getTime(),
+                  time: getDt(),
                   state: 'theorical',
                   update: widget.update, // INUTILE SI disabled
                   disabled: true,

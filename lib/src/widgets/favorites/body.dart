@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style/style.dart';
+import 'package:navika/src/widgets/departures/block.dart';
 import 'package:navika/src/widgets/error_message.dart';
-import 'package:navika/src/widgets/favorites/departures.dart';
-import 'package:navika/src/widgets/favorites/schedules.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/widgets/bottom_sheets/remove_favorite.dart';
+import 'package:navika/src/widgets/schedules/block.dart';
 
 class FavoriteBody extends StatefulWidget {
   final String id;
@@ -169,28 +169,60 @@ class _FavoriteBodyState extends State<FavoriteBody>
               ),
             )
           else if (mode == 'rail' || mode == 'nationalrail')
-            Container(
-              padding: const EdgeInsets.only(
-                  left: 10, right: 10, top: 0, bottom: 10),
-              child: FavoriteDepartures(
-                id: widget.id,
-                name: widget.name,
-                modes: widget.modes,
-                schedules: schedules,
-                update: widget.update,
-              ),
+            Column(
+              children: [
+                for (var line in schedules)
+                  DeparturesBlock(
+                    line: line,
+                    id: widget.id,
+                    name: widget.name,
+                    modes: widget.modes,
+                    update: widget.update,
+                    limited: true,
+                  ),
+                Center(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                      foregroundColor: const Color(0xffffffff),
+                    ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                    child: const Text('Tous les horaires ➜'),
+                    onPressed: () {
+                      globals.schedulesStopArea = widget.id;
+                      globals.schedulesStopName = widget.name;
+                      globals.schedulesStopModes = widget.modes;
+                      globals.schedulesStopLines = [];
+                      RouteStateScope.of(context).go('/schedules/stops/${widget.id}');
+                    },
+                  ),
+                ),
+              ],
             )
           else
-            Container(
-              padding: const EdgeInsets.only(
-                  left: 10, right: 10, top: 0, bottom: 10),
-              child: FavoriteSchedules(
-                id: widget.id,
-                name: widget.name,
-                modes: widget.modes,
-                schedules: schedules,
-                update: widget.update,
-              ),
+            Column(
+              children: [
+                for (var line in schedules)
+                  SchedulesBlock(
+                    line: line,
+                    update: widget.update,
+                  ),
+                Center(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                      foregroundColor: const Color(0xffffffff),
+                    ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                    child: const Text('Tous les horaires ➜'),
+                    onPressed: () {
+                      globals.schedulesStopArea = widget.id;
+                      globals.schedulesStopName = widget.name;
+                      globals.schedulesStopModes = widget.modes;
+                      globals.schedulesStopLines = [];
+                      RouteStateScope.of(context).go('/schedules/stops/${widget.id}');
+                    },
+                  ),
+                ),
+              ],
             )
         ],
       );

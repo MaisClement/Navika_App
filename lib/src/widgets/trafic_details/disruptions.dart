@@ -67,7 +67,7 @@ class TraficDisruptions extends StatelessWidget {
                         style: const TextStyle(fontSize: 16),
                       ),
                       Text(
-                        'Mis à jour: ${getTime(ctrafic['updated_at'])}',
+                        'Mis à jour: ${getDateTime(ctrafic['updated_at'])}',
                         style: const TextStyle(fontSize: 12),
                       )
                     ],

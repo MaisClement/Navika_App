@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/favorites/body.dart';
 import 'package:navika/src/widgets/home/fav_scroll.dart';
 import 'package:navika/src/widgets/home/messages.dart';
@@ -60,7 +61,7 @@ class HomeBody extends StatelessWidget {
                 ),
               ],
             ),
-          for (var fav in favs.sublist(0, favs.length > 2 ? 2 : favs.length))
+          for (var fav in favs.sublist(0, getMaxLength(2, favs) ))
             FavoriteBody(
               id: fav['id'],
               name: fav['name'],

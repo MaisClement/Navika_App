@@ -8,7 +8,6 @@ import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style/style.dart';
-import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/places/listbutton.dart';
@@ -16,7 +15,7 @@ import 'package:flutter/foundation.dart';
 import 'package:navika/src/widgets/places/load.dart';
 
 class AddAddress extends StatefulWidget {
-  final predefineType;
+  final String predefineType;
 
   const AddAddress({
     this.predefineType = '', 
@@ -181,7 +180,7 @@ class _AddAddressState extends State<AddAddress> {
               NavikaIcons.save,
               color: isDefined && label != ''
                 ? tabLabelColor(context)
-                : RouteBhColor(context),),
+                : routeBhColor(context),),
             tooltip: 'Ajouter aux favoris',
             onPressed: () {
               handleSaveAddress();
@@ -194,10 +193,10 @@ class _AddAddressState extends State<AddAddress> {
 
           if (widget.predefineType == '' )
             Container(
-              margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+              margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
               child: Row(children: [
-                Icon(NavikaIcons.star),
-                SizedBox(
+                const Icon(NavikaIcons.star),
+                const SizedBox(
                   width: 15,
                 ),
                 Expanded(
@@ -215,22 +214,32 @@ class _AddAddressState extends State<AddAddress> {
               ]),
             ),
           Container(
-            margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
-            child: TextField(
-              controller: queryController,
-              focusNode: queryFieldNode,
-              decoration: const InputDecoration( 
-                hintText: 'Ajouter une adresse, une gare, un arrêt ou une station'
-              ),
-              onChanged: (text) {
-                setState(() {
-                  search = text;
-                });
-                _getPlaces();
-              },
-              onTap: () {
-                handleOnTapAddress();
-              },
+            margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+            child: Row(
+              children: [
+                const Icon(NavikaIcons.marker),
+                const SizedBox(
+                  width: 15,
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: queryController,
+                    focusNode: queryFieldNode,
+                    decoration: const InputDecoration( 
+                      hintText: 'Ajouter une adresse, une gare, un arrêt ou une station'
+                    ),
+                    onChanged: (text) {
+                      setState(() {
+                        search = text;
+                      });
+                      _getPlaces();
+                    },
+                    onTap: () {
+                      handleOnTapAddress();
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
           if (!isDefined)

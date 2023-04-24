@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:navika/src/routing.dart';
-import 'package:navika/src/data/lines.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 
@@ -67,7 +65,7 @@ class TraficWorks extends StatelessWidget {
                         style: const TextStyle(fontSize: 16),
                       ),
                       Text(
-                        'Mis à jour: ${getTime(ctrafic['updated_at'])}',
+                        'Mis à jour: ${getDateTime(ctrafic['updated_at'])}',
                         style: const TextStyle(fontSize: 12),
                       )
                     ]),

@@ -7,10 +7,10 @@ import 'package:http/http.dart' as http;
 
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style/style.dart';
+import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/error_message.dart';
 import 'package:navika/src/widgets/trip/block.dart';
 import 'package:navika/src/widgets/trip/disruptions.dart';
-import 'package:navika/src/widgets/departures/time_block.dart';
 
 enum TripBlockStatus { origin, terminus, active, inactive }
 enum TripBlockEffect { none, added, deleted, delayed, unchanged }

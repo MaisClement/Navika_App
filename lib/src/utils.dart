@@ -1,11 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/data.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/style/style.dart';
 
 const divider = Divider(
   color: Color(0xff808080),
   thickness: 1.5,
 );
+
+Widget loader(context) {
+  return Column(
+    children: [
+      const SizedBox(
+        height: 20,
+      ),
+      const CircularProgressIndicator(),
+      Text('Chargement...',
+        style: TextStyle( color: accentColor(context), fontWeight: FontWeight.w700),
+      ),
+    ],
+  );
+}
+
+Widget voidData(context) {
+  return Row(
+    children: [
+      SvgPicture.asset('assets/img/cancel.svg',
+          color: accentColor(context), height: 18),
+      Text(
+        'Aucune information',
+        style: TextStyle(
+            color: accentColor(context),
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            fontFamily: 'Segoe Ui'),
+      ),
+    ],
+  );
+}
+
+int getMaxLength(int max, List list) {
+  if (list.length > max) {
+    return max;
+  }
+  return list.length;
+}
 
 Map getTraficLines(String name) {
   for (var lines in globals.trafic) {
@@ -123,7 +163,7 @@ String getSlugTitle(severity) {
   }
 }
 
-String getTime(String time) {
+String getDateTime(String time) {
   DateTime dttime = DateTime.parse(time);
 
   String dtday = dttime.day < 10 ? '0${dttime.day}' : dttime.day.toString();
@@ -135,4 +175,147 @@ String getTime(String time) {
       dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
 
   return '$dtday/$dtmonth/$dtyear $dthour:$dtminute';
+}
+
+List clearTrain(List departures) {
+  bool hide = globals.hiveBox?.get('hideTerminusTrain') ?? false;
+
+  if (hide){
+    List list = [];
+    for (var departure in departures){
+      if (departure['informations']['message'] != 'terminus'){
+        list.add(departure);
+      }
+    }
+    return list;
+  } 
+
+  return departures;
+}
+
+// Schedules
+
+int getTimeDifference(String time) {
+  DateTime dttime = DateTime.parse(time);
+  DateTime dtnow = DateTime.now();
+
+  Duration diff = dttime.difference(dtnow);
+
+  return diff.inMinutes;
+}
+
+String getTime(String time) {
+  if (time == '') {
+    return '';
+  }
+
+  DateTime dttime = DateTime.parse(time);
+
+  var now = DateTime.now();
+  var timezoneOffsetInMinutes = now.timeZoneOffset.inMinutes;
+  dttime = dttime.add(Duration(minutes: timezoneOffsetInMinutes));
+
+  String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
+  String dtminute = dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
+
+  return '$dthour:$dtminute';
+}
+
+String makeTime(String time) {
+  if (time == '') {
+    return '';
+  }
+  return '${time.substring(0, 2)}:${time.substring(2, 4)}';
+}
+
+
+List getState(Map train) {
+  String state = train['stop_date_time']['state'];
+
+  List res = [];
+  if (state == 'modified') {
+    res.add('modified');
+  }
+  if (state != 'ontime' && state != 'theorical') {
+    res.add(state);
+  }
+  if (getLate(train) > 0) {
+    res.add('delayed');
+  }
+  //else {
+  if (res.isEmpty) {
+    res.add('ontime');
+  }
+  return res;
+}
+
+int getLate(Map train) {
+  String departure = train['stop_date_time']['departure_date_time'];
+  String expectedDeparture = train['stop_date_time']['base_departure_date_time'];
+  
+  if (departure == '' || expectedDeparture == '') {
+    return 0;
+  }
+  DateTime dttime = DateTime.parse(departure);
+  DateTime dtexpe = DateTime.parse(expectedDeparture);
+  Duration diff = dttime.difference(dtexpe);
+  return diff.inMinutes;
+}
+
+Color getColorByState(state, context) {
+  if (state.contains('cancelled')) {
+    return const Color(0xffeb2031);
+  } else if (state.contains('delayed') || state.contains('modified')) {
+    return const Color(0xfff68f53);
+  } else if (state.contains('ontime')) {
+    return Colors.white.withOpacity(0);
+  } else {
+    return const Color(0xffa9a9a9);
+  }
+}
+
+Color getSchedulesColorByState(state, context) {
+  switch (state) {
+    case 'cancelled':
+      return const Color(0xffeb2031);
+    case 'delayed':
+      return const Color(0xfff68f53);
+    case 'ontime':
+      return Theme.of(context).colorScheme.primary;
+    default:
+      return const Color(0xffa9a9a9);
+  }
+}
+
+Color getDeparturesColorByState(state, context) {
+  if (state.contains('cancelled') ||
+      state.contains('delayed') ||
+      state.contains('modified') ||
+      state.contains('ontime')) {
+    return const Color(0xfffcc900);
+  }
+
+  return const Color(0xffa9a9a9);
+}
+
+Color getColorForDirectionByState(state, context) {
+  if (state.contains('cancelled')) {
+    return const Color(0xffeb2031);
+  } else if (state.contains('cancelled')) {
+    return const Color(0xffeb2031);
+  } else if (state.contains('modified')) {
+    return const Color(0xfff68f53);
+  } else {
+    return accentColor(context);
+  }
+}
+
+Color getBackColorByState(state, context) {
+  if (state.contains('cancelled')) {
+    return const Color(0xffeb2031);
+  } else if (state.contains('delayed') || state.contains('modified')) {
+    return const Color(0xfff68f53);
+  } else {
+    return Colors.white.withOpacity(0);
+  }
 }

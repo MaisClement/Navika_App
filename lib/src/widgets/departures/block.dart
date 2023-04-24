@@ -1,181 +1,135 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:navika/src/data.dart';
-import 'package:navika/src/style/style.dart';
-import 'package:navika/src/widgets/departures/list.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/extensions/hexcolor.dart';
-import 'package:navika/src/routing/route_state.dart';
+import 'package:navika/src/routing.dart';
+import 'package:navika/src/style/style.dart';
+import 'package:navika/src/utils.dart';
+import 'package:navika/src/widgets/departures/lines.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
 
-List clearTrain(List departures) {
-  bool hide = globals.hiveBox?.get('hideTerminusTrain') ?? false;
-
-  if (hide){
-    List list = [];
-    for (var departure in departures){
-      if (departure['informations']['message'] != 'terminus'){
-        list.add(departure);
-      }
-    }
-    return list;
-  } 
-
-  return departures;
-}
-
-class DepartureBlock extends StatelessWidget {
-	final List departures;
-  final ScrollController scrollController;
+class DeparturesBlock extends StatelessWidget {
+  final Map line;
+  final String id;
+  final String name;
+  final List modes;
   final Function update;
-  final String from;
+  final bool limited;
 
-	const DepartureBlock({
-		required this.departures,
-    required this.scrollController,
+  const DeparturesBlock({
+    required this.line,
+    required this.id,
+    required this.name,
+    required this.modes,
     required this.update,
-    required this.from,
-		super.key,
-	});
+    this.limited = false,
+    super.key,
+  });
 
-	@override
-	Widget build(BuildContext context) => ListView(
-        padding: EdgeInsets.zero,
-    controller: scrollController,
-    children: [
-      if (departures.isEmpty)
-        Column(
-          children: [
-            const CircularProgressIndicator(),
-            Text('Chargement...', 
-              style: TextStyle(
-                color: accentColor(context),
-                fontWeight: FontWeight.w700
+  @override
+  Widget build(BuildContext context) => Container(
+        margin: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: schedulesBack(context, HexColor.fromHex(line['color'])),
+        ),
+        child: Column(children: [
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: schedulesBlock(
+                    context, HexColor.fromHex(line['color'])),
+                boxShadow: [
+                  BoxShadow(
+                    color: accentColor(context).withOpacity(0.1),
+                    spreadRadius: 3,
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  )
+                ]),
+            child: InkWell(
+              onTap: () {
+                globals.schedulesStopArea = id;
+                globals.schedulesStopName = name;
+                globals.schedulesStopModes = modes;
+                globals.schedulesStopLines = [];
+                globals.departure = line;
+                RouteStateScope.of(context)
+                    .go('/schedules/stops/$id/departures/${line['id']}');
+              },
+              child: Row(
+                children: [
+                  ModeIcones(
+                    line: line,
+                    i: 0,
+                    size: 30,
+                    isDark: schedulesIsDark(context, line['text_color']),
+                  ),
+                  LinesIcones(line: line, size: 30),
+                  Container(
+                    width: 10,
+                  ),
+
+                  Text( LINES.getLinesById(line['id']).libelle,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Segoe Ui',
+                      color: schedulesText(
+                          context, HexColor.fromHex(line['text_color'])),
+                    ),
+                    maxLines: 1,
+                    softWrap: false,
+                    overflow: TextOverflow.fade,
+                  )
+                ],
               ),
             ),
-          ]
-        )
-      else
-        for (var departure in departures)
+          ),
           Container(
-            margin: const EdgeInsets.only(bottom:10.0, left: 10, right: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: schedulesBack(context, HexColor.fromHex(departure['color'])),
-            ),
+            margin: const EdgeInsets.all(5.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: schedulesBlock(context, HexColor.fromHex(departure['color'])),
-                    boxShadow: [
-                      BoxShadow(
-                        color: accentColor(context).withOpacity(0.1),
-                        spreadRadius: 3,
-                        blurRadius: 5,
-                        offset: const Offset(0, 2),
-                      )
-                    ]
-                  ),
-                  child: InkWell(
-                    onTap: () {
-                      globals.departure = departure;
-                      RouteStateScope.of(context).go('/schedules/stops/${globals.schedulesStopArea}/departures/${departure['id']}');
-                    },
-                    child: Row(
-                      children: [
-                        ModeIcones(
-                          line: departure,
-                          i: 0,
-                          size: 30,
-                          isDark: schedulesIsDark(context, departure['text_color']),
-                        ),
-                        LinesIcones(
-                          line: departure,
-                          size: 30
-                        ),
-                        Container(
-                          width: 10,
-                        ),
-                        if (LINES.getLinesById(departure['id']).libelle != '')
-                          Text(LINES.getLinesById(departure['id']).libelle,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Segoe Ui',
-                              color: schedulesText(context, HexColor.fromHex(departure['text_color'])),
-                            ),
-                            maxLines: 1,
-                            softWrap: false,
-                            overflow: TextOverflow.fade,
-                          ) 
-                      ],
+                if (clearTrain(line['departures']).isEmpty)
+                  voidData(context)
+                else
+                  for (var train in clearTrain(line['departures']).sublist(0, getMaxLength(limited ? 2 : 5, clearTrain(line['departures']))))
+                    DepartureLines(
+                      train: train,
+                      color: departureList(
+                        context, HexColor.fromHex(line['color'])
+                      ),
+                      update: update,
+                      from: id,
                     ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left:5.0, top:5.0,right:5.0,bottom:5.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (clearTrain( departure['departures'] ).isEmpty) 
-                        Row(
-                          children: [
-                            SvgPicture.asset('assets/img/cancel.svg',
-                                color: accentColor(context),
-                                height: 18
-                              ),
-                            Text('Aucune information',
-                              style: TextStyle(
-                                color: accentColor(context),
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Segoe Ui'
-                              ),
-                            ),
-                          ],
-                        )
-                      else
-                        for (var train in clearTrain( departure['departures'] ).sublist(0, clearTrain( departure['departures'] ).length > 5 ? 5 : clearTrain( departure['departures'] ).length))
-                          DepartureList(
-                            train: train,
-                            color: departureList(context, HexColor.fromHex(departure['color'])),
-                            update: update,
-                          from: from,
-                          ),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: HexColor.fromHex(departure['color']),
-                              foregroundColor: HexColor.fromHex(departure['text_color']),
-                            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                            child: const Text('Voir le reste ➜'),
-                            onPressed: () {
-                              globals.departure = departure;
-                              RouteStateScope.of(context).go('/schedules/stops/${globals.schedulesStopArea}/departures/${departure['id']}');
-                            },
-                          ),
-                        ],
-                      )
-                          
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 3,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color:  HexColor.fromHex(departure['color']),
-                  )
-                )
-              ]
+              ],
             ),
-          )
-    ]
-  );
+          ),
+          if (!limited)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: HexColor.fromHex(line['color']),
+                    foregroundColor: HexColor.fromHex(line['text_color']),
+                  ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                  child: const Text('Voir le reste ➜'),
+                  onPressed: () {
+                    globals.departure = line;
+                    RouteStateScope.of(context).go('/schedules/stops/${globals.schedulesStopArea}/departures/${line['id']}');
+                  },
+                ),
+              ],
+            ),
+          Container(
+              height: 3,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: HexColor.fromHex(line['color']),
+              ))
+        ]),
+      );
 }
