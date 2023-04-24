@@ -30,10 +30,10 @@ void main() {
   setHashUrlStrategy();
 
   setupWindow();
+  
+  _initializeHive();
 
   _initializeHERESDK();
-
-  _initializeHive();
 
   _initializeFirebase();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);

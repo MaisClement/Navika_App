@@ -153,6 +153,11 @@ class _RouteDetailsState extends State<RouteDetails> {
     gps.PermissionStatus permissionGranted;
     gps.LocationData locationData;
 
+    bool? allowGps = await globals.hiveBox?.get('allowGps');
+    if (allowGps == false) {
+      return;
+    }
+
     if (!globals.isSetLocation) {
       serviceEnabled = await location.serviceEnabled();
       if (!serviceEnabled) {
@@ -383,7 +388,7 @@ class _RouteDetailsState extends State<RouteDetails> {
         locationData,
         LocationIndicatorIndicatorStyle.pedestrian,
         globals.compassHeading,
-        true);
+        false);
   }
 
   void _updateLocationIndicator(gps.LocationData locationData) {

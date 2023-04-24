@@ -191,6 +191,11 @@ class _HomeState extends State<Home> {
     gps.PermissionStatus permissionGranted;
     gps.LocationData locationData;
 
+    bool? allowGps = await globals.hiveBox?.get('allowGps');
+    if (allowGps == false) {
+      return;
+    }
+
     if (!globals.isSetLocation) {
       serviceEnabled = await location.serviceEnabled();
       if (!serviceEnabled) {
@@ -202,10 +207,6 @@ class _HomeState extends State<Home> {
       }
 
       permissionGranted = await location.hasPermission();
-      bool? allowGps = await globals.hiveBox?.get('allowGps') ?? false;
-      if (allowGps == false) {
-        return;
-      }
       if (permissionGranted == gps.PermissionStatus.denied && allowGps == null) {
         RouteStateScope.of(context).go('/position');
         return;
