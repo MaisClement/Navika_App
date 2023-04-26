@@ -3,48 +3,6 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/route/lines.dart';
 
-String getTime(String time) {
-  DateTime dttime = DateTime.parse(time);
-  String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
-  String dtminute =
-      dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
-  return '$dthour:$dtminute';
-}
-
-TextStyle getTextStyle(context, int size) {
-  return TextStyle(
-    fontSize: size.toDouble(),
-    fontWeight: FontWeight.w600,
-    fontFamily: 'Segoe Ui',
-    color: accentColor(context),
-  );
-}
-
-List<Widget> getDurationWidget(int d, context) {
-  Duration duration = Duration(seconds: d);
-  List<Widget> res = [];
-
-  if (duration.inMinutes >= 60) {
-    res.add(
-        Text(duration.inHours.toString(), style: getTextStyle(context, 24)));
-
-    res.add(Text('h', style: getTextStyle(context, 10)));
-
-    res.add(Text(
-        duration.inMinutes.remainder(60) < 10
-            ? '0${duration.inMinutes.remainder(60).toString()}'
-            : duration.inMinutes.remainder(60).toString(),
-        style: getTextStyle(context, 24)));
-  } else {
-    res.add(Text(duration.inMinutes.remainder(60).toString(),
-        style: getTextStyle(context, 24)));
-
-    res.add(Text('mn', style: getTextStyle(context, 10)));
-  }
-
-  return res;
-}
-
 class RouteListButton extends StatelessWidget {
   final Map journey;
   final void Function() onTap;
@@ -70,7 +28,7 @@ class RouteListButton extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        getTime(journey['departure_date_time']),
+                        getStringTime(journey['departure_date_time']),
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w600,
@@ -79,7 +37,7 @@ class RouteListButton extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        getTime(journey['arrival_date_time']),
+                        getStringTime(journey['arrival_date_time']),
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w600,
@@ -107,7 +65,10 @@ class RouteListButton extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              divider,
+              Container(
+                color: Color(0xff808080),
+                height: 1.5,
+              )
             ],
           ),
         ),

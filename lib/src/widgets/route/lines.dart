@@ -22,17 +22,17 @@ class RouteLines extends StatelessWidget {
                 ModeIcones(
                   line: sections[i]['informations']['line'],
                   i: 0,
-                  size: 25,
+                  size: 20,
                   isDark: schedulesIsDark(context, 'ffffff'),
                 ),
                 LinesIcones(
                   line: sections[i]['informations']['line'],
-                  size: 25
+                  size: 20
                 ),
 
-                if (i != sections.length -1)
+                if (i != sections.length -2)
                   Container(
-                    margin: const EdgeInsets.only(top: 15, left: 8, right: 2),
+                    margin: const EdgeInsets.only(top: 12, left: 5),
                     height: 5,
                     width: 5,
                     decoration: BoxDecoration(
@@ -42,28 +42,6 @@ class RouteLines extends StatelessWidget {
                   )
               ],
             )
-
-          // else if (sections[i]['mode'] == 'walking')
-          //   Wrap(
-          //     children: [
-          //       Icon(ScaffoldIcon.walking,
-          //         color: walkingColor(context), //Colors.grey[700],
-          //         size: 25
-          //       ),
-// 
-          //       if (i != sections.length -1)
-          //         Container(
-          //           margin: const EdgeInsets.only(top: 9, left: 2, right: 2),
-          //           height: 5,
-          //           width: 5,
-          //           decoration: BoxDecoration(
-          //             color: Color(0xff808080),
-          //             borderRadius: BorderRadius.circular(500)
-          //           ),
-          //         )
-          //     ],
-          //   ),
-          
         ],
       )
   );

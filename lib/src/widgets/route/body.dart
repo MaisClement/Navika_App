@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/style/style.dart';
+import 'package:navika/src/utils.dart';
+import 'package:navika/src/widgets/route/block.dart';
 import 'package:navika/src/widgets/route/lines.dart';
-import 'package:navika/src/widgets/route/listbutton.dart';
 
 class RouteBody extends StatelessWidget {
   final ScrollController scrollController;
@@ -38,7 +39,11 @@ class RouteBody extends StatelessWidget {
               ],
             ),
           ),
-          Text('pas content ?')
+          for (var section in journey['sections'])
+            RouteBlock(
+              section: section,
+              journey: journey,
+            )
         ],
       );
 }

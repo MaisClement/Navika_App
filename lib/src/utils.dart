@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:here_sdk/core.dart';
 import 'package:navika/src/data.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style/style.dart';
+import 'package:navika/src/extensions/hexcolor.dart';
 
 const divider = Divider(
   color: Color(0xff808080),
@@ -318,4 +322,92 @@ Color getBackColorByState(state, context) {
   } else {
     return Colors.white.withOpacity(0);
   }
+}
+
+// Journeys
+
+Color getColorByType(section) {
+  if (section['type'] == 'street_network' || section['type'] == 'waiting') {
+    return const Color(0xff7b7b7b);
+  }
+  if (section['informations'] != null &&
+      section['informations']['line']['color'] != null) {
+    return HexColor.fromHex(section['informations']['line']['color']);
+  }
+  return const Color(0xff202020);
+}
+
+double getLineWidthByType(String type) {
+  if (type == 'public_transport') {
+    return 20;
+  }
+  return 7;
+}
+
+double degTorad(double x) {
+  return pi * x / 180;
+}
+
+double getDistance(double lat1, double lon1, double lat2, double lon2) {
+  const double earthRadius = 6378137; // Terre = sphère de 6378km de rayon
+  double rlo1 = degTorad(lon1); // CONVERSION
+  double rla1 = degTorad(lat1);
+  double rlo2 = degTorad(lon2);
+  double rla2 = degTorad(lat2);
+  double dlo = (rlo2 - rlo1) / 2;
+  double dla = (rla2 - rla1) / 2;
+  double a =
+      (sin(dla) * sin(dla)) + sin(rla1) * cos(rla2) * (sin(dlo) * sin(dlo));
+  double d = 2 * atan2(sqrt(a), sqrt(1 - a));
+  return ((earthRadius * d) * 3);
+}
+
+GeoCoordinates getCenterPoint(
+  double lat1, double lon1, double lat2, double lon2) {
+  double clon = (lon1 + lon2) / 2;
+  double clat = (lat1 + lat2) / 2;
+
+  return GeoCoordinates(clat, clon);
+}
+
+String getStringTime(String time) {
+  DateTime dttime = DateTime.parse(time);
+  String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
+  String dtminute =
+      dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
+  return '$dthour:$dtminute';
+}
+
+TextStyle getTextStyle(context, int size) {
+  return TextStyle(
+    fontSize: size.toDouble(),
+    fontWeight: FontWeight.w600,
+    fontFamily: 'Segoe Ui',
+    color: accentColor(context),
+  );
+}
+
+List<Widget> getDurationWidget(int d, context) {
+  Duration duration = Duration(seconds: d);
+  List<Widget> res = [];
+
+  if (duration.inMinutes >= 60) {
+    res.add(
+        Text(duration.inHours.toString(), style: getTextStyle(context, 24)));
+
+    res.add(Text('h', style: getTextStyle(context, 10)));
+
+    res.add(Text(
+        duration.inMinutes.remainder(60) < 10
+            ? '0${duration.inMinutes.remainder(60).toString()}'
+            : duration.inMinutes.remainder(60).toString(),
+        style: getTextStyle(context, 24)));
+  } else {
+    res.add(Text(duration.inMinutes.remainder(60).toString(),
+        style: getTextStyle(context, 24)));
+
+    res.add(Text('mn', style: getTextStyle(context, 10)));
+  }
+
+  return res;
 }

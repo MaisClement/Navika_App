@@ -158,11 +158,12 @@ class _RouteHomeState extends State<RouteHome> {
 	}
 
   Future<void> _getJourneys() async {
+    String url = '${globals.API_JOURNEYS}?from=${globals.route["dep"]["id"]}&to=${globals.route["arr"]["id"]}';
+    
     if (kDebugMode) {
       print({'INFO_', globals.route['dep']['id'], globals.route['arr']['id']});
+      print({'INFO_', url});
     }
-    String url = '${globals.API_JOURNEYS}?from=${globals.route["dep"]["id"]}&to=${globals.route["arr"]["id"]}';
-
     setState(() {
       isLoading = true;
     });

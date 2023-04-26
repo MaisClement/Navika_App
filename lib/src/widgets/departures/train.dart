@@ -93,13 +93,13 @@ class DepartureTrain extends StatelessWidget {
                                       style: train['stop_date_time']['state'] !=
                                               'ontime'
                                           ? TextStyle(
-                                              fontSize: 17,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.w600,
                                               fontFamily: 'Segoe Ui',
                                               color: getColorForDirectionByState( getState(train), context),
                                             )
                                           : TextStyle(
-                                              fontSize: 17,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.w600,
                                               fontFamily: 'Segoe Ui',
                                               color: accentColor(context),
