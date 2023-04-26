@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/data/lines.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style/style.dart';
+import 'package:navika/src/utils.dart';
 
 class SectionStreetNetwork extends StatelessWidget {
   final Map section;
@@ -15,12 +15,15 @@ class SectionStreetNetwork extends StatelessWidget {
   Widget build(BuildContext context) => Row(
     children: [
         Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.only(
+            top: 10, bottom: 10, left: 15, right: 15
+          ),
           child: Icon(NavikaIcons.walking,
               color: walkingColor(context), //Colors.grey[700],
               size: 35),
         ),
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(section['from']['name'],
               style: TextStyle(
@@ -30,7 +33,7 @@ class SectionStreetNetwork extends StatelessWidget {
                 color: accentColor(context),
               )
             ),
-            Text(section['duration'].toString()
+            Text('${getDuration(section['duration'])} • ${getDistanceText(section['duration'])}'
             ),
           ],
         ),

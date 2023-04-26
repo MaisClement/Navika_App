@@ -47,7 +47,7 @@ class DepartureTrain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.only(top: 7.0),
+        margin: const EdgeInsets.only(bottom: 7.0),
         child: InkWell(
           onTap: () {
             handleTapDetails(context);

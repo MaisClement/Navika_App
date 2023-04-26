@@ -387,6 +387,30 @@ TextStyle getTextStyle(context, int size) {
   );
 }
 
+String getDuration(int d) {
+  Duration duration = Duration(seconds: d);
+  String res = '';
+  if (duration.inMinutes >= 60) {
+    res = '${res}${duration.inHours.toString()}h${duration.inMinutes.remainder(60).toString()}';
+  } else {
+    res = '${res}${duration.inMinutes.remainder(60).toString()} mn';
+  }
+
+  return res;
+}
+
+String getDistanceText(int d) {
+  // get the distance in meters or kilometers
+  String res = '';
+  // ${d}
+  if (d >= 1000) {
+    res = '${res}${d / 1000.0} km';
+  } else {
+    res = '${res}${d} m';
+  }
+  return res;
+}
+
 List<Widget> getDurationWidget(int d, context) {
   Duration duration = Duration(seconds: d);
   List<Widget> res = [];
