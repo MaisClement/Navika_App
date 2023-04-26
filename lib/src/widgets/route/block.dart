@@ -13,6 +13,7 @@ class RouteBlock extends StatelessWidget {
     required this.section,
     super.key,
   });
+  
 
   @override
   Widget build(BuildContext context) => Column(
@@ -23,7 +24,7 @@ class RouteBlock extends StatelessWidget {
           ),
         Row(
           children: [
-            if (section['type'] == 'street_network' || section['type'] == 'crow_fly')
+            if (section['type'] == 'crow_fly')
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Icon(NavikaIcons.walking,

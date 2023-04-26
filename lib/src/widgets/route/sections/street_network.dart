@@ -37,7 +37,16 @@ class SectionStreetNetwork extends StatelessWidget {
             ),
           ],
         ),
-        Text(section['type']),
+        Container(
+          padding: const EdgeInsets.only(bottom: 5, right: 10),
+          color: routeBhColor(context),
+          child: Row(
+            children: [
+              Text(getStringTime(section['departure_date_time']))
+            ],
+          ),
+        ),
+        Text(''),
       ]
     );
 }
