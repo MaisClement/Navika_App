@@ -12,6 +12,10 @@
 ///       - asset: fonts/NavikaIcons.ttf
 ///
 /// 
+/// * Font Awesome 5, Copyright (C) 2016 by Dave Gandy
+///         Author:    Dave Gandy
+///         License:   SIL (https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt)
+///         Homepage:  http://fortawesome.github.com/Font-Awesome/
 ///
 import 'package:flutter/widgets.dart';
 
@@ -60,4 +64,5 @@ class NavikaIcons {
   static const IconData add_bookmark = IconData(0xe824, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData bike = IconData(0xe825, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData bus = IconData(0xe826, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData chevron_right = IconData(0xf054, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

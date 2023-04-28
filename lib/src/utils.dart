@@ -391,9 +391,9 @@ String getDuration(int d) {
   Duration duration = Duration(seconds: d);
   String res = '';
   if (duration.inMinutes >= 60) {
-    res = '${res}${duration.inHours.toString()}h${duration.inMinutes.remainder(60).toString()}';
+    res = '$res${duration.inHours.toString()}h${duration.inMinutes.remainder(60).toString()}';
   } else {
-    res = '${res}${duration.inMinutes.remainder(60).toString()} mn';
+    res = '$res${duration.inMinutes.remainder(60).toString()} mn';
   }
 
   return res;
@@ -404,9 +404,9 @@ String getDistanceText(int d) {
   String res = '';
   // ${d}
   if (d >= 1000) {
-    res = '${res}${d / 1000.0} km';
+    res = '$res${d / 1000.0} km';
   } else {
-    res = '${res}${d} m';
+    res = '$res$d m';
   }
   return res;
 }

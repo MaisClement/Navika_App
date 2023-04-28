@@ -23,7 +23,7 @@ List getLines(data) {
 
     } else {
       for (var dschedules in data['departures']) {
-        l.add(<String>{...dschedules}..remove('departures'));
+        l.add(<String, dynamic>{...dschedules}..remove('departures'));
       }
     }    
   }

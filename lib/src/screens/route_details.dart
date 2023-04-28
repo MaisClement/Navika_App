@@ -175,11 +175,14 @@ class _RouteDetailsState extends State<RouteDetails> {
                   bottomRight: Radius.zero,
                 ),
                 snapPoint: 0.55,
-                minHeight: 100,
+                minHeight: 85,
                 maxHeight: (MediaQuery.of(context).size.height - 165),
                 controller: panelController,
                 onPanelSlide: (position) => onPanelSlide(position),
-                header: RoutePannel(opacity: getOpacity(_position)),
+                header: RoutePannel(
+                  opacity: getOpacity(_position),
+                  journey: globals.journey,
+                ),
                 panelBuilder: (ScrollController scrollController) => RouteBody(
                   scrollController: scrollController,
                   journey: globals.journey,
@@ -385,7 +388,7 @@ class _RouteDetailsState extends State<RouteDetails> {
   void onPanelSlide(position) {
     setState(() {
       panelButtonBottomOffset = panelButtonBottomOffsetClosed +
-          ((MediaQuery.of(context).size.height - 200) * position);
+          ((MediaQuery.of(context).size.height - 230) * position);
       _position = position;
     });
   }

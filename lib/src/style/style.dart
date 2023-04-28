@@ -78,9 +78,9 @@ walkingColor(context) {
 
 routeBhColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return Colors.grey[700];
+    return Colors.grey[800];
   }
-  return Colors.grey[300];
+  return Color(0xffebf1f4);
 }
 
 traficBlockColor(context) {

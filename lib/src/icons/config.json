@@ -551,6 +551,12 @@
       "search": [
         "bus"
       ]
+    },
+    {
+      "uid": "9e021720c548536d213e8b3af8a23334",
+      "css": "chevron_right",
+      "code": 61524,
+      "src": "fontawesome5"
     }
   ]
 }

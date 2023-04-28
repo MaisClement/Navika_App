@@ -17,7 +17,16 @@ class LinesIcones extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) => Stack(
     children: [
-      if (LINES.isLineById(line['id']))
+      if (line['code'] == "TER")
+        Container(
+          width: size,
+          height: size,
+          margin: const EdgeInsets.only(left:5.0, top:5.0,right:0.0,bottom:5.0),
+          child: Image(
+            image: AssetImage( getIconLine(context, LINES.getLinesById(line['code'])) )
+          ),
+        )
+      else if (LINES.isLineById(line['id']))
         Container(
           width: size,
           height: size,

@@ -1,16 +1,13 @@
-import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 
-class SectionStreetNetwork extends StatelessWidget {
+class SectionTransfer extends StatelessWidget {
   final Map section;
-  final Map nextSection;
 
-  const SectionStreetNetwork({
+  const SectionTransfer({
     required this.section,
-    required this.nextSection,
     super.key,
   });
 
@@ -28,15 +25,6 @@ class SectionStreetNetwork extends StatelessWidget {
                   color: walkingColor(context), //Colors.grey[700],
                   size: 25),
             ),
-            const DottedLine(
-              direction: Axis.vertical,
-              lineLength: 30,
-              lineThickness: 4.0,
-              dashColor: Color(0xff616161),
-              dashLength: 4.0,
-              dashRadius: 999,
-              dashGapLength: 4.0,
-            )
           ],
         ),
         Expanded(

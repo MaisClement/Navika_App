@@ -66,7 +66,7 @@ class RouteListButton extends StatelessWidget {
                 height: 8,
               ),
               Container(
-                color: Color(0xff808080),
+                color: const Color(0xff808080),
                 height: 1.5,
               )
             ],

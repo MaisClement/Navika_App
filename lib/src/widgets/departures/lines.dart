@@ -123,7 +123,7 @@ class DepartureLines extends StatelessWidget {
                                     fontFamily: 'Diode',
                                   )),
                               if (train['informations']['headsign'] != '')
-                                Container(
+                                const SizedBox(
                                   width: 10,
                                 ),
                               Text(train['informations']['trip_name'],
