@@ -160,7 +160,6 @@ class _RouteDetailsState extends State<RouteDetails> {
                   : Brightness.dark,
         ),
         child: Scaffold(
-      bottomNavigationBar: getNavigationBar(context),
           body: Stack(
             alignment: Alignment.topCenter,
             children: [
@@ -176,7 +175,7 @@ class _RouteDetailsState extends State<RouteDetails> {
                 ),
                 snapPoint: 0.55,
                 minHeight: 85,
-                maxHeight: (MediaQuery.of(context).size.height - 165),
+                maxHeight: (MediaQuery.of(context).size.height - 85),
                 controller: panelController,
                 onPanelSlide: (position) => onPanelSlide(position),
                 header: RoutePannel(
@@ -186,6 +185,7 @@ class _RouteDetailsState extends State<RouteDetails> {
                 panelBuilder: (ScrollController scrollController) => RouteBody(
                   scrollController: scrollController,
                   journey: globals.journey,
+                  zoomTo: zoomTo,
                 ),
                 body: HereMap(onMapCreated: _onMapCreated),
               ),
@@ -385,10 +385,16 @@ class _RouteDetailsState extends State<RouteDetails> {
     _controller?.zoomOnLocationIndicator(is3dMap);
   }
 
+  void zoomTo(double lat, double lon) {
+    GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(lat, lon);
+    _controller?.zoomTo(geoCoords);
+    panelController.animatePanelToSnapPoint();
+  }
+
   void onPanelSlide(position) {
     setState(() {
       panelButtonBottomOffset = panelButtonBottomOffsetClosed +
-          ((MediaQuery.of(context).size.height - 230) * position);
+          ((MediaQuery.of(context).size.height - 180) * position);
       _position = position;
     });
   }

@@ -1,14 +1,9 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
-import 'package:navika/src/utils.dart';
 
-class SectionWaiting extends StatelessWidget {
-  final Map section;
+class SectionCrowFly extends StatelessWidget {
 
-  const SectionWaiting({
-    required this.section,
-    super.key,
-  });
+  const SectionCrowFly({super.key});
 
   @override
   Widget build(BuildContext context) => Row(
@@ -32,11 +27,6 @@ class SectionWaiting extends StatelessWidget {
             ),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 15, left: 10),
-          child: Text('Correspondance • ${getDuration(section['duration'])}'),
-        ),
-        
       ]
     );
 }

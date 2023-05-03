@@ -7,10 +7,12 @@ import 'package:navika/src/style/style.dart';
 class LinesIcones extends StatelessWidget {
 	final Map line;
   final double size;
+  final bool removeMargin;
 
 	const LinesIcones({
 		required this.line,
     this.size = 20,
+    this.removeMargin = false,
 		super.key,
 	});
 
@@ -21,7 +23,9 @@ class LinesIcones extends StatelessWidget {
         Container(
           width: size,
           height: size,
-          margin: const EdgeInsets.only(left:5.0, top:5.0,right:0.0,bottom:5.0),
+          margin: removeMargin
+            ? const EdgeInsets.all(0)
+            : const EdgeInsets.all(5),
           child: Image(
             image: AssetImage( getIconLine(context, LINES.getLinesById(line['code'])) )
           ),
@@ -30,7 +34,9 @@ class LinesIcones extends StatelessWidget {
         Container(
           width: size,
           height: size,
-          margin: const EdgeInsets.only(left:5.0, top:5.0,right:0.0,bottom:5.0),
+          margin: removeMargin
+            ? const EdgeInsets.all(0)
+            : const EdgeInsets.all(5),
           child: Image(
             image: AssetImage( getIconLine(context, LINES.getLinesById(line['id'])) )
           ),
@@ -39,8 +45,9 @@ class LinesIcones extends StatelessWidget {
         Container(
           width: size,
           height: size * 0.64,
-          margin: const EdgeInsets.only(left:5.0, top:9.0,right:0.0,bottom:9.0),
-          
+          margin: removeMargin
+            ? const EdgeInsets.all(0)
+            : const EdgeInsets.only(left:5.0, top:9.0, bottom:9.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(3),
             color: HexColor.fromHex(line['color']),

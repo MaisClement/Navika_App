@@ -36,7 +36,7 @@ class RouteLines extends StatelessWidget {
                     height: 5,
                     width: 5,
                     decoration: BoxDecoration(
-                      color: const Color(0xff808080), //Colors.grey[700],
+                      color: const Color(0xff808080),
                       borderRadius: BorderRadius.circular(500)
                     ),
                   )
