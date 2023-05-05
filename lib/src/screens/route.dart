@@ -109,6 +109,9 @@ class _RouteHomeState extends State<RouteHome> {
         selectedTime = picked;
       });
     }
+    if (displayJourneys == false) {
+      _getJourneys();
+    }
   }
 
   Future<void> _getPlaces() async {
@@ -158,8 +161,13 @@ class _RouteHomeState extends State<RouteHome> {
 	}
 
   Future<void> _getJourneys() async {
-    String url = '${globals.API_JOURNEYS}?from=${globals.route["dep"]["id"]}&to=${globals.route["arr"]["id"]}';
+    print({'INFO_', selectedDate.toIso8601String()});
+    DateTime dt = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, selectedTime.hour, selectedTime.minute);
+
+    String url = '${globals.API_JOURNEYS}?from=${globals.route["dep"]["id"]}&to=${globals.route["arr"]["id"]}&datetime=${dt.toIso8601String()}';
     
+    print({'INFO_', url});
+
     if (kDebugMode) {
       print({'INFO_', globals.route['dep']['id'], globals.route['arr']['id']});
       print({'INFO_', url});
@@ -470,7 +478,6 @@ class _RouteHomeState extends State<RouteHome> {
                               child: Text( getDateTitle(selectedDate, selectedTime),
                                 style: const TextStyle(
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w500,
                                 ),
                                 maxLines: 1,
                                 softWrap: false,
@@ -555,19 +562,22 @@ class _RouteHomeState extends State<RouteHome> {
 
         else if (displayJourneys == false && journeys.isNotEmpty && isLoading == false)
           Expanded(
-            child: ListView(
-              children: [
-
-              for (var journey in journeys)
-                RouteListButton(
-                  journey: journey,
-                  onTap: () {
-                    globals.journey = journey;
-                    RouteStateScope.of(context).go('/home/journeys/details');
-                  },
-                ),
-
-              ]
+            child: RefreshIndicator(
+              onRefresh: _getJourneys,
+              child: ListView(
+                children: [
+            
+                for (var journey in journeys)
+                  RouteListButton(
+                    journey: journey,
+                    onTap: () {
+                      globals.journey = journey;
+                      RouteStateScope.of(context).go('/home/journeys/details');
+                    },
+                  ),
+            
+                ]
+              ),
             )
           )
 
