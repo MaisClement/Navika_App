@@ -6,7 +6,7 @@ Color getActiveColor(context, status) {
   if (status == TripBlockStatus.inactive){
     return const Color(0xff808080);
   }  
-  return accentColor(context);
+  return Theme.of(context).colorScheme.primary;
 }
 
 class TripBlock extends StatelessWidget {
@@ -85,7 +85,7 @@ class TripBlock extends StatelessWidget {
                   fontSize: 17,
                   color: status == TripBlockStatus.inactive
                       ? const Color(0xff808080)
-                      : accentColor(context),
+                      : Theme.of(context).colorScheme.primary,
                 ),
               ),
             ),

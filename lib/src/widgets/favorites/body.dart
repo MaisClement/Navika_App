@@ -60,18 +60,20 @@ class _FavoriteBodyState extends State<FavoriteBody>
     try {
       if (mounted) {
         final response = await http.get(Uri.parse(
-            '${globals.API_SCHEDULES_LINE}?s=${widget.id}&l=${widget.line}'));
+            '${globals.API_SCHEDULES}?s=${widget.id}&l=${widget.line}'));
 
         if (response.statusCode == 200) {
           final data = json.decode(response.body);
 
           if (mounted) {
             setState(() {
-              mode = data['mode'];
-              if (mode == 'rail' || mode == 'nationalrail') {
-                schedules = data['departures'];
-              } else {
+              if (data['schedules'] != null) {
                 schedules = data['schedules'];
+                mode = data['schedules'][0]['mode'];
+              }
+              if (data['departures'] != null) {
+                schedules = data['departures'];
+                mode = data['departures'][0]['mode'];
               }
               error = '';
             });

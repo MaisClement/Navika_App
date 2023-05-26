@@ -28,7 +28,7 @@ class ModeIcones extends StatelessWidget {
                   ? const EdgeInsets.only(left: 5.0, top: 5.0, right: 0.0, bottom: 5.0)
                   : const EdgeInsets.only(left: 20.0, top: 5.0, right: 0.0, bottom: 5.0),
               child: Image(
-                  image: AssetImage(getModeImage(line['id'], isDark),
+                  image: AssetImage(getModeImage(line, isDark),
                 ),
               ),
             )

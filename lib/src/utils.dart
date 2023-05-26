@@ -8,6 +8,26 @@ import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 
+Map listModes = {
+    'train': [
+      'physical_mode:RapidTransit',
+      'physical_mode:Train',
+      'physical_mode:RailShuttle',
+      'physical_mode:LocalTrain',
+      'physical_mode:LongDistanceTrain',
+      'rail',
+      'nationalrail'
+    ],
+    'metro': [
+      'physical_mode:Metro',
+      'physical_mode:RailShuttle',
+      'metro',
+      'funicular'
+    ],
+    'tram': ['physical_mode:Tramway', 'tram'],
+    'bus': ['physical_mode:Bus', 'bus'],
+  };
+
 const divider = Divider(
   color: Color(0xff808080),
   thickness: 1.5,
@@ -20,8 +40,10 @@ Widget loader(context) {
         height: 20,
       ),
       const CircularProgressIndicator(),
-      Text('Chargement...',
-        style: TextStyle( color: accentColor(context), fontWeight: FontWeight.w700),
+      Text(
+        'Chargement...',
+        style:
+            TextStyle(color: accentColor(context), fontWeight: FontWeight.w700),
       ),
     ],
   );
@@ -68,17 +90,25 @@ int? getSeverity(String lineId) {
   return getTraficLines(LINES.getLines(lineId).id)['severity'];
 }
 
-String getModeImage(lineId, isDark) {
-  if (LINES.isLineById(lineId)) {
+String getModeImage(line, isDark) {
+  if (LINES.isLineById(line['id'])) {
     if (isDark) {
-      return LINES.getLinesById(lineId).imageModeDark;
+      return LINES.getLinesById(line['id']).imageModeDark;
     }
-    return LINES.getLinesById(lineId).imageModeLight;
+    return LINES.getLinesById(line['id']).imageModeLight;
   }
+  String img = 'assets/img/icons/';
+
+  for (var allowes in listModes.entries) {
+    if (allowes.value.contains(line['mode'])) {
+      img = '${img}${allowes.key}';
+    }
+  }
+
   if (isDark) {
-    return 'assets/img/icons/bus.png';
+    return '${img}.png';
   }
-  return 'assets/img/icons/bus_light.png';
+  return '${img}_light.png';
 }
 
 Color getSlug(severity, [type]) {
@@ -184,15 +214,15 @@ String getDateTime(String time) {
 List clearTrain(List departures) {
   bool hide = globals.hiveBox?.get('hideTerminusTrain') ?? false;
 
-  if (hide){
+  if (hide) {
     List list = [];
-    for (var departure in departures){
-      if (departure['informations']['message'] != 'terminus'){
+    for (var departure in departures) {
+      if (departure['informations']['message'] != 'terminus') {
         list.add(departure);
       }
     }
     return list;
-  } 
+  }
 
   return departures;
 }
@@ -220,7 +250,8 @@ String getTime(String time) {
   dttime = dttime.add(Duration(minutes: timezoneOffsetInMinutes));
 
   String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
-  String dtminute = dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
+  String dtminute =
+      dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
 
   return '$dthour:$dtminute';
 }
@@ -231,7 +262,6 @@ String makeTime(String time) {
   }
   return '${time.substring(0, 2)}:${time.substring(2, 4)}';
 }
-
 
 List getState(Map train) {
   String state = train['stop_date_time']['state'];
@@ -255,8 +285,9 @@ List getState(Map train) {
 
 int getLate(Map train) {
   String departure = train['stop_date_time']['departure_date_time'];
-  String expectedDeparture = train['stop_date_time']['base_departure_date_time'];
-  
+  String expectedDeparture =
+      train['stop_date_time']['base_departure_date_time'];
+
   if (departure == '' || expectedDeparture == '') {
     return 0;
   }
@@ -363,7 +394,7 @@ double getDistance(double lat1, double lon1, double lat2, double lon2) {
 }
 
 GeoCoordinates getCenterPoint(
-  double lat1, double lon1, double lat2, double lon2) {
+    double lat1, double lon1, double lat2, double lon2) {
   double clon = (lon1 + lon2) / 2;
   double clat = (lat1 + lat2) / 2;
 
@@ -391,7 +422,8 @@ String getDuration(int d) {
   Duration duration = Duration(seconds: d);
   String res = '';
   if (duration.inMinutes >= 60) {
-    res = '$res${duration.inHours.toString()}h${duration.inMinutes.remainder(60).toString()}';
+    res =
+        '$res${duration.inHours.toString()}h${duration.inMinutes.remainder(60).toString()}';
   } else {
     res = '$res${duration.inMinutes.remainder(60).toString()} mn';
   }

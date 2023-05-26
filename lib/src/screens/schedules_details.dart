@@ -49,19 +49,21 @@ class SchedulesDetails extends StatelessWidget {
                 : const Icon(NavikaIcons.add_bookmark),
             tooltip: 'Ajouter aux favoris',
             onPressed: () {
-              showModalBottomSheet<void>(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                isScrollControlled: true,
-                context: context,
-                builder: (BuildContext context) => BottomAddFavorite(
-                  id: globals.schedulesStopArea,
-                  name: globals.schedulesStopName,
-                  modes: globals.schedulesStopModes,
-                  lines: globals.schedulesStopLines,
-                ),
-              );
+              if (globals.schedulesStopLines.isNotEmpty) {
+                showModalBottomSheet<void>(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  isScrollControlled: true,
+                  context: context,
+                  builder: (BuildContext context) => BottomAddFavorite(
+                    id: globals.schedulesStopArea,
+                    name: globals.schedulesStopName,
+                    modes: globals.schedulesStopModes,
+                    lines: globals.schedulesStopLines,
+                  ),
+                );
+              }
             },
           ),
         ],

@@ -26,6 +26,7 @@ class NavikaAppScaffoldBody extends StatelessWidget {
 
 		if (kDebugMode) {
 		  print({'INFO_route', pathTemplate});
+		  print({'INFO_', globals.schedulesStopLines});
 		}
     
 		return Navigator(

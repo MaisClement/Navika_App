@@ -237,10 +237,6 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          if (error != '')
-            ErrorMessage(
-              error: error,
-            ),
           if (widget.addMargin)
             const SizedBox(
               height: 80,
@@ -250,6 +246,12 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
               controller: _tabController,
               tabs: getModesTabs(globals.schedulesStopModes),
             ),
+    
+          if (error != '')
+            ErrorMessage(
+              error: error,
+            ),
+    
           Expanded(
             child: TabBarView(
               controller: _tabController,
