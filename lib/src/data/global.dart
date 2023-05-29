@@ -14,7 +14,6 @@ const String API_TRAFIC =           '$API_BASE$API_VERSION/trafic';
 const String API_PLACES =           '$API_BASE$API_VERSION/places';
 const String API_NEAR =             '$API_BASE$API_VERSION/near';
 const String API_STOP_AREA =        '$API_BASE$API_VERSION/stop_area';
-const String API_STOP_POINT =       '$API_BASE$API_VERSION/stop_point';
 const String API_SCHEDULES =        '$API_BASE$API_VERSION/schedules';
 const String API_BIKE_STATIONS =    '$API_BASE$API_VERSION/bike_station';
 const String API_JOURNEYS =         '$API_BASE$API_VERSION/journeys';

@@ -53,7 +53,7 @@ class _BikeBodyState extends State<BikeBody>
     try {
       if (mounted) {
         final response = await http.get(Uri.parse(
-            '${globals.API_BIKE_STATIONS}?s=${globals.schedulesStopArea}'));
+            '${globals.API_BIKE_STATIONS}?id=${globals.schedulesStopArea}'));
 
         if (response.statusCode == 200) {
           final data = json.decode(response.body);

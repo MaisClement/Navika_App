@@ -47,7 +47,7 @@ class SectionTransfer extends StatelessWidget {
                     fontFamily: 'Segoe Ui',
                   )
                 ),
-                Text('${getDistanceText(section['geojson']['properties'][0]['length'])} • ${getDuration(section['duration'])}'),
+                Text('${getDistanceText(section['geojson']['length'])} • ${getDuration(section['duration'])}'),
               ],
             ),
           ),
