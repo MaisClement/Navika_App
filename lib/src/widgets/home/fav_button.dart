@@ -47,6 +47,7 @@ class FavButton extends StatelessWidget {
                   ),
                   Text(
                     name,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       color: boxContentColor(context)
                     ),

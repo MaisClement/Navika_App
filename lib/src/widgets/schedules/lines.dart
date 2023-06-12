@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/schedules/timer_block.dart';

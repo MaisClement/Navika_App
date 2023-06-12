@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
@@ -115,8 +117,7 @@ class _AddAddressState extends State<AddAddress> {
     } else if (allowGps &&
         globals.locationData?.latitude != null &&
         globals.locationData?.longitude != null) {
-      url =
-          '${globals.API_PLACES}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
+      url = '${globals.API_PLACES}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
     } else {
       url = '${globals.API_PLACES}?q=&flag=${flag.toString()}';
     }
@@ -144,6 +145,16 @@ class _AddAddressState extends State<AddAddress> {
           error = 'Récupération des informations impossible.';
         });
       }
+    } on SocketException {
+        
+        setState(() {
+        error = 'SocketException';
+      });
+    } on TimeoutException {
+        
+        setState(() {
+        error = 'TimeoutException';
+      });
     } catch (e) {
       setState(() {
         error = "Une erreur s'est produite.";

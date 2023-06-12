@@ -64,5 +64,8 @@ class NavikaIcons {
   static const IconData add_bookmark = IconData(0xe824, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData bike = IconData(0xe825, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData bus = IconData(0xe826, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData options = IconData(0xe827, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData wheelchair = IconData(0xe828, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData old_man = IconData(0xe829, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData chevron_right = IconData(0xf054, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

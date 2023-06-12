@@ -16,6 +16,13 @@ const snackBarText = TextStyle(
     fontWeight: FontWeight.w600,
     fontFamily: 'Segoe Ui');
 
+const bottomSheetBorder = BorderRadius.only(
+  topLeft: Radius.circular(15),
+  topRight: Radius.circular(15),
+  bottomLeft: Radius.zero,
+  bottomRight: Radius.zero,
+);
+
 mainColor(context) {
   return Theme.of(context).colorScheme.primary;
 }

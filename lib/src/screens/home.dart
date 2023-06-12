@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:floating_snackbar/floating_snackbar.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,6 +16,7 @@ import 'package:here_sdk/mapview.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/style/style.dart';
+import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bike/body.dart';
 import 'package:navika/src/widgets/bike/header.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -27,125 +29,6 @@ import 'package:navika/src/widgets/home/body.dart';
 import 'package:navika/src/widgets/home/header.dart';
 import 'package:navika/src/widgets/schedules/body.dart';
 import 'package:navika/src/widgets/schedules/header.dart';
-
-enum MarkerSize { hidden, small, large }
-
-enum MarkerMode { bike, bus, cable, metro, boat, noctilien, rer, train, tram }
-
-String getMarkerImageByType(MarkerMode mode, MarkerSize size, context) {
-  String assets = 'assets/img/marker/';
-
-  if (size == MarkerSize.hidden) {
-    return 'assets/img/null.png';
-  }
-
-  if (size == MarkerSize.small) {
-    if (mode == MarkerMode.bike) {
-      assets = '${assets}mini_bike';
-    } else {
-      assets = '${assets}mini';
-    }
-  }
-
-  if (size == MarkerSize.large) {
-    if (mode == MarkerMode.train) {
-      assets = '${assets}marker_train';
-    } else if (mode == MarkerMode.metro) {
-      assets = '${assets}marker_metro';
-    } else if (mode == MarkerMode.tram) {
-      assets = '${assets}marker_tram';
-    } else if (mode == MarkerMode.cable) {
-      assets = '${assets}marker_cable';
-    } else if (mode == MarkerMode.boat) {
-      assets = '${assets}marker_boat';
-    } else if (mode == MarkerMode.bus) {
-      assets = '${assets}marker_bus';
-    } else if (mode == MarkerMode.bike) {
-      assets = '${assets}marker_bike';
-    }
-  }
-
-  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    assets = '${assets}_light.png';
-  } else {
-    assets = '$assets.png';
-  }
-
-  return assets;
-}
-
-MarkerMode getMarkerMode(List modes) {
-  if (modes.contains('nationalrail') || modes.contains('rail')) {
-    return MarkerMode.train;
-  } else if (modes.contains('metro')) {
-    return MarkerMode.metro;
-  } else if (modes.contains('tram')) {
-    return MarkerMode.tram;
-  } else if (modes.contains('cablecar')) {
-    return MarkerMode.cable;
-  } else if (modes.contains('boat')) {
-    return MarkerMode.boat;
-  } else if (modes.contains('bus')) {
-    return MarkerMode.bus;
-  } else if (modes.contains('bike')) {
-    return MarkerMode.bike;
-  } else {
-    return MarkerMode.bus;
-  }
-}
-
-MarkerSize getMarkerSize(MarkerMode mode, double zoom) {
-  if (zoom > 15000 && (mode == MarkerMode.train || mode == MarkerMode.rer)) {
-    return MarkerSize.small;
-  }
-  if (zoom > 15000) {
-    return MarkerSize.hidden;
-  }
-  if (zoom > 3000 && mode == MarkerMode.bike) {
-    return MarkerSize.hidden;
-  }
-  if (zoom > 6000 && (mode != MarkerMode.train && mode != MarkerMode.rer)) {
-    return MarkerSize.small;
-  }
-  if (zoom > 3000 && mode == MarkerMode.bus) {
-    return MarkerSize.small;
-  }
-  if (zoom > 2000 && mode == MarkerMode.bike) {
-    return MarkerSize.small;
-  }
-  return MarkerSize.large;
-}
-
-int getSizeForMarker(MarkerSize size) {
-  if (size == MarkerSize.hidden) {
-    return 0;
-  }
-  if (size == MarkerSize.small) {
-    return 20;
-  }
-  return 100;
-}
-
-double getAppBarOpacity(double position) {
-  double res = (((position * -1) + 1) * -3.33) + 1;
-  if (res < 0) {
-    return 0.0;
-  } else if (res > 1.0) {
-    return 1;
-  }
-  return res;
-}
-
-double getOpacity(position) {
-  double res =
-      ((1 / position - 1.1) * 2.33) > 1 ? 1 : ((1 / position - 1.1) * 2.33);
-  if (res < 0) {
-    return 0.0;
-  } else if (res > 1.0) {
-    return 1;
-  }
-  return res;
-}
 
 class Home extends StatefulWidget {
   final String? displayType;
@@ -165,6 +48,8 @@ class _HomeState extends State<Home> {
 
   GeoCoordinates camGeoCoords = GeoCoordinates(0, 0);
   gps.Location location = gps.Location();
+
+  late StreamSubscription<ConnectivityResult> connection;
 
   CompassEvent? compassEvent;
   double compassHeading = 0;
@@ -207,7 +92,8 @@ class _HomeState extends State<Home> {
       }
 
       permissionGranted = await location.hasPermission();
-      if (permissionGranted == gps.PermissionStatus.denied && allowGps == null) {
+      if (permissionGranted == gps.PermissionStatus.denied &&
+          allowGps == null) {
         RouteStateScope.of(context).go('/position');
         return;
       }
@@ -237,10 +123,11 @@ class _HomeState extends State<Home> {
   Future<void> _getNearPoints() async {
     double zoom = _controller?.getZoomLevel() ?? 0;
 
-    String url = '${globals.API_NEAR}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}&z=${zoom.toString()}';
+    String url =
+        '${globals.API_NEAR}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}&z=${zoom.toString()}';
 
     final response = await http.get(Uri.parse(url));
-    
+
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
 
@@ -253,7 +140,6 @@ class _HomeState extends State<Home> {
           } else {
             bikeNearby = [];
           }
-          isConnected = false;
         });
       }
 
@@ -345,7 +231,6 @@ class _HomeState extends State<Home> {
           if (mounted) {
             setState(() {
               index = data;
-              isConnected = false;
             });
             globals.index = data;
           }
@@ -360,9 +245,6 @@ class _HomeState extends State<Home> {
           );
         }
       } catch (e) {
-        setState(() {
-          isConnected = false;
-        });
         FloatingSnackBar(
           message:
               "Une erreur s'est produite lors de la récupération des actualités.",
@@ -436,36 +318,40 @@ class _HomeState extends State<Home> {
                           ),
                 body: HereMap(onMapCreated: _onMapCreated),
               ),
-              //TKT if (!isConnected)
-              //TKT   Positioned(
-              //TKT     top: 0,
-              //TKT     child: Opacity(
-              //TKT       opacity: 1,
-              //TKT       child: Container(
-              //TKT         width: MediaQuery.of(context).size.width,
-              //TKT         color: Colors.amber,
-              //TKT         child: SafeArea(
-              //TKT           child: Container(
-              //TKT             margin: const EdgeInsets.only(
-              //TKT                 top: 12, left: 73, bottom: 15),
-              //TKT             child: Row(
-              //TKT               children: const [
-              //TKT                 Icon(Icons.cloud_off),
-              //TKT                 SizedBox(width: 10),
-              //TKT                 Text(
-              //TKT                   'Aucune connexion internet',
-              //TKT                   style: TextStyle(
-              //TKT                       fontWeight: FontWeight.w600,
-              //TKT                       fontFamily: 'Segoe Ui',
-              //TKT                       fontSize: 18),
-              //TKT                 ),
-              //TKT               ],
-              //TKT             ),
-              //TKT           ),
-              //TKT         ),
-              //TKT       ),
-              //TKT     ),
-              //TKT   ),
+              if (!isConnected)
+                Positioned(
+                  top: 0,
+                  child: Opacity(
+                    opacity: 1,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.amber,
+                      child: SafeArea(
+                        child: Container(
+                          margin: const EdgeInsets.only(
+                              top: 12, left: 73, bottom: 15),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/img/cloud_off.svg',
+                                color: Colors.black,
+                                height: 18,
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                'Aucune connexion internet',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Segoe Ui',
+                                    fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               Positioned(
                 top: 0,
                 left: 0,
@@ -545,6 +431,12 @@ class _HomeState extends State<Home> {
         _getInBox();
         _getFavorites();
       });
+      _initializeConnectivity();
+      connection = Connectivity()
+          .onConnectivityChanged
+          .listen((ConnectivityResult result) {
+        _setConnectivity(result);
+      });
     });
   }
 
@@ -552,6 +444,7 @@ class _HomeState extends State<Home> {
   void dispose() async {
     super.dispose();
     globals.isSetLocation = false;
+    connection.cancel();
     _timer.cancel();
   }
 
@@ -763,5 +656,18 @@ class _HomeState extends State<Home> {
 
   void _closePanel() {
     panelController.close();
+  }
+
+  Future<void> _initializeConnectivity() async {
+    print({'INFO_test'});
+    var connectivityResult = await Connectivity().checkConnectivity();
+    _setConnectivity(connectivityResult);
+  }
+
+  void _setConnectivity(connectivity) {
+    print({'INFO_', connectivity});
+    setState(() {
+      isConnected = !(connectivity == ConnectivityResult.none);
+    });
   }
 }

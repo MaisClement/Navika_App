@@ -163,8 +163,8 @@ class DepartureLines extends StatelessWidget {
                             child: InkWell(
                               onTap: () {
                                 showModalBottomSheet<void>(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: bottomSheetBorder,
                                     ),
                                     isScrollControlled: true,
                                     context: context,

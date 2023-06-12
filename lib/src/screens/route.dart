@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:navika/src/extensions/datetime.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
+import 'package:navika/src/widgets/bottom_sheets/route_options.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/route/listbutton.dart';
 
@@ -32,33 +35,33 @@ const shortMonth = {
   12: 'dec.'
 };
 
-String getDateTitle (DateTime dt, TimeOfDay tod) {
+String getDateTitle(DateTime dt, TimeOfDay tod) {
   String d = '';
   if (dt.isToday()) {
-      d = 'Aujourd\'hui';
+    d = 'Aujourd\'hui';
   }
   if (dt.isTomorrow()) {
-      d = 'Demain';
+    d = 'Demain';
   }
   d = '${dt.day} ${shortMonth[dt.month]}';
 
-  String dthour = tod.hour      < 10 ? '0${tod.hour}'   : tod.hour.toString();
-  String dtminute = tod.minute  < 10 ? '0${tod.minute}' : tod.minute.toString();
+  String dthour = tod.hour < 10 ? '0${tod.hour}' : tod.hour.toString();
+  String dtminute = tod.minute < 10 ? '0${tod.minute}' : tod.minute.toString();
 
   return '$d • ${dthour}h$dtminute ';
 }
 
 class RouteHome extends StatefulWidget {
-	const RouteHome({super.key});
+  const RouteHome({super.key});
 
-	@override
-	State<RouteHome> createState() => _RouteHomeState();
+  @override
+  State<RouteHome> createState() => _RouteHomeState();
 }
 
 class _RouteHomeState extends State<RouteHome> {
-	final String title = 'Itinéraires';
+  final String title = 'Itinéraires';
   final String yourPos = 'Votre position';
-  
+
   String search = '';
   String error = '';
   bool isLoading = false;
@@ -71,12 +74,12 @@ class _RouteHomeState extends State<RouteHome> {
   String currentTextInput = 'dep';
   bool displayJourneys = true;
   Map textController = {
-    'dep' : TextEditingController(),
-    'arr' : TextEditingController(),
+    'dep': TextEditingController(),
+    'arr': TextEditingController(),
   };
   Map textNode = {
-    'dep' : FocusNode(),
-    'arr' : FocusNode(),
+    'dep': FocusNode(),
+    'arr': FocusNode(),
   };
 
   Future<void> _selectDate(BuildContext context) async {
@@ -96,7 +99,7 @@ class _RouteHomeState extends State<RouteHome> {
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: const TimeOfDay(hour: 10, minute: 47),
+      initialTime: TimeOfDay.now(),
       builder: (BuildContext context, Widget? child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
@@ -118,18 +121,21 @@ class _RouteHomeState extends State<RouteHome> {
     String url = '';
 
     bool allowGps = await globals.hiveBox.get('allowGps') ?? false;
-    if (allowGps && (globals.locationData?.latitude != null || globals.locationData?.longitude != null) && search != '') {
-      url = '${globals.API_PLACES}?q=$search&lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
-
+    if (allowGps &&
+        (globals.locationData?.latitude != null ||
+            globals.locationData?.longitude != null) &&
+        search != '') {
+      url =
+          '${globals.API_PLACES}?q=$search&lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
     } else if (search != '') {
       url = '${globals.API_PLACES}?q=$search';
-      
-    } else if (allowGps && globals.locationData?.latitude != null && globals.locationData?.longitude != null){
-      url = '${globals.API_PLACES}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
-
+    } else if (allowGps &&
+        globals.locationData?.latitude != null &&
+        globals.locationData?.longitude != null) {
+      url =
+          '${globals.API_PLACES}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}';
     } else {
       url = '${globals.API_PLACES}?q=';
-
     }
 
     setState(() {
@@ -153,19 +159,30 @@ class _RouteHomeState extends State<RouteHome> {
           error = 'Récupération des lieux impossible.';
         });
       }
+    } on SocketException {
+      setState(() {
+        error = 'SocketException';
+      });
+    } on TimeoutException {
+      setState(() {
+        error = 'TimeoutException';
+      });
     } catch (e) {
       setState(() {
         error = "Une erreur s'est produite.";
       });
     }
-	}
+  }
 
   Future<void> _getJourneys() async {
     print({'INFO_', selectedDate.toIso8601String()});
-    DateTime dt = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, selectedTime.hour, selectedTime.minute);
 
-    String url = '${globals.API_JOURNEYS}?from=${globals.route["dep"]["id"]}&to=${globals.route["arr"]["id"]}&datetime=${dt.toIso8601String()}';
+    DateTime dt = DateTime(selectedDate.year, selectedDate.month,selectedDate.day, selectedTime.hour, selectedTime.minute);
     
+    String travelerType = globals.hiveBox.get('TravelerType') ?? 'standard';
+
+    String url = '${globals.API_JOURNEYS}?from=${globals.route["dep"]["id"]}&to=${globals.route["arr"]["id"]}&datetime=${dt.toIso8601String()}&traveler_type=${travelerType}';
+
     print({'INFO_', url});
 
     if (kDebugMode) {
@@ -193,6 +210,14 @@ class _RouteHomeState extends State<RouteHome> {
           error = 'Récupération des trajets impossible.';
         });
       }
+    } on SocketException {
+      setState(() {
+        error = 'SocketException';
+      });
+    } on TimeoutException {
+      setState(() {
+        error = 'TimeoutException';
+      });
     } catch (e) {
       setState(() {
         error = "Une erreur s'est produite.";
@@ -203,13 +228,16 @@ class _RouteHomeState extends State<RouteHome> {
   void _initSearch() async {
     // Arrivée + départ
     bool allowGps = await globals.hiveBox.get('allowGps') ?? false;
-    if (allowGps && (globals.locationData != null || globals.route['dep']['id'] != null) && globals.route['arr']['id'] != null ){
+    if (allowGps &&
+        (globals.locationData != null || globals.route['dep']['id'] != null) &&
+        globals.route['arr']['id'] != null) {
       if (globals.route['dep']['id'] != null) {
         textController['dep'].text = globals.route['dep']['name'];
       } else {
         textController['dep'].text = yourPos;
         globals.route['dep']['name'] = yourPos;
-        globals.route['dep']['id'] = '${globals.locationData?.longitude};${globals.locationData?.latitude}';
+        globals.route['dep']['id'] =
+            '${globals.locationData?.longitude};${globals.locationData?.latitude}';
         setState(() {
           posUsed = true;
         });
@@ -220,30 +248,28 @@ class _RouteHomeState extends State<RouteHome> {
         displayJourneys = false;
       });
       _getJourneys();
-    } 
-    
-    else if (globals.route['dep']['id'] != null) { // On a un départ
+    } else if (globals.route['dep']['id'] != null) {
+      // On a un départ
       textController['dep'].text = globals.route['dep']['name'];
       setState(() {
         currentTextInput = 'arr';
       });
       _getPlaces();
       FocusScope.of(context).requestFocus(textNode['arr']);
-    } 
-    
-    else if (allowGps && globals.locationData != null) { // On a un GPS
+    } else if (allowGps && globals.locationData != null) {
+      // On a un GPS
       textController['dep'].text = yourPos;
       globals.route['dep']['name'] = yourPos;
-      globals.route['dep']['id'] = '${globals.locationData?.longitude};${globals.locationData?.latitude}';
+      globals.route['dep']['id'] =
+          '${globals.locationData?.longitude};${globals.locationData?.latitude}';
       setState(() {
         posUsed = true;
         currentTextInput = 'arr';
       });
       _getPlaces();
       FocusScope.of(context).requestFocus(textNode['arr']);
-    } 
-    
-    else if (globals.route['arr']['id'] != null) { // On a une arrivée
+    } else if (globals.route['arr']['id'] != null) {
+      // On a une arrivée
       textController['arr'].text = globals.route['arr']['name'];
 
       setState(() {
@@ -251,9 +277,8 @@ class _RouteHomeState extends State<RouteHome> {
       });
       _getPlaces();
       FocusScope.of(context).requestFocus(textNode['dep']);
-    }
-    
-    else { // On a rien
+    } else {
+      // On a rien
       setState(() {
         currentTextInput = 'dep';
       });
@@ -274,7 +299,6 @@ class _RouteHomeState extends State<RouteHome> {
       });
       FocusScope.of(context).requestFocus(textNode['dep']);
       _getPlaces();
-      
     } else if (globals.route['arr']['id'] == null) {
       setState(() {
         currentTextInput = 'arr';
@@ -282,7 +306,6 @@ class _RouteHomeState extends State<RouteHome> {
       });
       FocusScope.of(context).requestFocus(textNode['arr']);
       _getPlaces();
-      
     } else {
       if (!FocusScope.of(context).hasPrimaryFocus) {
         FocusScope.of(context).unfocus();
@@ -291,19 +314,19 @@ class _RouteHomeState extends State<RouteHome> {
         displayJourneys = false;
       });
       _getJourneys();
-    } 
+    }
   }
 
   void _onTapText(current) {
     displayJourneys = true;
     if (current != 'dep' && current != 'arr') {
-      throw Exception ('Invalid current value: $current');
+      throw Exception('Invalid current value: $current');
     }
     setState(() {
       currentTextInput = current;
       search = '';
     });
-  
+
     if (textController[current].text == yourPos) {
       setState(() {
         posUsed = false;
@@ -315,9 +338,9 @@ class _RouteHomeState extends State<RouteHome> {
     _getPlaces();
   }
 
-  void _onChangeText(current, value){
+  void _onChangeText(current, value) {
     if (current != 'dep' && current != 'arr') {
-      throw Exception ('Invalid current value: $current');
+      throw Exception('Invalid current value: $current');
     }
     setState(() {
       currentTextInput = current;
@@ -330,9 +353,7 @@ class _RouteHomeState extends State<RouteHome> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => {
-      _initSearch()
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => {_initSearch()});
   }
 
   @override
@@ -343,262 +364,303 @@ class _RouteHomeState extends State<RouteHome> {
   }
 
   @override
-	Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
-    value: SystemUiOverlayStyle(
+  Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
           statusBarIconBrightness:
               Theme.of(context).colorScheme.brightness == Brightness.dark
                   ? Brightness.light
                   : Brightness.dark,
         ),
-	  child: Scaffold(
-      bottomNavigationBar: getNavigationBar(context),
-	  	appBar: AppBar(
-	  		title: Text(title,
-        style: appBarTitle
-      ),
-      scrolledUnderElevation: 0,
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.1),
-	  	),
-	  	body: Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(bottom:20.0),
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(20),
-              bottomRight: Radius.circular(20),
-            ),
-            color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.1),
-          ),            
-          
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(left:20.0, top:5.0,right:20.0,bottom:10.0),
-                padding: const EdgeInsets.only(left:15.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(500),
-                  color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.2),
-                ),            
-                child: Row(
-                  children: [
-                    Icon(NavikaIcons.marker,
-                      color: Theme.of(context).colorScheme.primary,
-                      size: 25
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: textController['dep'],
-                        focusNode: textNode['dep'],
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          disabledBorder: InputBorder.none,
-                          contentPadding:EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                          hintText: 'Départ'
-                        ),
-                        onChanged: (value) {
-                          _onChangeText('dep', value);
-                        },
-                        onTap: () {
-                          _onTapText('dep');
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(left:20.0, top:5.0,right:20.0,bottom:10.0),
-                padding: const EdgeInsets.only(left:15.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(500),
-                  color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.2),
-                ),            
-                child: Row(
-                  children: [
-                    Icon(NavikaIcons.finish_flag,
-                      color: Theme.of(context).colorScheme.primary,
-                      size: 25
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: textController['arr'],
-                        focusNode: textNode['arr'],
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          disabledBorder: InputBorder.none,
-                          contentPadding:EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                          hintText: 'Arrivée'
-                        ),
-                        onChanged: (value) {
-                          _onChangeText('arr', value);
-                        },
-                        onTap: () {
-                          _onTapText('arr');
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ),
-
-              if (displayJourneys == false)
-                Container(
-                  margin: const EdgeInsets.only(left:20.0, right:20.0, top:5.0),
-                  width: 190,
-                  child: InkWell(
-                    onTap: () {
-                      _selectDate(context);
-                    },
-                    borderRadius: BorderRadius.circular(500),
-                    child: Container(
-                      padding: const EdgeInsets.only(left:15.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(500),
-                        color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.2),
-                      ),            
-                      child: Row(
-                        children: [
-                          Icon(NavikaIcons.clock,
-                            color: Theme.of(context).colorScheme.primary,
-                            size: 25
-                          ),
-                          
-                          Expanded(
-                            child: Container(
-                              margin: const EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                              child: Text( getDateTitle(selectedDate, selectedTime),
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                ),
-                                maxLines: 1,
-                                softWrap: false,
-                                overflow: TextOverflow.fade,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+        child: Scaffold(
+            bottomNavigationBar: getNavigationBar(context),
+            appBar: AppBar(
+              title: Text(title, style: appBarTitle),
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    NavikaIcons.options,
                   ),
+                  tooltip: 'Options',
+                  onPressed: () {
+                    showModalBottomSheet<void>(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: bottomSheetBorder,
+                    ),
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (BuildContext context) =>
+                        BottomRouteSettings());
+                  },
                 ),
-            ],
-          ),
-        ),
-
-        if (error != '')
-          ErrorBlock(
-            error: error,
-          )
-        
-        else if (displayJourneys == true && places.isNotEmpty)
-          Expanded(
-            child: ListView(
+              ],
+              scrolledUnderElevation: 0,
+              backgroundColor: Theme.of(context)
+                  .colorScheme
+                  .primaryContainer
+                  .withOpacity(0.1),
+            ),
+            body: Column(
               children: [
-
-                if (posUsed == false && search == '' && globals.locationData != null)
-                  InkWell(                        
-                    child: Opacity(
-                      opacity: isLoading ? 0.4 : 1,
-                      child: Container(
-                        padding: const EdgeInsets.only(left:20.0, top:15.0,right:20.0,bottom:15.0),
-                        height: 60,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                Container(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primaryContainer
+                        .withOpacity(0.1),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(
+                            left: 20.0, top: 5.0, right: 20.0, bottom: 10.0),
+                        padding: const EdgeInsets.only(left: 15.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(500),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primaryContainer
+                              .withOpacity(0.2),
+                        ),
+                        child: Row(
                           children: [
-                            Row(
-                              children: [
-                                Icon(NavikaIcons.localisation,
-                                  color: Theme.of(context).colorScheme.primary,
-                                  size: 30
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(yourPos,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Segoe Ui',
-                                    color: Theme.of(context).colorScheme.primary,
-                                  ),
-                                ),
-                              ],
-                            ),
+                            Icon(NavikaIcons.marker,
+                                color: Theme.of(context).colorScheme.primary,
+                                size: 25),
+                            Expanded(
+                              child: TextField(
+                                controller: textController['dep'],
+                                focusNode: textNode['dep'],
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    enabledBorder: InputBorder.none,
+                                    errorBorder: InputBorder.none,
+                                    disabledBorder: InputBorder.none,
+                                    contentPadding: EdgeInsets.only(
+                                        left: 15,
+                                        bottom: 11,
+                                        top: 11,
+                                        right: 15),
+                                    hintText: 'Départ'),
+                                onChanged: (value) {
+                                  _onChangeText('dep', value);
+                                },
+                                onTap: () {
+                                  _onTapText('dep');
+                                },
+                              ),
+                            )
                           ],
                         ),
                       ),
+                      Container(
+                        margin: const EdgeInsets.only(
+                            left: 20.0, top: 5.0, right: 20.0, bottom: 10.0),
+                        padding: const EdgeInsets.only(left: 15.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(500),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primaryContainer
+                              .withOpacity(0.2),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(NavikaIcons.finish_flag,
+                                color: Theme.of(context).colorScheme.primary,
+                                size: 25),
+                            Expanded(
+                              child: TextField(
+                                controller: textController['arr'],
+                                focusNode: textNode['arr'],
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    enabledBorder: InputBorder.none,
+                                    errorBorder: InputBorder.none,
+                                    disabledBorder: InputBorder.none,
+                                    contentPadding: EdgeInsets.only(
+                                        left: 15,
+                                        bottom: 11,
+                                        top: 11,
+                                        right: 15),
+                                    hintText: 'Arrivée'),
+                                onChanged: (value) {
+                                  _onChangeText('arr', value);
+                                },
+                                onTap: () {
+                                  _onTapText('arr');
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      if (displayJourneys == false)
+                        Container(
+                          margin: const EdgeInsets.only(
+                              left: 20.0, right: 20.0, top: 5.0),
+                          width: 190,
+                          child: InkWell(
+                            onTap: () {
+                              _selectDate(context);
+                            },
+                            borderRadius: BorderRadius.circular(500),
+                            child: Container(
+                              padding: const EdgeInsets.only(left: 15.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(500),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primaryContainer
+                                    .withOpacity(0.2),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(NavikaIcons.clock,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      size: 25),
+                                  Expanded(
+                                    child: Container(
+                                      margin: const EdgeInsets.only(
+                                          left: 15,
+                                          bottom: 11,
+                                          top: 11,
+                                          right: 15),
+                                      child: Text(
+                                        getDateTitle(
+                                            selectedDate, selectedTime),
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                        ),
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        overflow: TextOverflow.fade,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                if (error != '')
+                  ErrorBlock(
+                    error: error,
+                  )
+                else if (displayJourneys == true && places.isNotEmpty)
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        if (posUsed == false &&
+                            search == '' &&
+                            globals.locationData != null)
+                          InkWell(
+                            child: Opacity(
+                              opacity: isLoading ? 0.4 : 1,
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    left: 20.0,
+                                    top: 15.0,
+                                    right: 20.0,
+                                    bottom: 15.0),
+                                height: 60,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(NavikaIcons.localisation,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            size: 30),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          yourPos,
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: 'Segoe Ui',
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              _handleClick(
+                                  '${globals.locationData?.longitude};${globals.locationData?.latitude}',
+                                  yourPos);
+                              setState(() {
+                                posUsed = true;
+                              });
+                            },
+                          ),
+                        for (var place in places)
+                          PlacesListButton(
+                            isLoading: isLoading,
+                            place: place,
+                            onTap: () {
+                              _handleClick(place['name'], place['id']);
+                            },
+                          ),
+                      ],
                     ),
-                    onTap: () {
-                      _handleClick(
-                        '${globals.locationData?.longitude};${globals.locationData?.latitude}',
-                        yourPos
-                      );
-                      setState(() {
-                        posUsed = true;
-                      });
-                    },                
-                  ),
-
-                for (var place in places)
-                  PlacesListButton(
-                    isLoading: isLoading,
-                    place: place,
-                    onTap: () {
-                      _handleClick(place['name'], place['id']);
-                    },
-                  ),
+                  )
+                else if (displayJourneys == false &&
+                    journeys.isNotEmpty &&
+                    isLoading == false)
+                  Expanded(
+                      child: RefreshIndicator(
+                    onRefresh: _getJourneys,
+                    child: ListView(children: [
+                      for (var journey in journeys)
+                        RouteListButton(
+                          journey: journey,
+                          onTap: () {
+                            globals.journey = journey;
+                            RouteStateScope.of(context)
+                                .go('/home/journeys/details');
+                          },
+                        ),
+                    ]),
+                  ))
+                else if (displayJourneys == true && isLoading == true)
+                  const PlacesLoad()
+                else if (displayJourneys == false &&
+                    journeys.isEmpty &&
+                    isLoading == true)
+                  const PlacesLoad()
+                else if (displayJourneys == true &&
+                    places.isEmpty &&
+                    isLoading == false)
+                  const PlacesEmpty()
+                else if (displayJourneys == false &&
+                    journeys.isEmpty &&
+                    isLoading == false)
+                  const PlacesEmpty()
+                else
+                  const PlacesLoad()
               ],
-            ),
-          )
-
-        else if (displayJourneys == false && journeys.isNotEmpty && isLoading == false)
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: _getJourneys,
-              child: ListView(
-                children: [
-            
-                for (var journey in journeys)
-                  RouteListButton(
-                    journey: journey,
-                    onTap: () {
-                      globals.journey = journey;
-                      RouteStateScope.of(context).go('/home/journeys/details');
-                    },
-                  ),
-            
-                ]
-              ),
-            )
-          )
-
-        else if (displayJourneys == true && isLoading == true)
-          const PlacesLoad()
-
-        else if (displayJourneys == false && journeys.isEmpty && isLoading == true)
-          const PlacesLoad()
-
-        else if (displayJourneys == true && places.isEmpty && isLoading == false)
-          const PlacesEmpty()
-          
-        else if (displayJourneys == false && journeys.isEmpty && isLoading == false)
-          const PlacesEmpty()
-
-        else
-          const PlacesLoad()
-          
-      ],
-      
-    )
-  ),
-	);
+            )),
+      );
 }

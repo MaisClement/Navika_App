@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/bottom_sheets/remove_address.dart';
 import 'package:navika/src/widgets/home/fav_button.dart';
 
@@ -47,8 +48,8 @@ class HomeBodyFavScroll extends StatelessWidget {
               },
               onLongPress: () {
                 showModalBottomSheet<void>(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: bottomSheetBorder,
                   ),
                   isScrollControlled: true,
                   context: context,
@@ -83,8 +84,8 @@ class HomeBodyFavScroll extends StatelessWidget {
               },
               onLongPress: () {
                 showModalBottomSheet<void>(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: bottomSheetBorder,
                   ),
                   isScrollControlled: true,
                   context: context,
@@ -118,8 +119,8 @@ class HomeBodyFavScroll extends StatelessWidget {
                 },
                 onLongPress: () {
                   showModalBottomSheet<void>(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: bottomSheetBorder,
                     ),
                     isScrollControlled: true,
                     context: context,

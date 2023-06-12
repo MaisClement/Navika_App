@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -47,12 +48,12 @@ class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStat
 
   Future<void> _getVehicleJourneys() async {
     if (kDebugMode) {
-      print({'INFO_', '${globals.API_VEHICLE_JOURNEY}?v=${widget.tripId}'});
+      print({'INFO_', '${globals.API_VEHICLE_JOURNEY}?id=${widget.tripId}'});
     }
     try {
       if (mounted) {
         final response = await http.get(
-            Uri.parse('${globals.API_VEHICLE_JOURNEY}?v=${widget.tripId}'));
+            Uri.parse('${globals.API_VEHICLE_JOURNEY}?id=${widget.tripId}'));
 
         if (response.statusCode == 200) {
           final data = json.decode(response.body);
@@ -72,6 +73,16 @@ class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStat
           });
         }
       }
+    } on SocketException {
+        
+        setState(() {
+        error = 'SocketException';
+      });
+    } on TimeoutException {
+        
+        setState(() {
+        error = 'TimeoutException';
+      });
     } catch (e) {
       setState(() {
         error = "Une erreur s'est produite.";

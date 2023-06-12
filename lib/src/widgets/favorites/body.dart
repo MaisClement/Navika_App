@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:navika/src/icons/navika_icons_icons.dart';
@@ -60,7 +61,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
     try {
       if (mounted) {
         final response = await http.get(Uri.parse(
-            '${globals.API_SCHEDULES}?s=${widget.id}&l=${widget.line}'));
+            '${globals.API_SCHEDULES}?id=${widget.id}&l=${widget.line}'));
 
         if (response.statusCode == 200) {
           final data = json.decode(response.body);
@@ -84,7 +85,17 @@ class _FavoriteBodyState extends State<FavoriteBody>
           });
         }
       }
-    } on Exception catch (_) {
+    } on SocketException {
+        
+        setState(() {
+        error = 'SocketException';
+      });
+    } on TimeoutException {
+        
+        setState(() {
+        error = 'TimeoutException';
+      });
+    } catch (e) {
       setState(() {
         error = "Une erreur s'est produite.";
       });
@@ -139,8 +150,8 @@ class _FavoriteBodyState extends State<FavoriteBody>
                     tooltip: 'Supprimer ce favori',
                     onPressed: () {
                       showModalBottomSheet<void>(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: bottomSheetBorder,
                         ),
                         isScrollControlled: true,
                         context: context,
@@ -185,7 +196,8 @@ class _FavoriteBodyState extends State<FavoriteBody>
                 Center(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                      backgroundColor:
+                          Theme.of(context).colorScheme.primaryContainer,
                       foregroundColor: const Color(0xffffffff),
                     ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                     child: const Text('Tous les horaires ➜'),
@@ -194,7 +206,8 @@ class _FavoriteBodyState extends State<FavoriteBody>
                       globals.schedulesStopName = widget.name;
                       globals.schedulesStopModes = widget.modes;
                       globals.schedulesStopLines = [];
-                      RouteStateScope.of(context).go('/schedules/stops/${widget.id}');
+                      RouteStateScope.of(context)
+                          .go('/schedules/stops/${widget.id}');
                     },
                   ),
                 ),
@@ -211,7 +224,8 @@ class _FavoriteBodyState extends State<FavoriteBody>
                 Center(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                      backgroundColor:
+                          Theme.of(context).colorScheme.primaryContainer,
                       foregroundColor: const Color(0xffffffff),
                     ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                     child: const Text('Tous les horaires ➜'),
@@ -220,7 +234,8 @@ class _FavoriteBodyState extends State<FavoriteBody>
                       globals.schedulesStopName = widget.name;
                       globals.schedulesStopModes = widget.modes;
                       globals.schedulesStopLines = [];
-                      RouteStateScope.of(context).go('/schedules/stops/${widget.id}');
+                      RouteStateScope.of(context)
+                          .go('/schedules/stops/${widget.id}');
                     },
                   ),
                 ),

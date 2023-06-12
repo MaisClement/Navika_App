@@ -4,7 +4,7 @@ library my_prj.globals;
 import 'package:location/location.dart' as gps;
 
 const String NAME = 'Navika';
-const String VERSION = 'v0.2-dev';
+const String VERSION = 'v0.3-dev';
 const String API_VERSION = 'v0.1';
 
 const String API_BASE = 'https://navika.hackernwar.com/';

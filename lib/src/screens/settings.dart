@@ -4,7 +4,9 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/bottom_sheets/grouped_departures.dart';
+import 'package:navika/src/widgets/bottom_sheets/route_options.dart';
 import 'package:navika/src/widgets/bottom_sheets/terminus_trains.dart';
 import 'package:navika/src/widgets/settings/button.dart';
 import 'package:navika/src/widgets/settings/link.dart';
@@ -79,8 +81,8 @@ class _SettingsState extends State<Settings> {
               icon: NavikaIcons.clock,
               function: () {
                 showModalBottomSheet<void>(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: bottomSheetBorder,
                   ),
                   isScrollControlled: true,
                   context: context,
@@ -97,8 +99,8 @@ class _SettingsState extends State<Settings> {
               icon: NavikaIcons.train_face,
               function: () {
                 showModalBottomSheet<void>(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: bottomSheetBorder,
                     ),
                     isScrollControlled: true,
                     context: context,
@@ -113,8 +115,8 @@ class _SettingsState extends State<Settings> {
               icon: NavikaIcons.group,
               function: () {
                 showModalBottomSheet<void>(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: bottomSheetBorder,
                     ),
                     isScrollControlled: true,
                     context: context,
@@ -130,6 +132,21 @@ class _SettingsState extends State<Settings> {
                 RouteStateScope.of(context).go('/position');
               },
               icon: NavikaIcons.localisation,
+            ),
+
+            SettingsButton(
+              name: "Options d'itinéraires",
+              icon: NavikaIcons.options,
+              function: () {
+                showModalBottomSheet<void>(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: bottomSheetBorder,
+                    ),
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (BuildContext context) =>
+                        BottomRouteSettings());
+              },
             ),
 
             // ------------
@@ -159,7 +176,7 @@ class _SettingsState extends State<Settings> {
               padding: const EdgeInsets.only(
                   left: 20, right: 20, top: 10, bottom: 10),
               child: const Text(
-                'Par respect pour votre confidentialité, Navika ne collecte ni conserve aucune information vous concernant.',
+                'Par respect pour votre confidentialité, Navika ne conserve aucune information vous concernant.',
                 style: TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,
@@ -182,7 +199,7 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                   Text(
-                    'Made with 💖',
+                    'Made with 💖 / In Tartiflette we trust',
                     style: TextStyle(
                       fontFamily: 'Segoe Ui',
                       color: Colors.white,

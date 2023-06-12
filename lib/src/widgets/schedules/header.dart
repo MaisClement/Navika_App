@@ -71,8 +71,8 @@ class SchedulesPannel extends StatelessWidget {
                   onPressed: () {
                     if (globals.schedulesStopLines.isNotEmpty) {
                       showModalBottomSheet<void>(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: bottomSheetBorder,
                         ),
                         isScrollControlled: true,
                         context: context,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -115,7 +116,7 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
   }
 
   Future<void> _getSchedules() async {
-    String url = '${globals.API_SCHEDULES}?s=${globals.schedulesStopArea}';
+    String url = '${globals.API_SCHEDULES}?id=${globals.schedulesStopArea}';
     if (ungroupDepartures) {
       url += '&ungroupDepartures=true';
     }
@@ -144,7 +145,17 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
           });
         }
       }
-    } on Exception catch (_) {
+    } on SocketException {
+        
+        setState(() {
+        error = 'SocketException';
+      });
+    } on TimeoutException {
+        
+        setState(() {
+        error = 'TimeoutException';
+      });
+    } catch (e) {
       setState(() {
         error = "Une erreur s'est produite.";
       });

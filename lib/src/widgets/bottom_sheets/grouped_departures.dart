@@ -19,7 +19,7 @@ class BottomGroupedDepartures extends StatefulWidget {
 class _BottomGroupedDeparturesState extends State<BottomGroupedDepartures>
     with SingleTickerProviderStateMixin {
 
-  bool hide = globals.hiveBox?.get('ungroupDepartures') ?? false;
+  bool ungroup = globals.hiveBox?.get('ungroupDepartures') ?? false;
 
 	@override
 	Widget build(BuildContext context) => Container(
@@ -72,10 +72,10 @@ class _BottomGroupedDeparturesState extends State<BottomGroupedDepartures>
           RadioListTile(
             title: const Text('Groupé'),
             value: false, 
-            groupValue: hide, 
+            groupValue: ungroup, 
             onChanged: (value){
               setState(() {
-                hide = value ?? false;
+                ungroup = value ?? false;
               });
               globals.hiveBox.put('ungroupDepartures', value);
               widget.update();
@@ -84,10 +84,10 @@ class _BottomGroupedDeparturesState extends State<BottomGroupedDepartures>
           RadioListTile(
             title: const Text('Dégroupé'),
             value: true, 
-            groupValue: hide, 
+            groupValue: ungroup, 
             onChanged: (value){
               setState(() {
-                hide = value ?? false;
+                ungroup = value ?? false;
               });
               globals.hiveBox.put('ungroupDepartures', value);
               widget.update();

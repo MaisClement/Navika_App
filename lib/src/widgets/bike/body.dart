@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
@@ -72,7 +73,17 @@ class _BikeBodyState extends State<BikeBody>
           });
         }
       }
-    } on Exception catch (_) {
+    } on SocketException {
+        
+        setState(() {
+        error = 'SocketException';
+      });
+    } on TimeoutException {
+        
+        setState(() {
+        error = 'TimeoutException';
+      });
+    } catch (e) {
       setState(() {
         error = "Une erreur s'est produite.";
       });

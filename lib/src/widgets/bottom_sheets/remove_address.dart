@@ -18,6 +18,34 @@ int getAddressPos(id) {
   return -1;
 }
 
+void removeAddress(widget, context) {
+  List list = globals.hiveBox.get('AddressFavorites');
+  int pos = getAddressPos(widget.id);
+
+  if (pos >= 0) {
+    list.removeAt(pos);
+    globals.hiveBox.put('AddressFavorites', list);
+    Navigator.pop(context);
+    FloatingSnackBar(
+      message: 'Adresse supprimé.',
+      context: context,
+      textColor: Theme.of(context).colorScheme.primary,
+      textStyle: snackBarText,
+      duration: const Duration(milliseconds: 4000),
+      backgroundColor: const Color(0xff272727),
+    );
+  } else {
+    FloatingSnackBar(
+      message: "Erreur lors de la suppression de l'adresse.",
+      context: context,
+      textColor: Theme.of(context).colorScheme.primary,
+      textStyle: snackBarText,
+      duration: const Duration(milliseconds: 4000),
+      backgroundColor: const Color(0xff272727),
+    );
+  }
+}
+
 class BottomRemoveAddress extends StatefulWidget {
   final String id;
 
@@ -91,31 +119,7 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress>
                   ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                   child: const Text('Supprimer'),
                   onPressed: () {
-                    List list = globals.hiveBox.get('AddressFavorites');
-                    int pos = getAddressPos(widget.id);
-
-                    if (pos >= 0) {
-                      list.removeAt(pos);
-                      globals.hiveBox.put('AddressFavorites', list);
-                      Navigator.pop(context);
-                      FloatingSnackBar(
-                        message: 'Adresse supprimé.',
-                        context: context,
-                        textColor: Theme.of(context).colorScheme.primary,
-                        textStyle: snackBarText,
-                        duration: const Duration(milliseconds: 4000),
-                        backgroundColor: const Color(0xff272727),
-                      );
-                    } else {
-                      FloatingSnackBar(
-                        message: "Erreur lors de la suppression de l'adresse.",
-                        context: context,
-                        textColor: Theme.of(context).colorScheme.primary,
-                        textStyle: snackBarText,
-                        duration: const Duration(milliseconds: 4000),
-                        backgroundColor: const Color(0xff272727),
-                      );
-                    }
+                    removeAddress(widget, context);
                   },
                 ),
               ),

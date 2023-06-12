@@ -467,3 +467,123 @@ List<Widget> getDurationWidget(int d, context) {
 
   return res;
 }
+
+
+enum MarkerSize { hidden, small, large }
+
+enum MarkerMode { bike, bus, cable, metro, boat, noctilien, rer, train, tram }
+
+String getMarkerImageByType(MarkerMode mode, MarkerSize size, context) {
+  String assets = 'assets/img/marker/';
+
+  if (size == MarkerSize.hidden) {
+    return 'assets/img/null.png';
+  }
+
+  if (size == MarkerSize.small) {
+    if (mode == MarkerMode.bike) {
+      assets = '${assets}mini_bike';
+    } else {
+      assets = '${assets}mini';
+    }
+  }
+
+  if (size == MarkerSize.large) {
+    if (mode == MarkerMode.train) {
+      assets = '${assets}marker_train';
+    } else if (mode == MarkerMode.metro) {
+      assets = '${assets}marker_metro';
+    } else if (mode == MarkerMode.tram) {
+      assets = '${assets}marker_tram';
+    } else if (mode == MarkerMode.cable) {
+      assets = '${assets}marker_cable';
+    } else if (mode == MarkerMode.boat) {
+      assets = '${assets}marker_boat';
+    } else if (mode == MarkerMode.bus) {
+      assets = '${assets}marker_bus';
+    } else if (mode == MarkerMode.bike) {
+      assets = '${assets}marker_bike';
+    }
+  }
+
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    assets = '${assets}_light.png';
+  } else {
+    assets = '$assets.png';
+  }
+
+  return assets;
+}
+
+MarkerMode getMarkerMode(List modes) {
+  if (modes.contains('nationalrail') || modes.contains('rail')) {
+    return MarkerMode.train;
+  } else if (modes.contains('metro')) {
+    return MarkerMode.metro;
+  } else if (modes.contains('tram')) {
+    return MarkerMode.tram;
+  } else if (modes.contains('cablecar')) {
+    return MarkerMode.cable;
+  } else if (modes.contains('boat')) {
+    return MarkerMode.boat;
+  } else if (modes.contains('bus')) {
+    return MarkerMode.bus;
+  } else if (modes.contains('bike')) {
+    return MarkerMode.bike;
+  } else {
+    return MarkerMode.bus;
+  }
+}
+
+MarkerSize getMarkerSize(MarkerMode mode, double zoom) {
+  if (zoom > 15000 && (mode == MarkerMode.train || mode == MarkerMode.rer)) {
+    return MarkerSize.small;
+  }
+  if (zoom > 15000) {
+    return MarkerSize.hidden;
+  }
+  if (zoom > 3000 && mode == MarkerMode.bike) {
+    return MarkerSize.hidden;
+  }
+  if (zoom > 6000 && (mode != MarkerMode.train && mode != MarkerMode.rer)) {
+    return MarkerSize.small;
+  }
+  if (zoom > 3000 && mode == MarkerMode.bus) {
+    return MarkerSize.small;
+  }
+  if (zoom > 2000 && mode == MarkerMode.bike) {
+    return MarkerSize.small;
+  }
+  return MarkerSize.large;
+}
+
+int getSizeForMarker(MarkerSize size) {
+  if (size == MarkerSize.hidden) {
+    return 0;
+  }
+  if (size == MarkerSize.small) {
+    return 20;
+  }
+  return 100;
+}
+
+double getAppBarOpacity(double position) {
+  double res = (((position * -1) + 1) * -3.33) + 1;
+  if (res < 0) {
+    return 0.0;
+  } else if (res > 1.0) {
+    return 1;
+  }
+  return res;
+}
+
+double getOpacity(position) {
+  double res =
+      ((1 / position - 1.1) * 2.33) > 1 ? 1 : ((1 / position - 1.1) * 2.33);
+  if (res < 0) {
+    return 0.0;
+  } else if (res > 1.0) {
+    return 1;
+  }
+  return res;
+}

@@ -41,8 +41,8 @@ class TimerBlock extends StatelessWidget {
                 onTap: () {
                   if (disabled == false) {
                     showModalBottomSheet<void>(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: bottomSheetBorder,
                         ),
                         isScrollControlled: true,
                         context: context,

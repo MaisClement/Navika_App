@@ -160,9 +160,9 @@ class DepartureTrain extends StatelessWidget {
                                 child: InkWell(
                                   onTap: () {
                                     showModalBottomSheet<void>(
-                                        shape: RoundedRectangleBorder(
+                                        shape: const RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(5),
+                                              bottomSheetBorder,
                                         ),
                                         isScrollControlled: true,
                                         context: context,

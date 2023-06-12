@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -51,7 +52,7 @@ class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerPr
   }
 
   Future<void> _getDepature() async {
-    String url = '${globals.API_SCHEDULES}?s=${globals.schedulesStopArea}';
+    String url = '${globals.API_SCHEDULES}?id=${globals.schedulesStopArea}';
     try {
       if (mounted) {
         final response = await http.get(Uri.parse(url));
@@ -78,6 +79,16 @@ class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerPr
           error = 'Récupération des informations impossible.';
         });
       }
+   } on SocketException {
+        
+        setState(() {
+        error = 'SocketException';
+      });
+    } on TimeoutException {
+        
+        setState(() {
+        error = 'TimeoutException';
+      });
     } catch (e) {
       setState(() {
         error = "Une erreur s'est produite.";
