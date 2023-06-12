@@ -5,6 +5,8 @@ import 'package:navika/src/widgets/route/sections/street_network.dart';
 import 'package:navika/src/widgets/route/sections/transfer.dart';
 import 'package:navika/src/widgets/route/sections/waiting.dart';
 
+import 'emission.dart';
+
 class RouteBody extends StatelessWidget {
   final ScrollController scrollController;
   final Map journey;
@@ -71,7 +73,10 @@ class RouteBody extends StatelessWidget {
     padding: const EdgeInsets.only(top: 90),
     children: [
       ...getRouteBlock(journey),
-      
+      Emission(journey: journey),
+      SizedBox(
+        height: 30,
+      ),
     ],
   );
 }

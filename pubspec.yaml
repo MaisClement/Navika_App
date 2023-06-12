@@ -98,6 +98,7 @@ flutter:
         - asset: assets/fonts/TransilienSmall.ttf
 
   assets:
+    - assets/img/leaf.png
     - assets/img/icons/bus.png
     - assets/img/icons/bus_light.png
     - assets/img/icons/tram_light.png

@@ -236,8 +236,11 @@ class _HomeState extends State<Home> {
 
   Future<void> _getNearPoints() async {
     double zoom = _controller?.getZoomLevel() ?? 0;
-    final response = await http.get(Uri.parse(
-        '${globals.API_NEAR}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}&z=${zoom.toString()}'));
+
+    String url = '${globals.API_NEAR}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}&z=${zoom.toString()}';
+
+    final response = await http.get(Uri.parse(url));
+    
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
 
@@ -277,9 +280,9 @@ class _HomeState extends State<Home> {
         metadata.setString('type', 'bike');
         metadata.setString('id', bike['id']);
         metadata.setString('name', bike['name']);
-        metadata.setString('capacity', bike['capacity']);
-        metadata.setDouble('lat', bike['coord']['lat'].toDouble());
-        metadata.setDouble('lon', bike['coord']['lon'].toDouble());
+        metadata.setInteger('capacity', bike['capacity']);
+        metadata.setDouble('lat', bike['coord']['lat']);
+        metadata.setDouble('lon', bike['coord']['lon']);
 
         MarkerMode mode = getMarkerMode(['bike']);
         double zoom = _controller?.getZoomLevel() ?? 1000;

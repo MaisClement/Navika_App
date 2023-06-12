@@ -100,9 +100,6 @@ class _AddAddressState extends State<AddAddress> {
   }
 
   Future<void> _getPlaces() async {
-    if (kDebugMode) {
-      print({'INFO_p', widget.predefineType});
-    }
     String url = '';
     flag++;
 
