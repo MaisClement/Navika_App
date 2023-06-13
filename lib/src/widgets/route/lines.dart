@@ -32,7 +32,7 @@ class RouteLines extends StatelessWidget {
 
                 if (i != sections.length -2)
                   Container(
-                    margin: const EdgeInsets.only(top: 12, left: 5),
+                    margin: const EdgeInsets.only(top: 12, ),
                     height: 5,
                     width: 5,
                     decoration: BoxDecoration(

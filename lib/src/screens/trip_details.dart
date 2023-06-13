@@ -14,6 +14,7 @@ import 'package:navika/src/widgets/trip/block.dart';
 import 'package:navika/src/widgets/trip/disruptions.dart';
 
 enum TripBlockStatus { origin, terminus, active, inactive }
+
 enum TripBlockEffect { none, added, deleted, delayed, unchanged }
 
 class TripDetails extends StatefulWidget {
@@ -21,19 +22,14 @@ class TripDetails extends StatefulWidget {
   final String? fromId;
   final String? toId;
 
-  const TripDetails({
-    required this.tripId, 
-    this.fromId, 
-    this.toId, 
-    super.key
-  });
+  const TripDetails({required this.tripId, this.fromId, this.toId, super.key});
 
   @override
   State<TripDetails> createState() => _TripDetailsState();
 }
 
-class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStateMixin {
-
+class _TripDetailsState extends State<TripDetails>
+    with SingleTickerProviderStateMixin {
   String title = 'Trajet';
   String error = '';
   Map? vehicleJourney;
@@ -47,9 +43,7 @@ class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStat
   }
 
   Future<void> _getVehicleJourneys() async {
-    if (kDebugMode) {
-      print({'INFO_', '${globals.API_VEHICLE_JOURNEY}?id=${widget.tripId}'});
-    }
+    print('${globals.API_VEHICLE_JOURNEY}?id=${widget.tripId}');
     try {
       if (mounted) {
         final response = await http.get(
@@ -74,13 +68,11 @@ class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStat
         }
       }
     } on SocketException {
-        
-        setState(() {
+      setState(() {
         error = 'SocketException';
       });
     } on TimeoutException {
-        
-        setState(() {
+      setState(() {
         error = 'TimeoutException';
       });
     } catch (e) {
@@ -93,74 +85,58 @@ class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStat
   Widget _makeTripWidgets() {
     List<Widget> res = [];
 
-    try {
-      TripBlockStatus status = TripBlockStatus.inactive;
+    TripBlockStatus status = TripBlockStatus.inactive;
 
-      int i = 0;
-      for (var stop in vehicleJourney?['stop_times']) {
-        if (status == TripBlockStatus.terminus) {
-          status = TripBlockStatus.inactive;
-
-        } else if (status == TripBlockStatus.origin) {
-          status = TripBlockStatus.active;
-        }
-
-        if (widget.fromId != null && stop['id'].contains(widget.fromId)) {
-          status = TripBlockStatus.origin;
-
-        } else if (widget.toId != null && stop['id'].contains(widget.toId)) {
-          status = TripBlockStatus.terminus;
-        }
-
-        TripBlockEffect effect = TripBlockEffect.none;
-        String time = getTime(stop['stop_time']['arrival_time']);
-        String newtime = '';
-
-        try {
-          for (var disruption in vehicleJourney!['disruptions']) {
-            if (disruption != null && disruption.length > 0) {
-              if (disruption['effect'] == 'NO_SERVICE') {
-                effect = TripBlockEffect.deleted;
-                status = TripBlockStatus.inactive;
-
-              } else if (disruption['impacted_stops'] != null && disruption['impacted_stops'][i] != null) {
-                if (disruption['impacted_stops'][i]['stop_time_effect'] == 'added') {
-                  effect = TripBlockEffect.added;
-
-                } else if (disruption['impacted_stops'][i]['stop_time_effect'] == 'deleted') {
-                  effect = TripBlockEffect.deleted;
-
-                } else if (disruption['impacted_stops'][i]['stop_time_effect'] == 'delayed') {
-                  effect = TripBlockEffect.delayed;
-                  time = makeTime(disruption['impacted_stops'][i]['base_arrival_time']);
-                  newtime = makeTime(disruption['impacted_stops'][i]['amended_arrival_time']);
-                }
-              }
-            }
-          }
-        } catch (e) {
-          effect = TripBlockEffect.none;
-        }
-
-        res.add(
-          TripBlock(
-            time: time,
-            newtime: newtime,
-            name: stop['name'],
-            type: stop['type'],
-            effect: effect,
-            status: status,
-          ),
-        );
-        i++;
+    for (var stop in vehicleJourney?['stop_times']) {
+      if (status == TripBlockStatus.terminus) {
+        status = TripBlockStatus.inactive;
+      } else if (status == TripBlockStatus.origin) {
+        status = TripBlockStatus.active;
       }
 
-      return Column(
-        children: res,
+      if (widget.fromId != null && stop['id'].contains(widget.fromId)) {
+        status = TripBlockStatus.origin;
+      } else if (widget.toId != null && stop['id'].contains(widget.toId)) {
+        status = TripBlockStatus.terminus;
+      }
+
+      TripBlockEffect effect = TripBlockEffect.none;
+      String time = getTime(stop['stop_time']['arrival_time']);
+      String newtime = '';
+
+      if (stop['disruption'] != null) {
+        if (stop['disruption']['departure_state'] == 'added') {
+          effect = TripBlockEffect.added;
+        } else if (stop['disruption']['departure_state'] == 'deleted') {
+          effect = TripBlockEffect.deleted;
+        } else if (stop['disruption']['departure_state'] == 'delayed') {
+          if (status == TripBlockStatus.origin) {
+            time = getTime(stop['disruption']['base_departure_time']);
+            newtime = getTime(stop['disruption']['departure_time']);
+          } else {
+            time = getTime(stop['disruption']['base_arrival_time']);
+            newtime = getTime(stop['disruption']['arrival_time']);
+          }
+          effect = TripBlockEffect.delayed;
+        }
+      }
+
+      res.add(
+        TripBlock(
+          time: time,
+          newtime: newtime,
+          name: stop['name'],
+          type: stop['type'],
+          message: stop['disruption']?['message'],
+          effect: effect,
+          status: status,
+        ),
       );
-    } catch (e) {
-      return const ErrorMessage(error: 'Une erreur est survenue');
     }
+
+    return Column(
+      children: res,
+    );
   }
 
   @override
@@ -201,11 +177,13 @@ class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStat
             else
               Column(
                 children: [
-                  if (vehicleJourney?['disruptions'].length > 0)
-                    TripDisruptions(
-                      disruptions: vehicleJourney?['disruptions'],
-                    ),
+                  TripDisruptions(
+                    disruptions: vehicleJourney?['reports'],
+                  ),
                   _makeTripWidgets(),
+                  const SizedBox(
+                    height: 50,
+                  )
                 ],
               )
           ],

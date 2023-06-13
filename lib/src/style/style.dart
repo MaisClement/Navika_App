@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navika/src/screens/trip_details.dart';
 
 const appBarTitle = TextStyle(
   fontWeight: FontWeight.w600,
@@ -150,4 +151,13 @@ getIconLine(context, line) {
     return line.imageLight;
   }
   return line.imageDark;
+}
+
+
+
+Color getActiveColor(context, status) {
+  if (status == TripBlockStatus.inactive){
+    return const Color(0xff808080);
+  }  
+  return Theme.of(context).colorScheme.primary;
 }

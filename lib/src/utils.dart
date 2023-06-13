@@ -99,10 +99,16 @@ String getModeImage(line, isDark) {
   }
   String img = 'assets/img/icons/';
 
+  String mode = '';
   for (var allowes in listModes.entries) {
     if (allowes.value.contains(line['mode'])) {
-      img = '${img}${allowes.key}';
+      mode = '${mode}${allowes.key}';
     }
+  }
+  if (mode == '') {
+    img = '${img}bus';
+  } else {
+    img = '${img}${mode}';
   }
 
   if (isDark) {
