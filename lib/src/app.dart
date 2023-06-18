@@ -32,6 +32,7 @@ class _NavikaAppState extends State<NavikaApp> {
 				'/stops/:id',
 				'/bike/:id',
 				'/home/journeys',
+				'/home/journeys/search/:type',
 				'/home/journeys/details',
 				'/schedules',
 				'/schedules/search',
@@ -61,6 +62,8 @@ class _NavikaAppState extends State<NavikaApp> {
 	}
 
   Color mainColor = const Color(0xff025982);
+  Color primaryContainer = const Color(0xffccdee6);
+  Color darkPrimaryContainer = const Color(0xff01354e);
 
 	@override
 	Widget build(BuildContext context) => RouteStateScope(
@@ -88,16 +91,60 @@ class _NavikaAppState extends State<NavikaApp> {
         colorScheme: ColorScheme(
           brightness: Brightness.light,
           primary: mainColor,
+          primaryContainer: primaryContainer,
           onPrimary: const Color(0xFFFFFFFF),
+          onPrimaryContainer: mainColor,
           secondary: const Color(0xFFFFFFFF),
           onSecondary: const Color(0xFFFFFFFF),
           error: const Color(0xFFF32424),
           onError: const Color(0xFFF32424),
           background: const Color(0xFFF1F2F3),
-          onBackground: const Color(0xFFFFFFFF),
+          onBackground: const Color(0xff000000),
           surface: const Color(0xFFFFFFFF),
           onSurface: const Color(0xff000000),
         ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: mainColor,
+            foregroundColor: const Color(0xFFFFFFFF),
+          ),
+        ),
+        cardTheme: CardTheme(
+          color:  primaryContainer,
+          elevation: 0,
+          margin: const EdgeInsets.all(0) ,
+        ),
+        tabBarTheme: const TabBarTheme(
+          unselectedLabelColor: Color(0xff919191),
+        ),
+        iconTheme: IconThemeData(
+          color: mainColor
+        ),
+        navigationBarTheme: NavigationBarThemeData(
+          indicatorColor: mainColor.withOpacity(0.15),
+          iconTheme: MaterialStateProperty.resolveWith((states) {
+            if (states.contains(MaterialState.selected)) {
+              return IconThemeData(
+                color: mainColor
+              );
+            }
+            return const IconThemeData(
+              color: Color(0xff616161)
+            );
+          }),
+          labelTextStyle: MaterialStateProperty.resolveWith((states) {
+            if (states.contains(MaterialState.selected)) {
+              return TextStyle(
+                fontWeight: FontWeight.w700,
+                color: mainColor,
+              );
+            }
+            return const TextStyle(
+              color: Color(0xff616161)
+            );
+          }),
+        ),
+        
         scaffoldBackgroundColor: const Color(0xffffffff),
 
         pageTransitionsTheme: const PageTransitionsTheme(
@@ -109,14 +156,7 @@ class _NavikaAppState extends State<NavikaApp> {
             TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
           },
         ),
-        navigationBarTheme: NavigationBarThemeData(
-          indicatorColor: mainColor.withOpacity(0.2),
-          iconTheme: MaterialStateProperty.all(
-            IconThemeData(
-              color: mainColor
-            )
-          )
-        )
+        
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
@@ -125,18 +165,35 @@ class _NavikaAppState extends State<NavikaApp> {
         colorScheme: ColorScheme(
           brightness: Brightness.dark,
           primary: mainColor,
+          primaryContainer: darkPrimaryContainer,
           onPrimary: const Color(0xff000000),
+          onPrimaryContainer: const Color(0xFFFFFFFF),
           secondary: const Color(0xff000000),
           onSecondary: const Color(0xff000000),
           error: const Color(0xFFF32424),
           onError: const Color(0xFFF32424),
           background: const Color(0xFFF1F2F3),
-          onBackground: const Color(0xff000000),
+          onBackground: const Color(0xFFFFFFFF),
           surface: const Color(0xff000000),
-          onSurface: const Color(0xffffffff),
+          onSurface: const Color(0xFFFFFFFF),
         ),
-        scaffoldBackgroundColor: const Color(0xff000000),
-        
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: mainColor,
+            foregroundColor: const Color(0xFFFFFFFF),
+          ),
+        ),
+        cardTheme: CardTheme(
+          color:  darkPrimaryContainer,
+          elevation: 0,
+          margin: const EdgeInsets.all(0) ,
+        ),
+        tabBarTheme: const TabBarTheme(
+          unselectedLabelColor: Color(0xff919191),
+        ),
+        iconTheme: IconThemeData(
+          color: mainColor
+        ),
         navigationBarTheme: NavigationBarThemeData(
           backgroundColor: const Color(0xff1e1e1e),
           indicatorColor: const Color(0xff025982),
@@ -145,10 +202,12 @@ class _NavikaAppState extends State<NavikaApp> {
               color: Colors.white
             )
           )
-        )
+        ),
+        
+        scaffoldBackgroundColor: const Color(0xff000000),
       ),
       
-      //THEME
+
       themeMode: ThemeMode.system, 
     ),
   );

@@ -1,28 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:navika/src/api.dart';
 
-String getErrorImg(error) {
-  if (error == 'SocketException')  {
-    return 'assets/img/cloud_off.png';
+String getErrorImg(ApiStatus error) {
+  switch(error) {
+    case ApiStatus.socketException:
+      return 'assets/img/cloud_off.png';
+    
+    case ApiStatus.timeoutException:
+      return 'assets/img/cloud_sad.png';
+
+    default:
+      return 'assets/img/maintenance.png';
   }
-  if (error == 'TimeoutException') {
-    return 'assets/img/cloud_sad.png';
-  }
-  return 'assets/img/maintenance.png';
 }
 
+String getErrorIcon(ApiStatus error) {
+  switch(error) {
+    case ApiStatus.socketException:
+      return 'assets/img/cloud_off.svg';
+    
+    case ApiStatus.timeoutException:
+      return 'assets/img/cloud_sad.svg';
 
-String getErrorText(error) {
-  if (error == 'SocketException')  {
-    return 'Aucune connexion internet';
+    default:
+      return 'assets/img/cancel.svg';
   }
-  if (error == 'TimeoutException') {
-    return "Le serveur n'as pas repondu";
+}
+
+String getErrorText(ApiStatus error) {
+  switch(error) {
+    case ApiStatus.socketException:
+      return 'Aucune connexion internet';
+    
+    case ApiStatus.timeoutException:
+      return 'Le serveur n’as pas repondu';
+    
+    case ApiStatus.serverException:
+      return 'Récupération des informations impossible';
+    
+    case ApiStatus.unknownException:
+      return 'Une erreur s’est produite';
+
+    default:
+      return '';
   }
-  return error;
 }
 
 class ErrorBlock extends StatelessWidget {
-	final String error;
+	final ApiStatus error;
 
 	const ErrorBlock({
 		required this.error,

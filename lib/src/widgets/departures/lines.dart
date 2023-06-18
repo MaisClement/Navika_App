@@ -23,12 +23,12 @@ class DepartureLines extends StatelessWidget {
 
   handleTapDetails(context) {
     if (train['informations']['id'] != null && train['informations']['id'] != '') {
-      RouteStateScope.of(context).go("/trip/details/${train['informations']['id']}/from/$from");
+      RouteStateScope.of(context).go('/trip/details/${train['informations']['id']}/from/$from');
     } else {
       FloatingSnackBar(
         message: 'Les details ne sont pas disponibles pour ce trajet.',
         context: context,
-        textColor: Theme.of(context).colorScheme.primary,
+        textColor: mainColor(context),
         textStyle: const TextStyle(
           color: Color(0xffffffff),
           fontWeight: FontWeight.w600,

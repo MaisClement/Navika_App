@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:navika/src/api.dart';
 
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/widgets/departures/list.dart';
@@ -11,7 +9,7 @@ import 'package:navika/src/widgets/schedules/list.dart';
 import 'package:navika/src/data/global.dart' as globals;
 
 List getLines(data) {
-  bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures') ?? false;
+  bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures');
   List l = [];
   if (data['departures'] != null) {
     if (ungroupDepartures) {
@@ -85,9 +83,9 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
   List departures = [];
   late Timer _timer;
   late Timer _update;
-  String error = '';
+  ApiStatus error = ApiStatus.ok;
 
-  bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures') ?? false;
+  bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures');
 
   @override
   void initState() {
@@ -116,48 +114,19 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
   }
 
   Future<void> _getSchedules() async {
-    String url = '${globals.API_SCHEDULES}?id=${globals.schedulesStopArea}';
-    if (ungroupDepartures) {
-      url += '&ungroupDepartures=true';
-    }
-    try {
-      if (mounted) {
-        final response = await http.get(Uri.parse(url));
-
-        if (response.statusCode == 200) {
-          final data = json.decode(response.body);
-
-          if (mounted) {
-            setState(() {
-              if (data['schedules'] != null) {
-                schedules = data['schedules'];
-              }
-              if (data['departures'] != null) {
-                departures = data['departures'];
-              }
-              globals.schedulesStopLines = getLines(data);
-              error = '';
-            });
-          }
-        } else {
-          setState(() {
-            error = 'Récupération des informations impossible.';
-          });
-        }
-      }
-    } on SocketException {
-        
-        setState(() {
-        error = 'SocketException';
-      });
-    } on TimeoutException {
-        
-        setState(() {
-        error = 'TimeoutException';
-      });
-    } catch (e) {
+    NavikaApi navikaApi = NavikaApi();
+    Map result = await navikaApi.getSchedules(globals.schedulesStopArea, ungroupDepartures);
+    
+    if (mounted) {
       setState(() {
-        error = "Une erreur s'est produite.";
+        if (result['value']['schedules'] != null) {
+          schedules = result['value']['schedules'];
+        }
+        if (result['value']['departures'] != null) {
+          departures = result['value']['departures'];
+        }
+        globals.schedulesStopLines = getLines(result['value']);
+        error = result['status'];
       });
     }
   }
@@ -202,10 +171,12 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
 
     for (var allowes in allowedModes.entries) {
       if (modes.any((mode) => allowes.value.contains(mode))) {
-        tabs.add(Tab(
-          icon: tabsModes[allowes.key]['icon'],
-          text: tabsModes[allowes.key]['label'],
-          iconMargin: const EdgeInsets.only(bottom: 5, top: 5))
+        tabs.add(
+          Tab(
+            icon: tabsModes[allowes.key]['icon'],
+            text: tabsModes[allowes.key]['label'],
+            iconMargin: const EdgeInsets.only(bottom: 5, top: 5)
+          ),
         );
       }
     }
@@ -215,7 +186,7 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
   List<Widget> getModesView(List modes, schedules, departures, scrollController) {
     List<Widget> tabs = [];
 
-    bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures') ?? false;
+    bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures');
 
     for (var allowes in allowedModes.entries) {
       if (modes.any((mode) => allowes.value.contains(mode))) {
@@ -258,7 +229,7 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
               tabs: getModesTabs(globals.schedulesStopModes),
             ),
     
-          if (error != '')
+          if (error != ApiStatus.ok)
             ErrorMessage(
               error: error,
             ),

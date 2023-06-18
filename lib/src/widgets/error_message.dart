@@ -1,29 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-String getErrorImg(error) {
-  if (error == 'SocketException')  {
-    return 'assets/img/cloud_off.svg';
-  }
-  if (error == 'TimeoutException') {
-    return 'assets/img/cloud_sad.svg';
-  }
-  return 'assets/img/cancel.svg';
-}
-
-
-String getErrorText(error) {
-  if (error == 'SocketException')  {
-    return 'Aucune connexion internet';
-  }
-  if (error == 'TimeoutException') {
-    return "Le serveur n'as pas repondu";
-  }
-  return error;
-}
+import 'package:navika/src/api.dart';
+import 'package:navika/src/widgets/error_block.dart';
 
 class ErrorMessage extends StatelessWidget {
-  final String error;
+  final ApiStatus error;
 
   const ErrorMessage({
     required this.error,
@@ -38,7 +19,7 @@ class ErrorMessage extends StatelessWidget {
             children: [
               const SizedBox(width: 15),
               SvgPicture.asset(
-                  getErrorImg(error),
+                  getErrorIcon(error),
                   color: Colors.grey[600],
                   height: 18,
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/favorites/body.dart';
 import 'package:navika/src/widgets/home/fav_scroll.dart';
@@ -55,7 +56,7 @@ class HomeBody extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                       fontFamily: 'Segoe Ui',
-                      color: Theme.of(context).colorScheme.primary,
+                      color: mainColor(context),
                     ),
                   ),
                 ),

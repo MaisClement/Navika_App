@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
-import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 
 class SectionArrival extends StatelessWidget {
@@ -24,8 +23,8 @@ class SectionArrival extends StatelessWidget {
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-          Column(
-            children: const [
+          const Column(
+            children: [
               Padding(
                 padding: EdgeInsets.only(
                   top: 10, left: 20, right: 20
@@ -50,7 +49,7 @@ class SectionArrival extends StatelessWidget {
           ),
           Container(
             padding: const EdgeInsets.only(right: 15, top: 10),
-            color: backgroundColor(context),
+            color: Theme.of(context).colorScheme.surface,
             child: Row(
               children: [
                 Text(getStringTime(section['arrival_date_time']),

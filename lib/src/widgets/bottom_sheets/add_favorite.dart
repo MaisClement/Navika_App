@@ -91,7 +91,7 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
                         FloatingSnackBar(
                           message: 'Favoris ajouté.',
                           context: context,
-                          textColor: Theme.of(context).colorScheme.primary,
+                          textColor: mainColor(context),
                           textStyle: snackBarText,
                           duration: const Duration(milliseconds: 4000),
                           backgroundColor: const Color(0xff272727),
@@ -129,11 +129,6 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
               ),
               Center(
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        Theme.of(context).colorScheme.primaryContainer,
-                    foregroundColor: const Color(0xffffffff),
-                  ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                   child: const Text('Annuler'),
                   onPressed: () => Navigator.pop(context),
                 ),

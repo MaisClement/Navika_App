@@ -1,9 +1,6 @@
-import 'dart:convert';
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter/foundation.dart';
+import 'package:navika/src/api.dart';
 
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
@@ -25,7 +22,7 @@ class _BikeBodyState extends State<BikeBody>
 
   Map bikeStation = {};
   late Timer _update;
-  String error = '';
+  ApiStatus error = ApiStatus.ok;
 
   @override
   void initState() {
@@ -48,44 +45,15 @@ class _BikeBodyState extends State<BikeBody>
   }
 
   Future<void> _getSchedules() async {
-    if (kDebugMode) {
-      print({'INFO_', globals.schedulesStopArea});
-    }
-    try {
-      if (mounted) {
-        final response = await http.get(Uri.parse(
-            '${globals.API_BIKE_STATIONS}?id=${globals.schedulesStopArea}'));
-
-        if (response.statusCode == 200) {
-          final data = json.decode(response.body);
-
-          if (mounted) {
-            setState(() {
-              if (data['station'] != null) {
-                bikeStation = data['station'];
-              }
-              error = '';
-            });
-          }
-        } else {
-          setState(() {
-            error = 'Récupération des informations impossible.';
-          });
-        }
-      }
-    } on SocketException {
-        
-        setState(() {
-        error = 'SocketException';
-      });
-    } on TimeoutException {
-        
-        setState(() {
-        error = 'TimeoutException';
-      });
-    } catch (e) {
+    NavikaApi navikaApi = NavikaApi();
+    Map result = await navikaApi.getBikeStations(globals.schedulesStopArea);
+    
+    if (mounted) {
       setState(() {
-        error = "Une erreur s'est produite.";
+        if (result['value']['station'] != null) {
+          bikeStation = result['value']['station'];
+        }
+        error = result['status'];
       });
     }
   }
@@ -146,7 +114,7 @@ class _BikeBodyState extends State<BikeBody>
                           child: Row(
                             children: [
                               Icon(NavikaIcons.bike,
-                                  color: tabLabelColor(context), size: 25),
+                                  color: Theme.of(context).colorScheme.onSurface, size: 25),
                               Container(
                                 width: 30,
                                 margin:
@@ -193,7 +161,7 @@ class _BikeBodyState extends State<BikeBody>
                           child: Row(
                             children: [
                               Icon(NavikaIcons.bike,
-                                  color: tabLabelColor(context), size: 25),
+                                  color: Theme.of(context).colorScheme.onSurface, size: 25),
                               Container(
                                 width: 30,
                                 margin:
@@ -239,7 +207,7 @@ class _BikeBodyState extends State<BikeBody>
                           child: Row(
                             children: [
                               Icon(NavikaIcons.e_bike,
-                                  color: tabLabelColor(context), size: 25),
+                                  color: Theme.of(context).colorScheme.onSurface, size: 25),
                               Container(
                                 width: 30,
                                 margin:
@@ -285,7 +253,7 @@ class _BikeBodyState extends State<BikeBody>
                           child: Row(
                             children: [
                               Icon(NavikaIcons.parking,
-                                  color: tabLabelColor(context), size: 25),
+                                  color: Theme.of(context).colorScheme.onSurface, size: 25),
                               Container(
                                 width: 30,
                                 margin:

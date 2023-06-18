@@ -7,17 +7,19 @@ class TripBlock extends StatelessWidget {
   final String newtime;
   final String name;
   final String? message;
+  final String? departureState;
+  final String? arrivalState;
   final String type;
-  final TripBlockEffect effect;
   final TripBlockStatus status;
 
   const TripBlock({
     required this.time,
     this.newtime = '',
     required this.name,
-    this.message = '',
+    this.message,
+    this.departureState,
+    this.arrivalState,
     required this.type,
-    this.effect = TripBlockEffect.none,
     this.status = TripBlockStatus.active,
     super.key,
   });
@@ -26,7 +28,7 @@ class TripBlock extends StatelessWidget {
   Widget build(BuildContext context) => Row(
         children: [
 // Time display
-          if (effect == TripBlockEffect.deleted)
+          if (departureState == 'deleted' && arrivalState == 'deleted')
             SizedBox(
               width: 90,
               child: Padding(
@@ -42,7 +44,9 @@ class TripBlock extends StatelessWidget {
                 ),
               ),
             )
-          else if (effect == TripBlockEffect.delayed && time != newtime)
+          else if ((departureState == 'delayed' ||
+                  arrivalState == 'delayed') &&
+              time != newtime)
             SizedBox(
               width: 90,
               child: Column(
@@ -89,7 +93,7 @@ class TripBlock extends StatelessWidget {
                     fontSize: 17,
                     color: status == TripBlockStatus.inactive
                         ? const Color(0xff808080)
-                        : Theme.of(context).colorScheme.primary,
+                        : mainColor(context),
                   ),
                 ),
               ),
@@ -142,7 +146,7 @@ class TripBlock extends StatelessWidget {
                 width: 29,
                 height: 10,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: mainColor(context),
                   borderRadius: status == TripBlockStatus.origin
                       ? const BorderRadius.only(
                           topLeft: Radius.circular(7),
@@ -195,9 +199,9 @@ class TripBlock extends StatelessWidget {
               children: [
                 Text(
                   name,
-                  style: getStyleByEffect(effect),
+                  style: getStyleByEffect(departureState, arrivalState),
                 ),
-                ...getMessage(effect, message),
+                ...getMessage(departureState, arrivalState, message),
               ],
             ),
           ),
@@ -205,8 +209,8 @@ class TripBlock extends StatelessWidget {
       );
 }
 
-TextStyle getStyleByEffect(effect) {
-  if (effect == TripBlockEffect.deleted) {
+TextStyle getStyleByEffect(departureState, arrivalState) {
+  if (departureState == 'deleted' && arrivalState == 'deleted') {
     return const TextStyle(
         fontWeight: FontWeight.w700,
         fontFamily: 'Segoe Ui',
@@ -222,27 +226,56 @@ TextStyle getStyleByEffect(effect) {
   }
 }
 
-List<Widget> getMessage(effect, message) {
+List<Widget> getMessage(departureState, arrivalState, message) {
   List<Widget> res = [];
 
-  if (state[effect] != null) {
+  if (message != null && message != '') {
+    res.add(
+      Text(
+        message,
+        style: const TextStyle(
+          fontWeight: FontWeight.w700,
+          fontFamily: 'Segoe Ui',
+          fontSize: 12,
+        ),
+      ),
+    );
+  }
+
+  if (departureState == null || arrivalState == null) {
+    return res;
+  }
+
+  String status = departureState;
+
+  if (arrivalState != departureState) {
+    if (departureState == 'deleted') {
+      status = 'terminus_deleted';
+    }
+
+    if (arrivalState == 'deleted') {
+      status = 'origin_deleted';
+    }
+  }
+
+  if (state[status] != null) {
     res.add(
       Container(
-        padding: const EdgeInsets.only(left:4, top:2, right:4, bottom:2),
+        padding: const EdgeInsets.only(left: 4, top: 0, right: 4, bottom: 2),
         decoration: BoxDecoration(
-          color: state[effect]['color'].withOpacity(0.2),
+          color: state[status]['color'].withOpacity(0.2),
           borderRadius: BorderRadius.circular(5),
         ),
         child: Text(
-          state[effect]['text'],
+          state[status]['text'],
           style: TextStyle(
             fontWeight: FontWeight.w700,
             fontFamily: 'Segoe Ui',
             fontSize: 12,
-            color: state[effect]['color'],
+            color: state[status]['color'],
           ),
         ),
-      )
+      ),
     );
   }
 
@@ -250,12 +283,28 @@ List<Widget> getMessage(effect, message) {
 }
 
 Map state = {
-  TripBlockEffect.added: {
+  'added': {
     'text': 'Arrêt supplémentaire',
-    'color': Color(0xff005bbc),
+    'color': const Color(0xff005bbc),
   },
-  TripBlockEffect.deleted: {
+  'deleted': {
     'text': 'Arrêt supprimé',
-    'color': Color(0xffeb2031),
+    'color': const Color(0xffeb2031),
+  },
+  'origin_added': {
+    'text': 'Nouvelle gare de départ',
+    'color': const Color(0xff005bbc),
+  },
+  'origin_deleted': {
+    'text': 'Nouvelle gare de départ',
+    'color': const Color(0xffeb2031),
+  },
+  'terminus_added': {
+    'text': 'Terminus exceptionel',
+    'color': const Color(0xff005bbc),
+  },
+  'terminus_deleted': {
+    'text': 'Terminus exceptionel',
+    'color': const Color(0xffeb2031),
   }
 };

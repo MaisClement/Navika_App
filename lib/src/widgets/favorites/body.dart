@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:navika/src/api.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/departures/block.dart';
@@ -37,7 +35,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
     with SingleTickerProviderStateMixin {
   List schedules = [];
   String mode = '';
-  String error = '';
+  ApiStatus error = ApiStatus.ok;
   late Timer _timer;
 
   @override
@@ -58,46 +56,20 @@ class _FavoriteBodyState extends State<FavoriteBody>
   }
 
   Future<void> _getSchedules() async {
-    try {
-      if (mounted) {
-        final response = await http.get(Uri.parse(
-            '${globals.API_SCHEDULES}?id=${widget.id}&l=${widget.line}'));
-
-        if (response.statusCode == 200) {
-          final data = json.decode(response.body);
-
-          if (mounted) {
-            setState(() {
-              if (data['schedules'] != null) {
-                schedules = data['schedules'];
-                mode = data['schedules'][0]['mode'];
-              }
-              if (data['departures'] != null) {
-                schedules = data['departures'];
-                mode = data['departures'][0]['mode'];
-              }
-              error = '';
-            });
-          }
-        } else {
-          setState(() {
-            error = 'Récupération des informations impossible.';
-          });
-        }
-      }
-    } on SocketException {
-        
-        setState(() {
-        error = 'SocketException';
-      });
-    } on TimeoutException {
-        
-        setState(() {
-        error = 'TimeoutException';
-      });
-    } catch (e) {
+    NavikaApi navikaApi = NavikaApi();
+    Map result = await navikaApi.getSchedulesLines(widget.id, widget.line);
+    
+    if (mounted) {
       setState(() {
-        error = "Une erreur s'est produite.";
+        if (result['value']['schedules'] != null) {
+          schedules = result['value']['schedules'];
+          mode = result['value']['schedules'][0]['mode'];
+        }
+        if (result['value']['departures'] != null) {
+          schedules = result['value']['departures'];
+          mode = result['value']['departures'][0]['mode'];
+        }
+        error = result['status'];
       });
     }
   }
@@ -168,7 +140,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
               ),
             ),
           ),
-          if (error != '')
+          if (error != ApiStatus.ok)
             ErrorMessage(
               error: error,
             )
@@ -195,11 +167,6 @@ class _FavoriteBodyState extends State<FavoriteBody>
                   ),
                 Center(
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Theme.of(context).colorScheme.primaryContainer,
-                      foregroundColor: const Color(0xffffffff),
-                    ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                     child: const Text('Tous les horaires ➜'),
                     onPressed: () {
                       globals.schedulesStopArea = widget.id;
@@ -223,11 +190,6 @@ class _FavoriteBodyState extends State<FavoriteBody>
                   ),
                 Center(
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Theme.of(context).colorScheme.primaryContainer,
-                      foregroundColor: const Color(0xffffffff),
-                    ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                     child: const Text('Tous les horaires ➜'),
                     onPressed: () {
                       globals.schedulesStopArea = widget.id;

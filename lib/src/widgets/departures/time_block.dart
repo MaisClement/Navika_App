@@ -60,7 +60,7 @@ class TimeBlock extends StatelessWidget {
               padding: const EdgeInsets.only(
                   left: 3.0, top: 3.0, right: 3.0, bottom: 3.0),
               decoration: BoxDecoration(
-                color: const Color(0xff272727),
+                color: const Color(0xff000000), // const Color(0xff272727),
                 boxShadow: [
                   BoxShadow(
                     color: accentColor(context).withOpacity(0.1),
@@ -97,7 +97,7 @@ class TimeBlock extends StatelessWidget {
                               borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(5),
                                   bottomLeft: Radius.circular(5)),
-                              color: const Color(0xff272727),
+                              color: const Color(0xff000000), // const Color(0xff272727),
                               boxShadow: [
                                 BoxShadow(
                                   color: accentColor(context).withOpacity(0.1),

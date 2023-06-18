@@ -96,10 +96,6 @@ class _BottomGroupedDeparturesState extends State<BottomGroupedDepartures>
 
           Center(
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                foregroundColor: const Color(0xffffffff),
-              ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
               child: const Text('Fermer'),
               onPressed: () => Navigator.pop(context),
             ),  

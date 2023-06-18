@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 
-import 'package:navika/src/routing.dart';
-import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/screens/journeys.dart';
+
+import 'package:navika/src/widgets/utils/search_box.dart';
 
 class HomePannel extends StatelessWidget {
   final void Function()? tooglePanel;
@@ -17,7 +17,7 @@ class HomePannel extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          color: backgroundColor(context),
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -36,49 +36,18 @@ class HomePannel extends StatelessWidget {
             Container(
               height: 15,
             ),
-            Container(
-              margin: const EdgeInsets.only(left: 10, right: 10),
-              child: Material(
-                color: backgroundColor(context),
-                child: InkWell(
-                  onTap: () {
-                    globals.route['dep']['name'] = null;
-                    globals.route['dep']['id'] = null;
-                    globals.route['arr']['name'] = null;
-                    globals.route['arr']['id'] = null;
-                    RouteStateScope.of(context).go('/home/journeys');
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: SearchBox(
+                onTap: () {
+                  initJourney(
+                    null,
+                    null,
+                    context
+                  );
                   },
-                  borderRadius: BorderRadius.circular(500),
-                  child: Container(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(500),
-                      color: boxColor(context),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(NavikaIcons.search,
-                            color: boxContentColor(context), size: 25),
-                        Expanded(
-                          child: Container(
-                            margin: const EdgeInsets.only(
-                                left: 15, bottom: 11, top: 11, right: 15),
-                            child: Text(
-                              'Où allons nous ?',
-                              style: TextStyle(
-                                color: boxContentColor(context),
-                                fontSize: 16,
-                              ),
-                              maxLines: 1,
-                              softWrap: false,
-                              overflow: TextOverflow.fade,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                  icon: NavikaIcons.search,
+                  text: 'Où allons nous ?'
               ),
             ),
             Container(

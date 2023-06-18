@@ -62,7 +62,7 @@ class _BottomTerminusTrainState extends State<BottomTerminusTrain>
           const SizedBox(
             height: 10,
           ),
-          Text("Voulez-vous masquer les trains à l'arrivée ?",
+          Text('Voulez-vous masquer les trains à l’arrivée ?',
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
@@ -101,10 +101,6 @@ class _BottomTerminusTrainState extends State<BottomTerminusTrain>
 
           Center(
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                foregroundColor: const Color(0xffffffff),
-              ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
               child: const Text('Fermer'),
               onPressed: () => Navigator.pop(context),
             ),  

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/favorites/body.dart';
 
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/widgets/utils/search_box.dart';
 
 class Schedules extends StatefulWidget {
   const Schedules({super.key});
@@ -14,7 +15,7 @@ class Schedules extends StatefulWidget {
 }
 
 class _SchedulesState extends State<Schedules> {
-  final String title = 'Arrêts';
+  final String title = 'Horaires';
 
   List favs = globals.hiveBox?.get('stopsFavorites');
   void updateFavorites() {
@@ -34,41 +35,12 @@ class _SchedulesState extends State<Schedules> {
               const SizedBox(
                 height: 10,
               ),
-              InkWell(
-                onTap: () {
-                  RouteStateScope.of(context).go('/schedules/search');
-                },
-                borderRadius: BorderRadius.circular(500),
-                child: Container(
-                  padding: const EdgeInsets.only(left: 15.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(500),
-                    color: boxColor(context),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(NavikaIcons.search,
-                          color: boxContentColor(context), size: 25),
-                      Expanded(
-                        child: Container(
-                          margin: const EdgeInsets.only(
-                              left: 15, bottom: 11, top: 11, right: 15),
-                          child: Text(
-                            'Rechercher une gare, un arrêt ou une stations',
-                            style: TextStyle(
-                              color: boxContentColor(context),
-                              fontSize: 16,
-                            ),
-                            maxLines: 1,
-                            softWrap: false,
-                            overflow: TextOverflow.fade,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              SearchBox(
+                  onTap: () {
+                    RouteStateScope.of(context).go('/schedules/search');
+                  },
+                  icon: NavikaIcons.search,
+                  text: 'Rechercher une gare, un arrêt ou une stations'),
             ],
           ),
         ),
@@ -98,11 +70,6 @@ class _SchedulesState extends State<Schedules> {
                       height: 10,
                     ),
                     ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.primaryContainer,
-                        foregroundColor: const Color(0xffffffff),
-                      ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                       child: SizedBox(
                         width: 138,
                         child: Row(

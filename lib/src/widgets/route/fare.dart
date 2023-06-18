@@ -19,31 +19,29 @@ class Fare extends StatelessWidget {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          child: Row(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(right:5),
-                child: const Image(
-                  image: AssetImage('assets/img/ticket.png'),
-                  height: 25,
-                ),
+        Row(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(right:5),
+              child: const Image(
+                image: AssetImage('assets/img/ticket.png'),
+                height: 25,
               ),
-              Expanded(
-                child: Wrap(
-                  direction: Axis.horizontal,
-                  children: [
-                    Text('Prix du billet : ${journey['fare'].toStringAsFixed(2)}€',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500
-                        ),
+            ),
+            Expanded(
+              child: Wrap(
+                direction: Axis.horizontal,
+                children: [
+                  Text('Prix du billet : ${journey['fare'].toStringAsFixed(2)}€',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500
                       ),
-                  ],
-                )
+                    ),
+                ],
               )
-            ],
-          ),
+            )
+          ],
         ),
       ]
     ),

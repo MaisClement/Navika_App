@@ -19,7 +19,7 @@ class LinesIcones extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) => Stack(
     children: [
-      if (line['code'] == "TER")
+      if (line['code'] == 'TER')
         Container(
           width: size,
           height: size,

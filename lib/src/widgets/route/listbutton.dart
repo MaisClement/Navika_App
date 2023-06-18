@@ -55,7 +55,7 @@ class RouteListButton extends StatelessWidget {
                   ),
                   Container(
                     padding: const EdgeInsets.only(right: 5),
-                    color: backgroundColor(context),
+                    color: Theme.of(context).colorScheme.surface,
                     child: Row(
                       children: getDurationWidget(journey['duration'], context),
                     ),

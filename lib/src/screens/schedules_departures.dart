@@ -1,13 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/data.dart';
+import 'package:navika/src/api.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/utils.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style/style.dart';
@@ -26,7 +24,7 @@ class DepartureDetails extends StatefulWidget {
 
 class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerProviderStateMixin {
 
-  String error = '';
+  ApiStatus error = ApiStatus.ok;
   late Timer _timer;
   Map departure = globals.departure;
 
@@ -52,47 +50,21 @@ class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerPr
   }
 
   Future<void> _getDepature() async {
-    String url = '${globals.API_SCHEDULES}?id=${globals.schedulesStopArea}';
-    try {
-      if (mounted) {
-        final response = await http.get(Uri.parse(url));
-
-        if (response.statusCode == 200) {
-          final data = json.decode(response.body);
-
-          if (mounted) {
-            if (data['departures'] != null) {
-              for (var i = 0; i < data['departures'].length; i++) {
-                if (data['departures'][i]['id'] == widget.stopLine) {
-                  setState(() {
-                    departure = data['departures'][i];
-                    error = '';
-                  });
-                  break;
-                }
-              }
-            }
+    NavikaApi navikaApi = NavikaApi();
+    Map result = await navikaApi.getSchedules(globals.schedulesStopArea, false);
+    
+    if (mounted) {
+      if (result['value']['departures'] != null) {
+        for (var i = 0; i < result['value']['departures'].length; i++) {
+          if (result['value']['departures'][i]['id'] == widget.stopLine) {
+            setState(() {
+              departure = result['value']['departures'][i];
+              error = result['status'];
+            });
+            break;
           }
         }
-      } else {
-        setState(() {
-          error = 'Récupération des informations impossible.';
-        });
       }
-   } on SocketException {
-        
-        setState(() {
-        error = 'SocketException';
-      });
-    } on TimeoutException {
-        
-        setState(() {
-        error = 'TimeoutException';
-      });
-    } catch (e) {
-      setState(() {
-        error = "Une erreur s'est produite.";
-      });
     }
   }
 
@@ -123,7 +95,7 @@ class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerPr
           child: ListView(
             shrinkWrap: true,
             children: [
-              if (error != '')
+              if (error != ApiStatus.ok)
                 ErrorMessage(
                   error: error,
                 ),

@@ -9,16 +9,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:here_sdk/gestures.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:http/http.dart' as http;
 import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
+import 'package:navika/src/api.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bike/body.dart';
 import 'package:navika/src/widgets/bike/header.dart';
+import 'package:navika/src/widgets/error_block.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 
@@ -69,7 +70,7 @@ class _HomeState extends State<Home> {
   List markers = [];
   Map index = {};
   List favs = globals.hiveBox?.get('stopsFavorites') ?? [];
-  List address = globals.hiveBox?.get('AddressFavorites') ?? [];
+  List address = globals.hiveBox?.get('addressFavorites') ?? [];
 
   Future<void> _getLocation() async {
     bool serviceEnabled;
@@ -84,7 +85,6 @@ class _HomeState extends State<Home> {
     if (!globals.isSetLocation) {
       serviceEnabled = await location.serviceEnabled();
       if (!serviceEnabled) {
-        print({'INFO_', 'serviceEnabled'});
         serviceEnabled = await location.requestService();
         if (!serviceEnabled) {
           return;
@@ -123,28 +123,22 @@ class _HomeState extends State<Home> {
   Future<void> _getNearPoints() async {
     double zoom = _controller?.getZoomLevel() ?? 0;
 
-    String url =
-        '${globals.API_NEAR}?lat=${camGeoCoords.latitude == 0 ? globals.locationData?.latitude : camGeoCoords.latitude}&lon=${camGeoCoords.longitude == 0 ? globals.locationData?.longitude : camGeoCoords.longitude}&z=${zoom.toString()}';
-
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-
-      if (mounted) {
-        setState(() {
-          stopsNearby = data['stops'];
-
-          if (data['bike'] != null) {
-            bikeNearby = data['bike'];
-          } else {
-            bikeNearby = [];
-          }
-        });
-      }
-
-      _setMarker();
+    NavikaApi navikaApi = NavikaApi();
+    Map result = await navikaApi.getNearPoints(zoom, camGeoCoords);
+    
+    if (mounted) {
+      setState(() {
+        stopsNearby = result['value']['stops'];
+        
+        if (result['value']['bike'] != null) {
+          bikeNearby = result['value']['bike'];
+        } else {
+          bikeNearby = [];
+        }
+      });
     }
+
+    _setMarker();
   }
 
   void _clearMarker() {
@@ -221,40 +215,28 @@ class _HomeState extends State<Home> {
       setState(() {
         index = globals.index!;
       });
-    } else {
-      try {
-        final response = await http
-            .get(Uri.parse('${globals.API_INDEX}?v=${globals.VERSION}'));
-        if (response.statusCode == 200) {
-          final data = json.decode(response.body);
+      return;
+    } 
+    
+    NavikaApi navikaApi = NavikaApi();
+    Map result = await navikaApi.getIndex();
+    
+    if (mounted) {
+      setState(() {
+        index = result['value'];
+      });
+      globals.index = result['value'];
+    }
 
-          if (mounted) {
-            setState(() {
-              index = data;
-            });
-            globals.index = data;
-          }
-        } else {
-          FloatingSnackBar(
-            message: 'Récupération des actualités impossible.',
-            context: context,
-            textColor: Theme.of(context).colorScheme.primary,
-            textStyle: snackBarText,
-            duration: const Duration(milliseconds: 4000),
-            backgroundColor: const Color(0xff272727),
-          );
-        }
-      } catch (e) {
-        FloatingSnackBar(
-          message:
-              "Une erreur s'est produite lors de la récupération des actualités.",
-          context: context,
-          textColor: Theme.of(context).colorScheme.primary,
-          textStyle: snackBarText,
-          duration: const Duration(milliseconds: 4000),
-          backgroundColor: const Color(0xff272727),
-        );
-      }
+    if (result['status'] != ApiStatus.ok) {
+      FloatingSnackBar(
+        message: getErrorText(result['status']),
+        context: context,
+        textColor: mainColor(context),
+        textStyle: snackBarText,
+        duration: const Duration(milliseconds: 4000),
+        backgroundColor: const Color(0xff272727),
+      );
     }
   }
 
@@ -263,7 +245,7 @@ class _HomeState extends State<Home> {
 
     setState(() {
       favs = box.get('stopsFavorites');
-      address = box.get('AddressFavorites');
+      address = box.get('addressFavorites');
     });
   }
 
@@ -283,7 +265,7 @@ class _HomeState extends State<Home> {
               SlidingUpPanel(
                 parallaxEnabled: true,
                 parallaxOffset: 0.6,
-                color: backgroundColor(context),
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(24),
                   topRight: Radius.circular(24),
@@ -337,8 +319,8 @@ class _HomeState extends State<Home> {
                                 color: Colors.black,
                                 height: 18,
                               ),
-                              SizedBox(width: 10),
-                              Text(
+                              const SizedBox(width: 10),
+                              const Text(
                                 'Aucune connexion internet',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
@@ -375,7 +357,10 @@ class _HomeState extends State<Home> {
                           onTap: () {
                             RouteStateScope.of(context).go('/settings');
                           },
-                          child: const Icon(NavikaIcons.settings_filled),
+                          child: Icon(
+                            NavikaIcons.settings_filled,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                       ),
                     ),
@@ -392,9 +377,9 @@ class _HomeState extends State<Home> {
                         Theme.of(context).colorScheme.onSecondaryContainer,
                     child: _isInBox
                         ? Icon(NavikaIcons.localisation,
-                            color: tabLabelColor(context), size: 30)
+                            color: Theme.of(context).colorScheme.onSurface, size: 30)
                         : Icon(NavikaIcons.localisation_null,
-                            color: tabLabelColor(context), size: 30),
+                            color: Theme.of(context).colorScheme.onSurface, size: 30),
                     onPressed: () {
                       _zoomOn();
                       _closePanel();
@@ -484,8 +469,8 @@ class _HomeState extends State<Home> {
       } else if (globals.hiveBox?.get('latitude') != null &&
           globals.hiveBox?.get('longitude') != null) {
         // Opening App
-        geoCoords = GeoCoordinates(globals.hiveBox.get('latitude') ?? 48.859481,
-            globals.hiveBox.get('longitude') ?? 2.346711);
+        geoCoords = GeoCoordinates(globals.hiveBox.get('latitude'),
+            globals.hiveBox.get('longitude'));
         distanceToEarthInMeters = 10000;
       } else {
         geoCoords = GeoCoordinates(48.859481, 2.346711);
@@ -575,7 +560,7 @@ class _HomeState extends State<Home> {
               metadata.getDouble('lat') ?? 0, metadata.getDouble('lon') ?? 0);
           _controller?.zoomTo(geoCoords);
           panelController.animatePanelToSnapPoint();
-          RouteStateScope.of(context).go('/stops/${metadata.getString("id")}');
+          RouteStateScope.of(context).go('/stops/${metadata.getString('id')}');
           return;
         } else if (metadata.getString('type') == 'bike') {
           globals.schedulesStopArea = metadata.getString('id') ?? '';
@@ -584,7 +569,7 @@ class _HomeState extends State<Home> {
               metadata.getDouble('lat') ?? 0, metadata.getDouble('lon') ?? 0);
           _controller?.zoomTo(geoCoords);
           panelController.animatePanelToSnapPoint();
-          RouteStateScope.of(context).go('/bike/${metadata.getString("id")}');
+          RouteStateScope.of(context).go('/bike/${metadata.getString('id')}');
           return;
         }
       }
@@ -659,13 +644,11 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _initializeConnectivity() async {
-    print({'INFO_test'});
     var connectivityResult = await Connectivity().checkConnectivity();
     _setConnectivity(connectivityResult);
   }
 
   void _setConnectivity(connectivity) {
-    print({'INFO_', connectivity});
     setState(() {
       isConnected = !(connectivity == ConnectivityResult.none);
     });

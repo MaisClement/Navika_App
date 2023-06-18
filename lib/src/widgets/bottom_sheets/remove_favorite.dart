@@ -109,7 +109,7 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite>
                       FloatingSnackBar(
                         message: 'Favoris supprimé.',
                         context: context,
-                        textColor: Theme.of(context).colorScheme.primary,
+                        textColor: mainColor(context),
                         textStyle: snackBarText,
                         duration: const Duration(milliseconds: 4000),
                         backgroundColor: const Color(0xff272727),
@@ -118,7 +118,7 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite>
                       FloatingSnackBar(
                         message: 'Erreur lors de la suppression du favori.',
                         context: context,
-                        textColor: Theme.of(context).colorScheme.primary,
+                        textColor: mainColor(context),
                         textStyle: snackBarText,
                         duration: const Duration(milliseconds: 4000),
                         backgroundColor: const Color(0xff272727),
@@ -129,11 +129,6 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite>
               ),
               Center(
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        Theme.of(context).colorScheme.primaryContainer,
-                    foregroundColor: const Color(0xffffffff),
-                  ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                   child: const Text('Annuler'),
                   onPressed: () => Navigator.pop(context),
                 ),

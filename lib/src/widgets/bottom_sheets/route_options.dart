@@ -1,11 +1,9 @@
-import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
-import 'package:navika/src/screens/schedules_details.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/utils/radio_tiles.dart';
-import 'package:navika/src/widgets/icons/icons.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/widgets/utils/switch_mode.dart';
 
 class BottomRouteSettings extends StatefulWidget {
   const BottomRouteSettings({
@@ -18,21 +16,44 @@ class BottomRouteSettings extends StatefulWidget {
 
 class _BottomRouteSettingsState extends State<BottomRouteSettings>
     with SingleTickerProviderStateMixin {
-  String travelerType = globals.hiveBox.get('TravelerType') ?? 'standard';
+  String travelerType = globals.hiveBox.get('travelerType');
 
-  setTravelerType(String type) {
-    globals.hiveBox.put('TravelerType', type);
+  List allowedModes = globals.hiveBox.get('allowedModes');
+
+  final MaterialStateProperty<Icon?> thumbIcon =
+      MaterialStateProperty.resolveWith<Icon?>(
+    (Set<MaterialState> states) {
+      if (states.contains(MaterialState.selected)) {
+        return const Icon(Icons.check);
+      }
+      return const Icon(Icons.close);
+    },
+  );
+
+  void setTravelerType(String type) {
+    globals.hiveBox.put('travelerType', type);
     setState(() {
       travelerType = type;
     });
   }
 
+  void handleChangeMode(String type, bool value) {
+    if (value) {
+      setState(() {
+        allowedModes.add(type);
+      });
+    } else {
+      setState(() {
+        allowedModes.removeWhere((item) => item == type);
+      });
+    }
+    globals.hiveBox.put('allowedModes', allowedModes);
+  }
+
   @override
   Widget build(BuildContext context) => Container(
         padding: EdgeInsets.only(
-            top: MediaQueryData.fromView(WidgetsBinding.instance.window)
-                .padding
-                .top),
+            top: MediaQueryData.fromView(WidgetsBinding.instance.window).padding.top),
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(5), topRight: Radius.circular(5)),
@@ -49,9 +70,8 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
               left: 20.0, top: 30.0, right: 20.0, bottom: 10.0),
           child: ListView(
             children: [
-              
               Text(
-                "Options d'itinéraires",
+                'Options d’itinéraires',
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.w600,
@@ -65,17 +85,15 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
               const SizedBox(
                 height: 10,
               ),
-              Wrap(children: [
-                Text(
-                  'Profil de voyageur',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
-                    color: accentColor(context),
-                  ),
+              Text(
+                'Profil de voyageur',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Segoe Ui',
+                  color: accentColor(context),
                 ),
-              ]),
+              ),
               const SizedBox(
                 height: 10,
               ),
@@ -105,14 +123,62 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
               const SizedBox(
                 height: 30,
               ),
+              Divider(
+                color: accentColor(context),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Modes de transport',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Segoe Ui',
+                  color: accentColor(context),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SwitchMode(
+                name: 'Train et RER',
+                value: allowedModes.contains('rail'),
+                icon: NavikaIcons.train_rer,
+                function: (bool value) {
+                  handleChangeMode('rail', value);
+                },
+              ),
+              SwitchMode(
+                name: 'Métro',
+                value: allowedModes.contains('metro'),
+                icon: NavikaIcons.metro,
+                function: (bool value) {
+                  handleChangeMode('metro', value);
+                },
+              ),
+              SwitchMode(
+                name: 'Tramway',
+                value: allowedModes.contains('tram'),
+                icon: NavikaIcons.tram,
+                function: (bool value) {
+                  handleChangeMode('tram', value);
+                },
+              ),
+              SwitchMode(
+                name: 'Bus',
+                value: allowedModes.contains('bus'),
+                icon: NavikaIcons.bus,
+                function: (bool value) {
+                  handleChangeMode('bus', value);
+                },
+              ),
+              const SizedBox(
+                height: 30,
+              ),
               Center(
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        Theme.of(context).colorScheme.primaryContainer,
-                    foregroundColor: const Color(0xffffffff),
-                  ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                  child: const Text('Annuler'),
+                  child: const Text('Fermer'),
                   onPressed: () => Navigator.pop(context),
                 ),
               ),

@@ -18,7 +18,7 @@ class SchedulesPannel extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: backgroundColor(context),
+          color: Theme.of(context).colorScheme.surface,
           boxShadow: [
             BoxShadow(
               color: accentColor(context).withOpacity(0.1),

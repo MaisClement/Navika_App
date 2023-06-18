@@ -11,6 +11,10 @@ IconData getPlaceIcon(type){
     return NavikaIcons.marker;
   } else if (type == 'administrative_region'){
     return NavikaIcons.city;
+  } else if (type == 'current_pos'){
+    return NavikaIcons.localisation;
+  } else if (type == 'history'){
+    return NavikaIcons.history;
   } else {
     return NavikaIcons.university;
   } 

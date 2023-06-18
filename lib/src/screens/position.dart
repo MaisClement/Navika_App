@@ -21,7 +21,7 @@ class _PositionState extends State<Position> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: mainColor(context),
           title: Text(globals.NAME, 
             style: appBarTitle.copyWith(color: Colors.white)
           ),
@@ -35,7 +35,7 @@ class _PositionState extends State<Position> {
             },
           ),
         ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: mainColor(context),
         body: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -69,7 +69,7 @@ class _PositionState extends State<Position> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.onPrimary,
-                    foregroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: mainColor(context),
                   ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                   child: const Text('Autoriser'),
                   onPressed: () async {
@@ -88,7 +88,7 @@ class _PositionState extends State<Position> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.onPrimary,
-                    foregroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: mainColor(context),
                   ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                   child: const Text('Ne pas autoriser'),
                   onPressed: () async {
@@ -102,7 +102,7 @@ class _PositionState extends State<Position> {
                 color: Colors.white,
               ),
               const Text(
-                "Navika utilise votre position, uniquement lors que l'application est ouverte pour afficher votre position sur la carte ou vous proposez les points d'arrêts à proximité.",
+                'Navika utilise votre position, uniquement lors que l’application est ouverte pour afficher votre position sur la carte ou vous proposez les points d’arrêts à proximité.',
                 style: TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,
@@ -110,7 +110,7 @@ class _PositionState extends State<Position> {
               ),
               const Text(''),
               const Text(
-                "Votre position est utilisé uniquement lorsque vous en avez besoin et n'est pas sauvegardé.",
+                'Votre position est utilisé uniquement lorsque vous en avez besoin et n’est pas sauvegardé.',
                 style: TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,

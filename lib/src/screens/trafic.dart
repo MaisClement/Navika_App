@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:navika/src/api.dart';
 
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
@@ -27,7 +25,7 @@ class _TraficState extends State<Trafic> {
 
   bool state = false;
   List trafic = [];
-  String error = '';
+  ApiStatus error = ApiStatus.ok;
 
   Future<void> _getTrafic() async {
     if (globals.trafic.isNotEmpty) {
@@ -37,39 +35,15 @@ class _TraficState extends State<Trafic> {
       });
     }
 
-    try {
-      final response = await http.get(Uri.parse(globals.API_TRAFIC));
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-
-        globals.trafic = data['trafic'];
-
-        if (mounted) {
-          setState(() {
-            state = true;
-            trafic = data['trafic'];
-            error = '';
-          });
-        }
-      } else {
-        setState(() {
-          error = 'Récupération des informations impossible.';
-        });
-      }
-    } on SocketException {
-        
-        setState(() {
-        error = 'SocketException';
-      });
-    } on TimeoutException {
-        
-        setState(() {
-        error = 'TimeoutException';
-      });
-    } catch (e) {
+    NavikaApi navikaApi = NavikaApi();
+    Map result = await navikaApi.getTrafic([]);
+    
+    if (mounted) {
       setState(() {
-        error = "Une erreur s'est produite.";
+        state = true;
+        trafic = result['value']['trafic'];
+        globals.trafic = result['value']['trafic'];
+        error = result['status'];
       });
     }
   }
@@ -79,7 +53,7 @@ class _TraficState extends State<Trafic> {
         appBar: AppBar(
           title: Text(title, style: appBarTitle),
         ),
-        body: error != ''
+        body: error != ApiStatus.ok
             ? ErrorBlock(
                 error: error,
               )
@@ -385,7 +359,7 @@ class _TraficState extends State<Trafic> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-        (_) => {_refreshIndicatorKey.currentState?.show()});
+        (_) => _refreshIndicatorKey.currentState?.show());
   }
 
   @override

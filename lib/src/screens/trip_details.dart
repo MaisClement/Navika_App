@@ -1,12 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';  
+import 'package:navika/src/api.dart';
 
-import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/error_message.dart';
@@ -31,7 +27,7 @@ class TripDetails extends StatefulWidget {
 class _TripDetailsState extends State<TripDetails>
     with SingleTickerProviderStateMixin {
   String title = 'Trajet';
-  String error = '';
+  ApiStatus error = ApiStatus.ok;
   Map? vehicleJourney;
 
   @override
@@ -43,41 +39,17 @@ class _TripDetailsState extends State<TripDetails>
   }
 
   Future<void> _getVehicleJourneys() async {
-    print('${globals.API_VEHICLE_JOURNEY}?id=${widget.tripId}');
-    try {
-      if (mounted) {
-        final response = await http.get(
-            Uri.parse('${globals.API_VEHICLE_JOURNEY}?id=${widget.tripId}'));
-
-        if (response.statusCode == 200) {
-          final data = json.decode(response.body);
-
-          if (mounted) {
-            setState(() {
-              if (data['vehicle_journey'] != null) {
-                vehicleJourney = data['vehicle_journey'];
-              } else {
-                error = 'Récupération des informations impossible.';
-              }
-            });
-          }
+    NavikaApi navikaApi = NavikaApi();
+    Map result = await navikaApi.getVehicleJourney(widget.tripId);
+    
+    if (mounted) {
+      setState(() {
+        if (result['value']['vehicle_journey'] != null) {
+          vehicleJourney = result['value']['vehicle_journey'];
+          error = result['status'];
         } else {
-          setState(() {
-            error = 'Détails du trajet non disponible';
-          });
+          error = ApiStatus.unknownException;
         }
-      }
-    } on SocketException {
-      setState(() {
-        error = 'SocketException';
-      });
-    } on TimeoutException {
-      setState(() {
-        error = 'TimeoutException';
-      });
-    } catch (e) {
-      setState(() {
-        error = "Une erreur s'est produite.";
       });
     }
   }
@@ -100,16 +72,11 @@ class _TripDetailsState extends State<TripDetails>
         status = TripBlockStatus.terminus;
       }
 
-      TripBlockEffect effect = TripBlockEffect.none;
       String time = getTime(stop['stop_time']['arrival_time']);
       String newtime = '';
 
       if (stop['disruption'] != null) {
-        if (stop['disruption']['departure_state'] == 'added') {
-          effect = TripBlockEffect.added;
-        } else if (stop['disruption']['departure_state'] == 'deleted') {
-          effect = TripBlockEffect.deleted;
-        } else if (stop['disruption']['departure_state'] == 'delayed') {
+        if (stop['disruption']['departure_state'] == 'delayed' || stop['disruption']['arrival_state'] == 'delayed') {
           if (status == TripBlockStatus.origin) {
             time = getTime(stop['disruption']['base_departure_time']);
             newtime = getTime(stop['disruption']['departure_time']);
@@ -117,7 +84,6 @@ class _TripDetailsState extends State<TripDetails>
             time = getTime(stop['disruption']['base_arrival_time']);
             newtime = getTime(stop['disruption']['arrival_time']);
           }
-          effect = TripBlockEffect.delayed;
         }
       }
 
@@ -128,7 +94,8 @@ class _TripDetailsState extends State<TripDetails>
           name: stop['name'],
           type: stop['type'],
           message: stop['disruption']?['message'],
-          effect: effect,
+          departureState: stop['disruption']?['departure_state'],
+          arrivalState: stop['disruption']?['arrival_state'],
           status: status,
         ),
       );
@@ -148,7 +115,7 @@ class _TripDetailsState extends State<TripDetails>
               Text(title, style: appBarTitle),
               if (vehicleJourney != null)
                 Text(
-                    "N°${vehicleJourney?['informations']['name']} - ${vehicleJourney?['informations']['direction']['name']}",
+                    'N°${vehicleJourney?['informations']['name']} - ${vehicleJourney?['informations']['direction']['name']}',
                     style: appBarSubtitle),
             ],
           ),
@@ -156,7 +123,7 @@ class _TripDetailsState extends State<TripDetails>
         body: ListView(
           shrinkWrap: true,
           children: [
-            if (error != '')
+            if (error != ApiStatus.ok)
               ErrorMessage(
                 error: error,
               )

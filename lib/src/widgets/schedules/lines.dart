@@ -32,7 +32,7 @@ class SchedulesLines extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              '➜ ${terminus["name"]}',
+                              '➜ ${terminus['name']}',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,

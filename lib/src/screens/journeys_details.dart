@@ -8,8 +8,6 @@ import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
 import 'package:navika/src/data.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
-import 'package:navika/src/screens/home.dart';
-import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/route/body.dart';
 import 'package:navika/src/widgets/route/header.dart';
@@ -20,14 +18,14 @@ import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/controller/here_map_controller.dart';
 import 'package:navika/src/style/style.dart';
 
-class RouteDetails extends StatefulWidget {
-  const RouteDetails({super.key});
+class JourneysDetails extends StatefulWidget {
+  const JourneysDetails({super.key});
 
   @override
-  State<RouteDetails> createState() => _RouteDetailsState();
+  State<JourneysDetails> createState() => _JourneysDetailsState();
 }
 
-class _RouteDetailsState extends State<RouteDetails> {
+class _JourneysDetailsState extends State<JourneysDetails> {
   HereController? _controller;
   PanelController panelController = PanelController();
 
@@ -166,7 +164,7 @@ class _RouteDetailsState extends State<RouteDetails> {
               SlidingUpPanel(
                 parallaxEnabled: true,
                 parallaxOffset: 0.6,
-                color: backgroundColor(context),
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(10),
                   topRight: Radius.circular(10),
@@ -195,7 +193,7 @@ class _RouteDetailsState extends State<RouteDetails> {
                   opacity: getAppBarOpacity(_position),
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    color: Theme.of(context).colorScheme.surface,
                     child: SafeArea(
                       child: Container(
                         margin: const EdgeInsets.only(
@@ -225,13 +223,15 @@ class _RouteDetailsState extends State<RouteDetails> {
                       elevation: 4.0,
                       shadowColor:
                           Colors.black.withOpacity(getOpacity(_position)),
-                      color: Theme.of(context).colorScheme.onSecondaryContainer,
+                      color: Theme.of(context).colorScheme.surface,
                       child: InkWell(
                         borderRadius: BorderRadius.circular(500),
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child: const Icon(Icons.arrow_back),
+                        child: Icon(Icons.arrow_back, 
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
                     ),
                   ),
@@ -247,9 +247,9 @@ class _RouteDetailsState extends State<RouteDetails> {
                         Theme.of(context).colorScheme.onSecondaryContainer,
                     child: _isInBox
                         ? Icon(NavikaIcons.localisation,
-                            color: tabLabelColor(context), size: 30)
+                            color: Theme.of(context).colorScheme.onSurface, size: 30)
                         : Icon(NavikaIcons.localisation_null,
-                            color: tabLabelColor(context), size: 30),
+                            color: Theme.of(context).colorScheme.onSurface, size: 30),
                     onPressed: () {
                       _zoomOn();
                       closePanel();

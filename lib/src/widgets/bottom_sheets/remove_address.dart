@@ -4,7 +4,7 @@ import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style/style.dart';
 
 int getAddressPos(id) {
-  List favs = globals.hiveBox?.get('AddressFavorites') ?? [];
+  List favs = globals.hiveBox?.get('addressFavorites') ?? [];
 
   if (favs.isNotEmpty) {
     var i = 0;
@@ -19,26 +19,26 @@ int getAddressPos(id) {
 }
 
 void removeAddress(widget, context) {
-  List list = globals.hiveBox.get('AddressFavorites');
+  List list = globals.hiveBox.get('addressFavorites');
   int pos = getAddressPos(widget.id);
 
   if (pos >= 0) {
     list.removeAt(pos);
-    globals.hiveBox.put('AddressFavorites', list);
+    globals.hiveBox.put('addressFavorites', list);
     Navigator.pop(context);
     FloatingSnackBar(
       message: 'Adresse supprimé.',
       context: context,
-      textColor: Theme.of(context).colorScheme.primary,
+      textColor: mainColor(context),
       textStyle: snackBarText,
       duration: const Duration(milliseconds: 4000),
       backgroundColor: const Color(0xff272727),
     );
   } else {
     FloatingSnackBar(
-      message: "Erreur lors de la suppression de l'adresse.",
+      message: 'Erreur lors de la suppression de l’adresse.',
       context: context,
-      textColor: Theme.of(context).colorScheme.primary,
+      textColor: mainColor(context),
       textStyle: snackBarText,
       duration: const Duration(milliseconds: 4000),
       backgroundColor: const Color(0xff272727),
@@ -60,7 +60,7 @@ class BottomRemoveAddress extends StatefulWidget {
 
 class _BottomRemoveAddressState extends State<BottomRemoveAddress>
     with SingleTickerProviderStateMixin {
-  List addressFavorites = globals.hiveBox.get('AddressFavorites') ?? [];
+  List addressFavorites = globals.hiveBox.get('addressFavorites') ?? [];
 
   @override
   Widget build(BuildContext context) => Container(
@@ -125,11 +125,6 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress>
               ),
               Center(
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        Theme.of(context).colorScheme.primaryContainer,
-                    foregroundColor: const Color(0xffffffff),
-                  ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                   child: const Text('Annuler'),
                   onPressed: () => Navigator.pop(context),
                 ),

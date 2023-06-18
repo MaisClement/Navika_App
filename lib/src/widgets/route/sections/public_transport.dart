@@ -3,7 +3,6 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
-import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 
@@ -159,7 +158,7 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                               ),
                               if (widget.section['stop_date_times'].length > 2)
                                 Text(
-                                  '${(widget.section["stop_date_times"].length - 2)} arrêts • ${getDuration(widget.section['duration'])}',
+                                  '${(widget.section['stop_date_times'].length - 2)} arrêts • ${getDuration(widget.section['duration'])}',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
@@ -221,7 +220,7 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
           ),
           Container(
             padding: const EdgeInsets.only(right: 15, top: 10),
-            color: backgroundColor(context),
+            color: Theme.of(context).colorScheme.surface,
             child: Row(
               children: [
                 Text(getStringTime(widget.section['departure_date_time']),

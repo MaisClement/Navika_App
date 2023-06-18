@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/icons/navika_icons_icons.dart';
-import 'package:navika/src/style/style.dart';
-import 'package:navika/src/utils.dart';
 
 class Emission extends StatelessWidget {
   final Map journey;
@@ -22,29 +19,26 @@ class Emission extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Container(
-            child: Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(right: 5),
-                  child: const Image(
-                    image: AssetImage('assets/img/leaf.png'),
-                    height: 25,
-                  ),
+          Row(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(right: 5),
+                child: const Image(
+                  image: AssetImage('assets/img/leaf.png'),
+                  height: 25,
                 ),
-                Expanded(
-                    child: Wrap(
-                  direction: Axis.horizontal,
-                  children: [
-                    Text(
-                      'CO₂ emis pour ce trajet : ${journey['co2_emission'].toStringAsFixed(2)}g',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ))
-              ],
-            ),
+              ),
+              Expanded(
+                  child: Wrap(
+                direction: Axis.horizontal,
+                children: [
+                  Text(
+                    'CO₂ emis pour ce trajet : ${journey['co2_emission'].toStringAsFixed(2)}g',
+                    style:const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ))
+            ],
           ),
         ]),
       );

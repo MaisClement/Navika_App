@@ -26,7 +26,7 @@ class BottomSchedules extends StatefulWidget {
 class _BottomSchedulesState extends State<BottomSchedules>
     with SingleTickerProviderStateMixin {
 
-  String displayMode = globals.hiveBox.get('displayMode') ?? 'default';
+  String displayMode = globals.hiveBox.get('displayMode');
 
 	@override
 	Widget build(BuildContext context) => Container(
@@ -67,7 +67,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
           Row(
             children: [
               Expanded(
-                child: Text('À l\'heure.',
+                child: Text('À l’heure',
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
@@ -82,8 +82,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   base: getDt(),
                   state: const ['ontime'],
                   late: 0,
-                  // ignore: prefer_single_quotes
-                  track: "B",
+                  track: 'B',
                   update: widget.update, // INUTILE SI disabled
                   disabled: true,
                 )
@@ -101,7 +100,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
           Row(
             children: [
               Expanded(
-                child: Text('Retardé.',
+                child: Text('Retardé',
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
@@ -134,7 +133,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
           Row(
             children: [
               Expanded(
-                child: Text('Supprimé.',
+                child: Text('Supprimé',
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
@@ -167,7 +166,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
           Row(
             children: [
               Expanded(
-                child: Text('Horaire théorique.',
+                child: Text('Théorique',
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
@@ -197,7 +196,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
           const SizedBox(
             height: 30,
           ),
-          Text("Définissez le mode d'affichage que vous préferez.",
+          Text('Définissez le mode d’affichage que vous préferez.',
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w600,
@@ -209,7 +208,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
             color: accentColor(context),
           ),
           RadioListTile(
-            title: const Text("Temps d'attente"),
+            title: const Text('Temps d’attente'),
             value: 'minutes', 
             groupValue: displayMode, 
             onChanged: (value){
@@ -247,10 +246,6 @@ class _BottomSchedulesState extends State<BottomSchedules>
 
           Center(
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                foregroundColor: const Color(0xffffffff),
-              ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
               child: const Text('Fermer'),
               onPressed: () => Navigator.pop(context),
             ),  

@@ -25,25 +25,29 @@ class _SettingsState extends State<Settings> {
 
   void update() {
     setState(() {
-      displayMode = globals.hiveBox.get('displayMode') ?? 'default';
-      hideTerminusTrain = globals.hiveBox.get('hideTerminusTrain') ?? false;
-      ungroupDepartures = globals.hiveBox.get('ungroupDepartures') ?? false;
-      allowGps = globals.hiveBox.get('allowGps') ?? false;
+      displayMode = globals.hiveBox.get('displayMode');
+      hideTerminusTrain = globals.hiveBox.get('hideTerminusTrain');
+      ungroupDepartures = globals.hiveBox.get('ungroupDepartures');
+      allowGps = globals.hiveBox.get('allowGps');
     });
   }
 
-  String displayMode = globals.hiveBox.get('displayMode') ?? 'default';
-  bool hideTerminusTrain = globals.hiveBox.get('hideTerminusTrain') ?? false;
-  bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures') ?? false;
-  bool allowGps = globals.hiveBox.get('allowGps') ?? false;
+  String displayMode = globals.hiveBox.get('displayMode');
+  bool hideTerminusTrain = globals.hiveBox.get('hideTerminusTrain');
+  bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures');
+  bool allowGps = globals.hiveBox.get('allowGps');
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          title: const Image(
-            image: AssetImage('assets/img/logo/logo_large.png'),
-            height: 22
+          backgroundColor: mainColor(context),
+          title: const Text(
+            'Options',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Segoe Ui',
+                  color: Colors.white,
+            ),
           ),
           leading: GestureDetector(
             child: const Icon(
@@ -55,26 +59,38 @@ class _SettingsState extends State<Settings> {
             },
           ),
         ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: mainColor(context),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(15.0),
-              child: Text(
-                'Options',
-                style: TextStyle(
-                  fontFamily: 'Segoe Ui',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
-              ),
-            ),
+
             SettingsButton(
-              name: "Temps d'attente",
+              name: 'Options d’itinéraires',
+              icon: NavikaIcons.options,
+              function: () {
+                showModalBottomSheet<void>(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: bottomSheetBorder,
+                    ),
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (BuildContext context) => const BottomRouteSettings());
+              },
+            ),
+
+            SettingsButton(
+              name: 'Position',
+              sub: allowGps ? 'Autorisé' : 'Interdit',
+              function: () {
+                RouteStateScope.of(context).go('/position');
+              },
+              icon: NavikaIcons.localisation,
+            ),
+            
+            SettingsButton(
+              name: 'Temps d’attente',
               sub: displayMode == 'minutes'
-                  ? "Temps d'attente"
+                  ? 'Temps d’attente'
                   : displayMode == 'hour'
                       ? 'Heure de passage'
                       : 'Défaut',
@@ -125,33 +141,16 @@ class _SettingsState extends State<Settings> {
               },
             ),
 
-            SettingsButton(
-              name: 'Position',
-              sub: allowGps ? 'Autorisé' : 'Interdit',
-              function: () {
-                RouteStateScope.of(context).go('/position');
-              },
-              icon: NavikaIcons.localisation,
-            ),
-
-            SettingsButton(
-              name: "Options d'itinéraires",
-              icon: NavikaIcons.options,
-              function: () {
-                showModalBottomSheet<void>(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: bottomSheetBorder,
-                    ),
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (BuildContext context) =>
-                        BottomRouteSettings());
-              },
-            ),
-
             // ------------
 
             const Spacer(),
+            const Padding(
+              padding: EdgeInsets.all(20),
+              child: Image(
+                image: AssetImage('assets/img/logo/logo_large.png'),
+                height: 30
+              ),
+            ),
             SettingsLink(
               name: 'Github du projet ›',
               url: 'https://github.com/MaisClement/Navika_App',
@@ -188,9 +187,9 @@ class _SettingsState extends State<Settings> {
               width: double.infinity,
               padding: const EdgeInsets.only(
                   left: 20, right: 20, top: 10, bottom: 10),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
                     '${globals.NAME} 2023 • Version ${globals.VERSION}',
                     style: TextStyle(

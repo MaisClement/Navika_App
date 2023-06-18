@@ -35,46 +35,11 @@ hereIcon(context) {
   return 'assets/img/here/HERE_logo_full.svg';
 }
 
-topBarColor(context) {
-  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return const Color(0xff000000);
-  }
-  return const Color(0xffffffff);
-}
-
-backgroundColor(context) {
-  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return const Color(0xff000000);
-  }
-  return const Color(0xffffffff);
-}
-
 accentColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return const Color(0xffffffff);
   }
-  return Theme.of(context).colorScheme.primary;
-}
-
-boxColor(context) {
-  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return Theme.of(context).colorScheme.primaryContainer.withOpacity(0.6);
-  }
-  return Theme.of(context).colorScheme.primaryContainer.withOpacity(0.2);
-}
-
-boxContentColor(context) {
-  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return Colors.white.withOpacity(0.7);
-  }
-  return Theme.of(context).colorScheme.primary;
-}
-
-tabLabelColor(context) {
-  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return Colors.white;
-  }
-  return Colors.black;
+  return mainColor(context);
 }
 
 walkingColor(context) {
@@ -88,14 +53,7 @@ routeBhColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return Colors.grey[800];
   }
-  return Color(0xffebf1f4);
-}
-
-traficBlockColor(context) {
-  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return const Color(0xff000000);
-  }
-  return const Color(0xffeeeeee);
+  return const Color(0xffebf1f4);
 }
 
 schedulesBlock(context, Color color) {
@@ -116,7 +74,7 @@ schedulesText(context, Color color) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return color;
   }
-  return Theme.of(context).colorScheme.primary;
+  return mainColor(context);
 }
 
 departureList(context, Color color) {
@@ -130,7 +88,7 @@ departureListNoColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return const Color(0xff222222);
   }
-  return Theme.of(context).colorScheme.primary.withOpacity(0.1);
+  return mainColor(context).withOpacity(0.1);
 }
 
 schedulesIsDark(context, color) {
@@ -159,5 +117,5 @@ Color getActiveColor(context, status) {
   if (status == TripBlockStatus.inactive){
     return const Color(0xff808080);
   }  
-  return Theme.of(context).colorScheme.primary;
+  return mainColor(context);
 }

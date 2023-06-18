@@ -11,7 +11,7 @@ class PlacesEmpty extends StatelessWidget {
 	Widget build(BuildContext context) => Container(
     margin: const EdgeInsets.only(top:40.0),
     child: Center(
-      child: Text('🔭 Nous n\'avons rien trouvé...', 
+      child: Text('🔭 Nous n’avons rien trouvé...', 
         style: TextStyle(
           color: accentColor(context),
           fontWeight: FontWeight.w700

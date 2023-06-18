@@ -21,7 +21,7 @@ NavigationBar getNavigationBar(context) {
             selectedIcon: Icon(NavikaIcons.home_filled),
           ),
           NavigationDestination(
-            label: 'Arrêts',
+            label: 'Horaires',
             icon: Icon(NavikaIcons.clock),
             selectedIcon: Icon(NavikaIcons.clock_filled),
           ),

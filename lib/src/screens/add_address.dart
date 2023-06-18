@@ -1,19 +1,15 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:navika/src/api.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
-
-import 'package:navika/src/routing.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/routing.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/places/listbutton.dart';
-import 'package:flutter/foundation.dart';
 import 'package:navika/src/widgets/places/load.dart';
 
 class AddAddress extends StatefulWidget {
@@ -37,14 +33,14 @@ class _AddAddressState extends State<AddAddress> {
   FocusNode labelFieldNode = FocusNode();
   String search = '';
   String label = '';
-  String error = '';
+  ApiStatus error = ApiStatus.ok;
   int flag = 0;
   bool isLoading = false;
   bool isDefined = false;
   Map address = {};
   List places = [];
 
-  List addressFavorites = globals.hiveBox.get('AddressFavorites') ?? [];
+  List addressFavorites = globals.hiveBox.get('addressFavorites') ?? [];
 
   handleSetAddress(place) {
     setState(() {
@@ -73,14 +69,14 @@ class _AddAddressState extends State<AddAddress> {
       FloatingSnackBar(
         message: 'Adresse ou libellé non défini',
         context: context,
-        textColor: Theme.of(context).colorScheme.primary,
+        textColor: mainColor(context),
         textStyle: snackBarText,
         duration: const Duration(milliseconds: 4000),
         backgroundColor: const Color(0xff272727),
       );
     return;
     }
-    List list = globals.hiveBox.get('AddressFavorites');
+    List list = globals.hiveBox.get('addressFavorites');
     list.add({
       'id': address['id'],
       'name': address['name'],
@@ -88,13 +84,13 @@ class _AddAddressState extends State<AddAddress> {
           ? label
           : widget.predefineType,
     });
-    globals.hiveBox.put('AddressFavorites', list);
+    globals.hiveBox.put('addressFavorites', list);
     Navigator.pop(context);
     RouteStateScope.of(context).go('/home');
     FloatingSnackBar(
       message: 'Nouvelle adresse ajouté.',
       context: context,
-      textColor: Theme.of(context).colorScheme.primary,
+      textColor: mainColor(context),
       textStyle: snackBarText,
       duration: const Duration(milliseconds: 4000),
       backgroundColor: const Color(0xff272727),
@@ -102,62 +98,20 @@ class _AddAddressState extends State<AddAddress> {
   }
 
   Future<void> _getPlaces() async {
-    String url = '';
     flag++;
-
-    bool allowGps = await globals.hiveBox.get('allowGps') ?? false;
-    if (allowGps &&
-        (globals.locationData?.latitude != null ||
-            globals.locationData?.longitude != null) &&
-        search != '') {
-      url =
-          '${globals.API_PLACES}?q=$search&lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
-    } else if (search != '') {
-      url = '${globals.API_PLACES}?q=$search&flag=${flag.toString()}';
-    } else if (allowGps &&
-        globals.locationData?.latitude != null &&
-        globals.locationData?.longitude != null) {
-      url = '${globals.API_PLACES}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
-    } else {
-      url = '${globals.API_PLACES}?q=&flag=${flag.toString()}';
-    }
 
     setState(() {
       isLoading = true;
     });
 
-    try {
-      final response = await http.get(Uri.parse(url));
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        if (mounted) {
-          if (data['flag'] == flag) {
-            setState(() {
-              places = data['places'];
-              isLoading = false;
-              error = '';
-            });
-          }
-        }
-      } else {
-        setState(() {
-          error = 'Récupération des informations impossible.';
-        });
-      }
-    } on SocketException {
-        
-        setState(() {
-        error = 'SocketException';
-      });
-    } on TimeoutException {
-        
-        setState(() {
-        error = 'TimeoutException';
-      });
-    } catch (e) {
+    NavikaApi navikaApi = NavikaApi();
+    Map result = await navikaApi.getPlaces(search, globals.locationData, flag);
+    
+    if (mounted && result['value']['flag'] == flag) {
       setState(() {
-        error = "Une erreur s'est produite.";
+        places = result['value']['places'];
+        error = result['status'];
+        isLoading = false;
       });
     }
   }
@@ -187,7 +141,7 @@ class _AddAddressState extends State<AddAddress> {
             icon: Icon(
               NavikaIcons.save,
               color: isDefined && label != ''
-                ? tabLabelColor(context)
+                ? Theme.of(context).colorScheme.onSurface
                 : routeBhColor(context),),
             tooltip: 'Ajouter aux favoris',
             onPressed: () {
@@ -254,7 +208,7 @@ class _AddAddressState extends State<AddAddress> {
             Expanded(
               child: ListView(
                 children: [
-                  if (error != '')
+                  if (error != ApiStatus.ok)
                     ErrorBlock(
                       error: error,
                     )

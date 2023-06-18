@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:navika/src/api.dart';
 
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/data/global.dart' as globals;
@@ -21,70 +19,31 @@ class SchedulesSearch extends StatefulWidget {
 
 class _SchedulesSearchState extends State<SchedulesSearch> {
   final myController = TextEditingController();
-	final String title = 'Arrêts';
   
   FocusNode textFieldNode = FocusNode();
   String search = '';
-  String error = '';
+  ApiStatus error = ApiStatus.ok;
   int flag = 0;
   bool isLoading = false;
   List places = [];
 
-  Future<void> _getPlaces() async {
-    String url = '';
+  Future<void> _getStops() async {
     flag++;
-
-    bool allowGps = await globals.hiveBox.get('allowGps') ?? false;
-    if (allowGps && (globals.locationData?.latitude != null || globals.locationData?.longitude != null) && search != '') {
-      url = '${globals.API_STOP_AREA}?q=$search&lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
-
-    } else if (search != '') {
-      url = '${globals.API_STOP_AREA}?q=$search&flag=${flag.toString()}';
-      
-    } else if (allowGps && globals.locationData?.latitude != null && globals.locationData?.longitude != null){
-      url = '${globals.API_STOP_AREA}?lat=${globals.locationData?.latitude}&lon=${globals.locationData?.longitude}&flag=${flag.toString()}';
-
-    } else {
-      url = '${globals.API_STOP_AREA}?q=&flag=${flag.toString()}';
-
-    }
 
     setState(() {
       isLoading = true;
     });
 
-    try {
-      final response = await http.get(Uri.parse(url));
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        if (mounted) {
-          if (data['flag'] == flag) {
-            setState(() {
-              places = data['places'];
-              isLoading = false;
-              error = '';
-            });
-          } 
-        }
-      } else {
-        setState(() {
-          error = 'Récupération des informations impossible.';
-        });
-      }
-    } on SocketException {
-        
-        setState(() {
-        error = 'SocketException';
-      });
-    } on TimeoutException {
-        
-        setState(() {
-        error = 'TimeoutException';
-      });
-    } catch (e) {
+    NavikaApi navikaApi = NavikaApi();
+    Map result = await navikaApi.getStops(search, globals.locationData, flag);
+    
+    if (mounted) {
       setState(() {
-        error = "Une erreur s'est produite.";
+        if (result['value']?['flag'] == flag) {
+          places = result['value']?['places'];
+        }
+        error = result['status'];
+        isLoading = false;
       });
     }
 	}
@@ -94,7 +53,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => {
       FocusScope.of(context).requestFocus(textFieldNode),
-      _getPlaces()
+      _getStops()
     });
   }
   @override
@@ -116,14 +75,14 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
           setState(() {
             search = text;
           });
-          _getPlaces();
+          _getStops();
         },
       ),
 		),
 		body: ListView(
       children: [
 
-        if (error != '')
+        if (error != ApiStatus.ok)
           ErrorBlock(
             error: error,
           )
@@ -138,7 +97,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
                 globals.schedulesStopName = place['name'];
                 globals.schedulesStopModes = place['modes'];
                 globals.schedulesStopLines = [];
-                RouteStateScope.of(context).go('/schedules/stops/${place["id"]}');
+                RouteStateScope.of(context).go('/schedules/stops/${place['id']}');
               },
             )
 

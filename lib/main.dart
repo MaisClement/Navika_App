@@ -51,14 +51,63 @@ void _initializeHive() async {
   await Hive.initFlutter();
   globals.hiveBox = await Hive.openBox('Home');
 
+  // Arrêts favoris
   if (globals.hiveBox.get('stopsFavorites') == null) {
     globals.hiveBox.put('stopsFavorites', []);
   }
-  if (globals.hiveBox.get('AddressFavorites') == null) {
-    globals.hiveBox.put('AddressFavorites', []);
+
+  // Adresses favorites
+  if (globals.hiveBox.get('addressFavorites') == null) {
+    globals.hiveBox.put('addressFavorites', []);
   }
+
+  // Mode selectionné
+  if (globals.hiveBox.get('allowedModes') == null) {
+    globals.hiveBox.put('allowedModes', ['rail', 'metro', 'tram', 'bus']);
+  }
+
+  // travelerType
+  if (globals.hiveBox.get('travelerType') == null) {
+    globals.hiveBox.put('travelerType', 'standard');
+  }
+
+  // Historique pour les itinéraires
+  if (globals.hiveBox.get('historyPlaces') == null) {
+    globals.hiveBox.put('historyPlaces', []);
+  }
+
+  // ---
+  // Options
+  // GPS Autorisé
+  if (globals.hiveBox.get('allowGps') == null) {
+    globals.hiveBox.put('allowGps', false);
+  }
+
+  // Derniere position gps
+  if (globals.hiveBox.get('latitude') == null) {
+    globals.hiveBox.put('latitude', 48.859481);
+  }
+  if (globals.hiveBox.get('longitude') == null) {
+    globals.hiveBox.put('longitude', 2.346711);
+  }
+
+  // Mode d'affichage
+  if (globals.hiveBox.get('displayMode') == null) {
+    globals.hiveBox.put('displayMode', 'default');
+  }
+
+  // Affichage des terminus
+  if (globals.hiveBox.get('hideTerminusTrain') == null) {
+    globals.hiveBox.put('hideTerminusTrain', false);
+  }
+
+  // Affichage groupé ?
+  if (globals.hiveBox.get('ungroupDepartures') == null) {
+    globals.hiveBox.put('ungroupDepartures', false);
+  }
+
   if (kDebugMode) {
-    print({'INFO_', globals.hiveBox.get('AddressFavorites')});
+    print({'INFO_', globals.hiveBox.get('addressFavorites')});
   }
 }
 

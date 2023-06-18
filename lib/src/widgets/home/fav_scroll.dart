@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/bottom_sheets/remove_address.dart';
 import 'package:navika/src/widgets/home/fav_button.dart';
 
 import 'package:navika/src/routing.dart';
-import 'package:navika/src/data/global.dart' as globals;
 
 int getAddressPos(list, id) {
   if (list.isNotEmpty) {
@@ -38,13 +38,14 @@ class HomeBodyFavScroll extends StatelessWidget {
               name: 'Maison',
               img: NavikaIcons.home,
               onTap: () {
-                globals.route['dep']['name'] = null;
-                globals.route['dep']['id'] = null;
-                globals.route['arr']['name'] =
-                    address[getAddressPos(address, 'home')]['name'];
-                globals.route['arr']['id'] =
-                    address[getAddressPos(address, 'home')]['id'];
-                RouteStateScope.of(context).go('/home/journeys');
+                initJourney(
+                  null,
+                  {
+                    'name': address[getAddressPos(address, 'home')]['name'],
+                    'id': address[getAddressPos(address, 'home')]['id']
+                  },
+                  context
+                );
               },
               onLongPress: () {
                 showModalBottomSheet<void>(
@@ -74,13 +75,14 @@ class HomeBodyFavScroll extends StatelessWidget {
               name: 'Travail',
               img: NavikaIcons.business,
               onTap: () {
-                globals.route['dep']['name'] = null;
-                globals.route['dep']['id'] = null;
-                globals.route['arr']['name'] =
-                    address[getAddressPos(address, 'work')]['name'];
-                globals.route['arr']['id'] =
-                    address[getAddressPos(address, 'work')]['id'];
-                RouteStateScope.of(context).go('/home/journeys');
+                initJourney(
+                  null,
+                  {
+                    'name': address[getAddressPos(address, 'work')]['name'],
+                    'id': address[getAddressPos(address, 'work')]['id']
+                  },
+                  context
+                );
               },
               onLongPress: () {
                 showModalBottomSheet<void>(
@@ -111,11 +113,14 @@ class HomeBodyFavScroll extends StatelessWidget {
                 name: fav['alias'],
                 img: NavikaIcons.star,
                 onTap: () {
-                  globals.route['dep']['alias'] = null;
-                  globals.route['dep']['id'] = null;
-                  globals.route['arr']['name'] = fav['name'];
-                  globals.route['arr']['id'] = fav['id'];
-                  RouteStateScope.of(context).go('/home/journeys');
+                  initJourney(
+                    null,
+                    {
+                      'name': fav['name'],
+                      'id': fav['id']
+                    },
+                    context
+                  );
                 },
                 onLongPress: () {
                   showModalBottomSheet<void>(

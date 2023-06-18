@@ -102,17 +102,17 @@ String getModeImage(line, isDark) {
   String mode = '';
   for (var allowes in listModes.entries) {
     if (allowes.value.contains(line['mode'])) {
-      mode = '${mode}${allowes.key}';
+      mode = '$mode${allowes.key}';
     }
   }
   if (mode == '') {
     img = '${img}bus';
   } else {
-    img = '${img}${mode}';
+    img = '$img$mode';
   }
 
   if (isDark) {
-    return '${img}.png';
+    return '$img.png';
   }
   return '${img}_light.png';
 }
@@ -199,7 +199,6 @@ String getSlugTitle(severity) {
     return 'Information';
   } else {
     return 'Trafic fluide';
-    //return "Unknown";
   }
 }
 
@@ -322,7 +321,7 @@ Color getSchedulesColorByState(state, context) {
     case 'delayed':
       return const Color(0xfff68f53);
     case 'ontime':
-      return Theme.of(context).colorScheme.primary;
+      return mainColor(context);
     default:
       return const Color(0xffa9a9a9);
   }
