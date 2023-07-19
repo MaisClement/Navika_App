@@ -53,7 +53,7 @@ class TraficDisruptions extends StatelessWidget {
                                     Text(
                                       ctrafic['message']['title'],
                                       style: const TextStyle(
-                                          fontSize: 20,
+                                          fontSize: 18,
                                           fontWeight: FontWeight.w700),
                                     ),
                                   ],
@@ -64,11 +64,10 @@ class TraficDisruptions extends StatelessWidget {
                         ),
                       Text(
                         ctrafic['message']['text'],
-                        style: const TextStyle(fontSize: 16),
                       ),
                       Text(
                         'Mis à jour: ${getDateTime(ctrafic['updated_at'])}',
-                        style: const TextStyle(fontSize: 12),
+                        style: const TextStyle(fontSize: 11),
                       )
                     ],
                   ),

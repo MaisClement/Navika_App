@@ -34,7 +34,7 @@ class SchedulesLines extends StatelessWidget {
                             child: Text(
                               '➜ ${terminus['name']}',
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 fontFamily: 'Segoe Ui',
                                 color: accentColor(context),

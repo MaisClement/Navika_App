@@ -64,7 +64,6 @@ class _BottomTerminusTrainState extends State<BottomTerminusTrain>
           ),
           Text('Voulez-vous masquer les trains à l’arrivée ?',
             style: TextStyle(
-              fontSize: 15,
               fontWeight: FontWeight.w600,
               fontFamily: 'Segoe Ui',
               color: accentColor(context),

@@ -65,7 +65,6 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
                 Text(
                   'Selectionner la ligne à ajouter aux favoris.',
                   style: TextStyle(
-                    fontSize: 15,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
                     color: accentColor(context),

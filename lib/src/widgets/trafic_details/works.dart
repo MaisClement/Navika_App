@@ -24,7 +24,7 @@ class TraficWorks extends StatelessWidget {
           children: [
             const Text(
               'À venir',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             ),
             const Divider(height: 25, thickness: 1.5),
             for (var ctrafic in reports['future_work'])
@@ -51,7 +51,7 @@ class TraficWorks extends StatelessWidget {
                                     Text(
                                       ctrafic['message']['title'],
                                       style: const TextStyle(
-                                          fontSize: 20,
+                                          fontSize: 18,
                                           fontWeight: FontWeight.w700),
                                     ),
                                   ],
@@ -62,11 +62,10 @@ class TraficWorks extends StatelessWidget {
                         ),
                       Text(
                         ctrafic['message']['text'],
-                        style: const TextStyle(fontSize: 16),
                       ),
                       Text(
                         'Mis à jour: ${getDateTime(ctrafic['updated_at'])}',
-                        style: const TextStyle(fontSize: 12),
+                        style: const TextStyle(fontSize: 11),
                       )
                     ]),
               ),

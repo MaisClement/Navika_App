@@ -18,7 +18,7 @@ class HomeMessage extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.only(left:15.0, top:10, right:15.0, bottom:10.0),
+    padding: const EdgeInsets.only(left:15.0, top:10, right:15.0, bottom:5),
     margin: isMarginDisabled ? null : const EdgeInsets.only(top: 10, left: 10, right: 10, bottom:10.0),
     decoration: BoxDecoration(
       color: getSlugColor(message['severity'], 1).withOpacity(0.2),
@@ -43,7 +43,7 @@ class HomeMessage extends StatelessWidget {
                   children: [
                     Text(message['message']['title'],
                       style: const TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.w700
                       ),
                     ),
@@ -54,18 +54,14 @@ class HomeMessage extends StatelessWidget {
           ),
         ),
           
-        Text(message['message']['text'],
-          style: const TextStyle(
-            fontSize: 16
-          ),
-        ),
+        Text(message['message']['text']),
         Text('Mis à jour: ${getDateTime(message['updated_at'])}',
           style: const TextStyle(
-            fontSize: 12
+            fontSize: 11
           ),
         ),
         const SizedBox(
-          height: 10,
+          height: 5,
         ),
         
         if (message['message']['link'] != null && message['message']['button'] != null && message['message']['link'] != '' && message['message']['button'] != '')

@@ -128,10 +128,10 @@ class _HomeState extends State<Home> {
     
     if (mounted) {
       setState(() {
-        stopsNearby = result['value']['stops'];
+        stopsNearby = result['value']?['stops'];
         
-        if (result['value']['bike'] != null) {
-          bikeNearby = result['value']['bike'];
+        if (result['value']?['bike'] != null) {
+          bikeNearby = result['value']?['bike'];
         } else {
           bikeNearby = [];
         }
@@ -223,9 +223,9 @@ class _HomeState extends State<Home> {
     
     if (mounted) {
       setState(() {
-        index = result['value'];
+        index = result['value']?;
       });
-      globals.index = result['value'];
+      globals.index = result['value']?;
     }
 
     if (result['status'] != ApiStatus.ok) {
@@ -316,7 +316,7 @@ class _HomeState extends State<Home> {
                             children: [
                               SvgPicture.asset(
                                 'assets/img/cloud_off.svg',
-                                color: Colors.black,
+                                color: Theme.of(context).colorScheme.onPrimaryContainer,
                                 height: 18,
                               ),
                               const SizedBox(width: 10),

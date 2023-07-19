@@ -5,23 +5,25 @@ class SearchBox extends StatelessWidget {
   final IconData? icon;
   final TextStyle? style;
   final String text;
+  final BorderRadius? borderRadius;
 
   const SearchBox({
     required this.text,
     this.onTap,
     this.icon,
     this.style,
+    this.borderRadius,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) => Card(
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(500),
+      borderRadius: borderRadius ?? BorderRadius.circular(500),
     ),
     child: InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(500),
+      borderRadius: borderRadius ?? BorderRadius.circular(500),
       child: Padding(
         padding: const EdgeInsets.only(left: 15, right: 15),
         child: Row(

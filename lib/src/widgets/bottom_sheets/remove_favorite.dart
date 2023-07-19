@@ -79,7 +79,6 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite>
                 child: Text(
                   'Etes-vous sur de supprimer ce favori ?',
                   style: TextStyle(
-                    fontSize: 15,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
                     color: accentColor(context),

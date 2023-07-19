@@ -102,7 +102,6 @@ class _BottomSchedulesState extends State<BottomSchedules>
               Expanded(
                 child: Text('Retardé',
                   style: TextStyle(
-                    fontSize: 15,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
                     color: accentColor(context),
@@ -135,7 +134,6 @@ class _BottomSchedulesState extends State<BottomSchedules>
               Expanded(
                 child: Text('Supprimé',
                   style: TextStyle(
-                    fontSize: 15,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
                     color: accentColor(context),
@@ -168,7 +166,6 @@ class _BottomSchedulesState extends State<BottomSchedules>
               Expanded(
                 child: Text('Théorique',
                   style: TextStyle(
-                    fontSize: 15,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
                     color: accentColor(context),
@@ -198,7 +195,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
           ),
           Text('Définissez le mode d’affichage que vous préferez.',
             style: TextStyle(
-              fontSize: 17,
+              fontSize: 16,
               fontWeight: FontWeight.w600,
               fontFamily: 'Segoe Ui',
               color: accentColor(context),

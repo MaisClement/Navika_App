@@ -214,14 +214,12 @@ TextStyle getStyleByEffect(departureState, arrivalState) {
     return const TextStyle(
         fontWeight: FontWeight.w700,
         fontFamily: 'Segoe Ui',
-        fontSize: 15,
         color: Color(0xff808080),
         decoration: TextDecoration.lineThrough);
   } else {
     return const TextStyle(
       fontWeight: FontWeight.w700,
       fontFamily: 'Segoe Ui',
-      fontSize: 15,
     );
   }
 }

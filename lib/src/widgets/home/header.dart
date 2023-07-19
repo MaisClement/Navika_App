@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 
 import 'package:navika/src/screens/journeys.dart';
@@ -34,7 +35,7 @@ class HomePannel extends StatelessWidget {
               ),
             ),
             Container(
-              height: 15,
+              height: 10,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 10, right: 10),
@@ -45,9 +46,10 @@ class HomePannel extends StatelessWidget {
                     null,
                     context
                   );
-                  },
-                  icon: NavikaIcons.search,
-                  text: 'Où allons nous ?'
+                },
+                icon: NavikaIcons.search,
+                text: 'Où allons nous ?',
+                borderRadius: BorderRadius.circular(15)
               ),
             ),
             Container(

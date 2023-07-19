@@ -60,7 +60,6 @@ class _SchedulesState extends State<Schedules> {
                     const Text(
                       'Ajoutez un arrêt à vos favoris pour accéder à vos horaires plus rapidement.',
                       style: TextStyle(
-                        fontSize: 15,
                         fontWeight: FontWeight.w600,
                         fontFamily: 'Segoe Ui',
                       ),

@@ -101,7 +101,6 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress>
                 child: Text(
                   'Etes-vous sur de supprimer cette adresse ?',
                   style: TextStyle(
-                    fontSize: 15,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
                     color: accentColor(context),

@@ -24,7 +24,7 @@ class HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListView(
         controller: scrollController,
-        padding: const EdgeInsets.only(top: 100),
+        padding: const EdgeInsets.only(top: 90),
         children: [
           SizedBox(
             height: 85,
@@ -40,7 +40,7 @@ class HomeBody extends StatelessWidget {
           if (index['message'] != null)
             for (var message in index['message']) HomeMessage(message: message),
 
-// Favorites
+          // Favorites
           if (favs.isNotEmpty)
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

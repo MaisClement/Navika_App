@@ -51,139 +51,139 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-        padding: EdgeInsets.only(
-            top: MediaQueryData.fromView(WidgetsBinding.instance.window).padding.top),
-        decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(5), topRight: Radius.circular(5)),
-            boxShadow: [
-              BoxShadow(
-                color: accentColor(context).withOpacity(0.1),
-                spreadRadius: 3,
-                blurRadius: 5,
-                offset: const Offset(0, 2),
-              )
-            ]),
-        child: Container(
-          padding: const EdgeInsets.only(
-              left: 20.0, top: 30.0, right: 20.0, bottom: 10.0),
-          child: ListView(
-            children: [
-              Text(
-                'Options d’itinéraires',
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Segoe Ui',
+  Widget build(BuildContext context) => SafeArea(
+    child: Container(
+          decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+              boxShadow: [
+                BoxShadow(
+                  color: accentColor(context).withOpacity(0.1),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
+                )
+              ]),
+          child: Container(
+            padding: const EdgeInsets.only(
+                left: 20.0, top: 30.0, right: 20.0, bottom: 10.0),
+            child: ListView(
+              children: [
+                Text(
+                  'Options d’itinéraires',
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Segoe Ui',
+                    color: accentColor(context),
+                  ),
+                ),
+                Divider(
                   color: accentColor(context),
                 ),
-              ),
-              Divider(
-                color: accentColor(context),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Profil de voyageur',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Segoe Ui',
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Profil de voyageur',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Segoe Ui',
+                    color: accentColor(context),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                RadioTiles(
+                  tiles: const [
+                    {
+                      'name': 'Défaut',
+                      'value': 'standard',
+                      'icon': NavikaIcons.walking,
+                    },
+                    {
+                      'name': 'Avec difficultés',
+                      'value': 'luggage',
+                      'icon': NavikaIcons.old_man,
+                    },
+                    {
+                      'name': 'Mobilité réduite',
+                      'value': 'wheelchair',
+                      'icon': NavikaIcons.wheelchair,
+                    },
+                  ],
+                  value: travelerType,
+                  onTileChange: (value) {
+                    setTravelerType(value);
+                  },
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Divider(
                   color: accentColor(context),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              RadioTiles(
-                tiles: const [
-                  {
-                    'name': 'Défaut',
-                    'value': 'standard',
-                    'icon': NavikaIcons.walking,
-                  },
-                  {
-                    'name': 'Avec difficultés',
-                    'value': 'luggage',
-                    'icon': NavikaIcons.old_man,
-                  },
-                  {
-                    'name': 'Mobilité réduite',
-                    'value': 'wheelchair',
-                    'icon': NavikaIcons.wheelchair,
-                  },
-                ],
-                value: travelerType,
-                onTileChange: (value) {
-                  setTravelerType(value);
-                },
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Divider(
-                color: accentColor(context),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Modes de transport',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Segoe Ui',
-                  color: accentColor(context),
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              SwitchMode(
-                name: 'Train et RER',
-                value: allowedModes.contains('rail'),
-                icon: NavikaIcons.train_rer,
-                function: (bool value) {
-                  handleChangeMode('rail', value);
-                },
-              ),
-              SwitchMode(
-                name: 'Métro',
-                value: allowedModes.contains('metro'),
-                icon: NavikaIcons.metro,
-                function: (bool value) {
-                  handleChangeMode('metro', value);
-                },
-              ),
-              SwitchMode(
-                name: 'Tramway',
-                value: allowedModes.contains('tram'),
-                icon: NavikaIcons.tram,
-                function: (bool value) {
-                  handleChangeMode('tram', value);
-                },
-              ),
-              SwitchMode(
-                name: 'Bus',
-                value: allowedModes.contains('bus'),
-                icon: NavikaIcons.bus,
-                function: (bool value) {
-                  handleChangeMode('bus', value);
-                },
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Center(
-                child: ElevatedButton(
-                  child: const Text('Fermer'),
-                  onPressed: () => Navigator.pop(context),
+                Text(
+                  'Modes de transport',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Segoe Ui',
+                    color: accentColor(context),
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(
+                  height: 10,
+                ),
+                SwitchMode(
+                  name: 'Train et RER',
+                  value: allowedModes.contains('rail'),
+                  icon: NavikaIcons.train_rer,
+                  function: (bool value) {
+                    handleChangeMode('rail', value);
+                  },
+                ),
+                SwitchMode(
+                  name: 'Métro',
+                  value: allowedModes.contains('metro'),
+                  icon: NavikaIcons.metro,
+                  function: (bool value) {
+                    handleChangeMode('metro', value);
+                  },
+                ),
+                SwitchMode(
+                  name: 'Tramway',
+                  value: allowedModes.contains('tram'),
+                  icon: NavikaIcons.tram,
+                  function: (bool value) {
+                    handleChangeMode('tram', value);
+                  },
+                ),
+                SwitchMode(
+                  name: 'Bus',
+                  value: allowedModes.contains('bus'),
+                  icon: NavikaIcons.bus,
+                  function: (bool value) {
+                    handleChangeMode('bus', value);
+                  },
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Center(
+                  child: ElevatedButton(
+                    child: const Text('Fermer'),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      );
+  );
 }

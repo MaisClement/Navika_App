@@ -50,8 +50,8 @@ class _BikeBodyState extends State<BikeBody>
     
     if (mounted) {
       setState(() {
-        if (result['value']['station'] != null) {
-          bikeStation = result['value']['station'];
+        if (result['value']?['station'] != null) {
+          bikeStation = result['value']?['station'];
         }
         error = result['status'];
       });

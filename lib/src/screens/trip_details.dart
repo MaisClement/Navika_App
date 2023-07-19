@@ -44,8 +44,8 @@ class _TripDetailsState extends State<TripDetails>
     
     if (mounted) {
       setState(() {
-        if (result['value']['vehicle_journey'] != null) {
-          vehicleJourney = result['value']['vehicle_journey'];
+        if (result['value']?['vehicle_journey'] != null) {
+          vehicleJourney = result['value']?['vehicle_journey'];
           error = result['status'];
         } else {
           error = ApiStatus.unknownException;

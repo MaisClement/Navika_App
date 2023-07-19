@@ -44,19 +44,15 @@ Map allowedModes = {
 Map tabsModes = {
   'rail': {
     'icon': const Icon(NavikaIcons.train_rer),
-    'label': 'Train et RER',
   },
   'metro': {
     'icon': const Icon(NavikaIcons.metro),
-    'label': 'Métro',
   },
   'tram': {
     'icon': const Icon(NavikaIcons.tram),
-    'label': 'Tramway',
   },
   'bus': {
     'icon': const Icon(NavikaIcons.bus),
-    'label': 'Bus',
   },
 };
 
@@ -119,13 +115,13 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
     
     if (mounted) {
       setState(() {
-        if (result['value']['schedules'] != null) {
-          schedules = result['value']['schedules'];
+        if (result['value']?['schedules'] != null) {
+          schedules = result['value']?['schedules'];
         }
-        if (result['value']['departures'] != null) {
-          departures = result['value']['departures'];
+        if (result['value']?['departures'] != null) {
+          departures = result['value']?['departures'];
         }
-        globals.schedulesStopLines = getLines(result['value']);
+        globals.schedulesStopLines = getLines(result['value']?);
         error = result['status'];
       });
     }
@@ -174,7 +170,6 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
         tabs.add(
           Tab(
             icon: tabsModes[allowes.key]['icon'],
-            text: tabsModes[allowes.key]['label'],
             iconMargin: const EdgeInsets.only(bottom: 5, top: 5)
           ),
         );

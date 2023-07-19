@@ -61,13 +61,13 @@ class _FavoriteBodyState extends State<FavoriteBody>
     
     if (mounted) {
       setState(() {
-        if (result['value']['schedules'] != null) {
-          schedules = result['value']['schedules'];
-          mode = result['value']['schedules'][0]['mode'];
+        if (result['value']?['schedules'] != null) {
+          schedules = result['value']?['schedules'];
+          mode = result['value']?['schedules'][0]['mode'];
         }
-        if (result['value']['departures'] != null) {
-          schedules = result['value']['departures'];
-          mode = result['value']['departures'][0]['mode'];
+        if (result['value']?['departures'] != null) {
+          schedules = result['value']?['departures'];
+          mode = result['value']?['departures']?[0]?['mode'];
         }
         error = result['status'];
       });

@@ -59,7 +59,6 @@ class _BottomGroupedDeparturesState extends State<BottomGroupedDepartures>
           ),
           Text('Voulez-vous regrouper les trains selon leur ligne ?',
             style: TextStyle(
-              fontSize: 15,
               fontWeight: FontWeight.w600,
               fontFamily: 'Segoe Ui',
               color: accentColor(context),

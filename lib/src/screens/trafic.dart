@@ -41,8 +41,8 @@ class _TraficState extends State<Trafic> {
     if (mounted) {
       setState(() {
         state = true;
-        trafic = result['value']['trafic'];
-        globals.trafic = result['value']['trafic'];
+        trafic = result['value']?['trafic'];
+        globals.trafic = result['value']?['trafic'];
         error = result['status'];
       });
     }
@@ -69,7 +69,7 @@ class _TraficState extends State<Trafic> {
                       if (globals.index?['message'] != null)
                         for (var message in globals.index?['message'])
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 20.0, top: 20.0),
+                            padding: const EdgeInsets.only(bottom: 10.0, top: 10.0),
                             child: HomeMessage(
                               message: message,
                               isMarginDisabled: true,

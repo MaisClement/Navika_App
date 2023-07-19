@@ -32,6 +32,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
 
     setState(() {
       isLoading = true;
+      flag = flag;
     });
 
     NavikaApi navikaApi = NavikaApi();

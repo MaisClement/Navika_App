@@ -54,11 +54,11 @@ class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerPr
     Map result = await navikaApi.getSchedules(globals.schedulesStopArea, false);
     
     if (mounted) {
-      if (result['value']['departures'] != null) {
-        for (var i = 0; i < result['value']['departures'].length; i++) {
-          if (result['value']['departures'][i]['id'] == widget.stopLine) {
+      if (result['value']?['departures'] != null) {
+        for (var i = 0; i < result['value']?['departures'].length; i++) {
+          if (result['value']?['departures'][i]['id'] == widget.stopLine) {
             setState(() {
-              departure = result['value']['departures'][i];
+              departure = result['value']?['departures'][i];
               error = result['status'];
             });
             break;

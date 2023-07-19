@@ -186,7 +186,7 @@ class _JourneysListState extends State<JourneysList> {
 
     if (mounted) {
       setState(() {
-        journeys = result['value']['journeys'];
+        journeys = result['value']?['journeys'];
         error = result['status'];
         isLoading = false;
       });
