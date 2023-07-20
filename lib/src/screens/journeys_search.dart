@@ -101,19 +101,21 @@ class _JourneysSearchState extends State<JourneysSearch> {
       }
 
       // Historique
-      for (var place in globals.hiveBox.get('historyPlaces')) {
-        res.add(
-            PlacesListButton(
-            isLoading: isLoading,
-            place: place,
-            onTap: () {
-              globals.route[widget.type]['id'] = place['id'];
-              globals.route[widget.type]['name'] = place['name'];
-              addToHistory(place);
-              RouteStateScope.of(context).go('/home/journeys');
-            },
-          )
-        );
+      if(search.isEmpty) {
+        for (var place in globals.hiveBox.get('historyPlaces')) {
+          res.add(
+              PlacesListButton(
+              isLoading: isLoading,
+              place: place,
+              onTap: () {
+                globals.route[widget.type]['id'] = place['id'];
+                globals.route[widget.type]['name'] = place['name'];
+                addToHistory(place);
+                RouteStateScope.of(context).go('/home/journeys');
+              },
+            )
+          );
+        }
       }
 
       // Places
