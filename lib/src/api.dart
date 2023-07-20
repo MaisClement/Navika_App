@@ -54,7 +54,7 @@ class NavikaApi {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        result['value']? = data;
+        result['value'] = data;
 
       } else {
         result['status'] = ApiStatus.serverException;

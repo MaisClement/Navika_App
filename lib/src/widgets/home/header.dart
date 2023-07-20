@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/style/style.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 
 import 'package:navika/src/screens/journeys.dart';

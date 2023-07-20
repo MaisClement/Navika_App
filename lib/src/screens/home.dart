@@ -223,9 +223,9 @@ class _HomeState extends State<Home> {
     
     if (mounted) {
       setState(() {
-        index = result['value']?;
+        index = result['value']!;
       });
-      globals.index = result['value']?;
+      globals.index = result['value']!;
     }
 
     if (result['status'] != ApiStatus.ok) {

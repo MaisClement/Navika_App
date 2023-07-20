@@ -121,7 +121,7 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
         if (result['value']?['departures'] != null) {
           departures = result['value']?['departures'];
         }
-        globals.schedulesStopLines = getLines(result['value']?);
+        globals.schedulesStopLines = getLines(result['value']!);
         error = result['status'];
       });
     }
