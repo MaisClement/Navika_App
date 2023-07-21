@@ -56,6 +56,7 @@ class HomeBodyFavScroll extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) => BottomRemoveAddress(
                     id: address[getAddressPos(address, 'home')]['id'],
+                    type: "home",
                   ),
                 );
               },
@@ -93,6 +94,7 @@ class HomeBodyFavScroll extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) => BottomRemoveAddress(
                     id: address[getAddressPos(address, 'work')]['id'],
+                    type: 'work',
                   ),
                 );
               },
@@ -131,6 +133,7 @@ class HomeBodyFavScroll extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) => BottomRemoveAddress(
                       id: fav['id'],
+                      type: fav['alias'],
                     ),
                   );
                 },

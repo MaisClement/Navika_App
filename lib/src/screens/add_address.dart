@@ -14,9 +14,11 @@ import 'package:navika/src/widgets/places/load.dart';
 
 class AddAddress extends StatefulWidget {
   final String predefineType;
+  final String id;
 
   const AddAddress({
     this.predefineType = '', 
+    this.id = '',
     super.key
   });
 
@@ -28,7 +30,6 @@ class _AddAddressState extends State<AddAddress> {
   final queryController = TextEditingController();
   final labelController = TextEditingController();
 
-  String title = 'Nouvelle adresse';
   FocusNode queryFieldNode = FocusNode();
   FocusNode labelFieldNode = FocusNode();
   String search = '';
@@ -133,7 +134,7 @@ class _AddAddressState extends State<AddAddress> {
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
         title: Text(
-          title,
+          widget.id != '' ? 'Modifiez votre adresse' : 'Nouvelle adresse',
           style: appBarTitle,
         ),
         actions: [
@@ -152,8 +153,7 @@ class _AddAddressState extends State<AddAddress> {
       ),
       body: Column(
         children: [
-
-          if (widget.predefineType == '' )
+          if (widget.predefineType != 'work' || widget.predefineType != 'home')
             Container(
               margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
               child: Row(children: [

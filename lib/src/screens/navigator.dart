@@ -41,8 +41,13 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
     }
 
     String? predefineType;
+    String? id;
     if (pathTemplate == '/home/address/:type') {
       predefineType = routeState.route.parameters['type'];
+    }
+    if (pathTemplate == '/home/address/:type/:id') {
+      predefineType = routeState.route.parameters['type'];
+      id = routeState.route.parameters['id'];
     }
 
     String? type;
@@ -50,7 +55,6 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
       type = routeState.route.parameters['type'];
     }
 
-    String? id;
     String? stopLine;
     if (pathTemplate == '/schedules/stops/:id') {
       id = routeState.route.parameters['id'];
@@ -154,6 +158,11 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           MaterialPage<void>(
             key: const ValueKey('Addresse'),
             child: AddAddress(predefineType: predefineType),
+          )
+        else if (pathTemplate == '/home/address/:type/:id' && predefineType != null && id != null)
+          MaterialPage<void>(
+            key: const ValueKey('Addresse'),
+            child: AddAddress(predefineType: predefineType, id: id),
           )
         else if (pathTemplate == '/home/journeys')
           const MaterialPage<void>(

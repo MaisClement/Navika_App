@@ -2,6 +2,7 @@ import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style/style.dart';
+import 'package:navika/src/routing.dart';
 
 int getAddressPos(id) {
   List favs = globals.hiveBox?.get('addressFavorites') ?? [];
@@ -48,9 +49,11 @@ void removeAddress(widget, context) {
 
 class BottomRemoveAddress extends StatefulWidget {
   final String id;
+  final String type;
 
   const BottomRemoveAddress({
     required this.id,
+    required this.type,
     super.key,
   });
 
@@ -64,7 +67,7 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress>
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 250,
+        height: 325,
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(5), topRight: Radius.circular(5)),
@@ -83,7 +86,7 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Supprimer une adresse.',
+                'Modifier ou supprimer une adresse.',
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.w600,
@@ -97,7 +100,7 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress>
               const SizedBox(
                 height: 10,
               ),
-              Expanded(
+              /*Expanded(
                 child: Text(
                   'Etes-vous sur de supprimer cette adresse ?',
                   style: TextStyle(
@@ -106,9 +109,17 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress>
                     color: accentColor(context),
                   ),
                 ),
-              ),
+              ),*/
               const SizedBox(
                 height: 20,
+              ),
+              Center(
+                child: ElevatedButton(
+                  child: const Text('Modifer'),
+                  onPressed: () {
+                    RouteStateScope.of(context).go('/home/address/${widget.type}/${getAddressPos(widget.id)}');
+                  },
+                ),
               ),
               Center(
                 child: ElevatedButton(
@@ -124,6 +135,10 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress>
               ),
               Center(
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    foregroundColor: Theme.of(context).colorScheme.primary,
+                  ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                   child: const Text('Annuler'),
                   onPressed: () => Navigator.pop(context),
                 ),
