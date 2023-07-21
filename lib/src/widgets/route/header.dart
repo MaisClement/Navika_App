@@ -4,11 +4,9 @@ import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/route/lines.dart';
 
 class RoutePannel extends StatelessWidget {
-  final double opacity;
   final Map journey;
 
   const RoutePannel({
-    required this.opacity,
     required this.journey,
     super.key,
   });
@@ -28,15 +26,12 @@ class RoutePannel extends StatelessWidget {
             Container(
               height: 15,
             ),
-            Opacity(
-              opacity: opacity,
-              child: Container(
-                width: 40,
-                height: 5,
-                decoration: BoxDecoration(
-                  color: Colors.grey[400],
-                  borderRadius: BorderRadius.circular(10),
-                ),
+            Container(
+              width: 40,
+              height: 5,
+              decoration: BoxDecoration(
+                color: Colors.grey[400],
+                borderRadius: BorderRadius.circular(10),
               ),
             ),
             Container(

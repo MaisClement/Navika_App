@@ -105,9 +105,13 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                     ),
                     Expanded(
                       child: Text( widget.section['informations']['direction']['id'].substring(0, widget.section['informations']['direction']['id'].indexOf('(')), 
+                        style: TextStyle(
+                          color: HexColor.fromHex(widget.section['informations']['line']['color']),
+                        ),
                         maxLines: 1,
                         softWrap: false,
                         overflow: TextOverflow.ellipsis,
+                        
                       ),
                     ),
                   ],
