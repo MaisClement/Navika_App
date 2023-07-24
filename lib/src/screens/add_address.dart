@@ -14,9 +14,11 @@ import 'package:navika/src/widgets/places/load.dart';
 
 class AddAddress extends StatefulWidget {
   final String predefineType;
+  final String id;
 
   const AddAddress({
     this.predefineType = '', 
+    this.id = '',
     super.key
   });
 
@@ -25,10 +27,9 @@ class AddAddress extends StatefulWidget {
 }
 
 class _AddAddressState extends State<AddAddress> {
-  final queryController = TextEditingController();
-  final labelController = TextEditingController();
+  TextEditingController queryController = TextEditingController();
+  TextEditingController labelController = TextEditingController();
 
-  String title = 'Nouvelle adresse';
   FocusNode queryFieldNode = FocusNode();
   FocusNode labelFieldNode = FocusNode();
   String search = '';
@@ -77,14 +78,19 @@ class _AddAddressState extends State<AddAddress> {
     return;
     }
     List list = globals.hiveBox.get('addressFavorites');
-    list.add({
-      'id': address['id'],
-      'name': address['name'],
-      'alias': widget.predefineType == '' 
-          ? label
-          : widget.predefineType,
-    });
-    globals.hiveBox.put('addressFavorites', list);
+    var newAddress = {
+        'id': address['id'],
+        'name': address['name'],
+        'alias': widget.predefineType == '' 
+            ? label
+            : widget.predefineType,
+      };
+    if(widget.id != '') {
+      list[int.parse(widget.id)] = newAddress;
+    } else {
+      list.add(newAddress);
+      globals.hiveBox.put('addressFavorites', list);
+    }
     Navigator.pop(context);
     RouteStateScope.of(context).go('/home');
     FloatingSnackBar(
@@ -119,6 +125,11 @@ class _AddAddressState extends State<AddAddress> {
   @override
   void initState() {
     super.initState();
+    if(widget.id != '') {
+      queryController = TextEditingController(text: addressFavorites[int.parse(widget.id)]['name']);
+      search = addressFavorites[int.parse(widget.id)]['name'];
+      _getPlaces();
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) =>
         {FocusScope.of(context).requestFocus(queryFieldNode), _getPlaces()});
   }
@@ -133,7 +144,7 @@ class _AddAddressState extends State<AddAddress> {
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
         title: Text(
-          title,
+          widget.id != '' ? 'Modifiez votre adresse' : 'Nouvelle adresse',
           style: appBarTitle,
         ),
         actions: [
@@ -152,8 +163,7 @@ class _AddAddressState extends State<AddAddress> {
       ),
       body: Column(
         children: [
-
-          if (widget.predefineType == '' )
+          if (!['work', 'home'].contains(widget.predefineType))
             Container(
               margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
               child: Row(children: [
