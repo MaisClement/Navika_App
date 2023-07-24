@@ -56,6 +56,11 @@ void _initializeHive() async {
     globals.hiveBox.put('stopsFavorites', []);
   }
 
+  // Lignes favorites
+  if (globals.hiveBox.get('linesFavorites') == null) {
+    globals.hiveBox.put('linesFavorites', []);
+  }
+
   // Adresses favorites
   if (globals.hiveBox.get('addressFavorites') == null) {
     globals.hiveBox.put('addressFavorites', []);

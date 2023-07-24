@@ -42,9 +42,13 @@ class _NavikaAppState extends State<NavikaApp> {
         '/trip/details/:id',
         '/trip/details/:id/from/:from',
         '/trip/details/:id/from/:from/to/:to',
+				'/routes',
+				'/routes/search',
+				'/routes/details/:id',
 				'/trafic',
-        '/trafic/:lineId',
+        '/trafic/details',
 				'/web/:uri'
+				'/pdf'
 			],
 			initialRoute: '/home',
 		);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:navika/src/extensions/hexcolor.dart';
+import 'package:navika/src/routing.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
@@ -38,35 +39,40 @@ class SchedulesBlock extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Row(
-                children: [
-                  ModeIcones(
-                    line: line,
-                    i: 0,
-                    size: 30,
-                    isDark: schedulesIsDark(context, line['text_color']),
-                  ),
-                  LinesIcones(
-                    line: line,
-                    size: 30,
-                  ),
-                  Container(
-                    width: 10,
-                  ),
-                  if (line['code'] != line['name'])
-                    Expanded(
-                      child: Text(
-                        line['name'],
-                        style: TextStyle(
-                            color: schedulesText( context, HexColor.fromHex(line['text_color']) ),
-                            fontWeight: FontWeight.w800,
-                            fontFamily: 'Segoe Ui'),
-                        maxLines: 1,
-                        softWrap: false,
-                        overflow: TextOverflow.fade,
-                      ),
+              child: InkWell(
+                onTap: () {
+                  RouteStateScope.of(context).go('/routes/details/${line['id']}');
+                },                
+                child: Row(
+                  children: [
+                    ModeIcones(
+                      line: line,
+                      i: 0,
+                      size: 30,
+                      isDark: schedulesIsDark(context, line['text_color']),
                     ),
-                ],
+                    LinesIcones(
+                      line: line,
+                      size: 30,
+                    ),
+                    Container(
+                      width: 10,
+                    ),
+                    if (line['code'] != line['name'])
+                      Expanded(
+                        child: Text(
+                          line['name'],
+                          style: TextStyle(
+                              color: schedulesText( context, HexColor.fromHex(line['text_color']) ),
+                              fontWeight: FontWeight.w800,
+                              fontFamily: 'Segoe Ui'),
+                          maxLines: 1,
+                          softWrap: false,
+                          overflow: TextOverflow.fade,
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ),
             SchedulesLines(line: line, update: update),

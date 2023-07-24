@@ -104,7 +104,7 @@ schedulesIsDark(context, color) {
 
 // ----------------
 
-getIconLine(context, line) {
+String getIconLine(context, line) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return line.imageLight;
   }

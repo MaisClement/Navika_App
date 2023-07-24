@@ -46,8 +46,8 @@ class LinesIcones extends StatelessWidget {
           width: size,
           height: size * 0.64,
           margin: removeMargin
-            ? const EdgeInsets.all(0)
-            : const EdgeInsets.only(left:5.0, top:9.0, bottom:9.0),
+            ? EdgeInsets.only(top: (size - size * 0.64) / 2, bottom: (size - size * 0.64) / 2)
+            : EdgeInsets.only(left:5.0, top: ((size - size * 0.64) / 2) + 5, bottom: ((size - size * 0.64) / 2) + 5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(3),
             color: HexColor.fromHex(line['color']),

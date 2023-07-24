@@ -112,7 +112,7 @@ class PlacesListButton extends StatelessWidget {
                 
                   Icones(
                     line: place['lines'][i],
-                    oldLine: i > 0 ? place['lines'][i - 1] : place['lines'][i],
+                    prevLine: i > 0 ? place['lines'][i - 1] : place['lines'][i],
                     i: i,
                     isDark: Brightness.dark != Theme.of(context).colorScheme.brightness
                   )

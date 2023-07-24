@@ -28,7 +28,7 @@ class _BottomTerminusTrainState extends State<BottomTerminusTrain>
 
 	@override
 	Widget build(BuildContext context) => Container(
-    height: 300,
+    height: 305,
     decoration: BoxDecoration(
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(5),

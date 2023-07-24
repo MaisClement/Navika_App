@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style/style.dart';
-import 'package:navika/src/widgets/favorites/body.dart';
 
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/widgets/lines/listbutton.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
 import 'package:navika/src/widgets/utils/search_box.dart';
 
-class Schedules extends StatefulWidget {
-  const Schedules({super.key});
+class Routes extends StatefulWidget {
+  const Routes({super.key});
 
   @override
-  State<Schedules> createState() => _SchedulesState();
+  State<Routes> createState() => _RoutesState();
 }
 
-class _SchedulesState extends State<Schedules> {
-  final String title = 'Horaires';
+class _RoutesState extends State<Routes> {
+  final String title = 'Lignes';
 
-  List favs = globals.hiveBox?.get('stopsFavorites');
+  List favs = globals.hiveBox?.get('linesFavorites');
   void updateFavorites() {
     setState(() {
-      favs = globals.hiveBox.get('stopsFavorites');
+      favs = globals.hiveBox.get('linesFavorites');
     });
   }
 
@@ -38,10 +38,10 @@ class _SchedulesState extends State<Schedules> {
               ),
               SearchBox(
                   onTap: () {
-                    RouteStateScope.of(context).go('/schedules/search');
+                    RouteStateScope.of(context).go('/routes/search');
                   },
                   icon: NavikaIcons.search,
-                  text: 'Rechercher une gare, un arrêt ou une stations'),
+                  text: 'Rechercher une ligne'),
             ],
           ),
         ),
@@ -54,12 +54,12 @@ class _SchedulesState extends State<Schedules> {
                   children: [
                     const Image(
                       image: AssetImage(
-                        'assets/img/bus_schedules.png',
+                        'assets/img/lines.png',
                       ),
                       width: 80,
                     ),
                     const Text(
-                      'Ajoutez un arrêt à vos favoris pour accéder à vos horaires plus rapidement.',
+                      'Ajoutez vos lignes à vos favoris  pour y accéder encore plus rapidement.',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontFamily: 'Segoe Ui',
@@ -74,7 +74,7 @@ class _SchedulesState extends State<Schedules> {
                       width: 138,
                       text: 'Rechercher',
                       onPressed: () {
-                        RouteStateScope.of(context).go('/schedules/search');
+                        RouteStateScope.of(context).go('/routes/search');
                       },
                     ),
                   ],
@@ -82,14 +82,13 @@ class _SchedulesState extends State<Schedules> {
               )
             else
               for (var fav in favs)
-                FavoriteBody(
-                  id: fav['id'],
-                  name: fav['name'],
-                  modes: fav['modes'],
-                  line: fav['line'],
-                  update: updateFavorites,
-                  removeSeparator: (favs[0] == fav),
-                ),
+                LinesListButton(
+                isLoading: false,
+                line: fav,
+                onTap: () {
+                  RouteStateScope.of(context).go('/routes/details/${fav['id']}');
+                },
+              )              
           ],
         ),
       );

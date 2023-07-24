@@ -9,6 +9,9 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 
 Map listModes = {
+    'cable': [
+      'cable',
+    ],
     'train': [
       'physical_mode:RapidTransit',
       'physical_mode:Train',
@@ -73,21 +76,31 @@ int getMaxLength(int max, List list) {
   return list.length;
 }
 
-Map getTraficLines(String name) {
+Map? getTraficLines(Info line) {
   for (var lines in globals.trafic) {
-    if (lines['id'] == name) {
+    if (lines['id'] == line.id) {
       return lines;
     }
   }
-  return {};
+  return null;
+}
+
+Map getDefaultLine(Info line) {
+  return {
+    'id': line.id,
+    'code': line.name,
+    'name': line.libelle,
+    'color': 'aaaaaa',
+    'text_color': '000000',
+  };
 }
 
 Map? getReports(String lineId) {
-  return getTraficLines(LINES.getLines(lineId).id)['reports'];
+  return getTraficLines(LINES.getLines(lineId))?['reports'];
 }
 
 int? getSeverity(String lineId) {
-  return getTraficLines(LINES.getLines(lineId).id)['severity'];
+  return getTraficLines(LINES.getLines(lineId))?['severity'];
 }
 
 String getModeImage(line, isDark) {
@@ -199,6 +212,24 @@ String getSlugTitle(severity) {
     return 'Information';
   } else {
     return 'Trafic fluide';
+  }
+}
+
+String getSlugLongTitle(severity) {
+  if (severity == 0) {
+    return 'Trafic fluide';
+  } else if (severity == 5) {
+    return 'Le trafic est fortement perturbé';
+  } else if (severity == 4) {
+    return 'Le trafic est perturbé';
+  } else if (severity == 3) {
+    return 'Des travaux sont en cours';
+  } else if (severity == 2) {
+    return 'Des travaux sont à venir';
+  } else if (severity == 1) {
+    return 'Information';
+  } else {
+    return 'Rien à signaler';
   }
 }
 

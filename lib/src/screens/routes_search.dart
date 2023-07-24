@@ -7,17 +7,17 @@ import 'package:navika/src/routing.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/places/empty.dart';
-import 'package:navika/src/widgets/places/listbutton.dart';
+import 'package:navika/src/widgets/lines/listbutton.dart';
 import 'package:navika/src/widgets/places/load.dart';
 
-class SchedulesSearch extends StatefulWidget {
-	const SchedulesSearch({super.key});
+class RoutesSearch extends StatefulWidget {
+	const RoutesSearch({super.key});
 
 	@override
-	State<SchedulesSearch> createState() => _SchedulesSearchState();
+	State<RoutesSearch> createState() => _RoutesSearchState();
 }
 
-class _SchedulesSearchState extends State<SchedulesSearch> {
+class _RoutesSearchState extends State<RoutesSearch> {
   final myController = TextEditingController();
   
   FocusNode textFieldNode = FocusNode();
@@ -25,9 +25,9 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
   ApiStatus error = ApiStatus.ok;
   int flag = 0;
   bool isLoading = false;
-  List places = [];
+  List lines = [];
 
-  Future<void> _getStops() async {
+  Future<void> _getLines() async {
     flag++;
 
     setState(() {
@@ -36,17 +36,16 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
     });
 
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getStops(search, globals.locationData, flag);
+    Map result = await navikaApi.getLines(search, flag);
 
     setState(() {
       error = result['status'];
     });
-
     
     if (mounted) {
       setState(() {
         if (result['value']?['flag'] == flag) {
-          places = result['value']?['places'];
+          lines = result['value']?['lines'];
         }
         isLoading = false;
       });
@@ -58,7 +57,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => {
       FocusScope.of(context).requestFocus(textFieldNode),
-      _getStops()
+      _getLines()
     });
   }
   @override
@@ -74,13 +73,13 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
         controller: myController,
         focusNode: textFieldNode,
         decoration: const InputDecoration(
-          hintText: 'Rechercher une gare, un arrêt ou une stations'
+          hintText: 'Rechercher une ligne'
         ),
         onChanged: (text) {
           setState(() {
             search = text;
           });
-          _getStops();
+          _getLines();
         },
       ),
 		),
@@ -92,21 +91,17 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
             error: error,
           )
         
-        else if (places.isNotEmpty)
-          for (var place in places)
-            PlacesListButton(
+        else if (lines.isNotEmpty)
+          for (var line in lines)
+            LinesListButton(
               isLoading: isLoading,
-              place: place,
+              line: line,
               onTap: () {
-                globals.schedulesStopArea = place['id'];
-                globals.schedulesStopName = place['name'];
-                globals.schedulesStopModes = place['modes'];
-                globals.schedulesStopLines = [];
-                RouteStateScope.of(context).go('/schedules/stops/${place['id']}');
+                RouteStateScope.of(context).go('/routes/details/${line['id']}');
               },
             )
 
-        else if (places.isEmpty && isLoading == true)
+        else if (lines.isEmpty && isLoading == true)
           const PlacesLoad()
           
         else

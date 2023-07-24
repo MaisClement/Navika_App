@@ -50,13 +50,7 @@ class DeparturesBlock extends StatelessWidget {
                 ]),
             child: InkWell(
               onTap: () {
-                globals.schedulesStopArea = id;
-                globals.schedulesStopName = name;
-                globals.schedulesStopModes = modes;
-                globals.schedulesStopLines = [];
-                globals.departure = line;
-                RouteStateScope.of(context)
-                    .go('/schedules/stops/$id/departures/${line['id']}');
+                RouteStateScope.of(context).go('/routes/details/${line['id']}');
               },
               child: Row(
                 children: [

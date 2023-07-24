@@ -47,13 +47,17 @@ class _BikeBodyState extends State<BikeBody>
   Future<void> _getSchedules() async {
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getBikeStations(globals.schedulesStopArea);
+
+    setState(() {
+      error = result['status'];
+    });
+
     
     if (mounted) {
       setState(() {
         if (result['value']?['station'] != null) {
           bikeStation = result['value']?['station'];
         }
-        error = result['status'];
       });
     }
   }

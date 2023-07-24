@@ -30,7 +30,7 @@ class DeparturesList extends StatelessWidget {
         controller: scrollController,
         children: [
           if (departures.isEmpty)
-            loader(context)
+            LinearProgressIndicator()
 
           else if (ungroupDepartures)
             DeparturesCascade(

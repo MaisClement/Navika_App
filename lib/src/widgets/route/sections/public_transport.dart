@@ -87,17 +87,20 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
               children: [
                 Text(widget.section['from']['name'],
                   style: const TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
-                  )
+                  ),
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 Row(
                   children: [
                     Text(
                       '➜ ',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         fontWeight: FontWeight.w600,
                         fontFamily: 'Segoe Ui',
                         color: HexColor.fromHex(widget.section['informations']['line']['color']),
@@ -106,6 +109,9 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                     Expanded(
                       child: Text( widget.section['informations']['direction']['id'].substring(0, widget.section['informations']['direction']['id'].indexOf('(')), 
                         style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Segoe Ui',
                           color: HexColor.fromHex(widget.section['informations']['line']['color']),
                         ),
                         maxLines: 1,

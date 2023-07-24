@@ -103,7 +103,8 @@ void addToHistory (Map place) {
   if (place['lines'] != null) {
     place['lines'] = [];
   }
-  history.insert(0, place);
+
+  history = [place, ...history];
   history = history.slice(0, history.length > 15 ? 15 : history.length);
 
   globals.hiveBox.put('historyPlaces', history);
@@ -178,16 +179,16 @@ class _JourneysListState extends State<JourneysList> {
     });
 
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getJourneys(
-      globals.route['from']['id'], 
-      globals.route['to']['id'], 
-      dt, 
-      travelerType);
+    Map result = await navikaApi.getJourneys(globals.route['from']['id'], globals.route['to']['id'], dt, travelerType);
+
+    setState(() {
+      error = result['status'];
+    });
+
 
     if (mounted) {
       setState(() {
         journeys = result['value']?['journeys'];
-        error = result['status'];
         isLoading = false;
       });
     }

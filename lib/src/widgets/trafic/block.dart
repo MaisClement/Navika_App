@@ -4,7 +4,7 @@ import 'package:navika/src/routing.dart';
 import 'package:navika/src/data/lines.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
-
+import 'package:navika/src/data/global.dart' as globals;
 
 class TraficBlock extends StatelessWidget {
   final String name;
@@ -30,13 +30,15 @@ class TraficBlock extends StatelessWidget {
               border: Border.all(
                 width: 3.0,
                 color: getSlug(
-                    getTraficLines(LINES.getLines(name).id)['severity']),
+                    getTraficLines(LINES.getLines(name))?['severity'] ?? 0),
               ),
             ),
             child: InkWell(
               child: Image(image: AssetImage( getIconLine(context, LINES.getLines(name)) )),
               onTap: () {
-                RouteStateScope.of(context).go('/trafic/$name');
+                globals.lineTrafic = getTraficLines(LINES.getLines(name)) ?? getDefaultLine(LINES.getLines(name));
+                print({'INFO_', getTraficLines(LINES.getLines(name))});
+                RouteStateScope.of(context).go('/trafic/details');
               },
             ),
           ),
@@ -45,9 +47,7 @@ class TraficBlock extends StatelessWidget {
             height: 20,
             top: 33,
             left: 33,
-            child: Image(
-                image: getSlugImage(
-                    getTraficLines(LINES.getLines(name).id)['severity'])),
+            child: Image(image: getSlugImage(getTraficLines(LINES.getLines(name))?['severity'] ?? 0 )),
           )
         ],
       );

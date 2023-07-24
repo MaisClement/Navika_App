@@ -191,7 +191,7 @@ class _SettingsState extends State<Settings> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   Text(
-                    '${globals.NAME} 2023 • Version ${globals.VERSION}',
+                    '${globals.NAME} 2023 • Version v${globals.VERSION}',
                     style: TextStyle(
                       fontFamily: 'Segoe Ui',
                       color: Colors.white,

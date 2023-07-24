@@ -112,6 +112,11 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
   Future<void> _getSchedules() async {
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getSchedules(globals.schedulesStopArea, ungroupDepartures);
+
+    setState(() {
+      error = result['status'];
+    });
+
     
     if (mounted) {
       setState(() {
@@ -122,7 +127,6 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
           departures = result['value']?['departures'];
         }
         globals.schedulesStopLines = getLines(result['value']!);
-        error = result['status'];
       });
     }
   }

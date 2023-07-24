@@ -5,6 +5,27 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/icons/icons.dart';
 import 'package:navika/src/data/global.dart' as globals;
 
+void handleAddToFavorite(widget, line, context) {
+  List list = globals.hiveBox.get('stopsFavorites');
+  list.add({
+    'id': widget.id,
+    'name': widget.name,
+    'modes': widget.modes,
+    'line': line['id']
+  });
+  globals.hiveBox.put('stopsFavorites', list);
+  Navigator.pop(context);
+  //RouteStateScope.of(context).go('/schedules');
+  FloatingSnackBar(
+    message: 'Favoris ajouté.',
+    context: context,
+    textColor: mainColor(context),
+    textStyle: snackBarText,
+    duration: const Duration(milliseconds: 4000),
+    backgroundColor: const Color(0xff272727),
+  );
+}
+
 class BottomAddFavorite extends StatefulWidget {
   final String name;
   final String id;
@@ -76,34 +97,16 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
                   Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: () {
-                        List list = globals.hiveBox.get('stopsFavorites');
-                        list.add({
-                          'id': widget.id,
-                          'name': widget.name,
-                          'modes': widget.modes,
-                          'line': line['id']
-                        });
-                        globals.hiveBox.put('stopsFavorites', list);
-                        Navigator.pop(context);
-                        //RouteStateScope.of(context).go('/schedules');
-                        FloatingSnackBar(
-                          message: 'Favoris ajouté.',
-                          context: context,
-                          textColor: mainColor(context),
-                          textStyle: snackBarText,
-                          duration: const Duration(milliseconds: 4000),
-                          backgroundColor: const Color(0xff272727),
-                        );
-                      },
+                      onTap: () => handleAddToFavorite(widget, line, context),
                       child: Row(
                         children: [
                           Icones(
-                              line: line,
-                              oldLine: line,
-                              i: 0,
-                              size: 30,
-                              isDark: Brightness.dark != Theme.of(context).colorScheme.brightness),
+                            line: line,
+                            prevLine: line,
+                            i: 0,
+                            size: 30,
+                            isDark: Brightness.dark != Theme.of(context).colorScheme.brightness,
+                          ),
                           const SizedBox(
                             width: 10,
                           ),

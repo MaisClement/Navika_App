@@ -9,6 +9,7 @@ import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/widgets/bottom_sheets/remove_favorite.dart';
 import 'package:navika/src/widgets/schedules/block.dart';
+import 'package:navika/src/widgets/schedules/skelton.dart';
 
 class FavoriteBody extends StatefulWidget {
   final String id;
@@ -58,6 +59,10 @@ class _FavoriteBodyState extends State<FavoriteBody>
   Future<void> _getSchedules() async {
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getSchedulesLines(widget.id, widget.line);
+
+    setState(() {
+      error = result['status'];
+    });
     
     if (mounted) {
       setState(() {
@@ -69,7 +74,6 @@ class _FavoriteBodyState extends State<FavoriteBody>
           schedules = result['value']?['departures'];
           mode = result['value']?['departures']?[0]?['mode'];
         }
-        error = result['status'];
       });
     }
   }
@@ -144,15 +148,8 @@ class _FavoriteBodyState extends State<FavoriteBody>
             ErrorMessage(
               error: error,
             )
-          else if (mode == '' && schedules.isEmpty)
-            Container(
-              margin: const EdgeInsets.only(top: 20, bottom: 20),
-              child: const SizedBox(
-                height: 30.0,
-                width: 30.0,
-                child: CircularProgressIndicator(),
-              ),
-            )
+          else if ( mode == '' && schedules.isEmpty )
+            SchedulesSkelton()
           else if (mode == 'rail' || mode == 'nationalrail')
             Column(
               children: [

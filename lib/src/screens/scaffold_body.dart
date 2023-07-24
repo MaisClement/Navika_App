@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:navika/src/routing.dart';
+import 'package:navika/src/screens/routes.dart';
 import 'package:navika/src/screens/trafic.dart';
 import 'package:navika/src/widgets/fade_transition_page.dart';
 import 'package:navika/src/screens/schedules.dart';
@@ -26,7 +27,6 @@ class NavikaAppScaffoldBody extends StatelessWidget {
 
 		if (kDebugMode) {
 		  print({'INFO_route', pathTemplate});
-		  print({'INFO_', globals.schedulesStopLines});
 		}
     
 		return Navigator(
@@ -67,6 +67,13 @@ class NavikaAppScaffoldBody extends StatelessWidget {
 						key: ValueKey('schedules'),
 						child: Schedules(),
 					)
+				
+				else if (pathTemplate.startsWith('/routes'))
+					const FadeTransitionPage<void>(
+						key: ValueKey('routes'),
+						child: Routes(),
+					)
+
 				else if (pathTemplate.startsWith('/trafic'))
 					const FadeTransitionPage<void>(
 						key: ValueKey('trafic'),

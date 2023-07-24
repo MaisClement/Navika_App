@@ -1,30 +1,54 @@
 import 'package:flutter/material.dart';
 
 import 'package:navika/src/data/lines.dart';
+import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/screens/navigation_bar.dart';
+import 'package:navika/src/screens/routes_details.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
+import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/trafic_details/disruptions.dart';
 import 'package:navika/src/widgets/trafic_details/works.dart';
 
-class TraficDetails extends StatelessWidget {
-  final String lineId;
+class TraficDetails extends StatefulWidget {
+  const TraficDetails({super.key});
 
-  const TraficDetails({
-    super.key,
-    required this.lineId,
-  });
+  @override
+  State<TraficDetails> createState() => _TraficDetailsState();
+}
+
+class _TraficDetailsState extends State<TraficDetails> {
+
+  bool _isFavorite = isFavoriteLine( globals.lineTrafic['id'] );
+
+  void update() {
+    setState(() {
+      _isFavorite = isFavoriteLine( globals.lineTrafic['id'] );
+    });
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        bottomNavigationBar: getNavigationBar(context),
         appBar: AppBar(
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('Info Trafic', style: appBarTitle),
-              if (LINES.getLines(lineId).libelle != '')
-                Text(LINES.getLines(lineId).libelle, style: appBarSubtitle),
+              if (LINES.getLinesById(globals.lineTrafic['id']).libelle != '')
+                Text(LINES.getLinesById(globals.lineTrafic['id']).libelle, style: appBarSubtitle),
             ],
           ),
+          actions: [
+            IconButton(
+              icon: _isFavorite
+                  ? const Icon(NavikaIcons.star_filled)
+                  : const Icon(NavikaIcons.star),
+              tooltip: 'Ajouter aux favoris',
+              onPressed: () => addLineToFavorite(globals.lineTrafic, context, update),
+            ),
+          ],
         ),
         body: Container(
           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
@@ -45,12 +69,14 @@ class TraficDetails extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                             width: 3.0,
-                            color: getSlug(getSeverity(lineId), 1),
+                            color: getSlug(globals.lineTrafic['severity'], 1),
                           ),
                         ),
-                        child: Image(
-                            image: AssetImage(
-                                getIconLine(context, LINES.getLines(lineId)))),
+                        child: LinesIcones(
+                          line: globals.lineTrafic,
+                          removeMargin: true,
+                          size: 30,
+                        ),
                       ),
                       Positioned(
                         width: 20,
@@ -58,26 +84,26 @@ class TraficDetails extends StatelessWidget {
                         top: 43,
                         left: 43,
                         child:
-                            Image(image: getSlugImage(getSeverity(lineId), 1)),
+                            Image(image: getSlugImage(globals.lineTrafic['severity'], 1)),
                       )
                     ],
                   ),
-                  Text(getSlugTitle(getSeverity(lineId)),
+                  Text(getSlugTitle(globals.lineTrafic['severity']),
                       style: const TextStyle(
                           fontWeight: FontWeight.w700, fontSize: 20)),
                 ],
               ),
 
 // CTRAFIC
-              if (getTraficLines(LINES.getLines(lineId).id)['reports'] != null)
+              if (globals.lineTrafic['reports'] != null)
                 TraficDisruptions(
-                  reports: getTraficLines(LINES.getLines(lineId).id)['reports'],
+                  reports: globals.lineTrafic['reports'],
                 ),
 
 // FWORK
-              if (getReports(lineId) != null && getReports(lineId)!['future_work'].length > 0)
+              if (globals.lineTrafic['reports'] != null && globals.lineTrafic['reports']!['future_work'].length > 0)
                 TraficWorks(
-                  reports: getReports(lineId)!,
+                  reports: globals.lineTrafic['reports'],
                 ),
             ],
           ),

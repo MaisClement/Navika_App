@@ -24,8 +24,8 @@ class SectionStreetNetwork extends StatelessWidget {
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-          Column(
-            children: const [
+          const Column(
+            children: [
               Padding(
                 padding: EdgeInsets.only(
                   top: 10, left: 20, right: 20
@@ -51,10 +51,13 @@ class SectionStreetNetwork extends StatelessWidget {
               children: [
                 Text(section['from']['name'],
                   style: const TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
-                  )
+                  ),
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 Text('${getDistanceText(section['geojson']['properties'][0]['length'])} • ${getDuration(section['duration'])}'),
               ],

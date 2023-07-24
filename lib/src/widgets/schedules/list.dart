@@ -23,7 +23,7 @@ class SchedulesList extends StatelessWidget {
         controller: scrollController,
         children: [
           if (schedules.isEmpty)
-            loader(context)
+            LinearProgressIndicator()
           else
             for (var line in schedules)
               if (modes.contains(line['mode']))

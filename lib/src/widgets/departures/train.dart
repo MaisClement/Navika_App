@@ -73,7 +73,7 @@ class DepartureTrain extends StatelessWidget {
                       children: [
                         Icones(
                           line: train['informations']['line'],
-                          oldLine: train['informations']['line'],
+                          prevLine: train['informations']['line'],
                           i: 0,
                           size: 25,
                           isDark: Brightness.dark != Theme.of(context).colorScheme.brightness

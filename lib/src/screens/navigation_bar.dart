@@ -12,7 +12,8 @@ NavigationBar getNavigationBar(context) {
         onDestinationSelected: (idx) {
           if (idx == 0) routeState.go('/home');
           if (idx == 1) routeState.go('/schedules');
-          if (idx == 2) routeState.go('/trafic');
+          if (idx == 2) routeState.go('/routes');
+          if (idx == 3) routeState.go('/trafic');
         },
         destinations: const [
           NavigationDestination(
@@ -26,6 +27,11 @@ NavigationBar getNavigationBar(context) {
             selectedIcon: Icon(NavikaIcons.clock_filled),
           ),
           NavigationDestination(
+            label: 'Lignes',
+            icon: Icon(NavikaIcons.route),
+            selectedIcon: Icon(NavikaIcons.route_filled),
+          ),
+          NavigationDestination(
             label: 'Trafic',
             icon: Icon(NavikaIcons.cone),
             selectedIcon: Icon(NavikaIcons.cone_filled),
@@ -37,6 +43,7 @@ NavigationBar getNavigationBar(context) {
 int _getSelectedIndex(String pathTemplate) {
   if (pathTemplate.startsWith('/home')) return 0;
   if (pathTemplate.startsWith('/schedules')) return 1;
-  if (pathTemplate.startsWith('/trafic')) return 2;
+  if (pathTemplate.startsWith('/routes')) return 2;
+  if (pathTemplate.startsWith('/trafic')) return 3;
   return 0;
 }
