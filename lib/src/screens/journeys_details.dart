@@ -173,11 +173,10 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                 ),
                 snapPoint: 0.55,
                 minHeight: 85,
-                maxHeight: (MediaQuery.of(context).size.height - 85),
+                maxHeight: (MediaQuery.of(context).size.height - (MediaQuery.of(context).viewInsets.top + 60)),
                 controller: panelController,
                 onPanelSlide: (position) => onPanelSlide(position),
                 header: RoutePannel(
-                  opacity: getOpacity(_position),
                   journey: globals.journey,
                 ),
                 panelBuilder: (ScrollController scrollController) => RouteBody(
@@ -186,6 +185,17 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                   zoomTo: zoomTo,
                 ),
                 body: HereMap(onMapCreated: _onMapCreated),
+              ),
+              Positioned(
+                left: 10,
+                bottom: panelButtonBottomOffset - 20,
+                child: Opacity(
+                  opacity: getOpacity(_position),
+                  child: SvgPicture.asset(
+                    hereIcon(context),
+                    width: 50,
+                  ),
+                ),
               ),
               Positioned(
                 top: 0,
@@ -254,17 +264,6 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                       _zoomOn();
                       closePanel();
                     },
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 10,
-                bottom: panelButtonBottomOffset - 20,
-                child: Opacity(
-                  opacity: getOpacity(_position),
-                  child: SvgPicture.asset(
-                    hereIcon(context),
-                    width: 50,
                   ),
                 ),
               ),
