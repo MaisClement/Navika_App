@@ -47,7 +47,7 @@ class _NavikaAppState extends State<NavikaApp> {
 				'/routes/details/:id',
 				'/trafic',
         '/trafic/details',
-				'/web/:uri'
+				'/web/:uri',
 				'/pdf'
 			],
 			initialRoute: '/home',

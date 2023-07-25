@@ -38,6 +38,7 @@ Map journey = {};
 Map departure = {};
 List trafic = [];
 
+String pdfTitle = '';
 String pdfUrl = '';
 
 bool routePosUsed = false;

@@ -60,11 +60,11 @@ class _FavoriteBodyState extends State<FavoriteBody>
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getSchedulesLines(widget.id, widget.line);
 
-    setState(() {
-      error = result['status'];
-    });
+   if (mounted) {
+      setState(() {
+        error = result['status'];
+      });
     
-    if (mounted) {
       setState(() {
         if (result['value']?['schedules'] != null) {
           schedules = result['value']?['schedules'];
@@ -149,7 +149,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
               error: error,
             )
           else if ( mode == '' && schedules.isEmpty )
-            SchedulesSkelton()
+            const SchedulesSkelton()
           else if (mode == 'rail' || mode == 'nationalrail')
             Column(
               children: [

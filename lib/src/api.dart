@@ -167,7 +167,7 @@ class NavikaApi {
   }
 
   Future getLine(String id) async {
-      String url = buildUrl('${globals.API_LINES}/${id}', {});
+      String url = buildUrl('${globals.API_LINES}/$id', {});
 
     return doRequest(url);
   }
@@ -193,7 +193,7 @@ class NavikaApi {
 
 
   Future getSchedules(String id, bool ungroup) async {
-      String url = buildUrl('${globals.API_SCHEDULES}/${id}', {
+      String url = buildUrl('${globals.API_SCHEDULES}/$id', {
         'ungroupDepartures': ungroup.toString()
       });
 
@@ -201,7 +201,7 @@ class NavikaApi {
   }
 
   Future getSchedulesLines(String id, String line) async {
-      String url = buildUrl('${globals.API_SCHEDULES}/${id}', {
+      String url = buildUrl('${globals.API_SCHEDULES}/$id', {
         'l': line
       });
 

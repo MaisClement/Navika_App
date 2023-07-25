@@ -44,11 +44,11 @@ class _JourneysSearchState extends State<JourneysSearch> {
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getPlaces(search, globals.locationData, flag);
 
-    setState(() {
-      error = result['status'];
-    });
-
     if (mounted) {
+      setState(() {
+        error = result['status'];
+      });
+
       setState(() {
         if (result['value']?['flag'] == flag) {
           places = result['value']?['places'];

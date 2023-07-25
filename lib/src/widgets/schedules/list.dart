@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/schedules/block.dart';
 
 class SchedulesList extends StatelessWidget {
@@ -23,7 +22,7 @@ class SchedulesList extends StatelessWidget {
         controller: scrollController,
         children: [
           if (schedules.isEmpty)
-            LinearProgressIndicator()
+            const LinearProgressIndicator()
           else
             for (var line in schedules)
               if (modes.contains(line['mode']))

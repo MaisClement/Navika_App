@@ -187,9 +187,9 @@ class _SettingsState extends State<Settings> {
               width: double.infinity,
               padding: const EdgeInsets.only(
                   left: 20, right: 20, top: 10, bottom: 10),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
                     '${globals.NAME} 2023 • Version v${globals.VERSION}',
                     style: TextStyle(

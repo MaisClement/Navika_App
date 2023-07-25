@@ -1,6 +1,5 @@
 import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:internet_file/internet_file.dart';
 import 'package:navika/src/api.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
@@ -8,13 +7,11 @@ import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style/style.dart';
-import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/icons/icons.dart';
 import 'package:navika/src/widgets/lines/pdf_map.dart';
 import 'package:navika/src/widgets/utils/button_large.dart';
 import 'package:navika/src/widgets/utils/button_large_trafic.dart';
-import 'package:pdfx/pdfx.dart';
 
 bool isFavoriteLine(id) {
   List favs = globals.hiveBox?.get('linesFavorites') ?? [];
@@ -97,16 +94,7 @@ String? getMapUrl(Map line) {
 List<Widget> getTimeTableWidgets(Map line, context) {
   List<Widget> res = [];
 
- // res.add(const SizedBox(height: 5));
- // res.add(const Divider(
- //   color: Color(0xff808080),
- //   thickness: 1.5,
- //   indent: 20,
- //   endIndent: 20,
- // ));
   res.add(const SizedBox(height: 15));
-
-  print({'INFO_', line['timetables']});
 
   if (line['timetables']['timetables'].length == 1) {
     res.add(Padding(
@@ -119,9 +107,10 @@ List<Widget> getTimeTableWidgets(Map line, context) {
           fontSize: 17,
         ),
         borderRadius: BorderRadius.circular(15),
-        onTap: () => {
-          globals.pdfUrl = line['timetables']['timetables'][0]['url'],
-          RouteStateScope.of(context).go('/pdf')
+        onTap: () {
+          globals.pdfUrl = line['timetables']['timetables'][0]['url'];
+          globals.pdfTitle = 'Ligne ${line['name']}';
+          RouteStateScope.of(context).go('/pdf');
         },
       ),
     ));
@@ -200,7 +189,7 @@ class _RoutesDetailsState extends State<RoutesDetails>
         bottomNavigationBar: getNavigationBar(context),
         appBar: AppBar(
           title: isLoading
-          ? Text('Lignes', style: appBarTitle)
+          ? const Text('Lignes', style: appBarTitle)
           : Text('Ligne ${line['name']}', style: appBarTitle),
           actions: [
             IconButton(
@@ -219,7 +208,7 @@ class _RoutesDetailsState extends State<RoutesDetails>
                 error: error,
               )
             else if (isLoading)
-              LinearProgressIndicator()
+              const LinearProgressIndicator()
             else
               Column(
                 children: [

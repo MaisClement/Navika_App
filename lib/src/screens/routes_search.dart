@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/api.dart';
 
 import 'package:navika/src/routing.dart';
-import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/lines/listbutton.dart';
