@@ -94,7 +94,7 @@ class _AddAddressState extends State<AddAddress> {
     Navigator.pop(context);
     RouteStateScope.of(context).go('/home');
     FloatingSnackBar(
-      message: 'Nouvelle adresse ajouté.',
+      message: widget.id == '' ? 'Nouvelle adresse ajouté.' : 'Adresse modifié',
       context: context,
       textColor: mainColor(context),
       textStyle: snackBarText,
