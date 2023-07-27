@@ -1,8 +1,10 @@
 import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/routing.dart';
+import 'package:navika/src/widgets/utils/icon_elevated.dart';
 
 int getAddressPos(id) {
   List favs = globals.hiveBox?.get('addressFavorites') ?? [];
@@ -67,7 +69,7 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress>
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 325,
+        height: 260,
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(5), topRight: Radius.circular(5)),
@@ -86,7 +88,7 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Modifier ou supprimer une adresse.',
+                'Editer une adresse.',
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.w600,
@@ -97,52 +99,56 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress>
               Divider(
                 color: accentColor(context),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              /*Expanded(
-                child: Text(
-                  'Etes-vous sur de supprimer cette adresse ?',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
-                    color: accentColor(context),
-                  ),
-                ),
-              ),*/
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              // Expanded(
+              //   child: Text(
+              //     'Modifier ou supprimer cette adresse ?',
+              //     style: TextStyle(
+              //       fontWeight: FontWeight.w600,
+              //       fontFamily: 'Segoe Ui',
+              //       color: accentColor(context),
+              //     ),
+              //   ),
+              // ),
               const SizedBox(
                 height: 20,
               ),
               Center(
-                child: ElevatedButton(
-                  child: const Text('Modifer'),
+                child: IconElevatedButton(
+                  icon: NavikaIcons.edit,
+                  width: 138,
+                  text: 'Modifer',
                   onPressed: () {
-                    RouteStateScope.of(context).go('/home/address/${widget.type}/${getAddressPos(widget.id)}');
+                      RouteStateScope.of(context).go('/home/address/${widget.type}/${getAddressPos(widget.id)}');
                   },
                 ),
               ),
               Center(
-                child: ElevatedButton(
+                child: IconElevatedButton(
+                  icon: NavikaIcons.trash,
+                  width: 138,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xffeb2031),
                     foregroundColor: const Color(0xffffffff),
                   ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                  child: const Text('Supprimer'),
-                  onPressed: () {
-                    removeAddress(widget, context);
-                  },
+                  text: 'Supprimer',
+                  onPressed: () => removeAddress(widget, context),
                 ),
               ),
               Center(
-                child: ElevatedButton(
+                child: IconElevatedButton(
+                  icon: NavikaIcons.cancel,
+                  width: 138,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.surface,
-                    foregroundColor: Theme.of(context).colorScheme.primary,
-                  ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                  child: const Text('Annuler'),
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      foregroundColor: Theme.of(context).colorScheme.primary,
+                    ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                    text: 'Annuler',
                   onPressed: () => Navigator.pop(context),
                 ),
-              )
+              ),
             ],
           ),
         ),

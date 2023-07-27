@@ -10,8 +10,8 @@ class SchedulesSkelton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Shimmer.fromColors(
-    baseColor: Color(0xffe0e0e0),
-    highlightColor: Color(0xfff5f5f5),
+    baseColor: const Color(0xffe0e0e0),
+    highlightColor: const Color(0xfff5f5f5),
     child: Container(
           margin: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 5.0),
           decoration: BoxDecoration(
@@ -24,7 +24,7 @@ class SchedulesSkelton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   color: Colors.grey[300],
                 ),
-                child: SizedBox(height: 40, width: double.infinity),
+                child: const SizedBox(height: 40, width: double.infinity),
               ),
               for (var i = 0; i < 2; i++)
                 Container(
@@ -36,7 +36,7 @@ class SchedulesSkelton extends StatelessWidget {
                       Row(
                         children: [
                           Container(
-                            margin: EdgeInsets.only(top: 5, bottom: 5),
+                            margin: const EdgeInsets.only(top: 5, bottom: 5),
                             width: (Random().nextInt(200) + 50).toDouble(),
                             height: 23,
                             decoration: BoxDecoration(
@@ -49,7 +49,7 @@ class SchedulesSkelton extends StatelessWidget {
                       Row(children: [
                         for (var j = 0; j < (Random().nextInt(3) + 1); j++)
                           Container(
-                              margin: EdgeInsets.only(top: 5, right: 10),
+                              margin: const EdgeInsets.only(top: 5, right: 10),
                               width: 70,
                               height: 30,
                               decoration: BoxDecoration(
@@ -60,7 +60,7 @@ class SchedulesSkelton extends StatelessWidget {
                     ],
                   ),
                 ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
@@ -70,7 +70,7 @@ class SchedulesSkelton extends StatelessWidget {
                   color: Colors.grey[300],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 13,
               ),                        
               Center(

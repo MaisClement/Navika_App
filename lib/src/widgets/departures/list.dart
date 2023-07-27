@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/departures/block.dart';
 import 'package:navika/src/widgets/departures/cascade.dart';
 
@@ -23,14 +22,13 @@ class DeparturesList extends StatelessWidget {
     super.key,
   });
   
-
   @override
   Widget build(BuildContext context) => ListView(
         padding: EdgeInsets.zero,
         controller: scrollController,
         children: [
           if (departures.isEmpty)
-            LinearProgressIndicator()
+            const LinearProgressIndicator()
 
           else if (ungroupDepartures)
             DeparturesCascade(

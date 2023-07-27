@@ -107,6 +107,7 @@ void addToHistory (Map place) {
   history = [place, ...history];
   history = history.slice(0, history.length > 15 ? 15 : history.length);
 
+
   globals.hiveBox.put('historyPlaces', history);
 }
 

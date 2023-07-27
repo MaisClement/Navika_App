@@ -27,7 +27,7 @@ class _PDFMapState extends State<PDFMap> with SingleTickerProviderStateMixin {
 
     PdfPage page = await document.getPage(1);
 
-    double _width = page.width / page.height * size;
+    double pageWidth = page.width / page.height * size;
 
     final pageImage = (await page.render(
       width: page.width,
@@ -41,7 +41,7 @@ class _PDFMapState extends State<PDFMap> with SingleTickerProviderStateMixin {
     setState(() {
       image = pageImage.bytes;
       isLoading = false;
-      width = _width;
+      width = pageWidth;
     });
   }
 
@@ -56,7 +56,7 @@ class _PDFMapState extends State<PDFMap> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          if (isLoading) LinearProgressIndicator(),
+          if (isLoading) const LinearProgressIndicator(),
           Container(
             color: Theme.of(context).colorScheme.background,
             height: widget.size,

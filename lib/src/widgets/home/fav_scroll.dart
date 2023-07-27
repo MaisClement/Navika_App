@@ -56,7 +56,7 @@ class HomeBodyFavScroll extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) => BottomRemoveAddress(
                     id: address[getAddressPos(address, 'home')]['id'],
-                    type: "home",
+                    type: 'home',
                   ),
                 );
               },

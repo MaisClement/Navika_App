@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:navika/src/screens/journeys_search.dart';
 import 'package:navika/src/screens/pdf.dart';
@@ -93,6 +94,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
         }
         if (pathTemplate == '/position') {
           routeState.go(globals.path[globals.path.length - 2]);
+          globals.path = [...globals.path.slice(0, globals.path.length - 2)];
         }
 
         if (pathTemplate == '/home/journeys') {
@@ -113,8 +115,8 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
         }
 
         if (pathTemplate == '/trafic/details') {
-          // routeState.go('/trafic');
           routeState.go(globals.path[globals.path.length - 2]);
+          globals.path = [...globals.path.slice(0, globals.path.length - 2)];
         }
 
         if (pathTemplate == '/schedules/search') {
@@ -135,6 +137,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
             routeState.go('/routes');
           } else {
             routeState.go(globals.path[globals.path.length - 2]);
+            globals.path = [...globals.path.slice(0, globals.path.length - 2)];
           }
         }
 
@@ -142,10 +145,12 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
             pathTemplate == '/trip/details/:id/from/:from' ||
             pathTemplate == '/trip/details/:id/from/:from/to/:to') {
           routeState.go(globals.path[globals.path.length - 2]);
+          globals.path = [...globals.path.slice(0, globals.path.length - 2)];
         }
 
         if (pathTemplate == '/pdf') {
           routeState.go(globals.path[globals.path.length - 2]);
+          globals.path = [...globals.path.slice(0, globals.path.length - 2)];
         }
 
         return route.didPop(result);
