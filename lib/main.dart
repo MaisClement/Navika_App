@@ -76,6 +76,11 @@ void _initializeHive() async {
     globals.hiveBox.put('travelerType', 'standard');
   }
 
+  // timeType
+  if (globals.hiveBox.get('timeType') == null) {
+    globals.hiveBox.put('timeType', 'departure');
+  }
+
   // Historique pour les itinéraires
   if (globals.hiveBox.get('historyPlaces') == null) {
     globals.hiveBox.put('historyPlaces', []);
