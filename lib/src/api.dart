@@ -172,14 +172,14 @@ class NavikaApi {
     return doRequest(url);
   }
 
-  Future getJourneys(String from, String to, DateTime datetime, String travelerType) async {
+  Future getJourneys(String from, String to, DateTime datetime, String travelerType, String timeType) async {
       String url = buildUrl(globals.API_JOURNEYS, {
         'from': from,
         'to': to,
-        'datetime': datetime.toIso8601String(),
+        timeType: datetime.toIso8601String(),
         'travelerType': travelerType,
       });
-
+    print({'INFO_URL': url});
     return doRequest(url);
   }
 

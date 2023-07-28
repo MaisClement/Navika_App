@@ -17,6 +17,7 @@ import 'package:navika/src/widgets/places/load.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/widgets/utils/search_box.dart';
+import 'package:navika/src/widgets/bottom_sheets/time_settings.dart';
 
 const shortMonth = {
   1: 'jan.',
@@ -174,13 +175,14 @@ class _JourneysListState extends State<JourneysList> {
     DateTime dt = DateTime(selectedDate.year, selectedDate.month,
         selectedDate.day, selectedTime.hour, selectedTime.minute);
     String travelerType = globals.hiveBox.get('travelerType');
+    String timeType = globals.hiveBox.get('timeType');
 
     setState(() {
       isLoading = true;
     });
 
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getJourneys(globals.route['from']['id'], globals.route['to']['id'], dt, travelerType);
+    Map result = await navikaApi.getJourneys(globals.route['from']['id'], globals.route['to']['id'], dt, travelerType, timeType);
 
     setState(() {
       error = result['status'];
@@ -285,7 +287,15 @@ class _JourneysListState extends State<JourneysList> {
                             borderRadius: BorderRadius.circular(500),
                           ),
                           child: InkWell(
-                            onTap: () {
+                            onTap: () async {
+                              await showModalBottomSheet<void>(
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: bottomSheetBorder,
+                                ),
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (BuildContext context) => const TimeSettings(),
+                              );
                               _selectDate(context);
                             },
                             borderRadius: BorderRadius.circular(500),
