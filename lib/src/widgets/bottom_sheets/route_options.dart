@@ -52,7 +52,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
 
   @override
   Widget build(BuildContext context) => SafeArea(
-    child: Container(
+        child: Container(
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(5), topRight: Radius.circular(5)),
@@ -65,8 +65,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
                 )
               ]),
           child: Container(
-            padding: const EdgeInsets.only(
-                left: 20.0, top: 30.0, right: 20.0, bottom: 10.0),
+            padding: const EdgeInsets.only(left: 20.0, top: 40.0, right: 20.0, bottom: 10.0),
             child: ListView(
               children: [
                 Text(
@@ -185,5 +184,5 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
             ),
           ),
         ),
-  );
+      );
 }

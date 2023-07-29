@@ -36,22 +36,6 @@ const divider = Divider(
   thickness: 1.5,
 );
 
-Widget loader(context) {
-  return Column(
-    children: [
-      const SizedBox(
-        height: 20,
-      ),
-      const CircularProgressIndicator(),
-      Text(
-        'Chargement...',
-        style:
-            TextStyle(color: accentColor(context), fontWeight: FontWeight.w700),
-      ),
-    ],
-  );
-}
-
 Widget voidData(context) {
   return Row(
     children: [

@@ -151,6 +151,12 @@ class _SettingsState extends State<Settings> {
                 height: 30
               ),
             ),
+            const Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: Divider(
+                color: Colors.white,
+              ),
+            ),
             SettingsLink(
               name: 'Github du projet ›',
               url: 'https://github.com/MaisClement/Navika_App',
@@ -172,8 +178,7 @@ class _SettingsState extends State<Settings> {
               url: 'http://app.navika.hackernwar.com/legal.php',
             ),
             Container(
-              padding: const EdgeInsets.only(
-                  left: 20, right: 20, top: 10, bottom: 10),
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
               child: const Text(
                 'Par respect pour votre confidentialité, Navika ne conserve aucune information vous concernant.',
                 style: TextStyle(
@@ -187,9 +192,9 @@ class _SettingsState extends State<Settings> {
               width: double.infinity,
               padding: const EdgeInsets.only(
                   left: 20, right: 20, top: 10, bottom: 10),
-              child: const Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: const [
                   Text(
                     '${globals.NAME} 2023 • Version v${globals.VERSION}',
                     style: TextStyle(

@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:navika/src/api.dart';
+import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/routing/route_state.dart';
 
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
@@ -20,34 +22,65 @@ class Trafic extends StatefulWidget {
 class _TraficState extends State<Trafic> {
   final String title = 'Info Trafic';
 
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
-  bool state = false;
   List trafic = [];
+  List favTrafic = [];
+  List favs = [];
   ApiStatus error = ApiStatus.ok;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      favs = globals.hiveBox?.get('linesFavorites') ?? [];
+    });
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => _refreshIndicatorKey.currentState?.show());
+  }
 
   Future<void> _getTrafic() async {
     if (globals.trafic.isNotEmpty) {
       setState(() {
-        state = true;
         trafic = globals.trafic;
       });
     }
 
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getTrafic([]);
-
-    setState(() {
-      error = result['status'];
-    });
-
     
     if (mounted) {
       setState(() {
-        state = true;
+        error = result['status'];
+      });
+      setState(() {
         trafic = result['value']?['trafic'];
         globals.trafic = result['value']?['trafic'];
+      });
+    }
+
+    _getFavTrafic();
+  }
+
+  Future<void> _getFavTrafic() async {
+    if (favs.isEmpty) {
+      return;
+    }
+
+    List lines = [];
+    for (var fav in favs) {
+      lines.add(fav['id']);
+    }
+
+    NavikaApi navikaApi = NavikaApi();
+    Map result = await navikaApi.getTrafic(lines);
+
+    if (mounted) {
+      setState(() {
+        error = result['status'];
+      });
+      setState(() {
+        favTrafic = result['value']?['trafic'];
       });
     }
   }
@@ -79,6 +112,65 @@ class _TraficState extends State<Trafic> {
                               isMarginDisabled: true,
                             ),
                           ),
+// Favoris
+                      Row(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 5.0),
+                            padding: const EdgeInsets.all(10.0),
+                            width: 45,
+                            height: 45,
+                            child: Icon(
+                              NavikaIcons.star,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
+                          Expanded(
+                            child: Wrap(
+                              children: [
+
+                                for (var fav in favs)
+                                  TraficBlock(
+                                    line: fav,
+                                    trafic: favTrafic,
+                                  ),
+
+                                Stack(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(5.0),
+                                      margin: const EdgeInsets.all(5.0),
+                                      width: 45,
+                                      height: 45,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context).colorScheme.background,
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          width: 3.0,
+                                          color: Colors.transparent,
+                                        ),
+                                      ),
+                                      child: InkWell(
+                                        child: Icon(
+                                          NavikaIcons.plus,
+                                          color: Theme.of(context).colorScheme.onSurface,
+                                        ),
+                                        onTap: () {
+                                          // globals.lineTrafic = getTrafic(trafic, name, line);
+                                          RouteStateScope.of(context).go('/trafic/add');
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                )
+
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      divider,
 
 // RER
                       Row(
@@ -367,12 +459,6 @@ class _TraficState extends State<Trafic> {
               ),
       );
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-        (_) => _refreshIndicatorKey.currentState?.show());
-  }
 
   @override
   void deactivate() {

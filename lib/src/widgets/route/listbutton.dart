@@ -17,8 +17,7 @@ class RouteListButton extends StatelessWidget {
   Widget build(BuildContext context) => InkWell(
         onTap: onTap,
         child: Container(
-          padding:
-              const EdgeInsets.only(left: 5, top: 12.0, right: 0.0, bottom: 0),
+          padding: const EdgeInsets.only(top: 12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -66,8 +65,8 @@ class RouteListButton extends StatelessWidget {
                 height: 8,
               ),
               Container(
-                color: const Color(0xff808080),
-                height: 1.5,
+                color: getShimmerBaseColor(context),
+                height: 1,
               )
             ],
           ),

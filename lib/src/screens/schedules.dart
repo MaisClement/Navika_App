@@ -85,7 +85,6 @@ class _SchedulesState extends State<Schedules> {
                 FavoriteBody(
                   id: fav['id'],
                   name: fav['name'],
-                  modes: fav['modes'],
                   line: fav['line'],
                   update: updateFavorites,
                   removeSeparator: (favs[0] == fav),

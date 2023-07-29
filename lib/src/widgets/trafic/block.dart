@@ -2,16 +2,43 @@ import 'package:flutter/material.dart';
 
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/data/lines.dart';
-import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/widgets/icons/lines.dart';
+
+Map getTrafic(List trafic, String? name, Map? line) {
+  String id = '';
+
+  if (name != null) {
+    id = LINES.getLines(name).id;
+
+  } else if (line!['id'] != null) {
+    id = line['id'];
+
+  }
+  
+  for (var el in trafic) {
+    if (el['id'] == id) {
+      return el;
+    }
+  }
+
+  // Si on a rien
+  if (name != null) {
+    return getDefaultLine(LINES.getLines(name));
+  }
+  
+  return line!;
+}
 
 class TraficBlock extends StatelessWidget {
-  final String name;
+  final String? name;
+  final Map? line;
   final List trafic;
 
   const TraficBlock({
-    required this.name,
+    this.name,
+    this.line,
     required this.trafic,
     super.key,
   });
@@ -29,15 +56,17 @@ class TraficBlock extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 width: 3.0,
-                color: getSlug(
-                    getTraficLines(LINES.getLines(name))?['severity'] ?? 0),
+                color: getSlug( getTrafic(trafic, name, line)['severity'] ?? 0),
               ),
             ),
             child: InkWell(
-              child: Image(image: AssetImage( getIconLine(context, LINES.getLines(name)) )),
+              child: LinesIcones(
+                line: getTrafic(trafic, name, line),
+                removeMargin: true,
+                size: 30,
+              ),
               onTap: () {
-                globals.lineTrafic = getTraficLines(LINES.getLines(name)) ?? getDefaultLine(LINES.getLines(name));
-                print({'INFO_', getTraficLines(LINES.getLines(name))});
+                globals.lineTrafic = getTrafic(trafic, name, line);
                 RouteStateScope.of(context).go('/trafic/details');
               },
             ),
@@ -47,7 +76,7 @@ class TraficBlock extends StatelessWidget {
             height: 20,
             top: 33,
             left: 33,
-            child: Image(image: getSlugImage(getTraficLines(LINES.getLines(name))?['severity'] ?? 0 )),
+            child: Image(image: getSlugImage( getTrafic(trafic, name, line)['severity'] ?? 0 )),
           )
         ],
       );

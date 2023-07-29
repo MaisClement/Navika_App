@@ -37,7 +37,7 @@ class ButtonLarge extends StatelessWidget {
             children: [
               if (icon != null)
                 Icon(icon, 
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  color: Theme.of(context).colorScheme.onSurface,
                   size: 25,
                 ),
               Expanded(

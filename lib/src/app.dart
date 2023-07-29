@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -19,8 +20,30 @@ class _NavikaAppState extends State<NavikaApp> {
 	late final SimpleRouterDelegate _routerDelegate;
 	late final TemplateRouteParser _routeParser;
 
+  // It is assumed that all messages contain a data field with the key 'type'
+  Future<void> setupInteractedMessage() async {
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    // if (message.data['type'] == 'trafic') {
+    //   RouteStateScope.of(context).go('/trafic');
+    // }
+    RouteStateScope.of(context).go('/trafic');
+  }
+
+
 	@override
 	void initState() {
+
+    setupInteractedMessage();
+
 		/// Configure the parser with all of the app's allowed path templates.
 		_routeParser = TemplateRouteParser(
 			allowedPaths: [
@@ -47,6 +70,7 @@ class _NavikaAppState extends State<NavikaApp> {
 				'/routes/details/:id',
 				'/trafic',
         '/trafic/details',
+        '/trafic/add',
 				'/web/:uri',
 				'/pdf'
 			],
@@ -177,7 +201,7 @@ class _NavikaAppState extends State<NavikaApp> {
           onSecondary: const Color(0xff000000),
           error: const Color(0xFFF32424),
           onError: const Color(0xFFF32424),
-          background: const Color(0xFFF1F2F3),
+          background: const Color(0xFF242425),
           onBackground: const Color(0xFFFFFFFF),
           surface: const Color(0xff000000),
           onSurface: const Color(0xFFFFFFFF),

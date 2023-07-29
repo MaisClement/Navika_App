@@ -49,11 +49,15 @@ dependencies:
   flutter_inappwebview: ^5.7.2
   collection: ^1.16.0
   flutter_rounded_date_picker: ^3.0.2
-  firebase_messaging: ^14.2.1
-  firebase_core: ^2.4.1
   floating_snackbar: ^1.0.3+1
   dotted_line: ^3.1.0
-  pdfx : ^2.4.0
+  connectivity_plus: ^4.0.1
+  internet_file: ^1.2.0
+  shimmer: ^3.0.0
+  pdfx: ^2.3.0
+  firebase_core: ^2.15.0
+  firebase_messaging: ^14.6.5
+  flutter_local_notifications: ^15.1.0+1
 
   flutter_localizations:
     sdk: flutter
@@ -64,9 +68,6 @@ dependencies:
   # flutter_compass: ^0.7.0
   flutter_compass:
     git: https://github.com/hemanthrajv/flutter_compass.git
-  connectivity_plus: ^4.0.1
-  internet_file: ^1.2.0
-  shimmer: ^3.0.0
   
 dev_dependencies:
   hive_generator: ^1.1.3

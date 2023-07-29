@@ -68,7 +68,7 @@ class _PositionState extends State<Position> {
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.onPrimary,
+                    backgroundColor: Colors.white,
                     foregroundColor: mainColor(context),
                   ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                   child: const Text('Autoriser'),
@@ -87,7 +87,7 @@ class _PositionState extends State<Position> {
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.onPrimary,
+                    backgroundColor: Colors.white,
                     foregroundColor: mainColor(context),
                   ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                   child: const Text('Ne pas autoriser'),

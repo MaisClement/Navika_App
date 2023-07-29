@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:navika/src/screens/journeys_search.dart';
 import 'package:navika/src/screens/pdf.dart';
@@ -7,6 +8,7 @@ import 'package:navika/src/screens/add_address.dart';
 import 'package:navika/src/screens/journeys_details.dart';
 import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/screens/routes_details.dart';
+import 'package:navika/src/screens/scaffold.dart';
 import 'package:navika/src/screens/schedules_departures.dart';
 import 'package:navika/src/screens/schedules_search.dart';
 import 'package:navika/src/screens/routes_search.dart';
@@ -15,12 +17,11 @@ import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/settings.dart';
 import 'package:navika/src/screens/trafic_details.dart';
 import 'package:navika/src/screens/schedules_details.dart';
-import 'package:navika/src/screens/scaffold.dart';
 import 'package:navika/src/screens/trip_details.dart';
 import 'package:navika/src/data/global.dart' as globals;
 
 /// Builds the top-level navigator for the app. The pages to display are based
-/// on the `routeState` that was parsed by the TemplateRouteParser.
+/// on the `routeState` that was parsed by the TemplateRouteParser. 
 class NavikaAppNavigator extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
 
@@ -39,28 +40,37 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
     final routeState = RouteStateScope.of(context);
     final pathTemplate = routeState.route.pathTemplate;
 
-    String? predefineType;
+    globals.path.add(routeState.route.path);
+
+		if (kDebugMode) {
+		  print({'INFO_route', pathTemplate});
+		}
+
+
+    String? type;
     String? id;
+    if (pathTemplate == '/stops/:id' || pathTemplate == '/bike/:id') {
+      id = routeState.route.parameters['id'];
+    }
     if (pathTemplate == '/home/address/:type') {
-      predefineType = routeState.route.parameters['type'];
+      type = routeState.route.parameters['type'];
     }
     if (pathTemplate == '/home/address/:type/:id') {
-      predefineType = routeState.route.parameters['type'];
+      type = routeState.route.parameters['type'];
       id = routeState.route.parameters['id'];
     }
 
-    String? type;
     if (pathTemplate == '/home/journeys/search/:type') {
       type = routeState.route.parameters['type'];
     }
 
-    String? stopLine;
+    String? lineId;
     if (pathTemplate == '/schedules/stops/:id') {
       id = routeState.route.parameters['id'];
     }
     if (pathTemplate == '/schedules/stops/:id/departures/:line_id') {
       id = routeState.route.parameters['id'];
-      stopLine = routeState.route.parameters['line_id'];
+      lineId = routeState.route.parameters['line_id'];
     }
 
     if (pathTemplate == '/routes/details/:id') {
@@ -88,7 +98,13 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
     return Navigator(
       key: widget.navigatorKey,
       onPopPage: (route, dynamic result) {
-        // Il y'a aussi des retour dans scaffold_body.dart
+        if (pathTemplate == '/stops/:id') {
+          routeState.go('/home');
+        }
+        if (pathTemplate == '/bike/:id') {
+          routeState.go('/home');
+        }
+
         if (pathTemplate == '/settings') {
           routeState.go('/home');
         }
@@ -117,6 +133,10 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
         if (pathTemplate == '/trafic/details') {
           routeState.go(globals.path[globals.path.length - 2]);
           globals.path = [...globals.path.slice(0, globals.path.length - 2)];
+        }
+
+        if (pathTemplate == '/trafic/add') {
+          routeState.go('/trafic');
         }
 
         if (pathTemplate == '/schedules/search') {
@@ -153,15 +173,28 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           globals.path = [...globals.path.slice(0, globals.path.length - 2)];
         }
 
+        //TEST
+        if (pathTemplate == '/stops/:id') {
+          routeState.go('/home');
+					return false; 
+        }
+        if (pathTemplate == '/bike/:id') {
+          routeState.go('/home');
+					return false; 
+        }
+
         return route.didPop(result);
       },
       pages: [
         // Display the app
-        const MaterialPage<void>(
-          key: ValueKey('Home'),
-          child: NavikaAppScaffold(),
+        MaterialPage<void>(
+          key: ValueKey('App'),
+          child: NavikaAppScaffold(
+            pathTemplate: pathTemplate,
+            id: id
+          ),
         ),
-
+        
         if (pathTemplate == '/settings')
           const MaterialPage<void>(
             key: ValueKey('Settings'),
@@ -177,17 +210,17 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
             key: ValueKey('Addresse'),
             child: AddAddress(),
           )
-        else if (pathTemplate == '/home/address/:type' && predefineType != null)
+        else if (pathTemplate == '/home/address/:type' && type != null)
           MaterialPage<void>(
             key: const ValueKey('Addresse'),
-            child: AddAddress(predefineType: predefineType),
+            child: AddAddress(predefineType : type),
           )
         else if (pathTemplate == '/home/address/:type/:id' &&
-            predefineType != null &&
+            type != null &&
             id != null)
           MaterialPage<void>(
             key: const ValueKey('Addresse'),
-            child: AddAddress(predefineType: predefineType, id: id),
+            child: AddAddress(predefineType: type, id: id),
           )
         else if (pathTemplate == '/home/journeys')
           const MaterialPage<void>(
@@ -209,6 +242,13 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
             key: ValueKey('Trafic Details'),
             child: TraficDetails(),
           )
+        else if (pathTemplate == '/trafic/add')
+          const MaterialPage<void>(
+            key: ValueKey('Trafic Details'),
+            child: RoutesSearch(
+              toFavorite: true,
+            ),
+          )
         else if (pathTemplate == '/schedules/search')
           const MaterialPage<void>(
             key: ValueKey('Schdedules Search'),
@@ -219,18 +259,18 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           MaterialPage<void>(
             key: const ValueKey('Schedules Stops'),
             child: SchedulesDetails(
-              navPos: id,
+              id: id,
             ),
           )
         else if (id != null &&
-            stopLine != null &&
+            lineId != null &&
             pathTemplate ==
                 '/schedules/stops/:id/departures/:line_id') // /schedules/stops/:id/departures/:line_id
           MaterialPage<void>(
             key: const ValueKey('Schedules Departures Lines'),
             child: DepartureDetails(
               id: id,
-              stopLine: stopLine,
+              stopLine: lineId,
             ),
           )
         else if (tripId != null &&

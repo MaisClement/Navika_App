@@ -34,127 +34,6 @@ List getLines(data) {
   return l;
 }
 
-Map allowedModes = {
-  'rail': ['physical_mode:RapidTransit', 'physical_mode:Train', 'physical_mode:RailShuttle', 'physical_mode:LocalTrain', 'physical_mode:LongDistanceTrain', 'rail', 'nationalrail'],
-  'metro': ['physical_mode:Metro', 'physical_mode:RailShuttle', 'metro', 'funicular'],
-  'tram': ['physical_mode:Tramway', 'tram'],
-  'bus': ['physical_mode:Bus', 'bus'],
-};
-
-Map tabsModes = {
-  'rail': {
-    'icon': const Icon(NavikaIcons.train_rer),
-  },
-  'metro': {
-    'icon': const Icon(NavikaIcons.metro),
-  },
-  'tram': {
-    'icon': const Icon(NavikaIcons.tram),
-  },
-  'bus': {
-    'icon': const Icon(NavikaIcons.bus),
-  },
-};
-
-
-class SchedulesBody extends StatefulWidget {
-  final ScrollController scrollController;
-  final bool addMargin;
-
-  const SchedulesBody(
-      {required this.scrollController, this.addMargin = false, super.key});
-
-  @override
-  State<SchedulesBody> createState() => _SchedulesBodyState();
-}
-
-class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProviderStateMixin {
-
-  String name = globals.schedulesStopName;
-  String id = globals.schedulesStopArea;
-  List modes = globals.schedulesStopModes;
-  late TabController _tabController;
-
-  List schedules = [];
-  List departures = [];
-  late Timer _timer;
-  late Timer _update;
-  ApiStatus error = ApiStatus.ok;
-
-  bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures');
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(
-        vsync: this, length: getModesLength(globals.schedulesStopModes));
-    checkUpdates();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
-        _getSchedules();
-      });
-      await _getSchedules();
-    });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _timer.cancel();
-    _update.cancel();
-  }
-
-  Future<void> _getSchedules() async {
-    NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getSchedules(globals.schedulesStopArea, ungroupDepartures);
-
-    setState(() {
-      error = result['status'];
-    });
-
-    
-    if (mounted) {
-      setState(() {
-        if (result['value']?['schedules'] != null) {
-          schedules = result['value']?['schedules'];
-        }
-        if (result['value']?['departures'] != null) {
-          departures = result['value']?['departures'];
-        }
-        globals.schedulesStopLines = getLines(result['value']!);
-      });
-    }
-  }
-
-  void update() {
-    if (mounted) {
-      setState(() {
-        schedules = schedules;
-        departures = departures;
-      });
-    }
-  }
-
-  void checkUpdates() {
-    _update = Timer(const Duration(milliseconds: 100), () {
-      checkUpdates();
-      if (mounted) {
-        if (id != globals.schedulesStopArea) {
-          setState(() {
-            id = globals.schedulesStopArea;
-            schedules = [];
-          });
-          _getSchedules();
-        }
-      }
-    });
-  }
-
   int getModesLength(List modes) {
     int i = 0;
     for (var allowes in allowedModes.entries) {
@@ -180,6 +59,97 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
       }
     }
     return tabs;
+  }  
+
+Map allowedModes = {
+  'rail': ['physical_mode:RapidTransit', 'physical_mode:Train', 'physical_mode:RailShuttle', 'physical_mode:LocalTrain', 'physical_mode:LongDistanceTrain', 'rail', 'nationalrail'],
+  'metro': ['physical_mode:Metro', 'physical_mode:RailShuttle', 'metro', 'funicular'],
+  'tram': ['physical_mode:Tramway', 'tram'],
+  'bus': ['physical_mode:Bus', 'bus'],
+};
+
+Map tabsModes = {
+  'rail': {
+    'icon': const Icon(NavikaIcons.train_rer),
+  },
+  'metro': {
+    'icon': const Icon(NavikaIcons.metro),
+  },
+  'tram': {
+    'icon': const Icon(NavikaIcons.tram),
+  },
+  'bus': {
+    'icon': const Icon(NavikaIcons.bus),
+  },
+};
+
+
+class SchedulesBody extends StatefulWidget {
+  final String id;
+  final ScrollController scrollController;
+  final bool addMargin;
+
+  const SchedulesBody({
+    required this.id,
+    required this.scrollController, 
+    this.addMargin = false, 
+    super.key
+  });
+
+  @override
+  State<SchedulesBody> createState() => _SchedulesBodyState();
+}
+
+class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProviderStateMixin {
+
+  String name = globals.schedulesStopName;
+  String id = '';
+  List modes = [];
+  late TabController _tabController;
+  bool isLoading = true;
+
+  List schedules = [];
+  List departures = [];
+  late Timer _timer;
+  ApiStatus error = ApiStatus.ok;
+
+  bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures');
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      init();
+      _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
+        _getSchedules();
+      });
+      await _getSchedules();
+    });
+  }
+
+  void init() {
+    setState(() {
+      isLoading = true;
+      id = widget.id;
+      globals.schedulesStopLines = [];
+    });
+  }
+  
+  @override
+  void didUpdateWidget(SchedulesBody oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Vérifiez si les paramètres ont changé, et si c'est le cas, appelez setState pour reconstruire le widget
+    if (widget.id != id) {
+      init();
+      _getSchedules();
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _timer.cancel();
   }
 
   List<Widget> getModesView(List modes, schedules, departures, scrollController) {
@@ -215,31 +185,71 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
     return tabs;
   }
 
+  Future<void> _getSchedules() async {
+    NavikaApi navikaApi = NavikaApi();
+    Map result = await navikaApi.getSchedules(id, ungroupDepartures);
+
+    if (mounted) {
+      setState(() {
+        error = result['status'];
+      });
+
+      setState(() {
+        if (result['value']?['schedules'] != null) {
+          schedules = result['value']?['schedules'];
+        }
+        if (result['value']?['departures'] != null) {
+          departures = result['value']?['departures'];
+        }
+        modes = result['value']?['place']['modes'];
+        globals.schedulesStopLines = getLines(result['value']!);
+        isLoading = false;
+      });
+      _tabController = TabController(vsync: this, length: getModesLength( modes ));
+    }
+  }
+
+  void update() {
+    if (mounted) {
+      setState(() {
+        schedules = schedules;
+        departures = departures;
+      });
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) => Column(
         children: [
           if (widget.addMargin)
             const SizedBox(
-              height: 80,
+              height: 90,
             ),
-          if (getModesLength(globals.schedulesStopModes) > 1)
-            TabBar(
-              controller: _tabController,
-              tabs: getModesTabs(globals.schedulesStopModes),
-            ),
-    
+
           if (error != ApiStatus.ok)
             ErrorMessage(
               error: error,
-            ),
-    
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: getModesView(
-                  modes, schedules, departures, widget.scrollController),
-            ),
-          ),
+            )
+
+          else if (isLoading)
+            const LinearProgressIndicator()
+            
+          else
+            ...[
+              if (getModesLength(modes) > 1)
+                TabBar(
+                  controller: _tabController,
+                  tabs: getModesTabs(modes),
+                ),
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: getModesView(modes, schedules, departures, widget.scrollController),
+                ),
+              ),
+            ]            
         ],
       );
 }

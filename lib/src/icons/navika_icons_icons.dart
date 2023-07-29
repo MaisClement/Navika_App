@@ -73,5 +73,8 @@ class NavikaIcons {
   static const IconData edit = IconData(0xe82d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData route_filled = IconData(0xe82e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData route = IconData(0xe82f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData arrival = IconData(0xe830, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData departure = IconData(0xe831, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData calendar = IconData(0xe832, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData chevron_right = IconData(0xf054, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

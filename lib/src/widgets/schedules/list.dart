@@ -21,15 +21,12 @@ class SchedulesList extends StatelessWidget {
         padding: EdgeInsets.zero,
         controller: scrollController,
         children: [
-          if (schedules.isEmpty)
-            const LinearProgressIndicator()
-          else
-            for (var line in schedules)
-              if (modes.contains(line['mode']))
-                SchedulesBlock(
-                  line: line,
-                  update: update,
-                ),
+          for (var line in schedules)
+            if (modes.contains(line['mode']))
+              SchedulesBlock(
+                line: line,
+                update: update,
+              ),
         ],
       );
 }

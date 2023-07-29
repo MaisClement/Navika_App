@@ -37,6 +37,7 @@ class SwitchMode extends StatelessWidget {
                   Icon(
                     icon,
                     size: 20,
+                    color: accentColor(context),
                   ),
                 if (icon != null)
                   const SizedBox(
@@ -45,7 +46,7 @@ class SwitchMode extends StatelessWidget {
                 Text(
                   name,
                   style: TextStyle(
-                    color: mainColor(context),
+                    color: accentColor(context),
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
                     fontSize: 19,
@@ -55,12 +56,12 @@ class SwitchMode extends StatelessWidget {
             ),
             Switch(
               thumbIcon: thumbIcon,
-              trackOutlineColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                if (!states.contains(MaterialState.selected)) {
-                  return mainColor(context);
-                }
-                return null;
-              }),
+              // trackOutlineColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+              //   if (!states.contains(MaterialState.selected)) {
+              //     return mainColor(context);
+              //   }
+              //   return null;
+              // }),
               inactiveThumbColor: mainColor(context),
               value: value,
               onChanged: (bool value) {

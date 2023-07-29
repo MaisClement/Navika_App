@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +14,9 @@ import 'package:navika/src/widgets/route/listbutton.dart';
 
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/places/empty.dart';
-import 'package:navika/src/widgets/places/load.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/routing.dart';
+import 'package:navika/src/widgets/route/skelton.dart';
 import 'package:navika/src/widgets/utils/search_box.dart';
 import 'package:navika/src/widgets/bottom_sheets/time_settings.dart';
 
@@ -34,20 +35,53 @@ const shortMonth = {
   12: 'dec.'
 };
 
+const longMonth = {
+  1: 'janvier',
+  2: 'fevrier',
+  3: 'mars',
+  4: 'avril',
+  5: 'mai',
+  6: 'juin',
+  7: 'juillet',
+  8: 'août',
+  9: 'septembre',
+  10: 'octobre',
+  11: 'novembre',
+  12: 'decembre',
+};
+
 String getDateTitle(DateTime dt, TimeOfDay tod) {
   String d = '';
   if (dt.isToday()) {
     d = 'Aujourd’hui';
-  }
-  if (dt.isTomorrow()) {
+  } else if (dt.isTomorrow()) {
     d = 'Demain';
   }
-  d = '${dt.day} ${shortMonth[dt.month]}';
+  else {
+    d = '${dt.day} ${shortMonth[dt.month]}';
+  }
 
   String dthour = tod.hour < 10 ? '0${tod.hour}' : tod.hour.toString();
   String dtminute = tod.minute < 10 ? '0${tod.minute}' : tod.minute.toString();
 
   return '$d • ${dthour}h$dtminute ';
+}
+
+String getDate(DateTime dt) {
+  if (dt.isToday()) {
+    return 'Aujourd’hui';
+  }
+  if (dt.isTomorrow()) {
+    return 'Demain';
+  }
+  return '${dt.day} ${longMonth[dt.month]}';
+}
+
+String getTime(TimeOfDay tod) {
+  String dthour = tod.hour < 10 ? '0${tod.hour}' : tod.hour.toString();
+  String dtminute = tod.minute < 10 ? '0${tod.minute}' : tod.minute.toString();
+
+  return '${dthour}h$dtminute ';
 }
 
 void initJourney(Map? from, Map? to, context) async {    
@@ -108,7 +142,6 @@ void addToHistory (Map place) {
   history = [place, ...history];
   history = history.slice(0, history.length > 15 ? 15 : history.length);
 
-
   globals.hiveBox.put('historyPlaces', history);
 }
 
@@ -132,10 +165,17 @@ class _JourneysListState extends State<JourneysList> {
   List journeys = [];
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
+  String timeType = 'departure';
 
   String currentTextInput = 'from';
 
-  Future<void> _selectDate(BuildContext context) async {
+  setTimeType(String type) {
+    setState(() {
+      timeType = type;
+    });
+  }
+
+  selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -146,10 +186,9 @@ class _JourneysListState extends State<JourneysList> {
         selectedDate = picked;
       });
     }
-    _selectTime(context);
   }
 
-  Future<void> _selectTime(BuildContext context) async {
+  selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
@@ -165,15 +204,13 @@ class _JourneysListState extends State<JourneysList> {
         selectedTime = picked;
       });
     }
-    _getJourneys();
   }
 
   Future<void> _getJourneys() async {
     if (globals.route['from']['id'] == null || globals.route['to']['id'] == null) {
       return;
     }
-    DateTime dt = DateTime(selectedDate.year, selectedDate.month,
-        selectedDate.day, selectedTime.hour, selectedTime.minute);
+    DateTime dt = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, selectedTime.hour, selectedTime.minute);
     String travelerType = globals.hiveBox.get('travelerType');
     String timeType = globals.hiveBox.get('timeType');
 
@@ -282,74 +319,53 @@ class _JourneysListState extends State<JourneysList> {
                       ),
                       Container(
                         margin: const EdgeInsets.only(left: 20.0, top: 5.0, right: 20.0, bottom: 10.0),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(500),
-                          ),
-                          child: InkWell(
-                            onTap: () async {
-                              await showModalBottomSheet<void>(
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: bottomSheetBorder,
-                                ),
-                                isScrollControlled: true,
-                                context: context,
-                                builder: (BuildContext context) => const TimeSettings(),
-                              );
-                              _selectDate(context);
-                            },
-                            borderRadius: BorderRadius.circular(500),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 15, right: 15),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    NavikaIcons.clock,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimaryContainer,
-                                    size: 25,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 15,
-                                          bottom: 11,
-                                          top: 11,
-                                          right: 15),
-                                      child: Text(
-                                        getDateTitle(selectedDate, selectedTime),
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onPrimaryContainer),
-                                        maxLines: 1,
-                                        softWrap: false,
-                                        overflow: TextOverflow.fade,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                        child: SearchBox(
+                          text: getDateTitle(selectedDate, selectedTime),
+                          icon: NavikaIcons.clock,
+                          onTap: () {
+                            showModalBottomSheet(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: bottomSheetBorder,
                               ),
-                            ),
-                          ),
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) {
+                              return StatefulBuilder(
+                                builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
+                                  return TimeSettings(
+                                    setState: setState,
+                                    setTimeType: setTimeType,
+                                    timeType: timeType,
+                                    selectedDate: selectedDate,
+                                    selectedTime: selectedTime,
+                                    selectDate: selectDate,
+                                    selectTime: selectTime,
+                                  );
+                                }
+                              );
+                              }
+                            );
+                          },
+                          //TODO style si vide !
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
-                if (error != ApiStatus.ok)
-                  ErrorBlock(
-                    error: error,
-                  )
-                else if (journeys.isNotEmpty)
-                  Expanded(
-                    child: RefreshIndicator(
-                      key: _refreshIndicatorKey,
-                      onRefresh: _getJourneys,
-                      child: ListView(
-                        children: [
+
+                Expanded(
+                  child: RefreshIndicator(
+                    key: _refreshIndicatorKey,
+                    onRefresh: _getJourneys,
+                    child: ListView(
+                      children: [
+                        
+                        if (error != ApiStatus.ok)
+                          ErrorBlock(
+                            error: error,
+                          )
+                        
+                        else if (journeys.isNotEmpty)
                           for (var journey in journeys)
                             RouteListButton(
                               journey: journey,
@@ -358,15 +374,18 @@ class _JourneysListState extends State<JourneysList> {
                                 RouteStateScope.of(context)
                                     .go('/home/journeys/details');
                               },
-                            ),
-                        ],
-                      ),
+                            )
+                        
+                        else if (journeys.isEmpty && isLoading == false)
+                          const PlacesEmpty()
+                        
+                        else
+                          for (var i = 0; i < (Random().nextInt(4) + 4).toDouble() ; i++)
+                            const RouteListSkelton()
+                      ],
                     ),
-                  )
-                else if (journeys.isEmpty && isLoading == false)
-                  const PlacesEmpty()
-                else
-                  const PlacesLoad()
+                  ),
+                )
               ],
             )),
       );

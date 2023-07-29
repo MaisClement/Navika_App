@@ -33,9 +33,11 @@ import 'package:navika/src/widgets/schedules/header.dart';
 
 class Home extends StatefulWidget {
   final String? displayType;
+  final String? id;
 
   const Home({
     this.displayType,
+    this.id,
     super.key,
   });
 
@@ -181,8 +183,7 @@ class _HomeState extends State<Home> {
     }
 
     for (var stop in stopsNearby) {
-      GeoCoordinates stopCoords = GeoCoordinates(
-          stop['coord']['lat'].toDouble(), stop['coord']['lon'].toDouble());
+      GeoCoordinates stopCoords = GeoCoordinates(stop['coord']['lat'].toDouble(), stop['coord']['lon'].toDouble());
 
       if (_controller?.isOverLocation(stopCoords) == true) {
         Metadata metadata = Metadata();
@@ -280,23 +281,31 @@ class _HomeState extends State<Home> {
                 header: widget.displayType == null
                     ? HomePannel(tooglePanel: _tooglePanel)
                     : widget.displayType == 'stops'
-                        ? SchedulesPannel(tooglePanel: _tooglePanel)
-                        : BikePannel(tooglePanel: _tooglePanel),
+                        ? SchedulesPannel(
+                            id: widget.id!,
+                            tooglePanel: _tooglePanel)
+                        : BikePannel(
+                            tooglePanel: _tooglePanel
+                          ),
                 panelBuilder: (ScrollController scrollController) =>
-                    widget.displayType == null
-                        ? HomeBody(
+                    widget.displayType != null && widget.id != null
+                        ? Container(
+                            child: widget.displayType == 'stops'
+                                ? SchedulesBody(
+                                    id: widget.id!,
+                                    addMargin: true,
+                                    scrollController: scrollController)
+                                : BikeBody(
+                                    id: widget.id!,
+                                    scrollController: scrollController
+                                  ),
+                          )
+                        : HomeBody(
                             scrollController: scrollController,
                             index: index,
                             address: address,
                             favs: favs,
                             update: _updateFavorites,
-                          )
-                        : Container(
-                            child: widget.displayType == 'stops'
-                                ? SchedulesBody(
-                                    addMargin: true,
-                                    scrollController: scrollController)
-                                : BikeBody(scrollController: scrollController),
                           ),
                 body: HereMap(onMapCreated: _onMapCreated),
               ),
@@ -316,7 +325,7 @@ class _HomeState extends State<Home> {
                             children: [
                               SvgPicture.asset(
                                 'assets/img/cloud_off.svg',
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 height: 18,
                               ),
                               const SizedBox(width: 10),
@@ -342,7 +351,7 @@ class _HomeState extends State<Home> {
                   child: SafeArea(
                     child: Container(
                       margin:
-                          const EdgeInsets.only(top: 10, left: 8, bottom: 15),
+                          const EdgeInsets.only(top: 10, left: 8),
                       width: 40,
                       height: 40,
                       child: Material(
@@ -552,10 +561,7 @@ class _HomeState extends State<Home> {
 
       if (metadata != null) {
         if (metadata.getString('type') == 'stop') {
-          globals.schedulesStopArea = metadata.getString('id') ?? '';
           globals.schedulesStopName = metadata.getString('name') ?? '';
-          globals.schedulesStopModes =
-              json.decode(metadata.getString('modes') ?? '');
           GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(
               metadata.getDouble('lat') ?? 0, metadata.getDouble('lon') ?? 0);
           _controller?.zoomTo(geoCoords);
@@ -563,7 +569,6 @@ class _HomeState extends State<Home> {
           RouteStateScope.of(context).go('/stops/${metadata.getString('id')}');
           return;
         } else if (metadata.getString('type') == 'bike') {
-          globals.schedulesStopArea = metadata.getString('id') ?? '';
           globals.schedulesStopName = metadata.getString('name') ?? '';
           GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(
               metadata.getDouble('lat') ?? 0, metadata.getDouble('lon') ?? 0);

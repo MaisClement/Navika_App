@@ -4,13 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/api.dart';
 
 import 'package:navika/src/routing.dart';
+import 'package:navika/src/screens/routes_details.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/lines/listbutton.dart';
 import 'package:navika/src/widgets/places/load.dart';
 
 class RoutesSearch extends StatefulWidget {
-	const RoutesSearch({super.key});
+  final bool toFavorite;
+
+	const RoutesSearch({
+    this.toFavorite = false,
+    super.key
+  });
 
 	@override
 	State<RoutesSearch> createState() => _RoutesSearchState();
@@ -71,8 +77,10 @@ class _RoutesSearchState extends State<RoutesSearch> {
 			title: TextField(
         controller: myController,
         focusNode: textFieldNode,
-        decoration: const InputDecoration(
-          hintText: 'Rechercher une ligne'
+        decoration: InputDecoration(
+          hintText: widget.toFavorite
+          ? 'Ajouter une ligne a vos favoris'
+          : 'Rechercher une ligne'
         ),
         onChanged: (text) {
           setState(() {
@@ -96,7 +104,12 @@ class _RoutesSearchState extends State<RoutesSearch> {
               isLoading: isLoading,
               line: line,
               onTap: () {
-                RouteStateScope.of(context).go('/routes/details/${line['id']}');
+                if ( widget.toFavorite ) {
+                  addLineToFavorite(line, context, null);
+                  RouteStateScope.of(context).go('/trafic');
+                } else {
+                  RouteStateScope.of(context).go('/routes/details/${line['id']}');
+                }
               },
             )
 

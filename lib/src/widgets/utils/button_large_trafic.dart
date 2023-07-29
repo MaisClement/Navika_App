@@ -24,7 +24,7 @@ class ButtonLargeTrafic extends StatelessWidget {
           onTap: onTap,
           borderRadius: borderRadius ?? BorderRadius.circular(500),
           child: Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
+            padding: const EdgeInsets.only(right: 15),
             child: Row(
               children: [
                 Stack(
@@ -38,7 +38,7 @@ class ButtonLargeTrafic extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
                           width: 3.0,
-                          color: getSlugColor(line['severity'], 1),
+                          color: getSlug(line['severity'], 1),
                         ),
                       ),
                       child: LinesIcones(

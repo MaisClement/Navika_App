@@ -51,7 +51,7 @@ class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerPr
 
   Future<void> _getDepature() async {
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getSchedules(globals.schedulesStopArea, false);
+    Map result = await navikaApi.getSchedules(widget.id, false);
 
     setState(() {
       error = result['status'];

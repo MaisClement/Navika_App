@@ -66,7 +66,6 @@ class HomeBody extends StatelessWidget {
             FavoriteBody(
               id: fav['id'],
               name: fav['name'],
-              modes: fav['modes'],
               line: fav['line'],
               update: update,
               removeSeparator: (favs[0] == fav),

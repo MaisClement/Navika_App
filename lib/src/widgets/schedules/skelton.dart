@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:shimmer/shimmer.dart';
 
 
@@ -10,8 +11,8 @@ class SchedulesSkelton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Shimmer.fromColors(
-    baseColor: const Color(0xffe0e0e0),
-    highlightColor: const Color(0xfff5f5f5),
+    baseColor: getShimmerBaseColor(context),
+    highlightColor: getShimmerHighlightColor(context),
     child: Container(
           margin: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 5.0),
           decoration: BoxDecoration(
@@ -22,7 +23,7 @@ class SchedulesSkelton extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: Colors.grey[300],
+                  color: getShimmerBaseColor(context),
                 ),
                 child: const SizedBox(height: 40, width: double.infinity),
               ),
@@ -41,7 +42,7 @@ class SchedulesSkelton extends StatelessWidget {
                             height: 23,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(500),
-                              color: Colors.grey[100],
+                              color: getShimmerBaseColor(context),
                             ),
                           ),
                         ],
@@ -53,7 +54,7 @@ class SchedulesSkelton extends StatelessWidget {
                               width: 70,
                               height: 30,
                               decoration: BoxDecoration(
-                                color: Colors.grey[300],
+                                color: getShimmerBaseColor(context),
                                 borderRadius: BorderRadius.circular(5),
                               ))
                       ]),
@@ -67,7 +68,7 @@ class SchedulesSkelton extends StatelessWidget {
                 height: 3,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: Colors.grey[300],
+                  color: getShimmerBaseColor(context),
                 ),
               ),
               const SizedBox(
@@ -78,7 +79,7 @@ class SchedulesSkelton extends StatelessWidget {
                   height: 40,
                   width: 175,
                   decoration: BoxDecoration(
-                    color: Colors.grey[300],
+                    color: getShimmerBaseColor(context),
                     borderRadius: BorderRadius.circular(500),
                   ),
                 ),

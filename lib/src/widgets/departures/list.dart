@@ -27,10 +27,7 @@ class DeparturesList extends StatelessWidget {
         padding: EdgeInsets.zero,
         controller: scrollController,
         children: [
-          if (departures.isEmpty)
-            const LinearProgressIndicator()
-
-          else if (ungroupDepartures)
+          if (ungroupDepartures)
             DeparturesCascade(
               departures: departures,
               id: id,
@@ -44,7 +41,6 @@ class DeparturesList extends StatelessWidget {
                   line: line,
                   id: id,
                   name: name,
-                  modes: modes,
                   update: update,
                 )
           

@@ -23,8 +23,8 @@ class SectionTransfer extends StatelessWidget {
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-          const Column(
-            children: [
+          Column(
+            children: const [
               Padding(
                 padding: EdgeInsets.only(
                   top: 10, left: 20, right: 20

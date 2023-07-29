@@ -16,7 +16,7 @@ class RadioTiles extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Center(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             for (var tile in tiles)
               SizedBox(

@@ -7,18 +7,23 @@ import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style/style.dart';
 
 class BikeBody extends StatefulWidget {
+  final String id;
   final ScrollController scrollController;
 
-  const BikeBody({required this.scrollController, super.key});
+  const BikeBody({
+    required this.id,
+    required this.scrollController,
+    super.key
+  });
 
   @override
   State<BikeBody> createState() => _BikeBodyState();
 }
 
-class _BikeBodyState extends State<BikeBody>
-    with SingleTickerProviderStateMixin {
+class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin {
+
   String name = globals.schedulesStopName;
-  String id = globals.schedulesStopArea;
+  String id = '';
 
   Map bikeStation = {};
   late Timer _update;
@@ -27,8 +32,8 @@ class _BikeBodyState extends State<BikeBody>
   @override
   void initState() {
     super.initState();
-    checkUpdates();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      init();
       await _getSchedules();
     });
   }
@@ -44,9 +49,15 @@ class _BikeBodyState extends State<BikeBody>
     _update.cancel();
   }
 
+  void init() {
+    setState(() {
+      id = widget.id;
+    });
+  }
+
   Future<void> _getSchedules() async {
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getBikeStations(globals.schedulesStopArea);
+    Map result = await navikaApi.getBikeStations(id);
 
     setState(() {
       error = result['status'];
@@ -60,19 +71,6 @@ class _BikeBodyState extends State<BikeBody>
         }
       });
     }
-  }
-
-  void checkUpdates() {
-    _update = Timer(const Duration(milliseconds: 100), () {
-      checkUpdates();
-      if (id != globals.schedulesStopArea) {
-        setState(() {
-          id = globals.schedulesStopArea;
-          bikeStation = {};
-        });
-        _getSchedules();
-      }
-    });
   }
 
   @override

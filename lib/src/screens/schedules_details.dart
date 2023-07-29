@@ -33,9 +33,12 @@ bool isFavoriteLine(id, line) {
 }
 
 class SchedulesDetails extends StatelessWidget {
-  final String? navPos;
+  final String id;
 
-  const SchedulesDetails({this.navPos, super.key});
+  const SchedulesDetails({
+    required this.id,
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -44,7 +47,7 @@ class SchedulesDetails extends StatelessWidget {
         title: Text(globals.schedulesStopName, style: appBarTitle),
         actions: [
           IconButton(
-            icon: isFavorite(globals.schedulesStopArea)
+            icon: isFavorite(id)
                 ? const Icon(NavikaIcons.favorites)
                 : const Icon(NavikaIcons.add_bookmark),
             tooltip: 'Ajouter aux favoris',
@@ -57,9 +60,8 @@ class SchedulesDetails extends StatelessWidget {
                   isScrollControlled: true,
                   context: context,
                   builder: (BuildContext context) => BottomAddFavorite(
-                    id: globals.schedulesStopArea,
+                    id: id,
                     name: globals.schedulesStopName,
-                    modes: globals.schedulesStopModes,
                     lines: globals.schedulesStopLines,
                   ),
                 );
@@ -68,5 +70,9 @@ class SchedulesDetails extends StatelessWidget {
           ),
         ],
       ),
-      body: SchedulesBody(scrollController: ScrollController()));
+      body: SchedulesBody(
+          scrollController: ScrollController(),
+          id: id
+        ),
+      );
 }

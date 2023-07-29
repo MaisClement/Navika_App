@@ -59,7 +59,7 @@ class _RoutesState extends State<Routes> {
                       width: 80,
                     ),
                     const Text(
-                      'Ajoutez vos lignes à vos favoris  pour y accéder encore plus rapidement.',
+                      'Ajoutez vos lignes à vos favoris pour y accéder encore plus rapidement.',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontFamily: 'Segoe Ui',

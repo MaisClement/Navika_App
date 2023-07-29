@@ -10,7 +10,6 @@ void handleAddToFavorite(widget, line, context) {
   list.add({
     'id': widget.id,
     'name': widget.name,
-    'modes': widget.modes,
     'line': line['id']
   });
   globals.hiveBox.put('stopsFavorites', list);
@@ -30,13 +29,11 @@ class BottomAddFavorite extends StatefulWidget {
   final String name;
   final String id;
   final List lines;
-  final List modes;
 
   const BottomAddFavorite({
     required this.name,
     required this.id,
     required this.lines,
-    required this.modes,
     super.key,
   });
 

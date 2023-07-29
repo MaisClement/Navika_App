@@ -8,12 +8,12 @@ import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/departures/lines.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
+import 'package:navika/src/widgets/utils/button_large_trafic.dart';
 
 class DeparturesBlock extends StatelessWidget {
   final Map line;
   final String id;
   final String name;
-  final List modes;
   final Function update;
   final bool limited;
 
@@ -21,7 +21,6 @@ class DeparturesBlock extends StatelessWidget {
     required this.line,
     required this.id,
     required this.name,
-    required this.modes,
     required this.update,
     this.limited = false,
     super.key,
@@ -81,6 +80,26 @@ class DeparturesBlock extends StatelessWidget {
               ),
             ),
           ),
+
+          if (!limited && line['severity'] != null && line['severity'] > 0)
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(7),
+              ),
+              margin: const EdgeInsets.only(
+                top: 10, left: 5, right: 5
+              ),
+              child: ButtonLargeTrafic(
+                line: line,
+                borderRadius: BorderRadius.circular(7),
+                onTap: () {
+                  globals.lineTrafic = line;
+                  RouteStateScope.of(context).go('/trafic/details');
+                },
+              ),
+            ),
+
           Container(
             margin: const EdgeInsets.all(5.0),
             child: Column(
@@ -113,7 +132,7 @@ class DeparturesBlock extends StatelessWidget {
                   child: const Text('Voir le reste ➜'),
                   onPressed: () {
                     globals.departure = line;
-                    RouteStateScope.of(context).go('/schedules/stops/${globals.schedulesStopArea}/departures/${line['id']}');
+                    RouteStateScope.of(context).go('/schedules/stops/$id/departures/${line['id']}');
                   },
                 ),
               ],

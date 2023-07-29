@@ -104,6 +104,21 @@ schedulesIsDark(context, color) {
 
 // ----------------
 
+getShimmerBaseColor(context) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return const Color(0xff252525);
+  }
+  return const Color(0xffe0e0e0);
+}
+getShimmerHighlightColor(context) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return const Color(0xff555555);
+  }
+  return const Color(0xfff5f5f5);
+}
+
+// ----------------
+
 String getIconLine(context, line) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return line.imageLight;

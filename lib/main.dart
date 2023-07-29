@@ -1,19 +1,22 @@
 import 'dart:io';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/core.engine.dart';
 import 'package:here_sdk/core.errors.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+
 import 'package:navika/src/data/credentials.dart' as credentials;
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/app.dart';
-import 'package:navika/firebase_options.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -21,12 +24,14 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
 
-  if (kDebugMode) {
-    print({'INFO_f', 'Handling a background message: ${message.messageId}'});
-  }
+  print("Handling a background message: ${message.messageId}");
 }
 
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
 void main() {
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   setHashUrlStrategy();
 
   setupWindow();
@@ -36,7 +41,8 @@ void main() {
   _initializeHERESDK();
 
   _initializeFirebase();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  _initializeLocalNotification();
 
   runApp(const NavikaApp());
 }
@@ -136,15 +142,31 @@ void _initializeHERESDK() async {
   }
 }
 
-// https://firebase.google.com/docs/cloud-messaging/flutter/client?authuser=0
-
-// https://firebase.google.com/docs/flutter/setup?authuser=0&platform=android
-
 void _initializeFirebase() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  print({'INFO_token', fcmToken});
+  globals.fcmToken = fcmToken!;
+
+  FirebaseMessaging.instance.onTokenRefresh
+    .listen((fcmToken) {
+      // TODO: If necessary send token to application server.
+
+      // Note: This callback is fired at each app startup and whenever a new
+      // token is generated.
+      print({'INFO_token_new', fcmToken});
+      globals.fcmToken = fcmToken;
+    })
+    .onError((err) {
+      // Error getting token.
+      print({'INFO_token_err', err});
+    });
+
+
+  // Request permission for notifications
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   NotificationSettings settings = await messaging.requestPermission(
@@ -161,34 +183,37 @@ void _initializeFirebase() async {
     print({'INFO_f', 'User granted permission: ${settings.authorizationStatus}'});
   }
 
-  // final fcmToken = await FirebaseMessaging.instance.getToken();
-
-  FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
-
-    // Note: This callback is fired at each app startup and whenever a new
-    // token is generated.
-    if (kDebugMode) {
-      print({'INFO_f', 'firebaseMessaging up !'});
-    }
-  }).onError((err) {
-    // Error getting token.
-    if (kDebugMode) {
-      print({'INFO_f', 'firebaseMessaging pas content !'});
-    }
-  });
-
+  // Notification received callback
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    if (kDebugMode) {
-      print({'INFO_f', 'Got a message whilst in the foreground!'});
-    }
-    if (kDebugMode) {
-      print({'INFO_f', 'Message data: ${message.data}'});
-    }
+    print('INFO_ Got a message whilst in the foreground!');
+    print('INFO_ Message data: ${message.data}');
 
     if (message.notification != null) {
-      if (kDebugMode) {
-        print({'INFO_f', 'Message also contained a notification: ${message.notification}'});
-      }
+      showNotification(message);
+      print('INFO_ Message also contained a notification: ${message.notification}');
     }
   });
+}
+
+void _initializeLocalNotification() {
+  var initializationSettingsAndroid = const AndroidInitializationSettings('app_icon');
+  var initializationSettings = InitializationSettings(android: initializationSettingsAndroid);
+  flutterLocalNotificationsPlugin.initialize(initializationSettings);
+}
+
+void showNotification(RemoteMessage message) async {
+  print({'INFO_', message.toMap()});
+  var androidNotificationDetails = const AndroidNotificationDetails(
+    'com.lowa.channel',
+    'Notification',
+    playSound: true,
+    enableVibration: true,
+    importance: Importance.high,
+    priority: Priority.high,
+  );
+
+  NotificationDetails notificationDetails =
+      NotificationDetails(android: androidNotificationDetails);
+  await flutterLocalNotificationsPlugin.show(
+      0, message.notification?.title, message.notification?.body, notificationDetails);
 }

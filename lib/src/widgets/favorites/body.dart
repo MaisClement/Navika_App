@@ -14,7 +14,6 @@ import 'package:navika/src/widgets/schedules/skelton.dart';
 class FavoriteBody extends StatefulWidget {
   final String id;
   final String name;
-  final List modes;
   final String line;
   final Function update;
   final bool removeSeparator;
@@ -23,7 +22,6 @@ class FavoriteBody extends StatefulWidget {
       {required this.id,
       required this.name,
       required this.line,
-      required this.modes,
       required this.update,
       this.removeSeparator = false,
       super.key});
@@ -94,10 +92,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
                 const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 10),
             child: GestureDetector(
               onTap: () {
-                globals.schedulesStopArea = widget.id;
                 globals.schedulesStopName = widget.name;
-                globals.schedulesStopModes = widget.modes;
-                globals.schedulesStopLines = [];
                 RouteStateScope.of(context).go('/schedules/stops/${widget.id}');
               },
               child: Row(
@@ -123,6 +118,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
                   ),
                   IconButton(
                     icon: const Icon(Icons.more_horiz),
+                    color: Theme.of(context).colorScheme.onSurface,
                     tooltip: 'Supprimer ce favori',
                     onPressed: () {
                       showModalBottomSheet<void>(
@@ -158,7 +154,6 @@ class _FavoriteBodyState extends State<FavoriteBody>
                     line: line,
                     id: widget.id,
                     name: widget.name,
-                    modes: widget.modes,
                     update: widget.update,
                     limited: true,
                   ),
@@ -166,10 +161,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
                   child: ElevatedButton(
                     child: const Text('Tous les horaires ➜'),
                     onPressed: () {
-                      globals.schedulesStopArea = widget.id;
                       globals.schedulesStopName = widget.name;
-                      globals.schedulesStopModes = widget.modes;
-                      globals.schedulesStopLines = [];
                       RouteStateScope.of(context)
                           .go('/schedules/stops/${widget.id}');
                     },
@@ -184,15 +176,13 @@ class _FavoriteBodyState extends State<FavoriteBody>
                   SchedulesBlock(
                     line: line,
                     update: widget.update,
+                    limited: true,
                   ),
                 Center(
                   child: ElevatedButton(
                     child: const Text('Tous les horaires ➜'),
                     onPressed: () {
-                      globals.schedulesStopArea = widget.id;
                       globals.schedulesStopName = widget.name;
-                      globals.schedulesStopModes = widget.modes;
-                      globals.schedulesStopLines = [];
                       RouteStateScope.of(context)
                           .go('/schedules/stops/${widget.id}');
                     },

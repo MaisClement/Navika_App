@@ -6,8 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:navika/src/routing/parsed_route.dart';
 import 'package:navika/src/routing/route_state.dart';
 
-class SimpleRouterDelegate extends RouterDelegate<ParsedRoute>
-		with ChangeNotifier, PopNavigatorRouterDelegateMixin<ParsedRoute> {
+class SimpleRouterDelegate extends RouterDelegate<ParsedRoute> with ChangeNotifier, PopNavigatorRouterDelegateMixin<ParsedRoute> {
 	final RouteState routeState;
 	final WidgetBuilder builder;
 

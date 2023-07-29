@@ -66,6 +66,9 @@ class NavikaApi {
     } catch (e) {
         result['status'] = ApiStatus.unknownException;
     }
+    if (kDebugMode) {
+      print({'INFO_response', result['status']});
+    }
     return result;
   }
 
@@ -210,16 +213,14 @@ class NavikaApi {
 
   Future getTrafic(List? lines) async {
       String url = buildUrl(globals.API_TRAFIC, {
-        'line_id': lines
+        'lines': lines
       });
 
     return doRequest(url);
   }
 
   Future getVehicleJourney(String id) async {
-      String url = buildUrl(globals.API_VEHICLE_JOURNEY, {
-        'id': id
-      });
+      String url = buildUrl('${globals.API_VEHICLE_JOURNEY}/$id', {});
 
     return doRequest(url);
   }

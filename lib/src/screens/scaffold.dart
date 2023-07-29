@@ -4,7 +4,12 @@ import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/screens/scaffold_body.dart';
 
 class NavikaAppScaffold extends StatelessWidget {
+  final pathTemplate;
+  final id;
+
   const NavikaAppScaffold({
+    required this.pathTemplate,
+    required this.id,
     super.key,
   });
 
@@ -13,7 +18,7 @@ class NavikaAppScaffold extends StatelessWidget {
 
     return Scaffold(
       bottomNavigationBar: getNavigationBar(context),
-      body: const NavikaAppScaffoldBody(),
+      body: getPages(pathTemplate, id),
     );
   }
 }
