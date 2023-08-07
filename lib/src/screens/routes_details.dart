@@ -101,7 +101,7 @@ List<Widget> getTimeTableWidgets(Map line, context) {
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: ButtonLarge(
         icon: NavikaIcons.clock,
-        text: 'Fiches horaires',
+        text: 'Fiche horaire',
         style: const TextStyle(
           fontWeight: FontWeight.w700,
           fontSize: 17,

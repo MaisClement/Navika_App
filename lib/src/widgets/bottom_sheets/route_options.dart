@@ -51,8 +51,9 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
   }
 
   @override
-  Widget build(BuildContext context) => SafeArea(
+  Widget build(BuildContext context) => Container(
         child: Container(
+          height: 610,
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(5), topRight: Radius.circular(5)),
@@ -66,7 +67,8 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
               ]),
           child: Container(
             padding: const EdgeInsets.only(left: 20.0, top: 40.0, right: 20.0, bottom: 10.0),
-            child: ListView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Options d’itinéraires',

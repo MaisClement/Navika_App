@@ -173,7 +173,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                 ),
                 snapPoint: 0.55,
                 minHeight: 85,
-                maxHeight: (MediaQuery.of(context).size.height - (MediaQuery.of(context).viewInsets.top + 60)),
+                maxHeight: MediaQuery.of(context).size.height - 80,
                 controller: panelController,
                 onPanelSlide: (position) => onPanelSlide(position),
                 header: RoutePannel(

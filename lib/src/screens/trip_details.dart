@@ -128,19 +128,7 @@ class _TripDetailsState extends State<TripDetails>
                 error: error,
               )
             else if (vehicleJourney == null)
-              Column(
-                children: [
-                  const SizedBox(height: 25),
-                  const CircularProgressIndicator(),
-                  Text(
-                    'Chargement...',
-                    style: TextStyle(
-                        color: accentColor(context),
-                        fontWeight: FontWeight.w700),
-                  ),
-                  const SizedBox(height: 20)
-                ],
-              )
+              const LinearProgressIndicator()
             else
               Column(
                 children: [
