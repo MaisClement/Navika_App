@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/schedules/timer_block.dart';
@@ -56,6 +57,7 @@ class SchedulesLines extends StatelessWidget {
                               time: departure['departure_date_time'],
                               state: departure['state'],
                               update: update,
+                              color: departureList(context, HexColor.fromHex(line['color'])),
                             )
                         else
                           Padding(

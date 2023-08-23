@@ -1,7 +1,9 @@
 // ignore_for_file: constant_identifier_names
 
 library my_prj.globals;
+import 'package:flutter/material.dart';
 import 'package:location/location.dart' as gps;
+import 'package:path_provider/path_provider.dart';
 
 const String NAME = 'Navika';
 const String VERSION = '0.5';
@@ -17,7 +19,7 @@ const String API_NEAR =             '$API_BASE/near';
 const String API_STOPS =            '$API_BASE/stops';
 const String API_SCHEDULES =        '$API_BASE/schedules';
 const String API_LINES =            '$API_BASE/lines';
-const String API_BIKE_STATIONS =    '$API_BASE/bike_station';
+const String API_BIKE_STATIONS =    '$API_BASE/bikes';
 const String API_JOURNEYS =         '$API_BASE/journeys';
 const String API_VEHICLE_JOURNEY =  '$API_BASE/vehicle_journey';
 
@@ -56,6 +58,12 @@ Map route = {
   'from' : _d,
   'to' : _a
 };
+
+DateTime selectedDate = DateTime.now();
+TimeOfDay selectedTime = TimeOfDay.now();
+String timeType = 'departure';
+
+// String directory = getApplicationDocumentsDirectory();
 
 // ignore: prefer_typing_uninitialized_variables
 var hiveBox;

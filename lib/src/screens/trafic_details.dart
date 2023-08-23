@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:navika/src/data/lines.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/screens/routes_details.dart';
 import 'package:navika/src/style/style.dart';
@@ -10,6 +11,7 @@ import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/trafic_details/disruptions.dart';
 import 'package:navika/src/widgets/trafic_details/works.dart';
+import 'package:navika/src/widgets/utils/button_large.dart';
 
 class TraficDetails extends StatefulWidget {
   const TraficDetails({super.key});
@@ -94,6 +96,18 @@ class _TraficDetailsState extends State<TraficDetails> {
                 ],
               ),
 
+              ButtonLarge(
+                icon: NavikaIcons.route,
+                text: 'Détails de la ligne',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 17,
+                ),
+                borderRadius: BorderRadius.circular(10),
+                onTap: () {
+                  RouteStateScope.of(context).go('/routes/details/${globals.lineTrafic['id']}');
+                },
+              ),
 // CTRAFIC
               if (globals.lineTrafic['reports'] != null)
                 TraficDisruptions(

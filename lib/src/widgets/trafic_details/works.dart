@@ -17,7 +17,7 @@ class TraficWorks extends StatelessWidget {
         margin: const EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
           color: accentColor(context).withOpacity(0.1),
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

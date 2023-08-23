@@ -50,21 +50,28 @@ const longMonth = {
   12: 'decembre',
 };
 
-String getDateTitle(DateTime dt, TimeOfDay tod) {
+String getDateTitle(String type, DateTime dt, TimeOfDay tod) {
   String d = '';
+
+  if (type == 'departure') {
+    d = 'Départ';
+  } else {
+    d = 'Arrivée';
+  }
+
   if (dt.isToday()) {
-    d = 'Aujourd’hui';
+    d = '$d aujourd’hui';
   } else if (dt.isTomorrow()) {
-    d = 'Demain';
+    d = '$d demain';
   }
   else {
-    d = '${dt.day} ${shortMonth[dt.month]}';
+    d = '$d le ${dt.day} ${shortMonth[dt.month]}';
   }
 
   String dthour = tod.hour < 10 ? '0${tod.hour}' : tod.hour.toString();
   String dtminute = tod.minute < 10 ? '0${tod.minute}' : tod.minute.toString();
 
-  return '$d • ${dthour}h$dtminute ';
+  return '$d à ${dthour}h$dtminute ';
 }
 
 String getDate(DateTime dt) {
@@ -86,6 +93,10 @@ String getTime(TimeOfDay tod) {
 
 void initJourney(Map? from, Map? to, context) async {    
   bool allowGps = await globals.hiveBox.get('allowGps');
+
+  globals.selectedDate = DateTime.now();
+  globals.selectedTime = TimeOfDay.now();
+  globals.timeType = 'departure';
 
   // Arrivé et départ -> Affichage
   if (from!= null && to!= null) {
@@ -163,27 +174,24 @@ class _JourneysListState extends State<JourneysList> {
   ApiStatus error = ApiStatus.ok;
   bool isLoading = false;
   List journeys = [];
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay.now();
-  String timeType = 'departure';
 
   String currentTextInput = 'from';
 
   setTimeType(String type) {
     setState(() {
-      timeType = type;
+      globals.timeType = type;
     });
   }
 
   selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: selectedDate,
+        initialDate: globals.selectedDate,
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(const Duration(days: 365)));
-    if (picked != null && picked != selectedDate) {
+    if (picked != null && picked != globals.selectedDate) {
       setState(() {
-        selectedDate = picked;
+        globals.selectedDate = picked;
       });
     }
   }
@@ -199,9 +207,9 @@ class _JourneysListState extends State<JourneysList> {
         );
       },
     );
-    if (picked != null && picked != selectedTime) {
+    if (picked != null && picked != globals.selectedTime) {
       setState(() {
-        selectedTime = picked;
+        globals.selectedTime = picked;
       });
     }
   }
@@ -210,16 +218,15 @@ class _JourneysListState extends State<JourneysList> {
     if (globals.route['from']['id'] == null || globals.route['to']['id'] == null) {
       return;
     }
-    DateTime dt = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, selectedTime.hour, selectedTime.minute);
+    DateTime dt = DateTime(globals.selectedDate.year, globals.selectedDate.month, globals.selectedDate.day, globals.selectedTime.hour, globals.selectedTime.minute);
     String travelerType = globals.hiveBox.get('travelerType');
-    String timeType = globals.hiveBox.get('timeType');
 
     setState(() {
       isLoading = true;
     });
 
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getJourneys(globals.route['from']['id'], globals.route['to']['id'], dt, travelerType, timeType);
+    Map result = await navikaApi.getJourneys(globals.route['from']['id'], globals.route['to']['id'], dt, travelerType, globals.timeType);
 
     setState(() {
       error = result['status'];
@@ -320,7 +327,7 @@ class _JourneysListState extends State<JourneysList> {
                       Container(
                         margin: const EdgeInsets.only(left: 20.0, top: 5.0, right: 20.0, bottom: 10.0),
                         child: SearchBox(
-                          text: getDateTitle(selectedDate, selectedTime),
+                          text: getDateTitle(globals.timeType, globals.selectedDate, globals.selectedTime),
                           icon: NavikaIcons.clock,
                           onTap: () {
                             showModalBottomSheet(
@@ -335,9 +342,9 @@ class _JourneysListState extends State<JourneysList> {
                                   return TimeSettings(
                                     setState: setState,
                                     setTimeType: setTimeType,
-                                    timeType: timeType,
-                                    selectedDate: selectedDate,
-                                    selectedTime: selectedTime,
+                                    timeType: globals.timeType,
+                                    selectedDate: globals.selectedDate,
+                                    selectedTime: globals.selectedTime,
                                     selectDate: selectDate,
                                     selectTime: selectTime,
                                   );

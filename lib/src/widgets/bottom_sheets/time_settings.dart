@@ -3,7 +3,6 @@ import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/utils/radio_tiles.dart';
-import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/utils/search_box.dart';
 
 class TimeSettings extends StatelessWidget {

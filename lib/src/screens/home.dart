@@ -93,12 +93,11 @@ class _HomeState extends State<Home> {
         }
       }
 
-      permissionGranted = await location.hasPermission();
-      if (permissionGranted == gps.PermissionStatus.denied &&
-          allowGps == null) {
+      if (allowGps == null) {
         RouteStateScope.of(context).go('/position');
         return;
       }
+      permissionGranted = await location.hasPermission();
 
       locationData = await location.getLocation();
       FlutterCompass.events?.listen((CompassEvent compassEvent) {
@@ -273,8 +272,8 @@ class _HomeState extends State<Home> {
                   bottomLeft: Radius.zero,
                   bottomRight: Radius.zero,
                 ),
-                snapPoint: 0.55,
-                minHeight: widget.displayType != null ? 80 : 90,
+                snapPoint: widget.displayType == 'bike' ? 0.25 : 0.55,
+                minHeight: widget.displayType == 'null' ? 80 : 90,
                 maxHeight: MediaQuery.of(context).size.height - 130,
                 controller: panelController,
                 onPanelSlide: (position) => _onPanelSlide(position),

@@ -24,7 +24,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
 
-  print("Handling a background message: ${message.messageId}");
+  print('Handling a background message: ${message.messageId}');
 }
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -96,7 +96,7 @@ void _initializeHive() async {
   // Options
   // GPS Autorisé
   if (globals.hiveBox.get('allowGps') == null) {
-    globals.hiveBox.put('allowGps', false);
+    globals.hiveBox.put('allowGps', null);
   }
 
   // Derniere position gps

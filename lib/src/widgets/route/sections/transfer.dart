@@ -23,8 +23,8 @@ class SectionTransfer extends StatelessWidget {
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-          Column(
-            children: const [
+          const Column(
+            children: [
               Padding(
                 padding: EdgeInsets.only(
                   top: 10, left: 20, right: 20
@@ -51,7 +51,7 @@ class SectionTransfer extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(right: 15, top: 10),
+            padding: const EdgeInsets.only(left: 10, right: 15, top: 0),
             color: Theme.of(context).colorScheme.surface,
             child: Row(
               children: [
@@ -59,7 +59,9 @@ class SectionTransfer extends StatelessWidget {
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',
-                  ))
+                    fontSize: 16,
+                  )
+                )
               ],
             ),
           ),

@@ -70,13 +70,6 @@ schedulesBack(context, Color color) {
   return color.withOpacity(0.1);
 }
 
-schedulesText(context, Color color) {
-  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return color;
-  }
-  return mainColor(context);
-}
-
 departureList(context, Color color) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return color.withOpacity(0.2);
@@ -133,4 +126,32 @@ Color getActiveColor(context, status) {
     return const Color(0xff808080);
   }  
   return mainColor(context);
+}
+
+Color getArrivalActiveColor(context, status) {
+  if (status == TripBlockStatus.inactive || status == TripBlockStatus.origin){
+    return const Color(0xff808080);
+  }  
+  return mainColor(context);
+}
+
+Color getMechanicalBike(context) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return Color(0xff8ca985);
+  }
+  return Color(0xffb7dcae);
+}
+
+Color getElecBike(context) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return Color(0xff84abcb);
+  }
+  return Color(0xffa6d6fe);
+}
+
+Color getParkBike(context) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return Color(0xffc3b75c);
+  }
+  return Color(0xfff6e775);
 }

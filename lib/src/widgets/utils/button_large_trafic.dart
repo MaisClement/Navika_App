@@ -16,7 +16,7 @@ class ButtonLargeTrafic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Card(
-        color: getSlugColor(line['severity'], 1).withOpacity(0.2),
+        color: getSlugColor(line['severity'], 1).withOpacity(0.3),
         shape: RoundedRectangleBorder(
           borderRadius: borderRadius ?? BorderRadius.circular(500),
         ),

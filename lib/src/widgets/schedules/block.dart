@@ -25,35 +25,34 @@ class SchedulesBlock extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         margin: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: HexColor.fromHex(line['color']).withOpacity(0.1), // Color.fromARGB(255, 230, 230, 230), //
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+          color: schedulesBack(context, HexColor.fromHex(line['color'])),
         ),
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: schedulesBlock(context, HexColor.fromHex(line['color'])),
-                boxShadow: [
-                  BoxShadow(
-                    color: accentColor(context).withOpacity(0.1),
-                    spreadRadius: 3,
-                    blurRadius: 5,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
+        child: Column(children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
               ),
-              child: InkWell(
-                onTap: () {
-                  RouteStateScope.of(context).go('/routes/details/${line['id']}');
-                },                
+              color: schedulesBack(context, HexColor.fromHex(line['color'])),
+            ),
+            child: InkWell(
+              onTap: () {
+                RouteStateScope.of(context).go('/routes/details/${line['id']}');
+              },                
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 3, bottom: 3),
                 child: Row(
                   children: [
                     ModeIcones(
                       line: line,
                       i: 0,
                       size: 30,
-                      isDark: schedulesIsDark(context, line['text_color']),
+                      isDark: !(Brightness.dark == Theme.of(context).colorScheme.brightness),
                     ),
                     LinesIcones(
                       line: line,
@@ -67,7 +66,7 @@ class SchedulesBlock extends StatelessWidget {
                         child: Text(
                           line['name'],
                           style: TextStyle(
-                              color: schedulesText( context, HexColor.fromHex(line['text_color']) ),
+                              color: accentColor(context),
                               fontWeight: FontWeight.w800,
                               fontFamily: 'Segoe Ui'),
                           maxLines: 1,
@@ -79,35 +78,36 @@ class SchedulesBlock extends StatelessWidget {
                 ),
               ),
             ),
+          ),
 
-            if (!limited && line['severity'] != null && line['severity'] > 0)
-              Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface,
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                margin: const EdgeInsets.only(
-                  top: 10, left: 5, right: 5
-                ),
-                child: ButtonLargeTrafic(
-                  line: line,
-                  borderRadius: BorderRadius.circular(7),
-                  onTap: () {
-                    globals.lineTrafic = line;
-                    RouteStateScope.of(context).go('/trafic/details');
-                  },
-                ),
-              ),
-              
-            SchedulesLines(line: line, update: update),
+          if (!limited && line['severity'] != null && line['severity'] > 0)
             Container(
-              height: 3,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: HexColor.fromHex(line['color']),
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(7),
+              ),
+              margin: const EdgeInsets.only(
+                top: 10, left: 5, right: 5
+              ),
+              child: ButtonLargeTrafic(
+                line: line,
+                borderRadius: BorderRadius.circular(7),
+                onTap: () {
+                  globals.lineTrafic = line;
+                  RouteStateScope.of(context).go('/trafic/details');
+                },
               ),
             ),
-          ],
-        ),
-      );
+            
+          SchedulesLines(line: line, update: update),
+          Container(
+            height: 3,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: HexColor.fromHex(line['color']),
+            ),
+          ),
+        ],
+      ),
+    );
 }

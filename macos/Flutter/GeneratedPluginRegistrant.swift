@@ -6,7 +6,7 @@ import FlutterMacOS
 import Foundation
 
 import connectivity_plus
-import device_info_plus_macos
+import device_info_plus
 import firebase_core
 import firebase_messaging
 import flutter_local_notifications

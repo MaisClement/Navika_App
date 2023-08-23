@@ -7,12 +7,14 @@ import 'package:navika/src/data/global.dart' as globals;
 
 class TimerBlock extends StatelessWidget {
   final String time;
+  final Color color;
   final String state;
   final Function update;
   final bool disabled;
 
   const TimerBlock({
     required this.time,
+    required this.color,
     required this.state,
     required this.update,
     this.disabled = false,
@@ -27,15 +29,8 @@ class TimerBlock extends StatelessWidget {
               clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: const Color(0xffffffff),
-                  boxShadow: [
-                    BoxShadow(
-                      color: accentColor(context).withOpacity(0.1),
-                      spreadRadius: 3,
-                      blurRadius: 5,
-                      offset: const Offset(0, 2),
-                    )
-                  ]),
+                  color: color,
+                  ),
               constraints: const BoxConstraints(minWidth: 60),
               child: InkWell(
                 onTap: () {

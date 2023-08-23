@@ -72,17 +72,23 @@ class _TripDetailsState extends State<TripDetails>
         status = TripBlockStatus.terminus;
       }
 
-      String time = getTime(stop['stop_time']['arrival_time']);
+      String time = stop['stop_time']['departure_time'];
+      String arrivaltime = stop['stop_time']['arrival_time'];
       String newtime = '';
+      String newarrivaltime = '';
 
       if (stop['disruption'] != null) {
         if (stop['disruption']['departure_state'] == 'delayed' || stop['disruption']['arrival_state'] == 'delayed') {
-          if (status == TripBlockStatus.origin) {
-            time = getTime(stop['disruption']['base_departure_time']);
-            newtime = getTime(stop['disruption']['departure_time']);
+          if (status == TripBlockStatus.terminus) {
+            time = stop['disruption']['base_arrival_time'];
+            newtime = stop['disruption']['arrival_time'];
+            arrivaltime = stop['disruption']['base_arrival_time'];
+            newarrivaltime = stop['disruption']['arrival_time'];
           } else {
-            time = getTime(stop['disruption']['base_arrival_time']);
-            newtime = getTime(stop['disruption']['arrival_time']);
+            time = stop['disruption']['base_departure_time'];
+            newtime = stop['disruption']['departure_time'];
+            arrivaltime = stop['disruption']['base_arrival_time'];
+            newarrivaltime = stop['disruption']['arrival_time'];
           }
         }
       }
@@ -90,7 +96,9 @@ class _TripDetailsState extends State<TripDetails>
       res.add(
         TripBlock(
           time: time,
+          arrivaltime: arrivaltime,
           newtime: newtime,
+          newarrivaltime: newarrivaltime,
           name: stop['name'],
           type: stop['type'],
           message: stop['disruption']?['message'],

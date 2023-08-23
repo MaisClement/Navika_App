@@ -203,9 +203,13 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
         }
         modes = result['value']?['place']['modes'];
         globals.schedulesStopLines = getLines(result['value']!);
+        });
+      if (isLoading) {
+        _tabController = TabController(vsync: this, length: getModesLength( modes ));
+      }
+      setState(() {
         isLoading = false;
       });
-      _tabController = TabController(vsync: this, length: getModesLength( modes ));
     }
   }
 

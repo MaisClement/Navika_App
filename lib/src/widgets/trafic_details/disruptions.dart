@@ -28,8 +28,8 @@ class TraficDisruptions extends StatelessWidget {
                     color:
                         getSlugColor(ctrafic['severity'], 1).withOpacity(0.2),
                     borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(5),
-                      topRight: Radius.circular(5),
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
                     ),
                   ),
                   child: Column(

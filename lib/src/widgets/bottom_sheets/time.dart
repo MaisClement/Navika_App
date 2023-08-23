@@ -90,6 +90,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   time: getDt(),
                   state: 'ontime',
                   update: widget.update, // INUTILE SI disabled
+                  color: departureList(context, mainColor(context)),
                   disabled: true,
                 ),
             ],
@@ -122,6 +123,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   time: getDt(),
                   state: 'delayed',
                   update: widget.update, // INUTILE SI disabled
+                  color: departureList(context, mainColor(context)),
                   disabled: true,
                 ),
             ],
@@ -154,6 +156,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   time: getDt(),
                   state: 'cancelled',
                   update: widget.update, // INUTILE SI disabled
+                  color: departureList(context, mainColor(context)),
                   disabled: true,
                 ),
             ],
@@ -186,6 +189,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   time: getDt(),
                   state: 'theorical',
                   update: widget.update, // INUTILE SI disabled
+                  color: departureList(context, mainColor(context)),
                   disabled: true,
                 ),
             ],

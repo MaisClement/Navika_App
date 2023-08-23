@@ -22,10 +22,13 @@ class SchedulesSkelton extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
                   color: getShimmerBaseColor(context),
                 ),
-                child: const SizedBox(height: 40, width: double.infinity),
+                child: const SizedBox(height: 46, width: double.infinity),
               ),
               for (var i = 0; i < 2; i++)
                 Container(

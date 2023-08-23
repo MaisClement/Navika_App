@@ -1,5 +1,6 @@
 import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/api.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
@@ -26,12 +27,22 @@ bool isFavoriteLine(id) {
   return false;
 }
 
+Future saveData(line) async {
+  globals.hiveBox.put('lines_${line['id']}', line);
+
+  for (var timetable in line.timetables.timetables) {
+    
+  }
+
+}
+
 void addLineToFavorite(line, context, Function? update) {
   List list = globals.hiveBox.get('linesFavorites');
 
   if (isFavoriteLine(line['id'])) {
     list.removeWhere((element) => element['id'] == line['id']);
     globals.hiveBox.put('linesFavorites', list);
+    globals.hiveBox.put('lines_${line['id']}', null);
 
     FloatingSnackBar(
       message: 'Favoris retiré.',
@@ -52,9 +63,9 @@ void addLineToFavorite(line, context, Function? update) {
       'agency': line['agency'],
     });
     globals.hiveBox.put('linesFavorites', list);
-    //RouteStateScope.of(context).go('/schedules');
+    
     FloatingSnackBar(
-      message: 'Favoris ajouté.',
+      message: 'Favoris ajouté, les détails de cette ligne sont disponibles même hors connexion.',
       context: context,
       textColor: mainColor(context),
       textStyle: snackBarText,
@@ -106,7 +117,7 @@ List<Widget> getTimeTableWidgets(Map line, context) {
           fontWeight: FontWeight.w700,
           fontSize: 17,
         ),
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(10),
         onTap: () {
           globals.pdfUrl = line['timetables']['timetables'][0]['url'];
           globals.pdfTitle = 'Ligne ${line['name']}';
@@ -125,7 +136,7 @@ List<Widget> getTimeTableWidgets(Map line, context) {
           fontWeight: FontWeight.w700,
           fontSize: 17,
         ),
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(10),
         onTap: () {},
       ),
     ));
@@ -147,6 +158,8 @@ class RoutesDetails extends StatefulWidget {
 class _RoutesDetailsState extends State<RoutesDetails>
     with SingleTickerProviderStateMixin {
   bool isLoading = true;
+  bool fromlocaldata = true;
+
   Map line = {};
   ApiStatus error = ApiStatus.ok;
   bool _isFavorite = false;
@@ -165,13 +178,24 @@ class _RoutesDetailsState extends State<RoutesDetails>
       error = result['status'];
     });
 
-    if (mounted) {
+    if (mounted && result['status'] == ApiStatus.ok) {
       setState(() {
         if (result['value']?['line'] != null) {
           line = result['value']?['line'];
         }
         isLoading = false;
       });
+    } else if (isFavoriteLine(widget.routeId) && (result['status'] == ApiStatus.socketException || result['status'] == ApiStatus.timeoutException)) {
+      setState(() {
+        line = globals.hiveBox.get('lines_${widget.routeId}');
+        isLoading = false;
+        fromlocaldata = true;
+        error = ApiStatus.ok;
+      });
+    }
+
+    if (isFavoriteLine(line['id'])) {
+      globals.hiveBox.put('lines_${line['id']}', line);
     }
   }
 
@@ -212,6 +236,30 @@ class _RoutesDetailsState extends State<RoutesDetails>
             else
               Column(
                 children: [
+                  if (fromlocaldata)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/img/cloud_off.svg',
+                              color: Theme.of(context).colorScheme.onSurface,
+                              height: 18,
+                            ),
+                            const SizedBox(width: 10),
+                            const Text(
+                              'Données hors connexion',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Segoe Ui',
+                                  fontSize: 18),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
                   if (getMapUrl(line) != null)
                     PDFMap(
                       url: getMapUrl(line)!,
@@ -244,18 +292,20 @@ class _RoutesDetailsState extends State<RoutesDetails>
                           ))
                         ])),
                   const SizedBox(height: 10),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 10, left: 10, right: 10),
-                    child: ButtonLargeTrafic(
-                      line: line,
-                      borderRadius: BorderRadius.circular(15),
-                      onTap: () {
-                        globals.lineTrafic = line;
-                        RouteStateScope.of(context).go('/trafic/details');
-                      },
+    
+                  if (!fromlocaldata)
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 10, left: 10, right: 10),
+                      child: ButtonLargeTrafic(
+                        line: line,
+                        borderRadius: BorderRadius.circular(10),
+                        onTap: () {
+                          globals.lineTrafic = line;
+                          RouteStateScope.of(context).go('/trafic/details');
+                        },
+                      ),
                     ),
-                  ),
                   ...getTimeTableWidgets(line, context),
                 ],
               )

@@ -270,8 +270,7 @@ String getTime(String time) {
   dttime = dttime.add(Duration(minutes: timezoneOffsetInMinutes));
 
   String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
-  String dtminute =
-      dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
+  String dtminute = dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
 
   return '$dthour:$dtminute';
 }
@@ -317,6 +316,19 @@ int getLate(Map train) {
   return diff.inMinutes;
 }
 
+int getDelay(dateTime, baseDateTime) {
+  String departure = dateTime;
+  String expectedDeparture = baseDateTime;
+
+  if (departure == '' || expectedDeparture == '') {
+    return 0;
+  }
+  DateTime dttime = DateTime.parse(departure);
+  DateTime dtexpe = DateTime.parse(expectedDeparture);
+  Duration diff = dttime.difference(dtexpe);
+  return diff.inMinutes;
+}
+
 Color getColorByState(state, context) {
   if (state.contains('cancelled')) {
     return const Color(0xffeb2031);
@@ -336,7 +348,7 @@ Color getSchedulesColorByState(state, context) {
     case 'delayed':
       return const Color(0xfff68f53);
     case 'ontime':
-      return mainColor(context);
+      return accentColor(context);
     default:
       return const Color(0xffa9a9a9);
   }

@@ -63,11 +63,12 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
       error = result['status'];
     });
 
+  print ({'INFO_', result['value']});
     
     if (mounted) {
       setState(() {
-        if (result['value']?['station'] != null) {
-          bikeStation = result['value']?['station'];
+        if (result['value'] != null) {
+          bikeStation = result['value'];
         }
       });
     }
@@ -79,13 +80,8 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
           const SizedBox(height: 60),
           if (bikeStation.isEmpty)
             Column(children: [
-              const SizedBox(height: 40),
-              const CircularProgressIndicator(),
-              Text(
-                'Chargement...',
-                style: TextStyle(
-                    color: accentColor(context), fontWeight: FontWeight.w700),
-              ),
+              const SizedBox(height: 20),
+              const LinearProgressIndicator(),
             ])
           else
             Container(
@@ -158,8 +154,9 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
                               left: 10.0, top: 5.0, right: 10.0, bottom: 5.0),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: const Color(0xffb7dcae)),
+                            borderRadius: BorderRadius.circular(5),
+                            color: getMechanicalBike(context),
+                          ),
                           child: Row(
                             children: [
                               Icon(NavikaIcons.bike,
@@ -204,8 +201,9 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
                           padding: const EdgeInsets.only(
                               left: 10.0, top: 5.0, right: 10.0, bottom: 5.0),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: const Color(0xffa6d6fe)),
+                            borderRadius: BorderRadius.circular(5),
+                            color: getElecBike(context),
+                          ),
                           child: Row(
                             children: [
                               Icon(NavikaIcons.e_bike,
@@ -250,8 +248,9 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
                           padding: const EdgeInsets.only(
                               left: 10.0, top: 5.0, right: 10.0, bottom: 5.0),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: const Color(0xfff6e775)),
+                            borderRadius: BorderRadius.circular(5),
+                            color: getParkBike(context),
+                          ),
                           child: Row(
                             children: [
                               Icon(NavikaIcons.parking,

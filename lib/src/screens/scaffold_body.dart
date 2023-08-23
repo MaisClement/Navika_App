@@ -16,7 +16,7 @@ getHomePage(pathTemplate, id) {
     );
 
   } else if (pathTemplate == '/bike/:id' && id != null) {
-    Home(
+    return Home(
       displayType: 'bike',
       id: id
     );
@@ -31,13 +31,13 @@ getPages(pathTemplate, id) {
 		return getHomePage(pathTemplate, id);
 
 	} else if (pathTemplate.startsWith('/schedules')) {
-		return Schedules();
+		return const Schedules();
 		
 	}	else if (pathTemplate.startsWith('/routes')) {
-		return Routes();
+		return const Routes();
 
 	}	else if (pathTemplate.startsWith('/trafic')){
-		return Trafic();
+		return const Trafic();
 
 	} else {
 		return Container();
