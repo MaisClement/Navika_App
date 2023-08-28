@@ -212,7 +212,7 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                   Text(
-                    'Made with 💖 / In Tartiflette we trust',
+                    'Made with 💖',
                     style: TextStyle(
                       fontFamily: 'Segoe Ui',
                       color: Colors.white,

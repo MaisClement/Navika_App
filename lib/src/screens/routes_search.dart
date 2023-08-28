@@ -79,7 +79,7 @@ class _RoutesSearchState extends State<RoutesSearch> {
         focusNode: textFieldNode,
         decoration: InputDecoration(
           hintText: widget.toFavorite
-          ? 'Ajouter une ligne a vos favoris'
+          ? 'Ajouter une ligne à vos favoris'
           : 'Rechercher une ligne'
         ),
         onChanged: (text) {
