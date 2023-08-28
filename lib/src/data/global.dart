@@ -63,7 +63,5 @@ DateTime selectedDate = DateTime.now();
 TimeOfDay selectedTime = TimeOfDay.now();
 String timeType = 'departure';
 
-// String directory = getApplicationDocumentsDirectory();
-
 // ignore: prefer_typing_uninitialized_variables
 var hiveBox;

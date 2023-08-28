@@ -329,6 +329,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.7.0"
+  firebase_crashlytics:
+    dependency: "direct main"
+    description:
+      name: firebase_crashlytics
+      sha256: fd9e1a1cb7cce3f9dd2358d8363d235f25f056981e23a333db1e57eca693913f
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.5"
+  firebase_crashlytics_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_crashlytics_platform_interface
+      sha256: "0d19ef23cf7a917a357d2eb1807338ec536ec3232e729ebd769f5bb2aba9e085"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.6.5"
   firebase_messaging:
     dependency: "direct main"
     description:
@@ -500,7 +516,7 @@ packages:
       path: "plugins/here_sdk"
       relative: true
     source: path
-    version: "4.15.0"
+    version: "4.15.3"
   hive:
     dependency: "direct main"
     description:

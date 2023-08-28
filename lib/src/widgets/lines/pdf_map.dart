@@ -1,15 +1,20 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:internet_file/internet_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:pdfx/pdfx.dart';
 
 class PDFMap extends StatefulWidget {
   final String url;
   final double size;
+  final bool isLocalData;
 
   const PDFMap({
     required this.url,
     required this.size,
+    this.isLocalData = false,
     super.key,
   });
 
@@ -19,37 +24,56 @@ class PDFMap extends StatefulWidget {
 
 class _PDFMapState extends State<PDFMap> with SingleTickerProviderStateMixin {
   late dynamic image;
+  bool isError = false;
   bool isLoading = true;
   double width = double.infinity;
 
-  Future<void> getPdf(String url, size) async {
-    final document = await PdfDocument.openData(InternetFile.get(url));
+  Future<void> getPdf(String url, isLocalData, size) async {
+    try {
+      PdfDocument document;
 
-    PdfPage page = await document.getPage(1);
+      if (isLocalData) {
+        Directory directory = await getApplicationDocumentsDirectory();
 
-    double pageWidth = page.width / page.height * size;
+        Uri uri = Uri.parse(url);
+        String name = uri.pathSegments.last;
+        document = await PdfDocument.openFile('${directory.path}/dir/$name');
+      } else {
+        document = await PdfDocument.openData(InternetFile.get(url));
+      }
 
-    final pageImage = (await page.render(
-      width: page.width,
-      height: page.height,
-      format: PdfPageImageFormat.png,
-      backgroundColor: '#ffffff',
-    ))!;
+      PdfPage page = await document.getPage(1);
 
-    await page.close();
+      double pageWidth = page.width / page.height * size;
 
-    setState(() {
-      image = pageImage.bytes;
-      isLoading = false;
-      width = pageWidth;
-    });
+      final pageImage = (await page.render(
+        width: page.width,
+        height: page.height,
+        format: PdfPageImageFormat.png,
+        backgroundColor: '#ffffff',
+      ))!;
+
+      await page.close();
+
+      setState(() {
+        image = pageImage.bytes;
+        isLoading = false;
+        isError = false;
+        width = pageWidth;
+      });
+    } catch (err) {
+      setState(() {
+        isLoading = false;
+        isError = true;
+      });
+    }
   }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await getPdf(widget.url, widget.size);
+      await getPdf(widget.url, widget.isLocalData, widget.size);
     });
   }
 
@@ -57,6 +81,7 @@ class _PDFMapState extends State<PDFMap> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) => Column(
         children: [
           if (isLoading) const LinearProgressIndicator(),
+          if (isError == false)
           Container(
             color: Theme.of(context).colorScheme.background,
             height: widget.size,

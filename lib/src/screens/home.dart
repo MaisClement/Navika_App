@@ -79,10 +79,7 @@ class _HomeState extends State<Home> {
     gps.PermissionStatus permissionGranted;
     gps.LocationData locationData;
 
-    bool? allowGps = await globals.hiveBox?.get('allowGps');
-    if (allowGps == false) {
-      return;
-    }
+    bool? allowGps = await globals.hiveBox?.get('allowGps') ?? false;
 
     if (!globals.isSetLocation) {
       serviceEnabled = await location.serviceEnabled();
@@ -93,11 +90,11 @@ class _HomeState extends State<Home> {
         }
       }
 
-      if (allowGps == null) {
+      permissionGranted = await location.hasPermission();
+      if (permissionGranted == gps.PermissionStatus.denied && allowGps == null) {
         RouteStateScope.of(context).go('/position');
         return;
       }
-      permissionGranted = await location.hasPermission();
 
       locationData = await location.getLocation();
       FlutterCompass.events?.listen((CompassEvent compassEvent) {

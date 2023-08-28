@@ -1,18 +1,22 @@
+import 'dart:io';
+
 import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/api.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:http/http.dart' as http;
 import 'package:navika/src/style/style.dart';
+import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/icons/icons.dart';
 import 'package:navika/src/widgets/lines/pdf_map.dart';
 import 'package:navika/src/widgets/utils/button_large.dart';
 import 'package:navika/src/widgets/utils/button_large_trafic.dart';
+import 'package:path_provider/path_provider.dart';
 
 bool isFavoriteLine(id) {
   List favs = globals.hiveBox?.get('linesFavorites') ?? [];
@@ -27,55 +31,85 @@ bool isFavoriteLine(id) {
   return false;
 }
 
+Future<void> downloadFile(directory, name, url) async {
+  File file = await File('${directory.path}/dir/$name').create(recursive: true);
+
+  var response = await http.get(Uri.parse(url));
+
+  if (response.statusCode == 200) {
+    await file.writeAsBytes(response.bodyBytes);
+    print({'INFO_', 'saved', name});
+  }
+}
+
 Future saveData(line) async {
-  globals.hiveBox.put('lines_${line['id']}', line);
+    globals.hiveBox.put('lines_${line['id']}', line);
 
-  for (var timetable in line.timetables.timetables) {
-    
-  }
+    Directory directory = await getApplicationDocumentsDirectory();
 
-}
-
-void addLineToFavorite(line, context, Function? update) {
-  List list = globals.hiveBox.get('linesFavorites');
-
-  if (isFavoriteLine(line['id'])) {
-    list.removeWhere((element) => element['id'] == line['id']);
-    globals.hiveBox.put('linesFavorites', list);
-    globals.hiveBox.put('lines_${line['id']}', null);
-
-    FloatingSnackBar(
-      message: 'Favoris retiré.',
-      context: context,
-      textColor: mainColor(context),
-      textStyle: snackBarText,
-      duration: const Duration(milliseconds: 4000),
-      backgroundColor: const Color(0xff272727),
-    );
-  } else {
-    list.add({
-      'id': line['id'],
-      'code': line['code'],
-      'name': line['name'],
-      'mode': line['mode'],
-      'color': line['color'],
-      'text_color': line['text_color'],
-      'agency': line['agency'],
+    Directory('${directory.path}/dir')
+        .create(recursive: true)
+        .then((Directory directory) {
+      print('Path of New Dir: ${directory.path}');
     });
-    globals.hiveBox.put('linesFavorites', list);
-    
-    FloatingSnackBar(
-      message: 'Favoris ajouté, les détails de cette ligne sont disponibles même hors connexion.',
-      context: context,
-      textColor: mainColor(context),
-      textStyle: snackBarText,
-      duration: const Duration(milliseconds: 4000),
-      backgroundColor: const Color(0xff272727),
-    );
+
+    for (var timetable in line['timetables']['timetables']) {
+      String url = timetable['url'];
+      Uri uri = Uri.parse(url);
+      String name = uri.pathSegments.last;
+      await downloadFile(directory, name, timetable['url']);
+    }
+    for (var timetable in line['timetables']['map']) {
+      String url = timetable['url'];
+      Uri uri = Uri.parse(url);
+      String name = uri.pathSegments.last;
+      await downloadFile(directory, name, timetable['url']);
+    }
   }
-  if (update != null) update();
-  return;
-}
+
+  void addLineToFavorite(line, context, Function? update) {
+    List list = globals.hiveBox.get('linesFavorites');
+
+    if (isFavoriteLine(line['id'])) {
+      list.removeWhere((element) => element['id'] == line['id']);
+      globals.hiveBox.put('linesFavorites', list);
+      globals.hiveBox.put('lines_${line['id']}', null);
+
+      FloatingSnackBar(
+        message: 'Favoris retiré.',
+        context: context,
+        textColor: mainColor(context),
+        textStyle: snackBarText,
+        duration: const Duration(milliseconds: 4000),
+        backgroundColor: const Color(0xff272727),
+      );
+    } else {
+      list.add({
+        'id': line['id'],
+        'code': line['code'],
+        'name': line['name'],
+        'mode': line['mode'],
+        'color': line['color'],
+        'text_color': line['text_color'],
+        'agency': line['agency'],
+      });
+      globals.hiveBox.put('linesFavorites', list);
+
+      saveData(line);
+
+      FloatingSnackBar(
+        message:
+            'Favoris ajouté, les détails de cette ligne sont disponibles même hors connexion.',
+        context: context,
+        textColor: mainColor(context),
+        textStyle: snackBarText,
+        duration: const Duration(milliseconds: 4000),
+        backgroundColor: const Color(0xff272727),
+      );
+    }
+    if (update != null) update();
+    return;
+  }
 
 String getTerminus(line) {
   String res = '';
@@ -102,7 +136,7 @@ String? getMapUrl(Map line) {
   }
 }
 
-List<Widget> getTimeTableWidgets(Map line, context) {
+List<Widget> getTimeTableWidgets(Map line, context, fromlocaldata) {
   List<Widget> res = [];
 
   res.add(const SizedBox(height: 15));
@@ -118,8 +152,15 @@ List<Widget> getTimeTableWidgets(Map line, context) {
           fontSize: 17,
         ),
         borderRadius: BorderRadius.circular(10),
-        onTap: () {
-          globals.pdfUrl = line['timetables']['timetables'][0]['url'];
+        onTap: () async {
+          if (fromlocaldata) {
+            Uri uri = Uri.parse(line['timetables']['timetables'][0]['url']);
+            Directory directory = await getApplicationDocumentsDirectory();
+            String name = uri.pathSegments.last;
+            globals.pdfUrl = '${directory.path}/dir/$name';
+          } else {
+            globals.pdfUrl = line['timetables']['timetables'][0]['url'];
+          }
           globals.pdfTitle = 'Ligne ${line['name']}';
           RouteStateScope.of(context).go('/pdf');
         },
@@ -128,18 +169,29 @@ List<Widget> getTimeTableWidgets(Map line, context) {
   } else if (line['timetables']['timetables'].length > 2) {
     for (var timetable in line['timetables']['timetables']) {
       res.add(Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10),
-      child: ButtonLarge(
-        icon: NavikaIcons.clock,
-        text: timetable['name'],
-        style: const TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 17,
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: ButtonLarge(
+          icon: NavikaIcons.clock,
+          text: timetable['name'],
+          style: const TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 17,
+          ),
+          borderRadius: BorderRadius.circular(10),
+          onTap: () async {
+            if (fromlocaldata) {
+              Uri uri = Uri.parse(timetable['url']);
+              Directory directory = await getApplicationDocumentsDirectory();
+              String name = uri.pathSegments.last;
+              globals.pdfUrl = '${directory.path}/dir/$name';
+            } else {
+              globals.pdfUrl = timetable['url'];
+            }
+            globals.pdfTitle = 'Ligne ${line['name']}';
+            RouteStateScope.of(context).go('/pdf');
+          },
         ),
-        borderRadius: BorderRadius.circular(10),
-        onTap: () {},
-      ),
-    ));
+      ));
     }
   }
 
@@ -158,7 +210,7 @@ class RoutesDetails extends StatefulWidget {
 class _RoutesDetailsState extends State<RoutesDetails>
     with SingleTickerProviderStateMixin {
   bool isLoading = true;
-  bool fromlocaldata = true;
+  bool fromlocaldata = false;
 
   Map line = {};
   ApiStatus error = ApiStatus.ok;
@@ -168,6 +220,9 @@ class _RoutesDetailsState extends State<RoutesDetails>
     setState(() {
       _isFavorite = isFavoriteLine(line['id']);
     });
+    if (_isFavorite) {
+      saveData(line);
+    }
   }
 
   Future<void> _getLine() async {
@@ -213,8 +268,8 @@ class _RoutesDetailsState extends State<RoutesDetails>
         bottomNavigationBar: getNavigationBar(context),
         appBar: AppBar(
           title: isLoading
-          ? const Text('Lignes', style: appBarTitle)
-          : Text('Ligne ${line['name']}', style: appBarTitle),
+              ? const Text('Lignes', style: appBarTitle)
+              : Text('Ligne ${line['name']}', style: appBarTitle),
           actions: [
             IconButton(
               icon: _isFavorite
@@ -236,33 +291,10 @@ class _RoutesDetailsState extends State<RoutesDetails>
             else
               Column(
                 children: [
-                  if (fromlocaldata)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/img/cloud_off.svg',
-                              color: Theme.of(context).colorScheme.onSurface,
-                              height: 18,
-                            ),
-                            const SizedBox(width: 10),
-                            const Text(
-                              'Données hors connexion',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'Segoe Ui',
-                                  fontSize: 18),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
                   if (getMapUrl(line) != null)
                     PDFMap(
                       url: getMapUrl(line)!,
+                      isLocalData: fromlocaldata,
                       size: 200,
                     )
                   else
@@ -292,7 +324,6 @@ class _RoutesDetailsState extends State<RoutesDetails>
                           ))
                         ])),
                   const SizedBox(height: 10),
-    
                   if (!fromlocaldata)
                     Padding(
                       padding:
@@ -306,7 +337,43 @@ class _RoutesDetailsState extends State<RoutesDetails>
                         },
                       ),
                     ),
-                  ...getTimeTableWidgets(line, context),
+                  ...getTimeTableWidgets(line, context, fromlocaldata),
+                  if (_isFavorite)
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 10, left: 10, right: 10),
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 15, right: 15),
+                        height: 65,
+                        decoration: BoxDecoration(
+                          color: getSlugColor(0, 1).withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Row(
+                            children: [
+                              Icon(NavikaIcons.saved,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                  size: 25),
+                              const SizedBox(width: 10),
+                              const Expanded(
+                                child: Text(
+                                  'Données disponible hors connexion',
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  overflow: TextOverflow.fade,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'Segoe Ui',
+                                      fontSize: 18),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               )
           ],

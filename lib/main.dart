@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -29,18 +30,21 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-void main() {
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
+Future<void> main() async {
   setHashUrlStrategy();
 
   setupWindow();
   
-  _initializeHive();
+  await _initializeHive();
 
-  _initializeHERESDK();
+  await _initializeHERESDK();
 
-  _initializeFirebase();
+  await _initializeFirebase();
+
+  await _initializeCrashlytics();
+
+  // initializeBackgroundNotifications
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   _initializeLocalNotification();
 
@@ -53,7 +57,7 @@ void setupWindow() {
   }
 }
 
-void _initializeHive() async {
+Future _initializeHive() async {
   await Hive.initFlutter();
   globals.hiveBox = await Hive.openBox('Home');
 
@@ -96,7 +100,7 @@ void _initializeHive() async {
   // Options
   // GPS Autorisé
   if (globals.hiveBox.get('allowGps') == null) {
-    globals.hiveBox.put('allowGps', null);
+    globals.hiveBox.put('allowGps', false);
   }
 
   // Derniere position gps
@@ -127,7 +131,7 @@ void _initializeHive() async {
   }
 }
 
-void _initializeHERESDK() async {
+Future _initializeHERESDK() async {
   SdkContext.init(IsolateOrigin.main);
 
   String accessKeyId = credentials.HERE_ACCES_KEY_ID;
@@ -142,7 +146,7 @@ void _initializeHERESDK() async {
   }
 }
 
-void _initializeFirebase() async {
+Future _initializeFirebase() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -195,13 +199,27 @@ void _initializeFirebase() async {
   });
 }
 
+Future _initializeCrashlytics() async {
+  WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    
+    FlutterError.onError = (errorDetails) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+    };
+    // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
+}
+
 void _initializeLocalNotification() {
   var initializationSettingsAndroid = const AndroidInitializationSettings('app_icon');
   var initializationSettings = InitializationSettings(android: initializationSettingsAndroid);
   flutterLocalNotificationsPlugin.initialize(initializationSettings);
 }
 
-void showNotification(RemoteMessage message) async {
+Future<void> showNotification(RemoteMessage message) async {
   print({'INFO_', message.toMap()});
   var androidNotificationDetails = const AndroidNotificationDetails(
     'com.lowa.channel',
@@ -212,8 +230,6 @@ void showNotification(RemoteMessage message) async {
     priority: Priority.high,
   );
 
-  NotificationDetails notificationDetails =
-      NotificationDetails(android: androidNotificationDetails);
-  await flutterLocalNotificationsPlugin.show(
-      0, message.notification?.title, message.notification?.body, notificationDetails);
+  NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
+  await flutterLocalNotificationsPlugin.show(0, message.notification?.title, message.notification?.body, notificationDetails);
 }

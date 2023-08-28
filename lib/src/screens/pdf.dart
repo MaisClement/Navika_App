@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_file/internet_file.dart';
 import 'package:navika/src/style/style.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:navika/src/data/global.dart' as globals;
 
@@ -35,8 +38,18 @@ class _PDFViewerState extends State<PDFViewer> {
 
   @override
   void initState() {
+
+    Future<PdfDocument> document;
+    Uri uri = Uri.parse(globals.pdfUrl);
+
+    if (uri.scheme == 'http' || uri.scheme == 'https') {
+      document = PdfDocument.openData(InternetFile.get(globals.pdfUrl));
+    } else {
+      document = PdfDocument.openFile(globals.pdfUrl);
+    }
+
     pdfController = PdfControllerPinch(
-      document: PdfDocument.openData(InternetFile.get(globals.pdfUrl)),
+      document: document,
     );
     super.initState();
   }
