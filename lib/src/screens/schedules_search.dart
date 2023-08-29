@@ -38,18 +38,17 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getStops(search, globals.locationData, flag);
 
-    setState(() {
-      error = result['status'];
-    });
-
-    
     if (mounted) {
       setState(() {
-        if (result['value']?['flag'] == flag) {
-          places = result['value']?['places'];
-        }
-        isLoading = false;
+        error = result['status'];
       });
+      
+      if (result['value']?['flag'] == flag && result['value']?['places'] != null) {
+        setState(() {
+          places = result['value']?['places'];
+          isLoading = false;
+        });
+      }
     }
 	}
 

@@ -99,9 +99,9 @@ Future _initializeHive() async {
   // ---
   // Options
   // GPS Autorisé
-  if (globals.hiveBox.get('allowGps') == null) {
-    globals.hiveBox.put('allowGps', false);
-  }
+  // if (globals.hiveBox.get('allowGps') == null) {
+  //   globals.hiveBox.put('allowGps', false);
+  // }
 
   // Derniere position gps
   if (globals.hiveBox.get('latitude') == null) {

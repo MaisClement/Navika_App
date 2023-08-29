@@ -48,10 +48,10 @@ class HomeBody extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Container(
+                Padding(
                   padding: const EdgeInsets.only(left: 10, bottom: 10),
                   child: Text(
-                    'Vos Favoris',
+                    'Vos horaires',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,

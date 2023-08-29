@@ -43,17 +43,17 @@ class _RoutesSearchState extends State<RoutesSearch> {
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getLines(search, flag);
 
-    setState(() {
-      error = result['status'];
-    });
-    
     if (mounted) {
       setState(() {
-        if (result['value']?['flag'] == flag) {
-          lines = result['value']?['lines'];
-        }
-        isLoading = false;
+        error = result['status'];
       });
+      
+      if (result['value']?['flag'] == flag && result['value']?['lines'] != null) {
+        setState(() {
+          lines = result['value']?['lines'];
+          isLoading = false;
+        });
+      }
     }
 	}
 

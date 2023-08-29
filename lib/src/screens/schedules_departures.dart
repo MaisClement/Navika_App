@@ -53,12 +53,11 @@ class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerPr
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getSchedules(widget.id, false);
 
-    setState(() {
-      error = result['status'];
-    });
-
-    
     if (mounted) {
+      setState(() {
+        error = result['status'];
+      });
+      
       if (result['value']?['departures'] != null) {
         for (var i = 0; i < result['value']?['departures'].length; i++) {
           if (result['value']?['departures'][i]['id'] == widget.stopLine) {

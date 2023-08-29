@@ -228,16 +228,17 @@ class _JourneysListState extends State<JourneysList> {
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getJourneys(globals.route['from']['id'], globals.route['to']['id'], dt, travelerType, globals.timeType);
 
-    setState(() {
-      error = result['status'];
-    });
-
-
     if (mounted) {
       setState(() {
-        journeys = result['value']?['journeys'];
-        isLoading = false;
+        error = result['status'];
       });
+      
+      if (result['value']?['journeys'] != null) {
+        setState(() {
+          journeys = result['value']?['journeys'];
+          isLoading = false;
+        });
+      }
     }
   }
 

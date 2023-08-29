@@ -154,7 +154,7 @@ class NavikaApi {
   }
 
   Future getStops(
-      String query, gps.LocationData? locationData, int? flag) async {
+    String query, gps.LocationData? locationData, int? flag) async {
     String url = '';
 
     bool isGPSallowed = await getIsGPSallowed();

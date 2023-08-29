@@ -59,18 +59,16 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getBikeStations(id);
 
-    setState(() {
-      error = result['status'];
-    });
-
-  print ({'INFO_', result['value']});
-    
     if (mounted) {
       setState(() {
-        if (result['value'] != null) {
-          bikeStation = result['value'];
-        }
+        error = result['status'];
       });
+      
+      if (result['value'] != null) {
+        setState(() {
+          bikeStation = result['value'];
+        });
+      }
     }
   }
 
@@ -79,10 +77,12 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
         children: [
           const SizedBox(height: 60),
           if (bikeStation.isEmpty)
-            Column(children: [
-              const SizedBox(height: 20),
-              const LinearProgressIndicator(),
-            ])
+            const Column(
+              children: [
+                SizedBox(height: 20),
+                LinearProgressIndicator(),
+              ]
+            )
           else
             Container(
               padding: const EdgeInsets.only(

@@ -58,7 +58,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getSchedulesLines(widget.id, widget.line);
 
-   if (mounted) {
+    if (mounted) {
       setState(() {
         error = result['status'];
       });

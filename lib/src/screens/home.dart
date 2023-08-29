@@ -67,6 +67,8 @@ class _HomeState extends State<Home> {
   double panelButtonBottomOffset = 120;
   double _position = 0;
 
+  GeoCoordinates _oldcamGeoCoords = GeoCoordinates(0, 0);
+
   List stopsNearby = [];
   List bikeNearby = [];
   List markers = [];
@@ -79,7 +81,10 @@ class _HomeState extends State<Home> {
     gps.PermissionStatus permissionGranted;
     gps.LocationData locationData;
 
-    bool? allowGps = await globals.hiveBox?.get('allowGps') ?? false;
+    bool? allowGps = await globals.hiveBox?.get('allowGps');
+    if (allowGps == false) {
+      return;
+    }
 
     if (!globals.isSetLocation) {
       serviceEnabled = await location.serviceEnabled();
@@ -95,31 +100,28 @@ class _HomeState extends State<Home> {
         RouteStateScope.of(context).go('/position');
         return;
       }
+    } 
 
-      locationData = await location.getLocation();
-      FlutterCompass.events?.listen((CompassEvent compassEvent) {
-        _updateCompass(compassEvent);
-      });
-      _addLocationIndicator(locationData);
-      location.onLocationChanged.listen((gps.LocationData currentLocation) {
-        _updateLocationIndicator(currentLocation);
-      });
-      await _getNearPoints();
-    } else {
-      locationData = await location.getLocation();
-
-      FlutterCompass.events?.listen((CompassEvent compassEvent) {
-        _updateCompass(compassEvent);
-      });
-      location.onLocationChanged.listen((gps.LocationData currentLocation) {
-        _updateLocationIndicator(currentLocation);
-      });
-      await _getNearPoints();
-    }
+    locationData = await location.getLocation();
+    camGeoCoords = GeoCoordinates(locationData.latitude ?? 0, locationData.longitude ?? 0);
+      
+    FlutterCompass.events?.listen((CompassEvent compassEvent) {
+      _updateCompass(compassEvent);
+    });
+    _addLocationIndicator(locationData);
+    location.onLocationChanged.listen((gps.LocationData currentLocation) {
+      _updateLocationIndicator(currentLocation);
+    });
+    await _getNearPoints();
   }
 
   Future<void> _getNearPoints() async {
     double zoom = _controller?.getZoomLevel() ?? 0;
+
+    if (_oldcamGeoCoords == camGeoCoords) {
+      return;
+    }
+    _oldcamGeoCoords = camGeoCoords;
 
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getNearPoints(zoom, camGeoCoords);
@@ -578,12 +580,12 @@ class _HomeState extends State<Home> {
   }
 
   void _addLocationIndicator(gps.LocationData locationData) {
-    _controller?.addLocationIndicator(locationData,
-        LocationIndicatorIndicatorStyle.pedestrian, globals.compassHeading);
+    _controller?.addLocationIndicator(locationData, LocationIndicatorIndicatorStyle.pedestrian, globals.compassHeading);
   }
 
-  void _updateLocationIndicator(gps.LocationData locationData) {
+  void _updateLocationIndicator(gps.LocationData locationData) async {
     _controller?.updateLocationIndicator(locationData, globals.compassHeading);
+    await _getNearPoints();
   }
 
   void _updateCompass(CompassEvent compassEvent) {
@@ -612,8 +614,9 @@ class _HomeState extends State<Home> {
 
   void _zoomOn() {
     GeoCoordinates geoCoords = GeoCoordinates(
-        globals.locationData?.latitude ?? 0,
-        globals.locationData?.longitude ?? 0);
+      globals.locationData?.latitude ?? 0,
+      globals.locationData?.longitude ?? 0
+    );
     var isOverLocation = _controller?.isOverLocation(geoCoords) ?? false;
     if (isOverLocation) {
       setState(() {
@@ -626,8 +629,7 @@ class _HomeState extends State<Home> {
 
   void _onPanelSlide(position) {
     setState(() {
-      panelButtonBottomOffset = panelButtonBottomOffsetClosed +
-          ((MediaQuery.of(context).size.height - 210) * position);
+      panelButtonBottomOffset = panelButtonBottomOffsetClosed + ((MediaQuery.of(context).size.height - 210) * position);
       _position = position;
     });
   }

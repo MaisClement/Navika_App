@@ -201,15 +201,22 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
         if (result['value']?['departures'] != null) {
           departures = result['value']?['departures'];
         }
-        modes = result['value']?['place']['modes'];
-        globals.schedulesStopLines = getLines(result['value']!);
-        });
+        if (result['value']?['place']['modes'] != null) {
+          modes = result['value']?['place']['modes'];
+        }
+        if (result['value'] != null) {
+          globals.schedulesStopLines = getLines(result['value']!);
+        }
+      });
+
       if (isLoading) {
         _tabController = TabController(vsync: this, length: getModesLength( modes ));
       }
+      
       setState(() {
         isLoading = false;
       });
+      
     }
   }
 

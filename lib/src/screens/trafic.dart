@@ -48,15 +48,17 @@ class _TraficState extends State<Trafic> {
 
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getTrafic([]);
-    
+
     if (mounted) {
       setState(() {
         error = result['status'];
       });
-      setState(() {
-        trafic = result['value']?['trafic'];
-        globals.trafic = result['value']?['trafic'];
-      });
+      
+      if (result['value']?['trafic'] != null) {
+        setState(() {
+          trafic = result['value']?['trafic'];
+        });
+      }
     }
 
     _getFavTrafic();
@@ -79,9 +81,12 @@ class _TraficState extends State<Trafic> {
       setState(() {
         error = result['status'];
       });
-      setState(() {
-        favTrafic = result['value']?['trafic'];
-      });
+      
+      if (result['value']?['trafic'] != null) {
+        setState(() {
+          favTrafic = result['value']?['trafic'];
+        });
+      }
     }
   }
 

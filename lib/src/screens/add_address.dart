@@ -113,15 +113,17 @@ class _AddAddressState extends State<AddAddress> {
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getPlaces(search, globals.locationData, flag);
 
-    setState(() {
-      error = result['status'];
-    });
-
-    if (mounted && result['value']?['flag'] == flag) {
+    if (mounted) {
       setState(() {
-        places = result['value']?['places'];
-        isLoading = false;
+        error = result['status'];
       });
+      
+      if (result['value']?['flag'] == flag && result['value']?['places'] != null) {
+        setState(() {
+          places = result['value']?['places'];
+          isLoading = false;
+        });
+      }
     }
   }
 

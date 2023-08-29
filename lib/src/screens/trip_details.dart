@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';  
 import 'package:navika/src/api.dart';
 
-import 'package:navika/src/style/style.dart';
-import 'package:navika/src/utils.dart';
+import 'package:navika/src/style/style.dart'; 
 import 'package:navika/src/widgets/error_message.dart';
 import 'package:navika/src/widgets/trip/block.dart';
 import 'package:navika/src/widgets/trip/disruptions.dart';
@@ -41,16 +40,17 @@ class _TripDetailsState extends State<TripDetails>
   Future<void> _getVehicleJourneys() async {
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getVehicleJourney(widget.tripId);
-    
+
     if (mounted) {
       setState(() {
-        if (result['value']?['vehicle_journey'] != null) {
-          vehicleJourney = result['value']?['vehicle_journey'];
-          error = result['status'];
-        } else {
-          error = ApiStatus.unknownException;
-        }
+        error = result['status'];
       });
+      
+      if (result['value']?['vehicle_journey'] != null) {
+        setState(() {
+          vehicleJourney = result['value']?['vehicle_journey'];
+        });
+      }
     }
   }
 
