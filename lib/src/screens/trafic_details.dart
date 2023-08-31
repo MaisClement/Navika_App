@@ -43,6 +43,14 @@ class _TraficDetailsState extends State<TraficDetails> {
             ],
           ),
           actions: [
+            if (_isFavorite) 
+              IconButton(
+                icon: _isFavorite
+                    ? const Icon(NavikaIcons.bell_filled)
+                    : const Icon(NavikaIcons.bell_add),
+                tooltip: 'Notifications',
+                onPressed: () => addNotification(globals.lineTrafic, context),
+              ),
             IconButton(
               icon: _isFavorite
                   ? const Icon(NavikaIcons.star_filled)

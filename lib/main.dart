@@ -200,17 +200,21 @@ Future _initializeFirebase() async {
 }
 
 Future _initializeCrashlytics() async {
+  if (kDebugMode) {
+    return;
+  }
+
   WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-    
-    FlutterError.onError = (errorDetails) {
-      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-    };
-    // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
-    PlatformDispatcher.instance.onError = (error, stack) {
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-      return true;
-    };
+  await Firebase.initializeApp();
+  
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
 }
 
 void _initializeLocalNotification() {
@@ -222,7 +226,7 @@ void _initializeLocalNotification() {
 Future<void> showNotification(RemoteMessage message) async {
   print({'INFO_', message.toMap()});
   var androidNotificationDetails = const AndroidNotificationDetails(
-    'com.lowa.channel',
+    'com.lowa.navika',
     'Notification',
     playSound: true,
     enableVibration: true,

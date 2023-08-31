@@ -12,6 +12,7 @@ class TimeSettings extends StatelessWidget {
   final Function setTimeType;
   final DateTime selectedDate;
   final TimeOfDay selectedTime;
+  final Function update;
   final String timeType;
 
   const TimeSettings({
@@ -21,6 +22,7 @@ class TimeSettings extends StatelessWidget {
     required this.setTimeType,
     required this.selectedDate,
     required this.selectedTime,
+    required this.update,
     required this.timeType,
     super.key,
   });
@@ -109,8 +111,11 @@ class TimeSettings extends StatelessWidget {
             ),
             Center(
               child: ElevatedButton(
-                child: const Text('Fermer'),
-                onPressed: () => Navigator.pop(context),
+                child: const Text('Valider'),
+                onPressed: () {
+                  update();
+                  Navigator.pop(context);
+                },
               ),  
             )
           ],

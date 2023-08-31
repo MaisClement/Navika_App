@@ -242,6 +242,10 @@ class _JourneysListState extends State<JourneysList> {
     }
   }
 
+  void update() {
+    _refreshIndicatorKey.currentState?.show();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -348,6 +352,7 @@ class _JourneysListState extends State<JourneysList> {
                                     selectedTime: globals.selectedTime,
                                     selectDate: selectDate,
                                     selectTime: selectTime,
+                                    update: update,
                                   );
                                 }
                               );
