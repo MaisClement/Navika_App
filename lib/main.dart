@@ -12,7 +12,7 @@ import 'package:here_sdk/core.errors.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'package:navika/firebase_options.dart';
 
 
 import 'package:navika/src/data/credentials.dart' as credentials;
@@ -158,14 +158,11 @@ Future _initializeFirebase() async {
   FirebaseMessaging.instance.onTokenRefresh
     .listen((fcmToken) {
       // TODO: If necessary send token to application server.
-
-      // Note: This callback is fired at each app startup and whenever a new
-      // token is generated.
+      
       print({'INFO_token_new', fcmToken});
       globals.fcmToken = fcmToken;
     })
     .onError((err) {
-      // Error getting token.
       print({'INFO_token_err', err});
     });
 
@@ -187,14 +184,10 @@ Future _initializeFirebase() async {
     print({'INFO_f', 'User granted permission: ${settings.authorizationStatus}'});
   }
 
-  // Notification received callback
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print('INFO_ Got a message whilst in the foreground!');
-    print('INFO_ Message data: ${message.data}');
 
     if (message.notification != null) {
       showNotification(message);
-      print('INFO_ Message also contained a notification: ${message.notification}');
     }
   });
 }
