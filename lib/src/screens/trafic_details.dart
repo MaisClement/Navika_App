@@ -8,6 +8,7 @@ import 'package:navika/src/screens/routes_details.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/widgets/bottom_sheets/notifications.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/trafic_details/disruptions.dart';
 import 'package:navika/src/widgets/trafic_details/works.dart';
@@ -23,10 +24,12 @@ class TraficDetails extends StatefulWidget {
 class _TraficDetailsState extends State<TraficDetails> {
 
   bool _isFavorite = isFavoriteLine( globals.lineTrafic['id'] );
+  bool _isAlert = isAlertLine( globals.lineTrafic['id'] );
 
   void update() {
     setState(() {
       _isFavorite = isFavoriteLine( globals.lineTrafic['id'] );
+      _isAlert = isAlertLine( globals.lineTrafic['id'] );
     });
   }
 
@@ -45,11 +48,11 @@ class _TraficDetailsState extends State<TraficDetails> {
           actions: [
             if (_isFavorite) 
               IconButton(
-                icon: _isFavorite
+                icon: _isAlert
                     ? const Icon(NavikaIcons.bell_filled)
                     : const Icon(NavikaIcons.bell_add),
                 tooltip: 'Notifications',
-                onPressed: () => addNotification(globals.lineTrafic, context),
+                onPressed: () => addNotification(globals.lineTrafic, _isAlert, context),
               ),
             IconButton(
               icon: _isFavorite

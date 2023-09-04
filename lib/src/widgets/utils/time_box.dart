@@ -34,7 +34,7 @@ class TimeBox extends StatelessWidget {
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                 size: 25,
               ),
-            SizedBox(width: 10,),
+            const SizedBox(width: 10,),
             Text(text,
               style: style ?? TextStyle(
                 fontSize: 16,

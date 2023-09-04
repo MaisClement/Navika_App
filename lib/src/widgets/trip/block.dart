@@ -108,7 +108,7 @@ class TripBlock extends StatelessWidget {
       if (type == 'terminus')
       Row(
           children: [
-            SizedBox(
+            const SizedBox(
               width: 90,
             ),
             Container(

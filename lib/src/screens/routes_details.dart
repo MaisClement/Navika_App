@@ -16,7 +16,6 @@ import 'package:navika/src/widgets/bottom_sheets/notifications.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/icons/icons.dart';
 import 'package:navika/src/widgets/lines/pdf_map.dart';
-import 'package:navika/src/widgets/places/listbutton.dart';
 import 'package:navika/src/widgets/utils/button_large.dart';
 import 'package:navika/src/widgets/utils/button_large_trafic.dart';
 import 'package:path_provider/path_provider.dart';
@@ -41,7 +40,9 @@ Future<void> downloadFile(directory, name, url) async {
 
   if (response.statusCode == 200) {
     await file.writeAsBytes(response.bodyBytes);
-    print({'INFO_', 'saved', name});
+    if (kDebugMode) {
+      print({'INFO_', 'saved', name});
+    }
   }
 }
 
@@ -113,14 +114,14 @@ Future saveData(line) async {
     return;
   }
 
-  void addNotification(line, context) {
+  void addNotification(line, isAlert, context) {
     showModalBottomSheet<void>(
       shape: const RoundedRectangleBorder(
         borderRadius: bottomSheetBorder,
       ),
       isScrollControlled: true,
       context: context,
-      builder: (BuildContext context) => NotificationsSettings(line: line)
+      builder: (BuildContext context) => NotificationsSettings(line: line, isAlert: isAlert)
     );
   }
 
@@ -344,10 +345,12 @@ class _RoutesDetailsState extends State<RoutesDetails>
   Map line = {};
   ApiStatus error = ApiStatus.ok;
   bool _isFavorite = false;
+  bool _isAlert = false;
 
   void update() {
     setState(() {
       _isFavorite = isFavoriteLine(line['id']);
+      _isAlert = isAlertLine(line['id']);
     });
     if (_isFavorite) {
       saveData(line);
@@ -403,11 +406,11 @@ class _RoutesDetailsState extends State<RoutesDetails>
           actions: [
             if (!isLoading && _isFavorite) 
               IconButton(
-                icon: _isFavorite
+                icon: _isAlert
                     ? const Icon(NavikaIcons.bell_filled)
                     : const Icon(NavikaIcons.bell_add),
                 tooltip: 'Notifications',
-                onPressed: () => addNotification(line, context),
+                onPressed: () => addNotification(line, _isAlert, context),
               ),
             if (!isLoading)
               IconButton(

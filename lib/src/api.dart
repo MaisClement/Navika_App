@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:here_sdk/core.dart';
 import 'package:http/http.dart' as http;
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:location/location.dart' as gps;
+import 'package:navika/src/utils.dart';
 
 enum ApiStatus {
   ok,
@@ -87,7 +89,11 @@ class NavikaApi {
     }
 
     try {
-      final response = await http.post(Uri.parse(url), body: body);
+      final response = await http.post(
+        Uri.parse(url), 
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: body,
+      );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -114,8 +120,7 @@ class NavikaApi {
     return doRequest(url);
   }
 
-  Future getPlaces(
-      String query, gps.LocationData? locationData, int? flag) async {
+  Future getPlaces( String query, gps.LocationData? locationData, int? flag) async {
     String url = '';
 
     bool isGPSallowed = await getIsGPSallowed();
@@ -217,15 +222,13 @@ class NavikaApi {
     return doRequest(url);
   }
 
-  Future getJourneys(String from, String to, DateTime datetime,
-      String travelerType, String timeType) async {
+  Future getJourneys(String from, String to, DateTime datetime, String travelerType, String timeType) async {
     String url = buildUrl(globals.API_JOURNEYS, {
       'from': from,
       'to': to,
       timeType: datetime.toIso8601String(),
       'travelerType': travelerType,
     });
-    print({'INFO_URL': url});
     return doRequest(url);
   }
 
@@ -260,13 +263,23 @@ class NavikaApi {
     return doRequest(url);
   }
 
-  Future registerLineAlert(String id, String line) async {
-    String url = buildUrl('${globals.API_VEHICLE_JOURNEY}/$id', {});
+  Future addNotificationSubscription(String line, String type, Map days, TimeOfDay startTime, TimeOfDay endTime) async {
+    String url = buildUrl(globals.API_ADD_NOTIFICATION_SUBSCRIPTION, {});
     Object body = {
-      'fcm_token' : globals.fcmToken,
+      'token' : globals.fcmToken,
       'line' : line,
+      'type' : type,
+      'days' : json.encode(days),
+      'start_time' : timeToString(startTime),
+      'end_time' : timeToString(endTime),
     };
 
     return doPost(url, body);
+  }
+
+  Future removeNotificationSubscription(String id) async {
+    String url = buildUrl('${globals.API_REMOVE_NOTIFICATION_SUBSCRIPTION}/$id', {});
+
+    return doRequest(url);
   }
 }

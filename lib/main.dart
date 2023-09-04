@@ -25,7 +25,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
 
-  print('Handling a background message: ${message.messageId}');
+  if (kDebugMode) {
+    print('Handling a background message: ${message.messageId}');
+  }
 }
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -71,6 +73,11 @@ Future _initializeHive() async {
     globals.hiveBox.put('linesFavorites', []);
   }
 
+  // Lignes favorites
+  if (globals.hiveBox.get('linesAlert') == null) {
+    globals.hiveBox.put('linesAlert', {});
+  }
+
   // Adresses favorites
   if (globals.hiveBox.get('addressFavorites') == null) {
     globals.hiveBox.put('addressFavorites', []);
@@ -86,11 +93,6 @@ Future _initializeHive() async {
     globals.hiveBox.put('travelerType', 'standard');
   }
 
-  // timeType
-  if (globals.hiveBox.get('timeType') == null) {
-    globals.hiveBox.put('timeType', 'departure');
-  }
-
   // Historique pour les itinéraires
   if (globals.hiveBox.get('historyPlaces') == null) {
     globals.hiveBox.put('historyPlaces', []);
@@ -99,9 +101,9 @@ Future _initializeHive() async {
   // ---
   // Options
   // GPS Autorisé
-  // if (globals.hiveBox.get('allowGps') == null) {
-  //   globals.hiveBox.put('allowGps', false);
-  // }
+  if (globals.hiveBox.get('allowGps') == null) {
+    globals.hiveBox.put('allowGps', false);
+  }
 
   // Derniere position gps
   if (globals.hiveBox.get('latitude') == null) {
@@ -152,18 +154,24 @@ Future _initializeFirebase() async {
   );
 
   final fcmToken = await FirebaseMessaging.instance.getToken();
-  print({'INFO_token', fcmToken});
+  if (kDebugMode) {
+    print({'INFO_token', fcmToken});
+  }
   globals.fcmToken = fcmToken!;
 
   FirebaseMessaging.instance.onTokenRefresh
     .listen((fcmToken) {
       // TODO: If necessary send token to application server.
       
-      print({'INFO_token_new', fcmToken});
+      if (kDebugMode) {
+        print({'INFO_token_new', fcmToken});
+      }
       globals.fcmToken = fcmToken;
     })
     .onError((err) {
-      print({'INFO_token_err', err});
+      if (kDebugMode) {
+        print({'INFO_token_err', err});
+      }
     });
 
 
@@ -217,7 +225,7 @@ void _initializeLocalNotification() {
 }
 
 Future<void> showNotification(RemoteMessage message) async {
-  print({'INFO_', message.toMap()});
+  // print({'INFO_', message.toMap()});
   var androidNotificationDetails = const AndroidNotificationDetails(
     'com.lowa.navika',
     'Notification',

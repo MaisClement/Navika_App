@@ -9,27 +9,27 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 
 Map listModes = {
-    'cable': [
-      'cable',
-    ],
-    'train': [
-      'physical_mode:RapidTransit',
-      'physical_mode:Train',
-      'physical_mode:RailShuttle',
-      'physical_mode:LocalTrain',
-      'physical_mode:LongDistanceTrain',
-      'rail',
-      'nationalrail'
-    ],
-    'metro': [
-      'physical_mode:Metro',
-      'physical_mode:RailShuttle',
-      'metro',
-      'funicular'
-    ],
-    'tram': ['physical_mode:Tramway', 'tram'],
-    'bus': ['physical_mode:Bus', 'bus'],
-  };
+  'cable': [
+    'cable',
+  ],
+  'train': [
+    'physical_mode:RapidTransit',
+    'physical_mode:Train',
+    'physical_mode:RailShuttle',
+    'physical_mode:LocalTrain',
+    'physical_mode:LongDistanceTrain',
+    'rail',
+    'nationalrail'
+  ],
+  'metro': [
+    'physical_mode:Metro',
+    'physical_mode:RailShuttle',
+    'metro',
+    'funicular'
+  ],
+  'tram': ['physical_mode:Tramway', 'tram'],
+  'bus': ['physical_mode:Bus', 'bus'],
+};
 
 const divider = Divider(
   color: Color(0xff808080),
@@ -270,7 +270,8 @@ String getTime(String time) {
   dttime = dttime.add(Duration(minutes: timezoneOffsetInMinutes));
 
   String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
-  String dtminute = dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
+  String dtminute =
+      dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
 
   return '$dthour:$dtminute';
 }
@@ -500,7 +501,6 @@ List<Widget> getDurationWidget(int d, context) {
   return res;
 }
 
-
 enum MarkerSize { hidden, small, large }
 
 enum MarkerMode { bike, bus, cable, metro, boat, noctilien, rer, train, tram }
@@ -618,4 +618,11 @@ double getOpacity(position) {
     return 1;
   }
   return res;
+}
+
+String timeToString(TimeOfDay tod) {
+  String dthour = tod.hour < 10 ? '0${tod.hour}' : tod.hour.toString();
+  String dtminute = tod.minute < 10 ? '0${tod.minute}' : tod.minute.toString();
+
+  return '$dthour:$dtminute:00';
 }

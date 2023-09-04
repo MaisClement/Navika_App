@@ -137,21 +137,21 @@ Color getArrivalActiveColor(context, status) {
 
 Color getMechanicalBike(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return Color(0xff8ca985);
+    return const Color(0xff8ca985);
   }
-  return Color(0xffb7dcae);
+  return const Color(0xffb7dcae);
 }
 
 Color getElecBike(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return Color(0xff84abcb);
+    return const Color(0xff84abcb);
   }
-  return Color(0xffa6d6fe);
+  return const Color(0xffa6d6fe);
 }
 
 Color getParkBike(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return Color(0xffc3b75c);
+    return const Color(0xffc3b75c);
   }
-  return Color(0xfff6e775);
+  return const Color(0xfff6e775);
 }

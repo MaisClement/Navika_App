@@ -188,7 +188,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
       pages: [
         // Display the app
         MaterialPage<void>(
-          key: ValueKey('App'),
+          key: const ValueKey('App'),
           child: NavikaAppScaffold(
             pathTemplate: pathTemplate,
             id: id

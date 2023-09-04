@@ -56,7 +56,7 @@ class HomeBody extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                       fontFamily: 'Segoe Ui',
-                      color: mainColor(context),
+                      color: accentColor(context),
                     ),
                   ),
                 ),

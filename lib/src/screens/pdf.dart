@@ -1,10 +1,8 @@
-import 'dart:io';
 
 import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_file/internet_file.dart';
 import 'package:navika/src/style/style.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:navika/src/data/global.dart' as globals;
 
@@ -19,13 +17,13 @@ class _PDFViewerState extends State<PDFViewer> {
   late PdfControllerPinch pdfController;
   bool isLoading = true;
 
-  void onLoadComplete(PdfDocument) {
+  void onLoadComplete(pdfDocument) {
     setState(() {
       isLoading = false;
     });
   }
 
-  void onError(PdfDocument) {
+  void onError(pdfDocument) {
     FloatingSnackBar(
       message: 'Une erreur s’est produite',
       context: context,

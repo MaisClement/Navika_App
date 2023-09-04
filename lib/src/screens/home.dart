@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,7 +18,6 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bike/body.dart';
 import 'package:navika/src/widgets/bike/header.dart';
-import 'package:navika/src/widgets/error_block.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 
@@ -125,8 +123,8 @@ class _HomeState extends State<Home> {
 
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getNearPoints(zoom, camGeoCoords);
-    
-    if (mounted) {
+
+    if (result['status'] == ApiStatus.ok && mounted) {
       setState(() {
         stopsNearby = result['value']?['stops'];
         
@@ -219,23 +217,12 @@ class _HomeState extends State<Home> {
     
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getIndex();
-    
-    if (mounted) {
+
+    if (result['status'] == ApiStatus.ok && mounted) {
       setState(() {
         index = result['value']!;
       });
       globals.index = result['value']!;
-    }
-
-    if (result['status'] != ApiStatus.ok) {
-      FloatingSnackBar(
-        message: getErrorText(result['status']),
-        context: context,
-        textColor: mainColor(context),
-        textStyle: snackBarText,
-        duration: const Duration(milliseconds: 4000),
-        backgroundColor: const Color(0xff272727),
-      );
     }
   }
 
