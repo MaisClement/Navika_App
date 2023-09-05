@@ -188,9 +188,6 @@ class _SettingsState extends State<Settings> {
 
             // ------------
 
-            const Spacer(),
-            
-
             const SizedBox(
               height: 20,
             ),
