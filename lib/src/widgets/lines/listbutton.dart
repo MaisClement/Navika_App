@@ -6,12 +6,14 @@ import 'package:navika/src/widgets/icons/icons.dart';
 class LinesListButton extends StatelessWidget {
   final bool isLoading;
   final Map line;
+  final bool isLight;
   final void Function() onTap;
 
 	const LinesListButton({
     required this.isLoading,
     required this.line,
     required this.onTap,
+    this.isLight = false,
 		super.key,
 	});
 
@@ -30,7 +32,7 @@ class LinesListButton extends StatelessWidget {
                 Icones(
                   line: line,
                   i: 0,
-                  isDark: Brightness.dark != Theme.of(context).colorScheme.brightness,
+                  isDark: isLight ? !isLight : Brightness.dark != Theme.of(context).colorScheme.brightness,
                   size: 25,
                 ),
                 const SizedBox(
@@ -57,8 +59,8 @@ class LinesListButton extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 5),
                 child: Text('${line['agency']['area']}, ${line['agency']['name']}',
-                  style: const TextStyle(
-                    color: Colors.grey,
+                  style: TextStyle(
+                    color: isLight ? Colors.white : Colors.grey,
                     fontFamily: 'Segoe Ui',
                   ),
                 ),

@@ -12,9 +12,9 @@ import 'package:navika/src/widgets/utils/time_box.dart';
 import 'package:navika/src/data/global.dart' as globals;
 
 bool isAlertLine(id) {
-  Map favs = globals.hiveBox?.get('linesAlert');
+  Map alert = globals.hiveBox?.get('linesAlert');
 
-  if (favs.isNotEmpty && favs[id] != null) {
+  if (alert[id] != null && alert[id]['id'] != null) {
     return true;
   }
   return false;
@@ -28,6 +28,36 @@ Map? getAlert(id) {
   }
   return null;
 }
+
+Future<void> unsubscribe(line, context) async {
+    if (!isAlertLine(line['id'])) {
+      return;
+    }
+    Map alert = globals.hiveBox.get('linesAlert');
+    var id = alert[line['id']]['id'].toString();
+
+    NavikaApi navikaApi = NavikaApi();
+    Map result = await navikaApi.removeNotificationSubscription(id);
+
+    ApiStatus error = result['status'];
+
+    if ( error != ApiStatus.ok) {
+      FloatingSnackBar(
+        message: getErrorText(error),
+        context: context,
+        textColor: mainColor(context),
+        textStyle: snackBarText,
+        duration: const Duration(milliseconds: 4000),
+        backgroundColor: const Color(0xff272727),
+      );
+    } else {
+      Map alert = globals.hiveBox.get('linesAlert');
+      alert.removeWhere((key, value) => key == line['id']);
+      globals.hiveBox.put('linesAlert', alert);
+      Navigator.of(context).pop();
+
+    }
+  }
 
 class NotificationsSettings extends StatefulWidget {
   final Map line;
@@ -46,6 +76,8 @@ class NotificationsSettings extends StatefulWidget {
 class _NotificationsSettingsState extends State<NotificationsSettings> with SingleTickerProviderStateMixin {
 
   String type = 'alert';  // alert, all
+  String? id;
+  bool isLoading = false;
 
   Map days = {
     'monday' : true,     // 0, 1
@@ -53,8 +85,8 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
     'wednesday' : true,  //
     'thursday' : true,   //
     'friday' : true,     //
-    'saturday' : false,   //
-    'sunday' : false,     //
+    'saturday' : false,  //
+    'sunday' : false,    //
   };
 
   Map times = {
@@ -97,45 +129,14 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
             alert[result['value']['line']] = result['value'];
             globals.hiveBox.put('linesAlert', alert);
           }
-          Navigator.of(context).pop();
-
         }
       });
     }
   }
 
-  Future<void> unsubscribe() async {
-    NavikaApi navikaApi = NavikaApi();
-
-    Map alert = globals.hiveBox.get('linesAlert');
-    var id = alert[widget.line['id']]['id'];
-
-    Map result = await navikaApi.removeNotificationSubscription(id);
-
-    if (mounted) {
-      setState(() {
-        ApiStatus error = result['status'];
-
-        if ( error != ApiStatus.ok) {
-          FloatingSnackBar(
-            message: getErrorText(error),
-            context: context,
-            textColor: mainColor(context),
-            textStyle: snackBarText,
-            duration: const Duration(milliseconds: 4000),
-            backgroundColor: const Color(0xff272727),
-          );
-        } else {
-          if (result['value'] != null) {
-            Map alert = globals.hiveBox.get('linesAlert');
-            alert[result['value']['line']] = null;
-            globals.hiveBox.put('linesAlert', alert);
-          }
-          Navigator.of(context).pop();
-
-        }
-      });
-    }
+  Future<void> unsub() async {
+    await unsubscribe(widget.line, context);
+    Navigator.of(context).pop();
   }
 
   selectTime(String type, BuildContext context) async {
@@ -155,6 +156,47 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
       });
     }
   }
+
+  Future<void> getAlert() async {
+    Map alert = globals.hiveBox.get('linesAlert');
+    if (alert[widget.line['id']] != null && alert[widget.line['id']]['id'] != null) {
+      id = alert[widget.line['id']]['id'].toString();
+    }
+    
+    if (id == null) {
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    NavikaApi navikaApi = NavikaApi();
+    Map result = await navikaApi.getNotificationSubscription(id!);
+
+    if (mounted) {
+      setState(() {
+        ApiStatus error = result['status'];
+
+        if ( error == ApiStatus.ok) {
+          days = result['value']['days'];
+          type = result['value']['type'];
+    
+        }
+      });
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await getAlert();
+    });
+  }
   
   @override
   Widget build(BuildContext context) => Container(
@@ -173,10 +215,20 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
         )
       ]
     ),
-    child: Container(
+    child: isLoading
+        ? const Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            LinearProgressIndicator(
+              backgroundColor: Colors.transparent
+            ),
+          ],
+        )
+        : Container(
       padding: const EdgeInsets.only(left:20.0, top:30.0, right:20.0, bottom:10.0), 
-      child:
-        Column(
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start, 
           children: [
             Text(
@@ -342,7 +394,7 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                 ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                 text: 'Supprimer',
                 onPressed: () async {
-                  await unsubscribe();
+                  await unsub();
                 }
               ),
             ),

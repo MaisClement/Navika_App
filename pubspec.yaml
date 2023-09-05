@@ -345,6 +345,9 @@ flutter:
     - assets/img/maintenance.png
 
     - assets/img/logo/logo_large.png
+
+    - assets/img/serin/serin_cgt.png
+    - assets/img/serin/serin_work.png
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-assets/fonts/#from-packages

@@ -128,6 +128,11 @@ Future _initializeHive() async {
     globals.hiveBox.put('ungroupDepartures', false);
   }
 
+  // useSerin
+  if (globals.hiveBox.get('useSerin') == null) {
+    globals.hiveBox.put('useSerin', false);
+  }
+
   if (kDebugMode) {
     print({'INFO_', globals.hiveBox.get('addressFavorites')});
   }

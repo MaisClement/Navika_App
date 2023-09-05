@@ -17,8 +17,6 @@
 ///         License:   SIL (https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt)
 ///         Homepage:  http://fortawesome.github.com/Font-Awesome/
 ///
-// ignore_for_file: constant_identifier_names
-
 import 'package:flutter/widgets.dart';
 
 class NavikaIcons {
@@ -83,6 +81,8 @@ class NavikaIcons {
   static const IconData avance = IconData(0xe836, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData work = IconData(0xe837, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData alert = IconData(0xe838, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData telescope = IconData(0xe83a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData saved = IconData(0xe85a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData bell = IconData(0xe86c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData chevron_right = IconData(0xf054, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

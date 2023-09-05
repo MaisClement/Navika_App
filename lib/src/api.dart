@@ -277,6 +277,12 @@ class NavikaApi {
     return doPost(url, body);
   }
 
+  Future getNotificationSubscription(String id) async {
+    String url = buildUrl('${globals.API_GET_NOTIFICATION_SUBSCRIPTION}/$id', {});
+
+    return doRequest(url);
+  }
+
   Future removeNotificationSubscription(String id) async {
     String url = buildUrl('${globals.API_REMOVE_NOTIFICATION_SUBSCRIPTION}/$id', {});
 

@@ -83,12 +83,12 @@ class _RoutesState extends State<Routes> {
             else
               for (var fav in favs)
                 LinesListButton(
-                isLoading: false,
-                line: fav,
-                onTap: () {
-                  RouteStateScope.of(context).go('/routes/details/${fav['id']}');
-                },
-              )              
+                  isLoading: false,
+                  line: fav,
+                  onTap: () {
+                    RouteStateScope.of(context).go('/routes/details/${fav['id']}');
+                  },
+                )
           ],
         ),
       );

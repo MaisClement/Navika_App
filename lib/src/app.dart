@@ -52,6 +52,7 @@ class _NavikaAppState extends State<NavikaApp> {
 				'/home/address/:type',
 				'/home/address/:type/:id',
 				'/settings',
+				'/settings/notifications',
 				'/position',
 				'/stops/:id',
 				'/bike/:id',

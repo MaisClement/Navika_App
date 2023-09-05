@@ -15,6 +15,7 @@ import 'package:navika/src/screens/routes_search.dart';
 
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/settings.dart';
+import 'package:navika/src/screens/settings_notifications.dart';
 import 'package:navika/src/screens/trafic_details.dart';
 import 'package:navika/src/screens/schedules_details.dart';
 import 'package:navika/src/screens/trip_details.dart';
@@ -108,6 +109,11 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
         if (pathTemplate == '/settings') {
           routeState.go('/home');
         }
+
+        if (pathTemplate == '/settings/notifications') {
+          routeState.go('/settings');
+        }
+        
         if (pathTemplate == '/position') {
           routeState.go(globals.path[globals.path.length - 2]);
           globals.path = [...globals.path.slice(0, globals.path.length - 2)];
@@ -199,6 +205,11 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           const MaterialPage<void>(
             key: ValueKey('Settings'),
             child: Settings(),
+          )
+        else if (pathTemplate == '/settings/notifications')
+          const MaterialPage<void>(
+            key: ValueKey('Settings Notification'),
+            child: SettingsNotification(),
           )
         else if (pathTemplate == '/position')
           const MaterialPage<void>(

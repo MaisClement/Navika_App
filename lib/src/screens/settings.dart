@@ -1,3 +1,4 @@
+import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -23,6 +24,7 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   final ChromeSafariBrowser browser = ChromeSafariBrowser();
+  int tap = 0;
 
   void update() {
     setState(() {
@@ -31,6 +33,31 @@ class _SettingsState extends State<Settings> {
       ungroupDepartures = globals.hiveBox.get('ungroupDepartures');
       allowGps = globals.hiveBox.get('allowGps');
     });
+  }
+
+  void handleTap() {
+    setState(() {
+      tap++;
+    });
+    if (tap == 7) {
+
+      if (globals.hiveBox.get('useSerin') ) {
+        const snackBar = SnackBar(
+          content: Text('process::serin_work (serin.exe:69) run into an error'),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        globals.hiveBox.put('useSerin', false);
+
+      } else {
+        const snackBar = SnackBar(
+          content: Text('app.easter.setSerinActive() run successfully !'),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        globals.hiveBox.put('useSerin', true);
+      }
+
+      
+    }
   }
 
   String displayMode = globals.hiveBox.get('displayMode');
@@ -61,8 +88,8 @@ class _SettingsState extends State<Settings> {
           ),
         ),
         backgroundColor: mainColor(context),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        body: ListView(
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
             SettingsButton(
@@ -142,23 +169,41 @@ class _SettingsState extends State<Settings> {
               },
             ),
 
+            SettingsButton(
+              name: 'Notifications',
+              sub: 'Gérez vos notifications',
+              icon: NavikaIcons.bell,
+              function: () {
+                RouteStateScope.of(context).go('/settings/notifications');
+              },
+            ),
+
             if (kDebugMode)
               SettingsButton(
                 name: 'Crash test',
                 sub: 'Executer un crash test',
-                icon: Icons.bug_report,
+                icon: Icons.bug_report_outlined,
                 function: () => throw Exception(),
               ),
 
             // ------------
 
             const Spacer(),
-            const Padding(
-              padding: EdgeInsets.all(20),
-              child: Image(
-                image: AssetImage('assets/img/logo/logo_large.png'),
-                height: 30
-              ),
+            
+
+            const SizedBox(
+              height: 20,
+            ),
+            const Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Image(
+                    image: AssetImage('assets/img/logo/logo_large.png'),
+                    height: 30
+                  ),
+                ),
+              ],
             ),
             const Padding(
               padding: EdgeInsets.only(left: 20, right: 20),
@@ -189,36 +234,39 @@ class _SettingsState extends State<Settings> {
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
               child: const Text(
-                'Par respect pour votre confidentialité, Navika ne conserve aucune information vous concernant.',
+                'Par respect pour votre confidentialité, Navika ne collecte ou ne conserve aucune information personnelles vous concernant.',
                 style: TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,
                 ),
               ),
             ),
-            Container(
-              color: Colors.white.withOpacity(0.2),
-              width: double.infinity,
-              padding: const EdgeInsets.only(
-                  left: 20, right: 20, top: 10, bottom: 10),
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${globals.NAME} 2023 • Version v${globals.VERSION}',
-                    style: TextStyle(
-                      fontFamily: 'Segoe Ui',
-                      color: Colors.white,
+            InkWell(
+              onTap: () => handleTap(),
+              child: Container(
+                color: Colors.white.withOpacity(0.2),
+                width: double.infinity,
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 10, bottom: 10),
+                child: const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${globals.NAME} 2023 • Version v${globals.VERSION}',
+                      style: TextStyle(
+                        fontFamily: 'Segoe Ui',
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Made with 💖',
-                    style: TextStyle(
-                      fontFamily: 'Segoe Ui',
-                      color: Colors.white,
+                    Text(
+                      'Made with 💖',
+                      style: TextStyle(
+                        fontFamily: 'Segoe Ui',
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             )
           ],
