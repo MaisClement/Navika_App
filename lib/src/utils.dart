@@ -270,8 +270,7 @@ String getTime(String time) {
   dttime = dttime.add(Duration(minutes: timezoneOffsetInMinutes));
 
   String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
-  String dtminute =
-      dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
+  String dtminute = dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
 
   return '$dthour:$dtminute';
 }
@@ -305,8 +304,7 @@ List getState(Map train) {
 
 int getLate(Map train) {
   String departure = train['stop_date_time']['departure_date_time'];
-  String expectedDeparture =
-      train['stop_date_time']['base_departure_date_time'];
+  String expectedDeparture = train['stop_date_time']['base_departure_date_time'];
 
   if (departure == '' || expectedDeparture == '') {
     return 0;
@@ -437,8 +435,7 @@ GeoCoordinates getCenterPoint(
 String getStringTime(String time) {
   DateTime dttime = DateTime.parse(time);
   String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
-  String dtminute =
-      dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
+  String dtminute = dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
   return '$dthour:$dtminute';
 }
 

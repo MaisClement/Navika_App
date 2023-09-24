@@ -17,6 +17,7 @@ class Schedules extends StatefulWidget {
 
 class _SchedulesState extends State<Schedules> {
   final String title = 'Horaires';
+  bool isReorder = true;
 
   List favs = globals.hiveBox?.get('stopsFavorites');
   void updateFavorites() {
@@ -24,6 +25,24 @@ class _SchedulesState extends State<Schedules> {
       favs = globals.hiveBox.get('stopsFavorites');
     });
   }
+
+  setIsReorder(show) {
+    setState(() {
+      isReorder = show;
+    });
+  }
+
+  void reorderData(int oldindex, int newindex){
+    setState(() {
+      if(newindex > oldindex){
+        newindex -= 1;
+      }
+      final fav = favs.removeAt(oldindex);
+      favs.insert(newindex, fav);
+      globals.hiveBox.put('stopsFavorites', favs);
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -45,10 +64,12 @@ class _SchedulesState extends State<Schedules> {
             ],
           ),
         ),
-        body: ListView(
+        body: ReorderableListView(
+          onReorder: reorderData,
           children: [
             if (favs.isEmpty)
               Container(
+                key: ValueKey('nothing'),
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 80),
                 child: Column(
                   children: [
@@ -83,11 +104,12 @@ class _SchedulesState extends State<Schedules> {
             else
               for (var fav in favs)
                 FavoriteBody(
+                  key: ValueKey(fav['id']),
                   id: fav['id'],
                   name: fav['name'],
                   line: fav['line'],
                   update: updateFavorites,
-                  removeSeparator: (favs[0] == fav),
+                  removeSeparator: (isReorder == true),
                 ),
           ],
         ),

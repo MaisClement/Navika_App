@@ -242,7 +242,9 @@ List<Widget> getStops(Map line, context) {
   for (var i = 0; i < line['stops'].length; i++) {
     res.add(
       InkWell(
-        onTap: () {},
+        onTap: () {
+          RouteStateScope.of(context).go('/routes/details/${line['id']}/schedules/${line['stops'][i]['id']}');
+        },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

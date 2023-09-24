@@ -101,7 +101,7 @@ class TimeSettings extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(top: 5.0, bottom: 10.0),
               child: SearchBox(
-                text: getTime(selectedTime),
+                text: getTodTime(selectedTime),
                 icon: NavikaIcons.clock,
                 onTap: () async {
                   await selectTime(context);

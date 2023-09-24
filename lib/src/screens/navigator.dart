@@ -8,6 +8,7 @@ import 'package:navika/src/screens/add_address.dart';
 import 'package:navika/src/screens/journeys_details.dart';
 import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/screens/routes_details.dart';
+import 'package:navika/src/screens/routes_schedules.dart';
 import 'package:navika/src/screens/scaffold.dart';
 import 'package:navika/src/screens/schedules_departures.dart';
 import 'package:navika/src/screens/schedules_search.dart';
@@ -76,6 +77,12 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 
     if (pathTemplate == '/routes/details/:id') {
       id = routeState.route.parameters['id'];
+    }
+
+    String? stopId;
+    if (pathTemplate == '/routes/details/:id/schedules/:stop_id') {
+      id = routeState.route.parameters['id'];
+      stopId = routeState.route.parameters['stop_id'];
     }
 
     String? tripId;
@@ -165,6 +172,9 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
             routeState.go(globals.path[globals.path.length - 2]);
             globals.path = [...globals.path.slice(0, globals.path.length - 2)];
           }
+        }
+        if (pathTemplate == '/routes/details/:id/schedules/:stop_id') {
+          routeState.go('/routes/details/$id');
         }
 
         if (pathTemplate == '/trip/details/:id' ||
@@ -313,6 +323,14 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
             key: const ValueKey('Routes Search'),
             child: RoutesDetails(
               routeId: id,
+            ),
+          )
+        else if (pathTemplate == '/routes/details/:id/schedules/:stop_id' && id != null && stopId != null)
+          MaterialPage<void>(
+            key: const ValueKey('Routes Search'),
+            child: RoutesSchedules(
+              routeId: id,
+              stopId: stopId
             ),
           )
         else if (tripId != null &&

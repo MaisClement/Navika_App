@@ -71,8 +71,10 @@ class _HomeState extends State<Home> {
   List bikeNearby = [];
   List markers = [];
   Map index = {};
-  List favs = globals.hiveBox?.get('stopsFavorites') ?? [];
-  List address = globals.hiveBox?.get('addressFavorites') ?? [];
+  List favs = globals.hiveBox?.get('stopsFavorites');
+  List address = globals.hiveBox?.get('addressFavorites');
+  List lines = globals.hiveBox?.get('linesFavorites');
+  List trafic = [];
 
   Future<void> _getLocation() async {
     bool serviceEnabled;
@@ -226,13 +228,36 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future<void> _getFavorites() async {
-    var box = await Hive.openBox('Home');
+// Future<void> _getFavorites() async {
+//   var box = await Hive.openBox('Home');
+// 
+//   setState(() {
+//     favs = box.get('stopsFavorites');
+//     address = box.get('addressFavorites');
+//     lines = box.get('linesFavorites');
+//   });
+// }
 
-    setState(() {
-      favs = box.get('stopsFavorites');
-      address = box.get('addressFavorites');
-    });
+  Future<void> _getTrafic() async {
+    if (lines.isEmpty) {
+      return;
+    }
+
+    List list = [];
+    for (var fav in lines) {
+      list.add(fav['id']);
+    }
+
+    NavikaApi navikaApi = NavikaApi();
+    Map result = await navikaApi.getTrafic(list);
+
+    if (mounted) {
+      if (result['value']?['trafic'] != null) {
+        setState(() {
+          trafic = result['value']?['trafic'];
+        });
+      }
+    }
   }
 
   @override
@@ -290,6 +315,8 @@ class _HomeState extends State<Home> {
                             index: index,
                             address: address,
                             favs: favs,
+                            lines: lines,
+                            trafic: trafic,
                             update: _updateFavorites,
                           ),
                 body: HereMap(onMapCreated: _onMapCreated),
@@ -402,13 +429,14 @@ class _HomeState extends State<Home> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _getIndex();
-      _getFavorites();
+      // _getFavorites();
+      _getTrafic();
       _getNearPoints();
       _getInBox();
       panelController.animatePanelToSnapPoint();
       _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
         _getInBox();
-        _getFavorites();
+        // _getFavorites();
       });
       _initializeConnectivity();
       connection = Connectivity()

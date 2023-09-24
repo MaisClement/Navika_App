@@ -88,7 +88,7 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Editer une adresse.',
+                'Modifier une adresse',
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.w600,

@@ -155,3 +155,10 @@ Color getParkBike(context) {
   }
   return const Color(0xfff6e775);
 }
+
+Color getJourneysColor(context) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return const Color(0xff011b27);
+  }
+  return const Color(0xffe4edf1);
+}

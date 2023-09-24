@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart' as gps;
 
 const String NAME = 'Navika';
-const String VERSION = '0.5';
+const String VERSION = '0.6';
 const String API_VERSION = '0.3';
 
-// const String API_BASE = 'https://navika.hackernwar.com';
-const String API_BASE = 'http://code.hackernwar.com:8000';
+const String API_BASE = 'https://navika.hackernwar.com';
+// const String API_BASE = 'http://code.hackernwar.com:8000';
 
 const String API_INDEX =                            '$API_BASE/index';
 const String API_TRAFIC =                           '$API_BASE/trafic';
@@ -22,6 +22,7 @@ const String API_BIKE_STATIONS =                    '$API_BASE/bikes';
 const String API_JOURNEYS =                         '$API_BASE/journeys';
 const String API_VEHICLE_JOURNEY =                  '$API_BASE/vehicle_journey';
 const String API_ADD_NOTIFICATION_SUBSCRIPTION =    '$API_BASE/notification/subscribe';
+const String API_RENEW_NOTIFICATION =               '$API_BASE/notification/renew';
 const String API_GET_NOTIFICATION_SUBSCRIPTION =    '$API_BASE/notification/get';
 const String API_REMOVE_NOTIFICATION_SUBSCRIPTION = '$API_BASE/notification/unsubscribe';
 

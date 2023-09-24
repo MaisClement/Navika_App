@@ -18,13 +18,14 @@ class FavoriteBody extends StatefulWidget {
   final Function update;
   final bool removeSeparator;
 
-  const FavoriteBody(
-      {required this.id,
+  const FavoriteBody({
+      required this.id,
       required this.name,
       required this.line,
       required this.update,
       this.removeSeparator = false,
-      super.key});
+      super.key
+    });
 
   @override
   State<FavoriteBody> createState() => _FavoriteBodyState();
@@ -89,7 +90,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
             ),
           Container(
             padding:
-                const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 10),
+                const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 5),
             child: GestureDetector(
               onTap: () {
                 globals.schedulesStopName = widget.name;
@@ -167,6 +168,9 @@ class _FavoriteBodyState extends State<FavoriteBody>
                     },
                   ),
                 ),
+                SizedBox(
+                  height: 10,
+                )
               ],
             )
           else
@@ -188,6 +192,9 @@ class _FavoriteBodyState extends State<FavoriteBody>
                     },
                   ),
                 ),
+                SizedBox(
+                  height: 10,
+                )
               ],
             )
         ],

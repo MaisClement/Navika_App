@@ -103,6 +103,34 @@ class _JourneysSearchState extends State<JourneysSearch> {
         );
       }
 
+      // Favoris
+      List favs = globals.hiveBox.get('addressFavorites');
+      for(var fav in favs) {
+        if (globals.route['from']['id'] != fav['id'] && globals.route['to']['id'] != fav['id']) {
+          res.add(
+              PlacesListButton(
+              isLoading: isLoading,
+              place: {
+                'id': fav['id'],
+                'name': fav['name'],
+                'type': fav['alias'] == 'home' || fav['alias'] == 'work' ? fav['alias'] : 'favorite',
+                'distance': 0,
+                'town': '',
+                'zip_code': '',
+                'coord': const {},
+                'lines': const [],
+                'modes': const []
+              },
+              onTap: () {
+                globals.route[widget.type]['id'] = fav['id'];
+                globals.route[widget.type]['name'] = fav['name'];
+                RouteStateScope.of(context).go('/home/journeys');
+              },
+            )
+          );
+        }
+      }
+
       // Historique
       if(search.isEmpty) {
         for (var place in globals.hiveBox.get('historyPlaces')) {

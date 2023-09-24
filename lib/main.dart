@@ -5,6 +5,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:navika/src/api.dart';
+import 'package:navika/src/extensions/timeofday.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/core.engine.dart';
@@ -14,7 +16,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:navika/firebase_options.dart';
 
-
 import 'package:navika/src/data/credentials.dart' as credentials;
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/app.dart';
@@ -23,20 +24,23 @@ import 'package:navika/src/app.dart';
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp();
 
-  if (kDebugMode) {
-    print('Handling a background message: ${message.messageId}');
+  await Hive.initFlutter();
+  var hiveBox = await Hive.openBox('Home');
+
+  if (message.data['type'] == 'report') {
+    await showReportNotification(message, hiveBox);
   }
 }
 
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
   setHashUrlStrategy();
 
   setupWindow();
-  
+
   await _initializeHive();
 
   await _initializeHERESDK();
@@ -45,7 +49,6 @@ Future<void> main() async {
 
   await _initializeCrashlytics();
 
-  // initializeBackgroundNotifications
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   _initializeLocalNotification();
@@ -82,6 +85,7 @@ Future _initializeHive() async {
   if (globals.hiveBox.get('addressFavorites') == null) {
     globals.hiveBox.put('addressFavorites', []);
   }
+  print({'INFO_', globals.hiveBox.get('addressFavorites')});
 
   // Mode selectionné
   if (globals.hiveBox.get('allowedModes') == null) {
@@ -164,21 +168,15 @@ Future _initializeFirebase() async {
   }
   globals.fcmToken = fcmToken!;
 
-  FirebaseMessaging.instance.onTokenRefresh
-    .listen((fcmToken) {
-      // TODO: If necessary send token to application server.
-      
-      if (kDebugMode) {
-        print({'INFO_token_new', fcmToken});
-      }
-      globals.fcmToken = fcmToken;
-    })
-    .onError((err) {
-      if (kDebugMode) {
-        print({'INFO_token_err', err});
-      }
-    });
+  FirebaseMessaging.instance.onTokenRefresh.listen((newFcmToken) async {
+    await renewNotif(globals.fcmToken, newFcmToken);
 
+    globals.fcmToken = newFcmToken;
+  }).onError((err) {
+    if (kDebugMode) {
+      print({'INFO_token_err', err});
+    }
+  });
 
   // Request permission for notifications
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -194,25 +192,35 @@ Future _initializeFirebase() async {
   );
 
   if (kDebugMode) {
-    print({'INFO_f', 'User granted permission: ${settings.authorizationStatus}'});
+    print(
+        {'INFO_f', 'User granted permission: ${settings.authorizationStatus}'});
   }
 
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     if (message.notification != null) {
       showNotification(message);
+    }
+
+    if (message.data['type'] == 'report') {
+      await showReportNotification(message, globals.hiveBox);
     }
   });
 }
 
+Future<void> renewNotif(String oldToken, String newToken) async {
+  NavikaApi navikaApi = NavikaApi();
+  await navikaApi.renewNotificationToken(oldToken, newToken);
+}
+
 Future _initializeCrashlytics() async {
   if (kDebugMode) {
+    print({'INFO_', 'Ignore crashlytics'});
     return;
   }
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  
+
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
@@ -224,13 +232,14 @@ Future _initializeCrashlytics() async {
 }
 
 void _initializeLocalNotification() {
-  var initializationSettingsAndroid = const AndroidInitializationSettings('app_icon');
-  var initializationSettings = InitializationSettings(android: initializationSettingsAndroid);
+  var initializationSettingsAndroid =
+      const AndroidInitializationSettings('app_icon');
+  var initializationSettings =
+      InitializationSettings(android: initializationSettingsAndroid);
   flutterLocalNotificationsPlugin.initialize(initializationSettings);
 }
 
 Future<void> showNotification(RemoteMessage message) async {
-  // print({'INFO_', message.toMap()});
   var androidNotificationDetails = const AndroidNotificationDetails(
     'com.lowa.navika',
     'Notification',
@@ -242,4 +251,66 @@ Future<void> showNotification(RemoteMessage message) async {
 
   NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
   await flutterLocalNotificationsPlugin.show(0, message.notification?.title, message.notification?.body, notificationDetails);
+}
+
+Future<void> showReportNotification(RemoteMessage message, box) async {
+  Map alert = box.get('linesAlert');
+  String id = message.data['line'];
+
+  if (alert[id] == null) {
+    return;
+  }
+
+  alert = alert[id];
+  Map days = alert['days'];
+  
+  // Type
+  if (alert['type'] == 'all' && int.parse(message.data['severity']) < 3) {
+    return;
+  } else if (alert['type'] == 'alert' && int.parse(message.data['severity']) < 4) {
+    return;
+  }
+
+  // Date
+  if (DateTime.now().weekday == 1 && days['monday'] == false) {
+    return;
+  } else if (DateTime.now().weekday == 2 && days['tuesday'] == false) {
+    return;
+  } else if (DateTime.now().weekday == 3 && days['wednesday'] == false) {
+    return;
+  } else if (DateTime.now().weekday == 4 && days['thursday'] == false) {
+    return;
+  } else if (DateTime.now().weekday == 5 && days['friday'] == false) {
+    return;
+  } else if (DateTime.now().weekday == 6 && days['saturday'] == false) {
+    return;
+  } else if (DateTime.now().weekday == 7 && days['sunday'] == false) {
+    return;
+  }
+  
+  TimeOfDay startTime = TimeOfDay(
+    hour:  int.parse( alert['times']['start_time'].substring(0, 2) ), 
+    minute: int.parse( alert['times']['start_time'].substring(3, 5) )
+  ); 
+  TimeOfDay endTime = TimeOfDay(
+    hour:  int.parse( alert['times']['end_time'].substring(0, 2) ), 
+    minute: int.parse( alert['times']['end_time'].substring(3, 5) )
+  ); 
+  
+  //Time
+  if (startTime.compareTo(TimeOfDay.now()) > 0 && endTime.compareTo(TimeOfDay.now()) < 0 ) {
+    return;
+  }
+  
+  var androidNotificationDetails = const AndroidNotificationDetails(
+    'trafic',
+    'Alerte trafic',
+    playSound: true,
+    enableVibration: true,
+    importance: Importance.high,
+    priority: Priority.high,
+  );
+  
+  NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
+  await flutterLocalNotificationsPlugin.show(0, message.data['title'], message.data['body'], notificationDetails);
 }

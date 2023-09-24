@@ -69,6 +69,7 @@ class _NavikaAppState extends State<NavikaApp> {
 				'/routes',
 				'/routes/search',
 				'/routes/details/:id',
+				'/routes/details/:id/schedules/:stop_id',
 				'/trafic',
         '/trafic/details',
         '/trafic/add',

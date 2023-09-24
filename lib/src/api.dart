@@ -222,6 +222,12 @@ class NavikaApi {
     return doRequest(url);
   }
 
+  Future getLineSchedules(String id, String stopId) async {
+    String url = buildUrl('${globals.API_LINES}/$id/schedules/$stopId', {});
+
+    return doRequest(url);
+  }
+
   Future getJourneys(String from, String to, DateTime datetime, String travelerType, String timeType) async {
     String url = buildUrl(globals.API_JOURNEYS, {
       'from': from,
@@ -272,6 +278,16 @@ class NavikaApi {
       'days' : json.encode(days),
       'start_time' : timeToString(startTime),
       'end_time' : timeToString(endTime),
+    };
+
+    return doPost(url, body);
+  }
+
+  Future renewNotificationToken(String oldToken, String newToken) async {
+    String url = buildUrl(globals.API_RENEW_NOTIFICATION, {});
+    Object body = {
+      'old_token' : oldToken,
+      'new_token' : newToken,
     };
 
     return doPost(url, body);

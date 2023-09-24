@@ -7,6 +7,12 @@ import 'package:navika/src/widgets/icons/icons.dart';
 IconData getPlaceIcon(type){
   if (type == 'stop_area'){
     return NavikaIcons.train_face;
+  } else if (type == 'home'){
+    return NavikaIcons.home;
+  } else if (type == 'work'){
+    return NavikaIcons.business;
+  } else if (type == 'favorite'){
+    return NavikaIcons.star;
   } else if (type == 'address'){
     return NavikaIcons.marker;
   } else if (type == 'administrative_region'){

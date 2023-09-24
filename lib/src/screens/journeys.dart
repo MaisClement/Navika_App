@@ -84,7 +84,7 @@ String getDate(DateTime dt) {
   return '${dt.day} ${longMonth[dt.month]}';
 }
 
-String getTime(TimeOfDay tod) {
+String getTodTime(TimeOfDay tod) {
   String dthour = tod.hour < 10 ? '0${tod.hour}' : tod.hour.toString();
   String dtminute = tod.minute < 10 ? '0${tod.minute}' : tod.minute.toString();
 
@@ -174,6 +174,7 @@ class _JourneysListState extends State<JourneysList> {
   ApiStatus error = ApiStatus.ok;
   bool isLoading = false;
   List journeys = [];
+  double turn = 0;
 
   String currentTextInput = 'from';
 
@@ -242,6 +243,16 @@ class _JourneysListState extends State<JourneysList> {
     }
   }
 
+  void invert() {
+    setState(() {
+      var temp = globals.route['to'];
+      globals.route['to'] = globals.route['from'];
+      globals.route['from'] = temp;
+      turn++;
+    });
+    update();
+  }
+
   void update() {
     _refreshIndicatorKey.currentState?.show();
   }
@@ -289,116 +300,156 @@ class _JourneysListState extends State<JourneysList> {
                   .primaryContainer
                   .withOpacity(0.5),
             ),
-            body: Column(
+            body: Stack(
               children: [
-                Container(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                    ),
-                    color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(left: 20.0, top: 5.0, right: 20.0, bottom: 10.0),
-                        child: SearchBox(
-                          text: globals.route['from']['name'] ?? 'Départ',
-                          icon: NavikaIcons.marker,
-                          onTap: () {
-                            globals.route['from']['name'] = null;
-                            globals.route['from']['id'] = null;
-                            RouteStateScope.of(context).go('/home/journeys/search/from');
-                          }
-                          //TODO style si vide !
+                Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
                         ),
+                        color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 20.0, top: 5.0, right: 20.0, bottom: 10.0),
-                        child: SearchBox(
-                          text: globals.route['to']['name'] ?? 'Arrivée',
-                          icon: NavikaIcons.finish_flag,
-                          onTap: () {
-                            globals.route['to']['name'] = null;
-                            globals.route['to']['id'] = null;
-                            RouteStateScope.of(context).go('/home/journeys/search/to');
-                          }
-                          //TODO style si vide !
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 20.0, top: 5.0, right: 20.0, bottom: 10.0),
-                        child: SearchBox(
-                          text: getDateTitle(globals.timeType, globals.selectedDate, globals.selectedTime),
-                          icon: NavikaIcons.clock,
-                          onTap: () {
-                            showModalBottomSheet(
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: bottomSheetBorder,
-                              ),
-                              isScrollControlled: true,
-                              context: context,
-                              builder: (context) {
-                              return StatefulBuilder(
-                                builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
-                                  return TimeSettings(
-                                    setState: setState,
-                                    setTimeType: setTimeType,
-                                    timeType: globals.timeType,
-                                    selectedDate: globals.selectedDate,
-                                    selectedTime: globals.selectedTime,
-                                    selectDate: selectDate,
-                                    selectTime: selectTime,
-                                    update: update,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(left: 20.0, top: 5.0, right: 20.0),
+                            child: SearchBox(
+                              text: globals.route['from']['name'] ?? 'Départ',
+                              icon: NavikaIcons.marker,
+                              onTap: () {
+                                globals.route['from']['name'] = null;
+                                globals.route['from']['id'] = null;
+                                RouteStateScope.of(context).go('/home/journeys/search/from');
+                              },
+                              //style: const TextStyle(
+                              //  fontWeight: FontWeight.w400,
+                              //  fontSize: 16,
+                              //  color: Colors.grey
+                              //),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(left: 20.0, top: 5.0, right: 20.0, bottom: 10.0),
+                            child: SearchBox(
+                              text: globals.route['to']['name'] ?? 'Arrivée',
+                              icon: NavikaIcons.finish_flag,
+                              onTap: () {
+                                globals.route['to']['name'] = null;
+                                globals.route['to']['id'] = null;
+                                RouteStateScope.of(context).go('/home/journeys/search/to');
+                              },
+                              // style: const TextStyle(
+                              //   fontWeight: FontWeight.w400,
+                              //   fontSize: 16,
+                              //   color: Colors.grey
+                              // ),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(left: 20.0, top: 5.0, right: 20.0, bottom: 10.0),
+                            child: SearchBox(
+                              text: getDateTitle(globals.timeType, globals.selectedDate, globals.selectedTime),
+                              icon: NavikaIcons.clock,
+                              onTap: () {
+                                showModalBottomSheet(
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: bottomSheetBorder,
+                                  ),
+                                  isScrollControlled: true,
+                                  context: context,
+                                  builder: (context) {
+                                  return StatefulBuilder(
+                                    builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
+                                      return TimeSettings(
+                                        setState: setState,
+                                        setTimeType: setTimeType,
+                                        timeType: globals.timeType,
+                                        selectedDate: globals.selectedDate,
+                                        selectedTime: globals.selectedTime,
+                                        selectDate: selectDate,
+                                        selectTime: selectTime,
+                                        update: update,
+                                      );
+                                    }
                                   );
-                                }
-                              );
-                              }
-                            );
-                          },
-                          //TODO style si vide !
+                                  }
+                                );
+                              },
+                              //TODO style si vide !
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Expanded(
+                      child: RefreshIndicator(
+                        key: _refreshIndicatorKey,
+                        onRefresh: _getJourneys,
+                        child: ListView(
+                          children: [
+                            
+                            if (error != ApiStatus.ok)
+                              ErrorBlock(
+                                error: error,
+                              )
+                            
+                            else if (journeys.isNotEmpty)
+                              for (var journey in journeys)
+                                RouteListButton(
+                                  journey: journey,
+                                  onTap: () {
+                                    globals.journey = journey;
+                                    RouteStateScope.of(context)
+                                        .go('/home/journeys/details');
+                                  },
+                                )
+                            
+                            else if (journeys.isEmpty && isLoading == false)
+                              const PlacesEmpty()
+                            
+                            else
+                              for (var i = 0; i < (Random().nextInt(4) + 4).toDouble() ; i++)
+                                const RouteListSkelton()
+                          ],
                         ),
                       ),
-                    ],
+                    )
+                  ],
+                ),
+                Positioned(
+                  top: 25,
+                  right: 20,
+                  width: 45,
+                  height: 55,
+                  child: Material(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      bottomLeft: Radius.circular(50)
+                    ),
+                    color: getJourneysColor(context),
+                    child: InkWell(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        bottomLeft: Radius.circular(50),
+                      ),
+                      onTap: () => invert(),
+                      child: AnimatedRotation(
+                          turns: turn / 2,
+                          duration: const Duration(milliseconds: 300),
+                        child: Icon(NavikaIcons.order, 
+                          color: accentColor(context),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-
-                Expanded(
-                  child: RefreshIndicator(
-                    key: _refreshIndicatorKey,
-                    onRefresh: _getJourneys,
-                    child: ListView(
-                      children: [
-                        
-                        if (error != ApiStatus.ok)
-                          ErrorBlock(
-                            error: error,
-                          )
-                        
-                        else if (journeys.isNotEmpty)
-                          for (var journey in journeys)
-                            RouteListButton(
-                              journey: journey,
-                              onTap: () {
-                                globals.journey = journey;
-                                RouteStateScope.of(context)
-                                    .go('/home/journeys/details');
-                              },
-                            )
-                        
-                        else if (journeys.isEmpty && isLoading == false)
-                          const PlacesEmpty()
-                        
-                        else
-                          for (var i = 0; i < (Random().nextInt(4) + 4).toDouble() ; i++)
-                            const RouteListSkelton()
-                      ],
-                    ),
-                  ),
-                )
+                
               ],
             )),
       );
