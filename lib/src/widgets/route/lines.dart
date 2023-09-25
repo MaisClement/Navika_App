@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
@@ -42,6 +43,26 @@ class RouteLines extends StatelessWidget {
                   )
               ],
             )
+             else if (sections[i]['type'] == 'street_network' && sections[i]['mode'] == 'walking' && sections[i]['duration'] > 300)
+               Wrap(
+                 children: [
+                   Icon(NavikaIcons.walking,
+                     color: walkingColor(context),
+                     size: 25
+                   ),
+                   if (i != sections.length -1)
+                     Container(
+                       margin: const EdgeInsets.only(top: 9, left: 2, right: 2),
+                       height: 5,
+                       width: 5,
+                       decoration: BoxDecoration(
+                         color: const Color(0xff808080),
+                         borderRadius: BorderRadius.circular(500)
+                       ),
+                     )
+                 ],
+               ),
+          
         ],
       )
   );

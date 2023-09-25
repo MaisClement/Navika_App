@@ -6,7 +6,9 @@ import 'package:navika/src/api.dart';
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/screens/journeys.dart';
+import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/error_block.dart';
+import 'package:navika/src/widgets/home/fav_scroll.dart';
 import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/places/listbutton.dart';
 import 'package:navika/src/widgets/places/load.dart';
@@ -75,7 +77,6 @@ class _JourneysSearchState extends State<JourneysSearch> {
     List<Widget> res = [];
 
     if (places.isNotEmpty || search == '') {
-
       // Votre position
       if (globals.route['from']['name'] != yourPos && globals.route['to']['name'] != yourPos && globals.locationData != null) {
         res.add(
@@ -105,8 +106,23 @@ class _JourneysSearchState extends State<JourneysSearch> {
 
       // Favoris
       List favs = globals.hiveBox.get('addressFavorites');
+      if(search.isEmpty && favs.isNotEmpty){
+        res.add(
+          Padding(
+            padding: const EdgeInsets.only(left: 20, bottom: 10),
+            child: Text('Vos favoris',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Segoe Ui',
+                color: walkingColor(context),
+              ),
+            ),
+          ),
+        );
+      }
       for(var fav in favs) {
-        if (globals.route['from']['id'] != fav['id'] && globals.route['to']['id'] != fav['id']) {
+        if (globals.route['from']['id'] != fav['id'] && globals.route['to']['id'] != fav['id'] && search.isEmpty) {
           res.add(
               PlacesListButton(
               isLoading: isLoading,
@@ -132,8 +148,22 @@ class _JourneysSearchState extends State<JourneysSearch> {
       }
 
       // Historique
-      if(search.isEmpty) {
-        for (var place in globals.hiveBox.get('historyPlaces')) {
+      List history = globals.hiveBox.get('historyPlaces');
+      if(search.isEmpty && history.isNotEmpty) {
+        res.add(
+          Padding(
+            padding: const EdgeInsets.only(left: 20, bottom: 10),
+            child: Text('Récents',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Segoe Ui',
+                color: walkingColor(context),
+              ),
+            ),
+          ),
+        );
+        for (var place in history) {
           res.add(
               PlacesListButton(
               isLoading: isLoading,

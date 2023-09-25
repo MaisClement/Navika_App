@@ -321,6 +321,11 @@ class _JourneysListState extends State<JourneysList> {
                             child: SearchBox(
                               text: globals.route['from']['name'] ?? 'Départ',
                               icon: NavikaIcons.marker,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
+                              ),
                               onTap: () {
                                 globals.route['from']['name'] = null;
                                 globals.route['from']['id'] = null;
@@ -338,6 +343,11 @@ class _JourneysListState extends State<JourneysList> {
                             child: SearchBox(
                               text: globals.route['to']['name'] ?? 'Arrivée',
                               icon: NavikaIcons.finish_flag,
+                              borderRadius: const BorderRadius.only(
+                                topRight: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
+                                bottomLeft: Radius.circular(20)
+                              ),
                               onTap: () {
                                 globals.route['to']['name'] = null;
                                 globals.route['to']['id'] = null;
@@ -380,7 +390,6 @@ class _JourneysListState extends State<JourneysList> {
                                   }
                                 );
                               },
-                              //TODO style si vide !
                             ),
                           ),
                         ],

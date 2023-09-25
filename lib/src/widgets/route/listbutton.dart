@@ -3,6 +3,21 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/route/lines.dart';
 
+String getJourneyType(String type) {
+  switch (type) {
+    case 'best':
+      return 'Recommandé 👍';
+    case 'fastest':
+      return 'Le plus rapide';
+    case 'comfort':
+      return 'Avec le moins de changement';
+    case 'less_fallback_walk':
+      return 'Avec le moins de marche';
+    default:
+      return 'null';
+  }
+}
+
 class RouteListButton extends StatelessWidget {
   final Map journey;
   final void Function() onTap;
@@ -17,10 +32,24 @@ class RouteListButton extends StatelessWidget {
   Widget build(BuildContext context) => InkWell(
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.only(top: 12.0),
+          padding: const EdgeInsets.only(top: 8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              if (getJourneyType(journey['type']) != 'null')
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Text(
+                    getJourneyType(journey['type']),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Segoe Ui',
+                      color: walkingColor(context),
+                    ),
+                  ),
+                ),
+
               Row(
                 children: [
                   const SizedBox(width: 15),
