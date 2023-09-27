@@ -6,14 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:here_sdk/gestures.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
 import 'package:navika/src/api.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
+import 'package:navika/src/screens/journeys_details.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bike/body.dart';
@@ -74,6 +73,7 @@ class _HomeState extends State<Home> {
   List favs = globals.hiveBox?.get('stopsFavorites');
   List address = globals.hiveBox?.get('addressFavorites');
   List lines = globals.hiveBox?.get('linesFavorites');
+  List journeys  = getFutureJourneys(globals.hiveBox?.get('journeys'));
   List trafic = [];
 
   Future<void> _getLocation() async {
@@ -228,16 +228,6 @@ class _HomeState extends State<Home> {
     }
   }
 
-// Future<void> _getFavorites() async {
-//   var box = await Hive.openBox('Home');
-// 
-//   setState(() {
-//     favs = box.get('stopsFavorites');
-//     address = box.get('addressFavorites');
-//     lines = box.get('linesFavorites');
-//   });
-// }
-
   Future<void> _getTrafic() async {
     if (lines.isEmpty) {
       return;
@@ -317,6 +307,7 @@ class _HomeState extends State<Home> {
                             favs: favs,
                             lines: lines,
                             trafic: trafic,
+                            journeys: journeys,
                             update: _updateFavorites,
                           ),
                 body: HereMap(onMapCreated: _onMapCreated),

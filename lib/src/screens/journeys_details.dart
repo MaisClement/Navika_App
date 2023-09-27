@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,6 +18,84 @@ import 'package:flutter_compass/flutter_compass.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/controller/here_map_controller.dart';
 import 'package:navika/src/style/style.dart';
+
+void saveJourney(String uniqueId, context) {
+  List journeys = globals.hiveBox.get('journeys');
+  
+  if (isSavedJourney(uniqueId)){
+    journeys.removeWhere((element) => element['unique_id'] == uniqueId);
+    FloatingSnackBar(
+      message: 'Itinéraire retiré.',
+      context: context,
+      textColor: mainColor(context),
+      textStyle: snackBarText,
+      duration: const Duration(milliseconds: 4000),
+      backgroundColor: const Color(0xff272727),
+    );
+  } else {
+    journeys.add(globals.journey);
+    FloatingSnackBar(
+      message: 'Itinéraire enregistré, les détails sont désormais disponibles même hors connexion.',
+      context: context,
+      textColor: mainColor(context),
+      textStyle: snackBarText,
+      duration: const Duration(milliseconds: 4000),
+      backgroundColor: const Color(0xff272727),
+    );
+  }
+  
+  globals.hiveBox.put('journeys', journeys);
+}
+
+bool isSavedJourney(String uniqueId) {
+  List journeys = globals.hiveBox.get('journeys');
+  for (var journey in journeys) {
+    if (journey['unique_id'] == uniqueId) {
+      return true;
+    }
+  }
+  return false;
+}
+
+Map? getSavedJourney(String uniqueId) {
+  List journeys = globals.hiveBox.get('journeys');
+  for (var journey in journeys) {
+    if (journey['unique_id'] == uniqueId) {
+      return journey;
+    }
+  }
+  return null;
+}
+
+List sortJourneys(List journeys) {
+  journeys.sort((a, b) {
+    DateTime aDt = DateTime.parse(a['departure_date_time']);
+    DateTime bDt = DateTime.parse(b['departure_date_time']);
+    return aDt.compareTo(bDt);
+  });
+
+  return journeys;
+}
+
+List getFutureJourneys(List journeys) {
+  List futureJourneys = [];
+  for (var journey in journeys) {
+    if (DateTime.parse(journey['arrival_date_time']).isAfter(DateTime.now())) {
+      futureJourneys.add(journey);
+    }
+  }
+  return futureJourneys;
+}
+
+List getPastJourneys(List journeys) {
+  List futureJourneys = [];
+  for (var journey in journeys) {
+    if (DateTime.parse(journey['arrival_date_time']).isBefore(DateTime.now())) {
+      futureJourneys.add(journey);
+    }
+  }
+  return futureJourneys;
+}
 
 class JourneysDetails extends StatefulWidget {
   const JourneysDetails({super.key});
@@ -206,10 +285,9 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                     color: Theme.of(context).colorScheme.surface,
                     child: SafeArea(
                       child: Container(
-                        margin: const EdgeInsets.only(
-                            top: 12, left: 73, bottom: 15),
+                        margin: const EdgeInsets.only(top: 12, left: 73, bottom: 15),
                         child: const Text(
-                          'Itinéraires',
+                          'Itinéraire',
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Segoe Ui',
@@ -240,6 +318,36 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                           Navigator.pop(context);
                         },
                         child: Icon(Icons.arrow_back, 
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 0,
+                right: 0,
+                child: SafeArea(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 10, right: 8, bottom: 15),
+                    width: 40,
+                    height: 40,
+                    child: Material(
+                      borderRadius: BorderRadius.circular(500),
+                      elevation: 4.0,
+                      shadowColor:
+                          Colors.black.withOpacity(getOpacity(_position)),
+                      color: Theme.of(context).colorScheme.surface,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(500),
+                        onTap: () => saveJourney(journey['unique_id'], context),
+                        child: isSavedJourney(journey['unique_id']) ? Icon(
+                          NavikaIcons.saved, 
+                          color: Theme.of(context).colorScheme.onSurface,
+                        )
+                        : Icon(
+                          NavikaIcons.save, 
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),

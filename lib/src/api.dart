@@ -238,6 +238,11 @@ class NavikaApi {
     return doRequest(url);
   }
 
+  Future getJourneyById(String id) async {
+    String url = buildUrl('${globals.API_JOURNEY}/$id', {});
+    return doRequest(url);
+  }
+
   Future getBikeStations(String id) async {
     String url = buildUrl('${globals.API_BIKE_STATIONS}/$id', {});
 

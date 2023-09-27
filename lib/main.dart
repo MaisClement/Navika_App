@@ -85,7 +85,12 @@ Future _initializeHive() async {
   if (globals.hiveBox.get('addressFavorites') == null) {
     globals.hiveBox.put('addressFavorites', []);
   }
-  print({'INFO_', globals.hiveBox.get('addressFavorites')});
+
+  // Trajet enregistré
+  if (globals.hiveBox.get('journeys') == null) {
+    globals.hiveBox.put('journeys', []);
+  }
+  //globals.hiveBox.put('journeys', []);
 
   // Mode selectionné
   if (globals.hiveBox.get('allowedModes') == null) {

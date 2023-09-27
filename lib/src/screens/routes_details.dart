@@ -70,71 +70,71 @@ Future saveData(line) async {
     }
   }
 
-  Future<void> addLineToFavorite(line, context, Function? update) async {
-    List list = globals.hiveBox.get('linesFavorites');
+Future<void> addLineToFavorite(line, context, Function? update) async {
+  List list = globals.hiveBox.get('linesFavorites');
 
-    if (isFavoriteLine(line['id'])) {
-      list.removeWhere((element) => element['id'] == line['id']);
-      globals.hiveBox.put('linesFavorites', list);
-      globals.hiveBox.put('lines_${line['id']}', null);
+  if (isFavoriteLine(line['id'])) {
+    list.removeWhere((element) => element['id'] == line['id']);
+    globals.hiveBox.put('linesFavorites', list);
+    globals.hiveBox.put('lines_${line['id']}', null);
 
-      FloatingSnackBar(
-        message: 'Favoris retiré.',
-        context: context,
-        textColor: mainColor(context),
-        textStyle: snackBarText,
-        duration: const Duration(milliseconds: 4000),
-        backgroundColor: const Color(0xff272727),
-      );
+    FloatingSnackBar(
+      message: 'Favoris retiré.',
+      context: context,
+      textColor: mainColor(context),
+      textStyle: snackBarText,
+      duration: const Duration(milliseconds: 4000),
+      backgroundColor: const Color(0xff272727),
+    );
 
-      await unsubscribe(line, context);
+    await unsubscribe(line, context);
 
-    } else {
-      list.add({
-        'id': line['id'],
-        'code': line['code'],
-        'name': line['name'],
-        'mode': line['mode'],
-        'color': line['color'],
-        'text_color': line['text_color'],
-        'agency': line['agency'],
-      });
-      globals.hiveBox.put('linesFavorites', list);
+  } else {
+    list.add({
+      'id': line['id'],
+      'code': line['code'],
+      'name': line['name'],
+      'mode': line['mode'],
+      'color': line['color'],
+      'text_color': line['text_color'],
+      'agency': line['agency'],
+    });
+    globals.hiveBox.put('linesFavorites', list);
 
-      saveData(line);
+    saveData(line);
 
-      FloatingSnackBar(
-        message: 'Favoris ajouté, les détails de cette ligne sont disponibles même hors connexion.',
-        context: context,
-        textColor: mainColor(context),
-        textStyle: snackBarText,
-        duration: const Duration(milliseconds: 4000),
-        backgroundColor: const Color(0xff272727),
-      );
+    FloatingSnackBar(
+      message: 'Favoris ajouté, les détails de cette ligne sont disponibles même hors connexion.',
+      context: context,
+      textColor: mainColor(context),
+      textStyle: snackBarText,
+      duration: const Duration(milliseconds: 4000),
+      backgroundColor: const Color(0xff272727),
+    );
 
-      showModalBottomSheet<void>(
-        shape: const RoundedRectangleBorder(
-          borderRadius: bottomSheetBorder,
-        ),
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext context) => NotificationsSettings(line: line)
-      );
-    }
-    if (update != null) update();
-    return;
-  }
-
-  void addNotification(line, isAlert, context) {
     showModalBottomSheet<void>(
       shape: const RoundedRectangleBorder(
         borderRadius: bottomSheetBorder,
       ),
       isScrollControlled: true,
       context: context,
-      builder: (BuildContext context) => NotificationsSettings(line: line, isAlert: isAlert)
+      builder: (BuildContext context) => NotificationsSettings(line: line)
     );
   }
+  if (update != null) update();
+  return;
+}
+
+void addNotification(line, isAlert, context) {
+  showModalBottomSheet<void>(
+    shape: const RoundedRectangleBorder(
+      borderRadius: bottomSheetBorder,
+    ),
+    isScrollControlled: true,
+    context: context,
+    builder: (BuildContext context) => NotificationsSettings(line: line, isAlert: isAlert)
+  );
+}
 
 String getTerminus(line) {
   String res = '';

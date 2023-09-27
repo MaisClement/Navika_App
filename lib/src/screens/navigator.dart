@@ -1,6 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:navika/src/screens/journeys_get.dart';
+import 'package:navika/src/screens/journeys_list.dart';
 import 'package:navika/src/screens/journeys_search.dart';
 import 'package:navika/src/screens/pdf.dart';
 import 'package:navika/src/screens/position.dart';
@@ -64,6 +66,10 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 
     if (pathTemplate == '/home/journeys/search/:type') {
       type = routeState.route.parameters['type'];
+    }
+
+    if (pathTemplate == '/home/journeys/get/:id') {
+      id = routeState.route.parameters['id'];
     }
 
     String? lineId;
@@ -133,7 +139,17 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           routeState.go('/home/journeys');
         }
         if (pathTemplate == '/home/journeys/details') {
-          routeState.go('/home/journeys');
+          if (globals.path[globals.path.length - 2] == '/home/journeys') {
+            routeState.go('/home/journeys');
+          } else {
+            routeState.go('/home/journeys/list');
+          }
+        }
+        if (pathTemplate == '/home/journeys/list') {
+          routeState.go('/home');
+        }
+        if (pathTemplate == '/home/journeys/get/:id') {
+          routeState.go('/home');
         }
 
         if (pathTemplate == '/home/address') {
@@ -246,7 +262,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
         else if (pathTemplate == '/home/journeys')
           const MaterialPage<void>(
             key: ValueKey('Route'),
-            child: JourneysList(),
+            child: Journeys(),
           )
         else if (pathTemplate == '/home/journeys/search/:type' && type != null)
           MaterialPage<void>(
@@ -257,6 +273,18 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           const MaterialPage<void>(
             key: ValueKey('Route details'),
             child: JourneysDetails(),
+          )
+        else if (pathTemplate == '/home/journeys/list')
+          const MaterialPage<void>(
+            key: ValueKey('Route details'),
+            child: JourneysList(),
+          )
+        else if (pathTemplate == '/home/journeys/get/:id' && id != null)
+          MaterialPage<void>(
+            key: const ValueKey('Route get details'),
+            child: JourneysGet(
+              id: id,
+            ),
           )
         else if (pathTemplate == '/trafic/details') // /trafic/details
           const MaterialPage<void>(

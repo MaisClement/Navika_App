@@ -25,6 +25,17 @@ class _RoutesState extends State<Routes> {
     });
   }
 
+  void reorderData(int oldindex, int newindex){
+    setState(() {
+      if(newindex > oldindex){
+        newindex -= 1;
+      }
+      final fav = favs.removeAt(oldindex);
+      favs.insert(newindex, fav);
+      globals.hiveBox.put('linesFavorites', favs);
+    });
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -45,10 +56,12 @@ class _RoutesState extends State<Routes> {
             ],
           ),
         ),
-        body: ListView(
+        body: ReorderableListView(
+          onReorder: reorderData,
           children: [
             if (favs.isEmpty)
               Container(
+                key: const ValueKey('nothing'),
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 80),
                 child: Column(
                   children: [
@@ -58,8 +71,11 @@ class _RoutesState extends State<Routes> {
                       ),
                       width: 80,
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     const Text(
-                      'Ajoutez vos lignes à vos favoris pour y accéder encore plus rapidement.',
+                      'Ajoutez vos lignes à vos favoris pour y accéder encore plus rapidement et à tout moment.',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontFamily: 'Segoe Ui',
@@ -67,7 +83,7 @@ class _RoutesState extends State<Routes> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     IconElevatedButton(
                       icon: NavikaIcons.search,
@@ -84,6 +100,7 @@ class _RoutesState extends State<Routes> {
               for (var fav in favs)
                 LinesListButton(
                   isLoading: false,
+                  key: ValueKey(fav['id']),
                   line: fav,
                   onTap: () {
                     RouteStateScope.of(context).go('/routes/details/${fav['id']}');

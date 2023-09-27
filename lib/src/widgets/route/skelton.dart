@@ -29,6 +29,9 @@ class RouteListSkelton extends StatelessWidget {
                         ),
                         child: const SizedBox(height: 20, width: 60),
                       ),
+                      const SizedBox(
+                        height: 3,
+                      ),
                       Container(
                         margin: const EdgeInsets.only(top: 2, bottom: 2),
                         decoration: BoxDecoration(

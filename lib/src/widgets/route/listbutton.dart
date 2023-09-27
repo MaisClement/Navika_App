@@ -52,7 +52,7 @@ class RouteListButton extends StatelessWidget {
 
               Row(
                 children: [
-                  const SizedBox(width: 15),
+                  const SizedBox(width: 25),
                   Column(
                     children: [
                       Text(
@@ -64,6 +64,7 @@ class RouteListButton extends StatelessWidget {
                           color: accentColor(context),
                         ),
                       ),
+                      const SizedBox(height: 3),
                       Text(
                         getStringTime(journey['arrival_date_time']),
                         style: TextStyle(

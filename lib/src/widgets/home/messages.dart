@@ -21,7 +21,7 @@ class HomeMessage extends StatelessWidget {
           message['severity'] < 4
       ? Padding(
         padding: isMarginDisabled
-              ? EdgeInsets.all(0)
+              ? const EdgeInsets.all(0)
               : const EdgeInsets.only(
                   top: 10, left: 10, right: 10, bottom: 10.0),
         child: Card(

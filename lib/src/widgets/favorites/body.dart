@@ -168,7 +168,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 )
               ],
@@ -192,7 +192,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 )
               ],

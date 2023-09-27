@@ -38,7 +38,6 @@ class _NavikaAppState extends State<NavikaApp> {
     RouteStateScope.of(context).go('/trafic');
   }
 
-
 	@override
 	void initState() {
 
@@ -59,6 +58,8 @@ class _NavikaAppState extends State<NavikaApp> {
 				'/home/journeys',
 				'/home/journeys/search/:type',
 				'/home/journeys/details',
+				'/home/journeys/list',
+				'/home/journeys/get/:id',
 				'/schedules',
 				'/schedules/search',
         '/schedules/stops/:id',
@@ -221,6 +222,8 @@ class _NavikaAppState extends State<NavikaApp> {
         ),
         tabBarTheme: const TabBarTheme(
           unselectedLabelColor: Color(0xff919191),
+          labelColor: Colors.white,
+          indicatorColor: Colors.white,
         ),
         iconTheme: IconThemeData(
           color: mainColor

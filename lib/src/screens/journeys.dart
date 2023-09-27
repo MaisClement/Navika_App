@@ -156,14 +156,14 @@ void addToHistory (Map place) {
   globals.hiveBox.put('historyPlaces', history);
 }
 
-class JourneysList extends StatefulWidget {
-  const JourneysList({super.key});
+class Journeys extends StatefulWidget {
+  const Journeys({super.key});
 
   @override
-  State<JourneysList> createState() => _JourneysListState();
+  State<Journeys> createState() => _JourneysState();
 }
 
-class _JourneysListState extends State<JourneysList> {
+class _JourneysState extends State<Journeys> {
   final String title = 'Itinéraires';
   final String yourPos = 'Votre position';
 

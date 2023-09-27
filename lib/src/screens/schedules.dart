@@ -43,7 +43,6 @@ class _SchedulesState extends State<Schedules> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -69,7 +68,7 @@ class _SchedulesState extends State<Schedules> {
           children: [
             if (favs.isEmpty)
               Container(
-                key: ValueKey('nothing'),
+                key: const ValueKey('nothing'),
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 80),
                 child: Column(
                   children: [
@@ -78,6 +77,9 @@ class _SchedulesState extends State<Schedules> {
                         'assets/img/bus_schedules.png',
                       ),
                       width: 80,
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     const Text(
                       'Ajoutez un arrêt à vos favoris pour accéder à vos horaires plus rapidement.',
@@ -88,7 +90,7 @@ class _SchedulesState extends State<Schedules> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     IconElevatedButton(
                       icon: NavikaIcons.search,
