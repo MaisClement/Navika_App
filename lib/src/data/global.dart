@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart' as gps;
 
 const String NAME = 'Navika';
-const String VERSION = '0.6';
+const String VERSION = '0.7';
 const String API_VERSION = '0.3';
 
 const String API_BASE = 'https://navika.hackernwar.com';

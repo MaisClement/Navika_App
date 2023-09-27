@@ -332,7 +332,6 @@ flutter:
     - assets/img/null.png
     - assets/img/position.png
     - assets/img/sign.svg
-    - assets/img/leaf.png
     
     - assets/img/cloud_off.svg
     - assets/img/cloud_sad.svg

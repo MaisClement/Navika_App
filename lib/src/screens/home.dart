@@ -73,7 +73,8 @@ class _HomeState extends State<Home> {
   List favs = globals.hiveBox?.get('stopsFavorites');
   List address = globals.hiveBox?.get('addressFavorites');
   List lines = globals.hiveBox?.get('linesFavorites');
-  List journeys  = getFutureJourneys(globals.hiveBox?.get('journeys'));
+  List journeys = getFutureJourneys( sortJourneys( globals.hiveBox?.get('journeys') ) );
+  List blocks = globals.hiveBox?.get('homeOrder');
   List trafic = [];
 
   Future<void> _getLocation() async {
@@ -199,10 +200,10 @@ class _HomeState extends State<Home> {
         if (size != MarkerSize.hidden) {
           setState(() {
             markers.add(_controller?.addMapMarker(
-                stopCoords,
-                getMarkerImageByType(mode, size, context),
-                metadata,
-                getSizeForMarker(size)));
+              stopCoords,
+              getMarkerImageByType(mode, size, context),
+              metadata,
+              getSizeForMarker(size)));
           });
         }
       }
@@ -308,6 +309,7 @@ class _HomeState extends State<Home> {
                             lines: lines,
                             trafic: trafic,
                             journeys: journeys,
+                            blocks: blocks,
                             update: _updateFavorites,
                           ),
                 body: HereMap(onMapCreated: _onMapCreated),

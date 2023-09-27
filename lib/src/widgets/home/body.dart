@@ -19,6 +19,7 @@ class HomeBody extends StatelessWidget {
   final List lines;
   final List trafic;
   final List journeys;
+  final List blocks;
   final Function update;
 
   const HomeBody({
@@ -29,68 +30,27 @@ class HomeBody extends StatelessWidget {
     required this.lines,
     required this.trafic,
     required this.journeys,
+    required this.blocks,
     required this.update,
     super.key,
   });
 
-  @override
-  Widget build(BuildContext context) => ListView(
-        controller: scrollController,
-        padding: const EdgeInsets.only(top: 90),
-        children: [
-          SizedBox(
-            height: 85,
-            child: HomeBodyFavScroll(
-              address: address,
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
+  List<Widget> _buildHome(context) {
+    List<Widget> res = [];
 
-          // Messages de l'index
-          if (index['message'] != null)
-            for (var message in index['message'])
-              HomeMessage(message: message),
+    for (var block in blocks) {
+      // HomeMessage
+      if (block['id'] == 'message' && block['enabled'] == true && index['message'] != null) {
+        for (var message in index['message']) {
+          res.add(
+            HomeMessage(message: message)
+          );
+        }
+      }
 
-          // Lines
-          if (lines.isNotEmpty)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, bottom: 10),
-                  child: Text(
-                    'Etat du trafic',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Segoe Ui',
-                      color: accentColor(context),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-          if (lines.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-              child: Wrap(
-                children: [
-                  for (var line in lines)
-                    TraficBlock(
-                      line: line,
-                      trafic: trafic,
-                    ),
-                ],
-              ),
-            ),
-
-          // Journeys
+      // Itinéraires
+      if (block['id'] == 'journeys' && block['enabled'] == true) {
+        res.add(
           Column(
             children: [
               const SizedBox(
@@ -167,40 +127,127 @@ class HomeBody extends StatelessWidget {
               ]
             ],
           ),
-            
-          // Favorites
-          if (favs.isNotEmpty)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, bottom: 10),
-                  child: Text(
-                    'Vos horaires',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Segoe Ui',
-                      color: accentColor(context),
-                    ),
+        );
+      }
+
+      // Trafic
+      if (block['id'] == 'trafic' && block['enabled'] == true && lines.isNotEmpty) {
+        res.add(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, bottom: 10),
+                child: Text(
+                  'Etat du trafic',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Segoe Ui',
+                    color: accentColor(context),
                   ),
                 ),
+              ),
+            ],
+          ),
+        );
+        res.add(
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+            child: Wrap(
+              children: [
+                for (var line in lines)
+                  TraficBlock(
+                    line: line,
+                    trafic: trafic,
+                  ),
               ],
             ),
-          for (var fav in favs.sublist(0, getMaxLength(2, favs) ))
-            FavoriteBody(
-              id: fav['id'],
-              key: ValueKey(fav['id']),
-              name: fav['name'],
-              line: fav['line'],
-              update: update,
-              removeSeparator: true,
-            ),
+          ),
+        );
+      }
 
-          //
+
+      // Trafic
+      if (block['id'] == 'schedules' && block['enabled'] == true && favs.isNotEmpty) {
+        res.add(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, bottom: 10),
+                child: Text(
+                  'Vos horaires',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Segoe Ui',
+                    color: accentColor(context),
+                  ),
+                ),
+              ),
+              for (var fav in favs.sublist(0, getMaxLength(2, favs) ))
+                FavoriteBody(
+                  id: fav['id'],
+                  key: ValueKey(fav['id']),
+                  name: fav['name'],
+                  line: fav['line'],
+                  update: update,
+                  removeSeparator: true,
+                ),
+            ],
+          ),
+        );
+      }
+    }
+
+    return res;
+  }
+
+  @override
+  Widget build(BuildContext context) => ListView(
+        controller: scrollController,
+        padding: const EdgeInsets.only(top: 90),
+        children: [
+          SizedBox(
+            height: 85,
+            child: HomeBodyFavScroll(
+              address: address,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+
+          ..._buildHome(context),
+
+          const Divider(
+            color: Color(0xff808080),
+            thickness: 1.5,
+            indent: 20,
+            endIndent: 20,
+          ),
+        
+          Center(
+            child: IconElevatedButton(
+              icon: NavikaIcons.settings,
+              width: 240,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.surface,
+                foregroundColor: Theme.of(context).colorScheme.primary,
+              ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+              text: 'Réorganiser cette page',
+              onPressed: () {
+                RouteStateScope.of(context).go('/home/settings');
+              },
+            ),
+          ),
         ],
       );
 }

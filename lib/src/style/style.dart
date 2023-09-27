@@ -119,8 +119,6 @@ String getIconLine(context, line) {
   return line.imageDark;
 }
 
-
-
 Color getActiveColor(context, status) {
   if (status == TripBlockStatus.inactive){
     return const Color(0xff808080);

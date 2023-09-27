@@ -47,6 +47,7 @@ class _NavikaAppState extends State<NavikaApp> {
 		_routeParser = TemplateRouteParser(
 			allowedPaths: [
 				'/home',
+				'/home/settings',
 				'/home/address',
 				'/home/address/:type',
 				'/home/address/:type/:id',

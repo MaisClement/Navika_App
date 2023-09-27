@@ -3,10 +3,14 @@ import 'dart:async';
 
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:navika/src/extensions/datetime.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
+import 'package:navika/src/widgets/utils/button_large_trafic.dart';
+import 'package:navika/src/data/global.dart' as globals;
 
 class SectionPublicTransport extends StatefulWidget {
   final Map section;
@@ -101,15 +105,36 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
               key: _key, 
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.section['from']['name'],
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
-                  ),
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(widget.section['from']['name'],
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Segoe Ui',
+                        ),
+                        maxLines: 1,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 10, right: 15, top: 0),
+                      color: Theme.of(context).colorScheme.surface,
+                      child: Row(
+                        children: [
+                          Text(getStringTime(widget.section['departure_date_time']),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Segoe Ui',
+                              fontSize: 16,
+                            )
+                          )
+                        ],
+                      ),
+                    ),
+                  ]
                 ),
                 Row(
                   children: [
@@ -157,6 +182,20 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                         )
                       ),
                     ],
+                  ),
+                if ( DateTime.parse(widget.section['arrival_date_time']).isToday() && widget.section['informations']['line']['severity'] != 0)
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 10, bottom: 10, right: 10
+                    ),
+                    child: ButtonLargeTrafic(
+                      line: widget.section['informations']['line'],
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: () {
+                        globals.lineTrafic = widget.section['informations']['line'];
+                        RouteStateScope.of(context).go('/trafic/details');
+                      },
+                    ),
                   ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
@@ -241,21 +280,6 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                   ),
                 )
                 ,
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(left: 10, right: 15, top: 0),
-            color: Theme.of(context).colorScheme.surface,
-            child: Row(
-              children: [
-                Text(getStringTime(widget.section['departure_date_time']),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
-                    fontSize: 16,
-                  )
-                )
               ],
             ),
           ),

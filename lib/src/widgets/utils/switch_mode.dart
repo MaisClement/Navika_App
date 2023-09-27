@@ -56,12 +56,12 @@ class SwitchMode extends StatelessWidget {
             ),
             Switch(
               thumbIcon: thumbIcon,
-              // trackOutlineColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-              //   if (!states.contains(MaterialState.selected)) {
-              //     return mainColor(context);
-              //   }
-              //   return null;
-              // }),
+              trackOutlineColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                if (!states.contains(MaterialState.selected)) {
+                  return mainColor(context);
+                }
+                return null;
+              }),
               inactiveThumbColor: mainColor(context),
               value: value,
               onChanged: (bool value) {

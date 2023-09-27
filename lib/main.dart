@@ -90,7 +90,38 @@ Future _initializeHive() async {
   if (globals.hiveBox.get('journeys') == null) {
     globals.hiveBox.put('journeys', []);
   }
-  //globals.hiveBox.put('journeys', []);
+
+  // Trajet enregistré
+  if (globals.hiveBox.get('homeOrder') == null) {
+    globals.hiveBox.put('homeOrder', [
+      {
+        'id': 'message',
+        'name': 'Messages d’actualités',
+        'enabled': true,
+      },
+      {
+        'id': 'trafic',
+        'name': 'Etat du trafic',
+        'enabled': true,
+      },
+      {
+        'id': 'journeys',
+        'name': 'Vos itinéraires',
+        'enabled': true,
+      },
+      {
+        'id': 'schedules',
+        'name': 'Vos horaires',
+        'enabled': true,
+      },
+    // {
+    //   'id': 'lines',
+    //   'name': 'Vos lignes',
+    //   'enabled': true,
+    // },
+    ],
+    );
+  }
 
   // Mode selectionné
   if (globals.hiveBox.get('allowedModes') == null) {
