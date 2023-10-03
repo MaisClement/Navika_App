@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 0.7.0+12
+version: 0.7.2+14
 
 environment:
   sdk: '>=2.18.0 <3.0.0'
@@ -71,6 +71,7 @@ dependencies:
   # flutter_compass: ^0.7.0
   flutter_compass:
     git: https://github.com/hemanthrajv/flutter_compass.git
+  package_info_plus: ^4.1.0
   
 dev_dependencies:
   hive_generator: ^1.1.3
@@ -106,6 +107,8 @@ flutter:
         - asset: assets/fonts/TransilienSmall.ttf
 
   assets:
+    - assets/ca/lets-encrypt-r3.pem
+    
     - assets/img/icons/bus.png
     - assets/img/icons/bus_light.png
     - assets/img/icons/tram_light.png
@@ -345,6 +348,7 @@ flutter:
     - assets/img/maintenance.png
 
     - assets/img/logo/logo_large.png
+    - assets/img/logo/logo.png
 
     - assets/img/serin/serin_cgt.png
     - assets/img/serin/serin_work.png

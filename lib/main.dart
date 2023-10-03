@@ -4,8 +4,10 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:navika/src/api.dart';
+import 'package:navika/src/data/app.dart';
 import 'package:navika/src/extensions/timeofday.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:here_sdk/core.dart';
@@ -41,6 +43,8 @@ Future<void> main() async {
 
   setupWindow();
 
+  await _initializeCertCA();
+
   await _initializeHive();
 
   await _initializeHERESDK();
@@ -53,6 +57,8 @@ Future<void> main() async {
 
   _initializeLocalNotification();
 
+  await getAppInfo();
+
   runApp(const NavikaApp());
 }
 
@@ -60,6 +66,13 @@ void setupWindow() {
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
     WidgetsFlutterBinding.ensureInitialized();
   }
+}
+
+Future _initializeCertCA() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  ByteData data = await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
+  SecurityContext.defaultContext.setTrustedCertificatesBytes(data.buffer.asUint8List());
 }
 
 Future _initializeHive() async {
@@ -125,7 +138,7 @@ Future _initializeHive() async {
 
   // Mode selectionné
   if (globals.hiveBox.get('allowedModes') == null) {
-    globals.hiveBox.put('allowedModes', ['rail', 'metro', 'tram', 'bus']);
+    globals.hiveBox.put('allowedModes', ['rail', 'metro', 'tram', 'bus', 'cable', 'funicular', 'boat']);
   }
 
   // travelerType
@@ -228,8 +241,7 @@ Future _initializeFirebase() async {
   );
 
   if (kDebugMode) {
-    print(
-        {'INFO_f', 'User granted permission: ${settings.authorizationStatus}'});
+    print({'INFO_', 'User granted permission: ${settings.authorizationStatus}'});
   }
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {

@@ -6,7 +6,10 @@ import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/utils/switch_mode.dart';
 
 class BottomRouteSettings extends StatefulWidget {
+  final StateSetter? setState;
+
   const BottomRouteSettings({
+    this.setState,
     super.key,
   });
 
@@ -48,11 +51,14 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
       });
     }
     globals.hiveBox.put('allowedModes', allowedModes);
+    if (widget.setState!= null) {
+      widget.setState!(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) => Container(
-    height: 610,
+    height: 710,
     decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(5), topRight: Radius.circular(5)),
@@ -143,7 +149,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
           SwitchMode(
             name: 'Train et RER',
             value: allowedModes.contains('rail'),
-            icon: NavikaIcons.train_rer,
+            icon: NavikaIcons.train_face,
             function: (bool value) {
               handleChangeMode('rail', value);
             },
@@ -159,7 +165,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
           SwitchMode(
             name: 'Tramway',
             value: allowedModes.contains('tram'),
-            icon: NavikaIcons.tram,
+            icon: NavikaIcons.IDFM_tram,
             function: (bool value) {
               handleChangeMode('tram', value);
             },
@@ -167,11 +173,37 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
           SwitchMode(
             name: 'Bus',
             value: allowedModes.contains('bus'),
-            icon: NavikaIcons.bus,
+            icon: NavikaIcons.IDFM_bus,
             function: (bool value) {
               handleChangeMode('bus', value);
             },
           ),
+          SwitchMode(
+            name: 'Téléphérique',
+            value: allowedModes.contains('cable'),
+            icon: NavikaIcons.IDFM_cable,
+            function: (bool value) {
+              handleChangeMode('cable', value);
+            },
+          ),
+          // SwitchMode(
+          //   name: 'Funiculaire',
+          //   value: allowedModes.contains('funicular'),
+          //   icon: NavikaIcons.train_face,
+          //   function: (bool value) {
+          //     handleChangeMode('funicular', value);
+          //   },
+          // ),
+          SwitchMode(
+            name: 'Bateau',
+            value: allowedModes.contains('boat'),
+            icon: NavikaIcons.IDFM_boat,
+            function: (bool value) {
+              handleChangeMode('boat', value);
+            },
+          ),
+
+          // ['rail', 'metro', 'tram', 'bus', 'cable', 'funicular', 'boat']
           const SizedBox(
             height: 30,
           ),

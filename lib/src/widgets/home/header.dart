@@ -6,10 +6,7 @@ import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/widgets/utils/search_box.dart';
 
 class HomePannel extends StatelessWidget {
-  final void Function()? tooglePanel;
-
   const HomePannel({
-    required this.tooglePanel,
     super.key,
   });
 

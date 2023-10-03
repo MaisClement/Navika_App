@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
-import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/favorites/body.dart';
@@ -76,34 +75,46 @@ class HomeBody extends StatelessWidget {
                 if (journeys.isEmpty)
                   Column(
                     children: [
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      const Image(
-                        image: AssetImage(
-                          'assets/img/journeys.png',
-                        ),
-                        width: 80,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text(
-                        'Vous n’avez pas d’itinéraires prévu.',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      IconElevatedButton(
-                        icon: NavikaIcons.search,
-                        width: 138,
-                        text: 'Rechercher',
-                        onPressed: () => initJourney(null, null, context),
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 30,
+                          ),
+                          const Image(
+                            image: AssetImage(
+                              'assets/img/journeys.png',
+                            ),
+                            width: 80,
+                          ),
+                          const SizedBox(
+                            width: 30,
+                          ),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                const Text(
+                                  'Vous n’avez pas d’itinéraires prévu.',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Segoe Ui',
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Center(
+                                  child: ElevatedButton(
+                                    child: const Text('Tous vos itinéraires ➜'),
+                                    onPressed: () {
+                                      RouteStateScope.of(context).go('/home/journeys/list');
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 30,
+                          ),
+                        ],
                       ),
                     ],
                   )
@@ -163,6 +174,7 @@ class HomeBody extends StatelessWidget {
                   TraficBlock(
                     line: line,
                     trafic: trafic,
+                    isLoading: trafic.isEmpty,
                   ),
               ],
             ),
@@ -240,7 +252,7 @@ class HomeBody extends StatelessWidget {
               width: 240,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.surface,
-                foregroundColor: Theme.of(context).colorScheme.primary,
+                foregroundColor: accentColor(context),
               ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
               text: 'Réorganiser cette page',
               onPressed: () {

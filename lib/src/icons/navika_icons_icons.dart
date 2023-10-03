@@ -26,7 +26,7 @@ class NavikaIcons {
   static const String? _kFontPkg = null;
 
   static const IconData business = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData cable = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData IDFM_cable = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData city = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData clock = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData clock_filled = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
@@ -44,8 +44,8 @@ class NavikaIcons {
   static const IconData localisation_null = IconData(0xe810, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData marker = IconData(0xe811, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData metro = IconData(0xe812, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData navette_fluviale = IconData(0xe813, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData noctilien = IconData(0xe814, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData IDFM_boat = IconData(0xe813, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData IDFM_noctilien = IconData(0xe814, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData parking = IconData(0xe815, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData plus = IconData(0xe816, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData rer = IconData(0xe817, fontFamily: _kFontFam, fontPackage: _kFontPkg);
@@ -55,15 +55,15 @@ class NavikaIcons {
   static const IconData settings_filled = IconData(0xe81b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData star = IconData(0xe81c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData star_filled = IconData(0xe81d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData train = IconData(0xe81e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData IDFM_train = IconData(0xe81e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData train_face = IconData(0xe81f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData train_rer = IconData(0xe820, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData tram = IconData(0xe821, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData IDFM_train_rer = IconData(0xe820, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData IDFM_tram = IconData(0xe821, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData university = IconData(0xe822, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData walking = IconData(0xe823, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData add_bookmark = IconData(0xe824, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData bike = IconData(0xe825, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData bus = IconData(0xe826, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData IDFM_bus = IconData(0xe826, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData options = IconData(0xe827, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData wheelchair = IconData(0xe828, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData old_man = IconData(0xe829, fontFamily: _kFontFam, fontPackage: _kFontPkg);
@@ -89,5 +89,6 @@ class NavikaIcons {
   static const IconData slide = IconData(0xe83f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData saved = IconData(0xe85a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData bell = IconData(0xe86c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData bus_face = IconData(0xe880, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData chevron_right = IconData(0xf054, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

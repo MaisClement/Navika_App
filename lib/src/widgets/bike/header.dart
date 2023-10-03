@@ -3,10 +3,7 @@ import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style/style.dart';
 
 class BikePannel extends StatelessWidget {
-  final void Function()? tooglePanel;
-
 	const BikePannel({
-    required this.tooglePanel,
 		super.key,
 	});
 
@@ -30,15 +27,12 @@ class BikePannel extends StatelessWidget {
         Container(
           height: 20,
         ),
-        GestureDetector(
-          onTap: tooglePanel,
-          child: Container(
-            width: 40,
-            height: 5,
-            decoration: BoxDecoration(
-              color: Colors.grey[400],
-              borderRadius: BorderRadius.circular(30),
-            ),
+        Container(
+          width: 40,
+          height: 5,
+          decoration: BoxDecoration(
+            color: Colors.grey[400],
+            borderRadius: BorderRadius.circular(30),
           ),
         ),
         Container(

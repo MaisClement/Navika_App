@@ -236,6 +236,9 @@ class _NotificationsSettingsState extends State<NotificationsSettings>
         if (error == ApiStatus.ok) {
           days = result['value']['days'];
           type = result['value']['type'];
+
+          times['start_time'] = TimeOfDay(hour: int.parse(result['value']['times']['start_time'].substring(0, 2)), minute: int.parse(result['value']['times']['start_time'].substring(3, 5)));
+          times['end_time'] = TimeOfDay(hour: int.parse(result['value']['times']['end_time'].substring(0, 2)), minute: int.parse(result['value']['times']['end_time'].substring(3, 5)));
         }
       });
     }

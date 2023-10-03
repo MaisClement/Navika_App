@@ -66,14 +66,15 @@ class TimerBlock extends StatelessWidget {
                           decoration: state == 'cancelled'
                               ? TextDecoration.lineThrough
                               : null,
+                          decorationColor: const Color(0xffeb2031),
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      state == 'theorical'
-                          ? const Text('')
-                          : SvgPicture.asset('assets/img/sign_top.svg',
-                              color: getSchedulesColorByState(state, context),
-                              height: 15)
+                      if (state != 'theorical')
+                        SvgPicture.asset('assets/img/sign_top.svg',
+                          color: getSchedulesColorByState(state, context),
+                          height: 15,
+                        ),
                     ],
                   ),
                 ),

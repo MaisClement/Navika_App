@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/data/app.dart' as app;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/style/style.dart';
@@ -187,19 +188,37 @@ class _SettingsState extends State<Settings> {
 
             // ------------
 
-            const SizedBox(
-              height: 20,
-            ),
             const Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.only(top: 60, left: 20, right: 20, bottom: 10),
                   child: Image(
                     image: AssetImage('assets/img/logo/logo_large.png'),
                     height: 30
                   ),
                 ),
               ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+              child: Text(
+                '${app.name} 2023 • Made with 💖',
+                style: const TextStyle(
+                  fontFamily: 'Segoe Ui',
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: Divider(
+                color: Colors.white,
+              ),
+            ),
+            SettingsLink(
+              name: 'Status ›',
+              url: 'https://navika.betteruptime.com',
+              icon: NavikaIcons.alert,
             ),
             const Padding(
               padding: EdgeInsets.only(left: 20, right: 20),
@@ -217,15 +236,12 @@ class _SettingsState extends State<Settings> {
               url: 'https://icones8.fr',
               icon: NavikaIcons.icons8,
             ),
+
             const Padding(
               padding: EdgeInsets.only(left: 20, right: 20),
               child: Divider(
                 color: Colors.white,
               ),
-            ),
-            SettingsLink(
-              name: 'Mentions légales ›',
-              url: 'http://app.navika.hackernwar.com/legal.php',
             ),
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
@@ -237,26 +253,51 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
             ),
+            SettingsLink(
+              name: 'Mentions légales ›',
+              url: 'http://app.navika.hackernwar.com/legal.php',
+            ),
+            
+            const Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: Divider(
+                color: Colors.white,
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+              child: const Text(
+                'Navika repose sur des technologies et services de « HERE Global B.V.» par le biais de la carte ou de certaines fonctionnalités de recherche de lieu. Les détails de leur politique de confidentialité est disponible ci-dessus.',
+                style: TextStyle(
+                  fontFamily: 'Segoe Ui',
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            SettingsLink(
+              name: 'Politique de confidentialité HERE ›',
+              url: 'https://legal.here.com/fr-fr/privacy/here-sdk-privacy-supplement',
+            ),
+            SettingsLink(
+              name: 'Licences HERE ›',
+              url: 'https://app.navika.hackernwar.com/here_notice_android.php',
+            ),
+
+            const SizedBox(
+              height: 10,
+            ),
+            
             InkWell(
               onTap: () => handleTap(),
               child: Container(
                 color: Colors.white.withOpacity(0.2),
                 width: double.infinity,
-                padding: const EdgeInsets.only(
-                    left: 20, right: 20, top: 10, bottom: 10),
-                child: const Column(
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      '${globals.NAME} 2023 • Version v${globals.VERSION}',
-                      style: TextStyle(
-                        fontFamily: 'Segoe Ui',
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      'Made with 💖',
-                      style: TextStyle(
+                    Text('Navika • Version v${app.version}-${app.buildNumber} • ${app.packageName}',
+                      style: const TextStyle(
                         fontFamily: 'Segoe Ui',
                         color: Colors.white,
                       ),

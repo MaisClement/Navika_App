@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:here_sdk/core.dart';
 import 'package:http/http.dart' as http;
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/data/app.dart' as app;
 import 'package:location/location.dart' as gps;
 import 'package:navika/src/utils.dart';
 
@@ -115,7 +116,7 @@ class NavikaApi {
   }
 
   Future getIndex() async {
-    String url = buildUrl(globals.API_INDEX, {'v': globals.VERSION});
+    String url = buildUrl(globals.API_INDEX, {'v': app.version});
 
     return doRequest(url);
   }
@@ -228,12 +229,13 @@ class NavikaApi {
     return doRequest(url);
   }
 
-  Future getJourneys(String from, String to, DateTime datetime, String travelerType, String timeType) async {
+  Future getJourneys(String from, String to, DateTime datetime, String travelerType, String timeType, List modes) async {
     String url = buildUrl(globals.API_JOURNEYS, {
       'from': from,
       'to': to,
       timeType: datetime.toIso8601String(),
       'travelerType': travelerType,
+      'forbidden_mode' : modes
     });
     return doRequest(url);
   }

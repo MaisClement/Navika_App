@@ -40,6 +40,7 @@ class HereController {
     if (locationData == null) return;
     locationIndicator = LocationIndicator();
     locationIndicator.locationIndicatorStyle = indicatorStyle;
+    locationIndicator.isAccuracyVisualized = true;
     
     locationIndicator.isActive = isActive;
 
@@ -48,6 +49,9 @@ class HereController {
 
     if (zoomAuto) {
       double distanceToEarthInMeters = 1000;
+      if (locationData.accuracy != null && locationData.accuracy! > 0) {
+        distanceToEarthInMeters = locationData.accuracy! + 1000;
+      }
       MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
       _hereMapController.camera.lookAtPointWithMeasure(GeoCoordinates(locationData.latitude ?? 0, locationData.longitude ?? 0), mapMeasureZoom);
     }
@@ -56,6 +60,9 @@ class HereController {
   void zoomOnLocationIndicator(bool is3dMap){
     if (globals.locationData != null){
       double distanceToEarthInMeters = 1000;
+      if (globals.locationData!.accuracy != null && globals.locationData!.accuracy! > 0) {
+        distanceToEarthInMeters = globals.locationData!.accuracy! + 1000;
+      }
       MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
 
       GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(globals.locationData?.latitude ?? 0, globals.locationData?.longitude ?? 0);
@@ -68,6 +75,9 @@ class HereController {
   void zoomTo(GeoCoordinatesUpdate geoCoords){
     if (globals.locationData != null){
       double distanceToEarthInMeters = 1000;
+      if (globals.locationData!.accuracy != null && globals.locationData!.accuracy! > 0) {
+        distanceToEarthInMeters = globals.locationData!.accuracy! + 1000;
+      }
       MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
       _hereMapController.camera.startAnimation(MapCameraAnimationFactory.flyToWithZoom(geoCoords, mapMeasureZoom, 0, const Duration(seconds: 1)));
     }

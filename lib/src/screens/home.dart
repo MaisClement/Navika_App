@@ -77,7 +77,7 @@ class _HomeState extends State<Home> {
   List blocks = globals.hiveBox?.get('homeOrder');
   List trafic = [];
 
-  Future<void> _getLocation() async {
+  Future<void> _getLocation(isResume) async {
     bool serviceEnabled;
     gps.PermissionStatus permissionGranted;
     gps.LocationData locationData;
@@ -109,7 +109,9 @@ class _HomeState extends State<Home> {
     FlutterCompass.events?.listen((CompassEvent compassEvent) {
       _updateCompass(compassEvent);
     });
-    _addLocationIndicator(locationData);
+    if (!isResume) {
+      _addLocationIndicator(locationData);
+    }
     location.onLocationChanged.listen((gps.LocationData currentLocation) {
       _updateLocationIndicator(currentLocation);
     });
@@ -280,14 +282,12 @@ class _HomeState extends State<Home> {
                 controller: panelController,
                 onPanelSlide: (position) => _onPanelSlide(position),
                 header: widget.displayType == null
-                    ? HomePannel(tooglePanel: _tooglePanel)
+                    ? const HomePannel()
                     : widget.displayType == 'stops'
                         ? SchedulesPannel(
-                            id: widget.id!,
-                            tooglePanel: _tooglePanel)
-                        : BikePannel(
-                            tooglePanel: _tooglePanel
-                          ),
+                            id: widget.id!
+                          )
+                        : const BikePannel(),
                 panelBuilder: (ScrollController scrollController) =>
                     widget.displayType != null && widget.id != null
                         ? Container(
@@ -422,19 +422,15 @@ class _HomeState extends State<Home> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _getIndex();
-      // _getFavorites();
       _getTrafic();
       _getNearPoints();
       _getInBox();
       panelController.animatePanelToSnapPoint();
       _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
         _getInBox();
-        // _getFavorites();
       });
       _initializeConnectivity();
-      connection = Connectivity()
-          .onConnectivityChanged
-          .listen((ConnectivityResult result) {
+      connection = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
         _setConnectivity(result);
       });
     });
@@ -462,9 +458,10 @@ class _HomeState extends State<Home> {
   void _onMapCreated(HereMapController hereMapController) {
     //THEME
     MapScheme mapScheme =
-        Brightness.dark == Theme.of(context).colorScheme.brightness
-            ? MapScheme.normalNight
-            : MapScheme.normalDay;
+      Brightness.dark == Theme.of(context).colorScheme.brightness
+        ? MapScheme.normalNight
+        : MapScheme.normalDay;
+
     hereMapController.mapScene.loadSceneForMapScheme(mapScheme,
         (MapError? error) {
       if (error != null) {
@@ -472,37 +469,32 @@ class _HomeState extends State<Home> {
       }
 
       _controller = HereController(hereMapController);
-      _getLocation();
+      _getLocation(globals.isSetLocation);
 
       GeoCoordinates geoCoords;
       double distanceToEarthInMeters = 10000;
       if (globals.isSetLocation) {
         // Resume Map
-        geoCoords = GeoCoordinates(globals.locationData?.latitude ?? 48.859481,
-            globals.locationData?.longitude ?? 2.346711);
+        geoCoords = GeoCoordinates(globals.locationData?.latitude ?? 48.859481, globals.locationData?.longitude ?? 2.346711);
         distanceToEarthInMeters = 1000;
-      } else if (globals.hiveBox?.get('latitude') != null &&
-          globals.hiveBox?.get('longitude') != null) {
+      } else if (globals.hiveBox?.get('latitude') != null && globals.hiveBox?.get('longitude') != null) {
         // Opening App
-        geoCoords = GeoCoordinates(globals.hiveBox.get('latitude'),
-            globals.hiveBox.get('longitude'));
+        geoCoords = GeoCoordinates(globals.hiveBox.get('latitude'), globals.hiveBox.get('longitude'));
         distanceToEarthInMeters = 10000;
       } else {
         geoCoords = GeoCoordinates(48.859481, 2.346711);
         _controller?.addLocationIndicator(
-            globals.locationData,
-            LocationIndicatorIndicatorStyle.pedestrian,
-            globals.compassHeading,
-            true);
+          globals.locationData,
+          LocationIndicatorIndicatorStyle.pedestrian,
+          globals.compassHeading,
+          true
+        );
       }
 
-      MapMeasure mapMeasureZoom =
-          MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
-      hereMapController.camera
-          .lookAtPointWithMeasure(geoCoords, mapMeasureZoom);
+      MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
+      hereMapController.camera.lookAtPointWithMeasure(geoCoords, mapMeasureZoom);
 
-      hereMapController.gestures.panListener = PanListener((GestureState state,
-          Point2D origin, Point2D translation, double velocity) {
+      hereMapController.gestures.panListener = PanListener((GestureState state, Point2D origin, Point2D translation, double velocity) {
         if (mounted) {
           if (state == GestureState.begin) {
             setState(() {
@@ -528,11 +520,11 @@ class _HomeState extends State<Home> {
         }
       });
 
-      _controller?.addLocationIndicator(
-          globals.locationData,
-          LocationIndicatorIndicatorStyle.pedestrian,
-          globals.compassHeading,
-          false);
+    _controller?.addLocationIndicator(
+        globals.locationData,
+        LocationIndicatorIndicatorStyle.pedestrian,
+        globals.compassHeading,
+        false);
       _addTapListener();
       _getNearPoints();
     });
@@ -568,16 +560,14 @@ class _HomeState extends State<Home> {
       if (metadata != null) {
         if (metadata.getString('type') == 'stop') {
           globals.schedulesStopName = metadata.getString('name') ?? '';
-          GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(
-              metadata.getDouble('lat') ?? 0, metadata.getDouble('lon') ?? 0);
+          GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(metadata.getDouble('lat') ?? 0, metadata.getDouble('lon') ?? 0);
           _controller?.zoomTo(geoCoords);
           panelController.animatePanelToSnapPoint();
           RouteStateScope.of(context).go('/stops/${metadata.getString('id')}');
           return;
         } else if (metadata.getString('type') == 'bike') {
           globals.schedulesStopName = metadata.getString('name') ?? '';
-          GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(
-              metadata.getDouble('lat') ?? 0, metadata.getDouble('lon') ?? 0);
+          GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(metadata.getDouble('lat') ?? 0, metadata.getDouble('lon') ?? 0);
           _controller?.zoomTo(geoCoords);
           panelController.animatePanelToSnapPoint();
           RouteStateScope.of(context).go('/bike/${metadata.getString('id')}');
@@ -640,14 +630,6 @@ class _HomeState extends State<Home> {
       panelButtonBottomOffset = panelButtonBottomOffsetClosed + ((MediaQuery.of(context).size.height - 210) * position);
       _position = position;
     });
-  }
-
-  void _tooglePanel() {
-    if (panelController.isPanelOpen) {
-      panelController.close();
-    } else {
-      panelController.open();
-    }
   }
 
   void _closePanel() {

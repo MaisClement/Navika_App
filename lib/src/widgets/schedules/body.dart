@@ -70,16 +70,16 @@ Map allowedModes = {
 
 Map tabsModes = {
   'rail': {
-    'icon': const Icon(NavikaIcons.train_rer),
+    'icon': const Icon(NavikaIcons.IDFM_train_rer),
   },
   'metro': {
     'icon': const Icon(NavikaIcons.metro),
   },
   'tram': {
-    'icon': const Icon(NavikaIcons.tram),
+    'icon': const Icon(NavikaIcons.IDFM_tram),
   },
   'bus': {
-    'icon': const Icon(NavikaIcons.bus),
+    'icon': const Icon(NavikaIcons.IDFM_bus),
   },
 };
 

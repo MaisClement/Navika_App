@@ -8,6 +8,7 @@ import 'package:navika/src/api.dart';
 import 'package:navika/src/extensions/datetime.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
+import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bottom_sheets/route_options.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/route/listbutton.dart';
@@ -63,8 +64,7 @@ String getDateTitle(String type, DateTime dt, TimeOfDay tod) {
     d = '$d aujourd’hui';
   } else if (dt.isTomorrow()) {
     d = '$d demain';
-  }
-  else {
+  } else {
     d = '$d le ${dt.day} ${shortMonth[dt.month]}';
   }
 
@@ -91,7 +91,7 @@ String getTodTime(TimeOfDay tod) {
   return '${dthour}h$dtminute ';
 }
 
-void initJourney(Map? from, Map? to, context) async {    
+void initJourney(Map? from, Map? to, context) async {
   bool allowGps = await globals.hiveBox.get('allowGps');
 
   globals.selectedDate = DateTime.now();
@@ -99,18 +99,19 @@ void initJourney(Map? from, Map? to, context) async {
   globals.timeType = 'departure';
 
   // Arrivé et départ -> Affichage
-  if (from!= null && to!= null) {
+  if (from != null && to != null) {
     globals.route['from'] = from;
     globals.route['to'] = to;
-    RouteStateScope.of(context).go('/home/journeys'); 
+    RouteStateScope.of(context).go('/home/journeys');
   }
 
   // GPS et arrivé -> Affichage
-  else if (allowGps && globals.locationData != null && to!= null) {
-    globals.route['from']['id'] = '${globals.locationData?.longitude};${globals.locationData?.latitude}';
+  else if (allowGps && globals.locationData != null && to != null) {
+    globals.route['from']['id'] =
+        '${globals.locationData?.longitude};${globals.locationData?.latitude}';
     globals.route['from']['name'] = 'Votre position';
     globals.route['to'] = to;
-    RouteStateScope.of(context).go('/home/journeys'); 
+    RouteStateScope.of(context).go('/home/journeys');
   }
 
   // Arrivé -> Recherche du départ
@@ -120,14 +121,15 @@ void initJourney(Map? from, Map? to, context) async {
   }
 
   // Départ -> Recherche de l'arrivée
-  else if (from!= null) {
+  else if (from != null) {
     globals.route['from'] = from;
     RouteStateScope.of(context).go('/home/journeys/search/to');
   }
 
   // Gps -> Recherche de l'arrivée
   else if (allowGps && globals.locationData != null) {
-    globals.route['from']['id'] = '${globals.locationData?.longitude};${globals.locationData?.latitude}';
+    globals.route['from']['id'] =
+        '${globals.locationData?.longitude};${globals.locationData?.latitude}';
     globals.route['from']['name'] = 'Votre position';
     RouteStateScope.of(context).go('/home/journeys/search/to');
   }
@@ -138,10 +140,10 @@ void initJourney(Map? from, Map? to, context) async {
   }
 }
 
-void addToHistory (Map place) {
+void addToHistory(Map place) {
   List history = globals.hiveBox.get('historyPlaces');
 
-  if (history.any((element) => element['id'] == place['id']) ) {
+  if (history.any((element) => element['id'] == place['id'])) {
     return;
   }
 
@@ -175,6 +177,7 @@ class _JourneysState extends State<Journeys> {
   bool isLoading = false;
   List journeys = [];
   double turn = 0;
+  List allowedModes = globals.hiveBox.get('allowedModes');
 
   String currentTextInput = 'from';
 
@@ -216,10 +219,16 @@ class _JourneysState extends State<Journeys> {
   }
 
   Future<void> _getJourneys() async {
-    if (globals.route['from']['id'] == null || globals.route['to']['id'] == null) {
+    if (globals.route['from']['id'] == null ||
+        globals.route['to']['id'] == null) {
       return;
     }
-    DateTime dt = DateTime(globals.selectedDate.year, globals.selectedDate.month, globals.selectedDate.day, globals.selectedTime.hour, globals.selectedTime.minute);
+    DateTime dt = DateTime(
+        globals.selectedDate.year,
+        globals.selectedDate.month,
+        globals.selectedDate.day,
+        globals.selectedTime.hour,
+        globals.selectedTime.minute);
     String travelerType = globals.hiveBox.get('travelerType');
 
     setState(() {
@@ -227,13 +236,19 @@ class _JourneysState extends State<Journeys> {
     });
 
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getJourneys(globals.route['from']['id'], globals.route['to']['id'], dt, travelerType, globals.timeType);
+    Map result = await navikaApi.getJourneys(
+        globals.route['from']['id'],
+        globals.route['to']['id'],
+        dt,
+        travelerType,
+        globals.timeType,
+        getForbiddenModes());
 
     if (mounted) {
       setState(() {
         error = result['status'];
       });
-      
+
       if (result['value']?['journeys'] != null) {
         setState(() {
           journeys = result['value']?['journeys'];
@@ -277,21 +292,38 @@ class _JourneysState extends State<Journeys> {
             appBar: AppBar(
               title: Text(title, style: appBarTitle),
               actions: [
-                IconButton(
-                  icon: const Icon(
-                    NavikaIcons.options,
+                Container(
+                  decoration: allowedModes.length >= 7
+                    ? null
+                    : BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary,
+                        borderRadius: BorderRadius.circular(500),
+                      ),
+                    margin: const EdgeInsets.only(right: 10),
+                  child: IconButton(
+                    icon: const Icon(
+                      NavikaIcons.options,
+                    ),
+                    color: allowedModes.length >= 7
+                            ? Theme.of(context).colorScheme.onSurface
+                            : Theme.of(context).colorScheme.surface,
+                    tooltip: 'Options',
+                    onPressed: () {
+                      showModalBottomSheet<void>(
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: bottomSheetBorder,
+                          ),
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (BuildContext context) =>
+                            BottomRouteSettings(
+                              setState: setState,
+                            ));
+                      setState(() {
+                        allowedModes = globals.hiveBox.get('allowedModes');
+                      });
+                    },
                   ),
-                  tooltip: 'Options',
-                  onPressed: () {
-                    showModalBottomSheet<void>(
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: bottomSheetBorder,
-                        ),
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (BuildContext context) =>
-                            const BottomRouteSettings());
-                  },
                 ),
               ],
               scrolledUnderElevation: 0,
@@ -311,13 +343,17 @@ class _JourneysState extends State<Journeys> {
                           bottomLeft: Radius.circular(20),
                           bottomRight: Radius.circular(20),
                         ),
-                        color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primaryContainer
+                            .withOpacity(0.5),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            margin: const EdgeInsets.only(left: 20.0, top: 5.0, right: 20.0),
+                            margin: const EdgeInsets.only(
+                                left: 20.0, top: 5.0, right: 20.0),
                             child: SearchBox(
                               text: globals.route['from']['name'] ?? 'Départ',
                               icon: NavikaIcons.marker,
@@ -329,7 +365,8 @@ class _JourneysState extends State<Journeys> {
                               onTap: () {
                                 globals.route['from']['name'] = null;
                                 globals.route['from']['id'] = null;
-                                RouteStateScope.of(context).go('/home/journeys/search/from');
+                                RouteStateScope.of(context)
+                                    .go('/home/journeys/search/from');
                               },
                               //style: const TextStyle(
                               //  fontWeight: FontWeight.w400,
@@ -339,19 +376,23 @@ class _JourneysState extends State<Journeys> {
                             ),
                           ),
                           Container(
-                            margin: const EdgeInsets.only(left: 20.0, top: 5.0, right: 20.0, bottom: 10.0),
+                            margin: const EdgeInsets.only(
+                                left: 20.0,
+                                top: 5.0,
+                                right: 20.0,
+                                bottom: 10.0),
                             child: SearchBox(
                               text: globals.route['to']['name'] ?? 'Arrivée',
                               icon: NavikaIcons.finish_flag,
                               borderRadius: const BorderRadius.only(
-                                topRight: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
-                                bottomLeft: Radius.circular(20)
-                              ),
+                                  topRight: Radius.circular(20),
+                                  bottomRight: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20)),
                               onTap: () {
                                 globals.route['to']['name'] = null;
                                 globals.route['to']['id'] = null;
-                                RouteStateScope.of(context).go('/home/journeys/search/to');
+                                RouteStateScope.of(context)
+                                    .go('/home/journeys/search/to');
                               },
                               // style: const TextStyle(
                               //   fontWeight: FontWeight.w400,
@@ -361,53 +402,55 @@ class _JourneysState extends State<Journeys> {
                             ),
                           ),
                           Container(
-                            margin: const EdgeInsets.only(left: 20.0, top: 5.0, right: 20.0, bottom: 10.0),
+                            margin: const EdgeInsets.only(
+                                left: 20.0,
+                                top: 5.0,
+                                right: 20.0,
+                                bottom: 10.0),
                             child: SearchBox(
-                              text: getDateTitle(globals.timeType, globals.selectedDate, globals.selectedTime),
+                              text: getDateTitle(globals.timeType,
+                                  globals.selectedDate, globals.selectedTime),
                               icon: NavikaIcons.clock,
                               onTap: () {
                                 showModalBottomSheet(
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: bottomSheetBorder,
-                                  ),
-                                  isScrollControlled: true,
-                                  context: context,
-                                  builder: (context) {
-                                  return StatefulBuilder(
-                                    builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
-                                      return TimeSettings(
-                                        setState: setState,
-                                        setTimeType: setTimeType,
-                                        timeType: globals.timeType,
-                                        selectedDate: globals.selectedDate,
-                                        selectedTime: globals.selectedTime,
-                                        selectDate: selectDate,
-                                        selectTime: selectTime,
-                                        update: update,
-                                      );
-                                    }
-                                  );
-                                  }
-                                );
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: bottomSheetBorder,
+                                    ),
+                                    isScrollControlled: true,
+                                    context: context,
+                                    builder: (context) {
+                                      return StatefulBuilder(builder: (BuildContext
+                                              context,
+                                          StateSetter
+                                              setState /*You can rename this!*/) {
+                                        return TimeSettings(
+                                          setState: setState,
+                                          setTimeType: setTimeType,
+                                          timeType: globals.timeType,
+                                          selectedDate: globals.selectedDate,
+                                          selectedTime: globals.selectedTime,
+                                          selectDate: selectDate,
+                                          selectTime: selectTime,
+                                          update: update,
+                                        );
+                                      });
+                                    });
                               },
                             ),
                           ),
                         ],
                       ),
                     ),
-
                     Expanded(
                       child: RefreshIndicator(
                         key: _refreshIndicatorKey,
                         onRefresh: _getJourneys,
                         child: ListView(
                           children: [
-                            
                             if (error != ApiStatus.ok)
                               ErrorBlock(
                                 error: error,
                               )
-                            
                             else if (journeys.isNotEmpty)
                               for (var journey in journeys)
                                 RouteListButton(
@@ -418,12 +461,12 @@ class _JourneysState extends State<Journeys> {
                                         .go('/home/journeys/details');
                                   },
                                 )
-                            
                             else if (journeys.isEmpty && isLoading == false)
                               const PlacesEmpty()
-                            
                             else
-                              for (var i = 0; i < (Random().nextInt(4) + 4).toDouble() ; i++)
+                              for (var i = 0;
+                                  i < (Random().nextInt(4) + 4).toDouble();
+                                  i++)
                                 const RouteListSkelton()
                           ],
                         ),
@@ -438,9 +481,8 @@ class _JourneysState extends State<Journeys> {
                   height: 55,
                   child: Material(
                     borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(50),
-                      bottomLeft: Radius.circular(50)
-                    ),
+                        topLeft: Radius.circular(50),
+                        bottomLeft: Radius.circular(50)),
                     color: getJourneysColor(context),
                     child: InkWell(
                       borderRadius: const BorderRadius.only(
@@ -449,16 +491,16 @@ class _JourneysState extends State<Journeys> {
                       ),
                       onTap: () => invert(),
                       child: AnimatedRotation(
-                          turns: turn / 2,
-                          duration: const Duration(milliseconds: 300),
-                        child: Icon(NavikaIcons.order, 
+                        turns: turn / 2,
+                        duration: const Duration(milliseconds: 300),
+                        child: Icon(
+                          NavikaIcons.order,
                           color: accentColor(context),
                         ),
                       ),
                     ),
                   ),
                 ),
-                
               ],
             )),
       );

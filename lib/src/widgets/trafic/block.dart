@@ -35,11 +35,13 @@ class TraficBlock extends StatelessWidget {
   final String? name;
   final Map? line;
   final List trafic;
+  final bool isLoading;
 
   const TraficBlock({
     this.name,
     this.line,
     required this.trafic,
+    this.isLoading = false,
     super.key,
   });
 
@@ -76,7 +78,11 @@ class TraficBlock extends StatelessWidget {
             height: 20,
             top: 33,
             left: 33,
-            child: Image(image: getSlugImage( getTrafic(trafic, name, line)['severity'] ?? 0 )),
+            child: isLoading 
+            ? const CircularProgressIndicator(
+              strokeWidth: 3,
+            )
+            : Image(image: getSlugImage( getTrafic(trafic, name, line)['severity'] ?? 0 )),
           )
         ],
       );

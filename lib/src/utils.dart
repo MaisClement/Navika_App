@@ -623,3 +623,17 @@ String timeToString(TimeOfDay tod) {
 
   return '$dthour:$dtminute:00';
 }
+
+List getForbiddenModes() {
+  List modes = globals.hiveBox.get('allowedModes');
+  List allModes = ['rail', 'metro', 'tram', 'bus', 'cable', 'funicular', 'boat'];
+  List res = [];
+
+  // foreach allmodes not in modes, add it to res;
+  for (var mode in allModes) {
+    if (!modes.contains(mode)) {
+      res.add(mode);
+    }
+  }
+  return res;
+}

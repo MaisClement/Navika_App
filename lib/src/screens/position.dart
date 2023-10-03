@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/data/app.dart' as app;
 import 'package:location/location.dart' as gps;
 import 'package:navika/src/style/style.dart';
 
@@ -22,7 +23,7 @@ class _PositionState extends State<Position> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           backgroundColor: mainColor(context),
-          title: Text(globals.NAME, 
+          title: Text(app.name, 
             style: appBarTitle.copyWith(color: Colors.white)
           ),
           leading: GestureDetector(

@@ -72,8 +72,7 @@ class _HomeSettingsState extends State<HomeSettings>
                 bottom: 5,
               ),
               margin: const EdgeInsets.only(
-                top: 5,
-                bottom: 5,
+                top: 10,
               ),
               child: Row(
                 children: [

@@ -19,7 +19,7 @@ class SettingsLink extends StatelessWidget {
   Widget build(BuildContext context) => GestureDetector(
         child: Container(
           padding:
-              const EdgeInsets.only(left: 15, right: 10, top: 5, bottom: 5),
+              const EdgeInsets.only(left: 20, right: 10, top: 5, bottom: 5),
           child: icon != null
               ? Row(
                   children: [

@@ -7,11 +7,9 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/bottom_sheets/add_favorite.dart';
 
 class SchedulesPannel extends StatelessWidget {
-  final void Function() tooglePanel;
   final String id;
 
   const SchedulesPannel({
-    required this.tooglePanel,
     required this.id,
     super.key,
   });
@@ -41,15 +39,12 @@ class SchedulesPannel extends StatelessWidget {
               Container(
                 height: 20,
               ),
-              GestureDetector(
-                onTap: tooglePanel,
-                child: Container(
-                  width: 40,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[400],
-                    borderRadius: BorderRadius.circular(30),
-                  ),
+              Container(
+                width: 40,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: Colors.grey[400],
+                  borderRadius: BorderRadius.circular(30),
                 ),
               ),
               Container(
