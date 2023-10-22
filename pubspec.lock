@@ -829,6 +829,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.14.0"
+  pinch_zoom_release_unzoom:
+    dependency: "direct main"
+    description:
+      name: pinch_zoom_release_unzoom
+      sha256: "4a0115217ffd23e66b1fdb1e5ef25c9ecdd79fbb2fcc31f20678b2e5a25dcbdb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.12"
   platform:
     dependency: transitive
     description:

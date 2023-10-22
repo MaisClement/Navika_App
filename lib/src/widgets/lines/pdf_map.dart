@@ -5,15 +5,18 @@ import 'package:internet_file/internet_file.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:pdfx/pdfx.dart';
+import 'package:pinch_zoom_release_unzoom/pinch_zoom_release_unzoom.dart';
 
 class PDFMap extends StatefulWidget {
   final String url;
   final double size;
   final bool isLocalData;
+  final Function setBlockScroll;
 
   const PDFMap({
     required this.url,
     required this.size,
+    required this.setBlockScroll,
     this.isLocalData = false,
     super.key,
   });
@@ -27,6 +30,8 @@ class _PDFMapState extends State<PDFMap> with SingleTickerProviderStateMixin {
   bool isError = false;
   bool isLoading = true;
   double width = double.infinity;
+
+  bool blockScroll = false;
 
   Future<void> getPdf(String url, isLocalData, size) async {
     try {
@@ -47,8 +52,8 @@ class _PDFMapState extends State<PDFMap> with SingleTickerProviderStateMixin {
       double pageWidth = page.width / page.height * size;
 
       final pageImage = (await page.render(
-        width: page.width,
-        height: page.height,
+        width: page.width < 1000 ? page.width : page.width * 2,
+        height: page.width < 1000 ? page.height : page.height * 2,
         format: PdfPageImageFormat.png,
         backgroundColor: '#ffffff',
       ))!;
@@ -69,6 +74,13 @@ class _PDFMapState extends State<PDFMap> with SingleTickerProviderStateMixin {
     }
   }
 
+  void setBlockScroll(value) {
+    widget.setBlockScroll(value);
+    setState(() {
+      blockScroll = value;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -82,27 +94,37 @@ class _PDFMapState extends State<PDFMap> with SingleTickerProviderStateMixin {
         children: [
           if (isLoading) const LinearProgressIndicator(),
           if (isError == false)
-          Container(
-            color: Theme.of(context).colorScheme.background,
-            height: widget.size,
-            width: width,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                SizedBox(
-                  height: widget.size,
-                  width: width,
-                  child: isLoading
-                      ? null
-                      : Image.memory(
-                          image,
-                          height: widget.size,
-                          width: width,
-                        ),
-                )
-              ],
+            Container(
+              color: Theme.of(context).colorScheme.background,
+              height: widget.size,
+              width: width,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                physics: blockScroll
+                    ? const NeverScrollableScrollPhysics()
+                    : const ScrollPhysics(),
+                children: [
+                  SizedBox(
+                    height: widget.size,
+                    width: width,
+                    child: isLoading
+                        ? null
+                        : PinchZoomReleaseUnzoomWidget(
+                            twoFingersOn: () => setBlockScroll(true),
+                            twoFingersOff: () => Future.delayed(
+                              PinchZoomReleaseUnzoomWidget.defaultResetDuration,
+                              () => setBlockScroll(false),
+                            ),
+                            child: Image.memory(
+                              image,
+                              height: widget.size,
+                              width: width,
+                            ),
+                          ),
+                  )
+                ],
+              ),
             ),
-          ),
         ],
       );
 }

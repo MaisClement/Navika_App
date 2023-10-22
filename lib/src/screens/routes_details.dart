@@ -360,6 +360,14 @@ class _RoutesDetailsState extends State<RoutesDetails>
   bool _isFavorite = false;
   bool _isAlert = false;
 
+  bool blockScroll = false;
+
+  void setBlockScroll(value) {
+    setState(() {
+      blockScroll = value;
+    });
+  }
+
   void update() {
     setState(() {
       _isFavorite = isFavoriteLine(line['id']);
@@ -436,6 +444,9 @@ class _RoutesDetailsState extends State<RoutesDetails>
           ],
         ),
         body: ListView(
+          physics: blockScroll 
+            ? const NeverScrollableScrollPhysics()
+            : const ScrollPhysics(),  
           children: [
             if (error != ApiStatus.ok)
               ErrorBlock(
@@ -451,6 +462,7 @@ class _RoutesDetailsState extends State<RoutesDetails>
                     PDFMap(
                       url: getMapUrl(line)!,
                       isLocalData: fromlocaldata,
+                      setBlockScroll: setBlockScroll,
                       size: 200,
                     )
                   else

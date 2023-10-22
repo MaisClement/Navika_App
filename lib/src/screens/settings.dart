@@ -267,7 +267,7 @@ class _SettingsState extends State<Settings> {
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
               child: const Text(
-                'Navika repose sur des technologies et services de « HERE Global B.V.» par le biais de la carte ou de certaines fonctionnalités de recherche de lieu. Les détails de leur politique de confidentialité est disponible ci-dessus.',
+                'Navika repose sur des technologies et services de « HERE Global B.V.» par le biais de la carte ou de certaines fonctionnalités de recherche de lieu. La politique de confidentialité de HERE est disponible ci-dessus.',
                 style: TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,
