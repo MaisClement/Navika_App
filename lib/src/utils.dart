@@ -275,6 +275,20 @@ String getTime(String time) {
   return '$dthour:$dtminute';
 }
 
+String getHour(String time) {
+  if (time == '') {
+    return '';
+  }
+
+  DateTime dttime = DateTime.parse(time);
+
+  var now = DateTime.now();
+  var timezoneOffsetInMinutes = now.timeZoneOffset.inMinutes;
+  dttime = dttime.add(Duration(minutes: timezoneOffsetInMinutes));
+
+  return dttime.hour.toString();
+}
+
 String makeTime(String time) {
   if (time == '') {
     return '';

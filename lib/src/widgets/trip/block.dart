@@ -302,14 +302,14 @@ class TripBlock extends StatelessWidget {
 TextStyle getStyleByEffect(departureState, arrivalState) {
   if (departureState == 'deleted' && arrivalState == 'deleted') {
     return const TextStyle(
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: FontWeight.w700,
         fontFamily: 'Segoe Ui',
         color: Color(0xff808080),
         decoration: TextDecoration.lineThrough);
   } else {
     return const TextStyle(
-      fontSize: 14,
+      fontSize: 16,
       fontWeight: FontWeight.w700,
       fontFamily: 'Segoe Ui',
     );

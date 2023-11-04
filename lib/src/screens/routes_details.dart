@@ -226,10 +226,6 @@ List<Widget> getTimeTableWidgets(Map line, context, fromlocaldata) {
 List<Widget> getStops(Map line, context) {
   List<Widget> res = [];
 
-  if (!kDebugMode) {
-    return res;
-  }
-
   res.add(
     const Divider(
       color: Color(0xff808080),
@@ -315,7 +311,7 @@ List<Widget> getStops(Map line, context) {
                     Text(
                       line['stops'][i]['name'],
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 16,
                         fontWeight: FontWeight.w700,
                         fontFamily: 'Segoe Ui',
                       ),
