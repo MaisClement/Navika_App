@@ -90,6 +90,7 @@ class SchedulesBody extends StatefulWidget {
   final bool addMargin;
 
   const SchedulesBody({
+    
     required this.id,
     required this.scrollController, 
     this.addMargin = false, 

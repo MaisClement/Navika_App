@@ -54,9 +54,7 @@ class SchedulesPannel extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    width: 48,
-                  ),
+                  SizedBox(height: 48),
                   Text(
                     globals.schedulesStopName,
                     style: TextStyle(

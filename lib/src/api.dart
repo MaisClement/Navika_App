@@ -223,8 +223,10 @@ class NavikaApi {
     return doRequest(url);
   }
 
-  Future getLineSchedules(String id, String stopId) async {
-    String url = buildUrl('${globals.API_LINES}/$id/schedules/$stopId', {});
+  Future getLineSchedules(String id, String stopId, DateTime datetime) async {
+    String url = buildUrl('${globals.API_LINES}/$id/schedules/$stopId', {
+      'date': datetime.toIso8601String().substring(0, 10),
+    });
 
     return doRequest(url);
   }

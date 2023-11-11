@@ -22,8 +22,9 @@ class BikeBody extends StatefulWidget {
 
 class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin {
 
-  String name = globals.schedulesStopName;
+  String name = '';
   String id = '';
+  bool isLoading = true;
 
   Map bikeStation = {};
   late Timer _update;
@@ -34,13 +35,18 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       init();
-      await _getSchedules();
+      await _getBikes();
     });
   }
-
+  
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void didUpdateWidget(BikeBody oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Vérifiez si les paramètres ont changé, et si c'est le cas, appelez setState pour reconstruire le widget
+    if (widget.id != id) {
+      init();
+      _getBikes();
+    }
   }
 
   @override
@@ -51,11 +57,16 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
 
   void init() {
     setState(() {
+      name = globals.schedulesStopName;
       id = widget.id;
     });
   }
 
-  Future<void> _getSchedules() async {
+  Future<void> _getBikes() async {
+    setState(() {
+      isLoading = true;
+    });
+    
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getBikeStations(id);
 
@@ -67,6 +78,7 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
       if (result['value'] != null) {
         setState(() {
           bikeStation = result['value'];
+          isLoading = false;
         });
       }
     }
@@ -76,7 +88,7 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) => Column(
         children: [
           const SizedBox(height: 60),
-          if (bikeStation.isEmpty)
+          if (isLoading)
             const Column(
               children: [
                 SizedBox(height: 20),

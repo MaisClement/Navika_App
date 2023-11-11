@@ -38,17 +38,22 @@ class BikePannel extends StatelessWidget {
         Container(
           height: 10,
         ),
-        Container(
-          margin: const EdgeInsets.only(left: 10, right: 10),
-          padding: const EdgeInsets.only(left: 10.0, bottom: 15),
-          child: Text(globals.schedulesStopName, 
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'Segoe Ui',
-              color: accentColor(context),
-            )
-          ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(height: 48),
+            Text(
+              globals.schedulesStopName,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Segoe Ui',
+                color: accentColor(context),
+              ),
+            ),
+            SizedBox(height: 48),
+          ],
         ),
       ],
     ),

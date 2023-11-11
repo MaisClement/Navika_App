@@ -276,7 +276,7 @@ class _HomeState extends State<Home> {
                   bottomLeft: Radius.zero,
                   bottomRight: Radius.zero,
                 ),
-                snapPoint: widget.displayType == 'bike' ? 0.25 : 0.55,
+                snapPoint: 0.55,
                 minHeight: widget.displayType == 'null' ? 80 : 90,
                 maxHeight: MediaQuery.of(context).size.height - 130,
                 controller: panelController,
