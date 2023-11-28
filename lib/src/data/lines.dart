@@ -88,7 +88,7 @@ final LINES = LinesInfo()
 ..addLine('IDFM:C02317', 'T9', 'Tram T9',   'assets/img/icons/lines/TRAM_T9.png',  'assets/img/icons/lines/TRAM_T9_light.png',  'TRAM','assets/img/icons/tram.png', 'assets/img/icons/tram_light.png')
 ..addLine('IDFM:C02528', 'T10', 'Tram T10', 'assets/img/icons/lines/TRAM_T10.png',  'assets/img/icons/lines/TRAM_T10_light.png',  'TRAM','assets/img/icons/tram.png', 'assets/img/icons/tram_light.png')
 ..addLine('IDFM:C01999', 'T11', 'Tram T11', 'assets/img/icons/lines/TRAM_T11.png', 'assets/img/icons/lines/TRAM_T11_light.png', 'TRAM','assets/img/icons/tram.png', 'assets/img/icons/tram_light.png')
-..addLine('IDFM:T12', 'T12', 'Tram T12', 'assets/img/icons/lines/TRAM_T12.png', 'assets/img/icons/lines/TRAM_T12_light.png', 'TRAM','assets/img/icons/tram.png', 'assets/img/icons/tram_light.png')
+..addLine('IDFM:C02529', 'T12', 'Tram T12', 'assets/img/icons/lines/TRAM_T12.png', 'assets/img/icons/lines/TRAM_T12_light.png', 'TRAM','assets/img/icons/tram.png', 'assets/img/icons/tram_light.png')
 ..addLine('IDFM:C02344', 'T13', 'Tram T13', 'assets/img/icons/lines/TRAM_T13.png', 'assets/img/icons/lines/TRAM_T13_light.png', 'TRAM','assets/img/icons/tram.png', 'assets/img/icons/tram_light.png')
 
 ..addLine('IDFM:C01737', 'TRANSILIEN H', 'Transilien H', 'assets/img/icons/lines/TRAIN_H.png', 'assets/img/icons/lines/TRAIN_H_light.png', 'TRAIN','assets/img/icons/train.png','assets/img/icons/train_light.png')

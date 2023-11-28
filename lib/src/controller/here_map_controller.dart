@@ -50,7 +50,7 @@ class HereController {
     if (zoomAuto) {
       double distanceToEarthInMeters = 1000;
       if (locationData.accuracy != null && locationData.accuracy! > 0) {
-        distanceToEarthInMeters = locationData.accuracy! + 1000;
+        distanceToEarthInMeters = (locationData.accuracy! * 2) + 1000;
       }
       MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
       _hereMapController.camera.lookAtPointWithMeasure(GeoCoordinates(locationData.latitude ?? 0, locationData.longitude ?? 0), mapMeasureZoom);
