@@ -52,8 +52,10 @@ class RouteBody extends StatelessWidget {
         padding: const EdgeInsets.only(top: 90),
         children: [
           ...getRouteBlock(journey),
-          Fare(journey: journey),
-          Emission(journey: journey),
+          if (journey['fare']!= null && journey['fare'] > 0)
+            Fare(journey: journey),
+          if (journey['co2_emission'] != null && journey['co2_emission'] > 0)
+            Emission(journey: journey),
           const SizedBox(
             height: 30,
           ),

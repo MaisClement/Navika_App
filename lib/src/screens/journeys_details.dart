@@ -325,36 +325,37 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                   ),
                 ),
               ),
-              Positioned(
-                top: 0,
-                right: 0,
-                child: SafeArea(
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 10, right: 8, bottom: 15),
-                    width: 40,
-                    height: 40,
-                    child: Material(
-                      borderRadius: BorderRadius.circular(500),
-                      elevation: 4.0,
-                      shadowColor:
-                          Colors.black.withOpacity(getOpacity(_position)),
-                      color: Theme.of(context).colorScheme.surface,
-                      child: InkWell(
+              if (journey['unique_id'] != null)
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: SafeArea(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 10, right: 8, bottom: 15),
+                      width: 40,
+                      height: 40,
+                      child: Material(
                         borderRadius: BorderRadius.circular(500),
-                        onTap: () => saveJourney(journey['unique_id'], context),
-                        child: isSavedJourney(journey['unique_id']) ? Icon(
-                          NavikaIcons.saved, 
-                          color: Theme.of(context).colorScheme.onSurface,
-                        )
-                        : Icon(
-                          NavikaIcons.save, 
-                          color: Theme.of(context).colorScheme.onSurface,
+                        elevation: 4.0,
+                        shadowColor:
+                            Colors.black.withOpacity(getOpacity(_position)),
+                        color: Theme.of(context).colorScheme.surface,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(500),
+                          onTap: () => saveJourney(journey['unique_id'], context),
+                          child: isSavedJourney(journey['unique_id']) ? Icon(
+                            NavikaIcons.saved, 
+                            color: Theme.of(context).colorScheme.onSurface,
+                          )
+                          : Icon(
+                            NavikaIcons.save, 
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
               Positioned(
                 right: 20,
                 bottom: panelButtonBottomOffset,

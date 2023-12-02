@@ -106,7 +106,7 @@ class _SchedulesState extends State<Schedules> {
             else
               for (var fav in favs)
                 FavoriteBody(
-                  key: ValueKey(fav['id']),
+                  key: ValueKey(fav['id'] + fav['line']),
                   id: fav['id'],
                   name: fav['name'],
                   line: fav['line'],
