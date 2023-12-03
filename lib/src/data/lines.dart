@@ -99,6 +99,7 @@ final LINES = LinesInfo()
 ..addLine('IDFM:C01730', 'TRANSILIEN P', 'Transilien P', 'assets/img/icons/lines/TRAIN_P.png', 'assets/img/icons/lines/TRAIN_P_light.png', 'TRAIN','assets/img/icons/train.png','assets/img/icons/train_light.png')
 ..addLine('IDFM:C01731', 'TRANSILIEN R', 'Transilien R', 'assets/img/icons/lines/TRAIN_R.png', 'assets/img/icons/lines/TRAIN_R_light.png', 'TRAIN','assets/img/icons/train.png','assets/img/icons/train_light.png')
 ..addLine('IDFM:C01741', 'TRANSILIEN U', 'Transilien U', 'assets/img/icons/lines/TRAIN_U.png', 'assets/img/icons/lines/TRAIN_U_light.png', 'TRAIN','assets/img/icons/train.png','assets/img/icons/train_light.png')
+..addLine('IDFM:V01741', 'TRANSILIEN V', 'Transilien V', 'assets/img/icons/lines/TRAIN_V.png', 'assets/img/icons/lines/TRAIN_V_light.png', 'TRAIN','assets/img/icons/train.png','assets/img/icons/train_light.png')
 
 ..addLine('IDFM:C01648', 'N133', 'N133', 'assets/img/icons/noctilien/NOCT_133.png', 'assets/img/icons/noctilien/NOCT_133.png',  'NOCTILIEN','assets/img/icons/noctilien.png','assets/img/icons/noctilien_light.png')
 ..addLine('IDFM:C01396', 'N42', 'N42',   'assets/img/icons/noctilien/NOCT_42.png',  'assets/img/icons/noctilien/NOCT_42.png',   'NOCTILIEN','assets/img/icons/noctilien.png','assets/img/icons/noctilien_light.png')

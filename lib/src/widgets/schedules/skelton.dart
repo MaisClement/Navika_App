@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:shimmer/shimmer.dart';
@@ -37,30 +36,14 @@ class SchedulesSkelton extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(top: 5, bottom: 5),
-                            width: (Random().nextInt(200) + 50).toDouble(),
-                            height: 23,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(500),
-                              color: getShimmerBaseColor(context),
-                            ),
-                          ),
-                        ],
+                      Container(
+                        margin: const EdgeInsets.only(top: 5.0),
+                        height: 55,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
+                          color: getShimmerBaseColor(context),
+                        ),
                       ),
-                      Row(children: [
-                        for (var j = 0; j < (Random().nextInt(3) + 1); j++)
-                          Container(
-                              margin: const EdgeInsets.only(top: 5, right: 10),
-                              width: 70,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: getShimmerBaseColor(context),
-                                borderRadius: BorderRadius.circular(5),
-                              ))
-                      ]),
                     ],
                   ),
                 ),
@@ -87,6 +70,9 @@ class SchedulesSkelton extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),   
             ],
           ),
         ),

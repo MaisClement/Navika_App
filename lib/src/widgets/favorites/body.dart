@@ -145,7 +145,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
             ErrorMessage(
               error: error,
             )
-          else if ( mode == '' && schedules.isEmpty )
+          else if (mode == '' && schedules.isEmpty )
             const SchedulesSkelton()
           else if (mode == 'rail' || mode == 'nationalrail')
             Column(
@@ -179,6 +179,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
                 for (var line in schedules)
                   SchedulesBlock(
                     line: line,
+                    id: widget.id,
                     update: widget.update,
                     limited: true,
                   ),

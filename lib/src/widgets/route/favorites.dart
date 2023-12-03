@@ -7,7 +7,7 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/route/favorite.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
 
-List<Widget> buildFavorites(List journeys, context) {
+List<Widget> buildFavorites(List journeys, update, context) {
   journeys = sortJourneys(journeys);
   List<Widget> widgets = [];
 
@@ -64,6 +64,7 @@ List<Widget> buildFavorites(List journeys, context) {
     widgets.add(
       RouteFavorite(
         journey: journeys[i],
+        update: update
       ),
     );
   }
@@ -73,9 +74,11 @@ List<Widget> buildFavorites(List journeys, context) {
 
 class RouteFavorites extends StatelessWidget {
   final List journeys;
+  final Function update;
 
   const RouteFavorites({
     required this.journeys,
+    required this.update,
     super.key,
   });
 
@@ -121,7 +124,7 @@ class RouteFavorites extends StatelessWidget {
                 ),
               )
             else
-              ...buildFavorites(journeys, context)
+              ...buildFavorites(journeys, update, context)
 
             ],
         ),

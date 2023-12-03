@@ -194,12 +194,11 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           }
         }
         if (pathTemplate == '/routes/details/:id/schedules/:stop_id') {
-          routeState.go('/routes/details/$id');
+          routeState.go(globals.path[globals.path.length - 2]);
+          globals.path = [...globals.path.slice(0, globals.path.length - 2)];
         }
 
-        if (pathTemplate == '/trip/details/:id' ||
-            pathTemplate == '/trip/details/:id/from/:from' ||
-            pathTemplate == '/trip/details/:id/from/:from/to/:to') {
+        if (pathTemplate == '/trip/details/:id' || pathTemplate == '/trip/details/:id/from/:from' || pathTemplate == '/trip/details/:id/from/:from/to/:to') {
           routeState.go(globals.path[globals.path.length - 2]);
           globals.path = [...globals.path.slice(0, globals.path.length - 2)];
         }
@@ -341,8 +340,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           )
         else if (tripId != null &&
             fromId != null &&
-            pathTemplate ==
-                '/trip/details/:id/from/:from') // /schedules/stops/:id
+            pathTemplate == '/trip/details/:id/from/:from') // /schedules/stops/:id
           MaterialPage<void>(
             key: const ValueKey('Schedules Stops'),
             child: TripDetails(

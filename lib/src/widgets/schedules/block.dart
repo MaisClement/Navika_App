@@ -11,11 +11,13 @@ import 'package:navika/src/data/global.dart' as globals;
 
 class SchedulesBlock extends StatelessWidget {
   final Map line;
+  final String id;
   final Function update;
   final bool limited;
 
   const SchedulesBlock({
     required this.line,
+    required this.id,
     required this.update,
     this.limited = false,
     super.key,
@@ -99,7 +101,7 @@ class SchedulesBlock extends StatelessWidget {
               ),
             ),
             
-          SchedulesLines(line: line, update: update),
+          SchedulesLines(line: line, id: id, update: update),
           Container(
             height: 3,
             decoration: BoxDecoration(

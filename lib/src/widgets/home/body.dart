@@ -33,6 +33,7 @@ class HomeBody extends StatelessWidget {
     required this.update,
     super.key,
   });
+  
 
   List<Widget> _buildHome(context) {
     List<Widget> res = [];
@@ -123,7 +124,8 @@ class HomeBody extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       RouteFavorites(
-                        journeys: journeys.sublist(0, getMaxLength(2, journeys))
+                        journeys: journeys.sublist(0, getMaxLength(2, journeys)),
+                        update: update
                       ),
                       Center(
                         child: ElevatedButton(

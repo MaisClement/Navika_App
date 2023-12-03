@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
+import 'package:navika/src/widgets/bottom_sheets/remove_journeys.dart';
 import 'package:navika/src/widgets/route/lines.dart';
 
 class RouteFavorite extends StatelessWidget {
   final Map journey;
+  final Function update;
 
   const RouteFavorite({
     required this.journey,
+    required this.update,
     super.key,
   });
 
@@ -19,6 +22,19 @@ class RouteFavorite extends StatelessWidget {
     ),
     child: InkWell(
         onTap: () => RouteStateScope.of(context).go('/home/journeys/get/${journey['unique_id']}',),
+        onLongPress:  () {
+          showModalBottomSheet<void>(
+            shape: const RoundedRectangleBorder(
+              borderRadius: bottomSheetBorder,
+            ),
+            isScrollControlled: true,
+            context: context,
+            builder: (BuildContext context) =>
+              BottomRemoveJourneys(
+                id: journey['unique_id'],
+                update: update,
+              ));
+        },
         child: Container(
           padding: const EdgeInsets.only(
             left: 20,

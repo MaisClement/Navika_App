@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
+import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/schedules/timer_block.dart';
+import 'package:navika/src/data/global.dart' as globals;
 
 class SchedulesLines extends StatelessWidget {
   final Map line;
+  final String id;
   final Function update;
 
   const SchedulesLines({
     required this.line,
+    required this.id,
     required this.update,
     super.key,
   });
+
+  handleTapDetails(context, terminus) {
+    globals.direction = terminus['name'];
+    RouteStateScope.of(context).go('/routes/details/${line["id"]}/schedules/$id');
+  }
 
   @override
   Widget build(BuildContext context) => Container(
@@ -24,16 +33,25 @@ class SchedulesLines extends StatelessWidget {
               voidData(context)
             else
               for (var terminus in line['terminus_schedules'])
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                Container(
+                  margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                  height: 55,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7),
+                    color: departureList(context, HexColor.fromHex(line['color'])),
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(7),
+                    onTap: () {
+                      handleTapDetails(context, terminus);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 10.0),
                       child: Row(
                         children: [
                           Expanded(
                             child: Text(
-                              '➜ ${terminus['name']}',
+                              '➜  ${terminus['name']}',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -45,28 +63,19 @@ class SchedulesLines extends StatelessWidget {
                               overflow: TextOverflow.fade,
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        if (terminus['schedules'].length > 0)
-                          for (var departure in terminus['schedules'].sublist(0, getMaxLength(5, terminus['schedules'])))
+                          for (var departure in terminus['schedules']
+                              .sublist(0, getMaxLength(2, terminus['schedules'])))
                             TimerBlock(
                               time: departure['departure_date_time'],
                               state: departure['state'],
                               update: update,
-                              color: departureList(context, HexColor.fromHex(line['color'])),
+                              color: departureList(
+                                  context, HexColor.fromHex(line['color'])),
                             )
-                        else
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: voidData(context),
-                          )
-                      ],
+                        ],
+                      ),
                     ),
-                  ],
+                  ),
                 )
           ],
         ),

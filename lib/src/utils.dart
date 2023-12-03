@@ -274,7 +274,6 @@ String getTime(String time) {
 
   return '$dthour:$dtminute';
 }
-
 String getHour(String time) {
   if (time == '') {
     return '';
@@ -287,6 +286,34 @@ String getHour(String time) {
   dttime = dttime.add(Duration(minutes: timezoneOffsetInMinutes));
 
   return dttime.hour.toString();
+}
+int getIntHour(String time) {
+  if (time == '') {
+    return 3;
+  }
+
+  DateTime dttime = DateTime.parse(time);
+
+  var now = DateTime.now();
+  var timezoneOffsetInMinutes = now.timeZoneOffset.inMinutes;
+  dttime = dttime.add(Duration(minutes: timezoneOffsetInMinutes));
+
+  return dttime.hour;
+}
+
+// Is dateTime is in past
+bool isInPast(String time) {
+  if (time == '') {
+    return false;
+  }
+
+  DateTime dttime = DateTime.parse(time);
+
+  var now = DateTime.now();
+  var timezoneOffsetInMinutes = now.timeZoneOffset.inMinutes;
+  dttime = dttime.add(Duration(minutes: timezoneOffsetInMinutes));
+  now = now.add(Duration(minutes: timezoneOffsetInMinutes));
+  return dttime.isBefore(now);
 }
 
 String makeTime(String time) {
@@ -364,6 +391,19 @@ Color getSchedulesColorByState(state, context) {
       return accentColor(context);
     default:
       return const Color(0xffa9a9a9);
+  }
+}
+
+Color getSchedulesColorByStateList(state, context) {
+  switch (state) {
+    case 'cancelled':
+      return const Color(0xffeb2031);
+    case 'delayed':
+      return const Color(0xfff68f53);
+    case 'ontime':
+      return Theme.of(context).colorScheme.onBackground;
+    default:
+      return Theme.of(context).colorScheme.onBackground;
   }
 }
 

@@ -273,6 +273,10 @@ class _TraficState extends State<Trafic> {
                                   name: 'TRANSILIEN U',
                                   trafic: trafic,
                                 ),
+                                TraficBlock(
+                                  name: 'TRANSILIEN V',
+                                  trafic: trafic,
+                                ),
                               ],
                             ),
                           ),

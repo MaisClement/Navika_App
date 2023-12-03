@@ -175,6 +175,7 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
         } else {
           tabs.add(SchedulesList(
             schedules: schedules,
+            id: widget.id,
             modes: allowes.key,
             scrollController: scrollController,
             update: update,

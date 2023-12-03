@@ -56,14 +56,16 @@ class _JourneysListState extends State<JourneysList> with SingleTickerProviderSt
                 ListView(
                   children: [
                     RouteFavorites(
-                      journeys: getFutureJourneys(journeys)
+                      journeys: getFutureJourneys(journeys),
+                      update: update,
                     ),
                   ],
                 ),
                 ListView(
                   children: [
                     RouteFavorites(
-                      journeys: getPastJourneys(journeys)
+                      journeys: getPastJourneys(journeys),
+                      update: update,
                     ),
                   ],
                 ),

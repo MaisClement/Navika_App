@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/widgets/bottom_sheets/add_favorite.dart';
-import 'package:navika/src/widgets/bottom_sheets/grouped_departures.dart';
 import 'package:navika/src/widgets/schedules/body.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style/style.dart';
@@ -44,22 +43,6 @@ class SchedulesDetails extends StatelessWidget {
         appBar: AppBar(
           title: Text(globals.schedulesStopName, style: appBarTitle),
           actions: [
-            IconButton(
-              icon: isFavorite(id)
-                  ? const Icon(NavikaIcons.favorites)
-                  : const Icon(NavikaIcons.add_bookmark),
-              tooltip: 'Ajouter aux favoris',
-              onPressed: () {
-                showModalBottomSheet<void>(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: bottomSheetBorder,
-                    ),
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (BuildContext context) =>
-                        BottomGroupedDepartures(update: update));
-              },
-            ),
             IconButton(
               icon: isFavorite(id)
                   ? const Icon(NavikaIcons.favorites)
