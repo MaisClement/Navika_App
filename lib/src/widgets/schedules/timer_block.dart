@@ -4,6 +4,7 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bottom_sheets/time.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/widgets/utils/real_time.dart';
 
 class TimerBlock extends StatelessWidget {
   final String time;
@@ -71,7 +72,7 @@ class TimerBlock extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       if (state != 'theorical')
-                        SvgPicture.asset('assets/img/sign_top.svg',
+                        RealTime(
                           color: getSchedulesColorByState(state, context),
                           height: 15,
                         ),

@@ -6,6 +6,8 @@ import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/screens/routes_schedules.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
+import 'package:navika/src/widgets/utils/real_time.dart';
+import 'package:shimmer/shimmer.dart';
 
 class RoutesSchedulesList extends StatelessWidget {
   final Map schedule;
@@ -78,12 +80,9 @@ class RoutesSchedulesList extends StatelessWidget {
                 ),
               ),
               if (schedule['date_time']['state'] != 'theorical')
-                Padding(
-                  padding: const EdgeInsets.only(left: 3),
-                  child: SvgPicture.asset('assets/img/sign_top.svg',
-                    color: getSchedulesColorByStateList(schedule['date_time']['state'], context),
-                    height: 18
-                  ),
+                RealTime(
+                  color: getSchedulesColorByStateList(schedule['date_time']['state'], context),
+                  height: 18,
                 ),
               if (getHeadsign(schedule) != '')
                 const SizedBox(
@@ -97,13 +96,15 @@ class RoutesSchedulesList extends StatelessWidget {
               const SizedBox(
                 width: 10,
               ),
-              Text(
-                '➜ ${getDirection(schedule)}',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Segoe Ui',
-                  color: HexColor.fromHex(line['color']),
+              Expanded(
+                child: Text(
+                  '➜ ${getDirection(schedule)}',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Segoe Ui',
+                    color: HexColor.fromHex(line['color']),
+                  ),
                 ),
               ),
             ],

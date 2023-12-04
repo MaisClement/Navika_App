@@ -4,8 +4,8 @@ library my_prj.globals;
 import 'package:flutter/material.dart';
 import 'package:location/location.dart' as gps;
 
-const String API_BASE = 'https://navika.hackernwar.com';
-// const String API_BASE = 'http://code.hackernwar.com:8000';
+// const String API_BASE = 'https://navika.hackernwar.com';
+const String API_BASE = 'http://code.hackernwar.com:8000';
 
 const String API_INDEX =                            '$API_BASE/index';
 const String API_TRAFIC =                           '$API_BASE/trafic';
