@@ -424,15 +424,15 @@ class _RoutesDetailsState extends State<RoutesDetails>
             if (!isLoading && _isFavorite) 
               IconButton(
                 icon: _isAlert
-                    ? const Icon(NavikaIcons.bell_filled)
-                    : const Icon(NavikaIcons.bell_add),
+                    ? const Icon(NavikaIcons.bellFilled)
+                    : const Icon(NavikaIcons.bellAdd),
                 tooltip: 'Notifications',
                 onPressed: () => addNotification(line, _isAlert, context),
               ),
             if (!isLoading)
               IconButton(
                 icon: _isFavorite
-                  ? const Icon(NavikaIcons.star_filled)
+                  ? const Icon(NavikaIcons.starFilled)
                   : const Icon(NavikaIcons.star),
                 tooltip: 'Ajouter aux favoris',
                 onPressed: () => addLineToFavorite(line, context, update),

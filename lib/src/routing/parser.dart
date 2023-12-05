@@ -28,10 +28,8 @@ class TemplateRouteParser extends RouteInformationParser<ParsedRoute> {
 				assert(allowedPaths.contains(initialRoute));
 
 	@override
-	Future<ParsedRoute> parseRouteInformation(
-		RouteInformation routeInformation,
-	) async {
-		final path = routeInformation.location;
+	Future<ParsedRoute> parseRouteInformation(RouteInformation routeInformation) async {
+		final path = routeInformation.uri.path;
 		final queryParams = Uri.parse(path).queryParameters;
 		var parsedRoute = initialRoute;
 
@@ -56,6 +54,5 @@ class TemplateRouteParser extends RouteInformationParser<ParsedRoute> {
 	}
 
 	@override
-	RouteInformation restoreRouteInformation(ParsedRoute configuration) =>
-			RouteInformation(location: configuration.path);
+	RouteInformation restoreRouteInformation(ParsedRoute configuration) => RouteInformation(uri: Uri.parse(configuration.path));
 }

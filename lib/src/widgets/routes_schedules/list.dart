@@ -1,13 +1,11 @@
 import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/screens/routes_schedules.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/utils/real_time.dart';
-import 'package:shimmer/shimmer.dart';
 
 class RoutesSchedulesList extends StatelessWidget {
   final Map schedule;
@@ -25,7 +23,7 @@ class RoutesSchedulesList extends StatelessWidget {
 
   handleTapDetails(context, schedule) {
     if (schedule['id'] != null && schedule['id'] != '') {
-      RouteStateScope.of(context).go('/trip/details/${schedule['id']}/from/${stopId}');
+      RouteStateScope.of(context).go('/trip/details/${schedule['id']}/from/$stopId');
     } else {
       FloatingSnackBar(
         message: 'Les details ne sont pas disponibles pour ce trajet.',
@@ -79,12 +77,12 @@ class RoutesSchedulesList extends StatelessWidget {
                   decoration: schedule['date_time']['state'] == 'cancelled'
                     ? TextDecoration.lineThrough
                     : null,
-                  color: getSchedulesColorByStateList(schedule['date_time']['state'], context),
+                  color: getSchedulesColorByStateList(schedule['date_time']['state'], getSchedulesLate(schedule['date_time']['departure_date_time'], schedule['date_time']['base_departure_date_time']) > 0, context),
                 ),
               ),
               if (schedule['date_time']['state'] != 'theorical')
                 RealTime(
-                  color: getSchedulesColorByStateList(schedule['date_time']['state'], context),
+                  color: getSchedulesColorByStateList(schedule['date_time']['state'], getSchedulesLate(schedule['date_time']['departure_date_time'], schedule['date_time']['base_departure_date_time']) > 0, context),
                   height: 18,
                 ),
               if (getHeadsign(schedule) != '')

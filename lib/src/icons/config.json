@@ -64,7 +64,7 @@
     },
     {
       "uid": "5dd260fc48b26e01c4f09adf902f2198",
-      "css": "clock_filled",
+      "css": "clockFilled",
       "code": 59396,
       "src": "custom_icons",
       "selected": true,
@@ -73,7 +73,7 @@
         "width": 1000
       },
       "search": [
-        "clock_filled"
+        "clockFilled"
       ]
     },
     {
@@ -92,7 +92,7 @@
     },
     {
       "uid": "de6d869547bc9fe05aee4079ed4271f9",
-      "css": "cone_filled",
+      "css": "coneFilled",
       "code": 59398,
       "src": "custom_icons",
       "selected": true,
@@ -101,12 +101,12 @@
         "width": 1000
       },
       "search": [
-        "cone_filled"
+        "coneFilled"
       ]
     },
     {
       "uid": "ae875df626b2c510a943a851d5e69227",
-      "css": "e-bike",
+      "css": "ebike",
       "code": 59399,
       "src": "custom_icons",
       "selected": true,
@@ -115,7 +115,7 @@
         "width": 1000
       },
       "search": [
-        "e-bike"
+        "ebike"
       ]
     },
     {
@@ -134,7 +134,7 @@
     },
     {
       "uid": "1386843e7cae3dace6508167d57750d8",
-      "css": "finish-flag",
+      "css": "finishFlag",
       "code": 59401,
       "src": "custom_icons",
       "selected": true,
@@ -143,7 +143,7 @@
         "width": 1000
       },
       "search": [
-        "finish-flag"
+        "finishFlag"
       ]
     },
     {
@@ -218,7 +218,7 @@
     },
     {
       "uid": "2ba64e25ae195329021e438af5d7cde4",
-      "css": "localisation_null",
+      "css": "localisationNull",
       "code": 59408,
       "src": "custom_icons",
       "selected": true,
@@ -227,7 +227,7 @@
         "width": 1000
       },
       "search": [
-        "localisation_null"
+        "localisationNull"
       ]
     },
     {
@@ -344,7 +344,7 @@
     },
     {
       "uid": "ce2799858724d61da75b00a6d4a427c8",
-      "css": "settings_filled",
+      "css": "settingsFilled",
       "code": 59419,
       "src": "custom_icons",
       "selected": true,
@@ -353,7 +353,7 @@
         "width": 1000
       },
       "search": [
-        "settings_filled"
+        "settingsFilled"
       ]
     },
     {
@@ -372,7 +372,7 @@
     },
     {
       "uid": "817d3bd4461c19d74cbefb517b0a1f78",
-      "css": "star_filled",
+      "css": "starFilled",
       "code": 59421,
       "src": "custom_icons",
       "selected": true,
@@ -381,12 +381,12 @@
         "width": 1000
       },
       "search": [
-        "star_filled"
+        "starFilled"
       ]
     },
     {
       "uid": "c1eaa21be2dde704807d798af79f3642",
-      "css": "train_face",
+      "css": "trainFace",
       "code": 59423,
       "src": "custom_icons",
       "selected": true,
@@ -395,12 +395,12 @@
         "width": 1000
       },
       "search": [
-        "train_face"
+        "trainFace"
       ]
     },
     {
       "uid": "262aa6f77fb6c44e3704c419c30d7f9e",
-      "css": "bus_face",
+      "css": "busFace",
       "code": 59520,
       "src": "custom_icons",
       "selected": true,
@@ -409,12 +409,12 @@
         "width": 1000
       },
       "search": [
-        "bus_face"
+        "busFace"
       ]
     },
     {
       "uid": "422867fcbb4e264877cb7dc5f43b3482",
-      "css": "IDFM_train",
+      "css": "idfmTrain",
       "code": 59422,
       "src": "custom_icons",
       "selected": true,
@@ -423,12 +423,12 @@
         "width": 1000
       },
       "search": [
-        "IDFM_train"
+        "idfmTrain"
       ]
     },
     {
       "uid": "ac7006844d6bb93b3d460c0f4d0951a8",
-      "css": "IDFM_train_rer",
+      "css": "idfmTrainRer",
       "code": 59424,
       "src": "custom_icons",
       "selected": true,
@@ -437,7 +437,7 @@
         "width": 1000
       },
       "search": [
-        "IDFM_train_rer"
+        "idfmTrainRer"
       ]
     },
     {
@@ -456,7 +456,7 @@
     },
     {
       "uid": "00d2293328c28f2ed40ffb1d9a66afe1",
-      "css": "IDFM_tram",
+      "css": "idfmTram",
       "code": 59425,
       "src": "custom_icons",
       "selected": true,
@@ -465,12 +465,12 @@
         "width": 1000
       },
       "search": [
-        "IDFM_tram"
+        "idfmTram"
       ]
     },
     {
       "uid": "fafc325016e2b5da41a2e0a053db5ee3",
-      "css": "IDFM_cable",
+      "css": "idfmCable",
       "code": 59393,
       "src": "custom_icons",
       "selected": true,
@@ -479,12 +479,12 @@
         "width": 1000
       },
       "search": [
-        "IDFM_cable"
+        "idfmCable"
       ]
     },
     {
       "uid": "2bb7d83cac70822f96bbdc13a07e8321",
-      "css": "IDFM_bus",
+      "css": "idfmBus",
       "code": 59430,
       "src": "custom_icons",
       "selected": true,
@@ -493,12 +493,12 @@
         "width": 1000
       },
       "search": [
-        "IDFM_bus"
+        "idfmBus"
       ]
     },
     {
       "uid": "bd3ec71de1fed361ae02f785eabfaf65",
-      "css": "IDFM_boat",
+      "css": "idfmBoat",
       "code": 59411,
       "src": "custom_icons",
       "selected": true,
@@ -507,12 +507,12 @@
         "width": 1000
       },
       "search": [
-        "IDFM_boat"
+        "idfmBoat"
       ]
     },
     {
       "uid": "3b0fa45e135bf707008b67882461210e",
-      "css": "IDFM_noctilien",
+      "css": "idfmNoctilien",
       "code": 59412,
       "src": "custom_icons",
       "selected": true,
@@ -521,7 +521,7 @@
         "width": 1000
       },
       "search": [
-        "IDFM_noctilien"
+        "idfmNoctilien"
       ]
     },
     {
@@ -546,7 +546,7 @@
     },
     {
       "uid": "0cabb19050cf43b2aa6192e0f2a8b69b",
-      "css": "add-bookmark",
+      "css": "addBookmark",
       "code": 59428,
       "src": "custom_icons",
       "selected": true,
@@ -555,7 +555,7 @@
         "width": 1000
       },
       "search": [
-        "add-bookmark"
+        "addBookmark"
       ]
     },
     {
@@ -588,7 +588,7 @@
     },
     {
       "uid": "447b211b893b7434044732f58f57e839",
-      "css": "old_man",
+      "css": "oldMan",
       "code": 59433,
       "src": "custom_icons",
       "selected": true,
@@ -597,7 +597,7 @@
         "width": 1000
       },
       "search": [
-        "old_man"
+        "oldMan"
       ]
     },
     {
@@ -672,7 +672,7 @@
     },
     {
       "uid": "8b8006db62a6aa3d43f01f60bce01f49",
-      "css": "route_filled",
+      "css": "routeFilled",
       "code": 59438,
       "src": "custom_icons",
       "selected": true,
@@ -681,12 +681,12 @@
         "width": 1000
       },
       "search": [
-        "route_filled"
+        "routeFilled"
       ]
     },
     {
       "uid": "2ed7083e146069cd95a8352e17f3736e",
-      "css": "home_filled",
+      "css": "homeFilled",
       "code": 59405,
       "src": "custom_icons",
       "selected": true,
@@ -695,7 +695,7 @@
         "width": 1000
       },
       "search": [
-        "home_filled"
+        "homeFilled"
       ]
     },
     {
@@ -756,7 +756,7 @@
     },
     {
       "uid": "7f753d3cbc456a5516275ff992a809e7",
-      "css": "bell_filled",
+      "css": "bellFilled",
       "code": 59445,
       "src": "custom_icons",
       "selected": true,
@@ -765,12 +765,12 @@
         "width": 1000
       },
       "search": [
-        "bell_filled"
+        "bellFilled"
       ]
     },
     {
       "uid": "a7dd570c52e543df0a6876a43b15a7c7",
-      "css": "bell_add",
+      "css": "bellAdd",
       "code": 59444,
       "src": "custom_icons",
       "selected": true,
@@ -779,7 +779,7 @@
         "width": 1000
       },
       "search": [
-        "bell_add"
+        "bellAdd"
       ]
     },
     {

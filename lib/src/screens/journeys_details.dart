@@ -175,7 +175,15 @@ class _JourneysDetailsState extends State<JourneysDetails> {
     }
 
     GeoPolyline geoPolyline = GeoPolyline(coordinates);
-    MapPolyline mapPolyline = MapPolyline(geoPolyline, width, lineColor);
+    //MapPolyline mapPolyline = MapPolyline(geoPolyline, width, lineColor);
+    MapPolyline mapPolyline = MapPolyline.withRepresentation(
+      geoPolyline,
+      MapPolylineSolidRepresentation(
+          MapMeasureDependentRenderSize.withSingleSize(
+              RenderSizeUnit.pixels, width),
+          lineColor,
+          LineCap.round),
+    );
 
     _controller?.addMapPolylines(mapPolyline);
   }
@@ -367,7 +375,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                     child: _isInBox
                         ? Icon(NavikaIcons.localisation,
                             color: Theme.of(context).colorScheme.onSurface, size: 30)
-                        : Icon(NavikaIcons.localisation_null,
+                        : Icon(NavikaIcons.localisationNull,
                             color: Theme.of(context).colorScheme.onSurface, size: 30),
                     onPressed: () {
                       _zoomOn();

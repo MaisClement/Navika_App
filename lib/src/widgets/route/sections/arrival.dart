@@ -29,7 +29,7 @@ class SectionArrival extends StatelessWidget {
                 padding: EdgeInsets.only(
                   top: 10, left: 20, right: 20
                 ),
-                child: Icon(NavikaIcons.finish_flag,
+                child: Icon(NavikaIcons.finishFlag,
                     color: Color(0xff616161),
                     size: 25),
               ),

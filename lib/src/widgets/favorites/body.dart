@@ -98,7 +98,7 @@ class _FavoriteBodyState extends State<FavoriteBody>
               },
               child: Row(
                 children: [
-                  Icon(NavikaIcons.train_face,
+                  Icon(NavikaIcons.trainFace,
                       color: accentColor(context), size: 25),
                   const SizedBox(
                     width: 10,

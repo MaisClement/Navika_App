@@ -4,8 +4,8 @@ import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/screens/scaffold_body.dart';
 
 class NavikaAppScaffold extends StatelessWidget {
-  final pathTemplate;
-  final id;
+  final String? pathTemplate;
+  final String? id;
 
   const NavikaAppScaffold({
     required this.pathTemplate,

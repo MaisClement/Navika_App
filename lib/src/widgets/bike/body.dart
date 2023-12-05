@@ -218,7 +218,7 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
                           ),
                           child: Row(
                             children: [
-                              Icon(NavikaIcons.e_bike,
+                              Icon(NavikaIcons.ebike,
                                   color: Theme.of(context).colorScheme.onSurface, size: 25),
                               Container(
                                 width: 30,

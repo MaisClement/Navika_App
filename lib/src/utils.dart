@@ -404,14 +404,15 @@ Color getSchedulesColorByState(state, context) {
   }
 }
 
-Color getSchedulesColorByStateList(state, context) {
+Color getSchedulesColorByStateList(state, isLate, context) {
+  if (isLate) {
+    return const Color(0xfff68f53);
+  }
   switch (state) {
     case 'cancelled':
       return const Color(0xffeb2031);
     case 'delayed':
       return const Color(0xfff68f53);
-    case 'ontime':
-      return Theme.of(context).colorScheme.onBackground;
     default:
       return Theme.of(context).colorScheme.onBackground;
   }

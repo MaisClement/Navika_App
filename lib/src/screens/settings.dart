@@ -140,7 +140,7 @@ class _SettingsState extends State<Settings> {
             SettingsButton(
               name: 'Terminus',
               sub: hideTerminusTrain ? 'Masqué' : 'Affiché',
-              icon: NavikaIcons.train_face,
+              icon: NavikaIcons.trainFace,
               function: () {
                 showModalBottomSheet<void>(
                     shape: const RoundedRectangleBorder(

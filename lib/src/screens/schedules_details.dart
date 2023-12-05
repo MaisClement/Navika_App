@@ -46,7 +46,7 @@ class SchedulesDetails extends StatelessWidget {
             IconButton(
               icon: isFavorite(id)
                   ? const Icon(NavikaIcons.favorites)
-                  : const Icon(NavikaIcons.add_bookmark),
+                  : const Icon(NavikaIcons.addBookmark),
               tooltip: 'Ajouter aux favoris',
               onPressed: () {
                 if (globals.schedulesStopLines.isNotEmpty) {

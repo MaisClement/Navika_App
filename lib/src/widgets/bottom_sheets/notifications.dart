@@ -56,37 +56,6 @@ Future<void> unsubscribe(line, context) async {
     globals.hiveBox.put('linesAlert', alert);
     Navigator.of(context).pop();
   }
-
-  //TOPIC await FirebaseMessaging.instance
-  //TOPIC     .unsubscribeFromTopic(line['id'].replaceAll(':', '_'));
-  //TOPIC
-  //TOPIC Map alert = globals.hiveBox.get('linesAlert');
-  //TOPIC
-  //TOPIC alert.removeWhere((key, value) => key == line['id']);
-  //TOPIC globals.hiveBox.put('linesAlert', alert);
-  //TOPIC Navigator.of(context).pop();
-
-//    NavikaApi navikaApi = NavikaApi();
-//    Map result = await navikaApi.removeNotificationSubscription(id);
-//
-//    ApiStatus error = result['status'];
-//
-//    if ( error != ApiStatus.ok) {
-//      FloatingSnackBar(
-//        message: getErrorText(error),
-//        context: context,
-//        textColor: mainColor(context),
-//        textStyle: snackBarText,
-//        duration: const Duration(milliseconds: 4000),
-//        backgroundColor: const Color(0xff272727),
-//      );
-//    } else {
-//      Map alert = globals.hiveBox.get('linesAlert');
-//      alert.removeWhere((key, value) => key == line['id']);
-//      globals.hiveBox.put('linesAlert', alert);
-//      Navigator.of(context).pop();
-//
-//    }
 }
 
 class NotificationsSettings extends StatefulWidget {
@@ -103,8 +72,8 @@ class NotificationsSettings extends StatefulWidget {
   State<NotificationsSettings> createState() => _NotificationsSettingsState();
 }
 
-class _NotificationsSettingsState extends State<NotificationsSettings>
-    with SingleTickerProviderStateMixin {
+class _NotificationsSettingsState extends State<NotificationsSettings> with SingleTickerProviderStateMixin {
+
   String type = 'alert'; // alert, all
   String? id;
   bool isLoading = false;
@@ -164,21 +133,6 @@ class _NotificationsSettingsState extends State<NotificationsSettings>
       });
     }
 
-    //TOPIC await FirebaseMessaging.instance
-    //TOPIC     .subscribeToTopic(widget.line['id'].replaceAll(':', '_'));
-    //TOPIC
-    //TOPIC Map alert = globals.hiveBox.get('linesAlert');
-    //TOPIC alert[widget.line['id']] = {
-    //TOPIC   'line': widget.line['id'],
-    //TOPIC   'type': type,
-    //TOPIC   'days': days,
-    //TOPIC   'times': {
-    //TOPIC     'start_time': timeToString(times['start_time']),
-    //TOPIC     'end_time': timeToString(times['end_time']),
-    //TOPIC   },
-    //TOPIC };
-    //TOPIC globals.hiveBox.put('linesAlert', alert);
-
     Navigator.of(context).pop();
   }
 
@@ -211,12 +165,6 @@ class _NotificationsSettingsState extends State<NotificationsSettings>
         alert[widget.line['id']]['id'] != null) {
       id = alert[widget.line['id']]['id'].toString();
     }
-
-//TOPIC    if (alert[widget.line['id']] != null && alert[widget.line['id']]['id'] != null) {
-//TOPIC      id = alert[widget.line['id']]['id'].toString();
-//TOPIC      days = alert[widget.line['id']]['days'];
-//TOPIC      type = alert[widget.line['id']]['type'];
-//TOPIC    }
 
     if (id == null) {
       return;

@@ -372,7 +372,7 @@ class _HomeState extends State<Home> {
                             RouteStateScope.of(context).go('/settings');
                           },
                           child: Icon(
-                            NavikaIcons.settings_filled,
+                            NavikaIcons.settingsFilled,
                             color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
@@ -392,7 +392,7 @@ class _HomeState extends State<Home> {
                     child: _isInBox
                         ? Icon(NavikaIcons.localisation,
                             color: Theme.of(context).colorScheme.onSurface, size: 30)
-                        : Icon(NavikaIcons.localisation_null,
+                        : Icon(NavikaIcons.localisationNull,
                             color: Theme.of(context).colorScheme.onSurface, size: 30),
                     onPressed: () {
                       _zoomOn();

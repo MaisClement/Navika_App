@@ -19,22 +19,22 @@ NavigationBar getNavigationBar(context) {
           NavigationDestination(
             label: 'Accueil',
             icon: Icon(NavikaIcons.home),
-            selectedIcon: Icon(NavikaIcons.home_filled),
+            selectedIcon: Icon(NavikaIcons.homeFilled),
           ),
           NavigationDestination(
             label: 'Horaires',
             icon: Icon(NavikaIcons.clock),
-            selectedIcon: Icon(NavikaIcons.clock_filled),
+            selectedIcon: Icon(NavikaIcons.clockFilled),
           ),
           NavigationDestination(
             label: 'Lignes',
             icon: Icon(NavikaIcons.route),
-            selectedIcon: Icon(NavikaIcons.route_filled),
+            selectedIcon: Icon(NavikaIcons.routeFilled),
           ),
           NavigationDestination(
             label: 'Trafic',
             icon: Icon(NavikaIcons.cone),
-            selectedIcon: Icon(NavikaIcons.cone_filled),
+            selectedIcon: Icon(NavikaIcons.coneFilled),
           ),
         ],
       );

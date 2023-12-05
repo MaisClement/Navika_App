@@ -112,7 +112,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
               {
                 'name': 'Avec difficultés',
                 'value': 'luggage',
-                'icon': NavikaIcons.old_man,
+                'icon': NavikaIcons.oldMan,
               },
               {
                 'name': 'Mobilité réduite',
@@ -149,7 +149,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
           SwitchMode(
             name: 'Train et RER',
             value: allowedModes.contains('rail'),
-            icon: NavikaIcons.train_face,
+            icon: NavikaIcons.trainFace,
             function: (bool value) {
               handleChangeMode('rail', value);
             },
@@ -165,7 +165,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
           SwitchMode(
             name: 'Tramway',
             value: allowedModes.contains('tram'),
-            icon: NavikaIcons.IDFM_tram,
+            icon: NavikaIcons.idfmTram,
             function: (bool value) {
               handleChangeMode('tram', value);
             },
@@ -173,7 +173,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
           SwitchMode(
             name: 'Bus',
             value: allowedModes.contains('bus'),
-            icon: NavikaIcons.IDFM_bus,
+            icon: NavikaIcons.idfmBus,
             function: (bool value) {
               handleChangeMode('bus', value);
             },
@@ -181,7 +181,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
           SwitchMode(
             name: 'Téléphérique',
             value: allowedModes.contains('cable'),
-            icon: NavikaIcons.IDFM_cable,
+            icon: NavikaIcons.idfmCable,
             function: (bool value) {
               handleChangeMode('cable', value);
             },
@@ -189,7 +189,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
           // SwitchMode(
           //   name: 'Funiculaire',
           //   value: allowedModes.contains('funicular'),
-          //   icon: NavikaIcons.train_face,
+          //   icon: NavikaIcons.trainFace,
           //   function: (bool value) {
           //     handleChangeMode('funicular', value);
           //   },
@@ -197,7 +197,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
           SwitchMode(
             name: 'Bateau',
             value: allowedModes.contains('boat'),
-            icon: NavikaIcons.IDFM_boat,
+            icon: NavikaIcons.idfmBoat,
             function: (bool value) {
               handleChangeMode('boat', value);
             },

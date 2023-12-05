@@ -383,7 +383,7 @@ class _JourneysState extends State<Journeys> {
                                 bottom: 10.0),
                             child: SearchBox(
                               text: globals.route['to']['name'] ?? 'Arrivée',
-                              icon: NavikaIcons.finish_flag,
+                              icon: NavikaIcons.finishFlag,
                               borderRadius: const BorderRadius.only(
                                   topRight: Radius.circular(20),
                                   bottomRight: Radius.circular(20),

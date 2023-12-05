@@ -4,7 +4,6 @@ class ButtonLarge extends StatelessWidget {
   final Function()? onTap;
   final IconData? icon;
   final Color? color;
-  final Color? text_color;
   final TextStyle? style;
   final String text;
   final BorderRadius? borderRadius;
@@ -14,7 +13,6 @@ class ButtonLarge extends StatelessWidget {
     this.onTap,
     this.icon,
     this.color,
-    this.text_color,
     this.style,
     this.borderRadius,
     super.key,

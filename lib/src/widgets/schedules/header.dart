@@ -54,7 +54,7 @@ class SchedulesPannel extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(height: 48),
+                  const SizedBox(height: 48),
                   Text(
                     globals.schedulesStopName,
                     style: TextStyle(
@@ -67,7 +67,7 @@ class SchedulesPannel extends StatelessWidget {
                   IconButton(
                     icon: isFavorite(id)
                       ? const Icon(NavikaIcons.favorites)
-                      : const Icon(NavikaIcons.add_bookmark),
+                      : const Icon(NavikaIcons.addBookmark),
                     tooltip: 'Ajouter aux favoris',
                     color: Theme.of(context).colorScheme.onSurface,
                     onPressed: () {

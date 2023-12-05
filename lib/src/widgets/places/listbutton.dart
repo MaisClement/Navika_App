@@ -6,7 +6,7 @@ import 'package:navika/src/widgets/icons/icons.dart';
 
 IconData getPlaceIcon(type){
   if (type == 'stop_area'){
-    return NavikaIcons.train_face;
+    return NavikaIcons.trainFace;
   } else if (type == 'home'){
     return NavikaIcons.home;
   } else if (type == 'work'){
