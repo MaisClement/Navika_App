@@ -356,6 +356,16 @@ int getLate(Map train) {
   return diff.inMinutes;
 }
 
+int getSchedulesLate(departure, expectedDeparture) {
+  if (departure == '' || expectedDeparture == '') {
+    return 0;
+  }
+  DateTime dttime = DateTime.parse(departure);
+  DateTime dtexpe = DateTime.parse(expectedDeparture);
+  Duration diff = dttime.difference(dtexpe);
+  return diff.inMinutes;
+}
+
 int getDelay(dateTime, baseDateTime) {
   String departure = dateTime;
   String expectedDeparture = baseDateTime;

@@ -52,16 +52,19 @@ class RoutesSchedulesList extends StatelessWidget {
           child: schedule['date_time'] != null
           ? Row(
             children: [
-              if (schedule['date_time']['state'] == 'delayed')
+              if (getSchedulesLate(schedule['date_time']['departure_date_time'], schedule['date_time']['base_departure_date_time']) > 0)
                 Padding(
                 padding: const EdgeInsets.only(right: 7),
                   child: Text(
                     getTime(schedule['date_time']['base_departure_date_time']),
-                    style: TextStyle(
+                    maxLines: 1,
+                    softWrap: false,
+                    overflow: TextOverflow.fade,
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       fontFamily: 'Segoe Ui',
-                      color: const Color(0xffa9a9a9),
+                      color: Color(0xffa9a9a9),
                       decoration: TextDecoration.lineThrough
                     ),
                   ),

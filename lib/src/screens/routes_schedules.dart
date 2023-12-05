@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:navika/src/api.dart';
 import 'package:navika/src/extensions/datetime.dart';
@@ -7,6 +9,7 @@ import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/screens/routes_details.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
+import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/icons/icons.dart';
 import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/routes_schedules/list.dart';
@@ -72,6 +75,7 @@ class RoutesSchedules extends StatefulWidget {
 }
 
 class _RoutesSchedulesState extends State<RoutesSchedules> with SingleTickerProviderStateMixin {
+  
   PageController controller = PageController();
   final AutoScrollController _scrollController = AutoScrollController(suggestedRowHeight: 150);
   bool isLoading = true;
@@ -80,8 +84,28 @@ class _RoutesSchedulesState extends State<RoutesSchedules> with SingleTickerProv
   ApiStatus error = ApiStatus.ok;
   DateTime selectedDate = DateTime.now();
   bool isToday = true;
+  late Timer _timer;
 
-  selectDate(BuildContext context) async {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
+        if (isToday) {
+          _getLine();
+        }
+      });
+      await _getLine(i: true);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _timer.cancel();
+  }
+
+ selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -96,13 +120,14 @@ class _RoutesSchedulesState extends State<RoutesSchedules> with SingleTickerProv
     }
   }
 
-  Future<void> _getLine() async {
+  Future<void> _getLine({bool i = false}) async {
     setState(() {
       loadingNewDay = true;
     });
 
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getLineSchedules(widget.routeId, widget.stopId, selectedDate);
+    Map result = await navikaApi.getLineSchedules(
+        widget.routeId, widget.stopId, selectedDate);
 
     if (mounted) {
       setState(() {
@@ -113,13 +138,17 @@ class _RoutesSchedulesState extends State<RoutesSchedules> with SingleTickerProv
         line = result['value']?['line'];
         isLoading = false;
         loadingNewDay = false;
-        
+
         if (globals.direction != null) {
           int page = getPageToSlide(line['schedules'], globals.direction!);
           controller = PageController(initialPage: page);
           globals.direction = null;
         }
-        _scrollController.scrollToIndex(DateTime.now().hour,preferPosition: AutoScrollPosition.begin);
+
+        if (i == true) {
+          _scrollController.scrollToIndex(DateTime.now().hour, preferPosition: AutoScrollPosition.begin);
+        }
+        
       });
     }
   }
@@ -166,22 +195,18 @@ class _RoutesSchedulesState extends State<RoutesSchedules> with SingleTickerProv
   }
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await _getLine();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: isLoading
               ? const Text('Horaires', style: appBarTitle)
               : Text('Ligne ${line['name']}', style: appBarTitle),
         ),
-        body: isLoading
-            ? const LinearProgressIndicator()
+        body: error != ApiStatus.ok || isLoading
+            ? error != ApiStatus.ok
+                ? ErrorBlock(
+                    error: error,
+                  )
+                : const LinearProgressIndicator()
             : Column(
                 children: [
                   Padding(
