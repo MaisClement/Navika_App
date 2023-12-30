@@ -72,8 +72,8 @@ class NotificationsSettings extends StatefulWidget {
   State<NotificationsSettings> createState() => _NotificationsSettingsState();
 }
 
-class _NotificationsSettingsState extends State<NotificationsSettings> with SingleTickerProviderStateMixin {
-
+class _NotificationsSettingsState extends State<NotificationsSettings>
+    with SingleTickerProviderStateMixin {
   String type = 'alert'; // alert, all
   String? id;
   bool isLoading = false;
@@ -106,9 +106,11 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
   }
 
   Future<void> subscribe() async {
+    setState(() {
+      isLoading = true;
+    });
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.addNotificationSubscription(
-        widget.line['id'], type, days, times['start_time'], times['end_time']);
+    Map result = await navikaApi.addNotificationSubscription(widget.line['id'], type, days, times['start_time'], times['end_time']);
 
     if (mounted) {
       setState(() {
@@ -132,12 +134,21 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
         }
       });
     }
-
+    
+    setState(() {
+      isLoading = false;
+    });
     Navigator.of(context).pop();
   }
 
   Future<void> unsub() async {
+    setState(() {
+      isLoading = true;
+    });
     await unsubscribe(widget.line, context);
+    setState(() {
+      isLoading = false;
+    });
     Navigator.of(context).pop();
   }
 
@@ -185,8 +196,16 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
           days = result['value']['days'];
           type = result['value']['type'];
 
-          times['start_time'] = TimeOfDay(hour: int.parse(result['value']['times']['start_time'].substring(0, 2)), minute: int.parse(result['value']['times']['start_time'].substring(3, 5)));
-          times['end_time'] = TimeOfDay(hour: int.parse(result['value']['times']['end_time'].substring(0, 2)), minute: int.parse(result['value']['times']['end_time'].substring(3, 5)));
+          times['start_time'] = TimeOfDay(
+              hour: int.parse(
+                  result['value']['times']['start_time'].substring(0, 2)),
+              minute: int.parse(
+                  result['value']['times']['start_time'].substring(3, 5)));
+          times['end_time'] = TimeOfDay(
+              hour: int.parse(
+                  result['value']['times']['end_time'].substring(0, 2)),
+              minute: int.parse(
+                  result['value']['times']['end_time'].substring(3, 5)));
         }
       });
     }
@@ -217,194 +236,202 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
               offset: const Offset(0, 2),
             )
           ]),
-      child: isLoading
-          ? const Column(
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                LinearProgressIndicator(backgroundColor: Colors.transparent),
-              ],
-            )
-          : Container(
-              padding: const EdgeInsets.only(
-                  left: 20.0, top: 30.0, right: 20.0, bottom: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.isAlert ? 'Modifier une alerte' : 'Créer une alerte',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Segoe Ui',
+      child: Column(
+        children: [
+          const SizedBox(height: 10),
+          if (isLoading)
+            const LinearProgressIndicator(backgroundColor: Colors.transparent)
+          else
+            const SizedBox(height: 4),
+          const SizedBox(height: 10),
+          Opacity(
+            opacity: isLoading ? 0.4 : 1,
+            child: Container(
+                padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.isAlert
+                          ? 'Modifier une alerte'
+                          : 'Créer une alerte',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Segoe Ui',
+                        color: accentColor(context),
+                      ),
+                    ),
+                    Divider(
                       color: accentColor(context),
                     ),
-                  ),
-                  Divider(
-                    color: accentColor(context),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 10, bottom: 5),
-                    child: Text(
-                      'Type de l’alerte',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
-                        color: accentColor(context),
-                      ),
-                    ),
-                  ),
-                  RadioTiles(
-                    tiles: const [
-                      {
-                        'name': 'Perturbations',
-                        'value': 'alert',
-                        'icon': NavikaIcons.alert
-                      },
-                      {
-                        'name': 'Perturbations et travaux',
-                        'value': 'all',
-                        'icon': NavikaIcons.work
-                      },
-                    ],
-                    value: type,
-                    onTileChange: (value) {
-                      setType(value);
-                    },
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 20, bottom: 5),
-                    child: Text(
-                      'Jours de l’alerte',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
-                        color: accentColor(context),
-                      ),
-                    ),
-                  ),
-                  MiniSelectTiles(
-                    tiles: const [
-                      {
-                        'name': 'L',
-                        'value': 'monday',
-                      },
-                      {
-                        'name': 'M',
-                        'value': 'tuesday',
-                      },
-                      {
-                        'name': 'M',
-                        'value': 'wednesday',
-                      },
-                      {
-                        'name': 'J',
-                        'value': 'thursday',
-                      },
-                      {
-                        'name': 'V',
-                        'value': 'friday',
-                      },
-                      {
-                        'name': 'S',
-                        'value': 'saturday',
-                      },
-                      {
-                        'name': 'D',
-                        'value': 'sunday',
-                      }
-                    ],
-                    value: days,
-                    onTileChange: (key, value) {
-                      setDays(key, value);
-                    },
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 20, bottom: 5),
-                    child: Text(
-                      'Plage horaire',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
-                        color: accentColor(context),
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TimeBox(
-                        text: getTodTime(times['start_time']),
-                        icon: NavikaIcons.clock,
-                        onTap: () async {
-                          await selectTime('start_time', context);
-                          setState(() {});
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 15),
-                        child: Icon(
-                          NavikaIcons.avance,
-                          color: Theme.of(context).colorScheme.onSurface,
+                    Container(
+                      margin: const EdgeInsets.only(top: 10, bottom: 5),
+                      child: Text(
+                        'Type de l’alerte',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Segoe Ui',
+                          color: accentColor(context),
                         ),
                       ),
-                      TimeBox(
-                        text: getTodTime(times['end_time']),
-                        icon: NavikaIcons.clock,
-                        onTap: () async {
-                          await selectTime('end_time', context);
-                          setState(() {});
+                    ),
+                    RadioTiles(
+                      tiles: const [
+                        {
+                          'name': 'Perturbations',
+                          'value': 'alert',
+                          'icon': NavikaIcons.alert
                         },
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Center(
-                    child: IconElevatedButton(
-                        icon: widget.isAlert
-                            ? NavikaIcons.edit
-                            : NavikaIcons.plus,
-                        width: 138,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primary,
-                          foregroundColor: const Color(0xffffffff),
-                        ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                        text: widget.isAlert ? 'Modifier' : 'Créer',
-                        onPressed: () async {
-                          await subscribe();
-                        }),
-                  ),
-                  if (widget.isAlert)
+                        {
+                          'name': 'Perturbations et travaux',
+                          'value': 'all',
+                          'icon': NavikaIcons.work
+                        },
+                      ],
+                      value: type,
+                      onTileChange: (value) {
+                        setType(value);
+                      },
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 20, bottom: 5),
+                      child: Text(
+                        'Jours de l’alerte',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Segoe Ui',
+                          color: accentColor(context),
+                        ),
+                      ),
+                    ),
+                    MiniSelectTiles(
+                      tiles: const [
+                        {
+                          'name': 'L',
+                          'value': 'monday',
+                        },
+                        {
+                          'name': 'M',
+                          'value': 'tuesday',
+                        },
+                        {
+                          'name': 'M',
+                          'value': 'wednesday',
+                        },
+                        {
+                          'name': 'J',
+                          'value': 'thursday',
+                        },
+                        {
+                          'name': 'V',
+                          'value': 'friday',
+                        },
+                        {
+                          'name': 'S',
+                          'value': 'saturday',
+                        },
+                        {
+                          'name': 'D',
+                          'value': 'sunday',
+                        }
+                      ],
+                      value: days,
+                      onTileChange: (key, value) {
+                        setDays(key, value);
+                      },
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 20, bottom: 5),
+                      child: Text(
+                        'Plage horaire',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Segoe Ui',
+                          color: accentColor(context),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TimeBox(
+                          text: getTodTime(times['start_time']),
+                          icon: NavikaIcons.clock,
+                          onTap: () async {
+                            await selectTime('start_time', context);
+                            setState(() {});
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: Icon(
+                            NavikaIcons.avance,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                        ),
+                        TimeBox(
+                          text: getTodTime(times['end_time']),
+                          icon: NavikaIcons.clock,
+                          onTap: () async {
+                            await selectTime('end_time', context);
+                            setState(() {});
+                          },
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Center(
                       child: IconElevatedButton(
-                          icon: NavikaIcons.trash,
+                          icon: widget.isAlert
+                              ? NavikaIcons.edit
+                              : NavikaIcons.plus,
                           width: 138,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xffeb2031),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
                             foregroundColor: const Color(0xffffffff),
                           ).copyWith(
                               elevation: ButtonStyleButton.allOrNull(0.0)),
-                          text: 'Supprimer',
+                          text: widget.isAlert ? 'Modifier' : 'Créer',
                           onPressed: () async {
-                            await unsub();
+                            await subscribe();
                           }),
                     ),
-                  Center(
-                    child: IconElevatedButton(
-                      icon: NavikaIcons.cancel,
-                      width: 138,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.surface,
-                        foregroundColor: Theme.of(context).colorScheme.primary,
-                      ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                      text: 'Annuler',
-                      onPressed: () => Navigator.pop(context),
+                    if (widget.isAlert)
+                      Center(
+                        child: IconElevatedButton(
+                            icon: NavikaIcons.trash,
+                            width: 138,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xffeb2031),
+                              foregroundColor: const Color(0xffffffff),
+                            ).copyWith(
+                                elevation: ButtonStyleButton.allOrNull(0.0)),
+                            text: 'Supprimer',
+                            onPressed: () async {
+                              await unsub();
+                            }),
+                      ),
+                    Center(
+                      child: IconElevatedButton(
+                        icon: NavikaIcons.cancel,
+                        width: 138,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.surface,
+                          foregroundColor:
+                              Theme.of(context).colorScheme.primary,
+                        ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                        text: 'Annuler',
+                        onPressed: () => Navigator.pop(context),
+                      ),
                     ),
-                  ),
-                ],
-              )));
+                  ],
+                )),
+          ),
+        ],
+      ));
 }

@@ -191,7 +191,7 @@ List<Widget> getTimeTableWidgets(Map line, context, fromlocaldata) {
         },
       ),
     ));
-  } else if (line['timetables']['timetables'].length > 2) {
+  } else {
     for (var timetable in line['timetables']['timetables']) {
       res.add(Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
@@ -225,15 +225,6 @@ List<Widget> getTimeTableWidgets(Map line, context, fromlocaldata) {
 
 List<Widget> getStops(Map line, context) {
   List<Widget> res = [];
-
-  res.add(
-    const Divider(
-      color: Color(0xff808080),
-      thickness: 1.5,
-      indent: 20,
-      endIndent: 20,
-    ),
-  );
 
   for (var i = 0; i < line['stops'].length; i++) {
     res.add(
@@ -459,7 +450,7 @@ class _RoutesDetailsState extends State<RoutesDetails>
                       url: getMapUrl(line)!,
                       isLocalData: fromlocaldata,
                       setBlockScroll: setBlockScroll,
-                      size: 200,
+                      height: 200,
                     )
                   else
                     Padding(
@@ -490,8 +481,7 @@ class _RoutesDetailsState extends State<RoutesDetails>
                   const SizedBox(height: 10),
                   if (!fromlocaldata)
                     Padding(
-                      padding:
-                          const EdgeInsets.only(top: 10, left: 10, right: 10),
+                      padding:const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: ButtonLargeTrafic(
                         line: line,
                         borderRadius: BorderRadius.circular(10),
@@ -502,6 +492,13 @@ class _RoutesDetailsState extends State<RoutesDetails>
                       ),
                     ),
                   ...getTimeTableWidgets(line, context, fromlocaldata),
+
+                  const Divider(
+                    color: Color(0xff808080),
+                    thickness: 1.5,
+                    indent: 20,
+                    endIndent: 20,
+                  ),
                   
                   ...getStops(line, context),
 

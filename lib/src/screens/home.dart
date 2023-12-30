@@ -69,6 +69,7 @@ class _HomeState extends State<Home> {
   List stopsNearby = [];
   List bikeNearby = [];
   List markers = [];
+  List clusters = [];
   Map index = {};
   List favs = globals.hiveBox?.get('stopsFavorites');
   List address = globals.hiveBox?.get('addressFavorites');
@@ -82,7 +83,13 @@ class _HomeState extends State<Home> {
     gps.PermissionStatus permissionGranted;
     gps.LocationData locationData;
 
+    bool? askGps = await globals.hiveBox?.get('askGps');
     bool? allowGps = await globals.hiveBox?.get('allowGps');
+    if (askGps == false) {
+      RouteStateScope.of(context).go('/position');
+      return;
+    }
+
     if (allowGps == false) {
       return;
     }
@@ -94,12 +101,6 @@ class _HomeState extends State<Home> {
         if (!serviceEnabled) {
           return;
         }
-      }
-
-      permissionGranted = await location.hasPermission();
-      if (permissionGranted == gps.PermissionStatus.denied && allowGps == null) {
-        RouteStateScope.of(context).go('/position');
-        return;
       }
     } 
 
@@ -140,15 +141,20 @@ class _HomeState extends State<Home> {
         }
       });
     }
-
+    _clearMarker();
     _setMarker();
   }
 
   void _clearMarker() {
+    // J'ai tenté, ça rame plus qu'avant
+    //for (var cluster in clusters) {
+    //  _controller?.removeMapMarkerCluster(cluster);
+    //}
     for (var marker in markers) {
       _controller?.removeMapMarker(marker);
     }
     setState(() {
+      // clusters = [];
       markers = [];
     });
   }
@@ -182,6 +188,21 @@ class _HomeState extends State<Home> {
         }
       }
     }
+
+    // J'ai tenté, ça rame plus qu'avant
+    // MapMarkerClusterCounterStyle counterStyle = MapMarkerClusterCounterStyle();
+    // counterStyle.textColor = Colors.white;
+    // counterStyle.fontSize = 20;
+    // counterStyle.maxCountNumber = 9;
+    // counterStyle.aboveMaxText = "+9";
+    // 
+    // MapMarkerCluster mapMarkerCluster = MapMarkerCluster.WithCounter(
+    //   MapMarkerClusterImageStyle(
+    //     MapImage.withFilePathAndWidthAndHeight('assets/img/marker/mini.png', 50, 50)
+    //   ), counterStyle);
+    // 
+    // _controller?.addMapMarkerCluster(mapMarkerCluster);
+    // clusters.add(mapMarkerCluster);
 
     for (var stop in stopsNearby) {
       GeoCoordinates stopCoords = GeoCoordinates(stop['coord']['lat'].toDouble(), stop['coord']['lon'].toDouble());
@@ -511,11 +532,11 @@ class _HomeState extends State<Home> {
       });
 
       hereMapController.gestures.pinchRotateListener = PinchRotateListener(
-          (GestureState state, Point2D pinchOrigin, Point2D rotationOrigin,
-              double twoFingerDistance, Angle rotation) {
+          (GestureState state, Point2D pinchOrigin, Point2D rotationOrigin,double twoFingerDistance, Angle rotation) {
         if (state == GestureState.end) {
-          _clearMarker();
-          _setMarker();
+          setState(() {
+            camGeoCoords = _controller?.getOverLocation() ?? camGeoCoords;
+          });
           _getNearPoints();
         }
       });

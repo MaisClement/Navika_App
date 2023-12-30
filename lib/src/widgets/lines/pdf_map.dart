@@ -9,13 +9,13 @@ import 'package:pinch_zoom_release_unzoom/pinch_zoom_release_unzoom.dart';
 
 class PDFMap extends StatefulWidget {
   final String url;
-  final double size;
+  final double height;
   final bool isLocalData;
   final Function setBlockScroll;
 
   const PDFMap({
     required this.url,
-    required this.size,
+    required this.height,
     required this.setBlockScroll,
     this.isLocalData = false,
     super.key,
@@ -29,11 +29,10 @@ class _PDFMapState extends State<PDFMap> with SingleTickerProviderStateMixin {
   late dynamic image;
   bool isError = false;
   bool isLoading = true;
-  double width = double.infinity;
-
   bool blockScroll = false;
+  double width = 0;
 
-  Future<void> getPdf(String url, isLocalData, size) async {
+  Future<void> getPdf(String url, isLocalData, height) async {
     try {
       PdfDocument document;
 
@@ -49,14 +48,16 @@ class _PDFMapState extends State<PDFMap> with SingleTickerProviderStateMixin {
 
       PdfPage page = await document.getPage(1);
 
-      double pageWidth = page.width / page.height * size;
+      double pageWidth = page.width / page.height * height;
 
-      final pageImage = (await page.render(
-        width: page.width < 1000 ? page.width : page.width * 2,
-        height: page.width < 1000 ? page.height : page.height * 2,
+      final pageImage = (
+        await page.render(
+        width: page.width * 3,
+        height: page.height * 3,
         format: PdfPageImageFormat.png,
         backgroundColor: '#ffffff',
-      ))!;
+        )
+      )!;
 
       await page.close();
 
@@ -85,7 +86,7 @@ class _PDFMapState extends State<PDFMap> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await getPdf(widget.url, widget.isLocalData, widget.size);
+      await getPdf(widget.url, widget.isLocalData, widget.height);
     });
   }
 
@@ -96,7 +97,7 @@ class _PDFMapState extends State<PDFMap> with SingleTickerProviderStateMixin {
           if (isError == false)
             Container(
               color: Theme.of(context).colorScheme.background,
-              height: widget.size,
+              height: widget.height,
               width: width,
               child: ListView(
                 scrollDirection: Axis.horizontal,
@@ -105,7 +106,7 @@ class _PDFMapState extends State<PDFMap> with SingleTickerProviderStateMixin {
                     : const ScrollPhysics(),
                 children: [
                   SizedBox(
-                    height: widget.size,
+                    height: widget.height,
                     width: width,
                     child: isLoading
                         ? null
@@ -117,7 +118,7 @@ class _PDFMapState extends State<PDFMap> with SingleTickerProviderStateMixin {
                             ),
                             child: Image.memory(
                               image,
-                              height: widget.size,
+                              height: widget.height,
                               width: width,
                             ),
                           ),

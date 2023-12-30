@@ -109,7 +109,7 @@ class _RoutesSchedulesState extends State<RoutesSchedules> with SingleTickerProv
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        firstDate: DateTime.now(),
+        firstDate: DateTime.now().subtract(const Duration(days: 1)),
         lastDate: DateTime.now().add(const Duration(days: 365)));
     if (picked != null && picked != selectedDate) {
       setState(() {

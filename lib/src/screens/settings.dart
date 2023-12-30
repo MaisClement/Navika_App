@@ -202,7 +202,7 @@ class _SettingsState extends State<Settings> {
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
               child: Text(
-                '${app.name} 2023 • Made with 💖',
+                '${app.name} 2023 - ${DateTime.now().year} • Made with 💖',
                 style: const TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,

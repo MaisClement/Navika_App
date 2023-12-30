@@ -100,6 +100,9 @@ class RoutesSchedulesList extends StatelessWidget {
               Expanded(
                 child: Text(
                   '➜ ${getDirection(schedule)}',
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.fade,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,

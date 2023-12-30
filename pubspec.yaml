@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 0.9.0+22
+version: 1.0.2+26
 
 environment:
   sdk: '>=2.18.0 <3.0.0'
@@ -54,7 +54,7 @@ dependencies:
   connectivity_plus: ^4.0.1
   internet_file: ^1.2.0
   shimmer: ^3.0.0
-  pdfx: ^2.3.0
+  
   firebase_core: ^2.15.0
   firebase_messaging: ^14.6.5
   flutter_local_notifications: ^15.1.0+1
@@ -63,17 +63,25 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   package_info_plus: ^4.1.0
   pinch_zoom_release_unzoom: ^0.0.10
+  scroll_to_index: ^3.0.1
+
+  # See https://github.com/ScerIO/packages.flutter/issues/448
+  # pdfx: ^2.4.0
+  pdfx: 
+    git:
+     url: 'https://github.com/ScerIO/packages.flutter' 
+     ref: '4be9de9ffed5398fd7d5f44bbb07dcd3d3f1711b'  
+     path: packages/pdfx
+     
+  # flutter_compass: ^0.7.0
+  flutter_compass:
+    git: https://github.com/hemanthrajv/flutter_compass.git
 
   flutter_localizations:
     sdk: flutter
 
   here_sdk:
     path: plugins/here_sdk
-
-  # flutter_compass: ^0.7.0
-  flutter_compass:
-    git: https://github.com/hemanthrajv/flutter_compass.git
-  scroll_to_index: ^3.0.1
   
 dev_dependencies:
   hive_generator: ^1.1.3

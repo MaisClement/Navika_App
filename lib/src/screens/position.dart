@@ -32,6 +32,7 @@ class _PositionState extends State<Position> {
               color: Colors.white,
             ),
             onTap: () {
+              globals.hiveBox.put('askGps', true);
               Navigator.pop(context);
             },
           ),
@@ -81,6 +82,7 @@ class _PositionState extends State<Position> {
                     } else {
                       globals.hiveBox.put('allowGps', true);
                     }
+                    globals.hiveBox.put('askGps', true);
                     Navigator.pop(context);
                   },
                 ),
@@ -94,6 +96,7 @@ class _PositionState extends State<Position> {
                   child: const Text('Ne pas autoriser'),
                   onPressed: () async {
                     globals.hiveBox.put('allowGps', false);
+                    globals.hiveBox.put('askGps', true);
                     Navigator.pop(context);
                   },
                 ),

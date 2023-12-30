@@ -99,9 +99,25 @@ class HereController {
     return mapMarker;
   }
 
+  MapMarker createMapMarker(GeoCoordinates geoCoordinates, imgPath, Metadata metadata, [int size = 100]) {
+    Anchor2D anchor2D = Anchor2D.withHorizontalAndVertical(0.5, 1);
+    MapImage mapImage = MapImage.withFilePathAndWidthAndHeight(imgPath, size, size);
+    MapMarker mapMarker = MapMarker.withAnchor(geoCoordinates, mapImage, anchor2D);
+    mapMarker.metadata = metadata;
+    return mapMarker;
+  }
+
   void removeMapMarker(MapMarker mapMarker) {
     _hereMapController.mapScene.removeMapMarker(mapMarker);
   }
+
+  void addMapMarkerCluster(MapMarkerCluster cluster) {
+    _hereMapController.mapScene.addMapMarkerCluster(cluster);
+  }
+
+  void removeMapMarkerCluster(MapMarkerCluster cluster) {
+    _hereMapController.mapScene.removeMapMarkerCluster(cluster);
+  }  
 
   void addTapListener(tapListener) {
     _hereMapController.gestures.tapListener = tapListener;

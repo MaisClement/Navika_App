@@ -154,6 +154,10 @@ Future _initializeHive() async {
   // ---
   // Options
   // GPS Autorisé
+  if (globals.hiveBox.get('askGps') == null) {
+    globals.hiveBox.put('askGps', false);
+  }
+  
   if (globals.hiveBox.get('allowGps') == null) {
     globals.hiveBox.put('allowGps', false);
   }
