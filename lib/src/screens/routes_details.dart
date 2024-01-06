@@ -164,7 +164,7 @@ String? getMapUrl(Map line) {
 List<Widget> getTimeTableWidgets(Map line, context, fromlocaldata) {
   List<Widget> res = [];
 
-  res.add(const SizedBox(height: 15));
+  res.add(const SizedBox(height: 5));
 
   if (line['timetables']['timetables'].length == 1) {
     res.add(Padding(
@@ -194,7 +194,7 @@ List<Widget> getTimeTableWidgets(Map line, context, fromlocaldata) {
   } else {
     for (var timetable in line['timetables']['timetables']) {
       res.add(Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
+        padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
         child: ButtonLarge(
           icon: NavikaIcons.clock,
           text: timetable['name'],
