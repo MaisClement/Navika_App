@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class ButtonLarge extends StatelessWidget {
   final Function()? onTap;
   final IconData? icon;
+  final image;
   final Color? color;
   final TextStyle? style;
   final String text;
@@ -12,6 +13,7 @@ class ButtonLarge extends StatelessWidget {
     required this.text,
     this.onTap,
     this.icon,
+    this.image,
     this.color,
     this.style,
     this.borderRadius,
@@ -33,7 +35,12 @@ class ButtonLarge extends StatelessWidget {
           padding: const EdgeInsets.only(left: 15, right: 15),
           child: Row(
             children: [
-              if (icon != null)
+              if (image != null)
+                Image(image: image,
+                  width: 25,
+                  height: 25,
+                )
+              else if (icon != null)
                 Icon(icon, 
                   color: Theme.of(context).colorScheme.onSurface,
                   size: 25,

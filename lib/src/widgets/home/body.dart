@@ -8,7 +8,9 @@ import 'package:navika/src/widgets/home/fav_scroll.dart';
 import 'package:navika/src/widgets/home/messages.dart';
 import 'package:navika/src/widgets/route/favorites.dart';
 import 'package:navika/src/widgets/trafic/block.dart';
+import 'package:navika/src/widgets/utils/button_large.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
+import 'package:navika/src/data/global.dart' as globals;
 
 class HomeBody extends StatelessWidget {
   final ScrollController scrollController;
@@ -61,7 +63,7 @@ class HomeBody extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 10, bottom: 10),
                     child: Text(
-                      'Vos itinéraires',
+                      block['name'],
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
@@ -155,7 +157,7 @@ class HomeBody extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 10, bottom: 10),
                 child: Text(
-                  'Etat du trafic',
+                  block['name'],
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
@@ -197,7 +199,7 @@ class HomeBody extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 10, bottom: 10),
                 child: Text(
-                  'Vos horaires',
+                  block['name'],
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
@@ -215,6 +217,50 @@ class HomeBody extends StatelessWidget {
                   update: update,
                   removeSeparator: true,
                 ),
+            ],
+          ),
+        );
+      }
+
+      // Trafic
+      if (block['id'] == 'map' && block['enabled'] == true) {
+        res.add(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, bottom: 10),
+                child: Text(
+                  block['name'],
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Segoe Ui',
+                    color: accentColor(context),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                child: ButtonLarge(
+                  icon: NavikaIcons.map,
+                  text: 'Plans',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 17,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: () {
+                    RouteStateScope.of(context).go('/maps');
+                    // globals.pdfUrl = 'https://eu.ftp.opendatasoft.com/stif/PlansRegion/Plans/REGION_MF_complete.pdf';
+                    // globals.pdfTitle = 'Plan du réseau';
+                    // RouteStateScope.of(context).go('/pdf');
+                  },
+                ),
+              ),
             ],
           ),
         );
@@ -248,19 +294,17 @@ class HomeBody extends StatelessWidget {
             endIndent: 20,
           ),
         
-          Center(
-            child: IconElevatedButton(
-              icon: NavikaIcons.settings,
-              width: 240,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.surface,
-                foregroundColor: accentColor(context),
-              ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-              text: 'Réorganiser cette page',
-              onPressed: () {
-                RouteStateScope.of(context).go('/home/settings');
-              },
-            ),
+          IconElevatedButton(
+            icon: NavikaIcons.settings,
+            width: 240,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: accentColor(context),
+            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+            text: 'Réorganiser cette page',
+            onPressed: () {
+              RouteStateScope.of(context).go('/home/settings');
+            },
           ),
         ],
       );

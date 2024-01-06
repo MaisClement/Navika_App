@@ -236,7 +236,7 @@ class NavikaApi {
       'from': from,
       'to': to,
       timeType: datetime.toIso8601String(),
-      'travelerType': travelerType,
+      'traveler_type': travelerType,
       'forbidden_mode' : modes
     });
     return doRequest(url);
@@ -274,6 +274,12 @@ class NavikaApi {
 
   Future getVehicleJourney(String id) async {
     String url = buildUrl('${globals.API_VEHICLE_JOURNEY}/$id', {});
+
+    return doRequest(url);
+  }
+
+  Future getMaps() async {
+    String url = buildUrl('${globals.API_MAPS}', {});
 
     return doRequest(url);
   }

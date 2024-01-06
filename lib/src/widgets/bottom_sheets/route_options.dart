@@ -38,6 +38,9 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
     setState(() {
       travelerType = type;
     });
+    if (widget.setState!= null) {
+      widget.setState!(() {});
+    }
   }
 
   void handleChangeMode(String type, bool value) {

@@ -25,7 +25,7 @@ class LinesIcones extends StatelessWidget {
           height: size,
           margin: removeMargin
             ? const EdgeInsets.all(0)
-            : const EdgeInsets.all(5),
+            : const EdgeInsets.only(left:3, right:3, top: 5, bottom: 5),
           child: Image(
             image: AssetImage( getIconLine(context, LINES.getLinesById(line['code'])) )
           ),
@@ -36,7 +36,7 @@ class LinesIcones extends StatelessWidget {
           height: size,
           margin: removeMargin
             ? const EdgeInsets.all(0)
-            : const EdgeInsets.all(5),
+            : const EdgeInsets.only(left:3, right:3, top: 5, bottom: 5),
           child: Image(
             image: AssetImage( getIconLine(context, LINES.getLinesById(line['id'])) )
           ),
@@ -47,7 +47,7 @@ class LinesIcones extends StatelessWidget {
           height: size * 0.64,
           margin: removeMargin
             ? EdgeInsets.only(top: (size - size * 0.64) / 2, bottom: (size - size * 0.64) / 2)
-            : EdgeInsets.only(left:5, right:5, top: ((size - size * 0.64) / 2) + 5, bottom: ((size - size * 0.64) / 2) + 5),
+            : EdgeInsets.only(left:3, right:3, top: ((size - size * 0.64) / 2) + 5, bottom: ((size - size * 0.64) / 2) + 5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(3),
             color: HexColor.fromHex(line['color']),

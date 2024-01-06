@@ -258,6 +258,8 @@ class _SettingsState extends State<Settings> {
               url: 'http://app.navika.hackernwar.com/legal.php',
             ),
             
+
+            // OSM
             const Padding(
               padding: EdgeInsets.only(left: 20, right: 20),
               child: Divider(
@@ -267,7 +269,28 @@ class _SettingsState extends State<Settings> {
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
               child: const Text(
-                'Navika repose sur des technologies et services de « HERE Global B.V.» par le biais de la carte ou de certaines fonctionnalités de recherche de lieu. La politique de confidentialité de HERE est disponible ci-dessus.',
+                'Les données geographiques utilisées par Navika sont fourni par OpenStreetMap et ses contributeurs.',
+                style: TextStyle(
+                  fontFamily: 'Segoe Ui',
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            SettingsLink(
+              name: 'Licence OpenStreetMap ›',
+              url: 'https://www.openstreetmap.org/copyright/fr/',
+            ),
+            
+            const Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: Divider(
+                color: Colors.white,
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+              child: const Text(
+                'Navika repose sur des technologies et services de « HERE Global B.V.».',
                 style: TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,

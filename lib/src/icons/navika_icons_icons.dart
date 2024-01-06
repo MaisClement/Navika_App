@@ -87,6 +87,7 @@ class NavikaIcons {
   static const IconData ticket_2 = IconData(0xe83d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData leaf = IconData(0xe83e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData slide = IconData(0xe83f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData map = IconData(0xe841, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData saved = IconData(0xe85a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData bell = IconData(0xe86c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData busFace = IconData(0xe880, fontFamily: _kFontFam, fontPackage: _kFontPkg);

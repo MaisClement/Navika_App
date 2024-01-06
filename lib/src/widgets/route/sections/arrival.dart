@@ -52,7 +52,7 @@ class SectionArrival extends StatelessWidget {
             color: Theme.of(context).colorScheme.surface,
             child: Row(
               children: [
-                Text(getStringTime(section['departure_date_time']),
+                Text(getStringTime(section['arrival_date_time']),
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Segoe Ui',

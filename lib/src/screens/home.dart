@@ -127,22 +127,26 @@ class _HomeState extends State<Home> {
     }
     _oldcamGeoCoords = camGeoCoords;
 
-    NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getNearPoints(zoom, camGeoCoords);
+    if (zoom < 200000) {
+      NavikaApi navikaApi = NavikaApi();
+      Map result = await navikaApi.getNearPoints(zoom, camGeoCoords);
 
-    if (result['status'] == ApiStatus.ok && mounted) {
-      setState(() {
-        stopsNearby = result['value']?['stops'];
-        
-        if (result['value']?['bike'] != null) {
-          bikeNearby = result['value']?['bike'];
-        } else {
-          bikeNearby = [];
-        }
-      });
+      if (result['status'] == ApiStatus.ok && mounted) {
+        setState(() {
+          stopsNearby = result['value']?['stops'];
+          
+          if (result['value']?['bike'] != null) {
+            bikeNearby = result['value']?['bike'];
+          } else {
+            bikeNearby = [];
+          }
+        });
+      }
+      _clearMarker();
+      _setMarker();
+    } else {
+      _clearMarker();
     }
-    _clearMarker();
-    _setMarker();
   }
 
   void _clearMarker() {

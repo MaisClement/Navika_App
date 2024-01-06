@@ -143,14 +143,13 @@ void initJourney(Map? from, Map? to, context) async {
 void addToHistory(Map place) {
   List history = globals.hiveBox.get('historyPlaces');
 
-  if (history.any((element) => element['id'] == place['id'])) {
-    return;
-  }
+  // history.removeWhere((element) => element['id'] == place['id']);
+  history = history.where((element) => element['id'] != place['id']).toList();
 
   place['type'] = 'history';
-  if (place['lines'] != null) {
-    place['lines'] = [];
-  }
+  // if (place['lines'] != null) {
+  //   place['lines'] = [];
+  // }
 
   history = [place, ...history];
   history = history.slice(0, history.length > 15 ? 15 : history.length);
@@ -178,6 +177,7 @@ class _JourneysState extends State<Journeys> {
   List journeys = [];
   double turn = 0;
   List allowedModes = globals.hiveBox.get('allowedModes');
+  String travelerType = globals.hiveBox.get('travelerType');
 
   String currentTextInput = 'from';
 
@@ -293,9 +293,9 @@ class _JourneysState extends State<Journeys> {
               title: Text(title, style: appBarTitle),
               actions: [
                 Container(
-                  decoration: allowedModes.length >= 7
-                    ? null
-                    : BoxDecoration(
+                  decoration: allowedModes.length >= 7 || travelerType != 'standard'
+                      ? null
+                      : BoxDecoration(
                         color: Theme.of(context).colorScheme.primary,
                         borderRadius: BorderRadius.circular(500),
                       ),
@@ -304,9 +304,9 @@ class _JourneysState extends State<Journeys> {
                     icon: const Icon(
                       NavikaIcons.options,
                     ),
-                    color: allowedModes.length >= 7
-                            ? Theme.of(context).colorScheme.onSurface
-                            : Theme.of(context).colorScheme.surface,
+                    color: allowedModes.length >= 7 || travelerType != 'standard'
+                             ? Theme.of(context).colorScheme.onSurface
+                             : Colors.white,
                     tooltip: 'Options',
                     onPressed: () {
                       showModalBottomSheet<void>(
@@ -321,6 +321,7 @@ class _JourneysState extends State<Journeys> {
                             ));
                       setState(() {
                         allowedModes = globals.hiveBox.get('allowedModes');
+                        travelerType = globals.hiveBox.get('travelerType');
                       });
                     },
                   ),

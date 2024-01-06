@@ -127,11 +127,11 @@ Future _initializeHive() async {
         'name': 'Vos horaires',
         'enabled': true,
       },
-    // {
-    //   'id': 'lines',
-    //   'name': 'Vos lignes',
-    //   'enabled': true,
-    // },
+      {
+        'id': 'map',
+        'name': 'Plan du réseau',
+        'enabled': true,
+      },
     ],
     );
   }
@@ -188,6 +188,17 @@ Future _initializeHive() async {
   // useSerin
   if (globals.hiveBox.get('useSerin') == null) {
     globals.hiveBox.put('useSerin', false);
+  }
+
+
+  // Migrations 
+  // Plan du réseau - added with v1.1.0
+  if (!globals.hiveBox.get('homeOrder').any((element) => element['id'] =='map')) {
+    globals.hiveBox.put('homeOrder', globals.hiveBox.get('homeOrder')..add({
+      'id':'map',
+      'name': 'Plan du réseau',
+      'enabled': true,
+    }));
   }
 
   if (kDebugMode) {
@@ -284,10 +295,8 @@ Future _initializeCrashlytics() async {
 }
 
 void _initializeLocalNotification() {
-  var initializationSettingsAndroid =
-      const AndroidInitializationSettings('app_icon');
-  var initializationSettings =
-      InitializationSettings(android: initializationSettingsAndroid);
+  var initializationSettingsAndroid = const AndroidInitializationSettings('app_icon');
+  var initializationSettings = InitializationSettings(android: initializationSettingsAndroid);
   flutterLocalNotificationsPlugin.initialize(initializationSettings);
 }
 

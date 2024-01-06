@@ -15,7 +15,7 @@ IconData getPlaceIcon(type){
     return NavikaIcons.star;
   } else if (type == 'address'){
     return NavikaIcons.marker;
-  } else if (type == 'administrative_region'){
+  } else if (type == 'locality'){
     return NavikaIcons.city;
   } else if (type == 'current_pos'){
     return NavikaIcons.localisation;
@@ -73,7 +73,21 @@ class PlacesListButton extends StatelessWidget {
               ],
             ),
             
-            if (place['distance'] == 0)
+            if (place['type'] == 'locality')
+              Container(
+                margin: const EdgeInsets.only(left:5.0, top:4.0),
+                child: Row(
+                  children: [
+                    Text('${place['department']}, ${place['region']}',
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontFamily: 'Segoe Ui',
+                      ),
+                    ),
+                  ],
+                )
+              )
+            else if (place['distance'] == 0)
               Container(
                 margin: const EdgeInsets.only(left:5.0, top:4.0),
                 child: Text( place['zip_code'] == '' ? place['town'] : '${place['zip_code']}, ${place['town']}',
@@ -82,9 +96,8 @@ class PlacesListButton extends StatelessWidget {
                     fontFamily: 'Segoe Ui',
                   ),
                 ),
-              ),
-
-            if (place['distance'] != 0)
+              )
+            else
               Container(
                 margin: const EdgeInsets.only(left:5.0, top:4.0),
                 child: Row(

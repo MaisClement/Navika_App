@@ -18,6 +18,7 @@ const String API_BIKE_STATIONS =                    '$API_BASE/bikes';
 const String API_JOURNEY =                          '$API_BASE/journey';
 const String API_JOURNEYS =                         '$API_BASE/journeys';
 const String API_VEHICLE_JOURNEY =                  '$API_BASE/vehicle_journey';
+const String API_MAPS =                             '$API_BASE/maps';
 const String API_ADD_NOTIFICATION_SUBSCRIPTION =    '$API_BASE/notification/subscribe';
 const String API_RENEW_NOTIFICATION =               '$API_BASE/notification/renew';
 const String API_GET_NOTIFICATION_SUBSCRIPTION =    '$API_BASE/notification/get';
