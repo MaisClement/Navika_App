@@ -10,7 +10,6 @@ import 'package:navika/src/widgets/route/favorites.dart';
 import 'package:navika/src/widgets/trafic/block.dart';
 import 'package:navika/src/widgets/utils/button_large.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
-import 'package:navika/src/data/global.dart' as globals;
 
 class HomeBody extends StatelessWidget {
   final ScrollController scrollController;
@@ -255,9 +254,6 @@ class HomeBody extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   onTap: () {
                     RouteStateScope.of(context).go('/maps');
-                    // globals.pdfUrl = 'https://eu.ftp.opendatasoft.com/stif/PlansRegion/Plans/REGION_MF_complete.pdf';
-                    // globals.pdfTitle = 'Plan du réseau';
-                    // RouteStateScope.of(context).go('/pdf');
                   },
                 ),
               ),

@@ -60,6 +60,7 @@ Map route = {
   'to' : _a
 };
 
+bool isTimeNow = true;
 DateTime selectedDate = DateTime.now();
 TimeOfDay selectedTime = TimeOfDay.now();
 String timeType = 'departure';

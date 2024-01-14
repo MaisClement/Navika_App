@@ -188,9 +188,8 @@ class _JourneysDetailsState extends State<JourneysDetails> {
     _controller?.addMapPolylines(mapPolyline);
   }
 
-  Future<void> _getLocation() async {
+  Future<void> _getLocation(isResume) async {
     bool serviceEnabled;
-    gps.PermissionStatus permissionGranted;
     gps.LocationData locationData;
 
     bool? allowGps = await globals.hiveBox?.get('allowGps');
@@ -206,33 +205,20 @@ class _JourneysDetailsState extends State<JourneysDetails> {
           return;
         }
       }
+    } 
 
-      permissionGranted = await location.hasPermission();
-      if (permissionGranted == gps.PermissionStatus.denied) {
-        permissionGranted = await location.requestPermission();
-        if (permissionGranted != gps.PermissionStatus.granted) {
-          return;
-        }
-      }
-
-      locationData = await location.getLocation();
-      FlutterCompass.events?.listen((CompassEvent compassEvent) {
-        _updateCompass(compassEvent);
-      });
+    locationData = await location.getLocation();
+    camGeoCoords = GeoCoordinates(locationData.latitude ?? 0, locationData.longitude ?? 0);
+      
+    FlutterCompass.events?.listen((CompassEvent compassEvent) {
+      _updateCompass(compassEvent);
+    });
+    if (!isResume) {
       _addLocationIndicator(locationData);
-      location.onLocationChanged.listen((gps.LocationData currentLocation) {
-        _updateLocationIndicator(currentLocation);
-      });
-    } else {
-      locationData = await location.getLocation();
-
-      FlutterCompass.events?.listen((CompassEvent compassEvent) {
-        _updateCompass(compassEvent);
-      });
-      location.onLocationChanged.listen((gps.LocationData currentLocation) {
-        _updateLocationIndicator(currentLocation);
-      });
     }
+    location.onLocationChanged.listen((gps.LocationData currentLocation) {
+      _updateLocationIndicator(currentLocation);
+    });
   }
 
   @override
@@ -420,38 +406,44 @@ class _JourneysDetailsState extends State<JourneysDetails> {
 
   void _onMapCreated(HereMapController hereMapController) {
     //THEME
-    MapScheme mapScheme =
-        Brightness.dark == Theme.of(context).colorScheme.brightness
+    MapScheme mapScheme = Brightness.dark == Theme.of(context).colorScheme.brightness
             ? MapScheme.normalNight
             : MapScheme.normalDay;
-    hereMapController.mapScene.loadSceneForMapScheme(mapScheme,
-        (MapError? error) {
+
+    hereMapController.mapScene.loadSceneForMapScheme(mapScheme,(MapError? error) {
       if (error != null) {
         return;
       }
 
       _controller = HereController(hereMapController);
-      _getLocation();
+      _getLocation(globals.isSetLocation);
 
       GeoCoordinates geoCoords;
       //double distanceToEarthInMeters = 100000;
-      geoCoords = getCenterPoint(getFromCoords()['lat'], getFromCoords()['lon'],
-          getToCoords()['lat'], getToCoords()['lon']);
+      geoCoords = getCenterPoint(
+        getFromCoords()['lat'], 
+        getFromCoords()['lon'],
+        getToCoords()['lat'], 
+        getToCoords()['lon']
+      );
 
-      double distanceToEarthInMeters = getDistance(getFromCoords()['lat'],
-          getFromCoords()['lon'], getToCoords()['lat'], getToCoords()['lon']);
+      double distanceToEarthInMeters = getDistance(
+        getFromCoords()['lat'],
+        getFromCoords()['lon'],
+        getToCoords()['lat'],
+        getToCoords()['lon']
+      );
 
-      MapMeasure mapMeasureZoom =
-          MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
-      hereMapController.camera
-          .lookAtPointWithMeasure(geoCoords, mapMeasureZoom);
+      MapMeasure mapMeasureZoom =MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
+      hereMapController.camera.lookAtPointWithMeasure(geoCoords, mapMeasureZoom);
 
       _controller?.addLocationIndicator(
-          globals.locationData,
-          LocationIndicatorIndicatorStyle.pedestrian,
-          globals.compassHeading,
-          false,
-          false);
+        globals.locationData,
+        LocationIndicatorIndicatorStyle.pedestrian,
+        globals.compassHeading,
+        false,
+        false,
+      );
 
       _createGeoJson(journey);
     });

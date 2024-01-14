@@ -279,7 +279,7 @@ class NavikaApi {
   }
 
   Future getMaps() async {
-    String url = buildUrl('${globals.API_MAPS}', {});
+    String url = buildUrl(globals.API_MAPS, {});
 
     return doRequest(url);
   }

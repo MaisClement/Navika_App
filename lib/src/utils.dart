@@ -702,3 +702,12 @@ List getForbiddenModes() {
   }
   return res;
 }
+
+ThemeMode getThemeMode(String themeMode) {
+  if (themeMode == 'dark') {
+    return ThemeMode.dark;
+  } else if (themeMode == 'light') {
+    return ThemeMode.light;
+  }
+  return ThemeMode.system;
+}

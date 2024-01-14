@@ -38,8 +38,7 @@ class BottomRemoveFavorite extends StatefulWidget {
   State<BottomRemoveFavorite> createState() => _BottomRemoveFavoriteState();
 }
 
-class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite>
-    with SingleTickerProviderStateMixin {
+class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite> with SingleTickerProviderStateMixin {
   List stopsFavorites = globals.hiveBox.get('stopsFavorites') ?? [];
 
   void handleRemove(id, line, update) {
@@ -64,80 +63,77 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite>
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-        height: 250,
-        decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(5), topRight: Radius.circular(5)),
-            boxShadow: [
-              BoxShadow(
-                color: accentColor(context).withOpacity(0.1),
-                spreadRadius: 3,
-                blurRadius: 5,
-                offset: const Offset(0, 2),
-              )
-            ]),
-        child: Container(
-          padding: const EdgeInsets.only(
-              left: 20.0, top: 30.0, right: 20.0, bottom: 10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Supprimer ce favori.',
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Segoe Ui',
-                  color: accentColor(context),
-                ),
-              ),
-              Divider(
+  Widget build(BuildContext context) => SingleChildScrollView(
+    child: Container(
+      decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+          boxShadow: [
+            BoxShadow(
+              color: accentColor(context).withOpacity(0.1),
+              spreadRadius: 3,
+              blurRadius: 5,
+              offset: const Offset(0, 2),
+            )
+          ]),
+      child: Container(
+        padding: const EdgeInsets.only(left: 20.0, top: 30.0, right: 20.0, bottom: 10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Supprimer ce favori',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Segoe Ui',
                 color: accentColor(context),
               ),
-              const SizedBox(
-                height: 10,
+            ),
+            Divider(
+              color: accentColor(context),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Etes-vous sur de supprimer ce favori ?',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Segoe Ui',
+                color: accentColor(context),
               ),
-              Expanded(
-                child: Text(
-                  'Etes-vous sur de supprimer ce favori ?',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
-                    color: accentColor(context),
-                  ),
-                ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            
+            Center(
+              child: IconElevatedButton(
+                icon: NavikaIcons.trash,
+                width: 135,
+                text: 'Supprimer',
+                onPressed: () {
+                  handleRemove(widget.id, widget.line, widget.update);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xffeb2031),
+                  foregroundColor: const Color(0xffffffff),
+                ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
               ),
-              const SizedBox(
-                height: 20,
+            ),
+            Center(
+              child: IconElevatedButton(
+                icon: NavikaIcons.cancel,
+                width: 135,
+                text: 'Annuler',
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
-              
-              Center(
-                child: IconElevatedButton(
-                  icon: NavikaIcons.trash,
-                  width: 135,
-                  text: 'Supprimer',
-                  onPressed: () {
-                    handleRemove(widget.id, widget.line, widget.update);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xffeb2031),
-                    foregroundColor: const Color(0xffffffff),
-                  ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                ),
-              ),
-              Center(
-                child: IconElevatedButton(
-                  icon: NavikaIcons.cancel,
-                  width: 135,
-                  text: 'Annuler',
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }

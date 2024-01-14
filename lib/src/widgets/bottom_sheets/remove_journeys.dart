@@ -41,42 +41,39 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveJourneys> with Single
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-        height: 250,
-        decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(5), topRight: Radius.circular(5)),
-            boxShadow: [
-              BoxShadow(
-                color: accentColor(context).withOpacity(0.1),
-                spreadRadius: 3,
-                blurRadius: 5,
-                offset: const Offset(0, 2),
-              )
-            ]),
-        child: Container(
-          padding: const EdgeInsets.only(
-              left: 20.0, top: 30.0, right: 20.0, bottom: 10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Supprimer l’itinéraire.',
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Segoe Ui',
+  Widget build(BuildContext context) => SingleChildScrollView(
+    child: Container(
+          decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+              boxShadow: [
+                BoxShadow(
+                  color: accentColor(context).withOpacity(0.1),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
+                )
+              ]),
+          child: Container(
+            padding: const EdgeInsets.only(left: 20.0, top: 30.0, right: 20.0, bottom: 10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Supprimer l’itinéraire',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Segoe Ui',
+                    color: accentColor(context),
+                  ),
+                ),
+                Divider(
                   color: accentColor(context),
                 ),
-              ),
-              Divider(
-                color: accentColor(context),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Expanded(
-                child: Text(
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
                   'Etes-vous sur de supprimer cet itinéraire ?',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
@@ -84,37 +81,37 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveJourneys> with Single
                     color: accentColor(context),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              
-              Center(
-                child: IconElevatedButton(
-                  icon: NavikaIcons.trash,
-                  width: 135,
-                  text: 'Supprimer',
-                  onPressed: () {
-                    handleRemove(widget.id, widget.update, context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xffeb2031),
-                    foregroundColor: const Color(0xffffffff),
-                  ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              Center(
-                child: IconElevatedButton(
-                  icon: NavikaIcons.cancel,
-                  width: 135,
-                  text: 'Annuler',
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                
+                Center(
+                  child: IconElevatedButton(
+                    icon: NavikaIcons.trash,
+                    width: 135,
+                    text: 'Supprimer',
+                    onPressed: () {
+                      handleRemove(widget.id, widget.update, context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xffeb2031),
+                      foregroundColor: const Color(0xffffffff),
+                    ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                  ),
                 ),
-              ),
-            ],
+                Center(
+                  child: IconElevatedButton(
+                    icon: NavikaIcons.cancel,
+                    width: 135,
+                    text: 'Annuler',
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      );
+  );
 }

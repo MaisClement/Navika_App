@@ -28,98 +28,99 @@ class TimeSettings extends StatelessWidget {
   });
   
   @override
-  Widget build(BuildContext context) => Container(
-    height: 370,
-    decoration: BoxDecoration(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(5),
-        topRight: Radius.circular(5)
-      ),
-      boxShadow: [
-        BoxShadow(
-          color: accentColor(context).withOpacity(0.1),
-          spreadRadius: 3,
-          blurRadius: 5,
-          offset: const Offset(0, 2),
-        )
-      ]
-    ),
+  Widget build(BuildContext context) => SingleChildScrollView(
     child: Container(
-      padding: const EdgeInsets.only(left:20.0, top:30.0, right:20.0, bottom:10.0), 
-      child:
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start, 
-          children: [
-            Text(
-              'Modifier l’heure',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                fontFamily: 'Segoe Ui',
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(5),
+          topRight: Radius.circular(5)
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: accentColor(context).withOpacity(0.1),
+            spreadRadius: 3,
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          )
+        ]
+      ),
+      child: Container(
+        padding: const EdgeInsets.only(left:20.0, top:30.0, right:20.0, bottom:10.0), 
+        child:
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start, 
+            children: [
+              Text(
+                'Modifier l’heure',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Segoe Ui',
+                  color: accentColor(context),
+                ),
+              ),
+              Divider(
                 color: accentColor(context),
               ),
-            ),
-            Divider(
-              color: accentColor(context),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            RadioTiles(
-              tiles: const [
-                {
-                  'name': 'Départ à',
-                  'value': 'departure',
-                  'icon': NavikaIcons.departure
-                },
-                {
-                  'name': 'Arrivée à',
-                  'value': 'arrival',
-                  'icon': NavikaIcons.arrival
-                },
-              ],
-              value: timeType,
-              onTileChange: (value) {
-                setTimeType(value);
-                setState(() {});
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 5.0, bottom: 10.0),
-              child: SearchBox(
-                text: getDate(selectedDate),
-                icon: NavikaIcons.calendar,
-                onTap: () async {
-                  await selectDate(context);
+              const SizedBox(
+                height: 10,
+              ),
+              RadioTiles(
+                tiles: const [
+                  {
+                    'name': 'Départ à',
+                    'value': 'departure',
+                    'icon': NavikaIcons.departure
+                  },
+                  {
+                    'name': 'Arrivée à',
+                    'value': 'arrival',
+                    'icon': NavikaIcons.arrival
+                  },
+                ],
+                value: timeType,
+                onTileChange: (value) {
+                  setTimeType(value);
                   setState(() {});
                 },
               ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 5.0, bottom: 10.0),
-              child: SearchBox(
-                text: getTodTime(selectedTime),
-                icon: NavikaIcons.clock,
-                onTap: () async {
-                  await selectTime(context);
-                  setState(() {});
-                },
+              const SizedBox(
+                height: 10,
               ),
-            ),
-            Center(
-              child: ElevatedButton(
-                child: const Text('Valider'),
-                onPressed: () {
-                  update();
-                  Navigator.pop(context);
-                },
-              ),  
-            )
-          ],
+              Container(
+                margin: const EdgeInsets.only(top: 5.0, bottom: 10.0),
+                child: SearchBox(
+                  text: getDate(selectedDate),
+                  icon: NavikaIcons.calendar,
+                  onTap: () async {
+                    await selectDate(context);
+                    setState(() {});
+                  },
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 5.0, bottom: 10.0),
+                child: SearchBox(
+                  text: getTodTime(selectedTime),
+                  icon: NavikaIcons.clock,
+                  onTap: () async {
+                    await selectTime(context);
+                    setState(() {});
+                  },
+                ),
+              ),
+              Center(
+                child: ElevatedButton(
+                  child: const Text('Valider'),
+                  onPressed: () {
+                    update();
+                    Navigator.pop(context);
+                  },
+                ),  
+              )
+            ],
+          )
         )
-      )
+    ),
   );
 }

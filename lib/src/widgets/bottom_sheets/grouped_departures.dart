@@ -16,90 +16,90 @@ class BottomGroupedDepartures extends StatefulWidget {
   State<BottomGroupedDepartures> createState() => _BottomGroupedDeparturesState();
 }
 
-class _BottomGroupedDeparturesState extends State<BottomGroupedDepartures>
-    with SingleTickerProviderStateMixin {
+class _BottomGroupedDeparturesState extends State<BottomGroupedDepartures> with SingleTickerProviderStateMixin {
 
   bool ungroup = globals.hiveBox?.get('ungroupDepartures') ?? false;
 
 	@override
-	Widget build(BuildContext context) => Container(
-    height: 330,
-    decoration: BoxDecoration(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(5),
-        topRight: Radius.circular(5)
-      ),
-      boxShadow: [
-        BoxShadow(
-          color: accentColor(context).withOpacity(0.1),
-          spreadRadius: 3,
-          blurRadius: 5,
-          offset: const Offset(0, 2),
-        )
-      ]
-    ),
+	Widget build(BuildContext context) => SingleChildScrollView(
     child: Container(
-      padding: const EdgeInsets.only(left:20.0, top:30.0, right:20.0, bottom:10.0), 
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Affichage de vos trains.',
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'Segoe Ui',
-              color: accentColor(context),
-            ),
-          ),
-          Divider(
-            color: accentColor(context),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text('Voulez-vous regrouper les trains selon leur ligne ?',
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontFamily: 'Segoe Ui',
-              color: accentColor(context),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          
-          RadioListTile(
-            title: const Text('Groupé'),
-            value: false, 
-            groupValue: ungroup, 
-            onChanged: (value){
-              setState(() {
-                ungroup = value ?? false;
-              });
-              globals.hiveBox.put('ungroupDepartures', value);
-              widget.update();
-            },
-          ),
-          RadioListTile(
-            title: const Text('Dégroupé'),
-            value: true, 
-            groupValue: ungroup, 
-            onChanged: (value){
-              setState(() {
-                ungroup = value ?? false;
-              });
-              globals.hiveBox.put('ungroupDepartures', value);
-              widget.update();
-            },
-          ),
-
-          Center(
-            child: ElevatedButton(
-              child: const Text('Fermer'),
-              onPressed: () => Navigator.pop(context),
-            ),  
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(5),
+          topRight: Radius.circular(5)
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: accentColor(context).withOpacity(0.1),
+            spreadRadius: 3,
+            blurRadius: 5,
+            offset: const Offset(0, 2),
           )
-        ],
+        ]
+      ),
+      child: Container(
+        padding: const EdgeInsets.only(left:20.0, top:30.0, right:20.0, bottom:10.0), 
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Affichage de vos trains',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Segoe Ui',
+                color: accentColor(context),
+              ),
+            ),
+            Divider(
+              color: accentColor(context),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text('Voulez-vous regrouper les trains selon leur ligne ?',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Segoe Ui',
+                color: accentColor(context),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            
+            RadioListTile(
+              title: const Text('Groupé'),
+              value: false, 
+              groupValue: ungroup, 
+              onChanged: (value){
+                setState(() {
+                  ungroup = value ?? false;
+                });
+                globals.hiveBox.put('ungroupDepartures', value);
+                widget.update();
+              },
+            ),
+            RadioListTile(
+              title: const Text('Dégroupé'),
+              value: true, 
+              groupValue: ungroup, 
+              onChanged: (value){
+                setState(() {
+                  ungroup = value ?? false;
+                });
+                globals.hiveBox.put('ungroupDepartures', value);
+                widget.update();
+              },
+            ),
+  
+            Center(
+              child: ElevatedButton(
+                child: const Text('Fermer'),
+                onPressed: () => Navigator.pop(context),
+              ),  
+            )
+          ],
+        ),
       ),
     ),
   );

@@ -50,11 +50,11 @@ class RoutesSchedulesList extends StatelessWidget {
           child: schedule['date_time'] != null
           ? Row(
             children: [
-              if (getSchedulesLate(schedule['date_time']['departure_date_time'], schedule['date_time']['base_departure_date_time']) > 0)
+              if (getSchedulesLate(schedule['date_time']['departure_date_time'], schedule['departure_date_time']) > 0)
                 Padding(
                 padding: const EdgeInsets.only(right: 7),
                   child: Text(
-                    getTime(schedule['date_time']['base_departure_date_time']),
+                    getTime(schedule['departure_date_time']),
                     maxLines: 1,
                     softWrap: false,
                     overflow: TextOverflow.fade,
@@ -77,12 +77,12 @@ class RoutesSchedulesList extends StatelessWidget {
                   decoration: schedule['date_time']['state'] == 'cancelled'
                     ? TextDecoration.lineThrough
                     : null,
-                  color: getSchedulesColorByStateList(schedule['date_time']['state'], getSchedulesLate(schedule['date_time']['departure_date_time'], schedule['date_time']['base_departure_date_time']) > 0, context),
+                  color: getSchedulesColorByStateList(schedule['date_time']['state'], getSchedulesLate(schedule['date_time']['departure_date_time'], schedule['departure_date_time']) > 0, context),
                 ),
               ),
               if (schedule['date_time']['state'] != 'theorical')
                 RealTime(
-                  color: getSchedulesColorByStateList(schedule['date_time']['state'], getSchedulesLate(schedule['date_time']['departure_date_time'], schedule['date_time']['base_departure_date_time']) > 0, context),
+                  color: getSchedulesColorByStateList(schedule['date_time']['state'], getSchedulesLate(schedule['date_time']['departure_date_time'], schedule['departure_date_time']) > 0, context),
                   height: 18,
                 ),
               if (getHeadsign(schedule) != '')

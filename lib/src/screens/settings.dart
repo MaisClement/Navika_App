@@ -10,6 +10,7 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/widgets/bottom_sheets/grouped_departures.dart';
 import 'package:navika/src/widgets/bottom_sheets/route_options.dart';
 import 'package:navika/src/widgets/bottom_sheets/terminus_trains.dart';
+import 'package:navika/src/widgets/bottom_sheets/theme_mode.dart';
 import 'package:navika/src/widgets/settings/button.dart';
 import 'package:navika/src/widgets/settings/link.dart';
 
@@ -175,6 +176,21 @@ class _SettingsState extends State<Settings> {
               icon: NavikaIcons.bell,
               function: () {
                 RouteStateScope.of(context).go('/settings/notifications');
+              },
+            ),
+
+            SettingsButton(
+              name: 'Theme',
+              icon: Icons.color_lens,
+              function: () {
+                showModalBottomSheet<void>(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: bottomSheetBorder,
+                    ),
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (BuildContext context) =>
+                        const BottomThemeMode());
               },
             ),
 

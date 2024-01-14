@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class IconElevatedButton extends StatelessWidget {
-  final IconData icon;
+  final IconData? icon;
   final double width;
   final String text;
   final Function() onPressed;
   final ButtonStyle? style;
 
   const IconElevatedButton({
-    required this.icon,
+    this.icon,
     required this.width,
     required this.text,
     required this.onPressed,

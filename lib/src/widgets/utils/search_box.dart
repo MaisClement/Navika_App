@@ -6,6 +6,7 @@ class SearchBox extends StatelessWidget {
   final TextStyle? style;
   final String text;
   final BorderRadius? borderRadius;
+  final Color? color;
 
   const SearchBox({
     required this.text,
@@ -13,6 +14,7 @@ class SearchBox extends StatelessWidget {
     this.icon,
     this.style,
     this.borderRadius,
+    this.color,
     super.key,
   });
 
@@ -21,6 +23,7 @@ class SearchBox extends StatelessWidget {
     shape: RoundedRectangleBorder(
       borderRadius: borderRadius ?? BorderRadius.circular(500),
     ),
+    color: color,
     child: InkWell(
       onTap: onTap,
       borderRadius: borderRadius ?? BorderRadius.circular(500),

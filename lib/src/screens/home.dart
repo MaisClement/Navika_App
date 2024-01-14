@@ -80,7 +80,6 @@ class _HomeState extends State<Home> {
 
   Future<void> _getLocation(isResume) async {
     bool serviceEnabled;
-    gps.PermissionStatus permissionGranted;
     gps.LocationData locationData;
 
     bool? askGps = await globals.hiveBox?.get('askGps');
@@ -387,10 +386,8 @@ class _HomeState extends State<Home> {
                       child: Material(
                         borderRadius: BorderRadius.circular(500),
                         elevation: 4.0,
-                        shadowColor:
-                            Colors.black.withOpacity(getOpacity(_position)),
-                        color:
-                            Theme.of(context).colorScheme.onSecondaryContainer,
+                        shadowColor: Colors.black.withOpacity(getOpacity(_position)),
+                        color: Theme.of(context).colorScheme.onSecondaryContainer,
                         child: InkWell(
                           borderRadius: BorderRadius.circular(500),
                           onTap: () {

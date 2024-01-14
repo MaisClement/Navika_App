@@ -35,8 +35,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   }
 }
 
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
   setHashUrlStrategy();
@@ -49,11 +48,17 @@ Future<void> main() async {
 
   await _initializeHERESDK();
 
-  await _initializeFirebase();
-
-  await _initializeCrashlytics();
-
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  try {
+    await _initializeFirebase();
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);   
+  } catch (e) {
+    print('Error while initializing Firebase');
+  }
+  try {
+    await _initializeCrashlytics();
+  } catch (e) {
+    print('Error while initializing Crashlytics');
+  }
 
   _initializeLocalNotification();
 
@@ -175,6 +180,11 @@ Future _initializeHive() async {
     globals.hiveBox.put('displayMode', 'default');
   }
 
+  // Theme
+  if (globals.hiveBox.get('themeMode') == null) {
+    globals.hiveBox.put('themeMode', 'default');
+  }
+
   // Affichage des terminus
   if (globals.hiveBox.get('hideTerminusTrain') == null) {
     globals.hiveBox.put('hideTerminusTrain', false);
@@ -211,8 +221,7 @@ Future _initializeHERESDK() async {
 
   String accessKeyId = credentials.HERE_ACCES_KEY_ID;
   String accessKeySecret = credentials.HERE_ACCES_KEY_SECRET;
-  SDKOptions sdkOptions =
-      SDKOptions.withAccessKeySecret(accessKeyId, accessKeySecret);
+  SDKOptions sdkOptions = SDKOptions.withAccessKeySecret(accessKeyId, accessKeySecret);
 
   try {
     await SDKNativeEngine.makeSharedInstance(sdkOptions);

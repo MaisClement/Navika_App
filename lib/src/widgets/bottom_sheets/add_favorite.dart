@@ -46,69 +46,68 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
   List stopsFavorites = globals.hiveBox.get('stopsFavorites') ?? [];
 
   @override
-  Widget build(BuildContext context) => Container(
-        height: 600,
-        decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(5), topRight: Radius.circular(5)),
-            boxShadow: [
-              BoxShadow(
-                color: accentColor(context).withOpacity(0.1),
-                spreadRadius: 3,
-                blurRadius: 5,
-                offset: const Offset(0, 2),
-              )
-            ]),
-        child: Container(
-          padding: const EdgeInsets.only(
-              left: 20.0, top: 30.0, right: 20.0, bottom: 10.0),
-          child: ListView(
-            children: [
+  Widget build(BuildContext context) => SingleChildScrollView(
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+        boxShadow: [
+          BoxShadow(
+            color: accentColor(context).withOpacity(0.1),
+            spreadRadius: 3,
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          )
+        ]),
+      child: Container(
+        padding: const EdgeInsets.only(left: 20.0, top: 30.0, right: 20.0, bottom: 10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Ajouter cet arrêts aux favoris',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Segoe Ui',
+                color: accentColor(context),
+              ),
+            ),
+            Divider(
+              color: accentColor(context),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Wrap(children: [
               Text(
-                'Ajouter cet arrêts aux favoris.',
+                'Selectionner la ligne à ajouter aux favoris.',
                 style: TextStyle(
-                  fontSize: 25,
                   fontWeight: FontWeight.w600,
                   fontFamily: 'Segoe Ui',
                   color: accentColor(context),
                 ),
               ),
-              Divider(
-                color: accentColor(context),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Wrap(children: [
-                Text(
-                  'Selectionner la ligne à ajouter aux favoris.',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
-                    color: accentColor(context),
-                  ),
-                ),
-              ]),
-              for (var line in widget.lines)
-                if (!isFavoriteLine(widget.id, line['id']))
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () => handleAddToFavorite(widget, line, context),
-                      child: Row(
-                        children: [
-                          Icones(
-                            line: line,
-                            prevLine: line,
-                            i: 0,
-                            size: 30,
-                            isDark: Brightness.dark != Theme.of(context).colorScheme.brightness,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                              child: Text(
+            ]),
+            for (var line in widget.lines)
+              if (!isFavoriteLine(widget.id, line['id']))
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => handleAddToFavorite(widget, line, context),
+                    child: Row(
+                      children: [
+                        Icones(
+                          line: line,
+                          prevLine: line,
+                          i: 0,
+                          size: 30,
+                          isDark: Brightness.dark != Theme.of(context).colorScheme.brightness,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: Text(
                             line['name'],
                             style: const TextStyle(
                               fontSize: 16,
@@ -118,22 +117,24 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
                             maxLines: 1,
                             softWrap: false,
                             overflow: TextOverflow.fade,
-                          )),
-                        ],
-                      ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-              const SizedBox(
-                height: 30,
-              ),
-              Center(
-                child: ElevatedButton(
-                  child: const Text('Annuler'),
-                  onPressed: () => Navigator.pop(context),
                 ),
+            const SizedBox(
+              height: 30,
+            ),
+            Center(
+              child: ElevatedButton(
+                child: const Text('Annuler'),
+                onPressed: () => Navigator.pop(context),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }

@@ -4,11 +4,17 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/navigator.dart';
+import 'package:navika/src/utils.dart';
 
 class NavikaApp extends StatefulWidget {
 	const NavikaApp({super.key});
+
+  static void updateThemeMode(BuildContext context) {
+    context.findAncestorStateOfType<_NavikaAppState>()?.updateThemeMode();
+  }
 
 	@override
 	State<NavikaApp> createState() => _NavikaAppState();
@@ -19,6 +25,7 @@ class _NavikaAppState extends State<NavikaApp> {
 	late final RouteState _routeState;
 	late final SimpleRouterDelegate _routerDelegate;
 	late final TemplateRouteParser _routeParser;
+  String themeMode = '';
 
   // It is assumed that all messages contain a data field with the key 'type'
   Future<void> setupInteractedMessage() async {
@@ -32,9 +39,6 @@ class _NavikaAppState extends State<NavikaApp> {
   }
 
   void _handleMessage(RemoteMessage message) {
-    // if (message.data['type'] == 'trafic') {
-    //   RouteStateScope.of(context).go('/trafic');
-    // }
     RouteStateScope.of(context).go('/trafic');
   }
 
@@ -92,8 +96,16 @@ class _NavikaAppState extends State<NavikaApp> {
 			),
 		);
 
+    themeMode = globals.hiveBox?.get('themeMode');
+
 		super.initState();
 	}
+
+  void updateThemeMode() {
+    setState(() {
+      themeMode = globals.hiveBox?.get('themeMode');
+    });
+  }
 
   Color mainColor = const Color(0xff025982);
   Color primaryContainer = const Color(0xffccdee6);
@@ -232,19 +244,17 @@ class _NavikaAppState extends State<NavikaApp> {
         ),
         navigationBarTheme: NavigationBarThemeData(
           backgroundColor: const Color(0xff1e1e1e),
-          indicatorColor: const Color(0xff025982),
+          indicatorColor: mainColor,
           iconTheme: MaterialStateProperty.all(
             const IconThemeData(
               color: Colors.white
             )
           )
         ),
-        
         scaffoldBackgroundColor: const Color(0xff000000),
       ),
-      
 
-      themeMode: ThemeMode.system, 
+      themeMode: getThemeMode(themeMode), 
     ),
   );
 }

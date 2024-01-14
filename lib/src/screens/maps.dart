@@ -45,7 +45,7 @@ class _MapsState extends State<Maps> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) => Scaffold(
         bottomNavigationBar: getNavigationBar(context),
         appBar: AppBar(
-          title: Text('Plans', style: appBarTitle),
+          title: const Text('Plans', style: appBarTitle),
         ),
         body: ListView(
           children: [

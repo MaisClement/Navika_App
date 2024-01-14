@@ -16,15 +16,15 @@ class RealTime extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.only(bottom: 5),
     child: RotationTransition(
-          turns: const AlwaysStoppedAnimation(-(45 / 360)),
-          child: Shimmer.fromColors(
-            period: const Duration(milliseconds: 3000),
-            baseColor: color,
-            highlightColor: color.withOpacity(0.3),
-            direction: ShimmerDirection.ltr,
-            child: SvgPicture.asset('assets/img/sign_top.svg',
-                color: color, height: height),
-          ),
-        ),
+      turns: const AlwaysStoppedAnimation(-(45 / 360)),
+      child: Shimmer.fromColors(
+        period: const Duration(milliseconds: 3000),
+        baseColor: color,
+        highlightColor: color.withOpacity(0.3),
+        direction: ShimmerDirection.ltr,
+        child: SvgPicture.asset('assets/img/sign_top.svg',
+            color: color, height: height),
+      ),
+    ),
   );
 }
