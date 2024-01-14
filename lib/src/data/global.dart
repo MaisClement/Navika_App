@@ -64,6 +64,7 @@ bool isTimeNow = true;
 DateTime selectedDate = DateTime.now();
 TimeOfDay selectedTime = TimeOfDay.now();
 String timeType = 'departure';
+List forbiddenLines = [];
 
 // for smoth transition
 String? direction;

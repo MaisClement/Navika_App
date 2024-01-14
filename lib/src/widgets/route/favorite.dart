@@ -109,7 +109,7 @@ class RouteFavorite extends StatelessWidget {
                   child: Row(
                     children: [
                       RouteLines(
-                        sections: journey['sections'],
+                        sections: filterSection(journey['sections']),
                       ),
                     ],
                   ),

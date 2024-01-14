@@ -703,6 +703,17 @@ List getForbiddenModes() {
   return res;
 }
 
+List getForbiddenLines() {
+  List lines = globals.forbiddenLines;
+  List res = [];
+
+  // foreach allmodes not in modes, add it to res;
+  for (var line in lines) {
+    res.add(line['id']);
+  }
+  return res;
+}
+
 ThemeMode getThemeMode(String themeMode) {
   if (themeMode == 'dark') {
     return ThemeMode.dark;

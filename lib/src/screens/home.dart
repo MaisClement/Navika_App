@@ -17,6 +17,7 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bike/body.dart';
 import 'package:navika/src/widgets/bike/header.dart';
+import 'package:navika/src/widgets/map/icone.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 
@@ -68,8 +69,7 @@ class _HomeState extends State<Home> {
 
   List stopsNearby = [];
   List bikeNearby = [];
-  List markers = [];
-  List clusters = [];
+  List markers = []; //Update List<WidgetPin> markers = [];
   Map index = {};
   List favs = globals.hiveBox?.get('stopsFavorites');
   List address = globals.hiveBox?.get('addressFavorites');
@@ -149,15 +149,11 @@ class _HomeState extends State<Home> {
   }
 
   void _clearMarker() {
-    // J'ai tenté, ça rame plus qu'avant
-    //for (var cluster in clusters) {
-    //  _controller?.removeMapMarkerCluster(cluster);
-    //}
-    for (var marker in markers) {
+    markers.forEach((marker) {
       _controller?.removeMapMarker(marker);
-    }
+      //UPDATE marker.unpin();
+    });
     setState(() {
-      // clusters = [];
       markers = [];
     });
   }
@@ -166,7 +162,7 @@ class _HomeState extends State<Home> {
     for (var bike in bikeNearby) {
       GeoCoordinates bikeCoords = GeoCoordinates(
           bike['coord']['lat'].toDouble(), bike['coord']['lon'].toDouble());
-
+    
       if (_controller?.isOverLocation(bikeCoords) == true) {
         Metadata metadata = Metadata();
         metadata.setString('type', 'bike');
@@ -175,11 +171,11 @@ class _HomeState extends State<Home> {
         metadata.setInteger('capacity', bike['capacity']);
         metadata.setDouble('lat', bike['coord']['lat']);
         metadata.setDouble('lon', bike['coord']['lon']);
-
+    
         MarkerMode mode = getMarkerMode(['bike']);
         double zoom = _controller?.getZoomLevel() ?? 1000;
         MarkerSize size = getMarkerSize(mode, zoom);
-
+    
         if (size != MarkerSize.hidden) {
           setState(() {
             markers.add(_controller?.addMapMarker(
@@ -191,21 +187,6 @@ class _HomeState extends State<Home> {
         }
       }
     }
-
-    // J'ai tenté, ça rame plus qu'avant
-    // MapMarkerClusterCounterStyle counterStyle = MapMarkerClusterCounterStyle();
-    // counterStyle.textColor = Colors.white;
-    // counterStyle.fontSize = 20;
-    // counterStyle.maxCountNumber = 9;
-    // counterStyle.aboveMaxText = "+9";
-    // 
-    // MapMarkerCluster mapMarkerCluster = MapMarkerCluster.WithCounter(
-    //   MapMarkerClusterImageStyle(
-    //     MapImage.withFilePathAndWidthAndHeight('assets/img/marker/mini.png', 50, 50)
-    //   ), counterStyle);
-    // 
-    // _controller?.addMapMarkerCluster(mapMarkerCluster);
-    // clusters.add(mapMarkerCluster);
 
     for (var stop in stopsNearby) {
       GeoCoordinates stopCoords = GeoCoordinates(stop['coord']['lat'].toDouble(), stop['coord']['lon'].toDouble());
@@ -224,12 +205,21 @@ class _HomeState extends State<Home> {
         MarkerSize size = getMarkerSize(mode, zoom);
 
         if (size != MarkerSize.hidden) {
+          // markers.add(_controller!.addMapWidget(
+          //     MapIcone(
+          //       stop: stop,
+          //       size: size,
+          //       update: () {}
+          //     ),
+          //     stopCoords)
+          //   );
           setState(() {
             markers.add(_controller?.addMapMarker(
               stopCoords,
               getMarkerImageByType(mode, size, context),
               metadata,
-              getSizeForMarker(size)));
+              getSizeForMarker(size))
+            );
           });
         }
       }

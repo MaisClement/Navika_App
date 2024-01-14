@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
@@ -87,6 +88,20 @@ class HereController {
     if (locationData == null) return;
     locationIndicator.updateLocation(defineLocation(locationData, heading));
     locationIndicator.isActive = isActive;
+  }
+
+  WidgetPin addMapWidget(Widget widget, GeoCoordinates geoCoordinates) {
+    Anchor2D anchor2D = Anchor2D.withHorizontalAndVertical(0.5, 1);    
+    var mapMarker = _hereMapController.pinWidget(widget, geoCoordinates);
+    mapMarker?.anchor = anchor2D;
+
+    return mapMarker!;
+  }
+
+  void removeMapWidget(Widget widget, GeoCoordinates geoCoordinates) {
+    Anchor2D anchor2D = Anchor2D.withHorizontalAndVertical(0.5, 1);    
+    var mapMarker = _hereMapController.pinWidget(widget, geoCoordinates);
+    mapMarker?.anchor = anchor2D;
   }
 
   MapMarker addMapMarker(GeoCoordinates geoCoordinates, imgPath, Metadata metadata, [int size = 100]) {

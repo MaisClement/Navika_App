@@ -18,7 +18,7 @@ class SectionWaiting extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.only(
-                left: 30, right: 35
+                left: 30, right: 26
               ),
               child: const DottedLine(
                 direction: Axis.vertical,
@@ -33,7 +33,7 @@ class SectionWaiting extends StatelessWidget {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 15, left: 10),
+          padding: const EdgeInsets.only(top: 15),
           child: Text('Correspondance • ${getDuration(section['duration'])}'),
         ),
         

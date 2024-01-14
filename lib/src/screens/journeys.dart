@@ -10,6 +10,7 @@ import 'package:navika/src/extensions/timeofday.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/utils.dart';
+import 'package:navika/src/widgets/bottom_sheets/avoid_line.dart';
 import 'package:navika/src/widgets/bottom_sheets/route_options.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/route/listbutton.dart';
@@ -103,6 +104,7 @@ void initJourney(Map? from, Map? to, context) async {
   globals.selectedDate = DateTime.now();
   globals.selectedTime = TimeOfDay.now();
   globals.timeType = 'departure';
+  globals.forbiddenLines = [];
 
   // Arrivé et départ -> Affichage
   if (from != null && to != null) {
@@ -242,6 +244,8 @@ class _JourneysState extends State<Journeys> {
       isLoading = true;
     });
 
+
+
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getJourneys(
         globals.route['from']['id'],
@@ -249,6 +253,7 @@ class _JourneysState extends State<Journeys> {
         dt,
         travelerType,
         globals.timeType,
+        getForbiddenLines(),
         getForbiddenModes());
 
     if (mounted) {
@@ -350,15 +355,15 @@ class _JourneysState extends State<Journeys> {
                     tooltip: 'Options',
                     onPressed: () {
                       showModalBottomSheet<void>(
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: bottomSheetBorder,
-                          ),
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (BuildContext context) =>
-                            BottomRouteSettings(
-                              setState: setState,
-                            ));
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: bottomSheetBorder,
+                        ),
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (BuildContext context) =>
+                          BottomRouteSettings(
+                            setState: setState,
+                          ));
                       setState(() {
                         allowedModes = globals.hiveBox.get('allowedModes');
                         travelerType = globals.hiveBox.get('travelerType');
@@ -492,19 +497,6 @@ class _JourneysState extends State<Journeys> {
                               )
                             else if (journeys.isNotEmpty)
                             ...[
-                              Center(
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Theme.of(context).colorScheme.surface,
-                                    foregroundColor: accentColor(context),
-                                  ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text('Éviter une ligne ?',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                  )),
-                                ),
-                              ),
                               for (var journey in journeys)
                                 RouteListButton(
                                   journey: journey,
@@ -512,7 +504,33 @@ class _JourneysState extends State<Journeys> {
                                     globals.journey = journey;
                                     RouteStateScope.of(context).go('/home/journeys/details');
                                   },
-                                )
+                                ),
+                              Center(
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Theme.of(context).colorScheme.surface,
+                                    foregroundColor: accentColor(context),
+                                  ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                                  onPressed: () {
+                                    showModalBottomSheet<void>(
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: bottomSheetBorder,
+                                        ),
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                          BottomAvoidLine(
+                                            journeys: journeys,
+                                            update: update,
+                                          ),
+                                        );
+                                  },
+                                  child: const Text('Éviter une ligne ?',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  )),
+                                ),
+                              ),
                             ]
                               
                             else if (journeys.isEmpty && isLoading == false)

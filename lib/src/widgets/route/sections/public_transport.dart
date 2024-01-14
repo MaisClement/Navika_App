@@ -9,6 +9,7 @@ import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
+import 'package:navika/src/widgets/route/sections/boarding_position.dart';
 import 'package:navika/src/widgets/utils/button_large_trafic.dart';
 import 'package:navika/src/data/global.dart' as globals;
 
@@ -90,13 +91,11 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                 margin: const EdgeInsets.only(
                  left: 5
                 ),
-                child: DottedLine(
-                  direction: Axis.vertical,
-                  lineLength: height,
-                  lineThickness: 4.0,
-                  dashColor: HexColor.fromHex(widget.section['informations']['line']['color']),
-                  dashGapLength: 0,
-                ),
+                child: Container(
+                  height: height,
+                  width: 4,
+                  color: HexColor.fromHex(widget.section['informations']['line']['color']),
+               ),
               ),
             ],
           ),
@@ -183,10 +182,10 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                       ),
                     ],
                   ),
-                if ( DateTime.parse(widget.section['arrival_date_time']).isToday() && widget.section['informations']['line']['severity'] != 0)
+                if ( DateTime.parse(widget.section['departure_date_time']).isToday() && widget.section['informations']['line']['severity'] != 0)
                   Padding(
                     padding: const EdgeInsets.only(
-                      top: 10, bottom: 10, right: 10
+                      top: 10, right: 10
                     ),
                     child: ButtonLargeTrafic(
                       line: widget.section['informations']['line'],
@@ -197,8 +196,12 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                       },
                     ),
                   ),
+                if (widget.section['best_boarding_positions'] != null)
+                  BoardingPosition(
+                    position: widget.section['best_boarding_positions'],
+                  ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 10),
+                  padding: const EdgeInsets.only(top: 15),
                   child: InkWell(
                     onTap: () {
                       handleOnTap();

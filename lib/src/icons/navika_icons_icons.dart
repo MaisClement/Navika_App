@@ -90,6 +90,9 @@ class NavikaIcons {
   static const IconData map = IconData(0xe841, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData past = IconData(0xe842, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData futur = IconData(0xe843, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData position_back = IconData(0xe844, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData position_middle = IconData(0xe845, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData position_front = IconData(0xe846, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData saved = IconData(0xe85a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData bell = IconData(0xe86c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData busFace = IconData(0xe880, fontFamily: _kFontFam, fontPackage: _kFontPkg);

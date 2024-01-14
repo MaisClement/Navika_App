@@ -10,6 +10,8 @@ import 'package:here_sdk/mapview.dart';
 import 'package:navika/src/data.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/utils.dart';
+import 'package:navika/src/widgets/icons/icons.dart';
+import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/route/body.dart';
 import 'package:navika/src/widgets/route/header.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -151,19 +153,44 @@ class _JourneysDetailsState extends State<JourneysDetails> {
   }
 
   void _addLineMarker(section) {
-    if (section['informations'] != null &&
-        section['informations']['line']['id'] != null) {
+    if (section['informations'] != null && section['informations']['line']['id'] != null) {
       GeoCoordinates stopCoords = GeoCoordinates(
         section['geojson']['coordinates'][0][1].toDouble(),
         section['geojson']['coordinates'][0][0].toDouble(),
       );
       Metadata metadata = Metadata();
 
-      _controller?.addMapMarker(
-        stopCoords,
-        getIconLine(context, LINES.getLinesById(section['informations']['line']['id'])),
-        metadata,
-      );
+      _controller!.addMapWidget(
+        Material(
+          elevation: 4,
+          borderRadius: BorderRadius.circular(10),
+          child: 
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 5,
+              right: 5,
+              top: 2,
+              bottom: 2,
+            ),
+            child: Icones(
+              line: section['informations']['line'],
+              prevLine: section['informations']['line'],
+              i: 0,
+              isDark: Brightness.dark != Theme.of(context).colorScheme.brightness
+            ),
+          )
+          //LinesIcones(
+          //  line: section['informations']['line'],
+          //  size: 30,
+          //),
+        ),
+        stopCoords);
+
+      // _controller?.addMapMarker(
+      //   stopCoords,
+      //   getIconLine(context, LINES.getLinesById(section['informations']['line']['id'])),
+      //   metadata,
+      // );
     }
   }
 
@@ -179,8 +206,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
     MapPolyline mapPolyline = MapPolyline.withRepresentation(
       geoPolyline,
       MapPolylineSolidRepresentation(
-          MapMeasureDependentRenderSize.withSingleSize(
-              RenderSizeUnit.pixels, width),
+          MapMeasureDependentRenderSize.withSingleSize(RenderSizeUnit.pixels, width),
           lineColor,
           LineCap.round),
     );

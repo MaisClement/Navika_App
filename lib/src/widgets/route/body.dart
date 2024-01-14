@@ -33,9 +33,7 @@ class RouteBody extends StatelessWidget {
       } else if (section['type'] == 'transfer') {
         res.add(SectionTransfer(section: section, zoomTo: zoomTo));
       } else if (section['type'] == 'waiting') {
-        res.add(SectionWaiting(
-          section: section,
-        ));
+        res.add(SectionWaiting(section: section));
       }
 
       if (i == journey['sections'].length - 1) {

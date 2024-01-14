@@ -27,7 +27,7 @@ class SectionTransfer extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.only(
-                  top: 10, left: 20, right: 20
+                  top: 10, left: 20, right: 14
                 ),
                 child: Icon(NavikaIcons.walking,
                     color: Color(0xff616161),
@@ -39,29 +39,35 @@ class SectionTransfer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(section['from']['name'],
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
-                  )
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(section['from']['name'],
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Segoe Ui',
+                        )
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 10, right: 15, top: 0),
+                      color: Theme.of(context).colorScheme.surface,
+                      child: Row(
+                        children: [
+                          Text(getStringTime(section['departure_date_time']),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Segoe Ui',
+                              fontSize: 16,
+                            )
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 Text('${getDistanceText(section['geojson']['properties'][0]['length'])} • ${getDuration(section['duration'])}'),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(left: 10, right: 15, top: 0),
-            color: Theme.of(context).colorScheme.surface,
-            child: Row(
-              children: [
-                Text(getStringTime(section['departure_date_time']),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
-                    fontSize: 16,
-                  )
-                )
               ],
             ),
           ),

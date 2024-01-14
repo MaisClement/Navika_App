@@ -160,3 +160,10 @@ Color getJourneysColor(context) {
   }
   return const Color(0xffe4edf1);
 }
+
+Color getMapWidgetColor(context) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    return const Color(0xffe4e4e4);
+  }
+  return const Color(0xff0a0082);
+}

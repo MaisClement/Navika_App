@@ -80,7 +80,7 @@ class RouteListButton extends StatelessWidget {
                     width: 15,
                   ),
                   RouteLines(
-                    sections: journey['sections'],
+                    sections: filterSection(journey['sections']),
                   ),
                   Container(
                     padding: const EdgeInsets.only(right: 5),

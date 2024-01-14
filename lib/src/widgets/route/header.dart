@@ -45,7 +45,7 @@ class RoutePannel extends StatelessWidget {
             child: Row(
               children: [
                 RouteLines(
-                  sections: journey['sections'],
+                  sections: filterSection(journey['sections']),
                 ),
                 Container(
                   padding: const EdgeInsets.only(bottom: 5, right: 10),
