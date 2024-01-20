@@ -15,6 +15,8 @@ import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/screens/journeys_details.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
+import 'package:navika/src/widgets/address/body.dart';
+import 'package:navika/src/widgets/address/header.dart';
 import 'package:navika/src/widgets/bike/body.dart';
 import 'package:navika/src/widgets/bike/header.dart';
 import 'package:navika/src/widgets/map/icone.dart';
@@ -150,8 +152,11 @@ class _HomeState extends State<Home> {
 
   void _clearMarker() {
     markers.forEach((marker) {
-      _controller?.removeMapMarker(marker);
-      //UPDATE marker.unpin();
+      if (marker is WidgetPin) {
+        marker.unpin();
+      } else if (marker is MapMarker) {
+        _controller?.removeMapMarker(marker);
+      }
     });
     setState(() {
       markers = [];
@@ -160,8 +165,7 @@ class _HomeState extends State<Home> {
 
   void _setMarker() {
     for (var bike in bikeNearby) {
-      GeoCoordinates bikeCoords = GeoCoordinates(
-          bike['coord']['lat'].toDouble(), bike['coord']['lon'].toDouble());
+      GeoCoordinates bikeCoords = GeoCoordinates(bike['coord']['lat'].toDouble(), bike['coord']['lon'].toDouble());
     
       if (_controller?.isOverLocation(bikeCoords) == true) {
         Metadata metadata = Metadata();
@@ -204,15 +208,17 @@ class _HomeState extends State<Home> {
         double zoom = _controller?.getZoomLevel() ?? 1000;
         MarkerSize size = getMarkerSize(mode, zoom);
 
-        if (size != MarkerSize.hidden) {
-          // markers.add(_controller!.addMapWidget(
-          //     MapIcone(
-          //       stop: stop,
-          //       size: size,
-          //       update: () {}
-          //     ),
-          //     stopCoords)
-          //   );
+        // DISABLED if (size == MarkerSize.large) {
+        // DISABLED   markers.add(_controller!.addMapWidget(
+        // DISABLED     MapIcone(
+        // DISABLED       stop: stop,
+        // DISABLED       size: size,
+        // DISABLED       zoom: zoom,
+        // DISABLED       update: () {}
+        // DISABLED     ),
+        // DISABLED     stopCoords)
+        // DISABLED   );
+        // DISABLED } else if (size!= MarkerSize.hidden) {
           setState(() {
             markers.add(_controller?.addMapMarker(
               stopCoords,
@@ -221,7 +227,7 @@ class _HomeState extends State<Home> {
               getSizeForMarker(size))
             );
           });
-        }
+        // DISABLED }
       }
     }
   }
@@ -267,6 +273,40 @@ class _HomeState extends State<Home> {
     }
   }
 
+  Widget? getPannel(displayType, id, scrollController) {
+    if (id == 'stops') {
+      return SchedulesPannel(
+        id: widget.id!
+      );
+    } else if (displayType == 'bike') {
+      return BikePannel();
+    } else if (displayType == 'address') {
+      return AddressPannel();
+    }
+    return null;
+  } 
+
+  Widget? getBody(displayType, id, scrollController) {
+    if (displayType == 'stops') {
+      return SchedulesBody(
+        id: id!,
+        addMargin: true,
+        scrollController: scrollController,
+      );
+    } else if (displayType == 'bike') {
+      return BikeBody(
+        id: id!,
+        scrollController: scrollController,
+      );
+    } else if (displayType == 'address') {
+      return AddressBody(
+        id: id!,
+        scrollController: scrollController,
+      );
+    }
+    return null;
+  } 
+
   @override
   Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
@@ -305,15 +345,7 @@ class _HomeState extends State<Home> {
                 panelBuilder: (ScrollController scrollController) =>
                     widget.displayType != null && widget.id != null
                         ? Container(
-                            child: widget.displayType == 'stops'
-                                ? SchedulesBody(
-                                    id: widget.id!,
-                                    addMargin: true,
-                                    scrollController: scrollController)
-                                : BikeBody(
-                                    id: widget.id!,
-                                    scrollController: scrollController
-                                  ),
+                            child: getBody(widget.displayType, widget.id, scrollController),
                           )
                         : HomeBody(
                             scrollController: scrollController,
@@ -522,8 +554,7 @@ class _HomeState extends State<Home> {
         }
       });
 
-      hereMapController.gestures.pinchRotateListener = PinchRotateListener(
-          (GestureState state, Point2D pinchOrigin, Point2D rotationOrigin,double twoFingerDistance, Angle rotation) {
+      hereMapController.gestures.pinchRotateListener = PinchRotateListener((GestureState state, Point2D pinchOrigin, Point2D rotationOrigin,double twoFingerDistance, Angle rotation) {
         if (state == GestureState.end) {
           setState(() {
             camGeoCoords = _controller?.getOverLocation() ?? camGeoCoords;
@@ -531,6 +562,29 @@ class _HomeState extends State<Home> {
           _getNearPoints();
         }
       });
+
+      // DISABLED hereMapController.gestures.longPressListener = LongPressListener((GestureState state, Point2D point) {
+      // DISABLED   // Create a point
+      // DISABLED   // Zoom ant zoom on it
+      // DISABLED   GeoCoordinates geoCoordinates = _controller!.viewToGeoCoordinates(point);   
+      // DISABLED   
+      // DISABLED   if (state == GestureState.begin) {
+      // DISABLED     GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(geoCoordinates.latitude, geoCoordinates.longitude);
+      // DISABLED     _controller?.zoomTo(geoCoords);
+      // DISABLED     panelController.animatePanelToSnapPoint();
+      // DISABLED 
+      // DISABLED     _controller?.addMapMarker(
+      // DISABLED       geoCoordinates,
+      // DISABLED       'assets/img/marker/marker.png',
+      // DISABLED       Metadata(),
+      // DISABLED       100);
+      // DISABLED 
+      // DISABLED     RouteStateScope.of(context).go('/address/${geoCoordinates.latitude};${geoCoordinates.longitude}');
+      // DISABLED     return;
+      // DISABLED   }
+      // DISABLED 
+      // DISABLED 
+      // DISABLED });
 
     _controller?.addLocationIndicator(
         globals.locationData,

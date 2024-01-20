@@ -54,14 +54,22 @@ class SchedulesPannel extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const SizedBox(height: 48),
-                  Text(
-                    globals.schedulesStopName,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Segoe Ui',
-                      color: accentColor(context),
+                  IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    tooltip: 'Retour',
+                    color: Theme.of(context).colorScheme.onSurface,
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  Expanded(
+                    child: Text(
+                      globals.schedulesStopName,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Segoe Ui',
+                        color: accentColor(context),
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   IconButton(

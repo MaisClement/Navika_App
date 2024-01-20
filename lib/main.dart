@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,7 @@ import 'package:here_sdk/core.dart';
 import 'package:here_sdk/core.engine.dart';
 import 'package:here_sdk/core.errors.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:navika/firebase_options.dart';
 
@@ -54,17 +53,18 @@ Future<void> main() async {
   } catch (e) {
     print('Error while initializing Firebase');
   }
-  try {
-    await _initializeCrashlytics();
-  } catch (e) {
-    print('Error while initializing Crashlytics');
-  }
 
   _initializeLocalNotification();
 
   await getAppInfo();
 
-  runApp(const NavikaApp());
+  SentryFlutter.init(
+    (options) => options
+      ..dsn=globals.GLITCH
+      ..tracesSampleRate=1
+      ..enableAutoSessionTracking=false,
+    appRunner: () => runApp(NavikaApp())
+  );
 }
 
 void setupWindow() {
@@ -282,25 +282,6 @@ Future _initializeFirebase() async {
 Future<void> renewNotif(String oldToken, String newToken) async {
   NavikaApi navikaApi = NavikaApi();
   await navikaApi.renewNotificationToken(oldToken, newToken);
-}
-
-Future _initializeCrashlytics() async {
-  if (kDebugMode) {
-    print({'INFO_', 'Ignore crashlytics'});
-    return;
-  }
-
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
-  FlutterError.onError = (errorDetails) {
-    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-  };
-  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
-  PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true;
-  };
 }
 
 void _initializeLocalNotification() {

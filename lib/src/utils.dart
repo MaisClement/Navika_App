@@ -629,6 +629,26 @@ MarkerMode getMarkerMode(List modes) {
   }
 }
 
+MarkerMode getMarkerModeByMode(String mode) {
+  if (mode == 'nationalrail' || mode == 'rail') {
+    return MarkerMode.train;
+  } else if (mode == 'metro') {
+    return MarkerMode.metro;
+  } else if (mode == 'tram') {
+    return MarkerMode.tram;
+  } else if (mode == 'cablecar') {
+    return MarkerMode.cable;
+  } else if (mode == 'boat') {
+    return MarkerMode.boat;
+  } else if (mode == 'bus') {
+    return MarkerMode.bus;
+  } else if (mode == 'bike') {
+    return MarkerMode.bike;
+  } else {
+    return MarkerMode.bus;
+  }
+}
+
 MarkerSize getMarkerSize(MarkerMode mode, double zoom) {
   if (zoom > 15000 && (mode == MarkerMode.train || mode == MarkerMode.rer)) {
     return MarkerSize.small;

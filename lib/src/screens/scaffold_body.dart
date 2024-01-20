@@ -20,6 +20,12 @@ getHomePage(pathTemplate, id) {
       displayType: 'bike',
       id: id
     );
+
+  } else if (pathTemplate == '/address/:id' && id != null) {
+    return Home(
+      displayType: 'address',
+      id: id
+    );
   }
 }
 
@@ -27,7 +33,7 @@ getPages(pathTemplate, id) {
 	if (pathTemplate == '/home') {
 		return const Home();
 
-	} else if (pathTemplate == '/stops/:id' || pathTemplate == '/bike/:id') {
+	} else if (pathTemplate == '/stops/:id' || pathTemplate == '/bike/:id' || pathTemplate == '/address/:id') {
 		return getHomePage(pathTemplate, id);
 
 	} else if (pathTemplate.startsWith('/schedules')) {

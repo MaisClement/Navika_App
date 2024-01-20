@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style/style.dart';
 
-class BikePannel extends StatelessWidget {
-	const BikePannel({
+class AddressPannel extends StatelessWidget {
+	const AddressPannel({
 		super.key,
 	});
 
@@ -49,8 +49,7 @@ class BikePannel extends StatelessWidget {
               onPressed: () => Navigator.pop(context),
             ),
             Expanded(
-              child: Text(
-                globals.schedulesStopName,
+              child: Text('Point placé',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,

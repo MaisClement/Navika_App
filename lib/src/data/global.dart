@@ -6,6 +6,7 @@ import 'package:location/location.dart' as gps;
 
 const String API_BASE = 'https://navika.hackernwar.com';
 // const String API_BASE = 'http://code.hackernwar.com:8000';
+const String GLITCH = 'https://69ff476ec3614a5dba8fc1d579c816c6@glitch.hackernwar.com/2';
 
 const String API_INDEX =                            '$API_BASE/index';
 const String API_TRAFIC =                           '$API_BASE/trafic';

@@ -7,11 +7,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
-import 'package:navika/src/data.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/icons/icons.dart';
-import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/route/body.dart';
 import 'package:navika/src/widgets/route/header.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -158,8 +156,6 @@ class _JourneysDetailsState extends State<JourneysDetails> {
         section['geojson']['coordinates'][0][1].toDouble(),
         section['geojson']['coordinates'][0][0].toDouble(),
       );
-      Metadata metadata = Metadata();
-
       _controller!.addMapWidget(
         Material(
           elevation: 4,
@@ -179,18 +175,8 @@ class _JourneysDetailsState extends State<JourneysDetails> {
               isDark: Brightness.dark != Theme.of(context).colorScheme.brightness
             ),
           )
-          //LinesIcones(
-          //  line: section['informations']['line'],
-          //  size: 30,
-          //),
         ),
         stopCoords);
-
-      // _controller?.addMapMarker(
-      //   stopCoords,
-      //   getIconLine(context, LINES.getLinesById(section['informations']['line']['id'])),
-      //   metadata,
-      // );
     }
   }
 

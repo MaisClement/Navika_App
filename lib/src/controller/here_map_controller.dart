@@ -138,6 +138,10 @@ class HereController {
     _hereMapController.gestures.tapListener = tapListener;
   }
 
+  GeoCoordinates viewToGeoCoordinates(Point2D viewCoordinates) {
+    return _hereMapController.viewToGeoCoordinates(viewCoordinates)!;
+  }
+
   void pickMapItems(Point2D centerPoint, double radius, void Function(PickMapItemsResult?) callback) {
     _hereMapController.pickMapItems(centerPoint, radius, callback);
   }

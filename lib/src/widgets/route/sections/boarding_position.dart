@@ -1,6 +1,6 @@
-import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/style/style.dart';
 
 String getPosition(List position) {
   String res = '';
@@ -39,11 +39,11 @@ class BoardingPosition extends StatelessWidget {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10),
     ),
-    margin: EdgeInsets.only(
+    margin: const EdgeInsets.only(
       top: 10, right: 10
     ),
     child: Padding(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         right: 15, left: 15, top: 5, bottom: 7
       ),
       child: Column(
@@ -58,7 +58,7 @@ class BoardingPosition extends StatelessWidget {
                   fontFamily: 'Segoe Ui',
                 )
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Text(getPosition(position),
@@ -66,7 +66,7 @@ class BoardingPosition extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   fontFamily: 'Segoe Ui',
-                  color: Theme.of(context).colorScheme.primary,
+                  color: accentColor(context),
                 )
               ),
             ],
@@ -78,15 +78,15 @@ class BoardingPosition extends StatelessWidget {
             children: [
               Icon(NavikaIcons.position_back,
                 size: 50,
-                color: position.contains('back') ? Theme.of(context).colorScheme.primary : Colors.grey,
+                color: position.contains('back') ? accentColor(context) : Colors.grey,
               ),
               Icon(NavikaIcons.position_middle,
                 size: 50,
-                color: position.contains('middle') ? Theme.of(context).colorScheme.primary : Colors.grey,
+                color: position.contains('middle') ? accentColor(context) : Colors.grey,
               ),
               Icon(NavikaIcons.position_front,
                 size: 50,
-                color: position.contains('front') ? Theme.of(context).colorScheme.primary : Colors.grey,
+                color: position.contains('front') ? accentColor(context) : Colors.grey,
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -94,6 +94,7 @@ class BoardingPosition extends StatelessWidget {
                 ),
                 child: Icon(NavikaIcons.avance,
                   size: 20,
+                  color: accentColor(context),
                 ),
               ),
             ],

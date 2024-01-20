@@ -59,7 +59,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
     String? stopId;
     String? fromId;
     String? toId;
-    if (pathTemplate == '/stops/:id' || pathTemplate == '/bike/:id') {
+    if (pathTemplate == '/stops/:id' || pathTemplate == '/bike/:id' || pathTemplate == '/address/:id') {
       id = routeState.route.parameters['id'];
     }
 
@@ -120,6 +120,9 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           routeState.go('/home');
         }
         if (pathTemplate == '/bike/:id') {
+          routeState.go('/home');
+        }
+        if (pathTemplate == '/address/:id') {
           routeState.go('/home');
         }
 
@@ -215,12 +218,15 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           globals.path = [...globals.path.slice(0, globals.path.length - 2)];
         }
 
-        //TEST
         if (pathTemplate == '/stops/:id') {
           routeState.go('/home');
 					return false; 
         }
         if (pathTemplate == '/bike/:id') {
+          routeState.go('/home');
+					return false; 
+        }
+        if (pathTemplate == '/address/:id') {
           routeState.go('/home');
 					return false; 
         }
