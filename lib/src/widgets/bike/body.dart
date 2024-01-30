@@ -42,7 +42,6 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
   @override
   void didUpdateWidget(BikeBody oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Vérifiez si les paramètres ont changé, et si c'est le cas, appelez setState pour reconstruire le widget
     if (widget.id != id) {
       init();
       _getBikes();
@@ -97,8 +96,7 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
             )
           else
             Container(
-              padding: const EdgeInsets.only(
-                  left: 20.0, top: 30.0, right: 20.0, bottom: 10.0),
+              padding: const EdgeInsets.only(left: 20.0, top: 30.0, right: 20.0, bottom: 10.0),
               child: Column(
                 children: [
                   if (bikeStation['bike'] != null)

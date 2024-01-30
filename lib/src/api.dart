@@ -198,6 +198,15 @@ class NavikaApi {
     return doRequest(url);
   }
 
+  Future getAddress(GeoCoordinates coords) async {
+    String url = buildUrl(globals.API_ADDRESS, {
+      'lat': coords.latitude,
+      'lon': coords.longitude
+    });
+
+    return doRequest(url);
+  }
+
   Future getNearPoints(double zoom, GeoCoordinates coords) async {
     String url = buildUrl(globals.API_NEAR, {
       'lat': coords.latitude,

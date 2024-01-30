@@ -12,6 +12,7 @@ import 'package:here_sdk/mapview.dart';
 import 'package:navika/src/api.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
+import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/screens/journeys_details.dart';
 import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
@@ -19,7 +20,6 @@ import 'package:navika/src/widgets/address/body.dart';
 import 'package:navika/src/widgets/address/header.dart';
 import 'package:navika/src/widgets/bike/body.dart';
 import 'package:navika/src/widgets/bike/header.dart';
-import 'package:navika/src/widgets/map/icone.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 
@@ -72,6 +72,7 @@ class _HomeState extends State<Home> {
   List stopsNearby = [];
   List bikeNearby = [];
   List markers = []; //Update List<WidgetPin> markers = [];
+  MapMarker? pointMarker = null;
   Map index = {};
   List favs = globals.hiveBox?.get('stopsFavorites');
   List address = globals.hiveBox?.get('addressFavorites');
@@ -161,6 +162,12 @@ class _HomeState extends State<Home> {
     setState(() {
       markers = [];
     });
+  }
+
+  void _removePointMarker() {
+    if (pointMarker != null) {
+      _controller?.removeMapMarker(pointMarker!);
+    }
   }
 
   void _setMarker() {
@@ -273,16 +280,16 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Widget? getPannel(displayType, id, scrollController) {
-    if (id == 'stops') {
+  Widget? getPannel(displayType, id) {
+    if (displayType == 'stops') {
       return SchedulesPannel(
         id: widget.id!
       );
     } else if (displayType == 'bike') {
-      return BikePannel();
+      return const BikePannel();
     } else if (displayType == 'address') {
-      return AddressPannel();
-    }
+      return const AddressPannel();
+    } 
     return null;
   } 
 
@@ -302,6 +309,7 @@ class _HomeState extends State<Home> {
       return AddressBody(
         id: id!,
         scrollController: scrollController,
+        onDispose: _removePointMarker,
       );
     }
     return null;
@@ -337,11 +345,9 @@ class _HomeState extends State<Home> {
                 onPanelSlide: (position) => _onPanelSlide(position),
                 header: widget.displayType == null
                     ? const HomePannel()
-                    : widget.displayType == 'stops'
-                        ? SchedulesPannel(
-                            id: widget.id!
-                          )
-                        : const BikePannel(),
+                    : Container(
+                        child: getPannel(widget.displayType, widget.id),
+                      ),
                 panelBuilder: (ScrollController scrollController) =>
                     widget.displayType != null && widget.id != null
                         ? Container(
@@ -363,32 +369,28 @@ class _HomeState extends State<Home> {
               if (!isConnected)
                 Positioned(
                   top: 0,
-                  child: Opacity(
-                    opacity: 1,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.amber,
-                      child: SafeArea(
-                        child: Container(
-                          margin: const EdgeInsets.only(
-                              top: 12, left: 73, bottom: 15),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/img/cloud_off.svg',
-                                color: Theme.of(context).colorScheme.onSurface,
-                                height: 18,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.amber,
+                    child: SafeArea(
+                      child: Container(
+                        margin: const EdgeInsets.only( top: 12, left: 73, bottom: 15),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/img/cloud_off.svg',
+                              color: Theme.of(context).colorScheme.onSurface,
+                              height: 18,
+                            ),
+                            const SizedBox(width: 10),
+                            const Text('Aucune connexion internet',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Segoe Ui',
+                                fontSize: 18,
                               ),
-                              const SizedBox(width: 10),
-                              const Text(
-                                'Aucune connexion internet',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Segoe Ui',
-                                    fontSize: 18),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -401,8 +403,7 @@ class _HomeState extends State<Home> {
                   opacity: getOpacity(_position),
                   child: SafeArea(
                     child: Container(
-                      margin:
-                          const EdgeInsets.only(top: 10, left: 8),
+                      margin: const EdgeInsets.only(top: 10, left: 8),
                       width: 40,
                       height: 40,
                       child: Material(
@@ -431,8 +432,7 @@ class _HomeState extends State<Home> {
                 child: Opacity(
                   opacity: getOpacity(_position),
                   child: FloatingActionButton(
-                    backgroundColor:
-                        Theme.of(context).colorScheme.onSecondaryContainer,
+                    backgroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
                     child: _isInBox
                         ? Icon(NavikaIcons.localisation,
                             color: Theme.of(context).colorScheme.onSurface, size: 30)
@@ -563,28 +563,27 @@ class _HomeState extends State<Home> {
         }
       });
 
-      // DISABLED hereMapController.gestures.longPressListener = LongPressListener((GestureState state, Point2D point) {
-      // DISABLED   // Create a point
-      // DISABLED   // Zoom ant zoom on it
-      // DISABLED   GeoCoordinates geoCoordinates = _controller!.viewToGeoCoordinates(point);   
-      // DISABLED   
-      // DISABLED   if (state == GestureState.begin) {
-      // DISABLED     GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(geoCoordinates.latitude, geoCoordinates.longitude);
-      // DISABLED     _controller?.zoomTo(geoCoords);
-      // DISABLED     panelController.animatePanelToSnapPoint();
-      // DISABLED 
-      // DISABLED     _controller?.addMapMarker(
-      // DISABLED       geoCoordinates,
-      // DISABLED       'assets/img/marker/marker.png',
-      // DISABLED       Metadata(),
-      // DISABLED       100);
-      // DISABLED 
-      // DISABLED     RouteStateScope.of(context).go('/address/${geoCoordinates.latitude};${geoCoordinates.longitude}');
-      // DISABLED     return;
-      // DISABLED   }
-      // DISABLED 
-      // DISABLED 
-      // DISABLED });
+      hereMapController.gestures.longPressListener = LongPressListener((GestureState state, Point2D point) {
+        GeoCoordinates geoCoordinates = _controller!.viewToGeoCoordinates(point);   
+        
+        if (state == GestureState.begin) {
+          GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(geoCoordinates.latitude, geoCoordinates.longitude);
+          _controller?.zoomTo(geoCoords);
+          panelController.animatePanelToSnapPoint();
+
+          _removePointMarker();
+
+          pointMarker = _controller?.addMapMarker(
+            geoCoordinates,
+            'assets/img/marker/marker.png',
+            Metadata(),
+            100,
+          );
+      
+          RouteStateScope.of(context).go('/address/${geoCoordinates.latitude};${geoCoordinates.longitude}');
+          return;
+        }
+      });
 
     _controller?.addLocationIndicator(
         globals.locationData,

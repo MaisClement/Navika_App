@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/screens/journeys_details.dart';
+import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/style/style.dart';
 

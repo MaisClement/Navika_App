@@ -113,297 +113,341 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
       toId = routeState.route.parameters['toId'];
     }
 
-    return Navigator(
-      key: widget.navigatorKey,
-      onPopPage: (route, dynamic result) {
-        if (pathTemplate == '/stops/:id') {
-          routeState.go('/home');
-        }
-        if (pathTemplate == '/bike/:id') {
-          routeState.go('/home');
-        }
-        if (pathTemplate == '/address/:id') {
-          routeState.go('/home');
-        }
+    //Colors.amber
 
-        if (pathTemplate == '/maps') {
-          routeState.go('/home');
-        }
-
-        if (pathTemplate == '/settings') {
-          routeState.go('/home');
-        }
-
-        if (pathTemplate == '/settings/notifications') {
-          routeState.go('/settings');
-        }
-        
-        if (pathTemplate == '/position') {
-          routeState.go(globals.path[globals.path.length - 2]);
-          globals.path = [...globals.path.slice(0, globals.path.length - 2)];
-        }
-
-        if (pathTemplate == '/home/journeys') {
-          routeState.go('/home');
-        }
-        if (pathTemplate == '/home/settings') {
-          routeState.go('/home');
-        }
-        if (pathTemplate == '/home/journeys/search/:type') {
-          routeState.go('/home/journeys');
-        }
-        if (pathTemplate == '/home/journeys/details') {
-          if (globals.path[globals.path.length - 2] == '/home/journeys') {
-            routeState.go('/home/journeys');
-          } else {
-            routeState.go('/home/journeys/list');
+    return Scaffold(
+      //appBar: AppBar(
+      //  backgroundColor:  Colors.amber, // const Color(0xff1f8837),
+      //  surfaceTintColor: Colors.amber, // const Color(0xff1f8837),
+      //  title: const Row(
+      //    children: [
+      //      Icon(NavikaIcons.navi, 
+      //        color: Colors.white,
+      //        size: 25,
+      //      ),
+      //      SizedBox(width: 10,),
+      //      Expanded(
+      //        child: Column(
+      //          crossAxisAlignment: CrossAxisAlignment.start,
+      //          children: [
+      //            Text('Descendez dans 3 stations',
+      //                  style: TextStyle(
+      //                    fontSize: 16,
+      //                    color: Colors.white,
+      //                    fontWeight: FontWeight.w600,
+      //                    fontFamily: 'Segoe Ui',
+      //                  ),
+      //                  maxLines: 1,
+      //                  softWrap: false,
+      //                  overflow: TextOverflow.fade,
+      //                ),
+      //            Text('Descendre à Mirosmesnil',
+      //                  style: TextStyle(
+      //                    fontSize: 16,
+      //                    color: Colors.white
+      //                  ),
+      //                  maxLines: 1,
+      //                  softWrap: false,
+      //                  overflow: TextOverflow.fade,
+      //                ),
+      //          ],
+      //        ),
+      //      )
+      //    ],
+      //  ),
+      //),
+      body: Navigator(
+        key: widget.navigatorKey,
+        onPopPage: (route, dynamic result) {
+          if (pathTemplate == '/stops/:id') {
+            routeState.go('/home');
           }
-        }
-        if (pathTemplate == '/home/journeys/list') {
-          routeState.go('/home');
-        }
-        if (pathTemplate == '/home/journeys/get/:id') {
-          routeState.go('/home');
-        }
-
-        if (pathTemplate == '/home/address') {
-          routeState.go('/home');
-        }
-        if (pathTemplate == '/home/address/:type') {
-          routeState.go('/home');
-        }
-
-        if (pathTemplate == '/trafic/details') {
-          routeState.go(globals.path[globals.path.length - 2]);
-          globals.path = [...globals.path.slice(0, globals.path.length - 2)];
-        }
-
-        if (pathTemplate == '/trafic/add') {
-          routeState.go('/trafic');
-        }
-
-        if (pathTemplate == '/schedules/search') {
-          routeState.go('/schedules');
-        }
-        if (pathTemplate == '/schedules/stops/:id') {
-          routeState.go('/schedules');
-        }
-        if (pathTemplate == '/schedules/stops/:id/departures/:line_id') {
-          routeState.go('/schedules/stops/$id');
-        }
-
-        if (pathTemplate == '/routes/search') {
-          routeState.go('/routes');
-        }
-        if (pathTemplate == '/routes/details/:id') {
-          if (globals.path[globals.path.length - 2] == '/routes/search') {
-            routeState.go('/routes');
-          } else {
+          if (pathTemplate == '/bike/:id') {
+            routeState.go('/home');
+          }
+          if (pathTemplate == '/address/:id') {
+            routeState.go('/home');
+          }
+      
+          if (pathTemplate == '/maps') {
+            routeState.go('/home');
+          }
+      
+          if (pathTemplate == '/settings') {
+            routeState.go('/home');
+          }
+      
+          if (pathTemplate == '/settings/notifications') {
+            routeState.go('/settings');
+          }
+          
+          if (pathTemplate == '/position') {
             routeState.go(globals.path[globals.path.length - 2]);
             globals.path = [...globals.path.slice(0, globals.path.length - 2)];
           }
-        }
-        if (pathTemplate == '/routes/details/:id/schedules/:stop_id') {
-          routeState.go(globals.path[globals.path.length - 2]);
-          globals.path = [...globals.path.slice(0, globals.path.length - 2)];
-        }
-
-        if (pathTemplate == '/trip/details/:id' || pathTemplate == '/trip/details/:id/from/:from' || pathTemplate == '/trip/details/:id/from/:from/to/:to') {
-          routeState.go(globals.path[globals.path.length - 2]);
-          globals.path = [...globals.path.slice(0, globals.path.length - 2)];
-        }
-
-        if (pathTemplate == '/pdf') {
-          routeState.go(globals.path[globals.path.length - 2]);
-          globals.path = [...globals.path.slice(0, globals.path.length - 2)];
-        }
-
-        if (pathTemplate == '/stops/:id') {
-          routeState.go('/home');
-					return false; 
-        }
-        if (pathTemplate == '/bike/:id') {
-          routeState.go('/home');
-					return false; 
-        }
-        if (pathTemplate == '/address/:id') {
-          routeState.go('/home');
-					return false; 
-        }
-
-        return route.didPop(result);
-      },
-      pages: [
-        // Display the app
-        MaterialPage<void>(
-          key: const ValueKey('App'),
-          child: NavikaAppScaffold(
-            pathTemplate: pathTemplate,
-            id: id
+      
+          if (pathTemplate == '/home/journeys') {
+            routeState.go('/home');
+          }
+          if (pathTemplate == '/home/settings') {
+            routeState.go('/home');
+          }
+          if (pathTemplate == '/home/journeys/search/:type') {
+            routeState.go('/home/journeys');
+          }
+          if (pathTemplate == '/home/journeys/details') {
+            if (globals.path[globals.path.length - 2] == '/home/journeys') {
+              routeState.go('/home/journeys');
+            } else {
+              routeState.go('/home/journeys/list');
+            }
+          }
+          if (pathTemplate == '/home/journeys/list') {
+            routeState.go('/home');
+          }
+          if (pathTemplate == '/home/journeys/get/:id') {
+            routeState.go('/home');
+          }
+      
+          if (pathTemplate == '/home/address') {
+            routeState.go('/home');
+          }
+          if (pathTemplate == '/home/address/:type') {
+            routeState.go('/home');
+          }
+      
+          if (pathTemplate == '/trafic/details') {
+            routeState.go(globals.path[globals.path.length - 2]);
+            globals.path = [...globals.path.slice(0, globals.path.length - 2)];
+          }
+      
+          if (pathTemplate == '/trafic/add') {
+            routeState.go('/trafic');
+          }
+      
+          if (pathTemplate == '/schedules/search') {
+            routeState.go('/schedules');
+          }
+          if (pathTemplate == '/schedules/stops/:id') {
+            routeState.go('/schedules');
+          }
+          if (pathTemplate == '/schedules/stops/:id/departures/:line_id') {
+            routeState.go('/schedules/stops/$id');
+          }
+      
+          if (pathTemplate == '/routes/search') {
+            routeState.go('/routes');
+          }
+          if (pathTemplate == '/routes/details/:id') {
+            if (globals.path[globals.path.length - 2] == '/routes/search') {
+              routeState.go('/routes');
+            } else {
+              routeState.go(globals.path[globals.path.length - 2]);
+              globals.path = [...globals.path.slice(0, globals.path.length - 2)];
+            }
+          }
+          if (pathTemplate == '/routes/details/:id/schedules/:stop_id') {
+            routeState.go(globals.path[globals.path.length - 2]);
+            globals.path = [...globals.path.slice(0, globals.path.length - 2)];
+          }
+      
+          if (pathTemplate == '/trip/details/:id' || pathTemplate == '/trip/details/:id/from/:from' || pathTemplate == '/trip/details/:id/from/:from/to/:to') {
+            routeState.go(globals.path[globals.path.length - 2]);
+            globals.path = [...globals.path.slice(0, globals.path.length - 2)];
+          }
+      
+          if (pathTemplate == '/pdf') {
+            routeState.go(globals.path[globals.path.length - 2]);
+            globals.path = [...globals.path.slice(0, globals.path.length - 2)];
+          }
+      
+          if (pathTemplate == '/stops/:id') {
+            routeState.go('/home');
+                return false; 
+          }
+          if (pathTemplate == '/bike/:id') {
+            routeState.go('/home');
+                return false; 
+          }
+          if (pathTemplate == '/address/:id') {
+            routeState.go('/home');
+                return false; 
+          }
+      
+          return route.didPop(result);
+        },
+        pages: [
+          // Display the app
+          MaterialPage<void>(
+            key: const ValueKey('App'),
+            child: NavikaAppScaffold(
+              pathTemplate: pathTemplate,
+              id: id
+            ),
           ),
-        ),
-        
-        if (pathTemplate == '/maps')
-          const MaterialPage<void>(
-            key: ValueKey('Maps'),
-            child: Maps(),
-          )        
-        else if (pathTemplate == '/settings')
-          const MaterialPage<void>(
-            key: ValueKey('Settings'),
-            child: Settings(),
-          )
-        else if (pathTemplate == '/settings/notifications')
-          const MaterialPage<void>(
-            key: ValueKey('Settings Notification'),
-            child: SettingsNotification(),
-          )
-        else if (pathTemplate == '/position')
-          const MaterialPage<void>(
-            key: ValueKey('Posiition'),
-            child: Position(),
-          )
-        else if (pathTemplate == '/home/address')
-          const MaterialPage<void>(
-            key: ValueKey('Addresse'),
-            child: AddAddress(),
-          )
-        else if (pathTemplate == '/home/address/:type' && type != null)
-          MaterialPage<void>(
-            key: const ValueKey('Addresse'),
-            child: AddAddress(predefineType : type),
-          )
-        else if (pathTemplate == '/home/address/:type/:id' &&
-            type != null &&
-            id != null)
-          MaterialPage<void>(
-            key: const ValueKey('Addresse'),
-            child: AddAddress(predefineType: type, id: id),
-          )
-        else if (pathTemplate == '/home/journeys')
-          const MaterialPage<void>(
-            key: ValueKey('Route'),
-            child: Journeys(),
-          )
-        else if (pathTemplate == '/home/settings')
-          const MaterialPage<void>(
-            key: ValueKey('HomeSettings'),
-            child: HomeSettings(),
-          )
-        else if (pathTemplate == '/home/journeys/search/:type' && type != null)
-          MaterialPage<void>(
-            key: const ValueKey('Route'),
-            child: JourneysSearch(type: type),
-          )
-        else if (pathTemplate == '/home/journeys/details')
-          const MaterialPage<void>(
-            key: ValueKey('Route details'),
-            child: JourneysDetails(),
-          )
-        else if (pathTemplate == '/home/journeys/list')
-          const MaterialPage<void>(
-            key: ValueKey('Route details'),
-            child: JourneysList(),
-          )
-        else if (pathTemplate == '/home/journeys/get/:id' && id != null)
-          MaterialPage<void>(
-            key: const ValueKey('Route get details'),
-            child: JourneysGet(
-              id: id,
-            ),
-          )
-        else if (pathTemplate == '/trafic/details') // /trafic/details
-          const MaterialPage<void>(
-            key: ValueKey('Trafic Details'),
-            child: TraficDetails(),
-          )
-        else if (pathTemplate == '/trafic/add')
-          const MaterialPage<void>(
-            key: ValueKey('Trafic Details'),
-            child: RoutesSearch(
-              toFavorite: true,
-            ),
-          )
-        else if (pathTemplate == '/schedules/search')
-          const MaterialPage<void>(
-            key: ValueKey('Schdedules Search'),
-            child: SchedulesSearch(),
-          )
-        else if (id != null &&
-            pathTemplate == '/schedules/stops/:id') // /schedules/stops/:id
-          MaterialPage<void>(
-            key: const ValueKey('Schedules Stops'),
-            child: SchedulesDetails(
-              id: id,
-            ),
-          )
-        else if (id != null &&
-            lineId != null &&
-            pathTemplate ==
-                '/schedules/stops/:id/departures/:line_id') // /schedules/stops/:id/departures/:line_id
-          MaterialPage<void>(
-            key: const ValueKey('Schedules Departures Lines'),
-            child: DepartureDetails(
-              id: id,
-              stopLine: lineId,
-            ),
-          )
-        else if (id != null &&
-            pathTemplate == '/trip/details/:id') // /schedules/stops/:id
-          MaterialPage<void>(
-            key: const ValueKey('Schedules Stops'),
-            child: TripDetails(
-              tripId: id,
-            ),
-          )
-        else if (id != null &&
-            fromId != null &&
-            pathTemplate == '/trip/details/:id/from/:from') // /schedules/stops/:id
-          MaterialPage<void>(
-            key: const ValueKey('Schedules Stops'),
-            child: TripDetails(
-              tripId: id,
-              fromId: fromId,
-            ),
-          )
-        else if (pathTemplate == '/routes/search')
-          const MaterialPage<void>(
-            key: ValueKey('Routes Search'),
-            child: RoutesSearch(),
-          )
-        else if (pathTemplate == '/routes/details/:id' && id != null)
-          MaterialPage<void>(
-            key: const ValueKey('Routes Search'),
-            child: RoutesDetails(
-              routeId: id,
-            ),
-          )
-        else if (pathTemplate == '/routes/details/:id/schedules/:stop_id' && id != null && stopId != null)
-          MaterialPage<void>(
-            key: const ValueKey('Routes Search'),
-            child: RoutesSchedules(
-              routeId: id,
-              stopId: stopId
-            ),
-          )
-        else if (id != null &&
-            fromId != null &&
-            toId != null &&
-            pathTemplate == '/trip/details/:id/from/:from/to/:to')
-          MaterialPage<void>(
-            key: const ValueKey('Schedules Stops'),
-            child: TripDetails(
-              tripId: id,
-              fromId: fromId,
-              toId: toId,
-            ),
-          )
-        else if (pathTemplate == '/pdf')
-          const MaterialPage<void>(
-            key: ValueKey('Routes Search'),
-            child: PDFViewer(),
-          )
-      ],
+          
+          if (pathTemplate == '/maps')
+            const MaterialPage<void>(
+              key: ValueKey('Maps'),
+              child: Maps(),
+            )        
+          else if (pathTemplate == '/settings')
+            const MaterialPage<void>(
+              key: ValueKey('Settings'),
+              child: Settings(),
+            )
+          else if (pathTemplate == '/settings/notifications')
+            const MaterialPage<void>(
+              key: ValueKey('Settings Notification'),
+              child: SettingsNotification(),
+            )
+          else if (pathTemplate == '/position')
+            const MaterialPage<void>(
+              key: ValueKey('Posiition'),
+              child: Position(),
+            )
+          else if (pathTemplate == '/home/address')
+            const MaterialPage<void>(
+              key: ValueKey('Addresse'),
+              child: AddAddress(),
+            )
+          else if (pathTemplate == '/home/address/:type' && type != null)
+            MaterialPage<void>(
+              key: const ValueKey('Addresse'),
+              child: AddAddress(predefineType : type),
+            )
+          else if (pathTemplate == '/home/address/:type/:id' &&
+              type != null &&
+              id != null)
+            MaterialPage<void>(
+              key: const ValueKey('Addresse'),
+              child: AddAddress(predefineType: type, id: id),
+            )
+          else if (pathTemplate == '/home/journeys')
+            const MaterialPage<void>(
+              key: ValueKey('Route'),
+              child: Journeys(),
+            )
+          else if (pathTemplate == '/home/settings')
+            const MaterialPage<void>(
+              key: ValueKey('HomeSettings'),
+              child: HomeSettings(),
+            )
+          else if (pathTemplate == '/home/journeys/search/:type' && type != null)
+            MaterialPage<void>(
+              key: const ValueKey('Route'),
+              child: JourneysSearch(type: type),
+            )
+          else if (pathTemplate == '/home/journeys/details')
+            const MaterialPage<void>(
+              key: ValueKey('Route details'),
+              child: JourneysDetails(),
+            )
+          else if (pathTemplate == '/home/journeys/list')
+            const MaterialPage<void>(
+              key: ValueKey('Route details'),
+              child: JourneysList(),
+            )
+          else if (pathTemplate == '/home/journeys/get/:id' && id != null)
+            MaterialPage<void>(
+              key: const ValueKey('Route get details'),
+              child: JourneysGet(
+                id: id,
+              ),
+            )
+          else if (pathTemplate == '/trafic/details') // /trafic/details
+            const MaterialPage<void>(
+              key: ValueKey('Trafic Details'),
+              child: TraficDetails(),
+            )
+          else if (pathTemplate == '/trafic/add')
+            const MaterialPage<void>(
+              key: ValueKey('Trafic Details'),
+              child: RoutesSearch(
+                toFavorite: true,
+              ),
+            )
+          else if (pathTemplate == '/schedules/search')
+            const MaterialPage<void>(
+              key: ValueKey('Schdedules Search'),
+              child: SchedulesSearch(),
+            )
+          else if (id != null &&
+              pathTemplate == '/schedules/stops/:id') // /schedules/stops/:id
+            MaterialPage<void>(
+              key: const ValueKey('Schedules Stops'),
+              child: SchedulesDetails(
+                id: id,
+              ),
+            )
+          else if (id != null &&
+              lineId != null &&
+              pathTemplate ==
+                  '/schedules/stops/:id/departures/:line_id') // /schedules/stops/:id/departures/:line_id
+            MaterialPage<void>(
+              key: const ValueKey('Schedules Departures Lines'),
+              child: DepartureDetails(
+                id: id,
+                stopLine: lineId,
+              ),
+            )
+          else if (id != null &&
+              pathTemplate == '/trip/details/:id') // /schedules/stops/:id
+            MaterialPage<void>(
+              key: const ValueKey('Schedules Stops'),
+              child: TripDetails(
+                tripId: id,
+              ),
+            )
+          else if (id != null &&
+              fromId != null &&
+              pathTemplate == '/trip/details/:id/from/:from') // /schedules/stops/:id
+            MaterialPage<void>(
+              key: const ValueKey('Schedules Stops'),
+              child: TripDetails(
+                tripId: id,
+                fromId: fromId,
+              ),
+            )
+          else if (pathTemplate == '/routes/search')
+            const MaterialPage<void>(
+              key: ValueKey('Routes Search'),
+              child: RoutesSearch(),
+            )
+          else if (pathTemplate == '/routes/details/:id' && id != null)
+            MaterialPage<void>(
+              key: const ValueKey('Routes Search'),
+              child: RoutesDetails(
+                routeId: id,
+              ),
+            )
+          else if (pathTemplate == '/routes/details/:id/schedules/:stop_id' && id != null && stopId != null)
+            MaterialPage<void>(
+              key: const ValueKey('Routes Search'),
+              child: RoutesSchedules(
+                routeId: id,
+                stopId: stopId
+              ),
+            )
+          else if (id != null &&
+              fromId != null &&
+              toId != null &&
+              pathTemplate == '/trip/details/:id/from/:from/to/:to')
+            MaterialPage<void>(
+              key: const ValueKey('Schedules Stops'),
+              child: TripDetails(
+                tripId: id,
+                fromId: fromId,
+                toId: toId,
+              ),
+            )
+          else if (pathTemplate == '/pdf')
+            const MaterialPage<void>(
+              key: ValueKey('Routes Search'),
+              child: PDFViewer(),
+            )
+        ],
+      ),
     );
   }
 }

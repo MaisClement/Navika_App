@@ -10,15 +10,11 @@ Future getAppInfo() async {
   packageName = packageInfo.packageName;
   version = packageInfo.version;
   buildNumber = packageInfo.buildNumber;
-
   buildSignature = packageInfo.buildSignature;
-  installerStore = packageInfo.installerStore;
 }
 
 String name = '';
 String packageName = '';
 String version = '';
 String buildNumber = '';
-
 String buildSignature = '';
-String? installerStore = '';

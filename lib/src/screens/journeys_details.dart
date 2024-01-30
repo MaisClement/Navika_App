@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:floating_snackbar/floating_snackbar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -67,38 +68,21 @@ Map? getSavedJourney(String uniqueId) {
   return null;
 }
 
-List sortJourneys(List journeys) {
-  journeys.sort((a, b) {
-    DateTime aDt = DateTime.parse(a['departure_date_time']);
-    DateTime bDt = DateTime.parse(b['departure_date_time']);
-    return aDt.compareTo(bDt);
-  });
-
-  return journeys;
-}
-
-List getFutureJourneys(List journeys) {
-  List futureJourneys = [];
-  for (var journey in journeys) {
-    if (DateTime.parse(journey['arrival_date_time']).isAfter(DateTime.now())) {
-      futureJourneys.add(journey);
-    }
+bool allowNavi(journey) {
+  if (kDebugMode) {
+    return false;
   }
-  return futureJourneys;
-}
-
-List getPastJourneys(List journeys) {
-  List futureJourneys = [];
-  for (var journey in journeys) {
-    if (DateTime.parse(journey['arrival_date_time']).isBefore(DateTime.now())) {
-      futureJourneys.add(journey);
-    }
+  if (getTimeDifference(journey['departure_date_time']) > 120 || isInPast(journey['arrival_date_time'])) {
+    return false;
   }
-  return futureJourneys;
+
+  return true;
 }
 
 class JourneysDetails extends StatefulWidget {
-  const JourneysDetails({super.key});
+  const JourneysDetails({
+    super.key
+  });
 
   @override
   State<JourneysDetails> createState() => _JourneysDetailsState();
@@ -121,6 +105,8 @@ class _JourneysDetailsState extends State<JourneysDetails> {
 
   double panelButtonBottomOffsetClosed = 120;
   double panelButtonBottomOffset = 120;
+  double saveButtonRightOffset = 0;
+  double fabRounder = 120;
   double _position = 0;
   Map journey = globals.journey;
 
@@ -315,8 +301,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                     child: Material(
                       borderRadius: BorderRadius.circular(500),
                       elevation: 4.0,
-                      shadowColor:
-                          Colors.black.withOpacity(getOpacity(_position)),
+                      shadowColor: Colors.black.withOpacity(getOpacity(_position)),
                       color: Theme.of(context).colorScheme.surface,
                       child: InkWell(
                         borderRadius: BorderRadius.circular(500),
@@ -335,16 +320,16 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                 Positioned(
                   top: 0,
                   right: 0,
+                  //DISABLED right: saveButtonRightOffset, //DISABLED allowNavi(journey) ? saveButtonRightOffset : 0,
                   child: SafeArea(
                     child: Container(
-                      margin: const EdgeInsets.only(top: 10, right: 8, bottom: 15),
+                      margin: const EdgeInsets.only(top: 10, right: 10, bottom: 15),
                       width: 40,
                       height: 40,
                       child: Material(
                         borderRadius: BorderRadius.circular(500),
                         elevation: 4.0,
-                        shadowColor:
-                            Colors.black.withOpacity(getOpacity(_position)),
+                        shadowColor:Colors.black.withOpacity(getOpacity(_position)),
                         color: Theme.of(context).colorScheme.surface,
                         child: InkWell(
                           borderRadius: BorderRadius.circular(500),
@@ -363,18 +348,23 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                   ),
                 ),
               Positioned(
-                right: 20,
-                bottom: panelButtonBottomOffset,
+                right: 15,
+                bottom: panelButtonBottomOffset + 22,
                 child: Opacity(
                   opacity: getOpacity(_position),
                   child: FloatingActionButton(
-                    backgroundColor:
-                        Theme.of(context).colorScheme.onSecondaryContainer,
+                    backgroundColor:Theme.of(context).colorScheme.onSecondaryContainer,
                     child: _isInBox
-                        ? Icon(NavikaIcons.localisation,
-                            color: Theme.of(context).colorScheme.onSurface, size: 30)
-                        : Icon(NavikaIcons.localisationNull,
-                            color: Theme.of(context).colorScheme.onSurface, size: 30),
+                        ? Icon(
+                            NavikaIcons.localisation,
+                            color: Theme.of(context).colorScheme.onSurface,
+                            size: 30
+                          )
+                        : Icon(
+                            NavikaIcons.localisationNull,
+                            color: Theme.of(context).colorScheme.onSurface,
+                            size: 30
+                          ),
                     onPressed: () {
                       _zoomOn();
                       closePanel();
@@ -382,6 +372,25 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                   ),
                 ),
               ),
+              //DISABLED if (allowNavi(journey))
+              //DISABLED   Positioned(
+              //DISABLED     right: 15,
+              //DISABLED     bottom: panelButtonBottomOffset - 47,
+              //DISABLED     child: Center(
+              //DISABLED       child: FloatingActionButton(
+              //DISABLED         backgroundColor:const Color(0xff1f8837),
+              //DISABLED         child: const Icon(
+              //DISABLED           NavikaIcons.navi,
+              //DISABLED           color: Colors.white,
+              //DISABLED           size: 30
+              //DISABLED         ),
+              //DISABLED         onPressed: () {
+              //DISABLED           _zoomOn();
+              //DISABLED           closePanel();
+              //DISABLED         },
+              //DISABLED       ),
+              //DISABLED     ),
+              //DISABLED   ),
             ],
           ),
         ),
@@ -513,8 +522,8 @@ class _JourneysDetailsState extends State<JourneysDetails> {
 
   void onPanelSlide(position) {
     setState(() {
-      panelButtonBottomOffset = panelButtonBottomOffsetClosed +
-          ((MediaQuery.of(context).size.height - 180) * position);
+      panelButtonBottomOffset = panelButtonBottomOffsetClosed + ((MediaQuery.of(context).size.height - 180) * position);
+      saveButtonRightOffset = position > 0.55 ? (145 * (position - 0.55)).toDouble() : 0;
       _position = position;
     });
   }

@@ -17,7 +17,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:navika/firebase_options.dart';
 
-import 'package:navika/src/data/credentials.dart' as credentials;
+import 'package:navika/credentials.dart' as credentials;
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/app.dart';
 
@@ -51,7 +51,7 @@ Future<void> main() async {
     await _initializeFirebase();
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);   
   } catch (e) {
-    print('Error while initializing Firebase');
+    // print('Error while initializing Firebase');
   }
 
   _initializeLocalNotification();
@@ -63,7 +63,7 @@ Future<void> main() async {
       ..dsn=globals.GLITCH
       ..tracesSampleRate=1
       ..enableAutoSessionTracking=false,
-    appRunner: () => runApp(NavikaApp())
+    appRunner: () => runApp(const NavikaApp())
   );
 }
 

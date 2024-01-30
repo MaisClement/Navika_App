@@ -48,8 +48,7 @@ class BikePannel extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurface,
               onPressed: () => Navigator.pop(context),
             ),
-            Expanded(
-              child: Text(
+            Text(
                 globals.schedulesStopName,
                 style: TextStyle(
                   fontSize: 20,
@@ -59,7 +58,6 @@ class BikePannel extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-            ),
             const SizedBox(width: 48),
           ],
         ),

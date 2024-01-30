@@ -63,12 +63,13 @@ class HomeBodyFavScroll extends StatelessWidget {
             )
           else
             FavButton(
-                name: 'Non défini',
-                img: NavikaIcons.home,
-                onTap: () {
-                  RouteStateScope.of(context).go('/home/address/home');
-                },
-                onLongPress: () {}),
+              name: 'Non défini',
+              img: NavikaIcons.home,
+              onTap: () {
+                RouteStateScope.of(context).go('/home/address/home');
+              },
+              onLongPress: () {}
+            ),
 
 // Travail
           if (getAddressPos(address, 'work') != -1)

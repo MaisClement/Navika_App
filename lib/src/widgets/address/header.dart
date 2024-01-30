@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style/style.dart';
 
 class AddressPannel extends StatelessWidget {
@@ -43,13 +42,13 @@ class AddressPannel extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               tooltip: 'Retour',
               color: Theme.of(context).colorScheme.onSurface,
               onPressed: () => Navigator.pop(context),
             ),
             Expanded(
-              child: Text('Point placé',
+              child: Text('Repère placé',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,

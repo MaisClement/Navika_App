@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/style/style.dart';
-import 'package:navika/src/widgets/icons/icons.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/utils/switch_line.dart';
 

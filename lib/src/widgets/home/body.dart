@@ -53,70 +53,63 @@ class HomeBody extends StatelessWidget {
       if (block['id'] == 'journeys' && block['enabled'] == true) {
         res.add(
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, bottom: 10),
-                    child: Text(
-                      block['name'],
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
-                        color: accentColor(context),
-                      ),
-                    ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, bottom: 10),
+                child: Text(
+                  block['name'],
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Segoe Ui',
+                    color: accentColor(context),
                   ),
-                ],
+                ),
               ),
               ...[
                 if (journeys.isEmpty)
-                  Column(
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          const SizedBox(
-                            width: 30,
-                          ),
-                          const Image(
-                            image: AssetImage(
-                              'assets/img/journeys.png',
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      const Image(
+                        image: AssetImage(
+                          'assets/img/journeys.png',
+                        ),
+                        width: 80,
+                      ),
+                      const SizedBox(
+                        width: 30,
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            const Text(
+                              'Vous n’avez pas d’itinéraires prévu.',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Segoe Ui',
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            width: 80,
-                          ),
-                          const SizedBox(
-                            width: 30,
-                          ),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                const Text(
-                                  'Vous n’avez pas d’itinéraires prévu.',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Segoe Ui',
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Center(
-                                  child: ElevatedButton(
-                                    child: const Text('Tous vos itinéraires ➜'),
-                                    onPressed: () {
-                                      RouteStateScope.of(context).go('/home/journeys/list');
-                                    },
-                                  ),
-                                ),
-                              ],
+                            Center(
+                              child: ElevatedButton(
+                                child: const Text('Tous vos itinéraires ➜'),
+                                onPressed: () {
+                                  RouteStateScope.of(context).go('/home/journeys/list');
+                                },
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 30,
-                          ),
-                        ],
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 30,
                       ),
                     ],
                   )

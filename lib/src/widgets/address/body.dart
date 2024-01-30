@@ -1,18 +1,77 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:here_sdk/core.dart';
 import 'package:navika/src/api.dart';
 
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/routing/route_state.dart';
+import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/style/style.dart';
+import 'package:navika/src/utils.dart';
+import 'package:navika/src/widgets/error_block.dart';
+import 'package:navika/src/widgets/places/listbutton.dart';
+import 'package:navika/src/widgets/utils/icon_elevated.dart';
+
+String getDistanceText(double distance) {
+  if (distance <= 1000) {
+    return '${distance.ceil()}m';
+  } else {
+    return '${(distance/1000).toStringAsFixed(2)}km';
+  }
+}
+
+Widget getDistance(id) {
+  if (globals.locationData == null) {
+    return Container();
+  }
+  
+  double distance = calculateDistance(double.parse(id.split(';')[0]), double.parse(id.split(';')[1]), globals.locationData!.latitude!, globals.locationData!.longitude!);
+  int duration = (distance / 1.3).toInt();
+
+  return Row(
+    children: [
+      Row(
+        children: [
+          const Icon(NavikaIcons.walking,
+            color: Colors.grey,
+            size: 25
+          ),
+          Text(getDistanceText(distance),
+            style: const TextStyle(
+              color: Colors.grey,
+              fontFamily: 'Segoe Ui',
+            ),
+          ),
+          if (duration < 3600)
+            ...[
+              SizedBox(width: 10),
+              const Icon(NavikaIcons.clock,
+                color: Colors.grey,
+                size: 25
+              ),
+              Text(getDuration(duration),
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontFamily: 'Segoe Ui',
+                ),
+              ),
+            ]
+        ],
+      )
+    ],
+  );
+}
 
 class AddressBody extends StatefulWidget {
   final String id;
   final ScrollController scrollController;
+  final Function onDispose;
 
   const AddressBody({
     required this.id,
     required this.scrollController,
+    required this.onDispose,
     super.key
   });
 
@@ -26,8 +85,7 @@ class _AddressBodyState extends State<AddressBody> with SingleTickerProviderStat
   String id = '';
   bool isLoading = true;
 
-  Map bikeStation = {};
-  late Timer _update;
+  Map address = {};
   ApiStatus error = ApiStatus.ok;
 
   @override
@@ -35,24 +93,23 @@ class _AddressBodyState extends State<AddressBody> with SingleTickerProviderStat
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       init();
-      await _getBikes();
+      await _getAddress();
     });
   }
   
   @override
   void didUpdateWidget(AddressBody oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Vérifiez si les paramètres ont changé, et si c'est le cas, appelez setState pour reconstruire le widget
     if (widget.id != id) {
       init();
-      _getBikes();
+      _getAddress();
     }
   }
 
   @override
   void dispose() {
     super.dispose();
-    _update.cancel();
+    widget.onDispose();
   }
 
   void init() {
@@ -62,13 +119,15 @@ class _AddressBodyState extends State<AddressBody> with SingleTickerProviderStat
     });
   }
 
-  Future<void> _getBikes() async {
+  Future<void> _getAddress() async {
     setState(() {
       isLoading = true;
     });
+
+    GeoCoordinates geoCoordinates = GeoCoordinates(double.parse(id.split(';')[0]), double.parse(id.split(';')[1]));
     
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getBikeStations(id);
+    Map result = await navikaApi.getAddress(geoCoordinates);
 
     if (mounted) {
       setState(() {
@@ -77,7 +136,7 @@ class _AddressBodyState extends State<AddressBody> with SingleTickerProviderStat
       
       if (result['value'] != null) {
         setState(() {
-          bikeStation = result['value'];
+          address = result['value'];
           isLoading = false;
         });
       }
@@ -85,210 +144,91 @@ class _AddressBodyState extends State<AddressBody> with SingleTickerProviderStat
   }
 
   @override
-  Widget build(BuildContext context) => Column(
+  Widget build(BuildContext context) => ListView(
+        controller: widget.scrollController,
+        padding: const EdgeInsets.only(top: 90),
         children: [
-          const SizedBox(height: 60),
-          if (isLoading)
+          if (error != ApiStatus.ok)
+            ErrorBlock(
+              error: error,
+            )
+          else if (isLoading)
             const Column(
               children: [
-                SizedBox(height: 20),
                 LinearProgressIndicator(),
               ]
             )
           else
-            Container(
-              padding: const EdgeInsets.only(
-                  left: 20.0, top: 30.0, right: 20.0, bottom: 10.0),
-              child: Column(
-                children: [
-                  if (bikeStation['bike'] != null)
-                    Row(
-                      children: [
-                        const Expanded(
-                          child: Text(
-                            'Vélo disponible',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Segoe Ui',
-                            ),
-                          ),
+            Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, bottom: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(address['place']['name'],
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Segoe Ui',
+                          color: accentColor(context),
                         ),
-                        Container(
-                          padding: const EdgeInsets.only(
-                              left: 10.0, top: 5.0, right: 10.0, bottom: 5.0),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: const Color(0xffb7dcae)),
-                          child: Row(
-                            children: [
-                              Icon(NavikaIcons.bike,
-                                  color: Theme.of(context).colorScheme.onSurface, size: 25),
-                              Container(
-                                width: 30,
-                                margin:
-                                    const EdgeInsets.only(left: 7, bottom: 2),
-                                child: Text(
-                                  bikeStation['bike'].toString(),
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Segoe Ui',
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                      ),
+                      Text( address['place']['zip_code'] == '' ? address['place']['town'] : '${address['place']['zip_code']}, ${address['place']['town']}',
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontFamily: 'Segoe Ui',
                         ),
-                      ],
+                      ),
+
+                      const SizedBox(height: 7),
+                      getDistance(id),
+                      const SizedBox(height: 7),
+                      
+                      IconElevatedButton(
+                        icon: NavikaIcons.navi,
+                        width: 105,
+                        text: 'Y aller',
+                        onPressed: () {
+                          initJourney(
+                            null,
+                            {
+                              'name': address['place']['name'],
+                              'id': address['place']['id']
+                            },
+                            context
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 30),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, bottom: 10),
+                  child: Text('À proximité',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Segoe Ui',
+                      color: accentColor(context),
                     ),
-                  if (bikeStation['bike'] != null)
-                    const SizedBox(
-                      height: 5,
+                  ),
+                ),
+                if (address['near_stops'].isNotEmpty)
+                  for (var place in address['near_stops'])
+                    PlacesListButton(
+                      isLoading: false,
+                      place: place,
+                      onTap: () {
+                        globals.schedulesStopName = place['name'];
+                        RouteStateScope.of(context).go('/stops/${place['id']}');
+                      },
                     ),
-                  if (bikeStation['mechanical'] != null)
-                    Row(
-                      children: [
-                        const Expanded(
-                          child: Text(
-                            'Vélo mécanique',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Segoe Ui',
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(
-                              left: 10.0, top: 5.0, right: 10.0, bottom: 5.0),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: getMechanicalBike(context),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(NavikaIcons.bike,
-                                  color: Theme.of(context).colorScheme.onSurface, size: 25),
-                              Container(
-                                width: 30,
-                                margin:
-                                    const EdgeInsets.only(left: 7, bottom: 2),
-                                child: Text(
-                                  bikeStation['mechanical'].toString(),
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Segoe Ui',
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  if (bikeStation['mechanical'] != null)
-                    const SizedBox(
-                      height: 5,
-                    ),
-                  if (bikeStation['ebike'] != null)
-                    Row(
-                      children: [
-                        const Expanded(
-                          child: Text(
-                            'Vélo électriques',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Segoe Ui',
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(
-                              left: 10.0, top: 5.0, right: 10.0, bottom: 5.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: getElecBike(context),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(NavikaIcons.ebike,
-                                  color: Theme.of(context).colorScheme.onSurface, size: 25),
-                              Container(
-                                width: 30,
-                                margin:
-                                    const EdgeInsets.only(left: 7, bottom: 2),
-                                child: Text(
-                                  bikeStation['ebike'].toString(),
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Segoe Ui',
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  if (bikeStation['ebike'] != null)
-                    const SizedBox(
-                      height: 5,
-                    ),
-                  if (bikeStation['capacity'] != null)
-                    Row(
-                      children: [
-                        const Expanded(
-                          child: Text(
-                            'Places disponibles',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Segoe Ui',
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(
-                              left: 10.0, top: 5.0, right: 10.0, bottom: 5.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: getParkBike(context),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(NavikaIcons.parking,
-                                  color: Theme.of(context).colorScheme.onSurface, size: 25),
-                              Container(
-                                width: 30,
-                                margin:
-                                    const EdgeInsets.only(left: 7, bottom: 2),
-                                child: Text(
-                                  bikeStation['capacity'].toString(),
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Segoe Ui',
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                ],
-              ),
-            )
+              ]
+            ),
         ],
       );
 }

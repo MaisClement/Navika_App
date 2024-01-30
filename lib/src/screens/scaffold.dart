@@ -15,7 +15,6 @@ class NavikaAppScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       bottomNavigationBar: getNavigationBar(context),
       body: getPages(pathTemplate, id),

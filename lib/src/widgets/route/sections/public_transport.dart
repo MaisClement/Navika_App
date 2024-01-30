@@ -30,14 +30,16 @@ class SectionPublicTransport extends StatefulWidget {
 class _SectionPublicTransportState extends State<SectionPublicTransport> with SingleTickerProviderStateMixin {
 
   bool isStopExtended = false;
-  double height = 70;
+  double height = 50;
   final _key = GlobalKey();
   late Timer _timer;
 
   void _getSize() {
     final size = _key.currentContext!.size;
     if (size != null) {
-      height = size.height;
+      setState(() {
+        height = size.height;
+      });
     }
   }
 
@@ -87,15 +89,17 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(
-                 left: 5
-                ),
-                child: Container(
-                  height: height,
-                  width: 4,
+                margin: const EdgeInsets.only(left: 5),
+                height: height,
+                width: 4,
+                decoration: BoxDecoration(
                   color: HexColor.fromHex(widget.section['informations']['line']['color']),
-               ),
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(5),
+                    bottomRight: Radius.circular(5),
+                  )
               ),
+                ),
             ],
           ),
           Expanded(
@@ -120,16 +124,12 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                     Container(
                       padding: const EdgeInsets.only(left: 10, right: 15, top: 0),
                       color: Theme.of(context).colorScheme.surface,
-                      child: Row(
-                        children: [
-                          Text(getStringTime(widget.section['departure_date_time']),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Segoe Ui',
-                              fontSize: 16,
-                            )
-                          )
-                        ],
+                      child: Text(getStringTime(widget.section['departure_date_time']),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Segoe Ui',
+                          fontSize: 16,
+                        )
                       ),
                     ),
                   ]
@@ -183,9 +183,7 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                   ),
                 if ( DateTime.parse(widget.section['departure_date_time']).isToday() && widget.section['informations']['line']['severity'] != 0)
                   Padding(
-                    padding: const EdgeInsets.only(
-                      top: 10, right: 10
-                    ),
+                    padding: const EdgeInsets.only(top: 10, right: 10),
                     child: ButtonLargeTrafic(
                       line: widget.section['informations']['line'],
                       borderRadius: BorderRadius.circular(10),
@@ -195,9 +193,9 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                       },
                     ),
                   ),
-                if (widget.section['best_boarding_positions'] != null)
+                if (widget.section['boarding_positions'] != null)
                   BoardingPosition(
-                    position: widget.section['best_boarding_positions'],
+                    position: widget.section['boarding_positions'],
                   ),
                 Padding(
                   padding: const EdgeInsets.only(top: 15),

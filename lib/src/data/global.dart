@@ -12,6 +12,7 @@ const String API_INDEX =                            '$API_BASE/index';
 const String API_TRAFIC =                           '$API_BASE/trafic';
 const String API_PLACES =                           '$API_BASE/places';
 const String API_NEAR =                             '$API_BASE/near';
+const String API_ADDRESS =                          '$API_BASE/address';
 const String API_STOPS =                            '$API_BASE/stops';
 const String API_SCHEDULES =                        '$API_BASE/schedules';
 const String API_LINES =                            '$API_BASE/lines';

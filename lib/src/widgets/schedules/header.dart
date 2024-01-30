@@ -55,7 +55,7 @@ class SchedulesPannel extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.arrow_back),
+                    icon: const Icon(Icons.arrow_back),
                     tooltip: 'Retour',
                     color: Theme.of(context).colorScheme.onSurface,
                     onPressed: () => Navigator.pop(context),

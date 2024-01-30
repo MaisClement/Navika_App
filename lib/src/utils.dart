@@ -457,8 +457,7 @@ Color getColorByType(section) {
   if (section['type'] == 'street_network' || section['type'] == 'waiting') {
     return const Color(0xff7b7b7b);
   }
-  if (section['informations'] != null &&
-      section['informations']['line']['color'] != null) {
+  if (section['informations'] != null && section['informations']['line']['color'] != null) {
     return HexColor.fromHex(section['informations']['line']['color']);
   }
   return const Color(0xff202020);
@@ -483,14 +482,13 @@ double getDistance(double lat1, double lon1, double lat2, double lon2) {
   double rla2 = degTorad(lat2);
   double dlo = (rlo2 - rlo1) / 2;
   double dla = (rla2 - rla1) / 2;
-  double a =
-      (sin(dla) * sin(dla)) + sin(rla1) * cos(rla2) * (sin(dlo) * sin(dlo));
+  double a = (sin(dla) * sin(dla)) + sin(rla1) * cos(rla2) * (sin(dlo) * sin(dlo));
   double d = 2 * atan2(sqrt(a), sqrt(1 - a));
   return ((earthRadius * d) * 3);
 }
 
 GeoCoordinates getCenterPoint(
-    double lat1, double lon1, double lat2, double lon2) {
+  double lat1, double lon1, double lat2, double lon2) {
   double clon = (lon1 + lon2) / 2;
   double clat = (lat1 + lat2) / 2;
 
@@ -517,8 +515,7 @@ String getDuration(int d) {
   Duration duration = Duration(seconds: d);
   String res = '';
   if (duration.inMinutes >= 60) {
-    res =
-        '$res${duration.inHours.toString()}h${duration.inMinutes.remainder(60).toString()}';
+    res ='$res${duration.inHours.toString()}h${duration.inMinutes.remainder(60).toString()}';
   } else {
     res = '$res${duration.inMinutes.remainder(60).toString()} mn';
   }
@@ -527,9 +524,8 @@ String getDuration(int d) {
 }
 
 String getDistanceText(int d) {
-  // get the distance in meters or kilometers
   String res = '';
-  // ${d}
+  
   if (d >= 1000) {
     res = '$res${d / 1000.0} km';
   } else {
@@ -543,8 +539,7 @@ List<Widget> getDurationWidget(int d, context) {
   List<Widget> res = [];
 
   if (duration.inMinutes >= 60) {
-    res.add(
-        Text(duration.inHours.toString(), style: getTextStyle(context, 24)));
+    res.add(Text(duration.inHours.toString(), style: getTextStyle(context, 24)));
 
     res.add(Text('h', style: getTextStyle(context, 10)));
 
@@ -741,4 +736,25 @@ ThemeMode getThemeMode(String themeMode) {
     return ThemeMode.light;
   }
   return ThemeMode.system;
+}
+
+double calculateDistance(double latitudeFrom, double longitudeFrom, double latitudeTo, double longitudeTo) {
+  double earth = 6371000;
+
+  double latFrom = degreesToRadians(latitudeFrom);
+  double lonFrom = degreesToRadians(longitudeFrom);
+  double latTo = degreesToRadians(latitudeTo);
+  double lonTo = degreesToRadians(longitudeTo);
+
+  double lat = latTo - latFrom;
+  double lon = lonTo - lonFrom;
+
+  double angle = 2 * asin(sqrt(pow(sin(lat / 2), 2) + cos(latFrom) * cos(latTo) * pow(sin(lon / 2), 2)));
+  double distance = angle * earth;
+
+  return distance;
+}
+
+double degreesToRadians(double degrees) {
+  return degrees * pi / 180.0;
 }

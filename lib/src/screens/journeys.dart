@@ -158,6 +158,36 @@ void addToHistory(Map place) {
   globals.hiveBox.put('historyPlaces', history);
 }
 
+List sortJourneys(List journeys) {
+  journeys.sort((a, b) {
+    DateTime aDt = DateTime.parse(a['departure_date_time']);
+    DateTime bDt = DateTime.parse(b['departure_date_time']);
+    return aDt.compareTo(bDt);
+  });
+
+  return journeys;
+}
+
+List getFutureJourneys(List journeys) {
+  List futureJourneys = [];
+  for (var journey in journeys) {
+    if (DateTime.parse(journey['arrival_date_time']).isAfter(DateTime.now())) {
+      futureJourneys.add(journey);
+    }
+  }
+  return futureJourneys;
+}
+
+List getPastJourneys(List journeys) {
+  List futureJourneys = [];
+  for (var journey in journeys) {
+    if (DateTime.parse(journey['arrival_date_time']).isBefore(DateTime.now())) {
+      futureJourneys.add(journey);
+    }
+  }
+  return futureJourneys;
+}
+
 class Journeys extends StatefulWidget {
   const Journeys({super.key});
 
