@@ -467,10 +467,4 @@ class _TraficState extends State<Trafic> {
                 ),
               ),
       );
-
-
-  @override
-  void deactivate() {
-    super.deactivate();
-  }
 }

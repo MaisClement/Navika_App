@@ -13,21 +13,13 @@ import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/places/listbutton.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
 
-String getDistanceText(double distance) {
-  if (distance <= 1000) {
-    return '${distance.ceil()}m';
-  } else {
-    return '${(distance/1000).toStringAsFixed(2)}km';
-  }
-}
-
 Widget getDistance(id) {
   if (globals.locationData == null) {
     return Container();
   }
   
-  double distance = calculateDistance(double.parse(id.split(';')[0]), double.parse(id.split(';')[1]), globals.locationData!.latitude!, globals.locationData!.longitude!);
-  int duration = (distance / 1.3).toInt();
+  int distance = calculateDistance(double.parse(id.split(';')[0]), double.parse(id.split(';')[1]), globals.locationData!.latitude!, globals.locationData!.longitude!).toInt();
+  int duration = distance ~/ 1.3;
 
   return Row(
     children: [
@@ -45,7 +37,7 @@ Widget getDistance(id) {
           ),
           if (duration < 3600)
             ...[
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               const Icon(NavikaIcons.clock,
                 color: Colors.grey,
                 size: 25

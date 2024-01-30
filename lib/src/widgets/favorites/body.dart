@@ -31,8 +31,7 @@ class FavoriteBody extends StatefulWidget {
   State<FavoriteBody> createState() => _FavoriteBodyState();
 }
 
-class _FavoriteBodyState extends State<FavoriteBody>
-    with SingleTickerProviderStateMixin {
+class _FavoriteBodyState extends State<FavoriteBody> with SingleTickerProviderStateMixin {
   List schedules = [];
   String mode = '';
   ApiStatus error = ApiStatus.ok;
@@ -41,10 +40,11 @@ class _FavoriteBodyState extends State<FavoriteBody>
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 60), (timer) {
-      _getSchedules();
-    });
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      _timer = Timer.periodic(const Duration(seconds: 60), (timer) {
+        _getSchedules();
+      });
       await _getSchedules();
     });
   }

@@ -25,9 +25,8 @@ import 'package:navika/src/screens/trafic_details.dart';
 import 'package:navika/src/screens/schedules_details.dart';
 import 'package:navika/src/screens/trip_details.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/widgets/navigator/bar.dart';
 
-/// Builds the top-level navigator for the app. The pages to display are based
-/// on the `routeState` that was parsed by the TemplateRouteParser. 
 class NavikaAppNavigator extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
 
@@ -36,11 +35,34 @@ class NavikaAppNavigator extends StatefulWidget {
     super.key,
   });
 
+  static void startNavi(BuildContext context) {
+    context.findAncestorStateOfType<_NavikaAppNavigatorState>()?.startNavi();
+  }
+
+  static void stopNavi(BuildContext context) {
+    context.findAncestorStateOfType<_NavikaAppNavigatorState>()?.stopNavi();
+  }
+
   @override
   State<NavikaAppNavigator> createState() => _NavikaAppNavigatorState();
 }
 
 class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
+  bool navi = false;
+
+  void startNavi() {
+    setState(() {
+      navi = true;
+    });
+  }
+
+  void stopNavi() {
+    setState(() {
+      navi = false;
+    });
+  }
+  
+
   @override
   Widget build(BuildContext context) {
     final routeState = RouteStateScope.of(context);
@@ -51,7 +73,6 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 		if (kDebugMode) {
 		  print({'INFO_route', pathTemplate});
 		}
-
 
     String? type;
     String? id;
@@ -113,49 +134,10 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
       toId = routeState.route.parameters['toId'];
     }
 
-    //Colors.amber
-
     return Scaffold(
-      //appBar: AppBar(
-      //  backgroundColor:  Colors.amber, // const Color(0xff1f8837),
-      //  surfaceTintColor: Colors.amber, // const Color(0xff1f8837),
-      //  title: const Row(
-      //    children: [
-      //      Icon(NavikaIcons.navi, 
-      //        color: Colors.white,
-      //        size: 25,
-      //      ),
-      //      SizedBox(width: 10,),
-      //      Expanded(
-      //        child: Column(
-      //          crossAxisAlignment: CrossAxisAlignment.start,
-      //          children: [
-      //            Text('Descendez dans 3 stations',
-      //                  style: TextStyle(
-      //                    fontSize: 16,
-      //                    color: Colors.white,
-      //                    fontWeight: FontWeight.w600,
-      //                    fontFamily: 'Segoe Ui',
-      //                  ),
-      //                  maxLines: 1,
-      //                  softWrap: false,
-      //                  overflow: TextOverflow.fade,
-      //                ),
-      //            Text('Descendre à Mirosmesnil',
-      //                  style: TextStyle(
-      //                    fontSize: 16,
-      //                    color: Colors.white
-      //                  ),
-      //                  maxLines: 1,
-      //                  softWrap: false,
-      //                  overflow: TextOverflow.fade,
-      //                ),
-      //          ],
-      //        ),
-      //      )
-      //    ],
-      //  ),
-      //),
+      appBar: navi
+        ? NaviBar()
+        : null,
       body: Navigator(
         key: widget.navigatorKey,
         onPopPage: (route, dynamic result) {

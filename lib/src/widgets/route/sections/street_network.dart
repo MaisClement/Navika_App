@@ -77,7 +77,7 @@ class _SectionStreetNetworkState extends State<SectionStreetNetwork> {
                   direction: Axis.vertical,
                   lineLength: height,
                   lineThickness: 4.0,
-                  dashColor: Color(0xff616161),
+                  dashColor: const Color(0xff616161),
                   dashLength: 4.0,
                   dashRadius: 999,
                   dashGapLength: 4.0,

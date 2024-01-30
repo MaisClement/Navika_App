@@ -5,7 +5,7 @@ import 'package:navika/src/style/style.dart';
 class AccessPoint extends StatelessWidget {
   final Map accessPoint;
 
-  AccessPoint({
+  const AccessPoint({
     required this.accessPoint,
     super.key
   });
@@ -51,7 +51,7 @@ class AccessPoint extends StatelessWidget {
                     ),
                     if (accessPoint['access_point_code'] != null)
                       Container(
-                        margin: EdgeInsets.only(right: 5),
+                        margin: const EdgeInsets.only(right: 5),
                         child: Text(accessPoint['access_point_code'],
                           style: const TextStyle(
                             fontSize: 16,

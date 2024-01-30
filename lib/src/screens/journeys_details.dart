@@ -9,6 +9,7 @@ import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/screens/navigator.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/icons/icons.dart';
 import 'package:navika/src/widgets/route/body.dart';
@@ -69,10 +70,15 @@ Map? getSavedJourney(String uniqueId) {
 }
 
 bool allowNavi(journey) {
-  if (kDebugMode) {
+  return false;
+  bool? allowGps = globals.hiveBox?.get('allowGps');
+  if (allowGps == false) {
     return false;
   }
-  if (getTimeDifference(journey['departure_date_time']) > 120 || isInPast(journey['arrival_date_time'])) {
+  if (isInPast(journey['arrival_date_time'])) {
+    return false;
+  }
+  if (getTimeDifference(journey['departure_date_time']) > 120) {
     return false;
   }
 
@@ -101,12 +107,12 @@ class _JourneysDetailsState extends State<JourneysDetails> {
   bool isPanned = false;
   bool is3dMap = false;
   bool _isInBox = false;
+  bool _allowNavi = allowNavi(globals.journey);
   late Timer _timer;
 
   double panelButtonBottomOffsetClosed = 120;
   double panelButtonBottomOffset = 120;
   double saveButtonRightOffset = 0;
-  double fabRounder = 120;
   double _position = 0;
   Map journey = globals.journey;
 
@@ -118,11 +124,10 @@ class _JourneysDetailsState extends State<JourneysDetails> {
     return journey['sections'][journey['sections'].length - 1]['to']['coord'];
   }
 
-  void _createGeoJson(Map journey) {
+  void _createGeoJson(context, Map journey) {
     for (var section in journey['sections']) {
       if (section['geojson'] != null) {
-        _createPolylines(section['geojson'],
-            getLineWidthByType(section['type']), getColorByType(section));
+        _createPolylines(section['geojson'], getLineWidthByType(section['type']), getColorByType(context, section));
       }
     }
     for (var section in journey['sections']) {
@@ -174,13 +179,13 @@ class _JourneysDetailsState extends State<JourneysDetails> {
     }
 
     GeoPolyline geoPolyline = GeoPolyline(coordinates);
-    //MapPolyline mapPolyline = MapPolyline(geoPolyline, width, lineColor);
     MapPolyline mapPolyline = MapPolyline.withRepresentation(
       geoPolyline,
       MapPolylineSolidRepresentation(
-          MapMeasureDependentRenderSize.withSingleSize(RenderSizeUnit.pixels, width),
-          lineColor,
-          LineCap.round),
+        MapMeasureDependentRenderSize.withSingleSize(RenderSizeUnit.pixels, width),
+        lineColor,
+        LineCap.round,
+      ),
     );
 
     _controller?.addMapPolylines(mapPolyline);
@@ -319,8 +324,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
               if (journey['unique_id'] != null)
                 Positioned(
                   top: 0,
-                  right: 0,
-                  //DISABLED right: saveButtonRightOffset, //DISABLED allowNavi(journey) ? saveButtonRightOffset : 0,
+                  right: _allowNavi ? saveButtonRightOffset : 0,
                   child: SafeArea(
                     child: Container(
                       margin: const EdgeInsets.only(top: 10, right: 10, bottom: 15),
@@ -372,25 +376,25 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                   ),
                 ),
               ),
-              //DISABLED if (allowNavi(journey))
-              //DISABLED   Positioned(
-              //DISABLED     right: 15,
-              //DISABLED     bottom: panelButtonBottomOffset - 47,
-              //DISABLED     child: Center(
-              //DISABLED       child: FloatingActionButton(
-              //DISABLED         backgroundColor:const Color(0xff1f8837),
-              //DISABLED         child: const Icon(
-              //DISABLED           NavikaIcons.navi,
-              //DISABLED           color: Colors.white,
-              //DISABLED           size: 30
-              //DISABLED         ),
-              //DISABLED         onPressed: () {
-              //DISABLED           _zoomOn();
-              //DISABLED           closePanel();
-              //DISABLED         },
-              //DISABLED       ),
-              //DISABLED     ),
-              //DISABLED   ),
+              if (_allowNavi)
+                Positioned(
+                  right: 15,
+                  bottom: panelButtonBottomOffset - 47,
+                  child: Center(
+                    child: FloatingActionButton(
+                      backgroundColor:const Color(0xff1f8837),
+                      child: const Icon(
+                        NavikaIcons.navi,
+                        color: Colors.white,
+                        size: 30
+                      ),
+                      onPressed: () {
+                        NavikaAppNavigator.startNavi(context);
+                        panelController.animatePanelToSnapPoint();
+                      },
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
@@ -466,7 +470,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
         false,
       );
 
-      _createGeoJson(journey);
+      _createGeoJson(context, journey);
     });
   }
 

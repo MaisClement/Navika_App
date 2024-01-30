@@ -453,8 +453,11 @@ Color getBackColorByState(state, context) {
 
 // Journeys
 
-Color getColorByType(section) {
+Color getColorByType(context, section) {
   if (section['type'] == 'street_network' || section['type'] == 'waiting') {
+    if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+      return Color.fromARGB(255, 255, 255, 255);
+    }
     return const Color(0xff7b7b7b);
   }
   if (section['informations'] != null && section['informations']['line']['color'] != null) {
@@ -467,7 +470,7 @@ double getLineWidthByType(String type) {
   if (type == 'public_transport') {
     return 20;
   }
-  return 7;
+  return 10;
 }
 
 double degTorad(double x) {
@@ -523,15 +526,12 @@ String getDuration(int d) {
   return res;
 }
 
-String getDistanceText(int d) {
-  String res = '';
-  
-  if (d >= 1000) {
-    res = '$res${d / 1000.0} km';
+String getDistanceText(int distance) {
+  if (distance <= 1000) {
+    return '${distance.ceil()}m';
   } else {
-    res = '$res$d m';
+    return '${(distance/1000).toStringAsFixed(2)}km';
   }
-  return res;
 }
 
 List<Widget> getDurationWidget(int d, context) {
