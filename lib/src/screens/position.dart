@@ -23,7 +23,7 @@ class _PositionState extends State<Position> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           backgroundColor: mainColor(context),
-          title: Text(app.name, 
+          title: Text(app.NAME, 
             style: appBarTitle.copyWith(color: Colors.white)
           ),
           leading: GestureDetector(

@@ -98,7 +98,6 @@ class _NaviBarState extends State<NaviBar> {
       );
     }
 
-    print(['INFO_', getTimeDifference(journey['departure_date_time'])]);
 
     // Avant le départ
     if (getTimeDifference(journey['departure_date_time']) > 0) {
@@ -121,7 +120,7 @@ class _NaviBarState extends State<NaviBar> {
             Row(
               children: [
                 Text('Rejoingnez ${journey['sections'][0]['to']['name']}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.white
                   ),
@@ -129,7 +128,7 @@ class _NaviBarState extends State<NaviBar> {
                 ModeIcones(
                   line: journey['sections'][1]['informations']['line'],
                   i: 0,
-                  isDark: false,
+                  brightness: Brightness.light,
                 ),
                 LinesIcones(line: journey['sections'][1]['informations']['line'])
               ],

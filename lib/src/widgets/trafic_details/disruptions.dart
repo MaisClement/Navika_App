@@ -26,7 +26,7 @@ class TraficDisruptions extends StatelessWidget {
                   margin: const EdgeInsets.only(top: 10),
                   decoration: BoxDecoration(
                     color:
-                        getSlugColor(ctrafic['severity'], 1).withOpacity(0.2),
+                        getSlugColor(ctrafic['severity'], true).withOpacity(0.2),
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
@@ -65,10 +65,11 @@ class TraficDisruptions extends StatelessWidget {
                       Text(
                         ctrafic['message']['text'],
                       ),
-                      Text(
-                        'Mis à jour: ${getDateTime(ctrafic['updated_at'])}',
-                        style: const TextStyle(fontSize: 11),
-                      )
+                      if (ctrafic['updated_at'] != null)
+                        Text(
+                          'Mis à jour: ${getDateTime(ctrafic['updated_at'])}',
+                          style: const TextStyle(fontSize: 11),
+                        )
                     ],
                   ),
                 ),
@@ -76,7 +77,7 @@ class TraficDisruptions extends StatelessWidget {
                   height: 3,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: getSlugColor(ctrafic['severity'], 1),
+                    color: getSlugColor(ctrafic['severity'], true),
                   ),
                 ),
               ],

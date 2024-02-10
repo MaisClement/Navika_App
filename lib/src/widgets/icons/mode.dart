@@ -4,13 +4,13 @@ import 'package:navika/src/utils.dart';
 class ModeIcones extends StatelessWidget {
   final Map line;
   final int i;
-  final bool isDark;
+  final Brightness? brightness;
   final double size;
 
   const ModeIcones({
     required this.line,
     required this.i,
-    this.isDark = true,
+    this.brightness,
     this.size = 20,
     super.key,
   });
@@ -28,7 +28,7 @@ class ModeIcones extends StatelessWidget {
                   ? const EdgeInsets.only(left: 5.0, top: 5.0, right: 0.0, bottom: 5.0)
                   : const EdgeInsets.only(left: 20.0, top: 5.0, right: 0.0, bottom: 5.0),
               child: Image(
-                  image: AssetImage(getModeImage(line, isDark),
+                  image: AssetImage(getModeImage(brightness ?? Theme.of(context).colorScheme.brightness, line),
                 ),
               ),
             )

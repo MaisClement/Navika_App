@@ -218,7 +218,7 @@ class _SettingsState extends State<Settings> {
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
               child: Text(
-                '${app.name} 2023 - ${DateTime.now().year} • Made with 💖',
+                '${app.NAME} 2023 - ${DateTime.now().year} • Made with 💖',
                 style: const TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,
@@ -335,7 +335,7 @@ class _SettingsState extends State<Settings> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Navika • Version v${app.version}-${app.buildNumber} • ${app.packageName}',
+                    Text('Navika • Version v${app.VERSION}-${app.BUILD_NUMBER} • ${app.PACKAGE_NAME}',
                       style: const TextStyle(
                         fontFamily: 'Segoe Ui',
                         color: Colors.white,

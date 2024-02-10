@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
@@ -12,8 +13,7 @@ class HereController {
   final HereMapController _hereMapController;
   late LocationIndicator locationIndicator;
 
-  HereController(HereMapController hereMapController)
-      : _hereMapController = hereMapController {
+  HereController(HereMapController hereMapController): _hereMapController = hereMapController {
     double distanceToEarthInMeters = 10000;
     MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
     //GeoCoordinates geoCoords = GeoCoordinates(globals.locationData.latitude ?? 52.520798, globals.locationData.longitude ?? 13.409408);
@@ -98,6 +98,17 @@ class HereController {
     return mapMarker!;
   }
 
+  MapPolygon addMapCircle(GeoCoordinates geoCoordinates, double radius, Color color) {
+    GeoCircle geoCircle = GeoCircle(geoCoordinates, radius);
+
+    GeoPolygon geoPolygon = GeoPolygon.withGeoCircle(geoCircle);
+    MapPolygon mapPolygon = MapPolygon(geoPolygon, color);
+
+    _hereMapController.mapScene.addMapPolygon(mapPolygon);
+    
+    return mapPolygon;
+  }
+
   void removeMapWidget(Widget widget, GeoCoordinates geoCoordinates) {
     Anchor2D anchor2D = Anchor2D.withHorizontalAndVertical(0.5, 1);    
     var mapMarker = _hereMapController.pinWidget(widget, geoCoordinates);
@@ -114,12 +125,27 @@ class HereController {
     return mapMarker;
   }
 
+  MapMarker addMapImage(geoCoordinates, Uint8List pixelData, Metadata metadata) {
+    Anchor2D anchor2D = Anchor2D.withHorizontalAndVertical(0.5, 1);
+    ImageFormat imageFormat = ImageFormat.png;
+    MapImage mapImage = MapImage.withPixelDataAndImageFormat(pixelData, imageFormat);
+    MapMarker mapMarker = MapMarker.withAnchor(geoCoordinates, mapImage, anchor2D);
+    mapMarker.metadata = metadata;
+    _hereMapController.mapScene.addMapMarker(mapMarker);
+
+    return mapMarker;
+  }
+
   MapMarker createMapMarker(GeoCoordinates geoCoordinates, imgPath, Metadata metadata, [int size = 100]) {
     Anchor2D anchor2D = Anchor2D.withHorizontalAndVertical(0.5, 1);
     MapImage mapImage = MapImage.withFilePathAndWidthAndHeight(imgPath, size, size);
     MapMarker mapMarker = MapMarker.withAnchor(geoCoordinates, mapImage, anchor2D);
     mapMarker.metadata = metadata;
     return mapMarker;
+  }
+
+  void removeMapPolygon(MapPolygon mapPolygon) {
+    _hereMapController.mapScene.removeMapPolygon(mapPolygon);
   }
 
   void removeMapMarker(MapMarker mapMarker) {
@@ -148,6 +174,10 @@ class HereController {
 
   bool isOverLocation(GeoCoordinates geoCoords){
     return _hereMapController.camera.boundingBox?.containsGeoCoordinates(geoCoords) ?? false;
+  }
+
+  double getBearing(){
+    return _hereMapController.camera.state.orientationAtTarget.tilt;
   }
 
   double getZoomLevel() {

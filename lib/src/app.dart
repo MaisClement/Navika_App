@@ -58,6 +58,7 @@ class _NavikaAppState extends State<NavikaApp> {
 				'/maps',
 				'/settings',
 				'/settings/notifications',
+				'/changes',
 				'/position',
 				'/stops/:id',
 				'/bike/:id',
@@ -116,7 +117,6 @@ class _NavikaAppState extends State<NavikaApp> {
 	Widget build(BuildContext context) => RouteStateScope(
     notifier: _routeState,
     child: MaterialApp.router(
-      debugShowCheckedModeBanner: false,
       routerDelegate: _routerDelegate,
       routeInformationParser: _routeParser,
 

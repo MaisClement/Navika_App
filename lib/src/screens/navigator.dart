@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:navika/src/screens/changes.dart';
 import 'package:navika/src/screens/home_settings.dart';
 import 'package:navika/src/screens/journeys_get.dart';
 import 'package:navika/src/screens/journeys_list.dart';
@@ -155,6 +156,10 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
             routeState.go('/home');
           }
       
+          if (pathTemplate == '/changes') {
+            routeState.go('/home');
+          }
+      
           if (pathTemplate == '/settings') {
             routeState.go('/home');
           }
@@ -272,6 +277,11 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
             const MaterialPage<void>(
               key: ValueKey('Maps'),
               child: Maps(),
+            )      
+          else if (pathTemplate == '/changes')
+            const MaterialPage<void>(
+              key: ValueKey('Changes'),
+              child: Changes(),
             )        
           else if (pathTemplate == '/settings')
             const MaterialPage<void>(

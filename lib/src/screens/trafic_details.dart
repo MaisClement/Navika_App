@@ -82,7 +82,7 @@ class _TraficDetailsState extends State<TraficDetails> {
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                             width: 3.0,
-                            color: getSlug(globals.lineTrafic['severity'], 1),
+                            color: getSlug(globals.lineTrafic['severity'], true),
                           ),
                         ),
                         child: LinesIcones(

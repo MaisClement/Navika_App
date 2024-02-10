@@ -77,22 +77,22 @@ departureList(context, Color color) {
   return Colors.white.withOpacity(0.8);
 }
 
-departureListNoColor(context) {
+Color departureListNoColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return const Color(0xff222222);
   }
   return mainColor(context).withOpacity(0.1);
 }
 
-schedulesIsDark(context, color) {
-  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+Brightness schedulesIsDark(Brightness brightness, color) {
+  if (Brightness.dark == brightness) {
     if (color == '000000') {
-      return true;
+      return Brightness.dark;
     } else {
-      return false;
+      return Brightness.light;
     }
   }
-  return true;
+  return Brightness.dark;
 }
 
 // ----------------
@@ -112,8 +112,8 @@ getShimmerHighlightColor(context) {
 
 // ----------------
 
-String getIconLine(context, line) {
-  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+String getIconLine(Brightness brightness, line) {
+  if (Brightness.dark == brightness) {
     return line.imageLight;
   }
   return line.imageDark;
@@ -159,11 +159,4 @@ Color getJourneysColor(context) {
     return const Color(0xff011b27);
   }
   return const Color(0xffe4edf1);
-}
-
-Color getMapWidgetColor(context) {
-  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return const Color(0xffe4e4e4);
-  }
-  return const Color(0xff0a0082);
 }

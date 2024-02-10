@@ -25,7 +25,7 @@ class HomeMessage extends StatelessWidget {
               : const EdgeInsets.only(
                   top: 10, left: 10, right: 10, bottom: 10.0),
         child: Card(
-            color: getSlugColor(message['severity'], 1).withOpacity(0.3),
+            color: getSlugColor(message['severity'], true).withOpacity(0.3),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
@@ -77,7 +77,7 @@ class HomeMessage extends StatelessWidget {
               : const EdgeInsets.only(
                   top: 10, left: 10, right: 10, bottom: 10.0),
           decoration: BoxDecoration(
-            color: getSlugColor(message['severity'], 1).withOpacity(0.2),
+            color: getSlugColor(message['severity'], true).withOpacity(0.2),
             borderRadius: BorderRadius.circular(15),
           ),
           child:
@@ -122,7 +122,7 @@ class HomeMessage extends StatelessWidget {
                         options: ChromeSafariBrowserClassOptions());
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: getSlugColor(message['severity'], 1),
+                    backgroundColor: getSlugColor(message['severity'], true),
                     foregroundColor: const Color(0xffffffff),
                   ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                   child: Text(message['message']['button']),

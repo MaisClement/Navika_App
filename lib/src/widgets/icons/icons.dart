@@ -7,14 +7,14 @@ class Icones extends StatelessWidget {
 	final Map line;
   final Map? prevLine;
   final int i;
-  final bool isDark;
+  final Brightness? brightness;
   final double size;
 
 	const Icones({
 		required this.line,
     this.prevLine,
     required this.i,
-    this.isDark = true,
+    this.brightness,
     this.size = 20,
 		super.key,
 	});
@@ -28,12 +28,13 @@ class Icones extends StatelessWidget {
           line: line,
           i: i,
           size: size,
-          isDark: isDark,
+          brightness: brightness
         ),
 
       LinesIcones(
         line: line,
         size: size,
+        brightness: brightness
       )
 
     ],

@@ -36,7 +36,7 @@ class RouteLines extends StatelessWidget {
                   line: sections[i]['informations']['line'],
                   i: 0,
                   size: 20,
-                  isDark: schedulesIsDark(context, 'ffffff'),
+                  brightness: schedulesIsDark(Theme.of(context).colorScheme.brightness, 'ffffff'),
                 ),
                 LinesIcones(
                   line: sections[i]['informations']['line'],

@@ -509,7 +509,7 @@ class _RoutesDetailsState extends State<RoutesDetails>
                         padding: const EdgeInsets.only(left: 15, right: 15),
                         height: 65,
                         decoration: BoxDecoration(
-                          color: getSlugColor(0, 1).withOpacity(0.2),
+                          color: getSlugColor(0, true).withOpacity(0.2),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Center(

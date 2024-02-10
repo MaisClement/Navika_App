@@ -19,6 +19,8 @@ import 'package:navika/src/widgets/address/body.dart';
 import 'package:navika/src/widgets/address/header.dart';
 import 'package:navika/src/widgets/bike/body.dart';
 import 'package:navika/src/widgets/bike/header.dart';
+import 'package:navika/src/widgets/map/icone.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 
@@ -67,11 +69,10 @@ class _HomeState extends State<Home> {
   double _position = 0;
 
   GeoCoordinates _oldcamGeoCoords = GeoCoordinates(0, 0);
+  ScreenshotController screenshotController = ScreenshotController(); 
 
-  List stopsNearby = [];
-  List bikeNearby = [];
-  List markers = []; //Update List<WidgetPin> markers = [];
-  MapMarker? pointMarker = null;
+  Map markersList = {}; //Update List<WidgetPin> markers = [];
+  MapMarker? pointMarker;
   Map index = {};
   List favs = globals.hiveBox?.get('stopsFavorites');
   List address = globals.hiveBox?.get('addressFavorites');
@@ -128,13 +129,27 @@ class _HomeState extends State<Home> {
     }
     _oldcamGeoCoords = camGeoCoords;
 
+    List bikeNearby = [];
+    List stopsNearby = [];
+    List areaNearby = [];
+
     if (zoom < 200000) {
       NavikaApi navikaApi = NavikaApi();
       Map result = await navikaApi.getNearPoints(zoom, camGeoCoords);
 
       if (result['status'] == ApiStatus.ok && mounted) {
         setState(() {
-          stopsNearby = result['value']?['stops'];
+          if (result['value']?['stops'] != null) {
+            stopsNearby = result['value']?['stops'];
+          } else {
+            stopsNearby = [];
+          }
+
+          if (result['value']?['area'] != null) {
+            areaNearby = result['value']?['area'];
+          } else {
+            areaNearby = [];
+          }
           
           if (result['value']?['bike'] != null) {
             bikeNearby = result['value']?['bike'];
@@ -143,23 +158,22 @@ class _HomeState extends State<Home> {
           }
         });
       }
-      _clearMarker();
-      _setMarker();
+      setState(() {
+        markersList = _setMarker(markersList, bikeNearby, stopsNearby, areaNearby);
+      });
     } else {
-      _clearMarker();
+      _clearMarker(markersList);
+      setState(() {
+        markersList = {};
+      });
     }
   }
 
-  void _clearMarker() {
-    markers.forEach((marker) {
-      if (marker is WidgetPin) {
-        marker.unpin();
-      } else if (marker is MapMarker) {
-        _controller?.removeMapMarker(marker);
+  void _clearMarker(Map markers) {
+    markers.forEach((key, value) {
+      if (value is MapMarker) {
+        _controller?.removeMapMarker(value);
       }
-    });
-    setState(() {
-      markers = [];
     });
   }
 
@@ -169,7 +183,9 @@ class _HomeState extends State<Home> {
     }
   }
 
-  void _setMarker() {
+  Map _setMarker(Map markers, List bikeNearby, List stopsNearby, List areaNearby) {
+    Map newMarkers = Map.from(markers);
+
     for (var bike in bikeNearby) {
       GeoCoordinates bikeCoords = GeoCoordinates(bike['coord']['lat'].toDouble(), bike['coord']['lon'].toDouble());
     
@@ -187,13 +203,17 @@ class _HomeState extends State<Home> {
         MarkerSize size = getMarkerSize(mode, zoom);
     
         if (size != MarkerSize.hidden) {
-          setState(() {
-            markers.add(_controller?.addMapMarker(
+          if (newMarkers[bike['id']] == null) {
+            newMarkers[bike['id']] = _controller?.addMapMarker(
                 bikeCoords,
                 getMarkerImageByType(mode, size, context),
                 metadata,
-                getSizeForMarker(size)));
-          });
+                getSizeForMarker(size)
+              );
+          } else {
+            markers.remove(bike['id']);
+            newMarkers.remove(bike['id']);
+          }
         }
       }
     }
@@ -214,28 +234,64 @@ class _HomeState extends State<Home> {
         double zoom = _controller?.getZoomLevel() ?? 1000;
         MarkerSize size = getMarkerSize(mode, zoom);
 
-        // DISABLED if (size == MarkerSize.large) {
-        // DISABLED   markers.add(_controller!.addMapWidget(
-        // DISABLED     MapIcone(
-        // DISABLED       stop: stop,
-        // DISABLED       size: size,
-        // DISABLED       zoom: zoom,
-        // DISABLED       update: () {}
-        // DISABLED     ),
-        // DISABLED     stopCoords)
-        // DISABLED   );
-        // DISABLED } else if (size!= MarkerSize.hidden) {
-          setState(() {
-            markers.add(_controller?.addMapMarker(
+        String id = '${stop['id']}_${size.toString()}';
+
+        if (size != MarkerSize.hidden) {
+          if (newMarkers[id] == null) {
+            newMarkers[id] = _controller?.addMapMarker(
               stopCoords,
               getMarkerImageByType(mode, size, context),
               metadata,
-              getSizeForMarker(size))
+              getSizeForMarker(size)
             );
-          });
-        // DISABLED }
+          } else {
+            markers.remove(id);
+          }
+        }
       }
     }
+
+    for (var area in areaNearby) {
+      area['stops'].forEach((stop) {
+        GeoCoordinates stopCoords = GeoCoordinates(stop['coord']['lat'].toDouble(), stop['coord']['lon'].toDouble());
+
+        Metadata metadata = Metadata();
+        metadata.setString('type', 'stop');
+        metadata.setString('id', stop['id']);
+        metadata.setString('name', stop['name']);
+        metadata.setString('modes', json.encode(stop['modes']));
+        metadata.setDouble('lat', stop['coord']['lat'].toDouble());
+        metadata.setDouble('lon', stop['coord']['lon'].toDouble());
+
+        if (newMarkers[stop['id']] == null) {
+          screenshotController.captureFromWidget(
+              MapIcone(
+                stop: stop,
+                update: () {},
+              ),
+              delay: const Duration(milliseconds: 0)
+            )
+            .then((capturedImage) {
+              newMarkers[stop['id']] = _controller?.addMapImage(
+                stopCoords,
+                capturedImage,
+                metadata);
+            }
+          );
+        } else {
+          markers.remove(stop['id']);
+        }        
+      });
+    }
+
+    markers.forEach((key, value) {
+      if (value is MapMarker) {
+        _controller?.removeMapMarker(value);
+      }
+      newMarkers.remove(key);
+    });
+
+    return newMarkers;
   }
 
   Future<void> _getIndex() async {
@@ -426,6 +482,36 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Positioned(
+                top: 0,
+                right: 0,
+                child: Opacity(
+                  opacity: getOpacity(_position),
+                  child: SafeArea(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 10, right: 8),
+                      width: 40,
+                      height: 40,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(500),
+                        elevation: 4.0,
+                        shadowColor: Colors.black.withOpacity(getOpacity(_position)),
+                        color: Theme.of(context).colorScheme.onSecondaryContainer,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(500),
+                          onTap: () {
+                            RouteStateScope.of(context).go('/changes');
+                          },
+                          child: Icon(
+                            NavikaIcons.stars,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
                 right: 20,
                 bottom: panelButtonBottomOffset,
                 child: Opacity(
@@ -433,10 +519,8 @@ class _HomeState extends State<Home> {
                   child: FloatingActionButton(
                     backgroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
                     child: _isInBox
-                        ? Icon(NavikaIcons.localisation,
-                            color: Theme.of(context).colorScheme.onSurface, size: 30)
-                        : Icon(NavikaIcons.localisationNull,
-                            color: Theme.of(context).colorScheme.onSurface, size: 30),
+                        ? Icon(NavikaIcons.localisation, color: Theme.of(context).colorScheme.onSurface, size: 30)
+                        : Icon(NavikaIcons.localisationNull, color: Theme.of(context).colorScheme.onSurface, size: 30),
                     onPressed: () {
                       _zoomOn();
                       _closePanel();
@@ -488,25 +572,22 @@ class _HomeState extends State<Home> {
   }
 
   void _getInBox() {
-    bool isInBox;
     GeoCoordinates geoCoords = GeoCoordinates(
-        globals.locationData?.latitude ?? 0,
-        globals.locationData?.longitude ?? 0);
-    isInBox = _controller?.isOverLocation(geoCoords) ?? false;
+      globals.locationData?.latitude ?? 0,
+      globals.locationData?.longitude ?? 0
+    );
     setState(() {
-      _isInBox = isInBox;
+      _isInBox = _controller?.isOverLocation(geoCoords) ?? false;
     });
   }
 
   void _onMapCreated(HereMapController hereMapController) {
     //THEME
-    MapScheme mapScheme =
-      Brightness.dark == Theme.of(context).colorScheme.brightness
-        ? MapScheme.normalNight
-        : MapScheme.normalDay;
+    MapScheme mapScheme = Brightness.dark == Theme.of(context).colorScheme.brightness
+      ? MapScheme.normalNight
+      : MapScheme.normalDay;
 
-    hereMapController.mapScene.loadSceneForMapScheme(mapScheme,
-        (MapError? error) {
+    hereMapController.mapScene.loadSceneForMapScheme(mapScheme, (MapError? error) {
       if (error != null) {
         return;
       }
@@ -691,7 +772,7 @@ class _HomeState extends State<Home> {
 
   void _onPanelSlide(position) {
     setState(() {
-      panelButtonBottomOffset = panelButtonBottomOffsetClosed + ((MediaQuery.of(context).size.height - 210) * position);
+      panelButtonBottomOffset = panelButtonBottomOffsetClosed + ((MediaQuery.of(context).size.height - 230) * position);
       _position = position;
     });
   }

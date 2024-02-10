@@ -21,7 +21,7 @@ class TripDisruptions extends StatelessWidget {
                   left: 15.0, top: 10, right: 15.0, bottom: 0.0),
               margin: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
-                color: getSlugColor(disruption['severity'], 1).withOpacity(0.2),
+                color: getSlugColor(disruption['severity'], true).withOpacity(0.2),
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Column(

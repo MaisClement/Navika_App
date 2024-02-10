@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.2.4+34
+version: 1.3.0+37
 
 environment:
   sdk: '>=2.18.0 <3.0.0'
@@ -63,6 +63,8 @@ dependencies:
   pinch_zoom_release_unzoom: ^0.0.10
   scroll_to_index: ^3.0.1
   sentry_flutter: ^7.14.0
+  screenshot: ^2.1.0
+  flutter_markdown: ^0.6.18+3
 
   # See https://github.com/ScerIO/packages.flutter/issues/448
   # pdfx: ^2.4.0
@@ -234,55 +236,6 @@ flutter:
     - assets/img/icons/lines/TRAM_T13.png
     - assets/img/icons/lines/TRAM_T13_light.png
 
-    - assets/img/icons/noctilien/NOCT_01.png
-    - assets/img/icons/noctilien/NOCT_02.png
-    - assets/img/icons/noctilien/NOCT_11.png
-    - assets/img/icons/noctilien/NOCT_12.png
-    - assets/img/icons/noctilien/NOCT_13.png
-    - assets/img/icons/noctilien/NOCT_14.png
-    - assets/img/icons/noctilien/NOCT_15.png
-    - assets/img/icons/noctilien/NOCT_16.png
-    - assets/img/icons/noctilien/NOCT_21.png
-    - assets/img/icons/noctilien/NOCT_22.png
-    - assets/img/icons/noctilien/NOCT_23.png
-    - assets/img/icons/noctilien/NOCT_24.png
-    - assets/img/icons/noctilien/NOCT_31.png
-    - assets/img/icons/noctilien/NOCT_32.png
-    - assets/img/icons/noctilien/NOCT_33.png
-    - assets/img/icons/noctilien/NOCT_34.png
-    - assets/img/icons/noctilien/NOCT_35.png
-    - assets/img/icons/noctilien/NOCT_41.png
-    - assets/img/icons/noctilien/NOCT_42.png
-    - assets/img/icons/noctilien/NOCT_43.png
-    - assets/img/icons/noctilien/NOCT_44.png
-    - assets/img/icons/noctilien/NOCT_45.png
-    - assets/img/icons/noctilien/NOCT_51.png
-    - assets/img/icons/noctilien/NOCT_52.png
-    - assets/img/icons/noctilien/NOCT_53.png
-    - assets/img/icons/noctilien/NOCT_61.png
-    - assets/img/icons/noctilien/NOCT_62.png
-    - assets/img/icons/noctilien/NOCT_63.png
-    - assets/img/icons/noctilien/NOCT_66.png
-    - assets/img/icons/noctilien/NOCT_71.png
-    - assets/img/icons/noctilien/NOCT_122.png
-    - assets/img/icons/noctilien/NOCT_130.png
-    - assets/img/icons/noctilien/NOCT_131.png
-    - assets/img/icons/noctilien/NOCT_132.png
-    - assets/img/icons/noctilien/NOCT_133.png
-    - assets/img/icons/noctilien/NOCT_134.png
-    - assets/img/icons/noctilien/NOCT_135.png
-    - assets/img/icons/noctilien/NOCT_140.png
-    - assets/img/icons/noctilien/NOCT_141.png
-    - assets/img/icons/noctilien/NOCT_142.png
-    - assets/img/icons/noctilien/NOCT_143.png
-    - assets/img/icons/noctilien/NOCT_144.png
-    - assets/img/icons/noctilien/NOCT_145.png
-    - assets/img/icons/noctilien/NOCT_150.png
-    - assets/img/icons/noctilien/NOCT_151.png
-    - assets/img/icons/noctilien/NOCT_152.png
-    - assets/img/icons/noctilien/NOCT_153.png
-    - assets/img/icons/noctilien/NOCT_154.png
-
     - assets/img/icons/sncf/logo_white.png
     - assets/img/icons/sncf/logo_color.png
     - assets/img/icons/sncf/logo.png
@@ -347,6 +300,7 @@ flutter:
     - assets/img/null.png
     - assets/img/position.png
     - assets/img/sign.svg
+    - assets/img/party-popper.png
     
     - assets/img/cloud_off.svg
     - assets/img/cloud_sad.svg

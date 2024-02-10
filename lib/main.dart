@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:navika/src/api.dart';
-import 'package:navika/src/data/app.dart';
+import 'package:navika/src/app.dart';
 import 'package:navika/src/extensions/timeofday.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:here_sdk/core.dart';
@@ -19,7 +19,7 @@ import 'package:navika/firebase_options.dart';
 
 import 'package:navika/credentials.dart' as credentials;
 import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/app.dart';
+import 'package:navika/src/data/app.dart' as app;
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -56,11 +56,11 @@ Future<void> main() async {
 
   _initializeLocalNotification();
 
-  await getAppInfo();
+  await app.getAppInfo();
 
   SentryFlutter.init(
     (options) => options
-      ..dsn=globals.GLITCH
+      ..dsn=app.GLITCH_URL
       ..tracesSampleRate=1
       ..enableAutoSessionTracking=false,
     appRunner: () => runApp(const NavikaApp())
@@ -314,13 +314,6 @@ Future<void> showReportNotification(RemoteMessage message, box) async {
 
   alert = alert[id];
   Map days = alert['days'];
-  
-  // Type
-  if (alert['type'] == 'all' && int.parse(message.data['severity']) < 3) {
-    return;
-  } else if (alert['type'] == 'alert' && int.parse(message.data['severity']) < 4) {
-    return;
-  }
 
   // Date
   if (DateTime.now().weekday == 1 && days['monday'] == false) {

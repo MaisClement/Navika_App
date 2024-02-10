@@ -87,19 +87,22 @@ int? getSeverity(String lineId) {
   return getTraficLines(LINES.getLines(lineId))?['severity'];
 }
 
-String getModeImage(line, isDark) {
+String getModeImage(Brightness brightness, line) {
   if (LINES.isLineById(line['id'])) {
-    if (isDark) {
-      return LINES.getLinesById(line['id']).imageModeDark;
-    }
-    return LINES.getLinesById(line['id']).imageModeLight;
+    return Brightness.light == brightness
+      ? LINES.getLinesById(line['id']).imageModeDark
+      : LINES.getLinesById(line['id']).imageModeLight;
   }
-  String img = 'assets/img/icons/';
 
+  String img = 'assets/img/icons/';
   String mode = '';
-  for (var allowes in listModes.entries) {
-    if (allowes.value.contains(line['mode'])) {
-      mode = '$mode${allowes.key}';
+  if (line['agency']['name'] == 'Noctilien') {
+    mode = 'noctilien';
+  } else {
+    for (var allowes in listModes.entries) {
+      if (allowes.value.contains(line['mode'])) {
+        mode = '$mode${allowes.key}';
+      }
     }
   }
   if (mode == '') {
@@ -108,39 +111,34 @@ String getModeImage(line, isDark) {
     img = '$img$mode';
   }
 
-  if (isDark) {
-    return '$img.png';
-  }
-  return '${img}_light.png';
+  return Brightness.light == brightness
+    ? '$img.png'
+    : '${img}_light.png';
 }
 
-Color getSlug(severity, [type]) {
-  if (severity == 0 && (type == null || type == 0)) {
+Color getSlug(int severity, [bool notTransparent = false]) {
+  if (severity == 0 && !notTransparent) {
     return Colors.transparent;
-  } else if (severity == 0 && type != null && type == 1) {
-    return const Color(0xff008b5b);
   } else if (severity == 5) {
     return const Color(0xffeb2031);
   } else if (severity == 4) {
     return const Color(0xfff68f53);
-  } else if (severity == 3) {
-    return Colors.transparent;
-  } else if (severity == 2) {
-    return Colors.transparent;
-  } else if (severity == 1) {
-    return Colors.transparent;
-  } else if (type != null && type == 1) {
+  } else if (severity == 3 && notTransparent) {
+    return const Color(0xfff68f53);
+  } else if (severity == 2 && notTransparent) {
+    return const Color(0xfff68f53);
+  } else if (severity == 1 && notTransparent) {
+    return const Color(0xff005bbc);
+  } else if (notTransparent) {
     return const Color(0xff008b5b);
   } else {
     return Colors.transparent;
   }
 }
 
-Color getSlugColor(severity, [type]) {
-  if (severity == 0 && (type == null || type == 0)) {
+Color getSlugColor(int severity, [bool notTransparent = false]) {
+  if (severity == 0 && !notTransparent) {
     return Colors.transparent;
-  } else if (severity == 0 && type != null && type == 1) {
-    return const Color(0xff008b5b);
   } else if (severity == 5) {
     return const Color(0xffeb2031);
   } else if (severity == 4) {
@@ -151,7 +149,7 @@ Color getSlugColor(severity, [type]) {
     return const Color(0xfff68f53);
   } else if (severity == 1) {
     return const Color(0xff005bbc);
-  } else if (type != null && type == 1) {
+  } else if (notTransparent) {
     return const Color(0xff008b5b);
   } else {
     return Colors.transparent;
@@ -456,7 +454,7 @@ Color getBackColorByState(state, context) {
 Color getColorByType(context, section) {
   if (section['type'] == 'street_network' || section['type'] == 'waiting') {
     if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-      return Color.fromARGB(255, 255, 255, 255);
+      return const Color(0xffffffff);
     }
     return const Color(0xff7b7b7b);
   }

@@ -76,7 +76,7 @@ class DepartureTrain extends StatelessWidget {
                           prevLine: train['informations']['line'],
                           i: 0,
                           size: 25,
-                          isDark: Brightness.dark != Theme.of(context).colorScheme.brightness
+                          brightness: Theme.of(context).colorScheme.brightness,
                         ),
                         const SizedBox(
                           width: 8,

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:floating_snackbar/floating_snackbar.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -107,7 +106,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
   bool isPanned = false;
   bool is3dMap = false;
   bool _isInBox = false;
-  bool _allowNavi = allowNavi(globals.journey);
+  final bool _allowNavi = allowNavi(globals.journey);
   late Timer _timer;
 
   double panelButtonBottomOffsetClosed = 120;
@@ -163,7 +162,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
               line: section['informations']['line'],
               prevLine: section['informations']['line'],
               i: 0,
-              isDark: Brightness.dark != Theme.of(context).colorScheme.brightness
+              brightness: Theme.of(context).colorScheme.brightness
             ),
           )
         ),

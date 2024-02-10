@@ -9,6 +9,7 @@ import 'package:navika/src/style/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/home/messages.dart';
+import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/trafic/block.dart';
 import 'package:navika/src/data/global.dart' as globals;
 
@@ -35,8 +36,7 @@ class _TraficState extends State<Trafic> {
     setState(() {
       favs = globals.hiveBox?.get('linesFavorites') ?? [];
     });
-    WidgetsBinding.instance.addPostFrameCallback(
-        (_) => _refreshIndicatorKey.currentState?.show());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _refreshIndicatorKey.currentState?.show());
   }
 
   Future<void> _getTrafic() async {

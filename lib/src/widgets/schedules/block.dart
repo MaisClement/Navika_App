@@ -54,7 +54,7 @@ class SchedulesBlock extends StatelessWidget {
                       line: line,
                       i: 0,
                       size: 30,
-                      isDark: !(Brightness.dark == Theme.of(context).colorScheme.brightness),
+                      brightness: Theme.of(context).colorScheme.brightness,
                     ),
                     LinesIcones(
                       line: line,

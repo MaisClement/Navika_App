@@ -133,7 +133,7 @@ class PlacesListButton extends StatelessWidget {
                     line: place['lines'][i],
                     prevLine: i > 0 ? place['lines'][i - 1] : place['lines'][i],
                     i: i,
-                    isDark: Brightness.dark != Theme.of(context).colorScheme.brightness
+                    brightness: Theme.of(context).colorScheme.brightness
                   )
                 
               ]

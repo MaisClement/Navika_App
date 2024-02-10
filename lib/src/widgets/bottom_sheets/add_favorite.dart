@@ -101,7 +101,7 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
                           prevLine: line,
                           i: 0,
                           size: 30,
-                          isDark: Brightness.dark != Theme.of(context).colorScheme.brightness,
+                          brightness: Theme.of(context).colorScheme.brightness,
                         ),
                         const SizedBox(
                           width: 10,

@@ -32,7 +32,7 @@ class LinesListButton extends StatelessWidget {
                 Icones(
                   line: line,
                   i: 0,
-                  isDark: isLight ? !isLight : Brightness.dark != Theme.of(context).colorScheme.brightness,
+                  brightness: isLight ? Brightness.light : Theme.of(context).colorScheme.brightness,
                   size: 25,
                 ),
                 const SizedBox(

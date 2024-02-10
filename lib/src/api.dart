@@ -116,7 +116,7 @@ class NavikaApi {
   }
 
   Future getIndex() async {
-    String url = buildUrl(globals.API_INDEX, {'v': app.version});
+    String url = buildUrl(app.API_INDEX, {'v': app.VERSION});
 
     return doRequest(url);
   }
@@ -131,26 +131,26 @@ class NavikaApi {
     if (isGPSallowed &&
         (locationData?.latitude != null || locationData?.longitude != null) &&
         query != '') {
-      url = buildUrl(globals.API_PLACES, {
+      url = buildUrl(app.API_PLACES, {
         'lat': locationData?.latitude,
         'lon': locationData?.longitude,
         'q': query,
         'flag': flag,
       });
     } else if (query != '') {
-      url = buildUrl(globals.API_PLACES, {
+      url = buildUrl(app.API_PLACES, {
         'q': query,
         'flag': flag,
       });
     } else if (isGPSallowed &&
         (locationData?.latitude != null || locationData?.longitude != null)) {
-      url = buildUrl(globals.API_PLACES, {
+      url = buildUrl(app.API_PLACES, {
         'lat': locationData?.latitude,
         'lon': locationData?.longitude,
         'flag': flag,
       });
     } else {
-      url = buildUrl(globals.API_PLACES, {
+      url = buildUrl(app.API_PLACES, {
         'q': '',
         'flag': flag,
       });
@@ -170,26 +170,26 @@ class NavikaApi {
     if (isGPSallowed &&
         (locationData?.latitude != null || locationData?.longitude != null) &&
         query != '') {
-      url = buildUrl(globals.API_STOPS, {
+      url = buildUrl(app.API_STOPS, {
         'lat': locationData?.latitude,
         'lon': locationData?.longitude,
         'q': query,
         'flag': flag,
       });
     } else if (query != '') {
-      url = buildUrl(globals.API_STOPS, {
+      url = buildUrl(app.API_STOPS, {
         'q': query,
         'flag': flag,
       });
     } else if (isGPSallowed &&
         (locationData?.latitude != null || locationData?.longitude != null)) {
-      url = buildUrl(globals.API_STOPS, {
+      url = buildUrl(app.API_STOPS, {
         'lat': locationData?.latitude,
         'lon': locationData?.longitude,
         'flag': flag,
       });
     } else {
-      url = buildUrl(globals.API_STOPS, {
+      url = buildUrl(app.API_STOPS, {
         'q': '',
         'flag': flag,
       });
@@ -199,7 +199,7 @@ class NavikaApi {
   }
 
   Future getAddress(GeoCoordinates coords) async {
-    String url = buildUrl(globals.API_ADDRESS, {
+    String url = buildUrl(app.API_ADDRESS, {
       'lat': coords.latitude,
       'lon': coords.longitude
     });
@@ -208,7 +208,7 @@ class NavikaApi {
   }
 
   Future getNearPoints(double zoom, GeoCoordinates coords) async {
-    String url = buildUrl(globals.API_NEAR, {
+    String url = buildUrl(app.API_NEAR, {
       'lat': coords.latitude,
       'lon': coords.longitude,
       'z': zoom,
@@ -218,7 +218,7 @@ class NavikaApi {
   }
 
   Future getLines(String q, int? flag) async {
-    String url = buildUrl(globals.API_LINES, {
+    String url = buildUrl(app.API_LINES, {
       'q': q,
       'flag': flag,
     });
@@ -227,13 +227,13 @@ class NavikaApi {
   }
 
   Future getLine(String id) async {
-    String url = buildUrl('${globals.API_LINES}/$id', {});
+    String url = buildUrl('${app.API_LINES}/$id', {});
 
     return doRequest(url);
   }
 
   Future getLineSchedules(String id, String stopId, DateTime datetime) async {
-    String url = buildUrl('${globals.API_LINES}/$id/schedules/$stopId', {
+    String url = buildUrl('${app.API_LINES}/$id/schedules/$stopId', {
       'date': datetime.toIso8601String().substring(0, 10),
     });
 
@@ -241,7 +241,7 @@ class NavikaApi {
   }
 
   Future getJourneys(String from, String to, DateTime datetime, String travelerType, String timeType, List id, List modes) async {
-    String url = buildUrl(globals.API_JOURNEYS, {
+    String url = buildUrl(app.API_JOURNEYS, {
       'from': from,
       'to': to,
       timeType: datetime.toIso8601String(),
@@ -253,49 +253,49 @@ class NavikaApi {
   }
 
   Future getJourneyById(String id) async {
-    String url = buildUrl('${globals.API_JOURNEY}/$id', {});
+    String url = buildUrl('${app.API_JOURNEY}/$id', {});
     return doRequest(url);
   }
 
   Future getBikeStations(String id) async {
-    String url = buildUrl('${globals.API_BIKE_STATIONS}/$id', {});
+    String url = buildUrl('${app.API_BIKE_STATIONS}/$id', {});
 
     return doRequest(url);
   }
 
   Future getSchedules(String id, bool ungroup) async {
-    String url = buildUrl('${globals.API_SCHEDULES}/$id',
+    String url = buildUrl('${app.API_SCHEDULES}/$id',
         {'ungroupDepartures': ungroup.toString()});
 
     return doRequest(url);
   }
 
   Future getSchedulesLines(String id, String line) async {
-    String url = buildUrl('${globals.API_SCHEDULES}/$id', {'l': line});
+    String url = buildUrl('${app.API_SCHEDULES}/$id', {'l': line});
 
     return doRequest(url);
   }
 
   Future getTrafic(List? lines) async {
-    String url = buildUrl(globals.API_TRAFIC, {'lines': lines});
+    String url = buildUrl(app.API_TRAFIC, {'lines': lines});
 
     return doRequest(url);
   }
 
   Future getVehicleJourney(String id) async {
-    String url = buildUrl('${globals.API_VEHICLE_JOURNEY}/$id', {});
+    String url = buildUrl('${app.API_VEHICLE_JOURNEY}/$id', {});
 
     return doRequest(url);
   }
 
   Future getMaps() async {
-    String url = buildUrl(globals.API_MAPS, {});
+    String url = buildUrl(app.API_MAPS, {});
 
     return doRequest(url);
   }
 
   Future addNotificationSubscription(String line, String type, Map days, TimeOfDay startTime, TimeOfDay endTime) async {
-    String url = buildUrl(globals.API_ADD_NOTIFICATION_SUBSCRIPTION, {});
+    String url = buildUrl(app.API_ADD_NOTIFICATION_SUBSCRIPTION, {});
     Object body = {
       'token' : globals.fcmToken,
       'line' : line,
@@ -309,7 +309,7 @@ class NavikaApi {
   }
 
   Future renewNotificationToken(String oldToken, String newToken) async {
-    String url = buildUrl(globals.API_RENEW_NOTIFICATION, {});
+    String url = buildUrl(app.API_RENEW_NOTIFICATION, {});
     Object body = {
       'old_token' : oldToken,
       'new_token' : newToken,
@@ -319,13 +319,13 @@ class NavikaApi {
   }
 
   Future getNotificationSubscription(String id) async {
-    String url = buildUrl('${globals.API_GET_NOTIFICATION_SUBSCRIPTION}/$id', {});
+    String url = buildUrl('${app.API_GET_NOTIFICATION_SUBSCRIPTION}/$id', {});
 
     return doRequest(url);
   }
 
   Future removeNotificationSubscription(String id) async {
-    String url = buildUrl('${globals.API_REMOVE_NOTIFICATION_SUBSCRIPTION}/$id', {});
+    String url = buildUrl('${app.API_REMOVE_NOTIFICATION_SUBSCRIPTION}/$id', {});
 
     return doRequest(url);
   }
