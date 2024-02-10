@@ -33,7 +33,7 @@ class LinesIcones extends StatelessWidget {
           ),
         )
         
-      else if (line['agency']['name'] == 'Noctilien')
+      else if (line['agency'] != null && line['agency']['name'] == 'Noctilien')
         Container(
           width: size,
           height: size * 0.64,
