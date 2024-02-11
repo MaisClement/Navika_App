@@ -58,6 +58,17 @@ Future<void> unsubscribe(line, context) async {
   }
 }
 
+Future<void> reSubscribe(String id, String type, Map days, Map times) async {
+  NavikaApi navikaApi = NavikaApi();
+  Map result = await navikaApi.addNotificationSubscription(id, type, days, times['start_time'], times['end_time']);
+
+  if (result['value'] != null) {
+    Map alert = globals.hiveBox.get('linesAlert');
+    alert[result['value']['line']] = result['value'];
+    globals.hiveBox.put('linesAlert', alert);
+  }
+}
+
 class NotificationsSettings extends StatefulWidget {
   final Map line;
   final bool isAlert;
@@ -170,10 +181,9 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
   }
 
   Future<void> getAlert() async {
-    Map alert = globals.hiveBox.get('linesAlert');
-    if (alert[widget.line['id']] != null &&
-        alert[widget.line['id']]['id'] != null) {
-      id = alert[widget.line['id']]['id'].toString();
+    Map alerts = globals.hiveBox.get('linesAlert');
+    if (alerts[widget.line['id']] != null && alerts[widget.line['id']]['id'] != null) {
+      id = alerts[widget.line['id']]['id'].toString();
     }
 
     if (id == null) {
@@ -196,15 +206,27 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
           type = result['value']['type'];
 
           times['start_time'] = TimeOfDay(
-              hour: int.parse(
-                  result['value']['times']['start_time'].substring(0, 2)),
-              minute: int.parse(
-                  result['value']['times']['start_time'].substring(3, 5)));
+            hour: int.parse(result['value']['times']['start_time'].substring(0, 2)),
+            minute: int.parse(result['value']['times']['start_time'].substring(3, 5))
+          );
           times['end_time'] = TimeOfDay(
-              hour: int.parse(
-                  result['value']['times']['end_time'].substring(0, 2)),
-              minute: int.parse(
-                  result['value']['times']['end_time'].substring(3, 5)));
+            hour: int.parse(result['value']['times']['end_time'].substring(0, 2)),
+            minute: int.parse(result['value']['times']['end_time'].substring(3, 5))
+          );
+        } else {
+          Map alert = alerts[widget.line['id']];
+
+          days = alert['days'];
+          type = alert['type'];
+
+          times['start_time'] = TimeOfDay(
+            hour: int.parse(alert['times']['start_time'].substring(0, 2)),
+            minute: int.parse(alert['times']['start_time'].substring(3, 5))
+          );
+          times['end_time'] = TimeOfDay(
+            hour: int.parse(alert['times']['end_time'].substring(0, 2)),
+            minute: int.parse(alert['times']['end_time'].substring(3, 5))
+          );
         }
       });
     }

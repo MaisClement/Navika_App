@@ -304,6 +304,8 @@ class NavikaApi {
       'start_time' : timeToString(startTime),
       'end_time' : timeToString(endTime),
     };
+    
+    print(['INFO_', body]);
 
     return doPost(url, body);
   }

@@ -8,6 +8,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:navika/src/api.dart';
 import 'package:navika/src/app.dart';
 import 'package:navika/src/extensions/timeofday.dart';
+import 'package:navika/src/widgets/bottom_sheets/notifications.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/core.engine.dart';
@@ -32,6 +33,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   if (message.data['type'] == 'report') {
     await showReportNotification(message, hiveBox);
   }
+  if (message.data['type'] == 'refresh_alert') {
+    await refreshNotification(hiveBox);
+  }
 }
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -41,11 +45,9 @@ Future<void> main() async {
 
   setupWindow();
 
-  await _initializeCertCA();
+  WidgetsFlutterBinding.ensureInitialized();
 
-  await _initializeHive();
-
-  await _initializeHERESDK();
+  await app.getAppInfo();
 
   try {
     await _initializeFirebase();
@@ -56,7 +58,11 @@ Future<void> main() async {
 
   _initializeLocalNotification();
 
-  await app.getAppInfo();
+  await _initializeCertCA();
+
+  await _initializeHive();
+
+  await _initializeHERESDK();
 
   SentryFlutter.init(
     (options) => options
@@ -211,8 +217,11 @@ Future _initializeHive() async {
     }));
   }
 
-  if (kDebugMode) {
-    print({'INFO_', globals.hiveBox.get('addressFavorites')});
+  // Refresh des notifications - v1.3.0
+  if (globals.hiveBox.get('version') == null) {
+    globals.hiveBox.put('version', app.VERSION);
+
+    await refreshNotification(globals.hiveBox);
   }
 }
 
@@ -357,4 +366,17 @@ Future<void> showReportNotification(RemoteMessage message, box) async {
   
   NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
   await flutterLocalNotificationsPlugin.show(0, message.data['title'], message.data['body'], notificationDetails);
+}
+
+Future<void> refreshNotification(box) async {
+  Map alert = globals.hiveBox.get('linesAlert');
+  alert.forEach((key, value) async {
+
+    Map times = {
+      'start_time': TimeOfDay(hour: int.parse(value['times']['start_time'].split(':')[0]), minute: int.parse(value['times']['start_time'].split(':')[1])),
+      'end_time': TimeOfDay(hour: int.parse(value['times']['end_time'].split(':')[0]), minute: int.parse(value['times']['end_time'].split(':')[1])),
+    };
+    
+    await reSubscribe(value['line'], value['type'], value['days'], times);
+  });
 }
