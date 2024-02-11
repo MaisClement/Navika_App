@@ -96,7 +96,7 @@ String getModeImage(Brightness brightness, line) {
 
   String img = 'assets/img/icons/';
   String mode = '';
-  if (line['agency']['name'] == 'Noctilien') {
+  if (line['agency'] != null && line['agency']['name'] == 'Noctilien') {
     mode = 'noctilien';
   } else {
     for (var allowes in listModes.entries) {
