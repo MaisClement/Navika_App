@@ -36,6 +36,7 @@ Future getAppInfo() async {
   API_RENEW_NOTIFICATION =               '$API_BASE/notification/renew';
   API_GET_NOTIFICATION_SUBSCRIPTION =    '$API_BASE/notification/get';
   API_REMOVE_NOTIFICATION_SUBSCRIPTION = '$API_BASE/notification/unsubscribe';
+  API_CHANGES =                          '$API_BASE/CHANGES_$VERSION.md';
 }
 
 String NAME = '';
@@ -66,4 +67,4 @@ String API_ADD_NOTIFICATION_SUBSCRIPTION =    '';
 String API_RENEW_NOTIFICATION =               '';
 String API_GET_NOTIFICATION_SUBSCRIPTION =    '';
 String API_REMOVE_NOTIFICATION_SUBSCRIPTION = '';
-String API_CHANGES =                          'https://app.navika.hackernwar.com/CHANGES.md';
+String API_CHANGES =                          '';

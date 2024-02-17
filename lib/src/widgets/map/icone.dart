@@ -11,10 +11,12 @@ Color getMapWidgetColor(Brightness brightness) {
 
 class MapIcone extends StatelessWidget {
   final Map stop;
+  final Brightness brightness;
   final Function update;
 
   const MapIcone({
     required this.stop,
+    required this.brightness,
     required this.update,
     super.key,
   });
@@ -33,7 +35,7 @@ class MapIcone extends StatelessWidget {
             margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(3),
-              color: getMapWidgetColor(Theme.of(context).colorScheme.brightness),
+              color: getMapWidgetColor(brightness),
             ),
             width: 20,
             height: 20,
@@ -42,7 +44,7 @@ class MapIcone extends StatelessWidget {
       ),
       Material(
         borderRadius: BorderRadius.circular(8),
-        color: getMapWidgetColor(Theme.of(context).colorScheme.brightness),
+        color: getMapWidgetColor(brightness),
         child: Container(
           padding: const EdgeInsets.only(
             left: 3,
@@ -56,7 +58,7 @@ class MapIcone extends StatelessWidget {
               ModeIcones(
                 line: stop['lines'][0],
                 i: 0,
-                brightness: Theme.of(context).colorScheme.brightness == Brightness.dark ? Brightness.light : Brightness.dark,
+                brightness: brightness == Brightness.dark ? Brightness.light : Brightness.dark,
               ),
               for (var line in stop['lines'])
                 Container(
@@ -69,7 +71,7 @@ class MapIcone extends StatelessWidget {
                   child: LinesIcones(
                     line: line,
                     size: 20,
-                    brightness: Theme.of(context).colorScheme.brightness == Brightness.dark ? Brightness.light : Brightness.dark,
+                    brightness: brightness == Brightness.dark ? Brightness.light : Brightness.dark,
                     removeMargin: true,
                   ),
                 )
@@ -80,29 +82,3 @@ class MapIcone extends StatelessWidget {
     ],
   );
 }
-
-/*
-Material(
-    elevation: 4,
-    borderRadius: BorderRadius.circular(8),
-    child: Container(
-      padding: const EdgeInsets.only(
-        left: 3,
-        right: 3,
-        top: 0,
-        bottom: 0,
-      ),
-      child: Wrap(
-        children: [
-          for (var i = 0; i < stop['lines'].length; i++)
-            Icones(
-              line: stop['lines'][i],
-              prevLine: i > 0 ? stop['lines'][i - 1] : stop['lines'][i],
-              i: i,
-              isDark: Brightness.light == Theme.of(context).colorScheme.brightness
-            )
-        ],
-      ),
-    ),
-  );
-*/

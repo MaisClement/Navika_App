@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:navika/src/api.dart';
 import 'package:navika/src/app.dart';
-import 'package:navika/src/extensions/timeofday.dart';
 import 'package:navika/src/widgets/bottom_sheets/notifications.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:here_sdk/core.dart';
@@ -24,17 +23,12 @@ import 'package:navika/src/data/app.dart' as app;
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-
-  await Hive.initFlutter();
-  var hiveBox = await Hive.openBox('Home');
+  if (message.notification != null) {
+    showNotification(message);
+  }
 
   if (message.data['type'] == 'report') {
-    await showReportNotification(message, hiveBox);
-  }
-  if (message.data['type'] == 'refresh_alert') {
-    await refreshNotification(hiveBox);
+    await showReportNotification(message);
   }
 }
 
@@ -206,6 +200,10 @@ Future _initializeHive() async {
     globals.hiveBox.put('useSerin', false);
   }
 
+  // Version
+  if (globals.hiveBox.get('version') == null) {
+    globals.hiveBox.put('version', app.VERSION);
+  }
 
   // Migrations 
   // Plan du réseau - added with v1.1.0
@@ -215,13 +213,6 @@ Future _initializeHive() async {
       'name': 'Plan du réseau',
       'enabled': true,
     }));
-  }
-
-  // Refresh des notifications - v1.3.0
-  if (globals.hiveBox.get('version') == null) {
-    globals.hiveBox.put('version', app.VERSION);
-
-    await refreshNotification(globals.hiveBox);
   }
 }
 
@@ -283,7 +274,7 @@ Future _initializeFirebase() async {
     }
 
     if (message.data['type'] == 'report') {
-      await showReportNotification(message, globals.hiveBox);
+      await showReportNotification(message);
     }
   });
 }
@@ -301,7 +292,7 @@ void _initializeLocalNotification() {
 
 Future<void> showNotification(RemoteMessage message) async {
   var androidNotificationDetails = const AndroidNotificationDetails(
-    'com.lowa.navika',
+    'notification',
     'Notification',
     playSound: true,
     enableVibration: true,
@@ -313,50 +304,9 @@ Future<void> showNotification(RemoteMessage message) async {
   await flutterLocalNotificationsPlugin.show(0, message.notification?.title, message.notification?.body, notificationDetails);
 }
 
-Future<void> showReportNotification(RemoteMessage message, box) async {
-  Map alert = box.get('linesAlert');
-  String id = message.data['line'];
-
-  if (alert[id] == null) {
-    return;
-  }
-
-  alert = alert[id];
-  Map days = alert['days'];
-
-  // Date
-  if (DateTime.now().weekday == 1 && days['monday'] == false) {
-    return;
-  } else if (DateTime.now().weekday == 2 && days['tuesday'] == false) {
-    return;
-  } else if (DateTime.now().weekday == 3 && days['wednesday'] == false) {
-    return;
-  } else if (DateTime.now().weekday == 4 && days['thursday'] == false) {
-    return;
-  } else if (DateTime.now().weekday == 5 && days['friday'] == false) {
-    return;
-  } else if (DateTime.now().weekday == 6 && days['saturday'] == false) {
-    return;
-  } else if (DateTime.now().weekday == 7 && days['sunday'] == false) {
-    return;
-  }
-  
-  TimeOfDay startTime = TimeOfDay(
-    hour:  int.parse( alert['times']['start_time'].substring(0, 2) ), 
-    minute: int.parse( alert['times']['start_time'].substring(3, 5) )
-  ); 
-  TimeOfDay endTime = TimeOfDay(
-    hour:  int.parse( alert['times']['end_time'].substring(0, 2) ), 
-    minute: int.parse( alert['times']['end_time'].substring(3, 5) )
-  ); 
-  
-  //Time
-  if (startTime.compareTo(TimeOfDay.now()) > 0 && endTime.compareTo(TimeOfDay.now()) < 0 ) {
-    return;
-  }
-  
-  var androidNotificationDetails = const AndroidNotificationDetails(
-    'trafic',
+Future<void> showReportNotification(RemoteMessage message) async {
+  var androidNotificationDetails = AndroidNotificationDetails(
+    'trafic_${message.data['line']}',
     'Alerte trafic',
     playSound: true,
     enableVibration: true,
@@ -366,17 +316,4 @@ Future<void> showReportNotification(RemoteMessage message, box) async {
   
   NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
   await flutterLocalNotificationsPlugin.show(0, message.data['title'], message.data['body'], notificationDetails);
-}
-
-Future<void> refreshNotification(box) async {
-  Map alert = globals.hiveBox.get('linesAlert');
-  alert.forEach((key, value) async {
-
-    Map times = {
-      'start_time': TimeOfDay(hour: int.parse(value['times']['start_time'].split(':')[0]), minute: int.parse(value['times']['start_time'].split(':')[1])),
-      'end_time': TimeOfDay(hour: int.parse(value['times']['end_time'].split(':')[0]), minute: int.parse(value['times']['end_time'].split(':')[1])),
-    };
-    
-    await reSubscribe(value['line'], value['type'], value['days'], times);
-  });
 }

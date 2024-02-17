@@ -267,6 +267,7 @@ class _HomeState extends State<Home> {
           screenshotController.captureFromWidget(
               MapIcone(
                 stop: stop,
+                brightness: Theme.of(context).colorScheme.brightness,
                 update: () {},
               ),
               delay: const Duration(milliseconds: 0)

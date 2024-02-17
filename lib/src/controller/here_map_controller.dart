@@ -75,7 +75,10 @@ class HereController {
 
   void zoomTo(GeoCoordinatesUpdate geoCoords){
     if (globals.locationData != null){
-      double distanceToEarthInMeters = 1000;
+      double distanceToEarthInMeters = _hereMapController.camera.state.distanceToTargetInMeters;
+      if (distanceToEarthInMeters > 1000) {
+        distanceToEarthInMeters = 1000;
+      }
       if (globals.locationData!.accuracy != null && globals.locationData!.accuracy! > 0) {
         distanceToEarthInMeters = globals.locationData!.accuracy! + 1000;
       }
