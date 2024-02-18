@@ -87,12 +87,12 @@ Color departureListNoColor(context) {
 Brightness schedulesIsDark(Brightness brightness, color) {
   if (Brightness.dark == brightness) {
     if (color == '000000') {
-      return Brightness.dark;
-    } else {
       return Brightness.light;
+    } else {
+      return Brightness.dark;
     }
   }
-  return Brightness.dark;
+  return Brightness.light;
 }
 
 // ----------------
