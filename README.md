@@ -38,7 +38,3 @@ This apps work with [Navika_Api](https://github.com/MaisClement/Navika_Api/)
 
 # Contribute
 If you are motivated, do not hesitate to contribute to this project.
-
-
-# Licence
-Feel free to use or reuse any part on my code, but please not for commercial use
