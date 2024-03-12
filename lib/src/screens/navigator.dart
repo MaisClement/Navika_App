@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/screens/changes.dart';
 import 'package:navika/src/screens/home_settings.dart';
 import 'package:navika/src/screens/journeys_get.dart';
-import 'package:navika/src/screens/journeys_list.dart';
+import 'package:navika/src/screens/journeys_recurrent.dart';
 import 'package:navika/src/screens/journeys_search.dart';
 import 'package:navika/src/screens/maps.dart';
 import 'package:navika/src/screens/pdf.dart';
@@ -338,7 +338,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           else if (pathTemplate == '/home/journeys/list')
             const MaterialPage<void>(
               key: ValueKey('Route details'),
-              child: JourneysList(),
+              child: RecurrentJourneysList(),
             )
           else if (pathTemplate == '/home/journeys/get/:id' && id != null)
             MaterialPage<void>(

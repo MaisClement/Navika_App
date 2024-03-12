@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 
 class FavButton extends StatelessWidget {
   final String name;

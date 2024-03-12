@@ -6,7 +6,6 @@ list(APPEND FLUTTER_PLUGIN_LIST
   connectivity_plus
   firebase_core
   pdfx
-  sentry_flutter
   url_launcher_windows
 )
 

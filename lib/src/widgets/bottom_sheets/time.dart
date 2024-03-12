@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/schedules/timer_block.dart';
 import 'package:navika/src/data/global.dart' as globals;

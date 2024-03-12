@@ -2,7 +2,7 @@ import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
 
@@ -103,7 +103,6 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress> with SingleTi
                 Center(
                   child: IconElevatedButton(
                     icon: NavikaIcons.edit,
-                    width: 138,
                     text: 'Modifer',
                     onPressed: () {
                         RouteStateScope.of(context).go('/home/address/${widget.type}/${getAddressPos(widget.id)}');
@@ -113,7 +112,6 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress> with SingleTi
                 Center(
                   child: IconElevatedButton(
                     icon: NavikaIcons.trash,
-                    width: 138,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xffeb2031),
                       foregroundColor: const Color(0xffffffff),
@@ -125,7 +123,6 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress> with SingleTi
                 Center(
                   child: IconElevatedButton(
                     icon: NavikaIcons.cancel,
-                    width: 138,
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.surface,
                         foregroundColor: Theme.of(context).colorScheme.primary,

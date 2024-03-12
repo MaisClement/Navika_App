@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:navika/src/api.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/departures/block.dart';
 import 'package:navika/src/widgets/error_message.dart';
 import 'package:navika/src/data/global.dart' as globals;

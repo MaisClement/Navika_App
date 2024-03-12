@@ -4,7 +4,7 @@ import 'package:navika/src/api.dart';
 
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/widgets/departures/list.dart';
-import 'package:navika/src/widgets/error_message.dart';
+import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/schedules/list.dart';
 import 'package:navika/src/data/global.dart' as globals;
 
@@ -242,8 +242,9 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
             ),
 
           if (error != ApiStatus.ok)
-            ErrorMessage(
+            ErrorBlock(
               error: error,
+              retry: _getSchedules,
             )
 
           else if (isLoading)

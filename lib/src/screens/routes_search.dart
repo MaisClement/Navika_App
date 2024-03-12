@@ -96,6 +96,7 @@ class _RoutesSearchState extends State<RoutesSearch> {
         if (error != ApiStatus.ok)
           ErrorBlock(
             error: error,
+            retry: _getLines,
           )
         
         else if (lines.isNotEmpty)

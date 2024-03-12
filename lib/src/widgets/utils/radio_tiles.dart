@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 
 class RadioTiles extends StatelessWidget {
   final List tiles;
@@ -43,9 +43,7 @@ class RadioTiles extends StatelessWidget {
                         ),
                         Icon(
                           tile['icon'],
-                          color: tile['value'] == value
-                              ? Theme.of(context).colorScheme.surface
-                              : accentColor(context),
+                          color: getRadioTilesTextColor(context, tile['value'] == value),
                           size: 30,
                         ),
                         Container(
@@ -55,9 +53,7 @@ class RadioTiles extends StatelessWidget {
                           tile['name'],
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: tile['value'] == value
-                                ? Theme.of(context).colorScheme.surface
-                                : accentColor(context),
+                            color: getRadioTilesTextColor(context, tile['value'] == value),
                           ),
                         ),
                       ],

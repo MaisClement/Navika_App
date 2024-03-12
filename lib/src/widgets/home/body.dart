@@ -1,15 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/screens/home_settings.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/favorites/body.dart';
 import 'package:navika/src/widgets/home/fav_scroll.dart';
-import 'package:navika/src/widgets/home/messages.dart';
-import 'package:navika/src/widgets/route/favorites.dart';
-import 'package:navika/src/widgets/trafic/block.dart';
+import 'package:navika/src/widgets/home/widget/journeys.dart';
+import 'package:navika/src/widgets/home/widget/message.dart';
+import 'package:navika/src/widgets/home/widget/sponsor.dart';
+import 'package:navika/src/widgets/home/widget/trafic.dart';
 import 'package:navika/src/widgets/utils/button_large.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
+
+Widget getWidgetHead(id, context) {
+  return Column(crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const SizedBox(
+        height: 10,
+      ),
+      Padding(
+        padding: const EdgeInsets.only(left: 10, bottom: 10),
+        child: Text(getBlockName(id),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'Segoe Ui',
+            color: accentColor(context),
+          ),
+        ),
+      ),
+          
+    ],
+  );
+}
 
 class HomeBody extends StatelessWidget {
   final ScrollController scrollController;
@@ -40,217 +64,92 @@ class HomeBody extends StatelessWidget {
     List<Widget> res = [];
 
     for (var block in blocks) {
-      // HomeMessage
+
+      // HomeWidgetMessages
       if (block['id'] == 'message' && block['enabled'] == true && index['message'] != null) {
-        for (var message in index['message']) {
+        res.add(
+          HomeWidgetMessages(messages: index['message'])
+        );
+      }
+      
+      // HomeWidgetSponsor
+      if (block['id'] == 'sponsor' && block['enabled'] == true) {
+        res.add(
+          HomeWidgetSponsor(
+            canBeDeactivated: true,
+          )
+        );
+      }
+
+      //TODO // HomeWidgetJourneys
+      //TODO if (block['id'] == 'recurrentJourneys' && block['enabled'] == true) {
+      //TODO   res.add(getWidgetHead(block['id'], context));
+      //TODO   res.add(
+      //TODO     HomeWidgetJourneys(
+      //TODO       journeys: journeys, 
+      //TODO       update: update,
+      //TODO     )
+      //TODO   );
+      //TODO }
+
+      // HomeWidgetJourneys
+      if (block['id'] == 'punctualJourneys' && block['enabled'] == true) {
+        res.add(getWidgetHead(block['id'], context));
+        res.add(
+          HomeWidgetJourneys(
+            journeys: journeys, 
+            update: update,
+          )
+        );
+      }
+
+      // HomeWidgetTrafic
+      if (block['id'] == 'trafic' && block['enabled'] == true && lines.isNotEmpty) {
+        res.add(getWidgetHead(block['id'], context));
+        res.add(
+          HomeWidgetTrafic(
+            lines: lines,
+            trafic: trafic,
+          )
+        );
+      }
+
+      // Schedules
+      if (block['id'] == 'schedules' && block['enabled'] == true && favs.isNotEmpty) {
+        res.add(getWidgetHead(block['id'], context));
+
+        for (var fav in favs.sublist(0, getMaxLength(2, favs) )) {
           res.add(
-            HomeMessage(message: message)
+            FavoriteBody(
+              id: fav['id'],
+              key: ValueKey(fav['id']),
+              name: fav['name'],
+              line: fav['line'],
+              update: update,
+              removeSeparator: true,
+            ),
           );
         }
       }
 
-      // Itinéraires
-      if (block['id'] == 'journeys' && block['enabled'] == true) {
-        res.add(
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, bottom: 10),
-                child: Text(
-                  block['name'],
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
-                    color: accentColor(context),
-                  ),
-                ),
-              ),
-              ...[
-                if (journeys.isEmpty)
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 30,
-                      ),
-                      const Image(
-                        image: AssetImage(
-                          'assets/img/journeys.png',
-                        ),
-                        width: 80,
-                      ),
-                      const SizedBox(
-                        width: 30,
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            const Text(
-                              'Vous n’avez pas d’itinéraires prévu.',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Segoe Ui',
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            Center(
-                              child: ElevatedButton(
-                                child: const Text('Tous vos itinéraires ➜'),
-                                onPressed: () {
-                                  RouteStateScope.of(context).go('/home/journeys/list');
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 30,
-                      ),
-                    ],
-                  )
-                else
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      RouteFavorites(
-                        journeys: journeys.sublist(0, getMaxLength(2, journeys)),
-                        update: update
-                      ),
-                      Center(
-                        child: ElevatedButton(
-                          child: const Text('Tous vos itinéraires ➜'),
-                          onPressed: () {
-                            RouteStateScope.of(context).go('/home/journeys/list');
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-              ]
-            ],
-          ),
-        );
-      }
-
-      // Trafic
-      if (block['id'] == 'trafic' && block['enabled'] == true && lines.isNotEmpty) {
-        res.add(
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, bottom: 10),
-                child: Text(
-                  block['name'],
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
-                    color: accentColor(context),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
+      // Maps
+      if (block['id'] == 'map' && block['enabled'] == true) {
+        res.add(getWidgetHead(block['id'], context));
         res.add(
           Padding(
             padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-            child: Wrap(
-              children: [
-                for (var line in lines)
-                  TraficBlock(
-                    line: line,
-                    trafic: trafic,
-                    isLoading: trafic.isEmpty,
-                  ),
-              ],
+            child: ButtonLarge(
+              icon: NavikaIcons.map,
+              text: 'Plans',
+              style: const TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 17,
+              ),
+              borderRadius: BorderRadius.circular(10),
+              onTap: () {
+                RouteStateScope.of(context).go('/maps');
+              },
             ),
-          ),
-        );
-      }
-
-
-      // Trafic
-      if (block['id'] == 'schedules' && block['enabled'] == true && favs.isNotEmpty) {
-        res.add(
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, bottom: 10),
-                child: Text(
-                  block['name'],
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
-                    color: accentColor(context),
-                  ),
-                ),
-              ),
-              for (var fav in favs.sublist(0, getMaxLength(2, favs) ))
-                FavoriteBody(
-                  id: fav['id'],
-                  key: ValueKey(fav['id']),
-                  name: fav['name'],
-                  line: fav['line'],
-                  update: update,
-                  removeSeparator: true,
-                ),
-            ],
-          ),
-        );
-      }
-
-      // Trafic
-      if (block['id'] == 'map' && block['enabled'] == true) {
-        res.add(
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, bottom: 10),
-                child: Text(
-                  block['name'],
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
-                    color: accentColor(context),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                child: ButtonLarge(
-                  icon: NavikaIcons.map,
-                  text: 'Plans',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 17,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                  onTap: () {
-                    RouteStateScope.of(context).go('/maps');
-                  },
-                ),
-              ),
-            ],
           ),
         );
       }
@@ -261,40 +160,39 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListView(
-        controller: scrollController,
-        padding: const EdgeInsets.only(top: 90),
-        children: [
-          SizedBox(
-            height: 85,
-            child: HomeBodyFavScroll(
-              address: address,
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
+    controller: scrollController,
+    padding: const EdgeInsets.only(top: 90),
+    children: [
+      SizedBox(
+        height: 85,
+        child: HomeBodyFavScroll(
+          address: address,
+        ),
+      ),
+      const SizedBox(
+        height: 10,
+      ),
 
-          ..._buildHome(context),
+      ..._buildHome(context),
 
-          const Divider(
-            color: Color(0xff808080),
-            thickness: 1.5,
-            indent: 20,
-            endIndent: 20,
-          ),
-        
-          IconElevatedButton(
-            icon: NavikaIcons.settings,
-            width: 240,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.surface,
-              foregroundColor: accentColor(context),
-            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-            text: 'Réorganiser cette page',
-            onPressed: () {
-              RouteStateScope.of(context).go('/home/settings');
-            },
-          ),
-        ],
-      );
+      const Divider(
+        color: Color(0xff808080),
+        thickness: 1.5,
+        indent: 20,
+        endIndent: 20,
+      ),
+    
+      IconElevatedButton(
+        icon: NavikaIcons.settings,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          foregroundColor: accentColor(context),
+        ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+        text: 'Réorganiser cette page',
+        onPressed: () {
+          RouteStateScope.of(context).go('/home/settings');
+        },
+      ),
+    ],
+  );
 }

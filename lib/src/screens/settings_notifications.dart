@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/routes_details.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/bottom_sheets/notifications.dart';
 import 'package:navika/src/widgets/lines/listbutton.dart';
 

@@ -1,13 +1,11 @@
 import 'dart:math';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/navigator.dart';
-import 'package:navika/src/utils.dart';
 
 class NavikaApp extends StatefulWidget {
 	const NavikaApp({super.key});
@@ -27,27 +25,8 @@ class _NavikaAppState extends State<NavikaApp> {
 	late final TemplateRouteParser _routeParser;
   String themeMode = '';
 
-  // It is assumed that all messages contain a data field with the key 'type'
-  Future<void> setupInteractedMessage() async {
-    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
-
-    if (initialMessage != null) {
-      _handleMessage(initialMessage);
-    }
-
-    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-  }
-
-  void _handleMessage(RemoteMessage message) {
-    RouteStateScope.of(context).go('/trafic');
-  }
-
-	@override
+  @override
 	void initState() {
-
-    setupInteractedMessage();
-
-		/// Configure the parser with all of the app's allowed path templates.
 		_routeParser = TemplateRouteParser(
 			allowedPaths: [
 				'/home',
@@ -112,6 +91,15 @@ class _NavikaAppState extends State<NavikaApp> {
   Color mainColor = const Color(0xff025982);
   Color primaryContainer = const Color(0xffccdee6);
   Color darkPrimaryContainer = const Color(0xff01354e);
+
+  ThemeMode getThemeMode(String themeMode) {
+    if (themeMode == 'dark') {
+      return ThemeMode.dark;
+    } else if (themeMode == 'light') {
+      return ThemeMode.light;
+    }
+    return ThemeMode.system;
+  }
 
 	@override
 	Widget build(BuildContext context) => RouteStateScope(

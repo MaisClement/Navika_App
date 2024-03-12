@@ -10,15 +10,16 @@ import 'package:here_sdk/mapview.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/navigator.dart';
 import 'package:navika/src/utils.dart';
+import 'package:navika/src/widgets/bottom_sheets/journey.dart';
 import 'package:navika/src/widgets/icons/icons.dart';
-import 'package:navika/src/widgets/route/body.dart';
-import 'package:navika/src/widgets/route/header.dart';
+import 'package:navika/src/widgets/journey/body.dart';
+import 'package:navika/src/widgets/journey/header.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/controller/here_map_controller.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 
 void saveJourney(String uniqueId, context) {
   List journeys = globals.hiveBox.get('journeys');
@@ -58,6 +59,21 @@ bool isSavedJourney(String uniqueId) {
   return false;
 }
 
+void save(context, journey) {
+  if (isSavedJourney(journey['unique_id'])) {
+    saveJourney(journey['unique_id'], context);
+  } else {
+    showModalBottomSheet<void>(
+      shape: const RoundedRectangleBorder(
+        borderRadius: bottomSheetBorder,
+      ),
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) =>
+          BottomJourney(journey: journey)); 
+  }
+}
+
 Map? getSavedJourney(String uniqueId) {
   List journeys = globals.hiveBox.get('journeys');
   for (var journey in journeys) {
@@ -66,6 +82,16 @@ Map? getSavedJourney(String uniqueId) {
     }
   }
   return null;
+}
+
+List getLineByJourney(journey) {
+  List res = [];
+  for (var section in journey['sections']) {
+    if (section['type'] == 'public_transport' && section['informations'] != null && section['informations']['line'] != null ) {
+      res.add(section['informations']['line']);
+    }
+  }
+  return res;
 }
 
 bool allowNavi(journey) {
@@ -336,15 +362,16 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                         color: Theme.of(context).colorScheme.surface,
                         child: InkWell(
                           borderRadius: BorderRadius.circular(500),
-                          onTap: () => saveJourney(journey['unique_id'], context),
                           child: isSavedJourney(journey['unique_id']) ? Icon(
                             NavikaIcons.saved, 
                             color: Theme.of(context).colorScheme.onSurface,
                           )
                           : Icon(
-                            NavikaIcons.save, 
+                            NavikaIcons.star, 
                             color: Theme.of(context).colorScheme.onSurface,
                           ),
+                          onTap: () => saveJourney(journey['unique_id'], context),
+                          //TODO onTap: () => save(context, journey),
                         ),
                       ),
                     ),

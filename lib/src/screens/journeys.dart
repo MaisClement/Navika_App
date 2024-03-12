@@ -13,13 +13,13 @@ import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bottom_sheets/avoid_line.dart';
 import 'package:navika/src/widgets/bottom_sheets/route_options.dart';
 import 'package:navika/src/widgets/error_block.dart';
-import 'package:navika/src/widgets/route/listbutton.dart';
+import 'package:navika/src/widgets/journey/listbutton.dart';
 
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/routing.dart';
-import 'package:navika/src/widgets/route/skelton.dart';
+import 'package:navika/src/widgets/journey/skelton.dart';
 import 'package:navika/src/widgets/utils/button_box.dart';
 import 'package:navika/src/widgets/utils/search_box.dart';
 import 'package:navika/src/widgets/bottom_sheets/time_settings.dart';

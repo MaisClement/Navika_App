@@ -89,6 +89,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
         if (error != ApiStatus.ok)
           ErrorBlock(
             error: error,
+            retry: _getStops,
           )
         
         else if (places.isNotEmpty)

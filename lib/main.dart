@@ -7,13 +7,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:navika/src/api.dart';
 import 'package:navika/src/app.dart';
-import 'package:navika/src/widgets/bottom_sheets/notifications.dart';
+import 'package:navika/src/screens/home_settings.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/core.engine.dart';
 import 'package:here_sdk/core.errors.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
+// import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:navika/firebase_options.dart';
 
@@ -58,13 +58,15 @@ Future<void> main() async {
 
   await _initializeHERESDK();
 
-  SentryFlutter.init(
-    (options) => options
-      ..dsn=app.GLITCH_URL
-      ..tracesSampleRate=1
-      ..enableAutoSessionTracking=false,
-    appRunner: () => runApp(const NavikaApp())
-  );
+  runApp(const NavikaApp());
+
+  // SentryFlutter.init(
+  //   (options) => options
+  //     ..dsn=app.GLITCH_URL
+  //     ..tracesSampleRate=1
+  //     ..enableAutoSessionTracking=false,
+  //   appRunner: () => runApp(const NavikaApp())
+  // );
 }
 
 void setupWindow() {
@@ -104,37 +106,45 @@ Future _initializeHive() async {
     globals.hiveBox.put('addressFavorites', []);
   }
 
+  // Trajet régulier
+  if (globals.hiveBox.get('recurrentJourneys') == null) {
+    globals.hiveBox.put('recurrentJourneys', []);
+  }
+
   // Trajet enregistré
   if (globals.hiveBox.get('journeys') == null) {
     globals.hiveBox.put('journeys', []);
   }
 
   // Trajet enregistré
-  if (globals.hiveBox.get('homeOrder') == null) {
-    globals.hiveBox.put('homeOrder', [
+  if (globals.hiveBox.get('homepageOrder') == null) {
+    globals.hiveBox.put('homepageOrder', [
       {
         'id': 'message',
-        'name': 'Messages d’actualités',
+        'enabled': true,
+      },
+      {
+        'id': 'sponsor',
         'enabled': true,
       },
       {
         'id': 'trafic',
-        'name': 'Etat du trafic',
         'enabled': true,
       },
       {
-        'id': 'journeys',
-        'name': 'Vos itinéraires',
+        'id': 'punctualJourneys',
+        'enabled': true,
+      },
+      {
+        'id': 'recurrentJourneys',
         'enabled': true,
       },
       {
         'id': 'schedules',
-        'name': 'Vos horaires',
         'enabled': true,
       },
       {
         'id': 'map',
-        'name': 'Plan du réseau',
         'enabled': true,
       },
     ],
@@ -195,24 +205,19 @@ Future _initializeHive() async {
     globals.hiveBox.put('ungroupDepartures', false);
   }
 
-  // useSerin
-  if (globals.hiveBox.get('useSerin') == null) {
-    globals.hiveBox.put('useSerin', false);
-  }
-
   // Version
   if (globals.hiveBox.get('version') == null) {
     globals.hiveBox.put('version', app.VERSION);
   }
 
-  // Migrations 
-  // Plan du réseau - added with v1.1.0
-  if (!globals.hiveBox.get('homeOrder').any((element) => element['id'] =='map')) {
-    globals.hiveBox.put('homeOrder', globals.hiveBox.get('homeOrder')..add({
-      'id':'map',
-      'name': 'Plan du réseau',
-      'enabled': true,
-    }));
+  // sponsorHideDate
+  if (globals.hiveBox.get('sponsorHideDate') != null) {
+    String sponsorHideDate = globals.hiveBox.get('sponsorHideDate');
+    DateTime dt = DateTime.parse(sponsorHideDate.split('-').reversed.join());
+    if (dt.isAfter(DateTime.now())) {
+      handleSwitch(true, 'sponsor');
+      globals.hiveBox.put('sponsorHideDate', null);
+    }
   }
 }
 

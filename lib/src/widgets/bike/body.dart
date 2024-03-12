@@ -4,7 +4,7 @@ import 'package:navika/src/api.dart';
 
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 
 class BikeBody extends StatefulWidget {
   final String id;

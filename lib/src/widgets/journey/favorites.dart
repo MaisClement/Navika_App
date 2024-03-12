@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/extensions/datetime.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/journeys.dart';
-import 'package:navika/src/style/style.dart';
-import 'package:navika/src/widgets/route/favorite.dart';
+import 'package:navika/src/style.dart';
+import 'package:navika/src/widgets/journey/favorite.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
 
 List<Widget> buildFavorites(List journeys, update, context) {
@@ -115,7 +115,6 @@ class RouteFavorites extends StatelessWidget {
                     ),
                     IconElevatedButton(
                       icon: NavikaIcons.search,
-                      width: 138,
                       text: 'Rechercher',
                       onPressed: () => initJourney(null, null, context),
                     ),
@@ -124,7 +123,6 @@ class RouteFavorites extends StatelessWidget {
               )
             else
               ...buildFavorites(journeys, update, context)
-
             ],
         ),
       );

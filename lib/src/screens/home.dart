@@ -13,7 +13,7 @@ import 'package:navika/src/api.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/screens/journeys.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/address/body.dart';
 import 'package:navika/src/widgets/address/header.dart';
@@ -77,8 +77,8 @@ class _HomeState extends State<Home> {
   List favs = globals.hiveBox?.get('stopsFavorites');
   List address = globals.hiveBox?.get('addressFavorites');
   List lines = globals.hiveBox?.get('linesFavorites');
-  List journeys = getFutureJourneys( sortJourneys( globals.hiveBox?.get('journeys') ) );
-  List blocks = globals.hiveBox?.get('homeOrder');
+  List journeys = sortJourneys( getFutureJourneys( globals.hiveBox?.get('journeys') ) );
+  List blocks = globals.hiveBox?.get('homepageOrder');
   List trafic = [];
 
   Future<void> _getLocation(isResume) async {
@@ -101,6 +101,7 @@ class _HomeState extends State<Home> {
       if (!serviceEnabled) {
         serviceEnabled = await location.requestService();
         if (!serviceEnabled) {
+          RouteStateScope.of(context).go('/position');
           return;
         }
       }
@@ -529,7 +530,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              Positioned(
+              Positioned( 
                 left: 10,
                 bottom: panelButtonBottomOffset - 20,
                 child: Opacity(

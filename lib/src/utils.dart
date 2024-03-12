@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:here_sdk/core.dart';
 import 'package:navika/src/data.dart';
 import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 
 Map listModes = {
@@ -725,15 +725,6 @@ List getForbiddenLines() {
     res.add(line['id']);
   }
   return res;
-}
-
-ThemeMode getThemeMode(String themeMode) {
-  if (themeMode == 'dark') {
-    return ThemeMode.dark;
-  } else if (themeMode == 'light') {
-    return ThemeMode.light;
-  }
-  return ThemeMode.system;
 }
 
 double calculateDistance(double latitudeFrom, double longitudeFrom, double latitudeTo, double longitudeTo) {

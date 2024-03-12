@@ -4,7 +4,7 @@ import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/utils/button_large.dart';
 
@@ -52,6 +52,7 @@ class _MapsState extends State<Maps> with SingleTickerProviderStateMixin {
             if (error != ApiStatus.ok)
               ErrorBlock(
                 error: error,
+                retry: _getMaps,
               )
             else if (isLoading)
               const LinearProgressIndicator()

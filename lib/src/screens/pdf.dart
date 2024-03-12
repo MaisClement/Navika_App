@@ -2,7 +2,7 @@
 import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_file/internet_file.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:navika/src/data/global.dart' as globals;
 

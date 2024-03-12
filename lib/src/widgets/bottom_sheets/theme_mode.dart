@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/app.dart';
 import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 
 class BottomThemeMode extends StatefulWidget {
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/routing/route_state.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bottom_sheets/remove_journeys.dart';
-import 'package:navika/src/widgets/route/lines.dart';
+import 'package:navika/src/widgets/journey/lines.dart';
 
 class RouteFavorite extends StatelessWidget {
   final Map journey;
@@ -83,14 +83,15 @@ class RouteFavorite extends StatelessWidget {
                           color: accentColor(context),
                         ),
                       ),
+                      
                       const SizedBox(height: 5),
-                      Text(
-                        '➜ ${journey['sections'][journey['sections'].length - 1]['from']['name']}',
+
+                      Text('➜ ${journey['sections'][journey['sections'].length - 1]['from']['name']}',
                         style: TextStyle(
                           fontSize: 17,
                           color: accentColor(context),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ],

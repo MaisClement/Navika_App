@@ -1,7 +1,7 @@
 import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:navika/src/screens/schedules_details.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/icons/icons.dart';
 import 'package:navika/src/data/global.dart' as globals;
 

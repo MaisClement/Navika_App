@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/widgets/route/fare.dart';
-import 'package:navika/src/widgets/route/sections/arrival.dart';
-import 'package:navika/src/widgets/route/sections/public_transport.dart';
-import 'package:navika/src/widgets/route/sections/street_network.dart';
-import 'package:navika/src/widgets/route/sections/transfer.dart';
-import 'package:navika/src/widgets/route/sections/waiting.dart';
+import 'package:navika/src/widgets/journey/fare.dart';
+import 'package:navika/src/widgets/journey/sections/arrival.dart';
+import 'package:navika/src/widgets/journey/sections/public_transport.dart';
+import 'package:navika/src/widgets/journey/sections/street_network.dart';
+import 'package:navika/src/widgets/journey/sections/transfer.dart';
+import 'package:navika/src/widgets/journey/sections/waiting.dart';
 
-import 'package:navika/src/widgets/route/emission.dart';
+import 'package:navika/src/widgets/journey/emission.dart';
 
 class RouteBody extends StatelessWidget {
   final ScrollController scrollController;

@@ -8,7 +8,7 @@ import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/utils.dart';
 
 import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/departures/lines.dart';
 import 'package:navika/src/widgets/error_message.dart';
 

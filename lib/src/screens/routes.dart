@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/data/global.dart' as globals;
@@ -87,7 +87,6 @@ class _RoutesState extends State<Routes> {
                     ),
                     IconElevatedButton(
                       icon: NavikaIcons.search,
-                      width: 138,
                       text: 'Rechercher',
                       onPressed: () {
                         RouteStateScope.of(context).go('/routes/search');

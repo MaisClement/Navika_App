@@ -2,7 +2,7 @@ import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
 
 int getFavoritesPos(id, line) {
@@ -110,7 +110,6 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite> with Single
             Center(
               child: IconElevatedButton(
                 icon: NavikaIcons.trash,
-                width: 135,
                 text: 'Supprimer',
                 onPressed: () {
                   handleRemove(widget.id, widget.line, widget.update);
@@ -124,7 +123,6 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite> with Single
             Center(
               child: IconElevatedButton(
                 icon: NavikaIcons.cancel,
-                width: 135,
                 text: 'Annuler',
                 onPressed: () {
                   Navigator.pop(context);

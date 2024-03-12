@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 
 import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/widgets/route/favorites.dart';
+import 'package:navika/src/widgets/journey/favorites.dart';
 
-class JourneysList extends StatefulWidget {
-  const JourneysList({super.key});
+class RecurrentJourneysList extends StatefulWidget {
+  const RecurrentJourneysList({super.key});
 
   @override
-  State<JourneysList> createState() => _JourneysListState();
+  State<RecurrentJourneysList> createState() => _RecurrentJourneysListState();
 }
 
-class _JourneysListState extends State<JourneysList> with SingleTickerProviderStateMixin {
+class _RecurrentJourneysListState extends State<RecurrentJourneysList> with SingleTickerProviderStateMixin {
   final String title = 'Itinéraires enregistrés';
   late TabController _tabController;
   

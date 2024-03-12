@@ -4,7 +4,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/utils.dart';
-import 'package:navika/src/widgets/route/sections/access_point.dart';
+import 'package:navika/src/widgets/journey/sections/access_point.dart';
 
 class SectionStreetNetwork extends StatefulWidget {
   final Map section;

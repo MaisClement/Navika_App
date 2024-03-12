@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/routing.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
 import 'package:navika/src/widgets/schedules/lines.dart';

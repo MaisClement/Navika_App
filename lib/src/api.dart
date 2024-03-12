@@ -110,7 +110,7 @@ class NavikaApi {
       result['status'] = ApiStatus.unknownException;
     }
     if (kDebugMode) {
-      print({'INFO_response', result['status']});
+      print({'INFO_response', result['value'], result['status']});
     }
     return result;
   }
@@ -304,8 +304,6 @@ class NavikaApi {
       'start_time' : timeToString(startTime),
       'end_time' : timeToString(endTime),
     };
-    
-    print(['INFO_', body]);
 
     return doPost(url, body);
   }

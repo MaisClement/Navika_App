@@ -7,7 +7,7 @@ import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/screens/routes_details.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/icons/icons.dart';
@@ -205,6 +205,7 @@ class _RoutesSchedulesState extends State<RoutesSchedules> with SingleTickerProv
             ? error != ApiStatus.ok
                 ? ErrorBlock(
                     error: error,
+                    retry: _getLine,
                   )
                 : const LinearProgressIndicator()
             : Column(

@@ -24,8 +24,8 @@ Don't forget to place `google-services.json` file in `android/app`.
 *Note: By making some modifications, especially in `lib/main.dart`, it is possible to omit Firebase.*
 
 
-### And it's not over...
-To make the application work on Android 7.1 or lower, a certificate must be present: [See more](https://stackoverflow.com/a/71090239)
+### Android 7.1 or lower
+To ensure this app work on Android 7.1 or lower, a certificate is present in `assets/ca/lets-encrypt-r3.pem`: [See more](https://stackoverflow.com/a/71090239)
 
 
 # Built it

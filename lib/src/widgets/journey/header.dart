@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
-import 'package:navika/src/widgets/route/lines.dart';
+import 'package:navika/src/widgets/journey/lines.dart';
 
 class RoutePannel extends StatelessWidget {
   final Map journey;

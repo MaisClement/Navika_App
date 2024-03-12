@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 
 import 'package:navika/src/widgets/icons/icons.dart';
 
@@ -24,6 +24,26 @@ IconData getPlaceIcon(type){
   } else {
     return NavikaIcons.university;
   } 
+}
+
+String formatTextDetails(List details) {
+  return details.where((str) => str != null && str.isNotEmpty).join(', ');
+}
+
+String getTextDetails(Map place) {
+  if (place['type'] == 'address') {
+    return formatTextDetails([
+      place['zip_code'],
+      place['town'],
+      place['department']
+    ]);
+  }
+
+  return formatTextDetails([
+    place['town'],
+    place['department'],
+    place['region']
+  ]);
 }
 
 class PlacesListButton extends StatelessWidget {
@@ -73,31 +93,7 @@ class PlacesListButton extends StatelessWidget {
               ],
             ),
             
-            if (place['type'] == 'locality')
-              Container(
-                margin: const EdgeInsets.only(left:5.0, top:4.0),
-                child: Row(
-                  children: [
-                    Text('${place['department']}, ${place['region']}',
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontFamily: 'Segoe Ui',
-                      ),
-                    ),
-                  ],
-                )
-              )
-            else if (place['distance'] == 0)
-              Container(
-                margin: const EdgeInsets.only(left:5.0, top:4.0),
-                child: Text( place['zip_code'] == '' ? place['town'] : '${place['zip_code']}, ${place['town']}',
-                  style: const TextStyle(
-                    color: Colors.grey,
-                    fontFamily: 'Segoe Ui',
-                  ),
-                ),
-              )
-            else
+            if (place['distance'] != 0)
               Container(
                 margin: const EdgeInsets.only(left:5.0, top:4.0),
                 child: Row(
@@ -115,7 +111,21 @@ class PlacesListButton extends StatelessWidget {
                     Container(
                       width: 20,
                     ),
-                    Text( place['zip_code'] == '' ? place['town'] : '${place['zip_code']}, ${place['town']}',
+                    Text(getTextDetails(place),
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontFamily: 'Segoe Ui',
+                      ),
+                    ),
+                  ],
+                )
+              )
+            else 
+              Container(
+                margin: const EdgeInsets.only(left:5.0, top:4.0),
+                child: Row(
+                  children: [
+                    Text(getTextDetails(place),
                       style: const TextStyle(
                         color: Colors.grey,
                         fontFamily: 'Segoe Ui',
@@ -124,7 +134,7 @@ class PlacesListButton extends StatelessWidget {
                   ],
                 )
               ),
-
+            
             Wrap( 
               children: [
                 for (var i = 0; i < place['lines'].length; i++)

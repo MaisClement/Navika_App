@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/routing/route_state.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/schedules/timer_block.dart';
 import 'package:navika/src/data/global.dart' as globals;

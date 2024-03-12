@@ -5,7 +5,7 @@ import 'package:navika/src/api.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/home/messages.dart';
@@ -98,6 +98,7 @@ class _TraficState extends State<Trafic> {
         body: error != ApiStatus.ok
             ? ErrorBlock(
                 error: error,
+                retry: _getTrafic,
               )
             : Padding(
                 padding: const EdgeInsets.only(left: 20.0, right: 20.0),

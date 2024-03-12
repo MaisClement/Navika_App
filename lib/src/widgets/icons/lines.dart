@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:navika/src/data.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 
 class LinesIcones extends StatelessWidget {
 	final Map line;

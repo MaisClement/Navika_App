@@ -3,7 +3,7 @@ import 'package:navika/src/data.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/routing.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/departures/lines.dart';
 import 'package:navika/src/widgets/icons/lines.dart';

@@ -8,7 +8,7 @@ import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
-import 'package:navika/src/widgets/route/sections/boarding_position.dart';
+import 'package:navika/src/widgets/journey/sections/boarding_position.dart';
 import 'package:navika/src/widgets/utils/button_large_trafic.dart';
 import 'package:navika/src/data/global.dart' as globals;
 
@@ -136,17 +136,8 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                 ),
                 Row(
                   children: [
-                    Text(
-                      '➜ ',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
-                        color: HexColor.fromHex(widget.section['informations']['line']['color']),
-                      ),
-                    ),
                     Expanded(
-                      child: Text( widget.section['informations']['direction']['id'].substring(0, widget.section['informations']['direction']['id'].indexOf('(')), 
+                      child: Text('➜ ${widget.section['informations']['direction']['id'].substring(0, widget.section['informations']['direction']['id'].indexOf('('))}',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -156,7 +147,6 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                         maxLines: 1,
                         softWrap: false,
                         overflow: TextOverflow.ellipsis,
-                        
                       ),
                     ),
                   ],

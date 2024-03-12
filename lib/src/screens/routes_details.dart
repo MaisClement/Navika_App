@@ -10,7 +10,7 @@ import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:http/http.dart' as http;
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bottom_sheets/notifications.dart';
 import 'package:navika/src/widgets/error_block.dart';
@@ -337,8 +337,7 @@ class RoutesDetails extends StatefulWidget {
   State<RoutesDetails> createState() => _RoutesDetailsState();
 }
 
-class _RoutesDetailsState extends State<RoutesDetails>
-    with SingleTickerProviderStateMixin {
+class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProviderStateMixin {
   bool isLoading = true;
   bool fromlocaldata = false;
 
@@ -438,6 +437,7 @@ class _RoutesDetailsState extends State<RoutesDetails>
             if (error != ApiStatus.ok)
               ErrorBlock(
                 error: error,
+                retry: _getLine
               )
             else if (isLoading)
               const LinearProgressIndicator()

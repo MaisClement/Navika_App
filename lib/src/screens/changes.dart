@@ -2,15 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:http/http.dart' as http;
 import 'package:navika/src/data/app.dart' as app;
-import 'package:markdown/markdown.dart' as md;
 import 'package:navika/src/api.dart';
 
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/error_block.dart';
 
 class Changes extends StatefulWidget {
@@ -26,18 +24,12 @@ class _ChangesState extends State<Changes> {
   bool isLoading = true;
   String data = '';
 
-  Future _getChanges(String url) async {
+  Future _getChanges() async {
     ApiStatus _error = ApiStatus.ok;
-    bool _isLoading = true;
     String _data = '';
-
-    if (kDebugMode) {
-      print({'INFO_request', url});
-    }
-
     
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(app.APP_CHANGES));
 
       if (response.statusCode == 200) {
         _data = utf8.decode(response.bodyBytes);
@@ -63,7 +55,7 @@ class _ChangesState extends State<Changes> {
   @override
   void initState() {
     super.initState();
-    _getChanges(app.API_CHANGES);
+    _getChanges();
   }
 
   @override
@@ -102,6 +94,7 @@ class _ChangesState extends State<Changes> {
         error != ApiStatus.ok
           ? ErrorBlock(
               error: error,
+              retry: _getChanges,
             )
           : Markdown(
             data: data,

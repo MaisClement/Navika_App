@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/utils/switch_line.dart';
 
@@ -53,8 +53,6 @@ List orderLine(List array) {
 
   return array;
 }
-
-
 
 class BottomAvoidLine extends StatefulWidget {
   final List journeys;

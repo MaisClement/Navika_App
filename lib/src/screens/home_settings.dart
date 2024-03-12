@@ -1,9 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 
 import 'package:navika/src/data/global.dart' as globals;
+
+String getBlockName(id) {
+  switch (id) {
+    case 'message':
+      return 'Messages d’actualités';
+
+    case 'sponsor':
+      return 'Soutenir Navika';
+
+    case 'trafic':
+      return 'État du trafic';
+
+    case 'recurrentJourneys':
+      return 'Vos trajets réguliers';
+
+    case 'punctualJourneys':
+      return 'Vos itinéraires';
+
+    case 'schedules':
+      return 'Vos horaires';
+
+    case 'map':
+      return 'Plans du réseau';
+
+    default:
+      return '';
+  }
+}
+
+void handleSwitch(bool value, id) {
+  List blocks = globals.hiveBox?.get('homepageOrder');
+    for (var block in blocks) {
+      if (block['id'] == id) {
+        block['enabled'] = value;
+      }
+    }
+    globals.hiveBox.put('homepageOrder', blocks);
+}
 
 class HomeSettings extends StatefulWidget {
   const HomeSettings({super.key});
@@ -12,11 +50,10 @@ class HomeSettings extends StatefulWidget {
   State<HomeSettings> createState() => _HomeSettingsState();
 }
 
-class _HomeSettingsState extends State<HomeSettings>
-    with SingleTickerProviderStateMixin {
+class _HomeSettingsState extends State<HomeSettings> with SingleTickerProviderStateMixin {
   final String title = 'Réorganiser l’accueil';
 
-  List blocks = globals.hiveBox?.get('homeOrder');
+  List blocks = globals.hiveBox?.get('homepageOrder');
 
   void reorderData(int oldindex, int newindex) {
     setState(() {
@@ -25,25 +62,18 @@ class _HomeSettingsState extends State<HomeSettings>
       }
       final fav = blocks.removeAt(oldindex);
       blocks.insert(newindex, fav);
-      globals.hiveBox.put('homeOrder', blocks);
+      globals.hiveBox.put('homepageOrder', blocks);
     });
   }
 
-  void handleSwitch(bool value, id) {
+  void update() {
     setState(() {
-      blocks = globals.hiveBox?.get('homeOrder');
-      for (var block in blocks) {
-        if (block['id'] == id) {
-          block['enabled'] = value;
-        }
-      }
-      globals.hiveBox.put('homeOrder', blocks);
+      blocks = globals.hiveBox?.get('homepageOrder');
     });
   }
 
   final MaterialStateProperty<Icon?> thumbIcon =
-      MaterialStateProperty.resolveWith<Icon?>(
-    (Set<MaterialState> states) {
+      MaterialStateProperty.resolveWith<Icon?>((Set<MaterialState> states) {
       if (states.contains(MaterialState.selected)) {
         return const Icon(Icons.check);
       }
@@ -85,7 +115,7 @@ class _HomeSettingsState extends State<HomeSettings>
                     width: 10,
                   ),
                   Expanded(
-                    child: Text(block['name'],
+                    child: Text(getBlockName(block['id']),
                     style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
@@ -103,7 +133,10 @@ class _HomeSettingsState extends State<HomeSettings>
                     }),
                     inactiveThumbColor: mainColor(context),
                     value: block['enabled'],
-                    onChanged: (bool value) => handleSwitch(value, block['id']),
+                    onChanged: (bool value) {
+                      handleSwitch(value, block['id']);
+                      update();
+                    },
                   ),
                 ],
               ),

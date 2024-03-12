@@ -6,7 +6,7 @@ import 'package:navika/src/api.dart';
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/screens/journeys.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/places/listbutton.dart';
@@ -234,6 +234,7 @@ class _JourneysSearchState extends State<JourneysSearch> {
           if (error != ApiStatus.ok)
             ErrorBlock(
               error: error,
+              retry: _getPlaces,
             )
           else
             ...getElements()

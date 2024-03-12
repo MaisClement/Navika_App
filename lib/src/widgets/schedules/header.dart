@@ -3,7 +3,7 @@ import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/screens/schedules_details.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/bottom_sheets/add_favorite.dart';
 
 class SchedulesPannel extends StatelessWidget {

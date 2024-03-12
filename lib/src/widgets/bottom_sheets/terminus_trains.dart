@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 
 String getTime(){
   var d1 = DateTime.now();

@@ -11,10 +11,8 @@ class Emission extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.only(
-            left: 15.0, top: 10, right: 15.0, bottom: 10.0),
-        margin:
-            const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10.0),
+        padding: const EdgeInsets.only( left: 15.0, top: 10, right: 15.0, bottom: 10.0),
+        margin: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10.0),
         decoration: BoxDecoration(
           color: const Color(0xff008b5b).withOpacity(0.2),
           borderRadius: BorderRadius.circular(15),

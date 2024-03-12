@@ -4,7 +4,7 @@ import 'package:navika/src/api.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/screens/journeys_details.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/error_block.dart';
 
@@ -79,6 +79,7 @@ class _JourneysGetState extends State<JourneysGet> {
             if (error != ApiStatus.ok)
               ErrorBlock(
                 error: error,
+                retry: _getJourney,
               )
           ],
         ),

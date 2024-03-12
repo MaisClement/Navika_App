@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
-import 'package:navika/src/style/style.dart';
-import 'package:navika/src/widgets/icons/lines.dart';
-import 'package:navika/src/widgets/icons/mode.dart';
+import 'package:navika/src/style.dart';
+import 'package:navika/src/widgets/icons/icons.dart';
 
 List filterSection(sections) {
   return sections.where((section) {
@@ -32,15 +31,9 @@ class RouteLines extends StatelessWidget {
           if (sections[i]['mode'] == 'public_transport')
             Wrap(
               children: [
-                ModeIcones(
+                Icones(
                   line: sections[i]['informations']['line'],
                   i: 0,
-                  size: 20,
-                  brightness: schedulesIsDark(Theme.of(context).colorScheme.brightness, 'ffffff'),
-                ),
-                LinesIcones(
-                  line: sections[i]['informations']['line'],
-                  size: 20
                 ),
 
                 if (i != sections.length -1)
@@ -75,11 +68,8 @@ class RouteLines extends StatelessWidget {
                       borderRadius: BorderRadius.circular(500)
                     ),
                   ),
-                
-
               ],
             ),
-          
         ],
       )
   );

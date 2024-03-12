@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/api.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/journeys.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
 import 'package:navika/src/widgets/utils/radio_tiles.dart';
@@ -406,9 +406,8 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                       Center(
                         child: IconElevatedButton(
                             icon: widget.isAlert
-                                ? NavikaIcons.edit
-                                : NavikaIcons.plus,
-                            width: 138,
+                              ? NavikaIcons.edit
+                              : NavikaIcons.plus,
                             style: ElevatedButton.styleFrom(
                               backgroundColor:
                                   Theme.of(context).colorScheme.primary,
@@ -424,7 +423,6 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                         Center(
                           child: IconElevatedButton(
                               icon: NavikaIcons.trash,
-                              width: 138,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xffeb2031),
                                 foregroundColor: const Color(0xffffffff),
@@ -438,7 +436,6 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                       Center(
                         child: IconElevatedButton(
                           icon: NavikaIcons.cancel,
-                          width: 138,
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
                                 Theme.of(context).colorScheme.surface,

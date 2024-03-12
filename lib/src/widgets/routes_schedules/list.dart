@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/screens/routes_schedules.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/utils/real_time.dart';
 

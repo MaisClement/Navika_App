@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
-
 import 'package:navika/src/screens/journeys.dart';
-
 import 'package:navika/src/widgets/utils/search_box.dart';
 
 class HomePannel extends StatelessWidget {
@@ -20,20 +18,20 @@ class HomePannel extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: 15,
-            ),
-            Container(
-              width: 40,
-              height: 5,
-              decoration: BoxDecoration(
-                color: Colors.grey[400],
-                borderRadius: BorderRadius.circular(30),
+              margin: const EdgeInsets.only(
+                top: 15,
+                bottom: 10,
+              ),
+              child: Container(
+                width: 40,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: Colors.grey[400],
+                  borderRadius: BorderRadius.circular(30),
+                ),
               ),
             ),
-            Container(
-              height: 10,
-            ),
-            Padding(
+           Padding(
               padding: const EdgeInsets.only(left: 10, right: 10),
               child: SearchBox(
                 onTap: () {

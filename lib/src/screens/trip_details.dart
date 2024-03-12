@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';  
 import 'package:navika/src/api.dart';
 
-import 'package:navika/src/style/style.dart'; 
+import 'package:navika/src/style.dart'; 
 import 'package:navika/src/widgets/error_message.dart';
 import 'package:navika/src/widgets/trip/block.dart';
 import 'package:navika/src/widgets/trip/disruptions.dart';

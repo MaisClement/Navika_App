@@ -6,11 +6,12 @@ import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/data/app.dart' as app;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/bottom_sheets/grouped_departures.dart';
 import 'package:navika/src/widgets/bottom_sheets/route_options.dart';
 import 'package:navika/src/widgets/bottom_sheets/terminus_trains.dart';
 import 'package:navika/src/widgets/bottom_sheets/theme_mode.dart';
+import 'package:navika/src/widgets/home/widget/sponsor.dart';
 import 'package:navika/src/widgets/settings/button.dart';
 import 'package:navika/src/widgets/settings/link.dart';
 
@@ -34,31 +35,6 @@ class _SettingsState extends State<Settings> {
       ungroupDepartures = globals.hiveBox.get('ungroupDepartures');
       allowGps = globals.hiveBox.get('allowGps');
     });
-  }
-
-  void handleTap() {
-    setState(() {
-      tap++;
-    });
-    if (tap == 7) {
-
-      if (globals.hiveBox.get('useSerin') ) {
-        const snackBar = SnackBar(
-          content: Text('process::serin_work (serin.exe:69) run into an error'),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        globals.hiveBox.put('useSerin', false);
-
-      } else {
-        const snackBar = SnackBar(
-          content: Text('app.easter.setSerinActive() run successfully !'),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        globals.hiveBox.put('useSerin', true);
-      }
-
-      
-    }
   }
 
   String displayMode = globals.hiveBox.get('displayMode');
@@ -204,6 +180,11 @@ class _SettingsState extends State<Settings> {
 
             // ------------
 
+            HomeWidgetSponsor(
+              backgroundColor: Colors.white,
+              color: Colors.black,
+            ),
+
             const Row(
               children: [
                 Padding(
@@ -326,23 +307,20 @@ class _SettingsState extends State<Settings> {
               height: 10,
             ),
             
-            InkWell(
-              onTap: () => handleTap(),
-              child: Container(
-                color: Colors.white.withOpacity(0.2),
-                width: double.infinity,
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Navika • Version v${app.VERSION}-${app.BUILD_NUMBER} • ${app.PACKAGE_NAME}',
-                      style: const TextStyle(
-                        fontFamily: 'Segoe Ui',
-                        color: Colors.white,
-                      ),
+            Container(
+              color: Colors.white.withOpacity(0.2),
+              width: double.infinity,
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Navika • Version v${app.VERSION}-${app.BUILD_NUMBER} • ${app.PACKAGE_NAME}',
+                    style: const TextStyle(
+                      fontFamily: 'Segoe Ui',
+                      color: Colors.white,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             )
           ],

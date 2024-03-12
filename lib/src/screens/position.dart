@@ -4,7 +4,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/data/app.dart' as app;
 import 'package:location/location.dart' as gps;
-import 'package:navika/src/style/style.dart';
+import 'package:navika/src/style.dart';
 
 class Position extends StatefulWidget {
   const Position({super.key});

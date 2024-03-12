@@ -160,3 +160,18 @@ Color getJourneysColor(context) {
   }
   return const Color(0xffe4edf1);
 }
+
+Color getRadioTilesTextColor(context, value) {
+  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
+    if (value) {
+      return Theme.of(context).colorScheme.onSurface;
+    } else {
+      return const Color(0xff1097d5);
+    }
+  }
+  if (value) {
+    return Theme.of(context).colorScheme.surface;
+  } else {
+    return accentColor(context);
+  }
+}
