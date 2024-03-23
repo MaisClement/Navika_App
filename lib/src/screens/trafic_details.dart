@@ -119,16 +119,31 @@ class _TraficDetailsState extends State<TraficDetails> {
                   RouteStateScope.of(context).go('/routes/details/${globals.lineTrafic['id']}');
                 },
               ),
+              SizedBox(
+                height: 10,
+              ),
+              ButtonLarge(
+                icon: NavikaIcons.work,
+                text: 'Calendrier des travaux',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 17,
+                ),
+                borderRadius: BorderRadius.circular(10),
+                onTap: () {
+                  RouteStateScope.of(context).go('/trafic/work-schedule');
+                },
+              ),
 // CTRAFIC
               if (globals.lineTrafic['reports'] != null)
                 TraficDisruptions(
-                  reports: globals.lineTrafic['reports'],
+                  reports: [...globals.lineTrafic['reports']['current_trafic'], ...globals.lineTrafic['reports']['current_work']],
                 ),
 
 // FWORK
               if (globals.lineTrafic['reports'] != null && globals.lineTrafic['reports']!['future_work'].length > 0)
                 TraficWorks(
-                  reports: globals.lineTrafic['reports'],
+                  reports: globals.lineTrafic['reports']['future_work'],
                 ),
             ],
           ),

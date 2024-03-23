@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:here_sdk/core.dart';
 import 'package:navika/src/api.dart';
 
@@ -60,7 +61,7 @@ class AddressBody extends StatefulWidget {
   final ScrollController scrollController;
   final Function onDispose;
 
-  const AddressBody({
+  AddressBody({
     required this.id,
     required this.scrollController,
     required this.onDispose,
@@ -138,7 +139,7 @@ class _AddressBodyState extends State<AddressBody> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) => ListView(
         controller: widget.scrollController,
-        padding: const EdgeInsets.only(top: 90),
+        padding: const EdgeInsets.only(top: 35),
         children: [
           if (error != ApiStatus.ok)
             ErrorBlock(
@@ -152,32 +153,55 @@ class _AddressBodyState extends State<AddressBody> with SingleTickerProviderStat
             )
           else
             Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, bottom: 10),
+                  padding: const EdgeInsets.only(left: 5),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back),
+                        tooltip: 'Retour',
+                        color: accentColor(context),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                      const SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(address['place']['name'],
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Segoe Ui',
+                              color: accentColor(context),
+                            ),
+                          ),
+                          Text( address['place']['zip_code'] == '' ? address['place']['town'] : '${address['place']['zip_code']}, ${address['place']['town']}',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: accentColor(context),
+                              fontFamily: 'Segoe Ui',
+                            ),
+                          ),
+                        ],
+                      ),
+                      
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(address['place']['name'],
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
-                          color: accentColor(context),
-                        ),
-                      ),
-                      Text( address['place']['zip_code'] == '' ? address['place']['town'] : '${address['place']['zip_code']}, ${address['place']['town']}',
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontFamily: 'Segoe Ui',
-                        ),
-                      ),
-
+                      
                       const SizedBox(height: 7),
                       getDistance(id),
                       const SizedBox(height: 7),
-                      
+
                       IconElevatedButton(
                         icon: NavikaIcons.navi,
                         text: 'Y aller',
@@ -192,9 +216,14 @@ class _AddressBodyState extends State<AddressBody> with SingleTickerProviderStat
                           );
                         },
                       ),
+                      
                     ],
                   ),
                 ),
+
+                
+
+                
 
                 const SizedBox(height: 30),
                 Padding(

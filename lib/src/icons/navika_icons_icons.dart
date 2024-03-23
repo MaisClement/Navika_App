@@ -102,5 +102,8 @@ class NavikaIcons {
   static const IconData saved = IconData(0xe85a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData bell = IconData(0xe86c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData busFace = IconData(0xe880, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData chevron_left = IconData(0xf053, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData chevron_right = IconData(0xf054, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData chevron_up = IconData(0xf077, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData chevron_down = IconData(0xf078, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

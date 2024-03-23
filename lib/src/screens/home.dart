@@ -16,10 +16,11 @@ import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/address/body.dart';
-import 'package:navika/src/widgets/address/header.dart';
+import 'package:navika/src/widgets/home/default_pannel.dart';
 import 'package:navika/src/widgets/bike/body.dart';
-import 'package:navika/src/widgets/bike/header.dart';
+import 'package:navika/src/widgets/bottom_sheets/uri_search.dart';
 import 'package:navika/src/widgets/map/icone.dart';
+import 'package:navika/src/widgets/schedules/header.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_compass/flutter_compass.dart';
@@ -30,7 +31,7 @@ import 'package:navika/src/controller/here_map_controller.dart';
 import 'package:navika/src/widgets/home/body.dart';
 import 'package:navika/src/widgets/home/header.dart';
 import 'package:navika/src/widgets/schedules/body.dart';
-import 'package:navika/src/widgets/schedules/header.dart';
+import 'package:uni_links/uni_links.dart';
 
 class Home extends StatefulWidget {
   final String? displayType;
@@ -342,14 +343,12 @@ class _HomeState extends State<Home> {
       return SchedulesPannel(
         id: widget.id!
       );
-    } else if (displayType == 'bike') {
-      return const BikePannel();
-    } else if (displayType == 'address') {
-      return const AddressPannel();
-    } 
-    return null;
+    }
+    return DefaultPannel();
   } 
+ 
 
+ 
   Widget? getBody(displayType, id, scrollController) {
     if (displayType == 'stops') {
       return SchedulesBody(
@@ -390,8 +389,8 @@ class _HomeState extends State<Home> {
                 parallaxOffset: 0.6,
                 color: Theme.of(context).colorScheme.surface,
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(24),
-                  topRight: Radius.circular(24),
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
                   bottomLeft: Radius.zero,
                   bottomRight: Radius.zero,
                 ),
@@ -620,6 +619,10 @@ class _HomeState extends State<Home> {
       MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
       hereMapController.camera.lookAtPointWithMeasure(geoCoords, mapMeasureZoom);
 
+      hereMapController.gestures.tapListener = TapListener((Point2D touchPoint) {
+        _tapListener(touchPoint);
+      });
+      
       hereMapController.gestures.panListener = PanListener((GestureState state, Point2D origin, Point2D translation, double velocity) {
         if (mounted) {
           if (state == GestureState.begin) {
@@ -645,80 +648,59 @@ class _HomeState extends State<Home> {
         }
       });
 
-      hereMapController.gestures.longPressListener = LongPressListener((GestureState state, Point2D point) {
-        GeoCoordinates geoCoordinates = _controller!.viewToGeoCoordinates(point);   
-        
-        if (state == GestureState.begin) {
-          GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(geoCoordinates.latitude, geoCoordinates.longitude);
-          _controller?.zoomTo(geoCoords);
-          panelController.animatePanelToSnapPoint();
-
-          _removePointMarker();
-
-          pointMarker = _controller?.addMapMarker(
-            geoCoordinates,
-            'assets/img/marker/marker.png',
-            Metadata(),
-            100,
-          );
-      
-          RouteStateScope.of(context).go('/address/${geoCoordinates.latitude};${geoCoordinates.longitude}');
-          return;
-        }
-      });
-
     _controller?.addLocationIndicator(
         globals.locationData,
         LocationIndicatorIndicatorStyle.pedestrian,
         globals.compassHeading,
         false);
-      _addTapListener();
       _getNearPoints();
     });
   }
 
-  void _addTapListener() {
-    var tapListener = TapListener((Point2D touchPoint) {
-      _pickMapMarker(touchPoint);
-    });
-    _controller?.addTapListener(tapListener);
-  }
-
-  void _pickMapMarker(Point2D touchPoint) {
+  void _tapListener(Point2D touchPoint) {
     double radiusInPixel = 2;
     _controller?.pickMapItems(touchPoint, radiusInPixel, (pickMapItemsResult) {
-      if (pickMapItemsResult == null) {
-        return;
-      }
-      List<MapMarker> mapMarkerList = pickMapItemsResult.markers;
-      if (mapMarkerList.isEmpty) {
-        return;
-      }
+      if (pickMapItemsResult == null || pickMapItemsResult!.markers.isEmpty) {
+        GeoCoordinates geoCoordinates = _controller!.viewToGeoCoordinates(touchPoint);
+        GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(geoCoordinates.latitude, geoCoordinates.longitude);
+        _controller?.zoomTo(geoCoords);
+        panelController.animatePanelToSnapPoint();
 
-      MapMarker topmostMapMarker = mapMarkerList.first;
-      Metadata? metadata = topmostMapMarker.metadata;
+        _removePointMarker();
+        pointMarker = _controller?.addMapMarker(
+          geoCoordinates,
+          'assets/img/marker/marker.png',
+          Metadata(),
+          100,
+        );
+        RouteStateScope.of(context).go('/address/${geoCoordinates.latitude};${geoCoordinates.longitude}');
+        
+      } else {
+        List<MapMarker> mapMarkerList = pickMapItemsResult!.markers;
+        MapMarker topmostMapMarker = mapMarkerList.first;
+        Metadata? metadata = topmostMapMarker.metadata;
+        if (metadata == null) {
+          return;
+        }
 
-      if (mounted) {
-        setState(() {
-          isPanned = true;
-        });
-      }
+        if (mounted) {
+          setState(() {
+            isPanned = true;
+          });
+        }
 
-      if (metadata != null) {
         if (metadata.getString('type') == 'stop') {
           globals.schedulesStopName = metadata.getString('name') ?? '';
           GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(metadata.getDouble('lat') ?? 0, metadata.getDouble('lon') ?? 0);
-          _controller?.zoomTo(geoCoords);
+          _controller?.zoomTo(geoCoords, true);
           panelController.animatePanelToSnapPoint();
           RouteStateScope.of(context).go('/stops/${metadata.getString('id')}');
-          return;
         } else if (metadata.getString('type') == 'bike') {
           globals.schedulesStopName = metadata.getString('name') ?? '';
           GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(metadata.getDouble('lat') ?? 0, metadata.getDouble('lon') ?? 0);
-          _controller?.zoomTo(geoCoords);
+          _controller?.zoomTo(geoCoords, true);
           panelController.animatePanelToSnapPoint();
           RouteStateScope.of(context).go('/bike/${metadata.getString('id')}');
-          return;
         }
       }
     });

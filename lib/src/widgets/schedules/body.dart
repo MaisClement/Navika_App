@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:navika/src/api.dart';
 
 import 'package:navika/src/icons/navika_icons_icons.dart';
@@ -235,35 +236,35 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) => Column(
-        children: [
-          if (widget.addMargin)
-            const SizedBox(
-              height: 90,
+    children: [
+      if (widget.addMargin)
+        const SizedBox(
+          height: 90,
+        ),
+
+      if (error != ApiStatus.ok)
+        ErrorBlock(
+          error: error,
+          retry: _getSchedules,
+        )
+
+      else if (isLoading)
+        const LinearProgressIndicator()
+        
+      else
+        ...[
+          if (getModesLength(modes) > 1)
+            TabBar(
+              controller: _tabController,
+              tabs: getModesTabs(modes),
             ),
-
-          if (error != ApiStatus.ok)
-            ErrorBlock(
-              error: error,
-              retry: _getSchedules,
-            )
-
-          else if (isLoading)
-            const LinearProgressIndicator()
-            
-          else
-            ...[
-              if (getModesLength(modes) > 1)
-                TabBar(
-                  controller: _tabController,
-                  tabs: getModesTabs(modes),
-                ),
-              Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: getModesView(modes, schedules, departures, widget.scrollController),
-                ),
-              ),
-            ]            
-        ],
-      );
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: getModesView(modes, schedules, departures, widget.scrollController),
+            ),
+          ),
+        ]            
+    ],
+  );
 }

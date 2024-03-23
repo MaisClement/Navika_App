@@ -4,7 +4,7 @@ import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 
 class TraficWorks extends StatelessWidget {
-  final Map reports;
+  final List reports;
 
   const TraficWorks({
     required this.reports,
@@ -27,7 +27,7 @@ class TraficWorks extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             ),
             const Divider(height: 25, thickness: 1.5),
-            for (var ctrafic in reports['future_work'])
+            for (var ctrafic in reports)
               Container(
                 margin: const EdgeInsets.only(top: 5, right: 5, bottom: 15.0),
                 child: Column(

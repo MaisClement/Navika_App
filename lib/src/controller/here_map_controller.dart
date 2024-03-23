@@ -73,14 +73,14 @@ class HereController {
     }
   }
 
-  void zoomTo(GeoCoordinatesUpdate geoCoords){
+  void zoomTo(GeoCoordinatesUpdate geoCoords, [bool ignoreZoom = false]){
     if (globals.locationData != null){
       double distanceToEarthInMeters = _hereMapController.camera.state.distanceToTargetInMeters;
       if (distanceToEarthInMeters > 1000) {
-        distanceToEarthInMeters = 1000;
+        distanceToEarthInMeters = 1020;
       }
-      if (globals.locationData!.accuracy != null && globals.locationData!.accuracy! > 0) {
-        distanceToEarthInMeters = globals.locationData!.accuracy! + 1000;
+      if (ignoreZoom == false && globals.locationData!.accuracy != null && globals.locationData!.accuracy! > 0) {
+        distanceToEarthInMeters = (globals.locationData!.accuracy! * 2) + 1200;
       }
       MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
       _hereMapController.camera.startAnimation(MapCameraAnimationFactory.flyToWithZoom(geoCoords, mapMeasureZoom, 0, const Duration(seconds: 1)));

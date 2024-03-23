@@ -24,6 +24,7 @@ import 'package:navika/src/screens/settings.dart';
 import 'package:navika/src/screens/settings_notifications.dart';
 import 'package:navika/src/screens/trafic_details.dart';
 import 'package:navika/src/screens/schedules_details.dart';
+import 'package:navika/src/screens/trafic_work_schedule.dart';
 import 'package:navika/src/screens/trip_details.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/navigator/bar.dart';
@@ -31,7 +32,7 @@ import 'package:navika/src/widgets/navigator/bar.dart';
 class NavikaAppNavigator extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
 
-  const NavikaAppNavigator({
+  NavikaAppNavigator({
     required this.navigatorKey,
     super.key,
   });
@@ -72,7 +73,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
     globals.path.add(routeState.route.path);
 
 		if (kDebugMode) {
-		  print({'INFO_route', pathTemplate});
+		  print({'INFO_route', routeState.route.path});
 		}
 
     String? type;
@@ -204,6 +205,11 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           }
       
           if (pathTemplate == '/trafic/details') {
+            routeState.go(globals.path[globals.path.length - 2]);
+            globals.path = [...globals.path.slice(0, globals.path.length - 2)];
+          }
+      
+          if (pathTemplate == '/trafic/work-schedule') {
             routeState.go(globals.path[globals.path.length - 2]);
             globals.path = [...globals.path.slice(0, globals.path.length - 2)];
           }
@@ -347,10 +353,15 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
                 id: id,
               ),
             )
-          else if (pathTemplate == '/trafic/details') // /trafic/details
+          else if (pathTemplate == '/trafic/details')
             const MaterialPage<void>(
               key: ValueKey('Trafic Details'),
               child: TraficDetails(),
+            )
+          else if (pathTemplate == '/trafic/work-schedule')
+            MaterialPage<void>(
+              key: const ValueKey('Trafic Work Schedule'),
+              child: TraficWorkSchedule(),
             )
           else if (pathTemplate == '/trafic/add')
             const MaterialPage<void>(

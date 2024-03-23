@@ -82,8 +82,7 @@ class _JourneysSearchState extends State<JourneysSearch> {
             PlacesListButton(
             isLoading: isLoading,
             place: {
-              'id':
-                  '${globals.locationData?.longitude};${globals.locationData?.latitude}',
+              'id': '${globals.locationData?.longitude};${globals.locationData?.latitude}',
               'name': yourPos,
               'type': 'current_pos',
               'distance': 0,
@@ -94,8 +93,7 @@ class _JourneysSearchState extends State<JourneysSearch> {
               'modes': const []
             },
             onTap: () {
-              globals.route[widget.type]['id'] =
-                  '${globals.locationData?.longitude};${globals.locationData?.latitude}';
+              globals.route[widget.type]['id'] = '${globals.locationData?.longitude};${globals.locationData?.latitude}';
               globals.route[widget.type]['name'] = yourPos;
               RouteStateScope.of(context).go('/home/journeys');
             },

@@ -41,7 +41,7 @@ const shortMonth = {
 
 const longMonth = {
   1: 'janvier',
-  2: 'fevrier',
+  2: 'février',
   3: 'mars',
   4: 'avril',
   5: 'mai',
@@ -51,7 +51,7 @@ const longMonth = {
   9: 'septembre',
   10: 'octobre',
   11: 'novembre',
-  12: 'decembre',
+  12: 'décembre',
 };
 
 String getDateTitle(String type, DateTime dt, TimeOfDay tod, bool isTimeNow) {

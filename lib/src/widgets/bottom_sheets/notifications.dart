@@ -409,8 +409,7 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                               ? NavikaIcons.edit
                               : NavikaIcons.plus,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.primary,
+                              backgroundColor: Theme.of(context).colorScheme.primary,
                               foregroundColor: const Color(0xffffffff),
                             ).copyWith(
                                 elevation: ButtonStyleButton.allOrNull(0.0)),
@@ -422,16 +421,17 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                       if (widget.isAlert)
                         Center(
                           child: IconElevatedButton(
-                              icon: NavikaIcons.trash,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xffeb2031),
-                                foregroundColor: const Color(0xffffffff),
-                              ).copyWith(
-                                  elevation: ButtonStyleButton.allOrNull(0.0)),
-                              text: 'Supprimer',
-                              onPressed: () async {
-                                await unsub();
-                              }),
+                            icon: NavikaIcons.trash,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xffeb2031),
+                              foregroundColor: const Color(0xffffffff),
+                            ).copyWith(
+                                elevation: ButtonStyleButton.allOrNull(0.0)),
+                            text: 'Supprimer',
+                            onPressed: () async {
+                              await unsub();
+                            }
+                          ),
                         ),
                       Center(
                         child: IconElevatedButton(

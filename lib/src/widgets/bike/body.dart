@@ -86,17 +86,49 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          const SizedBox(height: 60),
+          const SizedBox(height: 35),
+
+          Padding(
+            padding: const EdgeInsets.only(left: 5),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  tooltip: 'Retour',
+                  color: accentColor(context),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: Text(globals.schedulesStopName,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Segoe Ui',
+                        color: accentColor(context),
+                      ),
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
           if (isLoading)
             const Column(
               children: [
-                SizedBox(height: 20),
+                SizedBox(height: 4),
                 LinearProgressIndicator(),
               ]
             )
           else
             Container(
-              padding: const EdgeInsets.only(left: 20.0, top: 30.0, right: 20.0, bottom: 10.0),
+              padding: const EdgeInsets.only(left: 20.0, top: 20.0, right: 20.0, bottom: 10.0),
               child: Column(
                 children: [
                   if (bikeStation['bike'] != null)

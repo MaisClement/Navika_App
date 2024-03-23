@@ -1089,6 +1089,24 @@
       "search": [
         "hearts"
       ]
+    },
+    {
+      "uid": "98dfbf17c4738d3ca6c426341a1e1463",
+      "css": "chevron_left",
+      "code": 61523,
+      "src": "fontawesome5"
+    },
+    {
+      "uid": "583eb067415595987b7dd4b6b28ab0e8",
+      "css": "chevron_up",
+      "code": 61559,
+      "src": "fontawesome5"
+    },
+    {
+      "uid": "00a4d29a4a3587924dc5452bd627903f",
+      "css": "chevron_down",
+      "code": 61560,
+      "src": "fontawesome5"
     }
   ]
 }
