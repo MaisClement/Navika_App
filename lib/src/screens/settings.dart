@@ -16,6 +16,7 @@ import 'package:navika/src/widgets/settings/button.dart';
 import 'package:navika/src/widgets/settings/link.dart';
 
 import 'package:navika/src/widgets/bottom_sheets/time.dart';
+import 'package:navika/src/widgets/utils/button_large.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -91,7 +92,7 @@ class _SettingsState extends State<Settings> {
               },
               icon: NavikaIcons.localisation,
             ),
-            
+                        
             SettingsButton(
               name: 'Temps d’attente',
               sub: displayMode == 'minutes'
@@ -145,7 +146,7 @@ class _SettingsState extends State<Settings> {
                         BottomGroupedDepartures(update: update));
               },
             ),
-
+            
             SettingsButton(
               name: 'Notifications',
               sub: 'Gérez vos notifications',
@@ -170,15 +171,23 @@ class _SettingsState extends State<Settings> {
               },
             ),
 
-            if (kDebugMode)
-              SettingsButton(
-                name: 'Crash test',
-                sub: 'Executer un crash test',
-                icon: Icons.bug_report_outlined,
-                function: () => throw Exception(),
-              ),
-
             // ------------
+
+            Container(
+              margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
+              child: ButtonLarge(
+                icon: NavikaIcons.stars,
+                text: 'Nouveautés',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 17,
+                ),
+                borderRadius: BorderRadius.circular(15),
+                onTap: () {
+                  RouteStateScope.of(context).go('/changes');
+                },
+              ),
+            ),
 
             HomeWidgetSponsor(
               backgroundColor: Colors.white,

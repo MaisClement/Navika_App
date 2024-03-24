@@ -30,10 +30,7 @@ getHomePage(pathTemplate, id) {
 }
 
 getPages(pathTemplate, id) {
-	if (pathTemplate == '/home') {
-		return const Home();
-
-	} else if (pathTemplate == '/stops/:id' || pathTemplate == '/bike/:id' || pathTemplate == '/address/:id') {
+	if (pathTemplate == '/stops/:id' || pathTemplate == '/bike/:id' || pathTemplate == '/address/:id') {
 		return getHomePage(pathTemplate, id);
 
 	} else if (pathTemplate.startsWith('/schedules')) {
@@ -44,6 +41,9 @@ getPages(pathTemplate, id) {
 
 	}	else if (pathTemplate.startsWith('/trafic')){
 		return const Trafic();
+
+	} else if (pathTemplate.startsWith('/home')){
+		return const Home();
 
 	} else {
 		return Container();

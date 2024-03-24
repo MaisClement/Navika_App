@@ -62,8 +62,10 @@ class _JourneysSearchState extends State<JourneysSearch> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) =>
-        {FocusScope.of(context).requestFocus(textFieldNode), _getPlaces()});
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(textFieldNode); 
+      _getPlaces();
+    });
   }
 
   @override

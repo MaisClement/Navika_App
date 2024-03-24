@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:navika/src/api.dart';
-import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
 
 String getErrorImg(ApiStatus error) {

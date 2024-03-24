@@ -3,6 +3,8 @@
 library my_prj.globals;
 import 'package:flutter/material.dart';
 import 'package:location/location.dart' as gps;
+import 'package:navika/src/controller/here_map_controller.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 String fcmToken = '';
 
@@ -48,6 +50,12 @@ List forbiddenLines = [];
 
 // for smoth transition
 String? direction;
+
+// for for query search
+HereController? hereMapController;
+PanelController? panelController;
+
+String? query;
 
 // ignore: prefer_typing_uninitialized_variables
 var hiveBox;

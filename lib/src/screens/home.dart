@@ -18,7 +18,6 @@ import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/address/body.dart';
 import 'package:navika/src/widgets/home/default_pannel.dart';
 import 'package:navika/src/widgets/bike/body.dart';
-import 'package:navika/src/widgets/bottom_sheets/uri_search.dart';
 import 'package:navika/src/widgets/map/icone.dart';
 import 'package:navika/src/widgets/schedules/header.dart';
 import 'package:screenshot/screenshot.dart';
@@ -31,7 +30,7 @@ import 'package:navika/src/controller/here_map_controller.dart';
 import 'package:navika/src/widgets/home/body.dart';
 import 'package:navika/src/widgets/home/header.dart';
 import 'package:navika/src/widgets/schedules/body.dart';
-import 'package:uni_links/uni_links.dart';
+import 'package:navika/src/widgets/utils/search_box.dart';
 
 class Home extends StatefulWidget {
   final String? displayType;
@@ -42,6 +41,10 @@ class Home extends StatefulWidget {
     this.id,
     super.key,
   });
+
+  static void setPointMarker(BuildContext context, marker) {
+    context.findAncestorStateOfType<_HomeState>()?._setPointMarker(marker);
+  }
 
   @override
   State<Home> createState() => _HomeState();
@@ -344,11 +347,9 @@ class _HomeState extends State<Home> {
         id: widget.id!
       );
     }
-    return DefaultPannel();
-  } 
- 
+    return const DefaultPannel();
+  }
 
- 
   Widget? getBody(displayType, id, scrollController) {
     if (displayType == 'stops') {
       return SchedulesBody(
@@ -395,7 +396,7 @@ class _HomeState extends State<Home> {
                   bottomRight: Radius.zero,
                 ),
                 snapPoint: 0.55,
-                minHeight: widget.displayType == 'null' ? 80 : 90,
+                minHeight: 90,
                 maxHeight: MediaQuery.of(context).size.height - 130,
                 controller: panelController,
                 onPanelSlide: (position) => _onPanelSlide(position),
@@ -459,9 +460,39 @@ class _HomeState extends State<Home> {
                   opacity: getOpacity(_position),
                   child: SafeArea(
                     child: Container(
-                      margin: const EdgeInsets.only(top: 10, left: 8),
-                      width: 40,
-                      height: 40,
+                      margin: const EdgeInsets.only(top: 10, left: 8, right: 8),
+                      width: getSearchWidth(_position, context),
+                      height: 45,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(500),
+                        elevation: 4.0,
+                        shadowColor: Colors.black.withOpacity(getOpacity(_position)),
+                        color: Theme.of(context).colorScheme.surface,
+                        child: SearchBox(
+                          onTap: () {
+                            panelController.animatePanelToPosition(0);
+                            RouteStateScope.of(context).go('/home/search');
+                          },
+                          color: Theme.of(context).colorScheme.surface,
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          icon: NavikaIcons.search,
+                          text: 'Rechercher un lieu sur la carte'
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 0,
+                right: 0,
+                child: Opacity(
+                  opacity: getOpacity(_position),
+                  child: SafeArea(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 10, right: 8),
+                      width: 45,
+                      height: 45,
                       child: Material(
                         borderRadius: BorderRadius.circular(500),
                         elevation: 4.0,
@@ -482,36 +513,37 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              Positioned(
-                top: 0,
-                right: 0,
-                child: Opacity(
-                  opacity: getOpacity(_position),
-                  child: SafeArea(
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 10, right: 8),
-                      width: 40,
-                      height: 40,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(500),
-                        elevation: 4.0,
-                        shadowColor: Colors.black.withOpacity(getOpacity(_position)),
-                        color: Theme.of(context).colorScheme.onSecondaryContainer,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(500),
-                          onTap: () {
-                            RouteStateScope.of(context).go('/changes');
-                          },
-                          child: Icon(
-                            NavikaIcons.stars,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              
+              // Positioned(
+              //   top: 0,
+              //   right: 0,
+              //   child: Opacity(
+              //     opacity: getOpacity(_position),
+              //     child: SafeArea(
+              //       child: Container(
+              //         margin: const EdgeInsets.only(top: 10, right: 8),
+              //         width: 40,
+              //         height: 40,
+              //         child: Material(
+              //           borderRadius: BorderRadius.circular(500),
+              //           elevation: 4.0,
+              //           shadowColor: Colors.black.withOpacity(getOpacity(_position)),
+              //           color: Theme.of(context).colorScheme.onSecondaryContainer,
+              //           child: InkWell(
+              //             borderRadius: BorderRadius.circular(500),
+              //             onTap: () {
+              //               RouteStateScope.of(context).go('/changes');
+              //             },
+              //             child: Icon(
+              //               NavikaIcons.stars,
+              //               color: Theme.of(context).colorScheme.onSurface,
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Positioned(
                 right: 20,
                 bottom: panelButtonBottomOffset,
@@ -594,6 +626,8 @@ class _HomeState extends State<Home> {
       }
 
       _controller = HereController(hereMapController);
+      globals.hereMapController = _controller;
+      globals.panelController = panelController;
       _getLocation(globals.isSetLocation);
 
       GeoCoordinates geoCoords;
@@ -660,7 +694,7 @@ class _HomeState extends State<Home> {
   void _tapListener(Point2D touchPoint) {
     double radiusInPixel = 2;
     _controller?.pickMapItems(touchPoint, radiusInPixel, (pickMapItemsResult) {
-      if (pickMapItemsResult == null || pickMapItemsResult!.markers.isEmpty) {
+      if (pickMapItemsResult == null || pickMapItemsResult.markers.isEmpty) {
         GeoCoordinates geoCoordinates = _controller!.viewToGeoCoordinates(touchPoint);
         GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(geoCoordinates.latitude, geoCoordinates.longitude);
         _controller?.zoomTo(geoCoords);
@@ -674,9 +708,9 @@ class _HomeState extends State<Home> {
           100,
         );
         RouteStateScope.of(context).go('/address/${geoCoordinates.latitude};${geoCoordinates.longitude}');
-        
+
       } else {
-        List<MapMarker> mapMarkerList = pickMapItemsResult!.markers;
+        List<MapMarker> mapMarkerList = pickMapItemsResult.markers;
         MapMarker topmostMapMarker = mapMarkerList.first;
         Metadata? metadata = topmostMapMarker.metadata;
         if (metadata == null) {
@@ -703,6 +737,12 @@ class _HomeState extends State<Home> {
           RouteStateScope.of(context).go('/bike/${metadata.getString('id')}');
         }
       }
+    });
+  }
+
+  void _setPointMarker(marker) {
+    setState(() {
+      pointMarker = marker;
     });
   }
 

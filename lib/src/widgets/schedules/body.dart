@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:navika/src/api.dart';
 
 import 'package:navika/src/icons/navika_icons_icons.dart';

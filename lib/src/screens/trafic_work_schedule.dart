@@ -10,7 +10,6 @@ import 'package:navika/src/style.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/trafic_details/disruptions.dart';
-import 'package:navika/src/widgets/trafic_details/works.dart';
 
 Map shortDay = {
   1: 'Lun',
@@ -268,7 +267,7 @@ class _TraficWorkScheduleState extends State<TraficWorkSchedule> {
                 TraficDisruptions(
                   reports: getWorkForDay(selectedDate, [...globals.lineTrafic['reports']['current_work'], ...globals.lineTrafic['reports']['future_work']]),
                   ifEmpty: Container(
-                    margin: EdgeInsets.only(
+                    margin: const EdgeInsets.only(
                       top: 15
                     ),
                     child: Center(

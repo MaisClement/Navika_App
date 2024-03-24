@@ -119,7 +119,7 @@ class _TraficDetailsState extends State<TraficDetails> {
                   RouteStateScope.of(context).go('/routes/details/${globals.lineTrafic['id']}');
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               ButtonLarge(

@@ -60,9 +60,9 @@ class _RoutesSearchState extends State<RoutesSearch> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => {
-      FocusScope.of(context).requestFocus(textFieldNode),
-      _getLines()
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(textFieldNode);
+      _getLines();
     });
   }
   @override

@@ -7,6 +7,7 @@ class SearchBox extends StatelessWidget {
   final String text;
   final BorderRadius? borderRadius;
   final Color? color;
+  final EdgeInsetsGeometry? padding;
 
   const SearchBox({
     required this.text,
@@ -15,6 +16,7 @@ class SearchBox extends StatelessWidget {
     this.style,
     this.borderRadius,
     this.color,
+    this.padding,
     super.key,
   });
 
@@ -28,7 +30,7 @@ class SearchBox extends StatelessWidget {
       onTap: onTap,
       borderRadius: borderRadius ?? BorderRadius.circular(500),
       child: Padding(
-        padding: const EdgeInsets.only(left: 15, right: 15),
+        padding: padding ?? const EdgeInsets.only(left: 15, right: 15),
         child: Row(
           children: [
             if (icon != null)

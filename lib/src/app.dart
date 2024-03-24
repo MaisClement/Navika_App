@@ -6,9 +6,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/navigator.dart';
-import 'package:navika/src/style.dart';
-import 'package:navika/src/widgets/bottom_sheets/uri_search.dart';
-import 'package:uni_links/uni_links.dart';
 
 class NavikaApp extends StatefulWidget {
 	const NavikaApp({super.key});
@@ -34,6 +31,7 @@ class _NavikaAppState extends State<NavikaApp> {
 			allowedPaths: [
 				'/home',
 				'/home/settings',
+				'/home/search',
 				'/home/address',
 				'/home/address/:type',
 				'/home/address/:type/:id',
@@ -82,8 +80,6 @@ class _NavikaAppState extends State<NavikaApp> {
 		);
 
     themeMode = globals.hiveBox?.get('themeMode');
-
-    initUniLinks(context);
 
 		super.initState();
 	}
@@ -253,42 +249,6 @@ class _NavikaAppState extends State<NavikaApp> {
     ),
   );
 }
-
-Future<void> initUniLinks(context) async {
-  linkStream.listen((String? link) {
-    if (link != null) {
-      handleGeoUriScheme(Uri.decodeFull(link), context);
-    }
-  }, onError: (err) {
-    print('Erreur reçue: $err');
-  });
-}
-
-void handleGeoUriScheme(String geoUriScheme, context) async {
-  Uri uri = Uri.parse(geoUriScheme);
-
-  if (uri.scheme == 'geo' && uri.queryParameters.containsKey('q')) {
-    showModalBottomSheet<void>(
-      shape: const RoundedRectangleBorder(
-        borderRadius: bottomSheetBorder,
-      ),
-      isScrollControlled: true,
-      context: context,
-      builder: (BuildContext context) => BottomAddressSearch(query: uri.queryParameters['q']!)
-    );
-    
-  } else if (uri.pathSegments.length == 2) {
-    double latitude = double.parse(uri.pathSegments[0]);
-    double longitude = double.parse(uri.pathSegments[1]);
-
-    RouteStateScope.of(context).go('/address/$latitude;$longitude');
-
-  } else {
-    // Handle invalid geo URI format
-    print('Invalid geo URI format: $geoUriScheme');
-  }
-}
-
 
 MaterialColor generateMaterialColor(Color color) {
 	return MaterialColor(color.value, {

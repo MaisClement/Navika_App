@@ -31,7 +31,7 @@ Color getColor(state) {
 }
 
 class NaviBar extends StatefulWidget implements PreferredSizeWidget {
-  NaviBar({
+  const NaviBar({
     super.key,
   });
   

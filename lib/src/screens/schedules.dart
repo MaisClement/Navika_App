@@ -55,11 +55,12 @@ class _SchedulesState extends State<Schedules> {
                 height: 10,
               ),
               SearchBox(
-                  onTap: () {
-                    RouteStateScope.of(context).go('/schedules/search');
-                  },
-                  icon: NavikaIcons.search,
-                  text: 'Rechercher une gare, un arrêt ou une stations'),
+                onTap: () {
+                  RouteStateScope.of(context).go('/schedules/search');
+                },
+                icon: NavikaIcons.search,
+                text: 'Rechercher une gare, un arrêt ou une stations'
+              ),
             ],
           ),
         ),

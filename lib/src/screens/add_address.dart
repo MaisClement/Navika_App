@@ -135,8 +135,10 @@ class _AddAddressState extends State<AddAddress> {
       search = addressFavorites[int.parse(widget.id)]['name'];
       _getPlaces();
     }
-    WidgetsBinding.instance.addPostFrameCallback((_) =>
-        {FocusScope.of(context).requestFocus(queryFieldNode), _getPlaces()});
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(queryFieldNode); 
+      _getPlaces();
+    });
   }
 
   @override

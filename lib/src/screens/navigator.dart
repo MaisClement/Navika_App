@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:navika/src/screens/changes.dart';
+import 'package:navika/src/screens/home_search.dart';
 import 'package:navika/src/screens/home_settings.dart';
 import 'package:navika/src/screens/journeys_get.dart';
 import 'package:navika/src/screens/journeys_recurrent.dart';
@@ -28,11 +29,12 @@ import 'package:navika/src/screens/trafic_work_schedule.dart';
 import 'package:navika/src/screens/trip_details.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/navigator/bar.dart';
+import 'package:uni_links/uni_links.dart';
 
 class NavikaAppNavigator extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
 
-  NavikaAppNavigator({
+  const NavikaAppNavigator({
     required this.navigatorKey,
     super.key,
   });
@@ -63,12 +65,31 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
       navi = false;
     });
   }
-  
+
+  Future<void> initUniLinks(context) async {
+    linkStream.listen((String? link) {
+      if (link != null) {
+        Uri uri = Uri.parse(link);
+        if (uri.scheme == 'geo' && uri.queryParameters.containsKey('q')) {
+          globals.query = uri.queryParameters['q'];
+          RouteStateScope.of(context).go('/home/search');
+          
+        } else if (uri.pathSegments.length == 2) {
+          double latitude = double.parse(uri.pathSegments[0]);
+          double longitude = double.parse(uri.pathSegments[1]);
+          RouteStateScope.of(context).go('/address/$latitude;$longitude');
+
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final routeState = RouteStateScope.of(context);
     final pathTemplate = routeState.route.pathTemplate;
+
+    initUniLinks(context);
 
     globals.path.add(routeState.route.path);
 
@@ -138,7 +159,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 
     return Scaffold(
       appBar: navi
-        ? NaviBar()
+        ? const NaviBar()
         : null,
       body: Navigator(
         key: widget.navigatorKey,
@@ -153,12 +174,17 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
             routeState.go('/home');
           }
       
+          if (pathTemplate == '/home/search') {
+            routeState.go(globals.path[globals.path.length - 2]);
+            globals.path = [...globals.path.slice(0, globals.path.length - 2)];
+          }
+      
           if (pathTemplate == '/maps') {
             routeState.go('/home');
           }
       
           if (pathTemplate == '/changes') {
-            routeState.go('/home');
+            routeState.go('/settings');
           }
       
           if (pathTemplate == '/settings') {
@@ -175,7 +201,8 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
           }
       
           if (pathTemplate == '/home/journeys') {
-            routeState.go('/home');
+            routeState.go(globals.path[globals.path.length - 2]);
+            globals.path = [...globals.path.slice(0, globals.path.length - 2)];
           }
           if (pathTemplate == '/home/settings') {
             routeState.go('/home');
@@ -314,9 +341,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
               key: const ValueKey('Addresse'),
               child: AddAddress(predefineType : type),
             )
-          else if (pathTemplate == '/home/address/:type/:id' &&
-              type != null &&
-              id != null)
+          else if (pathTemplate == '/home/address/:type/:id' && type != null && id != null)
             MaterialPage<void>(
               key: const ValueKey('Addresse'),
               child: AddAddress(predefineType: type, id: id),
@@ -325,6 +350,11 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
             const MaterialPage<void>(
               key: ValueKey('Route'),
               child: Journeys(),
+            )
+          else if (pathTemplate == '/home/search')
+            const MaterialPage<void>(
+              key: ValueKey('HomeSearch'),
+              child: HomeSearch(),
             )
           else if (pathTemplate == '/home/settings')
             const MaterialPage<void>(
@@ -359,8 +389,8 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
               child: TraficDetails(),
             )
           else if (pathTemplate == '/trafic/work-schedule')
-            MaterialPage<void>(
-              key: const ValueKey('Trafic Work Schedule'),
+            const MaterialPage<void>(
+              key: ValueKey('Trafic Work Schedule'),
               child: TraficWorkSchedule(),
             )
           else if (pathTemplate == '/trafic/add')

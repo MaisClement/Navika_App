@@ -1,23 +1,26 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:here_sdk/core.dart';
+import 'package:here_sdk/mapview.dart';
 import 'package:navika/src/api.dart';
 
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/screens/home.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/places/listbutton.dart';
 import 'package:navika/src/widgets/places/load.dart';
 
-class SchedulesSearch extends StatefulWidget {
-	const SchedulesSearch({super.key});
+class HomeSearch extends StatefulWidget {
+	const HomeSearch({super.key});
 
 	@override
-	State<SchedulesSearch> createState() => _SchedulesSearchState();
+	State<HomeSearch> createState() => _SchedulesSearchState();
 }
 
-class _SchedulesSearchState extends State<SchedulesSearch> {
+class _SchedulesSearchState extends State<HomeSearch> {
   final myController = TextEditingController();
   
   FocusNode textFieldNode = FocusNode();
@@ -27,8 +30,14 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
   bool isLoading = false;
   List places = [];
 
-  Future<void> _getStops() async {
+  Future<void> _getPlaces() async {
     flag++;
+
+    if (globals.query != null) {
+      myController.text = globals.query!;
+      search = globals.query!;
+      globals.query = null;
+    }
 
     setState(() {
       isLoading = true;
@@ -36,7 +45,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
     });
 
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getStops(search, globals.locationData, flag);
+    Map result = await navikaApi.getPlaces(search, globals.locationData, flag);
 
     if (mounted) {
       setState(() {
@@ -57,7 +66,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(textFieldNode);
-      _getStops();
+      _getPlaces();
     });
   }
   @override
@@ -73,13 +82,13 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
         controller: myController,
         focusNode: textFieldNode,
         decoration: const InputDecoration(
-          hintText: 'Rechercher une gare, un arrêt ou une stations'
+          hintText: 'Rechercher un lieu sur la carte'
         ),
         onChanged: (text) {
           setState(() {
             search = text;
           });
-          _getStops();
+          _getPlaces();
         },
       ),
 		),
@@ -89,7 +98,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
         if (error != ApiStatus.ok)
           ErrorBlock(
             error: error,
-            retry: _getStops,
+            retry: _getPlaces,
           )
         
         else if (places.isNotEmpty)
@@ -99,7 +108,22 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
               place: place,
               onTap: () {
                 globals.schedulesStopName = place['name'];
-                RouteStateScope.of(context).go('/schedules/stops/${place['id']}');
+                GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(place['coord']['lat'] ?? 0, place['coord']['lon'] ?? 0);
+                globals.hereMapController?.zoomTo(geoCoords, true);
+                globals.panelController?.animatePanelToSnapPoint();
+                if (place['type'] == 'stop_area' || place['type'] == 'stop_point')  {
+                  RouteStateScope.of(context).go('/stops/${place['id']}');
+                } else {
+                  GeoCoordinates geoCoordinates = GeoCoordinates(place['coord']['lat'], place['coord']['lon']);
+                  MapMarker? pointMarker = globals.hereMapController?.addMapMarker(
+                    geoCoordinates,
+                    'assets/img/marker/marker.png',
+                    Metadata(),
+                    100,
+                  );
+                  Home.setPointMarker(context, pointMarker);
+                  RouteStateScope.of(context).go('/address/${place['coord']['lat']};${place['coord']['lon']}');
+                }
               },
             )
 

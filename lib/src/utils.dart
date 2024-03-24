@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -685,12 +686,24 @@ double getAppBarOpacity(double position) {
 }
 
 double getOpacity(position) {
-  double res =
-      ((1 / position - 1.1) * 2.33) > 1 ? 1 : ((1 / position - 1.1) * 2.33);
+  double res = ((1 / position - 1.1) * 2.33) > 1 ? 1 : ((1 / position - 1.1) * 2.33);
   if (res < 0) {
     return 0.0;
   } else if (res > 1.0) {
     return 1;
+  }
+  return res;
+}
+
+double getSearchWidth(position, context) {
+  double max = MediaQuery.of(context).size.width - 70;
+  double min = 45;
+  double? res = lerpDouble(min, max, (position - 0.55) * -2);
+  if (res == null || res < min) {
+    return min;
+  }
+  if (res > max) {
+    return max;
   }
   return res;
 }

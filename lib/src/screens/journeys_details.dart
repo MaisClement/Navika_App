@@ -95,7 +95,7 @@ List getLineByJourney(journey) {
 }
 
 bool allowNavi(journey) {
-  return false;
+  // return false;
   bool? allowGps = globals.hiveBox?.get('allowGps');
   if (allowGps == false) {
     return false;

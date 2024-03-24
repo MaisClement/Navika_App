@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:here_sdk/core.dart';
 import 'package:navika/src/api.dart';
 
