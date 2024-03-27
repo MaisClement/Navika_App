@@ -38,3 +38,5 @@ This apps work with [Navika_Api](https://github.com/MaisClement/Navika_Api/)
 
 # Contribute
 If you are motivated, do not hesitate to contribute to this project.
+
+You can also help me financially on [Buymeacoffee](https://www.buymeacoffee.com/navika).
