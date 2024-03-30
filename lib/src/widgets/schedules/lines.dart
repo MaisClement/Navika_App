@@ -63,8 +63,7 @@ class SchedulesLines extends StatelessWidget {
                               overflow: TextOverflow.fade,
                             ),
                           ),
-                          for (var departure in terminus['schedules']
-                              .sublist(0, getMaxLength(2, terminus['schedules'])))
+                          for (var departure in terminus['schedules'].sublist(0, getMaxLength(2, terminus['schedules'])))
                             TimerBlock(
                               time: departure['departure_date_time'],
                               state: departure['state'],

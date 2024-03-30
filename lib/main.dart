@@ -23,9 +23,9 @@ import 'package:navika/src/data/app.dart' as app;
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  if (message.notification != null) {
-    showNotification(message);
-  }
+  //DISABLED if (message.notification != null) {
+  //DISABLED   showNotification(message);
+  //DISABLED }
 
   if (message.data['type'] == 'report') {
     await showReportNotification(message);

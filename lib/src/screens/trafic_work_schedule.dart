@@ -43,10 +43,10 @@ Widget buildDay(context, DateTime date, DateTime selectedDate, Function setSelec
           width: double.infinity,
           decoration: BoxDecoration(
             border: hasWork(dt, reports)
-            ? Border(
+            ? const Border(
                 bottom: BorderSide(
                   width: 3.0,
-                  color: getSlug(globals.lineTrafic['severity'] ?? 0, true),
+                  color: Color(0xfff68f53),
                 )
               )
             : null

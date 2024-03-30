@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style.dart';
 

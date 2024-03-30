@@ -95,19 +95,19 @@ List getLineByJourney(journey) {
 }
 
 bool allowNavi(journey) {
-  // return false;
-  bool? allowGps = globals.hiveBox?.get('allowGps');
-  if (allowGps == false) {
-    return false;
-  }
-  if (isInPast(journey['arrival_date_time'])) {
-    return false;
-  }
-  if (getTimeDifference(journey['departure_date_time']) > 120) {
-    return false;
-  }
-
-  return true;
+  return false;
+  //TODO bool? allowGps = globals.hiveBox?.get('allowGps');
+  //TODO if (allowGps == false) {
+  //TODO   return false;
+  //TODO }
+  //TODO if (isInPast(journey['arrival_date_time'])) {
+  //TODO   return false;
+  //TODO }
+  //TODO if (getTimeDifference(journey['departure_date_time']) > 120) {
+  //TODO   return false;
+  //TODO }
+  //TODO 
+  //TODO return true;
 }
 
 class JourneysDetails extends StatefulWidget {

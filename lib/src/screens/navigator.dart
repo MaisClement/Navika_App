@@ -161,6 +161,12 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
       appBar: navi
         ? const NaviBar()
         : null,
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     print('banana');
+      //   },
+      //   backgroundColor: const Color(0xff1f8837),
+      // ),
       body: Navigator(
         key: widget.navigatorKey,
         onPopPage: (route, dynamic result) {

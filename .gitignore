@@ -10,9 +10,6 @@
 .svn/
 migrate_working_dir/
 
-# here sdk
-/plugins/here_sdk/
-
 # credentials
 *credentials.dart
 *google-services.json
