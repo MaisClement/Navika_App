@@ -252,7 +252,7 @@ class _SettingsState extends State<Settings> {
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
               child: const Text(
-                'Par respect pour votre confidentialité, Navika ne collecte ou ne conserve aucune information personnelles vous concernant.',
+                'Par respect pour votre confidentialité, Navika ne collecte ou ne conserve aucune information personnelle vous concernant.',
                 style: TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,
@@ -275,7 +275,7 @@ class _SettingsState extends State<Settings> {
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
               child: const Text(
-                'Les données geographiques utilisées par Navika sont fourni par OpenStreetMap et ses contributeurs.',
+                'Les données geographiques utilisées par Navika sont fournies par OpenStreetMap et ses contributeurs.',
                 style: TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,
