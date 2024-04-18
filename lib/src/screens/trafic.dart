@@ -242,39 +242,39 @@ class _TraficState extends State<Trafic> {
                             child: Wrap(
                               children: [
                                 TraficBlock(
-                                  name: 'TRANSILIEN H',
+                                  name: 'Transilien H',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'TRANSILIEN J',
+                                  name: 'Transilien J',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'TRANSILIEN K',
+                                  name: 'Transilien K',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'TRANSILIEN L',
+                                  name: 'Transilien L',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'TRANSILIEN N',
+                                  name: 'Transilien N',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'TRANSILIEN P',
+                                  name: 'Transilien P',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'TRANSILIEN R',
+                                  name: 'Transilien R',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'TRANSILIEN U',
+                                  name: 'Transilien U',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'TRANSILIEN V',
+                                  name: 'Transilien V',
                                   trafic: trafic,
                                 ),
                               ],
@@ -285,7 +285,7 @@ class _TraficState extends State<Trafic> {
 
                       divider,
 
-// METRO
+// Métro
                       Row(
                         children: [
                           Container(
@@ -304,67 +304,67 @@ class _TraficState extends State<Trafic> {
                             child: Wrap(
                               children: [
                                 TraficBlock(
-                                  name: 'METRO 1',
+                                  name: 'Métro 1',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'METRO 2',
+                                  name: 'Métro 2',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'METRO 3',
+                                  name: 'Métro 3',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'METRO 3B',
+                                  name: 'Métro 3bis',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'METRO 4',
+                                  name: 'Métro 4',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'METRO 5',
+                                  name: 'Métro 5',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'METRO 6',
+                                  name: 'Métro 6',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'METRO 7',
+                                  name: 'Métro 7',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'METRO 7B',
+                                  name: 'Métro 7bis',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'METRO 8',
+                                  name: 'Métro 8',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'METRO 9',
+                                  name: 'Métro 9',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'METRO 10',
+                                  name: 'Métro 10',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'METRO 11',
+                                  name: 'Métro 11',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'METRO 12',
+                                  name: 'Métro 12',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'METRO 13',
+                                  name: 'Métro 13',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'METRO 14',
+                                  name: 'Métro 14',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
@@ -402,59 +402,59 @@ class _TraficState extends State<Trafic> {
                             child: Wrap(
                               children: [
                                 TraficBlock(
-                                  name: 'T1',
+                                  name: 'Tram T1',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'T2',
+                                  name: 'Tram T2',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'T3A',
+                                  name: 'Tram T3a',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'T3B',
+                                  name: 'Tram T3b',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'T4',
+                                  name: 'Tram T4',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'T5',
+                                  name: 'Tram T5',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'T6',
+                                  name: 'Tram T6',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'T7',
+                                  name: 'Tram T7',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'T8',
+                                  name: 'Tram T8',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'T9',
+                                  name: 'Tram T9',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'T10',
+                                  name: 'Tram T10',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'T11',
+                                  name: 'Tram T11',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'T12',
+                                  name: 'Tram T12',
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
-                                  name: 'T13',
+                                  name: 'Tram T13',
                                   trafic: trafic,
                                 ),
                               ],

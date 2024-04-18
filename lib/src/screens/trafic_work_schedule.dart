@@ -8,7 +8,6 @@ import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/trafic_details/disruptions.dart';
 
 Map shortDay = {
@@ -174,8 +173,8 @@ class _TraficWorkScheduleState extends State<TraficWorkSchedule> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('Calendrier des travaux', style: appBarTitle),
-              if (LINES.getLinesById(globals.lineTrafic['id']).libelle != '')
-                Text(LINES.getLinesById(globals.lineTrafic['id']).libelle, style: appBarSubtitle),
+              if (LINES.getLines(globals.lineTrafic) != null && LINES.getLines(globals.lineTrafic)!['name'] != '')
+                Text(LINES.getLines(globals.lineTrafic)!['name'], style: appBarSubtitle),
             ],
           ),
         ),

@@ -114,9 +114,9 @@ getShimmerHighlightColor(context) {
 
 String getIconLine(Brightness brightness, line) {
   if (Brightness.dark == brightness) {
-    return line.imageLight;
+    return 'assets/img/icons/${line['logo_light']}';
   }
-  return line.imageDark;
+  return 'assets/img/icons/${line['logo']}';
 }
 
 Color getActiveColor(context, status) {

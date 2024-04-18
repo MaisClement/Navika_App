@@ -87,8 +87,8 @@ class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerPr
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(globals.schedulesStopName, style: appBarTitle),
-              if (LINES.getLinesById(departure['id']).libelle != '')
-                Text(LINES.getLinesById(departure['id']).libelle,
+              if (LINES.getLines(departure) != null && LINES.getLines(departure)!['name'] != '')
+                Text(LINES.getLines(departure)!['name'],
                     style: appBarSubtitle),
             ],
           ),

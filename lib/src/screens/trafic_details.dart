@@ -41,8 +41,8 @@ class _TraficDetailsState extends State<TraficDetails> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('Info Trafic', style: appBarTitle),
-              if (LINES.getLinesById(globals.lineTrafic['id']).libelle != '')
-                Text(LINES.getLinesById(globals.lineTrafic['id']).libelle, style: appBarSubtitle),
+              if (LINES.getLines(globals.lineTrafic) != null && LINES.getLines(globals.lineTrafic)!['name'] != '')
+                Text(LINES.getLines(globals.lineTrafic)!['name'], style: appBarSubtitle),
             ],
           ),
           actions: [

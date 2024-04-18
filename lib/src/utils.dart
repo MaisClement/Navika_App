@@ -61,38 +61,38 @@ int getMaxLength(int max, List list) {
   return list.length;
 }
 
-Map? getTraficLines(Info line) {
+Map? getTraficLines(Map line) {
   for (var lines in globals.trafic) {
-    if (lines['id'] == line.id) {
+    if (lines['id'] == line['id']) {
       return lines;
     }
   }
   return null;
 }
 
-Map getDefaultLine(Info line) {
+Map getDefaultLine(Map line) {
   return {
-    'id': line.id,
-    'code': line.name,
-    'name': line.libelle,
+    'id': line['id'],
+    'code': line['code'],
+    'name': line['name'],
     'color': 'aaaaaa',
     'text_color': '000000',
   };
 }
 
 Map? getReports(String lineId) {
-  return getTraficLines(LINES.getLines(lineId))?['reports'];
+  return getTraficLines(LINES.getLines(lineId)!)?['reports'];
 }
 
 int? getSeverity(String lineId) {
-  return getTraficLines(LINES.getLines(lineId))?['severity'];
+  return getTraficLines(LINES.getLines(lineId)!)?['severity'];
 }
 
 String getModeImage(Brightness brightness, line) {
-  if (LINES.isLineById(line['id'])) {
+  if (LINES.getLines(line) != null && LINES.getLines(line)!['symbol'] != null) {
     return Brightness.light == brightness
-      ? LINES.getLinesById(line['id']).imageModeDark
-      : LINES.getLinesById(line['id']).imageModeLight;
+      ? 'assets/img/icons/${LINES.getLines(line)!['symbol']}'
+      : 'assets/img/icons/${LINES.getLines(line)!['symbol_light']}';
   }
 
   String img = 'assets/img/icons/';

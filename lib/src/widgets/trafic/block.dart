@@ -10,7 +10,7 @@ Map getTrafic(List trafic, String? name, Map? line) {
   String id = '';
 
   if (name != null) {
-    id = LINES.getLines(name).id;
+    id = LINES.getLines(name)!['id'];
 
   } else if (line!['id'] != null) {
     id = line['id'];
@@ -25,7 +25,9 @@ Map getTrafic(List trafic, String? name, Map? line) {
 
   // Si on a rien
   if (name != null) {
-    return getDefaultLine(LINES.getLines(name));
+    if (LINES.getLines(name) != null) {
+      return getDefaultLine(LINES.getLines(name)!);
+    }
   }
   
   return line!;

@@ -238,12 +238,18 @@ flutter:
     - assets/img/icons/lines/TRAM_T13.png
     - assets/img/icons/lines/TRAM_T13_light.png
 
-    - assets/img/icons/sncf/logo_white.png
+    - assets/img/icons/sncf/logo_light.png
     - assets/img/icons/sncf/logo_color.png
     - assets/img/icons/sncf/logo.png
     - assets/img/icons/sncf/TER.png
-    - assets/img/icons/sncf/TER_white.png
+    - assets/img/icons/sncf/TER_light.png
     - assets/img/icons/sncf/TER_color.png
+    - assets/img/icons/sncf/inoui.png
+    - assets/img/icons/sncf/inoui_light.png
+    - assets/img/icons/sncf/inoui_color.png
+    - assets/img/icons/sncf/intercites.png
+    - assets/img/icons/sncf/intercites_color.png
+    - assets/img/icons/sncf/intercites_light.png
 
     - assets/img/icons/lines/CDGVAL.png
     - assets/img/icons/lines/ORLYVAL.png
@@ -277,22 +283,22 @@ flutter:
     - assets/img/modal/acces_ufr.png
     - assets/img/modal/acces_ufr_train.png
     - assets/img/modal/alert.png
-    - assets/img/modal/alert_white.png
+    - assets/img/modal/alert_light.png
     - assets/img/modal/emergency_call.png
     - assets/img/modal/emergency_signal.png
     - assets/img/modal/error.png
-    - assets/img/modal/error_white.png
+    - assets/img/modal/error_light.png
     - assets/img/modal/futur_work.png
     - assets/img/modal/information.png
-    - assets/img/modal/information_white.png
+    - assets/img/modal/information_light.png
     - assets/img/modal/interogation.png
     - assets/img/modal/interogation_grey.png
-    - assets/img/modal/interogation_white.png
+    - assets/img/modal/interogation_light.png
     - assets/img/modal/valid.png
-    - assets/img/modal/valid_white.png
+    - assets/img/modal/valid_light.png
     - assets/img/modal/warning.png
     - assets/img/modal/work.png
-    - assets/img/modal/work_white.png
+    - assets/img/modal/work_light.png
 
     - assets/img/sign_top.svg
     - assets/img/bus_schedules.png

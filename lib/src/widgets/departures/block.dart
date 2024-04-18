@@ -60,21 +60,22 @@ class DeparturesBlock extends StatelessWidget {
                       brightness: Theme.of(context).colorScheme.brightness,
                     ),
                     LinesIcones(line: line, size: 30),
-                    Container(
+                    SizedBox(
                       width: 10,
                     ),
               
-                    Text( LINES.getLinesById(line['id']).libelle,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
-                        color: accentColor(context),
-                      ),
-                      maxLines: 1,
-                      softWrap: false,
-                      overflow: TextOverflow.fade,
-                    )
+                    if ( LINES.getLines(line) != null )
+                      Text( LINES.getLines(line)!['name'],
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Segoe Ui',
+                          color: accentColor(context),
+                        ),
+                        maxLines: 1,
+                        softWrap: false,
+                        overflow: TextOverflow.fade,
+                      )
                   ],
                 ),
               ),

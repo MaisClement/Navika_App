@@ -21,19 +21,7 @@ class LinesIcones extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) => Stack(
     children: [
-      if (line['code'] == 'TER')
-        Container(
-          width: size,
-          height: size,
-          margin: removeMargin
-            ? const EdgeInsets.all(0)
-            : const EdgeInsets.only(left:3, right:3, top: 5, bottom: 5),
-          child: Image(
-            image: AssetImage( getIconLine(brightness ?? Theme.of(context).colorScheme.brightness, LINES.getLinesById(line['code'])) )
-          ),
-        )
-        
-      else if (line['agency'] != null && line['agency']['name'] == 'Noctilien')
+      if (line['agency'] != null && line['agency']['name'] == 'Noctilien')
         Container(
           width: size,
           height: size * 0.64,
@@ -63,7 +51,7 @@ class LinesIcones extends StatelessWidget {
           )
         )
         
-      else if (LINES.isLineById(line['id']))
+      else if (LINES.getLines(line) != null && LINES.getLines(line)!['logo'] != null)
         Container(
           width: size,
           height: size,
@@ -71,7 +59,7 @@ class LinesIcones extends StatelessWidget {
             ? const EdgeInsets.all(0)
             : const EdgeInsets.only(left:3, right:3, top: 5, bottom: 5),
           child: Image(
-            image: AssetImage( getIconLine(brightness ?? Theme.of(context).colorScheme.brightness, LINES.getLinesById(line['id'])) )
+            image: AssetImage( getIconLine(brightness ?? Theme.of(context).colorScheme.brightness, LINES.getLines(line)) )
           ),
         )
         

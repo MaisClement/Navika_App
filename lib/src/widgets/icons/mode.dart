@@ -18,8 +18,8 @@ class ModeIcones extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Stack(
         children: [
-          if (line['id'] == 'SNCF' || line['id'] == 'TER' || line['code'] == 'SNCF' || line['code'] == 'TER')
-            const Text('')
+          if (['SNCF', 'TGV', 'IC'].contains(line['code']))
+            Container()
           else
             Container(
               width: size,
