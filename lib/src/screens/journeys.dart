@@ -105,6 +105,7 @@ void initJourney(Map? from, Map? to, context) async {
   globals.selectedTime = TimeOfDay.now();
   globals.timeType = 'departure';
   globals.forbiddenLines = [];
+  globals.journeys = [];
 
   // Arrivé et départ -> Affichage
   if (from != null && to != null) {
@@ -253,9 +254,13 @@ class _JourneysState extends State<Journeys> {
     }
   }
 
-  Future<void> _getJourneys() async {
-    if (globals.route['from']['id'] == null ||
-        globals.route['to']['id'] == null) {
+  Future<void> _getJourneys([bool isBack = false]) async {
+    if (isBack) {
+      setState(() {
+        journeys = globals.journeys;
+      });
+    }
+    if (globals.route['from']['id'] == null || globals.route['to']['id'] == null) {
       return;
     }
     DateTime dt = DateTime(
@@ -273,8 +278,6 @@ class _JourneysState extends State<Journeys> {
     setState(() {
       isLoading = true;
     });
-
-
 
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getJourneys(
@@ -294,6 +297,7 @@ class _JourneysState extends State<Journeys> {
       if (result['value']?['journeys'] != null) {
         setState(() {
           journeys = result['value']?['journeys'];
+          globals.journeys = result['value']?['journeys'];
           isLoading = false;
         });
       }
@@ -350,7 +354,7 @@ class _JourneysState extends State<Journeys> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _getJourneys());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _getJourneys(true));
   }
 
   @override
