@@ -106,7 +106,7 @@ class _PositionState extends State<Position> {
                 color: Colors.white,
               ),
               const Text(
-                'Navika utilise votre position, uniquement lors que l’application est ouverte pour afficher votre position sur la carte ou vous proposez les points d’arrêts à proximité.',
+                'Navika utilise votre position uniquement lors que l’application est ouverte, pour afficher votre position sur la carte ou vous proposer les points d’arrêts à proximité.',
                 style: TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,
@@ -114,7 +114,7 @@ class _PositionState extends State<Position> {
               ),
               const Text(''),
               const Text(
-                'Votre position est utilisé uniquement lorsque vous en avez besoin et n’est pas sauvegardé.',
+                'Votre position est utilisée uniquement lorsque vous en avez besoin et n’est pas sauvegardée.',
                 style: TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,

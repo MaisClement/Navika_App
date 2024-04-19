@@ -156,7 +156,7 @@ class _SettingsState extends State<Settings> {
             ),
 
             SettingsButton(
-              name: 'Theme',
+              name: 'Thème',
               icon: Icons.color_lens,
               function: () {
                 showModalBottomSheet<void>(
@@ -221,7 +221,7 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             SettingsLink(
-              name: 'Status ›',
+              name: 'Statut ›',
               url: 'https://navika.betteruptime.com',
               icon: NavikaIcons.alert,
             ),
@@ -232,12 +232,12 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             SettingsLink(
-              name: 'Github du projet ›',
+              name: 'GitHub du projet ›',
               url: 'https://github.com/MaisClement/Navika_App',
               icon: NavikaIcons.github,
             ),
             SettingsLink(
-              name: 'Icones par Icones8 ›',
+              name: 'Icônes par Icones8 ›',
               url: 'https://icones8.fr',
               icon: NavikaIcons.icons8,
             ),
@@ -275,7 +275,7 @@ class _SettingsState extends State<Settings> {
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
               child: const Text(
-                'Les données geographiques utilisées par Navika sont fournies par OpenStreetMap et ses contributeurs.',
+                'Les données géographiques utilisées par Navika sont fournies par OpenStreetMap et ses contributeurs.',
                 style: TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,
@@ -296,7 +296,7 @@ class _SettingsState extends State<Settings> {
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
               child: const Text(
-                'Navika repose sur des technologies et services de « HERE Global B.V.».',
+                'Navika repose sur des technologies et services de « HERE Global B.V. ».',
                 style: TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,
