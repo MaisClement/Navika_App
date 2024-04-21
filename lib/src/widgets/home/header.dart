@@ -42,7 +42,7 @@ class HomePannel extends StatelessWidget {
                   );
                 },
                 icon: NavikaIcons.search,
-                text: 'Où allons nous ?',
+                text: 'Où allons-nous ?',
                 borderRadius: BorderRadius.circular(15)
               ),
             ),

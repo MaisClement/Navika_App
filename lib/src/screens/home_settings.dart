@@ -8,7 +8,7 @@ import 'package:navika/src/data/global.dart' as globals;
 String getBlockName(id) {
   switch (id) {
     case 'message':
-      return 'Messages d’actualités';
+      return 'Messages d’actualité';
 
     case 'sponsor':
       return 'Soutenir Navika';

@@ -219,8 +219,8 @@ class _JourneysSearchState extends State<JourneysSearch> {
           focusNode: textFieldNode,
           decoration: InputDecoration(
               hintText: widget.type == 'from'
-                  ? 'D’où partons nous ?'
-                  : 'Où allons nous ?'),
+                  ? 'D’où partons-nous ?'
+                  : 'Où allons-nous ?'),
           onChanged: (text) {
             setState(() {
               search = text;
