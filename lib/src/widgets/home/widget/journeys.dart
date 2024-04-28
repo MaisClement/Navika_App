@@ -1,4 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/journey/favorites.dart';
@@ -37,8 +43,8 @@ class HomeWidgetJourneys extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: [
-                    const Text('Vous n’avez pas d’itinéraires prévu.',
-                      style: TextStyle(
+                    Text(AppLocalizations.of(context)!.no_routes_planned,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         fontFamily: 'Segoe Ui',
                       ),
@@ -46,7 +52,7 @@ class HomeWidgetJourneys extends StatelessWidget {
                     ),
                     Center(
                       child: ElevatedButton(
-                        child: const Text('Tous vos itinéraires ➜'),
+                        child: Text(AppLocalizations.of(context)!.all_your_routes),
                         onPressed: () {
                           RouteStateScope.of(context).go('/home/journeys/list');
                         },
@@ -70,7 +76,7 @@ class HomeWidgetJourneys extends StatelessWidget {
               ),
               Center(
                 child: ElevatedButton(
-                  child: const Text('Tous vos itinéraires ➜'),
+                  child: Text(AppLocalizations.of(context)!.all_your_routes),
                   onPressed: () {
                     RouteStateScope.of(context).go('/home/journeys/list');
                   },

@@ -1,7 +1,17 @@
+// 🎯 Dart imports:
 import 'dart:async';
 
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/api.dart';
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/extensions/datetime.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
@@ -14,9 +24,6 @@ import 'package:navika/src/widgets/icons/icons.dart';
 import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/routes_schedules/list.dart';
 import 'package:navika/src/widgets/utils/search_box.dart';
-import 'package:scroll_to_index/scroll_to_index.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:navika/src/data/global.dart' as globals;
 
 String getDirection(schedules) {
   return schedules['stop_name'];
@@ -153,7 +160,7 @@ class _RoutesSchedulesState extends State<RoutesSchedules> with SingleTickerProv
     }
   }
 
-  List getSchedulesBlock(context, controller, line, schedules) {
+  List getSchedulesBlock(BuildContext context, controller, line, schedules) {
     List els = groupObjectsByHour(schedules);
 
     List res = [];
@@ -198,7 +205,7 @@ class _RoutesSchedulesState extends State<RoutesSchedules> with SingleTickerProv
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: isLoading
-              ? const Text('Horaires', style: appBarTitle)
+              ? Text(AppLocalizations.of(context)!.timetables, style: appBarTitle)
               : Text('Ligne ${line['name']}', style: appBarTitle),
         ),
         body: error != ApiStatus.ok || isLoading
@@ -238,7 +245,7 @@ class _RoutesSchedulesState extends State<RoutesSchedules> with SingleTickerProv
                   Container(
                     margin: const EdgeInsets.only(top: 15, left: 15, right: 15),
                     child: SearchBox(
-                      text: getDate(selectedDate),
+                      text: getDate(context, selectedDate),
                       icon: NavikaIcons.calendar,
                       onTap: () async {
                         await selectDate(context);

@@ -1,4 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style.dart';
 
@@ -23,8 +29,8 @@ class AccessPoint extends StatelessWidget {
         children: [
           Container(
             margin: const EdgeInsets.only(left: 7),
-            child: const Text('Quel accès ?',
-              style: TextStyle(
+            child: Text(AppLocalizations.of(context)!.access_type,
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 fontFamily: 'Segoe Ui',

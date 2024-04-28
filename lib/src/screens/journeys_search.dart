@@ -1,10 +1,16 @@
+// 🎯 Dart imports:
 import 'dart:async';
 
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:navika/src/api.dart';
 
-import 'package:navika/src/routing.dart';
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/api.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/error_block.dart';
@@ -23,7 +29,6 @@ class JourneysSearch extends StatefulWidget {
 
 class _JourneysSearchState extends State<JourneysSearch> {
   final myController = TextEditingController();
-  final String yourPos = 'Votre position';
 
   FocusNode textFieldNode = FocusNode();
   String search = '';
@@ -79,13 +84,13 @@ class _JourneysSearchState extends State<JourneysSearch> {
 
     if (places.isNotEmpty || search == '') {
       // Votre position
-      if (globals.route['from']['name'] != yourPos && globals.route['to']['name'] != yourPos && globals.locationData != null) {
+      if (globals.route['from']['name'] != AppLocalizations.of(context)!.your_position && globals.route['to']['name'] != AppLocalizations.of(context)!.your_position && globals.locationData != null) {
         res.add(
             PlacesListButton(
             isLoading: isLoading,
             place: {
               'id': '${globals.locationData?.longitude};${globals.locationData?.latitude}',
-              'name': yourPos,
+              'name': AppLocalizations.of(context)!.your_position,
               'type': 'current_pos',
               'distance': 0,
               'town': '',
@@ -96,7 +101,7 @@ class _JourneysSearchState extends State<JourneysSearch> {
             },
             onTap: () {
               globals.route[widget.type]['id'] = '${globals.locationData?.longitude};${globals.locationData?.latitude}';
-              globals.route[widget.type]['name'] = yourPos;
+              globals.route[widget.type]['name'] = AppLocalizations.of(context)!.your_position;
               RouteStateScope.of(context).go('/home/journeys');
             },
           )
@@ -152,7 +157,7 @@ class _JourneysSearchState extends State<JourneysSearch> {
         res.add(
           Padding(
             padding: const EdgeInsets.only(left: 20, bottom: 10),
-            child: Text('Récents',
+            child: Text(AppLocalizations.of(context)!.recent,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -219,8 +224,8 @@ class _JourneysSearchState extends State<JourneysSearch> {
           focusNode: textFieldNode,
           decoration: InputDecoration(
               hintText: widget.type == 'from'
-                  ? 'D’où partons-nous ?'
-                  : 'Où allons-nous ?'),
+                  ? AppLocalizations.of(context)!.where_are_we_departing_from
+                  : AppLocalizations.of(context)!.where_are_we_going),
           onChanged: (text) {
             setState(() {
               search = text;

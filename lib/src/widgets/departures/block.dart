@@ -1,4 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/data.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/extensions/hexcolor.dart';
@@ -60,7 +66,7 @@ class DeparturesBlock extends StatelessWidget {
                       brightness: Theme.of(context).colorScheme.brightness,
                     ),
                     LinesIcones(line: line, size: 30),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
               
@@ -130,7 +136,7 @@ class DeparturesBlock extends StatelessWidget {
                     backgroundColor: HexColor.fromHex(line['color']),
                     foregroundColor: HexColor.fromHex(line['text_color']),
                   ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                  child: const Text('Voir le reste ➜'),
+                  child: Text(AppLocalizations.of(context)!.see_more),
                   onPressed: () {
                     globals.departure = line;
                     RouteStateScope.of(context).go('/schedules/stops/$id/departures/${line['id']}');

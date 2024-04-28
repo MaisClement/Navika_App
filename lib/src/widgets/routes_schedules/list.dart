@@ -1,5 +1,10 @@
-import 'package:floating_snackbar/floating_snackbar.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:floating_snackbar/floating_snackbar.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/screens/routes_schedules.dart';

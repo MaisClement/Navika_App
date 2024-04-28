@@ -1,8 +1,14 @@
+// 🎯 Dart imports:
 import 'dart:math';
 
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+// 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/navigator.dart';
@@ -111,13 +117,15 @@ class _NavikaAppState extends State<NavikaApp> {
       routeInformationParser: _routeParser,
 
       localizationsDelegates: const [
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
 
       supportedLocales: const [
-        Locale('en', 'US'), // English
-        Locale('fr', 'FR'), // French
+        Locale('en'), // English
+        Locale('fr'), // French
       ],
       
       //THEME

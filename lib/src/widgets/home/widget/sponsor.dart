@@ -1,13 +1,19 @@
-import 'package:floating_snackbar/floating_snackbar.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:floating_snackbar/floating_snackbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:intl/intl.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/data/app.dart' as app;
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/home_settings.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
-import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/data/app.dart' as app;
 
 class HomeWidgetSponsor extends StatelessWidget {
   final bool canBeDeactivated;
@@ -45,7 +51,7 @@ class HomeWidgetSponsor extends StatelessWidget {
                   width: 10,
                 ),
                 Expanded(
-                  child: Text('Soutenez Navika !',
+                  child: Text(AppLocalizations.of(context)!.sponsor_title,
                     style: TextStyle(
                       color: color ?? Theme.of(context).colorScheme.onSurface,
                       fontSize: 16, 
@@ -58,7 +64,7 @@ class HomeWidgetSponsor extends StatelessWidget {
             Wrap(
               direction: Axis.horizontal,
               children: [
-                Text('Navika est une application open-source, totalement gratuite et surtout sans pub. Si Navika vous plaît, vous pouvez soutenir son développement en laissant une petite pièce.',
+                Text(AppLocalizations.of(context)!.sponsor_details,
                   style: TextStyle(
                     color: color ?? Theme.of(context).colorScheme.onSurface,
                     fontSize: 16
@@ -69,12 +75,12 @@ class HomeWidgetSponsor extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Center(
+            Center(
               child: Wrap(
                 direction: Axis.horizontal,
                 children: [
-                  Text('Merci pour votre soutien !',
-                    style: TextStyle(
+                  Text(AppLocalizations.of(context)!.sponsor_thanks,
+                    style: const TextStyle(
                       color: Color.fromARGB(255, 221, 73, 73),
                       fontSize: 16, 
                       fontWeight: FontWeight.w800
@@ -90,7 +96,7 @@ class HomeWidgetSponsor extends StatelessWidget {
                   backgroundColor: const Color.fromARGB(255, 221, 73, 73),
                   foregroundColor: const Color(0xffffffff),
                 ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                text: 'Soutenir',
+                text: AppLocalizations.of(context)!.sponsor,
                 onPressed: () async {
                   await browser.open(
                     url: Uri.parse(app.APP_SPONSOR), options: ChromeSafariBrowserClassOptions()
@@ -111,7 +117,7 @@ class HomeWidgetSponsor extends StatelessWidget {
                       backgroundColor: const Color(0xffffffff),
                       foregroundColor: const Color.fromARGB(255, 221, 73, 73),
                     ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                    text: 'Plus tard',
+                    text: AppLocalizations.of(context)!.sponsor_later,
                     onPressed: () {
                       DateTime now = DateTime.now().add(const Duration(days: 7));
                       String formattedDate = DateFormat('dd-MM-yyyy').format(now);
@@ -125,11 +131,11 @@ class HomeWidgetSponsor extends StatelessWidget {
                       backgroundColor: const Color(0xffffffff),
                       foregroundColor: const Color.fromARGB(255, 221, 73, 73),
                     ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                    text: 'Masquer',
+                    text: AppLocalizations.of(context)!.hidde,
                     onPressed: () {
                       handleSwitch(false, 'sponsor');
                       FloatingSnackBar(
-                        message: 'Compris, ce message n’apparaîtra plus.',
+                        message: AppLocalizations.of(context)!.sponsor_hide_confirmation,
                         context: context,
                         textColor: mainColor(context),
                         textStyle: snackBarText,

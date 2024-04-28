@@ -1,8 +1,14 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bottom_sheets/time.dart';
-import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/departures/time_message.dart';
 
 class TimeBlock extends StatelessWidget {
@@ -30,13 +36,25 @@ class TimeBlock extends StatelessWidget {
         children: [
           if (state.contains('cancelled'))
             TimerMessage(
-                message: 'Supprimé',
+                message: AppLocalizations.of(context)!.deleted,
+                backgroundColor: getBackColorByState(state, context),
+                color: Colors.white,
+                allround: state.length > 1),
+          if (state.contains('exceptional_terminus'))
+            TimerMessage(
+                message: AppLocalizations.of(context)!.exceptional_terminus_short,
                 backgroundColor: getBackColorByState(state, context),
                 color: Colors.white,
                 allround: state.length > 1),
           if (state.contains('modified'))
             TimerMessage(
-                message: 'Terminus ex.',
+                message: AppLocalizations.of(context)!.modified_train_short,
+                backgroundColor: getBackColorByState(state, context),
+                color: Colors.white,
+                allround: state.length > 1),
+          if (state.contains('added'))
+            TimerMessage(
+                message: 'Supplémentaire',
                 backgroundColor: getBackColorByState(state, context),
                 color: Colors.white,
                 allround: state.length > 1),
@@ -47,8 +65,7 @@ class TimeBlock extends StatelessWidget {
               color: Colors.white,
             ),
           Container(
-            margin: const EdgeInsets.only(
-                left: 0.0, top: 5.0, right: 6, bottom: 5.0),
+            margin: const EdgeInsets.only(left: 0.0, top: 5.0, right: 6, bottom: 5.0),
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(7),
@@ -57,8 +74,7 @@ class TimeBlock extends StatelessWidget {
               color: getBackColorByState(state, context),
             ),
             child: Container(
-              padding: const EdgeInsets.only(
-                  left: 3.0, top: 3.0, right: 3.0, bottom: 3.0),
+              padding: const EdgeInsets.only(left: 3.0, top: 3.0, right: 3.0, bottom: 3.0),
               decoration: BoxDecoration(
                 color: const Color(0xff000000), // const Color(0xff272727),
                 boxShadow: [
@@ -91,8 +107,7 @@ class TimeBlock extends StatelessWidget {
                   children: [
                     time != '' && time.length > 1
                         ? Container(
-                            padding: const EdgeInsets.only(
-                                left: 7.0, top: 2.0, right: 7.0, bottom: 2.0),
+                            padding: const EdgeInsets.only(left: 7.0, top: 2.0, right: 7.0, bottom: 2.0),
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(5),
@@ -111,8 +126,7 @@ class TimeBlock extends StatelessWidget {
                                   ? '${getTimeDifference(time).toString()} min'
                                   : getTime(base),
                               style: TextStyle(
-                                color: getDeparturesColorByState(
-                                    getTimeDifference(time) >= 0
+                                color: getDeparturesColorByState(getTimeDifference(time) >= 0
                                         ? state
                                         : 'theorical',
                                     context),
@@ -124,8 +138,7 @@ class TimeBlock extends StatelessWidget {
                           )
                         : const Text(''),
                     Container(
-                      padding: const EdgeInsets.only(
-                          left: 7.0, top: 2.0, right: 7.0, bottom: 2.0),
+                      padding: const EdgeInsets.only(left: 7.0, top: 2.0, right: 7.0, bottom: 2.0),
                       decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 255, 255, 255),
                         borderRadius: BorderRadius.only(

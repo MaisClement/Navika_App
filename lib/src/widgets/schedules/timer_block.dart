@@ -1,8 +1,11 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bottom_sheets/time.dart';
-import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/utils/real_time.dart';
 
 class TimerBlock extends StatelessWidget {

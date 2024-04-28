@@ -1,7 +1,14 @@
+// 🎯 Dart imports:
 import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:navika/src/api.dart';
 
+// 🐦 Flutter imports:
+import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/api.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style.dart';
@@ -94,7 +101,7 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
               children: [
                 IconButton(
                   icon: const Icon(Icons.arrow_back),
-                  tooltip: 'Retour',
+                  tooltip: AppLocalizations.of(context)!.back,
                   color: accentColor(context),
                   onPressed: () => Navigator.pop(context),
                 ),
@@ -134,10 +141,10 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
                   if (bikeStation['bike'] != null)
                     Row(
                       children: [
-                        const Expanded(
+                        Expanded(
                           child: Text(
-                            'Vélo disponible',
-                            style: TextStyle(
+                            AppLocalizations.of(context)!.bike_available,
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Segoe Ui',
@@ -181,10 +188,10 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
                   if (bikeStation['mechanical'] != null)
                     Row(
                       children: [
-                        const Expanded(
+                        Expanded(
                           child: Text(
-                            'Vélo mécanique',
-                            style: TextStyle(
+                            AppLocalizations.of(context)!.bike_mechanical,
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Segoe Ui',
@@ -229,10 +236,10 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
                   if (bikeStation['ebike'] != null)
                     Row(
                       children: [
-                        const Expanded(
+                        Expanded(
                           child: Text(
-                            'Vélo électriques',
-                            style: TextStyle(
+                            AppLocalizations.of(context)!.bike_ebike,
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Segoe Ui',
@@ -276,10 +283,10 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
                   if (bikeStation['capacity'] != null)
                     Row(
                       children: [
-                        const Expanded(
+                        Expanded(
                           child: Text(
-                            'Places disponibles',
-                            style: TextStyle(
+                            AppLocalizations.of(context)!.bike_park,
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Segoe Ui',

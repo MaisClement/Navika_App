@@ -1,4 +1,7 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/screens/home.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/screens/routes.dart';

@@ -1,11 +1,16 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/bottom_sheets/remove_address.dart';
 import 'package:navika/src/widgets/home/fav_button.dart';
-
-import 'package:navika/src/routing.dart';
 
 int getAddressPos(list, id) {
   if (list.isNotEmpty) {
@@ -35,7 +40,7 @@ class HomeBodyFavScroll extends StatelessWidget {
 // Maison
           if (getAddressPos(address, 'home') != -1)
             FavButton(
-              name: 'Maison',
+              name: AppLocalizations.of(context)!.home,
               img: NavikaIcons.home,
               onTap: () {
                 initJourney(
@@ -63,7 +68,7 @@ class HomeBodyFavScroll extends StatelessWidget {
             )
           else
             FavButton(
-              name: 'Non défini',
+              name: AppLocalizations.of(context)!.not_defined,
               img: NavikaIcons.home,
               onTap: () {
                 RouteStateScope.of(context).go('/home/address/home');
@@ -74,7 +79,7 @@ class HomeBodyFavScroll extends StatelessWidget {
 // Travail
           if (getAddressPos(address, 'work') != -1)
             FavButton(
-              name: 'Travail',
+              name: AppLocalizations.of(context)!.work,
               img: NavikaIcons.business,
               onTap: () {
                 initJourney(
@@ -102,7 +107,7 @@ class HomeBodyFavScroll extends StatelessWidget {
             )
           else
             FavButton(
-                name: 'Non défini',
+                name: AppLocalizations.of(context)!.not_defined,
                 img: NavikaIcons.business,
                 onTap: () {
                   RouteStateScope.of(context).go('/home/address/work');
@@ -141,7 +146,7 @@ class HomeBodyFavScroll extends StatelessWidget {
               ),
 
           FavButton(
-              name: 'Ajouter',
+              name: AppLocalizations.of(context)!.add,
               img: NavikaIcons.plus,
               onTap: () {
                 RouteStateScope.of(context).go('/home/address');

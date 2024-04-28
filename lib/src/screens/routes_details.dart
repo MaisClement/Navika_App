@@ -1,15 +1,23 @@
+// 🎯 Dart imports:
 import 'dart:io';
 
-import 'package:floating_snackbar/floating_snackbar.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:floating_snackbar/floating_snackbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/api.dart';
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
-import 'package:navika/src/data/global.dart' as globals;
-import 'package:http/http.dart' as http;
 import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bottom_sheets/notifications.dart';
@@ -18,7 +26,6 @@ import 'package:navika/src/widgets/icons/icons.dart';
 import 'package:navika/src/widgets/lines/pdf_map.dart';
 import 'package:navika/src/widgets/utils/button_large.dart';
 import 'package:navika/src/widgets/utils/button_large_trafic.dart';
-import 'package:path_provider/path_provider.dart';
 
 bool isFavoriteLine(id) {
   List favs = globals.hiveBox?.get('linesFavorites') ?? [];
@@ -79,7 +86,7 @@ Future<void> addLineToFavorite(line, context, Function? update) async {
     globals.hiveBox.put('lines_${line['id']}', null);
 
     FloatingSnackBar(
-      message: 'Favoris retiré.',
+      message: AppLocalizations.of(context)!.favorite_removed,
       context: context,
       textColor: mainColor(context),
       textStyle: snackBarText,
@@ -171,7 +178,7 @@ List<Widget> getTimeTableWidgets(Map line, context, fromlocaldata) {
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: ButtonLarge(
         icon: NavikaIcons.clock,
-        text: 'Fiche horaire',
+        text: AppLocalizations.of(context)!.timetable_sheet,
         style: const TextStyle(
           fontWeight: FontWeight.w700,
           fontSize: 17,
@@ -408,7 +415,7 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
         bottomNavigationBar: getNavigationBar(context),
         appBar: AppBar(
           title: isLoading
-            ? const Text('Lignes', style: appBarTitle)
+            ? Text(AppLocalizations.of(context)!.lines, style: appBarTitle)
             : Text('Ligne ${line['name']}', style: appBarTitle),
           actions: [
             if (!isLoading && _isFavorite) 
@@ -416,7 +423,7 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
                 icon: _isAlert
                     ? const Icon(NavikaIcons.bellFilled)
                     : const Icon(NavikaIcons.bellAdd),
-                tooltip: 'Notifications',
+                tooltip: AppLocalizations.of(context)!.notifications,
                 onPressed: () => addNotification(line, _isAlert, context),
               ),
             if (!isLoading)
@@ -424,7 +431,7 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
                 icon: _isFavorite
                   ? const Icon(NavikaIcons.starFilled)
                   : const Icon(NavikaIcons.star),
-                tooltip: 'Ajouter aux favoris',
+                tooltip: AppLocalizations.of(context)!.add_to_favorites,
                 onPressed: () => addLineToFavorite(line, context, update),
               ),
           ],
@@ -520,13 +527,13 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
                                       Theme.of(context).colorScheme.onSurface,
                                   size: 25),
                               const SizedBox(width: 10),
-                              const Expanded(
+                              Expanded(
                                 child: Text(
-                                  'Données disponible hors connexion',
+                                  AppLocalizations.of(context)!.offline_data_available,
                                   maxLines: 1,
                                   softWrap: false,
                                   overflow: TextOverflow.fade,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontFamily: 'Segoe Ui',
                                       fontSize: 18),

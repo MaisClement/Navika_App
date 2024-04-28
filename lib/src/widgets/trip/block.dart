@@ -1,4 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/screens/trip_details.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
@@ -289,7 +295,7 @@ class TripBlock extends StatelessWidget {
                       name,
                       style: getStyleByEffect(departureState, arrivalState),
                     ),
-                    ...getMessage(departureState, arrivalState, message),
+                    ...getMessage(context, departureState, arrivalState, message),
                   ],
                 ),
               ),
@@ -316,7 +322,7 @@ TextStyle getStyleByEffect(departureState, arrivalState) {
   }
 }
 
-List<Widget> getMessage(departureState, arrivalState, message) {
+List<Widget> getMessage(context, departureState, arrivalState, message) {
   List<Widget> res = [];
 
   if (message != null && message != '') {
@@ -348,21 +354,21 @@ List<Widget> getMessage(departureState, arrivalState, message) {
     }
   }
 
-  if (state[status] != null) {
+  if (getState(context)[status] != null) {
     res.add(
       Container(
         padding: const EdgeInsets.only(left: 4, top: 0, right: 4, bottom: 2),
         decoration: BoxDecoration(
-          color: state[status]['color'].withOpacity(0.2),
+          color: getState(context)[status]['color'].withOpacity(0.2),
           borderRadius: BorderRadius.circular(5),
         ),
         child: Text(
-          state[status]['text'],
+          getState(context)[status]['text'],
           style: TextStyle(
             fontWeight: FontWeight.w700,
             fontFamily: 'Segoe Ui',
             fontSize: 12,
-            color: state[status]['color'],
+            color: getState(context)[status]['color'],
           ),
         ),
       ),
@@ -372,29 +378,31 @@ List<Widget> getMessage(departureState, arrivalState, message) {
   return res;
 }
 
-Map state = {
-  'added': {
-    'text': 'Arrêt supplémentaire',
-    'color': const Color(0xff005bbc),
-  },
-  'deleted': {
-    'text': 'Arrêt supprimé',
-    'color': const Color(0xffeb2031),
-  },
-  'origin_added': {
-    'text': 'Nouvelle gare de départ',
-    'color': const Color(0xff005bbc),
-  },
-  'origin_deleted': {
-    'text': 'Nouvelle gare de départ',
-    'color': const Color(0xffeb2031),
-  },
-  'terminus_added': {
-    'text': 'Terminus exceptionel',
-    'color': const Color(0xff005bbc),
-  },
-  'terminus_deleted': {
-    'text': 'Terminus exceptionel',
-    'color': const Color(0xffeb2031),
-  }
-};
+Map getState(context) {
+  return {
+    'added': {
+      'text': AppLocalizations.of(context)!.additional_stop,
+      'color': const Color(0xff005bbc),
+    },
+    'deleted': {
+      'text': AppLocalizations.of(context)!.stop_deleted,
+      'color': const Color(0xffeb2031),
+    },
+    'origin_added': {
+      'text': AppLocalizations.of(context)!.new_departure_station,
+      'color': const Color(0xff005bbc),
+    },
+    'origin_deleted': {
+      'text': AppLocalizations.of(context)!.new_departure_station,
+      'color': const Color(0xffeb2031),
+    },
+    'terminus_added': {
+      'text': 'Terminus exceptionel',
+      'color': const Color(0xff005bbc),
+    },
+    'terminus_deleted': {
+      'text': 'Terminus exceptionel',
+      'color': const Color(0xffeb2031),
+    }
+  };
+}

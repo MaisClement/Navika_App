@@ -1,13 +1,19 @@
+// 🎯 Dart imports:
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:http/http.dart' as http;
-import 'package:navika/src/data/app.dart' as app;
-import 'package:navika/src/api.dart';
 
+// 🌎 Project imports:
+import 'package:navika/src/api.dart';
+import 'package:navika/src/data/app.dart' as app;
 import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/error_block.dart';
 
@@ -71,9 +77,9 @@ class _ChangesState extends State<Changes> {
               Navigator.pop(context);
             },
           ),
-          title: const Text(
-            'Nouveautés',
-            style: TextStyle(
+          title: Text(
+            AppLocalizations.of(context)!.what_new,
+            style: const TextStyle(
               fontWeight: FontWeight.w600,
               fontFamily: 'Segoe Ui',
               color: Colors.white,

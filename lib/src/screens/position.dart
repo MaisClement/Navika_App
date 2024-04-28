@@ -1,9 +1,14 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/data/app.dart' as app;
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:location/location.dart' as gps;
+
+// 🌎 Project imports:
+import 'package:navika/src/data/app.dart' as app;
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style.dart';
 
 class Position extends StatefulWidget {
@@ -54,9 +59,9 @@ class _PositionState extends State<Position> {
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                'Autoriser Navika à accéder à votre position ?',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.position_title,
+                style: const TextStyle(
                   fontFamily: 'Segoe Ui',
                   fontWeight: FontWeight.w600,
                   fontSize: 20,
@@ -73,7 +78,7 @@ class _PositionState extends State<Position> {
                     backgroundColor: Colors.white,
                     foregroundColor: mainColor(context),
                   ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                  child: const Text('Autoriser'),
+                  child: Text(AppLocalizations.of(context)!.allow),
                   onPressed: () async {
                     permissionGranted = await location.hasPermission();
                     permissionGranted = await location.requestPermission();
@@ -93,7 +98,7 @@ class _PositionState extends State<Position> {
                     backgroundColor: Colors.white,
                     foregroundColor: mainColor(context),
                   ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                  child: const Text('Ne pas autoriser'),
+                  child: Text(AppLocalizations.of(context)!.not_allow),
                   onPressed: () async {
                     globals.hiveBox.put('allowGps', false);
                     globals.hiveBox.put('askGps', true);
@@ -105,17 +110,17 @@ class _PositionState extends State<Position> {
               const Divider(
                 color: Colors.white,
               ),
-              const Text(
-                'Navika utilise votre position uniquement lors que l’application est ouverte, pour afficher votre position sur la carte ou vous proposer les points d’arrêts à proximité.',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.position_privacy,
+                style: const TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,
                 ),
               ),
               const Text(''),
-              const Text(
-                'Votre position est utilisée uniquement lorsque vous en avez besoin et n’est pas sauvegardée.',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.position_details,
+                style: const TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,
                 ),

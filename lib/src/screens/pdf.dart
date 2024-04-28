@@ -1,10 +1,15 @@
-
-import 'package:floating_snackbar/floating_snackbar.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:floating_snackbar/floating_snackbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:internet_file/internet_file.dart';
-import 'package:navika/src/style.dart';
 import 'package:pdfx/pdfx.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/style.dart';
 
 class PDFViewer extends StatefulWidget {
   const PDFViewer({super.key});
@@ -25,7 +30,7 @@ class _PDFViewerState extends State<PDFViewer> {
 
   void onError(pdfDocument) {
     FloatingSnackBar(
-      message: 'Une erreur s’est produite',
+      message: AppLocalizations.of(context)!.error,
       context: context,
       textColor: mainColor(context),
       textStyle: snackBarText,

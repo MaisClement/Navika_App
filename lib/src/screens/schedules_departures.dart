@@ -1,14 +1,20 @@
+// 🎯 Dart imports:
 import 'dart:async';
 
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:navika/src/data.dart';
-import 'package:navika/src/api.dart';
-import 'package:navika/src/screens/navigation_bar.dart';
-import 'package:navika/src/utils.dart';
 
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/api.dart';
+import 'package:navika/src/data.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/style.dart';
+import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/departures/lines.dart';
 import 'package:navika/src/widgets/error_message.dart';
 
@@ -108,7 +114,7 @@ class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerPr
                     SvgPicture.asset('assets/img/cancel.svg',
                         color: accentColor(context), height: 18),
                     Text(
-                      'Aucune information',
+                      AppLocalizations.of(context)!.no_information,
                       style: TextStyle(
                           color: accentColor(context),
                           fontSize: 18,

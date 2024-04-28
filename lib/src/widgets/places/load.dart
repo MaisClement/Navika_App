@@ -1,4 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/style.dart';
 
 class PlacesLoad extends StatelessWidget {
@@ -14,7 +20,7 @@ class PlacesLoad extends StatelessWidget {
       child: Column(
         children: [
           const CircularProgressIndicator(),
-          Text('Chargement...', 
+          Text(AppLocalizations.of(context)!.loading, 
             style: TextStyle(
               color: accentColor(context),
               fontWeight: FontWeight.w700

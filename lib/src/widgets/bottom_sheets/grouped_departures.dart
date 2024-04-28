@@ -1,5 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style.dart';
 
@@ -43,7 +48,7 @@ class _BottomGroupedDeparturesState extends State<BottomGroupedDepartures> with 
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Affichage de vos trains',
+            Text(AppLocalizations.of(context)!.display_your_trains,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -57,7 +62,7 @@ class _BottomGroupedDeparturesState extends State<BottomGroupedDepartures> with 
             const SizedBox(
               height: 10,
             ),
-            Text('Voulez-vous regrouper les trains selon leur ligne ?',
+            Text(AppLocalizations.of(context)!.group_trains_by_line,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontFamily: 'Segoe Ui',
@@ -69,7 +74,7 @@ class _BottomGroupedDeparturesState extends State<BottomGroupedDepartures> with 
             ),
             
             RadioListTile(
-              title: const Text('Groupé'),
+              title: Text(AppLocalizations.of(context)!.grouped),
               value: false, 
               groupValue: ungroup, 
               onChanged: (value){
@@ -81,7 +86,7 @@ class _BottomGroupedDeparturesState extends State<BottomGroupedDepartures> with 
               },
             ),
             RadioListTile(
-              title: const Text('Dégroupé'),
+              title: Text(AppLocalizations.of(context)!.ungrouped),
               value: true, 
               groupValue: ungroup, 
               onChanged: (value){
@@ -95,7 +100,7 @@ class _BottomGroupedDeparturesState extends State<BottomGroupedDepartures> with 
   
             Center(
               child: ElevatedButton(
-                child: const Text('Fermer'),
+                child: Text(AppLocalizations.of(context)!.close),
                 onPressed: () => Navigator.pop(context),
               ),  
             )

@@ -1,6 +1,13 @@
-import 'package:floating_snackbar/floating_snackbar.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:floating_snackbar/floating_snackbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/api.dart';
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/style.dart';
@@ -9,7 +16,6 @@ import 'package:navika/src/widgets/utils/icon_elevated.dart';
 import 'package:navika/src/widgets/utils/radio_tiles.dart';
 import 'package:navika/src/widgets/utils/select_tiles_mini.dart';
 import 'package:navika/src/widgets/utils/time_box.dart';
-import 'package:navika/src/data/global.dart' as globals;
 
 bool isAlertLine(id) {
   Map alert = globals.hiveBox?.get('linesAlert');
@@ -43,7 +49,7 @@ Future<void> unsubscribe(line, context) async {
 
   if (error != ApiStatus.ok) {
     FloatingSnackBar(
-      message: getErrorText(error),
+      message: getErrorText(context, error),
       context: context,
       textColor: mainColor(context),
       textStyle: snackBarText,
@@ -128,7 +134,7 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
 
         if (error != ApiStatus.ok) {
           FloatingSnackBar(
-            message: getErrorText(error),
+            message: getErrorText(context, error),
             context: context,
             textColor: mainColor(context),
             textStyle: snackBarText,
@@ -273,8 +279,8 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                     children: [
                       Text(
                         widget.isAlert
-                            ? 'Modifier une alerte'
-                            : 'Créer une alerte',
+                            ? AppLocalizations.of(context)!.edit_alert
+                            : AppLocalizations.of(context)!.create_alert,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
@@ -288,7 +294,7 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                       Container(
                         margin: const EdgeInsets.only(top: 10, bottom: 5),
                         child: Text(
-                          'Type de l’alerte',
+                          AppLocalizations.of(context)!.alert_type,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontFamily: 'Segoe Ui',
@@ -297,14 +303,14 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                         ),
                       ),
                       RadioTiles(
-                        tiles: const [
+                        tiles: [
                           {
-                            'name': 'Perturbations',
+                            'name': AppLocalizations.of(context)!.disruptions,
                             'value': 'alert',
                             'icon': NavikaIcons.alert
                           },
                           {
-                            'name': 'Perturbations et travaux',
+                            'name': AppLocalizations.of(context)!.disruptions_and_works,
                             'value': 'all',
                             'icon': NavikaIcons.work
                           },
@@ -317,7 +323,7 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                       Container(
                         margin: const EdgeInsets.only(top: 20, bottom: 5),
                         child: Text(
-                          'Jours de l’alerte',
+                          AppLocalizations.of(context)!.alert_days,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontFamily: 'Segoe Ui',
@@ -364,7 +370,7 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                       Container(
                         margin: const EdgeInsets.only(top: 20, bottom: 5),
                         child: Text(
-                          'Plage horaire',
+                          AppLocalizations.of(context)!.time_range,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontFamily: 'Segoe Ui',
@@ -413,7 +419,7 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                               foregroundColor: const Color(0xffffffff),
                             ).copyWith(
                                 elevation: ButtonStyleButton.allOrNull(0.0)),
-                            text: widget.isAlert ? 'Modifier' : 'Créer',
+                            text: widget.isAlert ? AppLocalizations.of(context)!.edit : AppLocalizations.of(context)!.create,
                             onPressed: () async {
                               await subscribe();
                             }),
@@ -427,7 +433,7 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                               foregroundColor: const Color(0xffffffff),
                             ).copyWith(
                                 elevation: ButtonStyleButton.allOrNull(0.0)),
-                            text: 'Supprimer',
+                            text: AppLocalizations.of(context)!.delete,
                             onPressed: () async {
                               await unsub();
                             }
@@ -442,7 +448,7 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                             foregroundColor:
                                 Theme.of(context).colorScheme.primary,
                           ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                          text: 'Annuler',
+                          text: AppLocalizations.of(context)!.cancel,
                           onPressed: () => Navigator.pop(context),
                         ),
                       ),

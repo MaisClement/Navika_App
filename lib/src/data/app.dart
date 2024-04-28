@@ -1,7 +1,11 @@
 // ignore_for_file: constant_identifier_names, non_constant_identifier_names
 
 library my_prj.app;
+
+// 🐦 Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// 📦 Package imports:
 import 'package:package_info_plus/package_info_plus.dart';
 
 Future getAppInfo() async {

@@ -1,5 +1,11 @@
-import 'package:floating_snackbar/floating_snackbar.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:floating_snackbar/floating_snackbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style.dart';
@@ -52,7 +58,7 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite> with Single
       update();
     } else {
       FloatingSnackBar(
-        message: 'Erreur lors de la suppression du favori.',
+        message: AppLocalizations.of(context)!.favorite_deletion_error,
         context: context,
         textColor: mainColor(context),
         textStyle: snackBarText,
@@ -81,7 +87,7 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite> with Single
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Supprimer ce favori',
+              AppLocalizations.of(context)!.remove_favorite,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -110,7 +116,7 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite> with Single
             Center(
               child: IconElevatedButton(
                 icon: NavikaIcons.trash,
-                text: 'Supprimer',
+                text: AppLocalizations.of(context)!.delete,
                 onPressed: () {
                   handleRemove(widget.id, widget.line, widget.update);
                 },
@@ -123,7 +129,7 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite> with Single
             Center(
               child: IconElevatedButton(
                 icon: NavikaIcons.cancel,
-                text: 'Annuler',
+                text: AppLocalizations.of(context)!.cancel,
                 onPressed: () {
                   Navigator.pop(context);
                 },

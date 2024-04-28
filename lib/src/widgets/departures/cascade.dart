@@ -1,4 +1,7 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/departures/train.dart';
 
@@ -19,7 +22,6 @@ class DeparturesCascade extends StatelessWidget {
         margin: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          // color: schedulesBack(context, HexColor.fromHex(line['color'])),
         ),
         child: Column(
           children: [

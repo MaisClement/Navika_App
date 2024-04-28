@@ -1,13 +1,20 @@
+// 🎯 Dart imports:
 import 'dart:math';
 import 'dart:ui';
 
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:here_sdk/core.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/data.dart';
 import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/style.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
+import 'package:navika/src/style.dart';
 
 Map listModes = {
   'cable': [
@@ -43,7 +50,7 @@ Widget voidData(context) {
       SvgPicture.asset('assets/img/cancel.svg',
           color: accentColor(context), height: 18),
       Text(
-        'Aucune information',
+        AppLocalizations.of(context)!.no_information,
         style: TextStyle(
             color: accentColor(context),
             fontSize: 18,
@@ -180,39 +187,39 @@ AssetImage getSlugImage(severity, [type]) {
   }
 }
 
-String getSlugTitle(severity) {
+String getSlugTitle(BuildContext context, severity) {
   if (severity == 0) {
-    return 'Trafic fluide';
+    return AppLocalizations.of(context)!.slug_short_title_0;
   } else if (severity == 5) {
-    return 'Trafic fortement perturbé';
+    return AppLocalizations.of(context)!.slug_short_title_5;
   } else if (severity == 4) {
-    return 'Trafic perturbé';
+    return AppLocalizations.of(context)!.slug_short_title_4;
   } else if (severity == 3) {
-    return 'Travaux';
+    return AppLocalizations.of(context)!.slug_short_title_3;
   } else if (severity == 2) {
-    return 'Travaux à venir';
+    return AppLocalizations.of(context)!.slug_short_title_2;
   } else if (severity == 1) {
-    return 'Information';
+    return AppLocalizations.of(context)!.slug_short_title_1;
   } else {
-    return 'Trafic fluide';
+    return AppLocalizations.of(context)!.slug_short_title_NA;
   }
 }
 
-String getSlugLongTitle(severity) {
+String getSlugLongTitle(BuildContext context, severity) {
   if (severity == 0) {
-    return 'Trafic fluide';
+    return AppLocalizations.of(context)!.slug_long_title_0;
   } else if (severity == 5) {
-    return 'Le trafic est fortement perturbé';
+    return AppLocalizations.of(context)!.slug_long_title_5;
   } else if (severity == 4) {
-    return 'Le trafic est perturbé';
+    return AppLocalizations.of(context)!.slug_long_title_4;
   } else if (severity == 3) {
-    return 'Des travaux sont en cours';
+    return AppLocalizations.of(context)!.slug_long_title_3;
   } else if (severity == 2) {
-    return 'Des travaux sont à venir';
+    return AppLocalizations.of(context)!.slug_long_title_2;
   } else if (severity == 1) {
-    return 'Information';
+    return AppLocalizations.of(context)!.slug_long_title_1;
   } else {
-    return 'Rien à signaler';
+    return AppLocalizations.of(context)!.slug_long_title_NA;
   }
 }
 
@@ -220,12 +227,10 @@ String getDateTime(String time) {
   DateTime dttime = DateTime.parse(time);
 
   String dtday = dttime.day < 10 ? '0${dttime.day}' : dttime.day.toString();
-  String dtmonth =
-      dttime.month < 10 ? '0${dttime.month}' : dttime.month.toString();
+  String dtmonth = dttime.month < 10 ? '0${dttime.month}' : dttime.month.toString();
   String dtyear = dttime.year.toString();
   String dthour = dttime.hour < 10 ? '0${dttime.hour}' : dttime.hour.toString();
-  String dtminute =
-      dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
+  String dtminute = dttime.minute < 10 ? '0${dttime.minute}' : dttime.minute.toString();
 
   return '$dtday/$dtmonth/$dtyear $dthour:$dtminute';
 }
@@ -325,17 +330,11 @@ String makeTime(String time) {
 List getState(Map train) {
   String state = train['stop_date_time']['state'];
 
-  List res = [];
-  if (state == 'modified') {
-    res.add('modified');
-  }
-  if (state != 'ontime' && state != 'theorical') {
-    res.add(state);
-  }
+  List res = [state];
   if (getLate(train) > 0) {
     res.add('delayed');
   }
-  //else {
+  
   if (res.isEmpty) {
     res.add('ontime');
   }
@@ -381,7 +380,7 @@ int getDelay(dateTime, baseDateTime) {
 Color getColorByState(state, context) {
   if (state.contains('cancelled')) {
     return const Color(0xffeb2031);
-  } else if (state.contains('delayed') || state.contains('modified')) {
+  } else if (state.contains('delayed') || state.contains('modified') || state.contains('exceptional_terminus')) {
     return const Color(0xfff68f53);
   } else if (state.contains('ontime')) {
     return Colors.white.withOpacity(0);
@@ -418,14 +417,11 @@ Color getSchedulesColorByStateList(state, isLate, context) {
 }
 
 Color getDeparturesColorByState(state, context) {
-  if (state.contains('cancelled') ||
-      state.contains('delayed') ||
-      state.contains('modified') ||
-      state.contains('ontime')) {
-    return const Color(0xfffcc900);
+  if (state.length == 1 && state.contains('theorical')) {
+    return const Color(0xffa9a9a9);
   }
 
-  return const Color(0xffa9a9a9);
+  return const Color(0xfffcc900);
 }
 
 Color getColorForDirectionByState(state, context) {
@@ -433,7 +429,7 @@ Color getColorForDirectionByState(state, context) {
     return const Color(0xffeb2031);
   } else if (state.contains('cancelled')) {
     return const Color(0xffeb2031);
-  } else if (state.contains('modified')) {
+  } else if (state.contains('modified') || state.contains('exceptional_terminus')) {
     return const Color(0xfff68f53);
   } else {
     return accentColor(context);
@@ -443,8 +439,10 @@ Color getColorForDirectionByState(state, context) {
 Color getBackColorByState(state, context) {
   if (state.contains('cancelled')) {
     return const Color(0xffeb2031);
-  } else if (state.contains('delayed') || state.contains('modified')) {
+  } else if (state.contains('delayed') || state.contains('modified')  || state.contains('exceptional_terminus')) {
     return const Color(0xfff68f53);
+  } else if (state.contains('added')) {
+    return const Color(0xff005bbc);
   } else {
     return Colors.white.withOpacity(0);
   }
@@ -452,7 +450,7 @@ Color getBackColorByState(state, context) {
 
 // Journeys
 
-Color getColorByType(context, section) {
+Color getColorByType(BuildContext context, section) {
   if (section['type'] == 'street_network' || section['type'] == 'waiting') {
     if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
       return const Color(0xffffffff);
@@ -504,7 +502,7 @@ String getStringTime(String time) {
   return '$dthour:$dtminute';
 }
 
-TextStyle getTextStyle(context, int size) {
+TextStyle getTextStyle(BuildContext context, int size) {
   return TextStyle(
     fontSize: size.toDouble(),
     fontWeight: FontWeight.w600,

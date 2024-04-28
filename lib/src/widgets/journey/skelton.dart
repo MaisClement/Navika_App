@@ -1,8 +1,14 @@
+// 🎯 Dart imports:
 import 'dart:math';
 
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:navika/src/style.dart';
+
+// 📦 Package imports:
 import 'package:shimmer/shimmer.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/style.dart';
 
 class RouteListSkelton extends StatelessWidget {
   const RouteListSkelton({super.key});

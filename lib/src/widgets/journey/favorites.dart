@@ -1,4 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/extensions/datetime.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/journeys.dart';
@@ -20,11 +26,11 @@ List<Widget> buildFavorites(List journeys, update, context) {
       date = DateTime.parse(journeys[i]['departure_date_time']);
 
       if (date.isToday()) {
-        d = 'Aujourd’hui';
+        d = AppLocalizations.of(context)!.today;
       } else if (date.isTomorrow()) {
-        d = 'Demain';
+        d = AppLocalizations.of(context)!.tomorrow;
       } else {
-        d = '${date.day} ${longMonth[date.month]}';
+        d = '${date.day} ${getLongMonth(context)[date.month]}';
       }
       
       widgets.add(
@@ -102,9 +108,9 @@ class RouteFavorites extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    const Text(
-                      'Aucun itinéraire enregistré.',
-                      style: TextStyle(
+                    Text(
+                      AppLocalizations.of(context)!.no_saved_routes,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         fontFamily: 'Segoe Ui',
                       ),
@@ -115,7 +121,7 @@ class RouteFavorites extends StatelessWidget {
                     ),
                     IconElevatedButton(
                       icon: NavikaIcons.search,
-                      text: 'Rechercher',
+                      text: AppLocalizations.of(context)!.search,
                       onPressed: () => initJourney(null, null, context),
                     ),
                   ],

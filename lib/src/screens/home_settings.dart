@@ -1,32 +1,37 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/style.dart';
 
-import 'package:navika/src/data/global.dart' as globals;
-
-String getBlockName(id) {
+String getBlockName(BuildContext context, id) {
   switch (id) {
     case 'message':
-      return 'Messages d’actualité';
+      return AppLocalizations.of(context)!.news_messages;
 
     case 'sponsor':
-      return 'Soutenir Navika';
+      return AppLocalizations.of(context)!.support_navika;
 
     case 'trafic':
-      return 'État du trafic';
+      return AppLocalizations.of(context)!.traffic_status;
 
     case 'recurrentJourneys':
-      return 'Vos trajets réguliers';
+      return AppLocalizations.of(context)!.regular_trips;
 
     case 'punctualJourneys':
-      return 'Vos itinéraires';
+      return AppLocalizations.of(context)!.your_routes;
 
     case 'schedules':
-      return 'Vos horaires';
+      return AppLocalizations.of(context)!.your_timetables;
 
     case 'map':
-      return 'Plans du réseau';
+      return AppLocalizations.of(context)!.network_maps;
 
     default:
       return '';
@@ -51,8 +56,6 @@ class HomeSettings extends StatefulWidget {
 }
 
 class _HomeSettingsState extends State<HomeSettings> with SingleTickerProviderStateMixin {
-  final String title = 'Réorganiser l’accueil';
-
   List blocks = globals.hiveBox?.get('homepageOrder');
 
   void reorderData(int oldindex, int newindex) {
@@ -85,7 +88,7 @@ class _HomeSettingsState extends State<HomeSettings> with SingleTickerProviderSt
   Widget build(BuildContext context) => Scaffold(
       bottomNavigationBar: getNavigationBar(context),
       appBar: AppBar(
-        title: Text(title, style: appBarTitle),
+        title: Text(AppLocalizations.of(context)!.reorganize_home, style: appBarTitle),
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: ReorderableListView(
@@ -115,7 +118,7 @@ class _HomeSettingsState extends State<HomeSettings> with SingleTickerProviderSt
                     width: 10,
                   ),
                   Expanded(
-                    child: Text(getBlockName(block['id']),
+                    child: Text(getBlockName(context, block['id']),
                     style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,

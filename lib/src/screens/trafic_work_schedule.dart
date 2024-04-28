@@ -1,5 +1,11 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/data/lines.dart';
 import 'package:navika/src/extensions/datetime.dart';
 import 'package:navika/src/extensions/string.dart';
@@ -7,20 +13,21 @@ import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/style.dart';
-import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/trafic_details/disruptions.dart';
 
-Map shortDay = {
-  1: 'Lun',
-  2: 'Mar',
-  3: 'Mer',
-  4: 'Jeu',
-  5: 'Ven',
-  6: 'Sam',
-  7: 'Dim',
+Map<int, String> getShortDay(context) {
+  return {
+  1: AppLocalizations.of(context)!.short_monday,
+  2: AppLocalizations.of(context)!.short_tuesday,
+  3: AppLocalizations.of(context)!.short_wednesday,
+  4: AppLocalizations.of(context)!.short_thursday,
+  5: AppLocalizations.of(context)!.short_friday,
+  6: AppLocalizations.of(context)!.short_saturday,
+  7: AppLocalizations.of(context)!.short_sunday,
 };
+}
 
-Widget buildDay(context, DateTime date, DateTime selectedDate, Function setSelectedDate, int index, List reports) {
+Widget buildDay(BuildContext context, DateTime date, DateTime selectedDate, Function setSelectedDate, int index, List reports) {
 
   DateTime currentDate = DateTime.now();
   DateTime dt = DateTime(date.year, date.month, index); 
@@ -172,7 +179,7 @@ class _TraficWorkScheduleState extends State<TraficWorkSchedule> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Calendrier des travaux', style: appBarTitle),
+              Text(AppLocalizations.of(context)!.works_calendar, style: appBarTitle),
               if (LINES.getLines(globals.lineTrafic) != null && LINES.getLines(globals.lineTrafic)!['name'] != '')
                 Text(LINES.getLines(globals.lineTrafic)!['name'], style: appBarSubtitle),
             ],
@@ -204,7 +211,7 @@ class _TraficWorkScheduleState extends State<TraficWorkSchedule> {
                   
                   Expanded(
                     child: Center(
-                      child: Text('${longMonth[date.month]?.capitalize()}',
+                      child: Text('${getLongMonth(context)[date.month]?.capitalize()}',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -234,10 +241,10 @@ class _TraficWorkScheduleState extends State<TraficWorkSchedule> {
 
               Row(
                 children: [
-                  for(var day in shortDay.keys )
+                  for(var day in getShortDay(context).keys )
                     Expanded(
                       child: Center(
-                        child: Text('${shortDay[day]}'
+                        child: Text('${getShortDay(context)[day]}'
                         ),
                       ),
                     ),
@@ -270,7 +277,7 @@ class _TraficWorkScheduleState extends State<TraficWorkSchedule> {
                       top: 15
                     ),
                     child: Center(
-                      child: Text('Aucun travaux prévu à cette date',
+                      child: Text(AppLocalizations.of(context)!.no_work_planned,
                         style: TextStyle(
                           color: Colors.grey[600],
                           fontSize: 16,

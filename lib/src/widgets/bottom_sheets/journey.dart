@@ -1,4 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/data/global.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/journeys_details.dart';
@@ -64,7 +70,7 @@ class _BottomJourneyState extends State<BottomJourney> with SingleTickerProvider
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Enregistrer un trajet',
+                  Text(AppLocalizations.of(context)!.save_trip,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
@@ -78,7 +84,7 @@ class _BottomJourneyState extends State<BottomJourney> with SingleTickerProvider
                   Container(
                     margin: const EdgeInsets.only(top: 10, bottom: 5),
                     child: Text(
-                      'Type du trajet',
+                      AppLocalizations.of(context)!.route_type,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontFamily: 'Segoe Ui',
@@ -87,14 +93,14 @@ class _BottomJourneyState extends State<BottomJourney> with SingleTickerProvider
                     ),
                   ),
                   RadioTiles(
-                    tiles: const [
-                      {
+                    tiles: [
+                      const {
                         'name': 'Trajet ponctuel',
                         'value': 'punctual',
                         'icon': NavikaIcons.calendar
                       },
                       {
-                        'name': 'Trajet régulier',
+                        'name': AppLocalizations.of(context)!.regular_route,
                         'value': 'recurrent',
                         'icon': NavikaIcons.futur
                       },
@@ -114,7 +120,7 @@ class _BottomJourneyState extends State<BottomJourney> with SingleTickerProvider
                   backgroundColor: Theme.of(context).colorScheme.primary,
                   foregroundColor: const Color(0xffffffff),
                 ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                text: 'Annuler',
+                text: AppLocalizations.of(context)!.cancel,
                 onPressed: () => Navigator.pop(context),
               ),
             ),

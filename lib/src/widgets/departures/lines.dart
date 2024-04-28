@@ -1,5 +1,11 @@
-import 'package:floating_snackbar/floating_snackbar.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:floating_snackbar/floating_snackbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
@@ -140,22 +146,20 @@ class DepartureLines extends StatelessWidget {
                       Wrap(
                         children: [
                           if (train['stop_date_time']['state'] == 'cancelled')
-                            const MiniMessage(
-                              message: 'Supprimé',
+                            MiniMessage(
+                              message: AppLocalizations.of(context)!.deleted,
                               color: Colors.white,
-                              backgroundColor: Color(0xffeb2031),
+                              backgroundColor: const Color(0xffeb2031),
                             ),
                           if (train['stop_date_time']['state'] == 'modified')
-                            const MiniMessage(
-                              message: 'Modifié',
+                            MiniMessage(
+                              message: AppLocalizations.of(context)!.modified,
                               color: Colors.white,
-                              backgroundColor: Color.fromARGB(255, 32, 32, 235),
+                              backgroundColor: const Color.fromARGB(255, 32, 32, 235),
                             ),
                           if (getState(train)
                               .contains('delayed'))
-                            MiniMessage(
-                              message:
-                                  '+${getLate(train)} min',
+                            MiniMessage( message: '+${getLate(train)} min',
                               color: Colors.white,
                               backgroundColor: const Color(0xffeb2031),
                             ),
@@ -171,8 +175,8 @@ class DepartureLines extends StatelessWidget {
                                     builder: (BuildContext context) =>
                                         BottomTerminusTrain(update: update));
                               },
-                              child: const Message(
-                                message: 'Terminus',
+                              child: Message(
+                                message: AppLocalizations.of(context)!.settings_terminus,
                               ),
                             ),
                           ),

@@ -1,5 +1,10 @@
-import 'package:dotted_line/dotted_line.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:dotted_line/dotted_line.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/utils.dart';
 
 class SectionWaiting extends StatelessWidget {

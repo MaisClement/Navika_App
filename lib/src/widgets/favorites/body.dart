@@ -1,13 +1,21 @@
+// 🎯 Dart imports:
 import 'dart:async';
+
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/api.dart';
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/routing.dart';
 import 'package:navika/src/style.dart';
+import 'package:navika/src/widgets/bottom_sheets/remove_favorite.dart';
 import 'package:navika/src/widgets/departures/block.dart';
 import 'package:navika/src/widgets/error_message.dart';
-import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/routing.dart';
-import 'package:navika/src/widgets/bottom_sheets/remove_favorite.dart';
 import 'package:navika/src/widgets/schedules/block.dart';
 import 'package:navika/src/widgets/schedules/skelton.dart';
 
@@ -120,7 +128,7 @@ class _FavoriteBodyState extends State<FavoriteBody> with SingleTickerProviderSt
                   IconButton(
                     icon: const Icon(Icons.more_horiz),
                     color: Theme.of(context).colorScheme.onSurface,
-                    tooltip: 'Supprimer ce favori',
+                    tooltip: AppLocalizations.of(context)!.remove_favorite,
                     onPressed: () {
                       showModalBottomSheet<void>(
                         shape: const RoundedRectangleBorder(
@@ -160,7 +168,7 @@ class _FavoriteBodyState extends State<FavoriteBody> with SingleTickerProviderSt
                   ),
                 Center(
                   child: ElevatedButton(
-                    child: const Text('Tous les horaires ➜'),
+                    child: Text(AppLocalizations.of(context)!.view_all_schedules),
                     onPressed: () {
                       globals.schedulesStopName = widget.name;
                       RouteStateScope.of(context)
@@ -185,7 +193,7 @@ class _FavoriteBodyState extends State<FavoriteBody> with SingleTickerProviderSt
                   ),
                 Center(
                   child: ElevatedButton(
-                    child: const Text('Tous les horaires ➜'),
+                    child: Text(AppLocalizations.of(context)!.view_all_schedules),
                     onPressed: () {
                       globals.schedulesStopName = widget.name;
                       RouteStateScope.of(context)

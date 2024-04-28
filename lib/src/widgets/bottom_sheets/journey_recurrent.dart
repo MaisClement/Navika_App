@@ -1,11 +1,14 @@
-import 'package:flutter/material.dart';
+// 🐦 Flutter imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/journeys_details.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/journey/lines.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
 import 'package:navika/src/widgets/utils/radio_tiles.dart';
-import 'package:navika/src/data/global.dart' as globals;
 
 final MaterialStateProperty<Icon?> thumbIcon =
     MaterialStateProperty.resolveWith<Icon?>((Set<MaterialState> states) {
@@ -49,8 +52,8 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
   // };
   // 
   // Map times = {
-  //   'start_time': const TimeOfDay(hour: 7, minute: 0),
-  //   'end_time': const TimeOfDay(hour: 18, minute: 0),
+  //   'start_time': TimeOfDay(hour: 7, minute: 0),
+  //   'end_time': TimeOfDay(hour: 18, minute: 0),
   // };
 
   void setType(value) {
@@ -145,8 +148,8 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                     children: [
                       Text(
                         widget.isExisting
-                            ? 'Modifier un trajet'
-                            : 'Enregistrer un trajet régulier',
+                            ? AppLocalizations.of(context)!.edit_route
+                            : AppLocalizations.of(context)!.save_regular_trip,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
@@ -189,7 +192,7 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                       Container(
                         margin: const EdgeInsets.only(top: 10, bottom: 5),
                         child: Text(
-                          'Sélection du trajet',
+                          AppLocalizations.of(context)!.select_trip,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontFamily: 'Segoe Ui',
@@ -198,19 +201,19 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                         ),
                       ),
                       RadioTiles(
-                        tiles: const [
+                        tiles: [
                           {
-                            'name': 'Identique',
+                            'name': AppLocalizations.of(context)!.same,
                             'value': 'same',
                             'icon': NavikaIcons.futur
                           },
                           {
-                            'name': 'Recommandé',
+                            'name': AppLocalizations.of(context)!.best,
                             'value': 'default',
                             'icon': NavikaIcons.stars
                           },
                           {
-                            'name': 'Le plus rapide',
+                            'name': AppLocalizations.of(context)!.fastest,
                             'value': 'fastest',
                             'icon': NavikaIcons.avance
                           },
@@ -225,7 +228,7 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                       //  Column(
                       //    crossAxisAlignment: CrossAxisAlignment.start,
                       //    children: [
-                      //      const SizedBox(height: 20),
+                      //      SizedBox(height: 20),
                       //      Row(
                       //        children: [
                       //          Expanded(
@@ -255,9 +258,9 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                       //        ],
                       //      ),
                       //      Container(
-                      //        margin: const EdgeInsets.only(top: 10, bottom: 5),
+                      //        margin: EdgeInsets.only(top: 10, bottom: 5),
                       //        child: Text(
-                      //          'Jours de l’alerte',
+                      //          AppLocalizations.of(context)!.alert_days,
                       //          style: TextStyle(
                       //            fontWeight: FontWeight.w600,
                       //            fontFamily: 'Segoe Ui',
@@ -266,7 +269,7 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                       //        ),
                       //      ),
                       //      MiniSelectTiles(
-                      //        tiles: const [
+                      //        tiles: [
                       //          {
                       //            'name': 'L',
                       //            'value': 'monday',
@@ -302,9 +305,9 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                       //        },
                       //      ),
                       //      Container(
-                      //        margin: const EdgeInsets.only(top: 20, bottom: 5),
+                      //        margin: EdgeInsets.only(top: 20, bottom: 5),
                       //        child: Text(
-                      //          'Plage horaire',
+                      //          AppLocalizations.of(context)!.time_range,
                       //          style: TextStyle(
                       //            fontWeight: FontWeight.w600,
                       //            fontFamily: 'Segoe Ui',
@@ -324,7 +327,7 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                       //            },
                       //          ),
                       //          Padding(
-                      //            padding: const EdgeInsets.only(left: 15, right: 15),
+                      //            padding: EdgeInsets.only(left: 15, right: 15),
                       //            child: Icon(
                       //              NavikaIcons.avance,
                       //              color: Theme.of(context).colorScheme.onSurface,
@@ -354,7 +357,7 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                             backgroundColor: Theme.of(context).colorScheme.primary,
                             foregroundColor: const Color(0xffffffff),
                           ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                          text: 'Enregistrer',
+                          text: AppLocalizations.of(context)!.save,
                           onPressed: () async {
                             add();
                           }

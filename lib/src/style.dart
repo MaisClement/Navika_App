@@ -1,4 +1,7 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/screens/trip_details.dart';
 
 const appBarTitle = TextStyle(

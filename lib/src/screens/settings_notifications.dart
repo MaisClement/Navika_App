@@ -1,12 +1,16 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/routes_details.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/bottom_sheets/notifications.dart';
 import 'package:navika/src/widgets/lines/listbutton.dart';
-
 
 class SettingsNotification extends StatefulWidget {
   const SettingsNotification({super.key});
@@ -37,9 +41,9 @@ class _SettingsNotificationState extends State<SettingsNotification> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           backgroundColor: mainColor(context),
-          title: const Text(
-            'Notifications',
-            style: TextStyle(
+          title: Text(
+            AppLocalizations.of(context)!.notifications,
+            style: const TextStyle(
               fontWeight: FontWeight.w600,
               fontFamily: 'Segoe Ui',
                   color: Colors.white,

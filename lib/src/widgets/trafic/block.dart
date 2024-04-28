@@ -1,9 +1,11 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-import 'package:navika/src/routing.dart';
-import 'package:navika/src/data/lines.dart';
-import 'package:navika/src/utils.dart';
+// 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/data/lines.dart';
+import 'package:navika/src/routing.dart';
+import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 
 Map getTrafic(List trafic, String? name, Map? line) {

@@ -1,12 +1,18 @@
+// 🎯 Dart imports:
 import 'dart:async';
 
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
-import 'package:navika/src/api.dart';
 
-import 'package:navika/src/routing.dart';
+// 🌎 Project imports:
+import 'package:navika/src/api.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/home.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/places/empty.dart';
@@ -81,8 +87,8 @@ class _SchedulesSearchState extends State<HomeSearch> {
 			title: TextField(
         controller: myController,
         focusNode: textFieldNode,
-        decoration: const InputDecoration(
-          hintText: 'Rechercher un lieu sur la carte'
+        decoration: InputDecoration(
+          hintText: AppLocalizations.of(context)!.search_location_on_map
         ),
         onChanged: (text) {
           setState(() {

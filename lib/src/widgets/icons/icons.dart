@@ -1,5 +1,7 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 🌎 Project imports:
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
 

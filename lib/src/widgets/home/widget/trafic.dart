@@ -1,4 +1,7 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/widgets/trafic/block.dart';
 
 class HomeWidgetTrafic extends StatelessWidget {

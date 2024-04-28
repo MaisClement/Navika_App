@@ -1,9 +1,15 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/api.dart';
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
-import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/utils/button_large.dart';
@@ -45,7 +51,7 @@ class _MapsState extends State<Maps> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) => Scaffold(
         bottomNavigationBar: getNavigationBar(context),
         appBar: AppBar(
-          title: const Text('Plans', style: appBarTitle),
+          title: Text(AppLocalizations.of(context)!.maps, style: appBarTitle),
         ),
         body: ListView(
           children: [

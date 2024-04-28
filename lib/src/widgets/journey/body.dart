@@ -1,12 +1,14 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/widgets/journey/emission.dart';
 import 'package:navika/src/widgets/journey/fare.dart';
 import 'package:navika/src/widgets/journey/sections/arrival.dart';
 import 'package:navika/src/widgets/journey/sections/public_transport.dart';
 import 'package:navika/src/widgets/journey/sections/street_network.dart';
 import 'package:navika/src/widgets/journey/sections/transfer.dart';
 import 'package:navika/src/widgets/journey/sections/waiting.dart';
-
-import 'package:navika/src/widgets/journey/emission.dart';
 
 class RouteBody extends StatelessWidget {
   final ScrollController scrollController;

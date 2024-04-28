@@ -1,6 +1,8 @@
+// 📦 Package imports:
 import 'package:collection/collection.dart';
 import 'package:quiver/core.dart';
 
+// 🌎 Project imports:
 import 'package:navika/src/routing/parser.dart';
 
 /// A route path that has been parsed by [TemplateRouteParser].

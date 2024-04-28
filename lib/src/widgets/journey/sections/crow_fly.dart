@@ -1,5 +1,8 @@
-import 'package:dotted_line/dotted_line.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:dotted_line/dotted_line.dart';
 
 class SectionCrowFly extends StatelessWidget {
 

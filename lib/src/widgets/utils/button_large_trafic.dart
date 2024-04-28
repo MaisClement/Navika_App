@@ -1,4 +1,7 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 
@@ -58,7 +61,7 @@ class ButtonLargeTrafic extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    getSlugLongTitle(line['severity']),
+                    getSlugLongTitle(context, line['severity']),
                     style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 17,

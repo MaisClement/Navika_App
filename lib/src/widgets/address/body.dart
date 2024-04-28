@@ -1,8 +1,15 @@
+// 🎯 Dart imports:
 import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:here_sdk/core.dart';
-import 'package:navika/src/api.dart';
 
+// 🐦 Flutter imports:
+import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:here_sdk/core.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/api.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
@@ -60,7 +67,7 @@ class AddressBody extends StatefulWidget {
   final ScrollController scrollController;
   final Function onDispose;
 
-  AddressBody({
+  const AddressBody({
     required this.id,
     required this.scrollController,
     required this.onDispose,
@@ -161,7 +168,7 @@ class _AddressBodyState extends State<AddressBody> with SingleTickerProviderStat
                     children: [
                       IconButton(
                         icon: const Icon(Icons.arrow_back),
-                        tooltip: 'Retour',
+                        tooltip: AppLocalizations.of(context)!.back,
                         color: accentColor(context),
                         onPressed: () => Navigator.pop(context),
                       ),
@@ -203,7 +210,7 @@ class _AddressBodyState extends State<AddressBody> with SingleTickerProviderStat
 
                       IconElevatedButton(
                         icon: NavikaIcons.navi,
-                        text: 'Y aller',
+                        text: AppLocalizations.of(context)!.go,
                         onPressed: () {
                           initJourney(
                             null,
@@ -227,7 +234,7 @@ class _AddressBodyState extends State<AddressBody> with SingleTickerProviderStat
                 const SizedBox(height: 30),
                 Padding(
                   padding: const EdgeInsets.only(left: 10, bottom: 10),
-                  child: Text('À proximité',
+                  child: Text(AppLocalizations.of(context)!.nearby,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,

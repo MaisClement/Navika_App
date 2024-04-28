@@ -1,9 +1,14 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:navika/src/icons/navika_icons_icons.dart';
-import 'package:navika/src/style.dart';
 
-import 'package:navika/src/routing.dart';
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/routing.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/lines/listbutton.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
 import 'package:navika/src/widgets/utils/search_box.dart';
@@ -16,8 +21,6 @@ class Routes extends StatefulWidget {
 }
 
 class _RoutesState extends State<Routes> {
-  final String title = 'Lignes';
-
   List favs = globals.hiveBox?.get('linesFavorites');
   void updateFavorites() {
     setState(() {
@@ -43,7 +46,7 @@ class _RoutesState extends State<Routes> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: appBarTitle),
+              Text(AppLocalizations.of(context)!.lines, style: appBarTitle),
               const SizedBox(
                 height: 10,
               ),
@@ -52,7 +55,7 @@ class _RoutesState extends State<Routes> {
                     RouteStateScope.of(context).go('/routes/search');
                   },
                   icon: NavikaIcons.search,
-                  text: 'Rechercher une ligne'),
+                  text: AppLocalizations.of(context)!.search_line),
             ],
           ),
         ),
@@ -74,9 +77,9 @@ class _RoutesState extends State<Routes> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const Text(
-                      'Ajoutez vos lignes à vos favoris pour y accéder encore plus rapidement et à tout moment.',
-                      style: TextStyle(
+                    Text(
+                      AppLocalizations.of(context)!.add_lines_to_favorites,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         fontFamily: 'Segoe Ui',
                       ),
@@ -87,7 +90,7 @@ class _RoutesState extends State<Routes> {
                     ),
                     IconElevatedButton(
                       icon: NavikaIcons.search,
-                      text: 'Rechercher',
+                      text: AppLocalizations.of(context)!.search,
                       onPressed: () {
                         RouteStateScope.of(context).go('/routes/search');
                       },

@@ -1,25 +1,31 @@
+// 🎯 Dart imports:
 import 'dart:async';
 
-import 'package:floating_snackbar/floating_snackbar.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+// 📦 Package imports:
+import 'package:floating_snackbar/floating_snackbar.dart';
+import 'package:flutter_compass/flutter_compass.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
+import 'package:location/location.dart' as gps;
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/controller/here_map_controller.dart';
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/navigator.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bottom_sheets/journey.dart';
 import 'package:navika/src/widgets/icons/icons.dart';
 import 'package:navika/src/widgets/journey/body.dart';
 import 'package:navika/src/widgets/journey/header.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:flutter_compass/flutter_compass.dart';
-
-import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/controller/here_map_controller.dart';
-import 'package:navika/src/style.dart';
 
 void saveJourney(String uniqueId, context) {
   List journeys = globals.hiveBox.get('journeys');
@@ -27,7 +33,7 @@ void saveJourney(String uniqueId, context) {
   if (isSavedJourney(uniqueId)){
     journeys.removeWhere((element) => element['unique_id'] == uniqueId);
     FloatingSnackBar(
-      message: 'Itinéraire retiré.',
+      message: AppLocalizations.of(context)!.route_removed,
       context: context,
       textColor: mainColor(context),
       textStyle: snackBarText,
@@ -37,7 +43,7 @@ void saveJourney(String uniqueId, context) {
   } else {
     journeys.add(globals.journey);
     FloatingSnackBar(
-      message: 'Itinéraire enregistré, les détails sont désormais disponibles même hors connexion.',
+      message: AppLocalizations.of(context)!.saved_route,
       context: context,
       textColor: mainColor(context),
       textStyle: snackBarText,
@@ -59,7 +65,7 @@ bool isSavedJourney(String uniqueId) {
   return false;
 }
 
-void save(context, journey) {
+void save(BuildContext context, journey) {
   if (isSavedJourney(journey['unique_id'])) {
     saveJourney(journey['unique_id'], context);
   } else {
@@ -96,18 +102,18 @@ List getLineByJourney(journey) {
 
 bool allowNavi(journey) {
   return false;
-  //TODO bool? allowGps = globals.hiveBox?.get('allowGps');
-  //TODO if (allowGps == false) {
-  //TODO   return false;
-  //TODO }
-  //TODO if (isInPast(journey['arrival_date_time'])) {
-  //TODO   return false;
-  //TODO }
-  //TODO if (getTimeDifference(journey['departure_date_time']) > 120) {
-  //TODO   return false;
-  //TODO }
-  //TODO 
-  //TODO return true;
+  //DISABLED bool? allowGps = globals.hiveBox?.get('allowGps');
+  //DISABLED if (allowGps == false) {
+  //DISABLED   return false;
+  //DISABLED }
+  //DISABLED if (isInPast(journey['arrival_date_time'])) {
+  //DISABLED   return false;
+  //DISABLED }
+  //DISABLED if (getTimeDifference(journey['departure_date_time']) > 120) {
+  //DISABLED   return false;
+  //DISABLED }
+  //DISABLED 
+  //DISABLED return true;
 }
 
 class JourneysDetails extends StatefulWidget {
@@ -149,7 +155,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
     return journey['sections'][journey['sections'].length - 1]['to']['coord'];
   }
 
-  void _createGeoJson(context, Map journey) {
+  void _createGeoJson(BuildContext context, Map journey) {
     for (var section in journey['sections']) {
       if (section['geojson'] != null) {
         _createPolylines(section['geojson'], getLineWidthByType(section['type']), getColorByType(context, section));
@@ -308,9 +314,9 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                     child: SafeArea(
                       child: Container(
                         margin: const EdgeInsets.only(top: 12, left: 73, bottom: 15),
-                        child: const Text(
-                          'Itinéraire',
-                          style: TextStyle(
+                        child: Text(
+                          AppLocalizations.of(context)!.route,
+                          style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Segoe Ui',
                               fontSize: 22),

@@ -1,9 +1,15 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/schedules_details.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/bottom_sheets/add_favorite.dart';
-import 'package:navika/src/data/global.dart' as globals;
 
 class SchedulesPannel extends StatelessWidget {
   final String id;
@@ -39,7 +45,7 @@ class SchedulesPannel extends StatelessWidget {
             children: [
               IconButton(
                 icon: const Icon(Icons.arrow_back),
-                tooltip: 'Retour',
+                tooltip: AppLocalizations.of(context)!.back,
                 color: accentColor(context),
                 onPressed: () => Navigator.pop(context),
               ),
@@ -64,7 +70,7 @@ class SchedulesPannel extends StatelessWidget {
                 icon: isFavorite(id)
                   ? const Icon(NavikaIcons.favorites)
                   : const Icon(NavikaIcons.addBookmark),
-                tooltip: 'Ajouter aux favoris',
+                tooltip: AppLocalizations.of(context)!.add_to_favorites,
                 color: Theme.of(context).colorScheme.onSurface,
                 onPressed: () {
                   if (globals.schedulesStopLines.isNotEmpty) {

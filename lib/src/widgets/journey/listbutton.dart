@@ -1,18 +1,24 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/journey/lines.dart';
 
-String getJourneyType(String type) {
+String getJourneyType(BuildContext context, String type) {
   switch (type) {
     case 'best':
-      return 'Recommandé 👍';
+      return AppLocalizations.of(context)!.best_emoji;
     case 'fastest':
-      return 'Le plus rapide';
+      return AppLocalizations.of(context)!.fastest;
     case 'comfort':
-      return 'Avec le moins de changement';
+      return AppLocalizations.of(context)!.comfort;
     case 'less_fallback_walk':
-      return 'Avec le moins de marche';
+      return AppLocalizations.of(context)!.less_fallback_walk;
     default:
       return 'null';
   }
@@ -36,11 +42,11 @@ class RouteListButton extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (getJourneyType(journey['type']) != 'null')
+              if (getJourneyType(context, journey['type']) != 'null')
                 Padding(
                   padding: const EdgeInsets.only(left: 15),
                   child: Text(
-                    getJourneyType(journey['type']),
+                    getJourneyType(context, journey['type']),
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,

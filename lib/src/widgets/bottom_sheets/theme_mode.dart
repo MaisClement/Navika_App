@@ -1,4 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/app.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style.dart';
@@ -37,7 +43,7 @@ class _BottomThemeModeState extends State<BottomThemeMode> with SingleTickerProv
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Thème de l’application',
+              Text(AppLocalizations.of(context)!.app_theme,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
@@ -53,7 +59,7 @@ class _BottomThemeModeState extends State<BottomThemeMode> with SingleTickerProv
               ),
               
               RadioListTile(
-                title: const Text('Selon les paramètres du système'),
+                title: Text(AppLocalizations.of(context)!.system_settings),
                 value: 'default', 
                 groupValue: hide, 
                 onChanged: (value){
@@ -65,7 +71,7 @@ class _BottomThemeModeState extends State<BottomThemeMode> with SingleTickerProv
                 },
               ),
               RadioListTile(
-                title: const Text('Clair'),
+                title: Text(AppLocalizations.of(context)!.light),
                 value: 'light', 
                 groupValue: hide, 
                 onChanged: (value){
@@ -77,7 +83,7 @@ class _BottomThemeModeState extends State<BottomThemeMode> with SingleTickerProv
                 },
               ),
               RadioListTile(
-                title: const Text('Sombre'),
+                title: Text(AppLocalizations.of(context)!.dark),
                 value: 'dark', 
                 groupValue: hide, 
                 onChanged: (value){
@@ -91,7 +97,7 @@ class _BottomThemeModeState extends State<BottomThemeMode> with SingleTickerProv
     
               Center(
                 child: ElevatedButton(
-                  child: const Text('Fermer'),
+                  child: Text(AppLocalizations.of(context)!.close),
                   onPressed: () => Navigator.pop(context),
                 ),  
               )

@@ -1,5 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:flutter_svg/svg.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/api.dart';
 import 'package:navika/src/widgets/error_block.dart';
 
@@ -26,7 +31,7 @@ class ErrorMessage extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  getErrorText(error),
+                  getErrorText(context, error),
                   style: TextStyle(
                     color: Colors.grey[600],
                     fontSize: 18,

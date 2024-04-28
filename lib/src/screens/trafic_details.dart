@@ -1,5 +1,11 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/data/lines.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
@@ -7,7 +13,6 @@ import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/screens/routes_details.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
-import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/bottom_sheets/notifications.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/trafic_details/disruptions.dart';
@@ -40,7 +45,7 @@ class _TraficDetailsState extends State<TraficDetails> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Info Trafic', style: appBarTitle),
+              Text(AppLocalizations.of(context)!.traffic_info, style: appBarTitle),
               if (LINES.getLines(globals.lineTrafic) != null && LINES.getLines(globals.lineTrafic)!['name'] != '')
                 Text(LINES.getLines(globals.lineTrafic)!['name'], style: appBarSubtitle),
             ],
@@ -51,14 +56,14 @@ class _TraficDetailsState extends State<TraficDetails> {
                 icon: _isAlert
                     ? const Icon(NavikaIcons.bellFilled)
                     : const Icon(NavikaIcons.bellAdd),
-                tooltip: 'Notifications',
+                tooltip: AppLocalizations.of(context)!.notifications,
                 onPressed: () => addNotification(globals.lineTrafic, _isAlert, context),
               ),
             IconButton(
               icon: _isFavorite
                   ? const Icon(NavikaIcons.starFilled)
                   : const Icon(NavikaIcons.star),
-              tooltip: 'Ajouter aux favoris',
+              tooltip: AppLocalizations.of(context)!.add_to_favorites,
               onPressed: () => addLineToFavorite(globals.lineTrafic, context, update),
             ),
           ],
@@ -101,7 +106,7 @@ class _TraficDetailsState extends State<TraficDetails> {
                       )
                     ],
                   ),
-                  Text(getSlugTitle(globals.lineTrafic['severity']),
+                  Text(getSlugTitle(context, globals.lineTrafic['severity']),
                       style: const TextStyle(
                           fontWeight: FontWeight.w700, fontSize: 20)),
                 ],
@@ -109,7 +114,7 @@ class _TraficDetailsState extends State<TraficDetails> {
 
               ButtonLarge(
                 icon: NavikaIcons.route,
-                text: 'Détails de la ligne',
+                text: AppLocalizations.of(context)!.line_details,
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 17,
@@ -124,7 +129,7 @@ class _TraficDetailsState extends State<TraficDetails> {
               ),
               ButtonLarge(
                 icon: NavikaIcons.work,
-                text: 'Calendrier des travaux',
+                text: AppLocalizations.of(context)!.works_calendar,
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 17,

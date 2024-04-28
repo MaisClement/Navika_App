@@ -1,10 +1,16 @@
 // ignore_for_file: constant_identifier_names
 
 library my_prj.globals;
+
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:location/location.dart' as gps;
-import 'package:navika/src/controller/here_map_controller.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/controller/here_map_controller.dart';
 
 String fcmToken = '';
 

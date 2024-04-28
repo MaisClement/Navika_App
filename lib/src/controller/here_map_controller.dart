@@ -1,9 +1,13 @@
+// 🐦 Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:location/location.dart' as gps;
+
+// 📦 Package imports:
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
+import 'package:location/location.dart' as gps;
 
+// 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
 
 // A callback to notify the hosting widget.
@@ -46,7 +50,10 @@ class HereController {
     locationIndicator.isActive = isActive;
 
     locationIndicator.updateLocation(defineLocation(locationData, heading));
-    _hereMapController.addLifecycleListener(locationIndicator);
+    
+    // Show the indicator on the map view.
+    locationIndicator.enable(_hereMapController);
+    //OLD_hereMapController.addLifecycleListener(locationIndicator);
 
     if (zoomAuto) {
       double distanceToEarthInMeters = 1000;

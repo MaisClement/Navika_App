@@ -1,6 +1,11 @@
-
-import 'package:floating_snackbar/floating_snackbar.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:floating_snackbar/floating_snackbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/style.dart';
@@ -27,8 +32,7 @@ class DepartureTrain extends StatelessWidget {
   handleTapDetails(context) {
     if (train['informations']['id'] != null &&
         train['informations']['id'] != '') {
-      RouteStateScope.of(context)
-          .go('/trip/details/${train['informations']['id']}/from/$from');
+      RouteStateScope.of(context).go('/trip/details/${train['informations']['id']}/from/$from');
     } else {
       FloatingSnackBar(
         message: 'Les details ne sont pas disponibles pour ce trajet.',
@@ -88,10 +92,8 @@ class DepartureTrain extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      train['informations']['direction']
-                                          ['name'],
-                                      style: train['stop_date_time']['state'] !=
-                                              'ontime'
+                                      train['informations']['direction'] ['name'],
+                                      style: train['stop_date_time']['state'] !='ontime'
                                           ? TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600,
@@ -135,20 +137,17 @@ class DepartureTrain extends StatelessWidget {
                         if (train['informations']['message'] == 'terminus')
                           Wrap(
                             children: [
-                              if (train['stop_date_time']['state'] ==
-                                  'cancelled')
-                                const MiniMessage(
-                                  message: 'Supprimé',
+                              if (train['stop_date_time']['state'] == 'cancelled')
+                                MiniMessage(
+                                  message: AppLocalizations.of(context)!.deleted,
                                   color: Colors.white,
-                                  backgroundColor: Color(0xffeb2031),
+                                  backgroundColor: const Color(0xffeb2031),
                                 ),
-                              if (train['stop_date_time']['state'] ==
-                                  'modified')
-                                const MiniMessage(
-                                  message: 'Modifié',
+                              if (train['stop_date_time']['state'] == 'modified')
+                                MiniMessage(
+                                  message: AppLocalizations.of(context)!.modified,
                                   color: Colors.white,
-                                  backgroundColor:
-                                      Color.fromARGB(255, 32, 32, 235),
+                                  backgroundColor: const Color.fromARGB(255, 32, 32, 235),
                                 ),
                               if (getState(train).contains('delayed'))
                                 MiniMessage(
@@ -170,8 +169,8 @@ class DepartureTrain extends StatelessWidget {
                                             BottomTerminusTrain(
                                                 update: update));
                                   },
-                                  child: const Message(
-                                    message: 'Terminus',
+                                  child: Message(
+                                    message: AppLocalizations.of(context)!.settings_terminus,
                                   ),
                                 ),
                               ),
@@ -179,21 +178,13 @@ class DepartureTrain extends StatelessWidget {
                           )
                         else
                           TimeBlock(
-                            time: train['stop_date_time']
-                                ['departure_date_time'],
-                            base: train['stop_date_time']
-                                ['base_departure_date_time'],
+                            time: train['stop_date_time']['departure_date_time'],
+                            base: train['stop_date_time']['base_departure_date_time'],
                             state: getState(train),
                             late: getLate(train),
                             track: train['stop_date_time']['platform'],
                             update: update,
                           ),
-
-                          // TimerBlock(
-                          //   time: train['stop_date_time']['departure_date_time'],
-                          //   state: train['stop_date_time']['state'],
-                          //   update: update,
-                          // )
                       ],
                     ),
                   ],

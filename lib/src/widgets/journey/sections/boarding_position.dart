@@ -1,8 +1,14 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style.dart';
 
-String getPosition(List position) {
+String getPosition(BuildContext context, List position) {
   String res = '';
   if (position.isEmpty) {
     res = '';
@@ -20,8 +26,8 @@ String getPosition(List position) {
   }
   
   res = res.replaceAll('back', 'Arrière');
-  res = res.replaceAll('middle', 'Milieu');
-  res = res.replaceAll('front', 'Avant');
+  res = res.replaceAll('middle', AppLocalizations.of(context)!.middle);
+  res = res.replaceAll('front', AppLocalizations.of(context)!.before);
   
   return res;
 }
@@ -51,8 +57,8 @@ class BoardingPosition extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Text('Où monter ?',
-                style: TextStyle(
+              Text(AppLocalizations.of(context)!.where_to_board,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   fontFamily: 'Segoe Ui',
@@ -61,7 +67,7 @@ class BoardingPosition extends StatelessWidget {
               const SizedBox(
                 width: 10,
               ),
-              Text(getPosition(position),
+              Text(getPosition(context, position),
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,

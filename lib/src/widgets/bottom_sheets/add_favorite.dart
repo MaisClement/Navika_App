@@ -1,9 +1,15 @@
-import 'package:floating_snackbar/floating_snackbar.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:floating_snackbar/floating_snackbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/screens/schedules_details.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/icons/icons.dart';
-import 'package:navika/src/data/global.dart' as globals;
 
 void handleAddToFavorite(widget, line, context) {
   List list = globals.hiveBox.get('stopsFavorites');
@@ -16,7 +22,7 @@ void handleAddToFavorite(widget, line, context) {
   Navigator.pop(context);
   //RouteStateScope.of(context).go('/schedules');
   FloatingSnackBar(
-    message: 'Favoris ajouté.',
+    message: AppLocalizations.of(context)!.favorite_added,
     context: context,
     textColor: mainColor(context),
     textStyle: snackBarText,
@@ -80,7 +86,7 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
             ),
             Wrap(children: [
               Text(
-                'Selectionner la ligne à ajouter aux favoris.',
+                AppLocalizations.of(context)!.select_line_to_add_to_favorites,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontFamily: 'Segoe Ui',
@@ -128,7 +134,7 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
             ),
             Center(
               child: ElevatedButton(
-                child: const Text('Annuler'),
+                child: Text(AppLocalizations.of(context)!.cancel),
                 onPressed: () => Navigator.pop(context),
               ),
             ),

@@ -1,14 +1,20 @@
+// 🎯 Dart imports:
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+// 🐦 Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:here_sdk/core.dart';
 import 'package:http/http.dart' as http;
-import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/data/app.dart' as app;
 import 'package:location/location.dart' as gps;
+
+// 🌎 Project imports:
+import 'package:navika/src/data/app.dart' as app;
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/utils.dart';
 
 enum ApiStatus {

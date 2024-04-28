@@ -1,13 +1,19 @@
+// 🎯 Dart imports:
 import 'dart:async';
 
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:navika/src/api.dart';
 
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/api.dart';
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/routes_details.dart';
 import 'package:navika/src/widgets/error_block.dart';
-import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/lines/listbutton.dart';
+import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/places/load.dart';
 
 class RoutesSearch extends StatefulWidget {
@@ -79,8 +85,8 @@ class _RoutesSearchState extends State<RoutesSearch> {
         focusNode: textFieldNode,
         decoration: InputDecoration(
           hintText: widget.toFavorite
-          ? 'Ajouter une ligne à vos favoris'
-          : 'Rechercher une ligne'
+          ? AppLocalizations.of(context)!.add_line_to_favorites
+          : AppLocalizations.of(context)!.search_line
         ),
         onChanged: (text) {
           setState(() {

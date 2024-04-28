@@ -1,69 +1,79 @@
+// 🎯 Dart imports:
 import 'dart:async';
 import 'dart:math';
 
-import 'package:collection/collection.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+// 📦 Package imports:
+import 'package:collection/collection.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/api.dart';
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/extensions/datetime.dart';
 import 'package:navika/src/extensions/timeofday.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bottom_sheets/avoid_line.dart';
 import 'package:navika/src/widgets/bottom_sheets/route_options.dart';
+import 'package:navika/src/widgets/bottom_sheets/time_settings.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/journey/listbutton.dart';
-
-import 'package:navika/src/style.dart';
-import 'package:navika/src/widgets/places/empty.dart';
-import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/routing.dart';
 import 'package:navika/src/widgets/journey/skelton.dart';
+import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/utils/button_box.dart';
 import 'package:navika/src/widgets/utils/search_box.dart';
-import 'package:navika/src/widgets/bottom_sheets/time_settings.dart';
 
-const shortMonth = {
-  1: 'jan.',
-  2: 'fev.',
-  3: 'mar.',
-  4: 'avr.',
-  5: 'mai',
-  6: 'juin',
-  7: 'juil.',
-  8: 'août',
-  9: 'sep.',
-  10: 'oct.',
-  11: 'nov.',
-  12: 'dec.'
-};
+Map<int, String> getShortMonth(context) {
+  return {
+    1: AppLocalizations.of(context)!.short_january.toLowerCase(),
+    2: AppLocalizations.of(context)!.short_february.toLowerCase(),
+    3: AppLocalizations.of(context)!.short_march.toLowerCase(),
+    4: AppLocalizations.of(context)!.short_april.toLowerCase(),
+    5: AppLocalizations.of(context)!.short_may.toLowerCase(),
+    6: AppLocalizations.of(context)!.short_june.toLowerCase(),
+    7: AppLocalizations.of(context)!.short_july.toLowerCase(),
+    8: AppLocalizations.of(context)!.short_august.toLowerCase(),
+    9: AppLocalizations.of(context)!.short_september.toLowerCase(),
+    10:AppLocalizations.of(context)!.short_october.toLowerCase(),
+    11:AppLocalizations.of(context)!.short_november.toLowerCase(),
+    12:AppLocalizations.of(context)!.short_december.toLowerCase(),
+  };
+}
 
-const longMonth = {
-  1: 'janvier',
-  2: 'février',
-  3: 'mars',
-  4: 'avril',
-  5: 'mai',
-  6: 'juin',
-  7: 'juillet',
-  8: 'août',
-  9: 'septembre',
-  10: 'octobre',
-  11: 'novembre',
-  12: 'décembre',
-};
+Map<int, String> getLongMonth(context) {
+  return {
+    1: AppLocalizations.of(context)!.january.toLowerCase(),
+    2: AppLocalizations.of(context)!.february.toLowerCase(),
+    3: AppLocalizations.of(context)!.march.toLowerCase(),
+    4: AppLocalizations.of(context)!.april.toLowerCase(),
+    5: AppLocalizations.of(context)!.may.toLowerCase(),
+    6: AppLocalizations.of(context)!.june.toLowerCase(),
+    7: AppLocalizations.of(context)!.july.toLowerCase(),
+    8: AppLocalizations.of(context)!.august.toLowerCase(),
+    9: AppLocalizations.of(context)!.september.toLowerCase(),
+    10:AppLocalizations.of(context)!.october.toLowerCase(),
+    11:AppLocalizations.of(context)!.november.toLowerCase(),
+    12:AppLocalizations.of(context)!.december.toLowerCase(),
+  };
+}
 
-String getDateTitle(String type, DateTime dt, TimeOfDay tod, bool isTimeNow) {
+String getDateTitle(BuildContext context, String type, DateTime dt, TimeOfDay tod, bool isTimeNow) {
   if (isTimeNow) {
-    return 'Partir maintenant';
+    return AppLocalizations.of(context)!.depart_now;
   }
   String d = '';
 
   if (type == 'departure') {
-    d = 'Départ';
+    d = AppLocalizations.of(context)!.departure;
   } else {
-    d = 'Arrivée';
+    d = AppLocalizations.of(context)!.arrival;
   }
 
   if (dt.isToday()) {
@@ -71,7 +81,7 @@ String getDateTitle(String type, DateTime dt, TimeOfDay tod, bool isTimeNow) {
   } else if (dt.isTomorrow()) {
     d = '$d demain';
   } else {
-    d = '$d le ${dt.day} ${shortMonth[dt.month]}';
+    d = '$d le ${dt.day} ${getShortMonth(context)[dt.month]}';
   }
 
   String dthour = tod.hour < 10 ? '0${tod.hour}' : tod.hour.toString();
@@ -80,14 +90,14 @@ String getDateTitle(String type, DateTime dt, TimeOfDay tod, bool isTimeNow) {
   return '$d à ${dthour}h$dtminute ';
 }
 
-String getDate(DateTime dt) {
+String getDate(BuildContext context, DateTime dt) {
   if (dt.isToday()) {
-    return 'Aujourd’hui';
+    return AppLocalizations.of(context)!.today;
   }
   if (dt.isTomorrow()) {
-    return 'Demain';
+    return AppLocalizations.of(context)!.tomorrow;
   }
-  return '${dt.day} ${longMonth[dt.month]}';
+  return '${dt.day} ${getLongMonth(context)[dt.month]}';
 }
 
 String getTodTime(TimeOfDay tod) {
@@ -117,7 +127,7 @@ void initJourney(Map? from, Map? to, context) async {
   // GPS et arrivé -> Affichage
   else if (allowGps && globals.locationData != null && to != null) {
     globals.route['from']['id'] = '${globals.locationData?.longitude};${globals.locationData?.latitude}';
-    globals.route['from']['name'] = 'Votre position';
+    globals.route['from']['name'] = AppLocalizations.of(context)!.your_position;
     globals.route['to'] = to;
     RouteStateScope.of(context).go('/home/journeys');
   }
@@ -137,7 +147,7 @@ void initJourney(Map? from, Map? to, context) async {
   // Gps -> Recherche de l'arrivée
   else if (allowGps && globals.locationData != null) {
     globals.route['from']['id'] = '${globals.locationData?.longitude};${globals.locationData?.latitude}';
-    globals.route['from']['name'] = 'Votre position';
+    globals.route['from']['name'] = AppLocalizations.of(context)!.your_position;
     RouteStateScope.of(context).go('/home/journeys/search/to');
   }
 
@@ -197,8 +207,6 @@ class Journeys extends StatefulWidget {
 }
 
 class _JourneysState extends State<Journeys> {
-  final String title = 'Itinéraires';
-  final String yourPos = 'Votre position';
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =GlobalKey<RefreshIndicatorState>();
 
@@ -369,7 +377,7 @@ class _JourneysState extends State<Journeys> {
         child: Scaffold(
             bottomNavigationBar: getNavigationBar(context),
             appBar: AppBar(
-              title: Text(title, style: appBarTitle),
+              title: Text(AppLocalizations.of(context)!.routes, style: appBarTitle),
               actions: [
                 Container(
                   decoration: allowedModes.length >= 7 || travelerType != 'standard'
@@ -386,7 +394,7 @@ class _JourneysState extends State<Journeys> {
                     color: allowedModes.length >= 7 || travelerType != 'standard'
                              ? Theme.of(context).colorScheme.onSurface
                              : Colors.white,
-                    tooltip: 'Options',
+                    tooltip: AppLocalizations.of(context)!.settings,
                     onPressed: () {
                       showModalBottomSheet<void>(
                         shape: const RoundedRectangleBorder(
@@ -432,7 +440,7 @@ class _JourneysState extends State<Journeys> {
                             margin: const EdgeInsets.only(
                                 left: 20, top: 5, right: 20),
                             child: SearchBox(
-                              text: globals.route['from']['name'] ?? 'Départ',
+                              text: globals.route['from']['name'] ?? AppLocalizations.of(context)!.departure,
                               icon: NavikaIcons.marker,
                               borderRadius: const BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20),bottomRight: Radius.circular(20),
                               ),
@@ -446,7 +454,7 @@ class _JourneysState extends State<Journeys> {
                           Container(
                             margin: const EdgeInsets.only( left: 20, top: 5, right: 20, bottom: 10),
                             child: SearchBox(
-                              text: globals.route['to']['name'] ?? 'Arrivée',
+                              text: globals.route['to']['name'] ?? AppLocalizations.of(context)!.arrival,
                               icon: NavikaIcons.finishFlag,
                               borderRadius: const BorderRadius.only( topRight: Radius.circular(20), bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
                               onTap: () {
@@ -462,7 +470,7 @@ class _JourneysState extends State<Journeys> {
                                 child: Container(
                                   margin: const EdgeInsets.only( left: 20, top: 5, bottom: 10),
                                   child: SearchBox(
-                                    text: getDateTitle(globals.timeType, globals.selectedDate, globals.selectedTime, globals.isTimeNow),
+                                    text: getDateTitle(context, globals.timeType, globals.selectedDate, globals.selectedTime, globals.isTimeNow),
                                     icon: NavikaIcons.clock,
                                     borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(500), 
@@ -559,8 +567,8 @@ class _JourneysState extends State<Journeys> {
                                           ),
                                         );
                                   },
-                                  child: const Text('Éviter une ligne ?',
-                                  style: TextStyle(
+                                  child: Text(AppLocalizations.of(context)!.avoid_line,
+                                  style: const TextStyle(
                                     fontSize: 16,
                                   )),
                                 ),

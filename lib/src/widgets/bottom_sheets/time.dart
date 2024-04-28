@@ -1,8 +1,14 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/departures/time_block.dart';
 import 'package:navika/src/widgets/schedules/timer_block.dart';
-import 'package:navika/src/data/global.dart' as globals;
 
 String getDt(){
   var d1 = DateTime.now();
@@ -50,7 +56,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Détails sur vos horaires',
+                Text(AppLocalizations.of(context)!.timetable_details,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
@@ -67,7 +73,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                 Row(
                   children: [
                     Expanded(
-                      child: Text('À l’heure',
+                      child: Text(AppLocalizations.of(context)!.on_time,
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -83,13 +89,13 @@ class _BottomSchedulesState extends State<BottomSchedules>
                         state: const ['ontime'],
                         late: 0,
                         track: 'B',
-                        update: widget.update, // INUTILE SI disabled
+                        update: (){}, // INUTILE SI disabled
                         disabled: true,
                       )
                     : TimerBlock(
                         time: getDt(),
                         state: 'ontime',
-                        update: widget.update, // INUTILE SI disabled
+                        update: (){}, // INUTILE SI disabled
                         color: departureList(context, mainColor(context)),
                         disabled: true,
                       ),
@@ -101,7 +107,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                 Row(
                   children: [
                     Expanded(
-                      child: Text('Retardé',
+                      child: Text(AppLocalizations.of(context)!.delayed,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontFamily: 'Segoe Ui',
@@ -116,13 +122,13 @@ class _BottomSchedulesState extends State<BottomSchedules>
                         state: const ['delayed'],
                         late: 5,
                         track: 'B',
-                        update: widget.update, // INUTILE SI disabled
+                        update: (){}, // INUTILE SI disabled
                         disabled: true,
                       )
                     : TimerBlock(
                         time: getDt(),
                         state: 'delayed',
-                        update: widget.update, // INUTILE SI disabled
+                        update: (){}, // INUTILE SI disabled
                         color: departureList(context, mainColor(context)),
                         disabled: true,
                       ),
@@ -134,7 +140,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                 Row(
                   children: [
                     Expanded(
-                      child: Text('Supprimé',
+                      child: Text(AppLocalizations.of(context)!.deleted,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontFamily: 'Segoe Ui',
@@ -149,13 +155,13 @@ class _BottomSchedulesState extends State<BottomSchedules>
                         state: const ['cancelled'],
                         late: 0,
                         track: 'B',
-                        update: widget.update, // INUTILE SI disabled
+                        update: (){}, // INUTILE SI disabled
                         disabled: true,
                       )
                     : TimerBlock(
                         time: getDt(),
                         state: 'cancelled',
-                        update: widget.update, // INUTILE SI disabled
+                        update: (){}, // INUTILE SI disabled
                         color: departureList(context, mainColor(context)),
                         disabled: true,
                       ),
@@ -167,7 +173,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                 Row(
                   children: [
                     Expanded(
-                      child: Text('Théorique',
+                      child: Text(AppLocalizations.of(context)!.theoretical,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontFamily: 'Segoe Ui',
@@ -182,18 +188,125 @@ class _BottomSchedulesState extends State<BottomSchedules>
                         state: const ['theorical'],
                         late: 0,
                         track: 'B',
-                        update: widget.update, // INUTILE SI disabled
+                        update: (){}, // INUTILE SI disabled
                         disabled: true,
                       )
                     : TimerBlock(
                         time: getDt(),
                         state: 'theorical',
-                        update: widget.update, // INUTILE SI disabled
+                        update: (){}, // INUTILE SI disabled
                         color: departureList(context, mainColor(context)),
                         disabled: true,
                       ),
                   ],
                 ),
+
+
+                //---
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(AppLocalizations.of(context)!.deleted,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Segoe Ui',
+                          color: accentColor(context),
+                        ),
+                      ),
+                    ),
+                    widget.isDeparture
+                    ? TimeBlock(
+                        time: getDt(),
+                        base: getDt(),
+                        state: const ['added'],
+                        late: 0,
+                        track: 'B',
+                        update: (){}, // INUTILE SI disabled
+                        disabled: true,
+                      )
+                    : TimerBlock(
+                        time: getDt(),
+                        state: 'added',
+                        update: (){}, // INUTILE SI disabled
+                        color: departureList(context, mainColor(context)),
+                        disabled: true,
+                      ),
+                  ],
+                ),
+                //---
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(AppLocalizations.of(context)!.deleted,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Segoe Ui',
+                          color: accentColor(context),
+                        ),
+                      ),
+                    ),
+                    widget.isDeparture
+                    ? TimeBlock(
+                        time: getDt(),
+                        base: getDt(),
+                        state: const ['modified', 'delayed'],
+                        late: 5,
+                        track: 'B',
+                        update: (){}, // INUTILE SI disabled
+                        disabled: true,
+                      )
+                    : TimerBlock(
+                        time: getDt(),
+                        state: 'modified',
+                        update: (){}, // INUTILE SI disabled
+                        color: departureList(context, mainColor(context)),
+                        disabled: true,
+                      ),
+                  ],
+                ),
+                //---
+                //---
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(AppLocalizations.of(context)!.deleted,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Segoe Ui',
+                          color: accentColor(context),
+                        ),
+                      ),
+                    ),
+                    widget.isDeparture
+                    ? TimeBlock(
+                        time: getDt(),
+                        base: getDt(),
+                        state: const ['exceptional_terminus'],
+                        late: 5,
+                        track: 'B',
+                        update: (){}, // INUTILE SI disabled
+                        disabled: true,
+                      )
+                    : TimerBlock(
+                        time: getDt(),
+                        state: 'exceptional_terminus',
+                        update: (){}, // INUTILE SI disabled
+                        color: departureList(context, mainColor(context)),
+                        disabled: true,
+                      ),
+                  ],
+                ),
+                //---
+
                 const SizedBox(
                   height: 30,
                 ),
@@ -209,7 +322,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   color: accentColor(context),
                 ),
                 RadioListTile(
-                  title: const Text('Temps d’attente'),
+                  title: Text(AppLocalizations.of(context)!.waiting_time),
                   value: 'minutes', 
                   groupValue: displayMode, 
                   onChanged: (value){
@@ -221,7 +334,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   },
                 ),
                 RadioListTile(
-                  title: const Text('Heure de passage'),
+                  title: Text(AppLocalizations.of(context)!.passing_time),
                   value: 'hour', 
                   groupValue: displayMode, 
                   onChanged: (value){
@@ -233,7 +346,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   },
                 ),
                 RadioListTile(
-                  title: const Text('Défaut'),
+                  title: Text(AppLocalizations.of(context)!.defaut),
                   value: 'default', 
                   groupValue: displayMode, 
                   onChanged: (value){
@@ -247,7 +360,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
       
                 Center(
                   child: ElevatedButton(
-                    child: const Text('Fermer'),
+                    child: Text(AppLocalizations.of(context)!.close),
                     onPressed: () => Navigator.pop(context),
                   ),  
                 ),

@@ -1,6 +1,12 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:navika/src/style.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/utils/switch_line.dart';
 
 bool isInList(List lines, String id) {
@@ -131,7 +137,7 @@ class _BottomAvoidLineState extends State<BottomAvoidLine> with SingleTickerProv
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Éviter une ligne',
+              AppLocalizations.of(context)!.avoid,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -147,7 +153,7 @@ class _BottomAvoidLineState extends State<BottomAvoidLine> with SingleTickerProv
             ),
             Wrap(children: [
               Text(
-                'Décocher une ligne pour éviter celle-ci',
+                AppLocalizations.of(context)!.uncheck_line_to_avoid,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontFamily: 'Segoe Ui',
@@ -167,7 +173,7 @@ class _BottomAvoidLineState extends State<BottomAvoidLine> with SingleTickerProv
             ),
             Center(
               child: ElevatedButton(
-                child: const Text('Valider'),
+                child: Text(AppLocalizations.of(context)!.validate),
                 onPressed: () {
                   widget.update();
                   Navigator.pop(context);

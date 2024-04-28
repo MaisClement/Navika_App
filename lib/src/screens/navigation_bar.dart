@@ -1,5 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing.dart';
 
@@ -15,26 +20,26 @@ NavigationBar getNavigationBar(context) {
           if (idx == 2) routeState.go('/routes');
           if (idx == 3) routeState.go('/trafic');
         },
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            label: 'Accueil',
-            icon: Icon(NavikaIcons.home),
-            selectedIcon: Icon(NavikaIcons.homeFilled),
+            label: AppLocalizations.of(context)!.main,
+            icon: const Icon(NavikaIcons.home),
+            selectedIcon: const Icon(NavikaIcons.homeFilled),
           ),
           NavigationDestination(
-            label: 'Horaires',
-            icon: Icon(NavikaIcons.clock),
-            selectedIcon: Icon(NavikaIcons.clockFilled),
+            label: AppLocalizations.of(context)!.timetables,
+            icon: const Icon(NavikaIcons.clock),
+            selectedIcon: const Icon(NavikaIcons.clockFilled),
           ),
           NavigationDestination(
-            label: 'Lignes',
-            icon: Icon(NavikaIcons.route),
-            selectedIcon: Icon(NavikaIcons.routeFilled),
+            label: AppLocalizations.of(context)!.lines,
+            icon: const Icon(NavikaIcons.route),
+            selectedIcon: const Icon(NavikaIcons.routeFilled),
           ),
           NavigationDestination(
-            label: 'Trafic',
-            icon: Icon(NavikaIcons.cone),
-            selectedIcon: Icon(NavikaIcons.coneFilled),
+            label: AppLocalizations.of(context)!.traffic,
+            icon: const Icon(NavikaIcons.cone),
+            selectedIcon: const Icon(NavikaIcons.coneFilled),
           ),
         ],
       );

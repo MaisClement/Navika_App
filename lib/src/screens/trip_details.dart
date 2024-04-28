@@ -1,12 +1,18 @@
+// 🎯 Dart imports:
 import 'dart:async';
 
-import 'package:flutter/material.dart';  
-import 'package:navika/src/api.dart';
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:navika/src/style.dart'; 
+// 🌎 Project imports:
+import 'package:navika/src/api.dart';
 import 'package:navika/src/widgets/error_message.dart';
 import 'package:navika/src/widgets/trip/block.dart';
 import 'package:navika/src/widgets/trip/disruptions.dart';
+
+import 'package:flutter/material.dart';  
+import 'package:navika/src/style.dart'; 
+
 
 enum TripBlockStatus { origin, terminus, active, inactive }
 
@@ -23,9 +29,7 @@ class TripDetails extends StatefulWidget {
   State<TripDetails> createState() => _TripDetailsState();
 }
 
-class _TripDetailsState extends State<TripDetails>
-    with SingleTickerProviderStateMixin {
-  String title = 'Trajet';
+class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStateMixin {
   ApiStatus error = ApiStatus.ok;
   Map? vehicleJourney;
 
@@ -120,7 +124,7 @@ class _TripDetailsState extends State<TripDetails>
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: appBarTitle),
+              Text(AppLocalizations.of(context)!.trip, style: appBarTitle),
               if (vehicleJourney != null)
                 Text(
                     'N°${vehicleJourney?['informations']['name']} - ${vehicleJourney?['informations']['direction']['name']}',

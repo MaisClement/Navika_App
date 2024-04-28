@@ -1,4 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/api.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
 
@@ -28,19 +34,19 @@ String getErrorIcon(ApiStatus error) {
   }
 }
 
-String getErrorText(ApiStatus error) {
+String getErrorText(BuildContext context, ApiStatus error) {
   switch (error) {
     case ApiStatus.socketException:
-      return 'Aucune connexion internet';
+      return AppLocalizations.of(context)!.no_internet_connection;
 
     case ApiStatus.timeoutException:
       return 'Le serveur n’as pas repondu';
 
     case ApiStatus.serverException:
-      return 'Récupération des informations impossible';
+      return AppLocalizations.of(context)!.unable_to_retrieve_information;
 
     case ApiStatus.unknownException:
-      return 'Une erreur s’est produite';
+      return AppLocalizations.of(context)!.error;
 
     default:
       return '';
@@ -68,7 +74,7 @@ class ErrorBlock extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-          child: Text(getErrorText(error),
+          child: Text(getErrorText(context, error),
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 18,

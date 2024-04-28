@@ -1,5 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 
@@ -22,9 +27,9 @@ class TraficWorks extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'À venir',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+            Text(
+              AppLocalizations.of(context)!.upcoming,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             ),
             const Divider(height: 25, thickness: 1.5),
             for (var ctrafic in reports)

@@ -1,8 +1,14 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/utils/radio_tiles.dart';
-import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/utils/switch_mode.dart';
 
 class BottomRouteSettings extends StatefulWidget {
@@ -79,7 +85,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Options d’itinéraires',
+              AppLocalizations.of(context)!.settings_journeys,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -94,7 +100,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
               height: 10,
             ),
             Text(
-              'Profil de voyageur',
+              AppLocalizations.of(context)!.traveler_profile,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -106,19 +112,19 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
               height: 10,
             ),
             RadioTiles(
-              tiles: const [
+              tiles: [
                 {
-                  'name': 'Défaut',
+                  'name': AppLocalizations.of(context)!.defaut,
                   'value': 'standard',
                   'icon': NavikaIcons.walking,
                 },
                 {
-                  'name': 'Avec difficultés',
+                  'name': AppLocalizations.of(context)!.reduced_mobility,
                   'value': 'luggage',
                   'icon': NavikaIcons.oldMan,
                 },
                 {
-                  'name': 'Mobilité réduite',
+                  'name': AppLocalizations.of(context)!.wheelchair,
                   'value': 'wheelchair',
                   'icon': NavikaIcons.wheelchair,
                 },
@@ -138,7 +144,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
               height: 10,
             ),
             Text(
-              'Modes de transport',
+              AppLocalizations.of(context)!.transportation_mode,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -150,7 +156,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
               height: 10,
             ),
             SwitchMode(
-              name: 'Train et RER',
+              name: AppLocalizations.of(context)!.rail,
               value: allowedModes.contains('rail'),
               icon: NavikaIcons.trainFace,
               function: (bool value) {
@@ -158,7 +164,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
               },
             ),
             SwitchMode(
-              name: 'Métro',
+              name: AppLocalizations.of(context)!.metro,
               value: allowedModes.contains('metro'),
               icon: NavikaIcons.metro,
               function: (bool value) {
@@ -166,7 +172,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
               },
             ),
             SwitchMode(
-              name: 'Tramway',
+              name: AppLocalizations.of(context)!.tramway,
               value: allowedModes.contains('tram'),
               icon: NavikaIcons.idfmTram,
               function: (bool value) {
@@ -174,7 +180,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
               },
             ),
             SwitchMode(
-              name: 'Bus',
+              name: AppLocalizations.of(context)!.bus,
               value: allowedModes.contains('bus'),
               icon: NavikaIcons.idfmBus,
               function: (bool value) {
@@ -182,7 +188,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
               },
             ),
             SwitchMode(
-              name: 'Téléphérique',
+              name: AppLocalizations.of(context)!.cable_car,
               value: allowedModes.contains('cable'),
               icon: NavikaIcons.idfmCable,
               function: (bool value) {
@@ -190,7 +196,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
               },
             ),
             // SwitchMode(
-            //   name: 'Funiculaire',
+            //   name: AppLocalizations.of(context)!.shuttle,
             //   value: allowedModes.contains('funicular'),
             //   icon: NavikaIcons.trainFace,
             //   function: (bool value) {
@@ -198,7 +204,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
             //   },
             // ),
             SwitchMode(
-              name: 'Bateau',
+              name: AppLocalizations.of(context)!.boat,
               value: allowedModes.contains('boat'),
               icon: NavikaIcons.idfmBoat,
               function: (bool value) {
@@ -212,7 +218,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
             ),
             Center(
               child: ElevatedButton(
-                child: const Text('Fermer'),
+                child: Text(AppLocalizations.of(context)!.close),
                 onPressed: () => Navigator.pop(context),
               ),
             ),

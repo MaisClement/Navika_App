@@ -1,25 +1,32 @@
+// 🎯 Dart imports:
 import 'dart:io';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+// 📦 Package imports:
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:navika/src/api.dart';
-import 'package:navika/src/app.dart';
-import 'package:navika/src/screens/home_settings.dart';
-import 'package:url_strategy/url_strategy.dart';
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/core.engine.dart';
 import 'package:here_sdk/core.errors.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-// import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:navika/firebase_options.dart';
+import 'package:url_strategy/url_strategy.dart';
 
+// 🌎 Project imports:
 import 'package:navika/credentials.dart' as credentials;
-import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/firebase_options.dart';
+import 'package:navika/src/api.dart';
+import 'package:navika/src/app.dart';
 import 'package:navika/src/data/app.dart' as app;
+import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/screens/home_settings.dart';
+
+// import 'package:sentry_flutter/sentry_flutter.dart';
+
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {

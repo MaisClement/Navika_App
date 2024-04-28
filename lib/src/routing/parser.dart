@@ -1,6 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/widgets.dart';
+
+// 📦 Package imports:
 import 'package:path_to_regexp/path_to_regexp.dart';
 
+// 🌎 Project imports:
 import 'package:navika/src/routing/parsed_route.dart';
 
 /// Used by [TemplateRouteParser] to guard access to routes.

@@ -1,7 +1,14 @@
+// 🎯 Dart imports:
 import 'dart:async';
 
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:location/location.dart' as gps;
+
+// 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/utils.dart';
@@ -83,9 +90,9 @@ class _NaviBarState extends State<NaviBar> {
     // if before departure
 
     if (state == NaviState.gettingLocation) {
-      return const Expanded(
-        child: Text('Nous recherchons votre position...',
-          style: TextStyle(
+      return Expanded(
+        child: Text(AppLocalizations.of(context)!.locating_your_position,
+          style: const TextStyle(
             fontSize: 16,
             color: Colors.white,
             fontWeight: FontWeight.w600,

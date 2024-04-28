@@ -1,8 +1,13 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-import 'package:navika/src/data/global.dart' as globals;
+// 🌎 Project imports:
 import 'package:navika/src/data/app.dart' as app;
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/style.dart';
@@ -10,11 +15,10 @@ import 'package:navika/src/widgets/bottom_sheets/grouped_departures.dart';
 import 'package:navika/src/widgets/bottom_sheets/route_options.dart';
 import 'package:navika/src/widgets/bottom_sheets/terminus_trains.dart';
 import 'package:navika/src/widgets/bottom_sheets/theme_mode.dart';
+import 'package:navika/src/widgets/bottom_sheets/time.dart';
 import 'package:navika/src/widgets/home/widget/sponsor.dart';
 import 'package:navika/src/widgets/settings/button.dart';
 import 'package:navika/src/widgets/settings/link.dart';
-
-import 'package:navika/src/widgets/bottom_sheets/time.dart';
 import 'package:navika/src/widgets/utils/button_large.dart';
 
 class Settings extends StatefulWidget {
@@ -46,9 +50,8 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           backgroundColor: mainColor(context),
-          title: const Text(
-            'Options',
-            style: TextStyle(
+          title: Text(AppLocalizations.of(context)!.settings,
+            style: const TextStyle(
               fontWeight: FontWeight.w600,
               fontFamily: 'Segoe Ui',
                   color: Colors.white,
@@ -70,7 +73,7 @@ class _SettingsState extends State<Settings> {
           children: [
 
             SettingsButton(
-              name: 'Options d’itinéraires',
+              name: AppLocalizations.of(context)!.settings_journeys,
               icon: NavikaIcons.options,
               function: () {
                 showModalBottomSheet<void>(
@@ -84,8 +87,8 @@ class _SettingsState extends State<Settings> {
             ),
 
             SettingsButton(
-              name: 'Position',
-              sub: allowGps ? 'Autorisé' : 'Interdit',
+              name: AppLocalizations.of(context)!.settings_position,
+              sub: allowGps ? AppLocalizations.of(context)!.allowed : AppLocalizations.of(context)!.forbidden,
               function: () {
                 RouteStateScope.of(context).go('/position');
               },
@@ -93,12 +96,12 @@ class _SettingsState extends State<Settings> {
             ),
                         
             SettingsButton(
-              name: 'Temps d’attente',
+              name: AppLocalizations.of(context)!.waiting_time,
               sub: displayMode == 'minutes'
-                  ? 'Temps d’attente'
+                  ? AppLocalizations.of(context)!.waiting_time
                   : displayMode == 'hour'
-                      ? 'Heure de passage'
-                      : 'Défaut',
+                      ? AppLocalizations.of(context)!.passing_time
+                      : AppLocalizations.of(context)!.defaut,
               icon: NavikaIcons.clock,
               function: () {
                 showModalBottomSheet<void>(
@@ -115,8 +118,8 @@ class _SettingsState extends State<Settings> {
               },
             ),
             SettingsButton(
-              name: 'Terminus',
-              sub: hideTerminusTrain ? 'Masqué' : 'Affiché',
+              name: AppLocalizations.of(context)!.settings_terminus,
+              sub: hideTerminusTrain ? AppLocalizations.of(context)!.hidden : AppLocalizations.of(context)!.showed,
               icon: NavikaIcons.trainFace,
               function: () {
                 showModalBottomSheet<void>(
@@ -131,8 +134,8 @@ class _SettingsState extends State<Settings> {
             ),
 
             SettingsButton(
-              name: 'Tableau des départs',
-              sub: ungroupDepartures ? 'Non groupé' : 'Groupé',
+              name: AppLocalizations.of(context)!.departure_table,
+              sub: ungroupDepartures ? AppLocalizations.of(context)!.not_grouped : AppLocalizations.of(context)!.grouped,
               icon: NavikaIcons.group,
               function: () {
                 showModalBottomSheet<void>(
@@ -147,8 +150,8 @@ class _SettingsState extends State<Settings> {
             ),
             
             SettingsButton(
-              name: 'Notifications',
-              sub: 'Gérez vos notifications',
+              name: AppLocalizations.of(context)!.notifications,
+              sub: AppLocalizations.of(context)!.settings_notifications,
               icon: NavikaIcons.bell,
               function: () {
                 RouteStateScope.of(context).go('/settings/notifications');
@@ -156,7 +159,7 @@ class _SettingsState extends State<Settings> {
             ),
 
             SettingsButton(
-              name: 'Thème',
+              name: AppLocalizations.of(context)!.settings_theme,
               icon: Icons.color_lens,
               function: () {
                 showModalBottomSheet<void>(
@@ -176,7 +179,7 @@ class _SettingsState extends State<Settings> {
               margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
               child: ButtonLarge(
                 icon: NavikaIcons.stars,
-                text: 'Nouveautés',
+                text: AppLocalizations.of(context)!.what_new,
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 17,
@@ -221,7 +224,7 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             SettingsLink(
-              name: 'Statut ›',
+              name: AppLocalizations.of(context)!.settings_link_state,
               url: 'https://navika.betteruptime.com',
               icon: NavikaIcons.alert,
             ),
@@ -232,12 +235,12 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             SettingsLink(
-              name: 'GitHub du projet ›',
+              name: AppLocalizations.of(context)!.settings_link_repository_link,
               url: 'https://github.com/MaisClement/Navika_App',
               icon: NavikaIcons.github,
             ),
             SettingsLink(
-              name: 'Icônes par Icones8 ›',
+              name: AppLocalizations.of(context)!.settings_link_icons,
               url: 'https://icones8.fr',
               icon: NavikaIcons.icons8,
             ),
@@ -250,16 +253,16 @@ class _SettingsState extends State<Settings> {
             ),
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-              child: const Text(
-                'Par respect pour votre confidentialité, Navika ne collecte ou ne conserve aucune information personnelle vous concernant.',
-                style: TextStyle(
+              child: Text(
+                AppLocalizations.of(context)!.details_privacy,
+                style: const TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,
                 ),
               ),
             ),
             SettingsLink(
-              name: 'Mentions légales ›',
+              name: AppLocalizations.of(context)!.settings_link_legals,
               url: 'http://app.navika.hackernwar.com/legal.php',
             ),
             
@@ -274,16 +277,16 @@ class _SettingsState extends State<Settings> {
 
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-              child: const Text(
-                'Les données géographiques utilisées par Navika sont fournies par OpenStreetMap et ses contributeurs.',
-                style: TextStyle(
+              child: Text(
+                AppLocalizations.of(context)!.details_OSM,
+                style: const TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,
                 ),
               ),
             ),
             SettingsLink(
-              name: 'Licence OpenStreetMap ›',
+              name: AppLocalizations.of(context)!.settings_link_OSM_licence,
               url: 'https://www.openstreetmap.org/copyright/fr/',
             ),
             
@@ -295,20 +298,20 @@ class _SettingsState extends State<Settings> {
             ),
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-              child: const Text(
-                'Navika repose sur des technologies et services de « HERE Global B.V. ».',
-                style: TextStyle(
+              child: Text(
+                AppLocalizations.of(context)!.details_HERE,
+                style: const TextStyle(
                   fontFamily: 'Segoe Ui',
                   color: Colors.white,
                 ),
               ),
             ),
             SettingsLink(
-              name: 'Politique de confidentialité HERE ›',
+              name: AppLocalizations.of(context)!.settings_link_HERE_privacy,
               url: 'https://legal.here.com/fr-fr/privacy/here-sdk-privacy-supplement',
             ),
             SettingsLink(
-              name: 'Licences HERE ›',
+              name: AppLocalizations.of(context)!.settings_link_HERE_licence,
               url: 'https://app.navika.hackernwar.com/here_notice_android.php',
             ),
 
@@ -323,7 +326,7 @@ class _SettingsState extends State<Settings> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Navika • Version v${app.VERSION}-${app.BUILD_NUMBER} • ${app.PACKAGE_NAME}',
+                  Text('Navika • v${app.VERSION}-${app.BUILD_NUMBER} • ${app.PACKAGE_NAME}',
                     style: const TextStyle(
                       fontFamily: 'Segoe Ui',
                       color: Colors.white,

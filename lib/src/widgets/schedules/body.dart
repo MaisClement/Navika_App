@@ -1,12 +1,16 @@
+// 🎯 Dart imports:
 import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:navika/src/api.dart';
 
+// 🐦 Flutter imports:
+import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/api.dart';
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/widgets/departures/list.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/schedules/list.dart';
-import 'package:navika/src/data/global.dart' as globals;
 
 List getLines(data) {
   bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures');

@@ -1,5 +1,8 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/style.dart';
@@ -7,7 +10,6 @@ import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
 import 'package:navika/src/widgets/schedules/lines.dart';
 import 'package:navika/src/widgets/utils/button_large_trafic.dart';
-import 'package:navika/src/data/global.dart' as globals;
 
 class SchedulesBlock extends StatelessWidget {
   final Map line;

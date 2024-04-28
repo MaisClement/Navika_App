@@ -1,35 +1,40 @@
+// 🎯 Dart imports:
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+// 📦 Package imports:
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter_compass/flutter_compass.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:here_sdk/gestures.dart';
-import 'package:location/location.dart' as gps;
 import 'package:here_sdk/core.dart';
+import 'package:here_sdk/gestures.dart';
 import 'package:here_sdk/mapview.dart';
+import 'package:location/location.dart' as gps;
+import 'package:screenshot/screenshot.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/api.dart';
+import 'package:navika/src/controller/here_map_controller.dart';
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/address/body.dart';
-import 'package:navika/src/widgets/home/default_pannel.dart';
 import 'package:navika/src/widgets/bike/body.dart';
-import 'package:navika/src/widgets/map/icone.dart';
-import 'package:navika/src/widgets/schedules/header.dart';
-import 'package:screenshot/screenshot.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:flutter_compass/flutter_compass.dart';
-
-import 'package:navika/src/data/global.dart' as globals;
-import 'package:navika/src/controller/here_map_controller.dart';
-
 import 'package:navika/src/widgets/home/body.dart';
+import 'package:navika/src/widgets/home/default_pannel.dart';
 import 'package:navika/src/widgets/home/header.dart';
+import 'package:navika/src/widgets/map/icone.dart';
 import 'package:navika/src/widgets/schedules/body.dart';
+import 'package:navika/src/widgets/schedules/header.dart';
 import 'package:navika/src/widgets/utils/search_box.dart';
 
 class Home extends StatefulWidget {
@@ -440,8 +445,8 @@ class _HomeState extends State<Home> {
                               height: 18,
                             ),
                             const SizedBox(width: 10),
-                            const Text('Aucune connexion internet',
-                              style: TextStyle(
+                            Text(AppLocalizations.of(context)!.no_internet_connection,
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontFamily: 'Segoe Ui',
                                 fontSize: 18,
@@ -476,7 +481,7 @@ class _HomeState extends State<Home> {
                           color: Theme.of(context).colorScheme.surface,
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           icon: NavikaIcons.search,
-                          text: 'Rechercher un lieu sur la carte'
+                          text: AppLocalizations.of(context)!.search_location_on_map
                         ),
                       ),
                     ),

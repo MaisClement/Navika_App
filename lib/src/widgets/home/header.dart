@@ -1,4 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/widgets/utils/search_box.dart';
@@ -42,7 +48,7 @@ class HomePannel extends StatelessWidget {
                   );
                 },
                 icon: NavikaIcons.search,
-                text: 'Où allons-nous ?',
+                text: AppLocalizations.of(context)!.where_are_we_going,
                 borderRadius: BorderRadius.circular(15)
               ),
             ),

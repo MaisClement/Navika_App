@@ -1,7 +1,11 @@
-
+// 🎯 Dart imports:
 import 'dart:async';
 
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/extensions/datetime.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
@@ -10,7 +14,6 @@ import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/journey/sections/boarding_position.dart';
 import 'package:navika/src/widgets/utils/button_large_trafic.dart';
-import 'package:navika/src/data/global.dart' as globals;
 
 class SectionPublicTransport extends StatefulWidget {
   final Map section;

@@ -1,10 +1,17 @@
+// 🎯 Dart imports:
 import 'dart:async';
 
-import 'package:floating_snackbar/floating_snackbar.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:floating_snackbar/floating_snackbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/api.dart';
-import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/error_block.dart';
@@ -68,7 +75,7 @@ class _AddAddressState extends State<AddAddress> {
   handleSaveAddress() {
     if ((widget.predefineType != '' && !isDefined) || (!isDefined && label == '')){
       FloatingSnackBar(
-        message: 'Adresse ou libellé non défini',
+        message: AppLocalizations.of(context)!.undefined_address_or_label,
         context: context,
         textColor: mainColor(context),
         textStyle: snackBarText,
@@ -94,7 +101,7 @@ class _AddAddressState extends State<AddAddress> {
     Navigator.pop(context);
     RouteStateScope.of(context).go('/home');
     FloatingSnackBar(
-      message: widget.id == '' ? 'Nouvelle adresse ajouté.' : 'Adresse modifié',
+      message: widget.id == '' ? AppLocalizations.of(context)!.new_address_added : AppLocalizations.of(context)!.address_modified,
       context: context,
       textColor: mainColor(context),
       textStyle: snackBarText,
@@ -151,7 +158,7 @@ class _AddAddressState extends State<AddAddress> {
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.id != '' ? 'Modifiez votre adresse' : 'Nouvelle adresse',
+          widget.id != '' ? AppLocalizations.of(context)!.edit_your_address : AppLocalizations.of(context)!.new_address,
           style: appBarTitle,
         ),
         actions: [
@@ -161,7 +168,7 @@ class _AddAddressState extends State<AddAddress> {
               color: isDefined && label != ''
                 ? Theme.of(context).colorScheme.onSurface
                 : routeBhColor(context),),
-            tooltip: 'Ajouter aux favoris',
+            tooltip: AppLocalizations.of(context)!.add_to_favorites,
             onPressed: () {
               handleSaveAddress();
             },
@@ -182,7 +189,7 @@ class _AddAddressState extends State<AddAddress> {
                   child: TextField(
                     controller: labelController,
                     focusNode: labelFieldNode,
-                    decoration: const InputDecoration(hintText: 'Libellé'),
+                    decoration: InputDecoration(hintText: AppLocalizations.of(context)!.label),
                     onChanged: (text) {
                       setState(() {
                         label = text;
@@ -204,8 +211,8 @@ class _AddAddressState extends State<AddAddress> {
                   child: TextField(
                     controller: queryController,
                     focusNode: queryFieldNode,
-                    decoration: const InputDecoration( 
-                      hintText: 'Ajouter une adresse, une gare, un arrêt ou une station'
+                    decoration: InputDecoration( 
+                      hintText: AppLocalizations.of(context)!.add_address
                     ),
                     onChanged: (text) {
                       setState(() {

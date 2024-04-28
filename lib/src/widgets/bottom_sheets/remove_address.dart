@@ -1,9 +1,15 @@
-import 'package:floating_snackbar/floating_snackbar.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:floating_snackbar/floating_snackbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
-import 'package:navika/src/style.dart';
 import 'package:navika/src/routing.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
 
 int getAddressPos(id) {
@@ -86,7 +92,7 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress> with SingleTi
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Modifier une adresse',
+                  AppLocalizations.of(context)!.edit_address,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
@@ -116,7 +122,7 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress> with SingleTi
                       backgroundColor: const Color(0xffeb2031),
                       foregroundColor: const Color(0xffffffff),
                     ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                    text: 'Supprimer',
+                    text: AppLocalizations.of(context)!.delete,
                     onPressed: () => removeAddress(widget, context),
                   ),
                 ),
@@ -127,7 +133,7 @@ class _BottomRemoveAddressState extends State<BottomRemoveAddress> with SingleTi
                         backgroundColor: Theme.of(context).colorScheme.surface,
                         foregroundColor: Theme.of(context).colorScheme.primary,
                       ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                      text: 'Annuler',
+                      text: AppLocalizations.of(context)!.cancel,
                     onPressed: () => Navigator.pop(context),
                   ),
                 ),

@@ -1,4 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/screens/home_settings.dart';
@@ -13,7 +19,7 @@ import 'package:navika/src/widgets/home/widget/trafic.dart';
 import 'package:navika/src/widgets/utils/button_large.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
 
-Widget getWidgetHead(id, context) {
+Widget getWidgetHead(BuildContext context, id) {
   return Column(crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       const SizedBox(
@@ -21,7 +27,7 @@ Widget getWidgetHead(id, context) {
       ),
       Padding(
         padding: const EdgeInsets.only(left: 10, bottom: 10),
-        child: Text(getBlockName(id),
+        child: Text(getBlockName(context, id),
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w600,
@@ -83,7 +89,7 @@ class HomeBody extends StatelessWidget {
 
       //TODO // HomeWidgetJourneys
       //TODO if (block['id'] == 'recurrentJourneys' && block['enabled'] == true) {
-      //TODO   res.add(getWidgetHead(block['id'], context));
+      //TODO   res.add(getWidgetHead(context, block['id']));
       //TODO   res.add(
       //TODO     HomeWidgetJourneys(
       //TODO       journeys: journeys, 
@@ -94,7 +100,7 @@ class HomeBody extends StatelessWidget {
 
       // HomeWidgetJourneys
       if (block['id'] == 'punctualJourneys' && block['enabled'] == true) {
-        res.add(getWidgetHead(block['id'], context));
+        res.add(getWidgetHead(context, block['id']));
         res.add(
           HomeWidgetJourneys(
             journeys: journeys, 
@@ -105,7 +111,7 @@ class HomeBody extends StatelessWidget {
 
       // HomeWidgetTrafic
       if (block['id'] == 'trafic' && block['enabled'] == true && lines.isNotEmpty) {
-        res.add(getWidgetHead(block['id'], context));
+        res.add(getWidgetHead(context, block['id']));
         res.add(
           HomeWidgetTrafic(
             lines: lines,
@@ -116,7 +122,7 @@ class HomeBody extends StatelessWidget {
 
       // Schedules
       if (block['id'] == 'schedules' && block['enabled'] == true && favs.isNotEmpty) {
-        res.add(getWidgetHead(block['id'], context));
+        res.add(getWidgetHead(context, block['id']));
 
         for (var fav in favs.sublist(0, getMaxLength(2, favs) )) {
           res.add(
@@ -134,13 +140,13 @@ class HomeBody extends StatelessWidget {
 
       // Maps
       if (block['id'] == 'map' && block['enabled'] == true) {
-        res.add(getWidgetHead(block['id'], context));
+        res.add(getWidgetHead(context, block['id']));
         res.add(
           Padding(
             padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
             child: ButtonLarge(
               icon: NavikaIcons.map,
-              text: 'Plans',
+              text: AppLocalizations.of(context)!.maps,
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 17,
@@ -188,7 +194,7 @@ class HomeBody extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.surface,
           foregroundColor: accentColor(context),
         ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-        text: 'Réorganiser cette page',
+        text: AppLocalizations.of(context)!.reorganize_this_page,
         onPressed: () {
           RouteStateScope.of(context).go('/home/settings');
         },

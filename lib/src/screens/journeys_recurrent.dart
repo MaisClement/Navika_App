@@ -1,9 +1,14 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/style.dart';
-
-import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/journey/favorites.dart';
 
 class RecurrentJourneysList extends StatefulWidget {
@@ -14,7 +19,6 @@ class RecurrentJourneysList extends StatefulWidget {
 }
 
 class _RecurrentJourneysListState extends State<RecurrentJourneysList> with SingleTickerProviderStateMixin {
-  final String title = 'Itinéraires enregistrés';
   late TabController _tabController;
   
   List journeys = globals.hiveBox?.get('journeys');
@@ -34,19 +38,19 @@ class _RecurrentJourneysListState extends State<RecurrentJourneysList> with Sing
   Widget build(BuildContext context) => Scaffold(
       bottomNavigationBar: getNavigationBar(context),
       appBar: AppBar(
-        title: Text(title, style: appBarTitle),
+        title: Text(AppLocalizations.of(context)!.saved_routes, style: appBarTitle),
       ),
       body: Column(
         children: [
           TabBar(
             controller: _tabController,
-            tabs: const [
+            tabs: [
               Tab(
-                  text: 'À venir',
-                  iconMargin: EdgeInsets.only(bottom: 5, top: 5)),
+                text: AppLocalizations.of(context)!.upcoming,
+                iconMargin: const EdgeInsets.only(bottom: 5, top: 5)),
               Tab(
-                  text: 'Passé',
-                  iconMargin: EdgeInsets.only(bottom: 5, top: 5)),
+                text: AppLocalizations.of(context)!.past,
+                iconMargin: const EdgeInsets.only(bottom: 5, top: 5)),
             ],
           ),
           Expanded(

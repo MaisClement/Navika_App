@@ -1,11 +1,16 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:navika/src/api.dart';
 
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/api.dart';
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/screens/journeys_details.dart';
 import 'package:navika/src/screens/navigation_bar.dart';
 import 'package:navika/src/style.dart';
-import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/error_block.dart';
 
 class JourneysGet extends StatefulWidget {
@@ -71,7 +76,7 @@ class _JourneysGetState extends State<JourneysGet> {
   Widget build(BuildContext context) => Scaffold(
         bottomNavigationBar: getNavigationBar(context),
         appBar: AppBar(
-          title: const Text('Itinéraire', style: appBarTitle),
+          title: Text(AppLocalizations.of(context)!.route, style: appBarTitle),
         ),
         body: ListView(
           children:[

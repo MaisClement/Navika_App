@@ -1,4 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/style.dart';
@@ -51,7 +57,7 @@ class TimeSettings extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start, 
             children: [
               Text(
-                'Modifier l’heure',
+                AppLocalizations.of(context)!.modify_time,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
@@ -66,14 +72,14 @@ class TimeSettings extends StatelessWidget {
                 height: 10,
               ),
               RadioTiles(
-                tiles: const [
+                tiles: [
                   {
-                    'name': 'Départ à',
+                    'name': AppLocalizations.of(context)!.departing_at,
                     'value': 'departure',
                     'icon': NavikaIcons.departure
                   },
                   {
-                    'name': 'Arrivée à',
+                    'name': AppLocalizations.of(context)!.arriving_at,
                     'value': 'arrival',
                     'icon': NavikaIcons.arrival
                   },
@@ -90,7 +96,7 @@ class TimeSettings extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.only(top: 5.0, bottom: 10.0),
                 child: SearchBox(
-                  text: getDate(selectedDate),
+                  text: getDate(context, selectedDate),
                   icon: NavikaIcons.calendar,
                   onTap: () async {
                     await selectDate(context);
@@ -111,7 +117,7 @@ class TimeSettings extends StatelessWidget {
               ),
               Center(
                 child: ElevatedButton(
-                  child: const Text('Valider'),
+                  child: Text(AppLocalizations.of(context)!.validate),
                   onPressed: () {
                     update();
                     Navigator.pop(context);

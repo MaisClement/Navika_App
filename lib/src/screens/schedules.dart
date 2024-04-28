@@ -1,10 +1,15 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/routing.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/favorites/body.dart';
-
-import 'package:navika/src/routing.dart';
-import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
 import 'package:navika/src/widgets/utils/search_box.dart';
 
@@ -16,7 +21,6 @@ class Schedules extends StatefulWidget {
 }
 
 class _SchedulesState extends State<Schedules> {
-  final String title = 'Horaires';
   bool isReorder = true;
 
   List favs = globals.hiveBox?.get('stopsFavorites');
@@ -50,7 +54,7 @@ class _SchedulesState extends State<Schedules> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: appBarTitle),
+              Text(AppLocalizations.of(context)!.timetables, style: appBarTitle),
               const SizedBox(
                 height: 10,
               ),
@@ -59,7 +63,7 @@ class _SchedulesState extends State<Schedules> {
                   RouteStateScope.of(context).go('/schedules/search');
                 },
                 icon: NavikaIcons.search,
-                text: 'Rechercher une gare, un arrêt ou une stations'
+                text: AppLocalizations.of(context)!.search_station
               ),
             ],
           ),
@@ -82,9 +86,9 @@ class _SchedulesState extends State<Schedules> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const Text(
-                      'Ajoutez un arrêt à vos favoris pour accéder à vos horaires plus rapidement.',
-                      style: TextStyle(
+                    Text(
+                      AppLocalizations.of(context)!.add_stop_to_favorites,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         fontFamily: 'Segoe Ui',
                       ),
@@ -95,7 +99,7 @@ class _SchedulesState extends State<Schedules> {
                     ),
                     IconElevatedButton(
                       icon: NavikaIcons.search,
-                      text: 'Rechercher',
+                      text: AppLocalizations.of(context)!.search,
                       onPressed: () {
                         RouteStateScope.of(context).go('/schedules/search');
                       },
