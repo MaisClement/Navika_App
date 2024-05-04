@@ -56,3 +56,5 @@ ios/Runner/GoogleService-Info.plist
 ios/firebase_app_id_file.json
 
 plugins/here_sdk/
+ios/Podfile.lock
+ios/build/.last_build_id
