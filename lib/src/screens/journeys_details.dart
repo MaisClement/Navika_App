@@ -18,6 +18,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 // 🌎 Project imports:
 import 'package:navika/src/controller/here_map_controller.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/icon.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/navigator.dart';
 import 'package:navika/src/style.dart';
@@ -316,9 +317,9 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                         margin: const EdgeInsets.only(top: 12, left: 73, bottom: 15),
                         child: Text(
                           AppLocalizations.of(context)!.route,
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              fontFamily: 'Segoe Ui',
+                              fontFamily: fontFamily,
                               fontSize: 22),
                         ),
                       ),
@@ -344,7 +345,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child: Icon(Icons.arrow_back, 
+                        child: Icon(arrowBack, 
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),

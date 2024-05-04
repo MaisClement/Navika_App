@@ -68,20 +68,12 @@ class _ChangesState extends State<Changes> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           backgroundColor: mainColor(context),
-          leading: GestureDetector(
-            child: const Icon(
-              Icons.close,
-              color: Colors.white,
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
+          leading: closeLeadingAppBar(context),
           title: Text(
             AppLocalizations.of(context)!.what_new,
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.w600,
-              fontFamily: 'Segoe Ui',
+              fontFamily: fontFamily,
               color: Colors.white,
             ),
           ),
@@ -106,19 +98,19 @@ class _ChangesState extends State<Changes> {
             data: data,
             selectable: true,
             styleSheet: MarkdownStyleSheet(
-              h1: const TextStyle(
+              h1: TextStyle(
                 fontWeight: FontWeight.w600,
-                fontFamily: 'Segoe Ui',
+                fontFamily: fontFamily,
                 color: Colors.white,
               ),
-              h2: const TextStyle(
+              h2: TextStyle(
                 fontWeight: FontWeight.w600,
-                fontFamily: 'Segoe Ui',
+                fontFamily: fontFamily,
                 color: Colors.white,
               ),
-              h3: const TextStyle(
+              h3: TextStyle(
                 fontWeight: FontWeight.w600,
-                fontFamily: 'Segoe Ui',
+                fontFamily: fontFamily,
                 color: Colors.white,
               ),
               p: const TextStyle(
@@ -136,13 +128,6 @@ class _ChangesState extends State<Changes> {
                 color: Colors.white.withOpacity(0.3),
               )
             ),
-            //extensionSet: md.ExtensionSet(
-            //  md.ExtensionSet.gitHubFlavored.blockSyntaxes,
-            //  <md.InlineSyntax>[
-            //    md.EmojiSyntax(),
-            //    ...md.ExtensionSet.gitHubFlavored.inlineSyntaxes
-            //  ],
-            //),
           )
       );
 }

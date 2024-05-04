@@ -84,7 +84,7 @@ class PlacesListButton extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      fontFamily: 'Segoe Ui',
+                      fontFamily: fontFamily,
                       color: accentColor(context),
                     ),
                     maxLines: 1,
@@ -105,18 +105,18 @@ class PlacesListButton extends StatelessWidget {
                       size: 25
                     ),
                     Text('${place['distance']}m',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.grey,
-                        fontFamily: 'Segoe Ui',
+                        fontFamily: fontFamily,
                       ),
                     ),
                     Container(
                       width: 20,
                     ),
                     Text(getTextDetails(place),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.grey,
-                        fontFamily: 'Segoe Ui',
+                        fontFamily: fontFamily,
                       ),
                     ),
                   ],
@@ -128,9 +128,9 @@ class PlacesListButton extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(getTextDetails(place),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.grey,
-                        fontFamily: 'Segoe Ui',
+                        fontFamily: fontFamily,
                       ),
                     ),
                   ],

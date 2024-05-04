@@ -49,7 +49,7 @@ List<Widget> buildFavorites(List journeys, update, context) {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
+                    fontFamily: fontFamily,
                     color: accentColor(context),
                   ),
                   maxLines: 1,
@@ -110,9 +110,9 @@ class RouteFavorites extends StatelessWidget {
                     ),
                     Text(
                       AppLocalizations.of(context)!.no_saved_routes,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
+                        fontFamily: fontFamily,
                       ),
                       textAlign: TextAlign.center,
                     ),

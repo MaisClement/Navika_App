@@ -51,21 +51,13 @@ class _SettingsState extends State<Settings> {
         appBar: AppBar(
           backgroundColor: mainColor(context),
           title: Text(AppLocalizations.of(context)!.settings,
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.w600,
-              fontFamily: 'Segoe Ui',
+              fontFamily: fontFamily,
                   color: Colors.white,
             ),
           ),
-          leading: GestureDetector(
-            child: const Icon(
-              Icons.close,
-              color: Colors.white,
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
+          leading: closeLeadingAppBar(context),
         ),
         backgroundColor: mainColor(context),
         body: ListView(
@@ -211,8 +203,8 @@ class _SettingsState extends State<Settings> {
               padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
               child: Text(
                 '${app.NAME} 2023 - ${DateTime.now().year} • Made with 💖',
-                style: const TextStyle(
-                  fontFamily: 'Segoe Ui',
+                style: TextStyle(
+                  fontFamily: fontFamily,
                   color: Colors.white,
                 ),
               ),
@@ -255,8 +247,8 @@ class _SettingsState extends State<Settings> {
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
               child: Text(
                 AppLocalizations.of(context)!.details_privacy,
-                style: const TextStyle(
-                  fontFamily: 'Segoe Ui',
+                style: TextStyle(
+                  fontFamily: fontFamily,
                   color: Colors.white,
                 ),
               ),
@@ -279,8 +271,8 @@ class _SettingsState extends State<Settings> {
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
               child: Text(
                 AppLocalizations.of(context)!.details_OSM,
-                style: const TextStyle(
-                  fontFamily: 'Segoe Ui',
+                style: TextStyle(
+                  fontFamily: fontFamily,
                   color: Colors.white,
                 ),
               ),
@@ -300,8 +292,8 @@ class _SettingsState extends State<Settings> {
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
               child: Text(
                 AppLocalizations.of(context)!.details_HERE,
-                style: const TextStyle(
-                  fontFamily: 'Segoe Ui',
+                style: TextStyle(
+                  fontFamily: fontFamily,
                   color: Colors.white,
                 ),
               ),
@@ -327,8 +319,8 @@ class _SettingsState extends State<Settings> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Navika • v${app.VERSION}-${app.BUILD_NUMBER} • ${app.PACKAGE_NAME}',
-                    style: const TextStyle(
-                      fontFamily: 'Segoe Ui',
+                    style: TextStyle(
+                      fontFamily: fontFamily,
                       color: Colors.white,
                     ),
                   ),

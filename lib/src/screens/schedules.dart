@@ -52,7 +52,7 @@ class _SchedulesState extends State<Schedules> {
         appBar: AppBar(
           toolbarHeight: 110,
           title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: preferredCrossAxisAlignment,
             children: [
               Text(AppLocalizations.of(context)!.timetables, style: appBarTitle),
               const SizedBox(
@@ -88,9 +88,9 @@ class _SchedulesState extends State<Schedules> {
                     ),
                     Text(
                       AppLocalizations.of(context)!.add_stop_to_favorites,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
+                        fontFamily: fontFamily,
                       ),
                       textAlign: TextAlign.center,
                     ),

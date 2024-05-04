@@ -44,7 +44,7 @@ class _RoutesState extends State<Routes> {
         appBar: AppBar(
           toolbarHeight: 110,
           title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: preferredCrossAxisAlignment,
             children: [
               Text(AppLocalizations.of(context)!.lines, style: appBarTitle),
               const SizedBox(
@@ -79,9 +79,9 @@ class _RoutesState extends State<Routes> {
                     ),
                     Text(
                       AppLocalizations.of(context)!.add_lines_to_favorites,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
+                        fontFamily: fontFamily,
                       ),
                       textAlign: TextAlign.center,
                     ),

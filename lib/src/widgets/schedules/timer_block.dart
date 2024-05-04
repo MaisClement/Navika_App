@@ -65,7 +65,7 @@ class TimerBlock extends StatelessWidget {
                         style: TextStyle(
                           color: getSchedulesColorByState(state, context),
                           fontWeight: FontWeight.w700,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           decoration: state == 'cancelled'
                               ? TextDecoration.lineThrough
                               : null,

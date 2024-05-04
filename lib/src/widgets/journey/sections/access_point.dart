@@ -30,10 +30,10 @@ class AccessPoint extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(left: 7),
             child: Text(AppLocalizations.of(context)!.access_type,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                fontFamily: 'Segoe Ui',
+                fontFamily: fontFamily,
               )
             ),
           ),
@@ -59,11 +59,11 @@ class AccessPoint extends StatelessWidget {
                       Container(
                         margin: const EdgeInsets.only(right: 5),
                         child: Text(accessPoint['access_point_code'],
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 16,
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
-                            fontFamily: 'Segoe Ui',
+                            fontFamily: fontFamily,
                           )
                         ),
                       ),
@@ -75,7 +75,7 @@ class AccessPoint extends StatelessWidget {
                   fontSize: 16,
                   color: accentColor(context),
                   fontWeight: FontWeight.w600,
-                  fontFamily: 'Segoe Ui',
+                  fontFamily: fontFamily,
                 )
               ),
             ],

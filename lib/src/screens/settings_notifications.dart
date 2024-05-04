@@ -43,21 +43,13 @@ class _SettingsNotificationState extends State<SettingsNotification> {
           backgroundColor: mainColor(context),
           title: Text(
             AppLocalizations.of(context)!.notifications,
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.w600,
-              fontFamily: 'Segoe Ui',
+              fontFamily: fontFamily,
                   color: Colors.white,
             ),
           ),
-          leading: GestureDetector(
-            child: const Icon(
-              Icons.close,
-              color: Colors.white,
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
+          leading: closeLeadingAppBar(context),
         ),
         backgroundColor: mainColor(context),
         body: ListView(
@@ -65,9 +57,9 @@ class _SettingsNotificationState extends State<SettingsNotification> {
             if (favs.isEmpty)
               Container(
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 80),
-                child: const Column(
+                child: Column(
                   children: [
-                    Icon(
+                    const Icon(
                       NavikaIcons.telescope,
                       size: 40,
                       color: Colors.white,
@@ -76,7 +68,7 @@ class _SettingsNotificationState extends State<SettingsNotification> {
                       'Nous n’avons rien trouvé...',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
+                        fontFamily: fontFamily,
                         color: Colors.white,
                       ),
                       textAlign: TextAlign.center,

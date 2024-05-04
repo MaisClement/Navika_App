@@ -10,6 +10,7 @@ import 'package:navika/src/extensions/datetime.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/journey/sections/boarding_position.dart';
@@ -114,10 +115,10 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                   children: [
                     Expanded(
                       child: Text(widget.section['from']['name'],
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                         ),
                         maxLines: 1,
                         softWrap: false,
@@ -128,9 +129,9 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                       padding: const EdgeInsets.only(left: 10, right: 15, top: 0),
                       color: Theme.of(context).colorScheme.surface,
                       child: Text(getStringTime(widget.section['departure_date_time']),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           fontSize: 16,
                         )
                       ),
@@ -144,7 +145,7 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           color: HexColor.fromHex(widget.section['informations']['line']['color']),
                         ),
                         maxLines: 1,
@@ -220,7 +221,7 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
-                                    fontFamily: 'Segoe Ui',
+                                    fontFamily: fontFamily,
                                     color: HexColor.fromHex(widget.section['informations']['line']['color']),
                                   ),
                                   maxLines: 1,
@@ -235,7 +236,7 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              fontFamily: 'Segoe Ui',
+                              fontFamily: fontFamily,
                               color: HexColor.fromHex(widget.section['informations']['line']['color']),
                             ),
                             maxLines: 1,
@@ -249,7 +250,7 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                                 Text('•',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
-                                    fontFamily: 'Segoe Ui',
+                                    fontFamily: fontFamily,
                                     color: HexColor.fromHex(widget.section['informations']['line']['color']),
                                   ),
                                 ),

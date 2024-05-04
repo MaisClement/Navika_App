@@ -131,7 +131,7 @@ class TimeBlock extends StatelessWidget {
                                         : 'theorical',
                                     context),
                                 fontWeight: FontWeight.w700,
-                                fontFamily: 'Segoe Ui',
+                                fontFamily: fontFamily,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -151,10 +151,10 @@ class TimeBlock extends StatelessWidget {
                         fit: BoxFit.scaleDown,
                         child: Text(
                           track,
-                          style: const TextStyle(
-                            color: Color(0xff202020),
+                          style: TextStyle(
+                            color: const Color(0xff202020),
                             fontWeight: FontWeight.w700,
-                            fontFamily: 'Segoe Ui',
+                            fontFamily: fontFamily,
                           ),
                           textAlign: TextAlign.center,
                         ),

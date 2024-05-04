@@ -52,7 +52,7 @@ class _BottomGroupedDeparturesState extends State<BottomGroupedDepartures> with 
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
-                fontFamily: 'Segoe Ui',
+                fontFamily: fontFamily,
                 color: accentColor(context),
               ),
             ),
@@ -65,7 +65,7 @@ class _BottomGroupedDeparturesState extends State<BottomGroupedDepartures> with 
             Text(AppLocalizations.of(context)!.group_trains_by_line,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                fontFamily: 'Segoe Ui',
+                fontFamily: fontFamily,
                 color: accentColor(context),
               ),
             ),

@@ -6,6 +6,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
+import 'package:navika/src/icon.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
 
 String getErrorImg(ApiStatus error) {
@@ -76,10 +78,10 @@ class ErrorBlock extends StatelessWidget {
           padding: const EdgeInsets.only(left: 20.0, right: 20.0),
           child: Text(getErrorText(context, error),
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
-              fontFamily: 'Segoe Ui',
+              fontFamily: fontFamily,
             ),
           ),
         ),
@@ -87,7 +89,7 @@ class ErrorBlock extends StatelessWidget {
         if (retry != null && error != ApiStatus.unknownException)
           Center(
             child: IconElevatedButton(
-              icon: Icons.refresh,
+              icon: refresh,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 foregroundColor: const Color(0xffffffff),

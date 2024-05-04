@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 // 📦 Package imports:
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
+// 🌎 Project imports:
+import 'package:navika/src/style.dart';
+
 class SettingsLink extends StatelessWidget {
   final String name;
   final String url;
@@ -36,10 +39,10 @@ class SettingsLink extends StatelessWidget {
                     ),
                     Text(
                       name,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
+                        fontFamily: fontFamily,
                         fontSize: 17,
                       ),
                     )
@@ -47,10 +50,10 @@ class SettingsLink extends StatelessWidget {
                 )
               : Text(
                   name,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
+                    fontFamily: fontFamily,
                     fontSize: 17,
                   ),
                 ),

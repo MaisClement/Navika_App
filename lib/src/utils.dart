@@ -55,7 +55,7 @@ Widget voidData(context) {
             color: accentColor(context),
             fontSize: 18,
             fontWeight: FontWeight.w700,
-            fontFamily: 'Segoe Ui'),
+            fontFamily: fontFamily),
       ),
     ],
   );
@@ -506,7 +506,7 @@ TextStyle getTextStyle(BuildContext context, int size) {
   return TextStyle(
     fontSize: size.toDouble(),
     fontWeight: FontWeight.w600,
-    fontFamily: 'Segoe Ui',
+    fontFamily: fontFamily,
     color: accentColor(context),
   );
 }

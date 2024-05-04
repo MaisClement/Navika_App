@@ -55,7 +55,7 @@ class RouteFavorite extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
                       ),
@@ -65,7 +65,7 @@ class RouteFavorite extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
                       ),
@@ -82,7 +82,7 @@ class RouteFavorite extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
                       ),

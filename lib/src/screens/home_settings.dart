@@ -75,15 +75,6 @@ class _HomeSettingsState extends State<HomeSettings> with SingleTickerProviderSt
     });
   }
 
-  final MaterialStateProperty<Icon?> thumbIcon =
-      MaterialStateProperty.resolveWith<Icon?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.selected)) {
-        return const Icon(Icons.check);
-      }
-      return const Icon(Icons.close);
-    },
-  );
-
   @override
   Widget build(BuildContext context) => Scaffold(
       bottomNavigationBar: getNavigationBar(context),
@@ -119,10 +110,10 @@ class _HomeSettingsState extends State<HomeSettings> with SingleTickerProviderSt
                   ),
                   Expanded(
                     child: Text(getBlockName(context, block['id']),
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
+                        fontFamily: fontFamily,
                       ),
                     ),
                   ),

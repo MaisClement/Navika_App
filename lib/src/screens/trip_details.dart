@@ -122,13 +122,10 @@ class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStat
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: preferredCrossAxisAlignment,
             children: [
               Text(AppLocalizations.of(context)!.trip, style: appBarTitle),
-              if (vehicleJourney != null)
-                Text(
-                    'N°${vehicleJourney?['informations']['name']} - ${vehicleJourney?['informations']['direction']['name']}',
-                    style: appBarSubtitle),
+              
             ],
           ),
         ),

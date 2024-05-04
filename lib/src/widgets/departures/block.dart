@@ -75,7 +75,7 @@ class DeparturesBlock extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
                         maxLines: 1,

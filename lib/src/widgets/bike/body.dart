@@ -10,6 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/icon.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style.dart';
 
@@ -100,7 +101,7 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
             child: Row(
               children: [
                 IconButton(
-                  icon: const Icon(Icons.arrow_back),
+                  icon: Icon(arrowBack),
                   tooltip: AppLocalizations.of(context)!.back,
                   color: accentColor(context),
                   onPressed: () => Navigator.pop(context),
@@ -113,7 +114,7 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
+                        fontFamily: fontFamily,
                         color: accentColor(context),
                       ),
                       maxLines: 1,
@@ -144,10 +145,10 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
                         Expanded(
                           child: Text(
                             AppLocalizations.of(context)!.bike_available,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
-                              fontFamily: 'Segoe Ui',
+                              fontFamily: fontFamily,
                             ),
                           ),
                         ),
@@ -169,10 +170,10 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
                                 child: Text(
                                   bikeStation['bike'].toString(),
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.w600,
-                                    fontFamily: 'Segoe Ui',
+                                    fontFamily: fontFamily,
                                   ),
                                 ),
                               ),
@@ -191,10 +192,10 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
                         Expanded(
                           child: Text(
                             AppLocalizations.of(context)!.bike_mechanical,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
-                              fontFamily: 'Segoe Ui',
+                              fontFamily: fontFamily,
                             ),
                           ),
                         ),
@@ -217,10 +218,10 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
                                 child: Text(
                                   bikeStation['mechanical'].toString(),
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.w600,
-                                    fontFamily: 'Segoe Ui',
+                                    fontFamily: fontFamily,
                                   ),
                                 ),
                               ),
@@ -239,10 +240,10 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
                         Expanded(
                           child: Text(
                             AppLocalizations.of(context)!.bike_ebike,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
-                              fontFamily: 'Segoe Ui',
+                              fontFamily: fontFamily,
                             ),
                           ),
                         ),
@@ -264,10 +265,10 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
                                 child: Text(
                                   bikeStation['ebike'].toString(),
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.w600,
-                                    fontFamily: 'Segoe Ui',
+                                    fontFamily: fontFamily,
                                   ),
                                 ),
                               ),
@@ -286,10 +287,10 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
                         Expanded(
                           child: Text(
                             AppLocalizations.of(context)!.bike_park,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
-                              fontFamily: 'Segoe Ui',
+                              fontFamily: fontFamily,
                             ),
                           ),
                         ),
@@ -311,10 +312,10 @@ class _BikeBodyState extends State<BikeBody> with SingleTickerProviderStateMixin
                                 child: Text(
                                   bikeStation['capacity'].toString(),
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.w600,
-                                    fontFamily: 'Segoe Ui',
+                                    fontFamily: fontFamily,
                                   ),
                                 ),
                               ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 
 class SectionArrival extends StatelessWidget {
@@ -42,10 +43,10 @@ class SectionArrival extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 25),
               child: Text(section['to']['name'],
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  fontFamily: 'Segoe Ui',
+                  fontFamily: fontFamily,
                 )
               ),
             ),
@@ -56,9 +57,9 @@ class SectionArrival extends StatelessWidget {
             child: Row(
               children: [
                 Text(getStringTime(section['arrival_date_time']),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
+                    fontFamily: fontFamily,
                     fontSize: 16,
                   )
                 )

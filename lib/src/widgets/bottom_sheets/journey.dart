@@ -74,7 +74,7 @@ class _BottomJourneyState extends State<BottomJourney> with SingleTickerProvider
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
-                      fontFamily: 'Segoe Ui',
+                      fontFamily: fontFamily,
                       color: accentColor(context),
                     ),
                   ),
@@ -87,7 +87,7 @@ class _BottomJourneyState extends State<BottomJourney> with SingleTickerProvider
                       AppLocalizations.of(context)!.route_type,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
+                        fontFamily: fontFamily,
                         color: accentColor(context),
                       ),
                     ),

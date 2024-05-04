@@ -46,7 +46,7 @@ class LinesListButton extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
+                        fontFamily: fontFamily,
                         color: accentColor(context),
                       ),
                       maxLines: 1,
@@ -63,7 +63,7 @@ class LinesListButton extends StatelessWidget {
                 child: Text('${line['agency']['area']}, ${line['agency']['name']}',
                   style: TextStyle(
                     color: isLight ? Colors.white : Colors.grey,
-                    fontFamily: 'Segoe Ui',
+                    fontFamily: fontFamily,
                   ),
                 ),
               ),

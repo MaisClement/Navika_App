@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/routing/route_state.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/journey/favorites.dart';
 
@@ -44,9 +45,9 @@ class HomeWidgetJourneys extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(AppLocalizations.of(context)!.no_routes_planned,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
+                        fontFamily: fontFamily,
                       ),
                       textAlign: TextAlign.center,
                     ),

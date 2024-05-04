@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 // 📦 Package imports:
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
+// 🌎 Project imports:
+import 'package:navika/src/style.dart';
+
 class SettingsButton extends StatelessWidget {
   final String name;
   final String? sub;
@@ -44,19 +47,19 @@ class SettingsButton extends StatelessWidget {
             children: [
               Text(
                 name,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
-                  fontFamily: 'Segoe Ui',
+                  fontFamily: fontFamily,
                   fontSize: 17,
                 ),
               ),
               if (sub != null)
                 Text(
                   sub ?? '',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
-                    fontFamily: 'Segoe Ui',
+                    fontFamily: fontFamily,
                     fontSize: 14,
                   ),
                 ),

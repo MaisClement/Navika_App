@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
+import 'package:navika/src/icon.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 
@@ -69,7 +71,7 @@ class ButtonLargeTrafic extends StatelessWidget {
                   ),
                 ),
                 Icon(
-                  Icons.chevron_right,
+                  chevronRight,
                   color: Theme.of(context).colorScheme.onSurface,
                   size: 30,
                 )

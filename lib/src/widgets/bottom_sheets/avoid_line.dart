@@ -141,7 +141,7 @@ class _BottomAvoidLineState extends State<BottomAvoidLine> with SingleTickerProv
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
-                fontFamily: 'Segoe Ui',
+                fontFamily: fontFamily,
                 color: accentColor(context),
               ),
             ),
@@ -156,7 +156,7 @@ class _BottomAvoidLineState extends State<BottomAvoidLine> with SingleTickerProv
                 AppLocalizations.of(context)!.uncheck_line_to_avoid,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  fontFamily: 'Segoe Ui',
+                  fontFamily: fontFamily,
                   color: accentColor(context),
                 ),
               ),

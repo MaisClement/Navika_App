@@ -9,6 +9,7 @@ import 'package:dotted_line/dotted_line.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/journey/sections/access_point.dart';
 
@@ -100,10 +101,10 @@ class _SectionStreetNetworkState extends State<SectionStreetNetwork> {
                   children: [
                     Expanded(
                       child: Text(widget.section['from']['name'],
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                         ),
                         maxLines: 1,
                         softWrap: false,
@@ -114,9 +115,9 @@ class _SectionStreetNetworkState extends State<SectionStreetNetwork> {
                       padding: const EdgeInsets.only(left: 10, right: 15, top: 0),
                       color: Theme.of(context).colorScheme.surface,
                       child: Text(getStringTime(widget.section['departure_date_time']),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           fontSize: 16,
                         )
                       ),

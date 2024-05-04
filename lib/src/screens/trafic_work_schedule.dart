@@ -212,10 +212,10 @@ class _TraficWorkScheduleState extends State<TraficWorkSchedule> {
                   Expanded(
                     child: Center(
                       child: Text('${getLongMonth(context)[date.month]?.capitalize()}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                         ),
                       ),
                     ),
@@ -282,7 +282,7 @@ class _TraficWorkScheduleState extends State<TraficWorkSchedule> {
                           color: Colors.grey[600],
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                         ),
                         maxLines: 1,
                         softWrap: false,

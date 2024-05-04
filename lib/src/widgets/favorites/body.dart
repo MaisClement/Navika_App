@@ -10,6 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/icon.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/style.dart';
@@ -117,7 +118,7 @@ class _FavoriteBodyState extends State<FavoriteBody> with SingleTickerProviderSt
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
+                        fontFamily: fontFamily,
                         color: accentColor(context),
                       ),
                       maxLines: 1,
@@ -126,7 +127,7 @@ class _FavoriteBodyState extends State<FavoriteBody> with SingleTickerProviderSt
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.more_horiz),
+                    icon: Icon(more),
                     color: Theme.of(context).colorScheme.onSurface,
                     tooltip: AppLocalizations.of(context)!.remove_favorite,
                     onPressed: () {

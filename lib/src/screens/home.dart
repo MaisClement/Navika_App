@@ -446,9 +446,9 @@ class _HomeState extends State<Home> {
                             ),
                             const SizedBox(width: 10),
                             Text(AppLocalizations.of(context)!.no_internet_connection,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.w600,
-                                fontFamily: 'Segoe Ui',
+                                fontFamily: fontFamily,
                                 fontSize: 18,
                               ),
                             ),

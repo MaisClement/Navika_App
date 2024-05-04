@@ -48,11 +48,11 @@ class TripBlock extends StatelessWidget {
                     child: Center(
                       child: Text(
                         getTime(arrivaltime),
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontFamily: 'Segoe Ui',
+                            fontFamily: fontFamily,
                             fontSize: 17,
-                            color: Color(0xff808080),
+                            color: const Color(0xff808080),
                             decoration: TextDecoration.lineThrough),
                       ),
                     ),
@@ -68,7 +68,7 @@ class TripBlock extends StatelessWidget {
                             getTime(newarrivaltime),
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
-                              fontFamily: 'Segoe Ui',
+                              fontFamily: fontFamily,
                               fontSize: 14,
                               color: getActiveColor(context, status),
                             ),
@@ -77,11 +77,11 @@ class TripBlock extends StatelessWidget {
                         Center(
                         child: Text(
                           '+${getDelay(newarrivaltime, arrivaltime)} min',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontFamily: 'Segoe Ui',
+                            fontFamily: fontFamily,
                             fontSize: 14,
-                            color: Color(0xfff68f53),
+                            color: const Color(0xfff68f53),
                           ),
                         ),
                       )
@@ -96,7 +96,7 @@ class TripBlock extends StatelessWidget {
                         getTime(arrivaltime),
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           fontSize: 14,
                           color: getArrivalActiveColor(context, status),
                         ),
@@ -135,11 +135,11 @@ class TripBlock extends StatelessWidget {
                   child: Center(
                     child: Text(
                       getTime(time),
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontWeight: FontWeight.w700,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           fontSize: 17,
-                          color: Color(0xff808080),
+                          color: const Color(0xff808080),
                           decoration: TextDecoration.lineThrough),
                     ),
                   ),
@@ -155,7 +155,7 @@ class TripBlock extends StatelessWidget {
                           getTime(newtime),
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontFamily: 'Segoe Ui',
+                            fontFamily: fontFamily,
                             fontSize: 17,
                             color: getActiveColor(context, status),
                           ),
@@ -164,11 +164,11 @@ class TripBlock extends StatelessWidget {
                       Center(
                         child: Text(
                           '+${getDelay(newtime, time)} min',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontFamily: 'Segoe Ui',
+                            fontFamily: fontFamily,
                             fontSize: 14,
-                            color: Color(0xfff68f53),
+                            color: const Color(0xfff68f53),
                           ),
                         ),
                       )
@@ -183,7 +183,7 @@ class TripBlock extends StatelessWidget {
                       getTime(time),
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
-                        fontFamily: 'Segoe Ui',
+                        fontFamily: fontFamily,
                         fontSize: 17,
                         color: getActiveColor(context, status),
                       ),
@@ -307,17 +307,17 @@ class TripBlock extends StatelessWidget {
 
 TextStyle getStyleByEffect(departureState, arrivalState) {
   if (departureState == 'deleted' && arrivalState == 'deleted') {
-    return const TextStyle(
+    return TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w700,
-        fontFamily: 'Segoe Ui',
-        color: Color(0xff808080),
+        fontFamily: fontFamily,
+        color: const Color(0xff808080),
         decoration: TextDecoration.lineThrough);
   } else {
-    return const TextStyle(
+    return TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w700,
-      fontFamily: 'Segoe Ui',
+      fontFamily: fontFamily,
     );
   }
 }
@@ -329,9 +329,9 @@ List<Widget> getMessage(context, departureState, arrivalState, message) {
     res.add(
       Text(
         message,
-        style: const TextStyle(
+        style: TextStyle(
           fontWeight: FontWeight.w700,
-          fontFamily: 'Segoe Ui',
+          fontFamily: fontFamily,
           fontSize: 12,
         ),
       ),
@@ -366,7 +366,7 @@ List<Widget> getMessage(context, departureState, arrivalState, message) {
           getState(context)[status]['text'],
           style: TextStyle(
             fontWeight: FontWeight.w700,
-            fontFamily: 'Segoe Ui',
+            fontFamily: fontFamily,
             fontSize: 12,
             color: getState(context)[status]['color'],
           ),

@@ -119,7 +119,7 @@ class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerPr
                           color: accentColor(context),
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
-                          fontFamily: 'Segoe Ui'),
+                          fontFamily: fontFamily),
                     ),
                   ],
                 )

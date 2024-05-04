@@ -72,7 +72,7 @@ class SchedulesBlock extends StatelessWidget {
                           style: TextStyle(
                               color: accentColor(context),
                               fontWeight: FontWeight.w800,
-                              fontFamily: 'Segoe Ui'),
+                              fontFamily: fontFamily),
                           maxLines: 1,
                           softWrap: false,
                           overflow: TextOverflow.fade,

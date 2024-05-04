@@ -1,30 +1,79 @@
+// 🎯 Dart imports:
+import 'dart:io';
+
 // 🐦 Flutter imports:
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
+import 'package:navika/src/icon.dart';
 import 'package:navika/src/screens/trip_details.dart';
 
-const appBarTitle = TextStyle(
+// 📱 IOS style
+String fontFamily = Platform.isIOS ? 'San Francisco' : 'Segoe Ui';
+
+CrossAxisAlignment preferredCrossAxisAlignment = Platform.isIOS ? CrossAxisAlignment.center : CrossAxisAlignment.start;
+
+Widget closeLeadingAppBar(context) => Platform.isIOS
+  ? InkWell(
+      borderRadius: const BorderRadius.all(Radius.circular(500)),
+      child: const Icon(
+        size: 31,
+        CupertinoIcons.back,
+        color: Colors.white,
+      ),
+      onTap: () {
+        Navigator.pop(context);
+      },
+    )
+  : InkWell(
+      borderRadius: const BorderRadius.all(Radius.circular(500)),
+      child: Icon(
+        close,
+        color: Colors.white,
+      ),
+      onTap: () {
+        Navigator.pop(context);
+      },
+    );
+
+TextStyle appBarTitle = TextStyle(
   fontWeight: FontWeight.w600,
-  fontFamily: 'Segoe Ui',
+  fontFamily: fontFamily,
 );
 
-const appBarSubtitle = TextStyle(
+TextStyle appBarSubtitle = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w600,
-  fontFamily: 'Segoe Ui',
+  fontFamily: fontFamily,
 );
 
-const snackBarText = TextStyle(
-    color: Color(0xffffffff),
+TextStyle snackBarText = TextStyle(
+    color: const Color(0xffffffff),
     fontWeight: FontWeight.w600,
-    fontFamily: 'Segoe Ui');
+    fontFamily: fontFamily,
+);
+
+TextStyle textStyle(BuildContext context, int size) => TextStyle(
+  fontSize: size.toDouble(),
+  fontWeight: FontWeight.w600,
+  fontFamily: fontFamily,
+  color: accentColor(context),
+);
 
 const bottomSheetBorder = BorderRadius.only(
   topLeft: Radius.circular(15),
   topRight: Radius.circular(15),
   bottomLeft: Radius.zero,
   bottomRight: Radius.zero,
+);
+
+final MaterialStateProperty<Icon?> thumbIcon = MaterialStateProperty.resolveWith<Icon?>((Set<MaterialState> states) {
+    if (states.contains(MaterialState.selected)) {
+      return Icon(check);
+    }
+    return Icon(close);
+  },
 );
 
 mainColor(context) {

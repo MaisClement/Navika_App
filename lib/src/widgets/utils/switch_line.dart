@@ -17,16 +17,6 @@ class SwitchLine extends StatelessWidget {
     super.key,
   });
 
-  final MaterialStateProperty<Icon?> thumbIcon =
-      MaterialStateProperty.resolveWith<Icon?>(
-    (Set<MaterialState> states) {
-      if (states.contains(MaterialState.selected)) {
-        return const Icon(Icons.check);
-      }
-      return const Icon(Icons.close);
-    },
-  );
-
   @override
   Widget build(BuildContext context) => SizedBox(
         width: double.infinity,
@@ -52,7 +42,7 @@ class SwitchLine extends StatelessWidget {
                       style: TextStyle(
                         color: accentColor(context),
                         fontWeight: FontWeight.w600,
-                        fontFamily: 'Segoe Ui',
+                        fontFamily: fontFamily,
                         fontSize: 19,
                       ),
                       maxLines: 1,

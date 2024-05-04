@@ -44,10 +44,10 @@ class LinesIcones extends StatelessWidget {
           child: FittedBox(
             fit: BoxFit.contain,
             child: Text(line['code'],
-              style: const TextStyle(
-                color:  Color(0xffffffff),
+              style: TextStyle(
+                color:  const Color(0xffffffff),
                 fontWeight: FontWeight.w800,
-                fontFamily: 'Segoe Ui'
+                fontFamily: fontFamily
               ),
             ),
           )
@@ -84,7 +84,7 @@ class LinesIcones extends StatelessWidget {
               style: TextStyle(
                 color:  HexColor.fromHex(line['text_color']),
                 fontWeight: FontWeight.w800,
-                fontFamily: 'Segoe Ui'
+                fontFamily: fontFamily
               ),
             ),
           )

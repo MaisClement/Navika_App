@@ -1,6 +1,9 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 🌎 Project imports:
+import 'package:navika/src/style.dart';
+
 class Message extends StatelessWidget {
 	final String message;
   final Color backgroundColor;
@@ -25,7 +28,7 @@ class Message extends StatelessWidget {
       style: TextStyle(
         color: color,
         fontWeight: FontWeight.w700,
-        fontFamily: 'Segoe Ui',
+        fontFamily: fontFamily,
       ),
       textAlign: TextAlign.center,
     ),
@@ -57,7 +60,7 @@ class MiniMessage extends StatelessWidget {
         color: color,
         fontWeight: FontWeight.w700,
         fontSize: 12,
-        fontFamily: 'Segoe Ui',
+        fontFamily: fontFamily,
       ),
       textAlign: TextAlign.center,
     ),

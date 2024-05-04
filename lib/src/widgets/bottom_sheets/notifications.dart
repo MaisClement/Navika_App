@@ -284,7 +284,7 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
                       ),
@@ -297,7 +297,7 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                           AppLocalizations.of(context)!.alert_type,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontFamily: 'Segoe Ui',
+                            fontFamily: fontFamily,
                             color: accentColor(context),
                           ),
                         ),
@@ -326,7 +326,7 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                           AppLocalizations.of(context)!.alert_days,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontFamily: 'Segoe Ui',
+                            fontFamily: fontFamily,
                             color: accentColor(context),
                           ),
                         ),
@@ -373,7 +373,7 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                           AppLocalizations.of(context)!.time_range,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontFamily: 'Segoe Ui',
+                            fontFamily: fontFamily,
                             color: accentColor(context),
                           ),
                         ),

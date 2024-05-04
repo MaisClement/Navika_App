@@ -34,10 +34,10 @@ class RoutesSchedulesList extends StatelessWidget {
         message: 'Les details ne sont pas disponibles pour ce trajet.',
         context: context,
         textColor: mainColor(context),
-        textStyle: const TextStyle(
-          color: Color(0xffffffff),
+        textStyle: TextStyle(
+          color: const Color(0xffffffff),
           fontWeight: FontWeight.w600,
-          fontFamily: 'Segoe Ui',
+          fontFamily: fontFamily,
         ),
         duration: const Duration(milliseconds: 4000),
         backgroundColor: const Color(0xff272727),
@@ -63,11 +63,11 @@ class RoutesSchedulesList extends StatelessWidget {
                     maxLines: 1,
                     softWrap: false,
                     overflow: TextOverflow.fade,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      fontFamily: 'Segoe Ui',
-                      color: Color(0xffa9a9a9),
+                      fontFamily: fontFamily,
+                      color: const Color(0xffa9a9a9),
                       decoration: TextDecoration.lineThrough
                     ),
                   ),
@@ -78,7 +78,7 @@ class RoutesSchedulesList extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  fontFamily: 'Segoe Ui',
+                  fontFamily: fontFamily,
                   decoration: schedule['date_time']['state'] == 'cancelled'
                     ? TextDecoration.lineThrough
                     : null,
@@ -111,7 +111,7 @@ class RoutesSchedulesList extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
+                    fontFamily: fontFamily,
                     color: HexColor.fromHex(line['color']),
                   ),
                 ),
@@ -125,7 +125,7 @@ class RoutesSchedulesList extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  fontFamily: 'Segoe Ui',
+                  fontFamily: fontFamily,
                   color: isToday && isInPast(schedule['departure_date_time'])
                       ? const Color(0xffa9a9a9)
                       : Theme.of(context).colorScheme.onBackground,
@@ -152,7 +152,7 @@ class RoutesSchedulesList extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
+                    fontFamily: fontFamily,
                     color: isToday && isInPast(schedule['departure_date_time'])
                         ? const Color(0xffa9a9a9)
                         : HexColor.fromHex(line['color']),

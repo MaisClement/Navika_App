@@ -308,10 +308,10 @@ List<Widget> getStops(Map line, context) {
                   children: [
                     Text(
                       line['stops'][i]['name'],
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        fontFamily: 'Segoe Ui',
+                        fontFamily: fontFamily,
                       ),
                     ),                    
                   ],
@@ -476,7 +476,7 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
                               child: Text(
                             getTerminus(line),
                             style: TextStyle(
-                                fontFamily: 'Segoe Ui',
+                                fontFamily: fontFamily,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16,
                                 color: HexColor.fromHex(line['color'])),
@@ -533,9 +533,9 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
                                   maxLines: 1,
                                   softWrap: false,
                                   overflow: TextOverflow.fade,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       fontWeight: FontWeight.w600,
-                                      fontFamily: 'Segoe Ui',
+                                      fontFamily: fontFamily,
                                       fontSize: 18),
                                 ),
                               ),

@@ -118,7 +118,7 @@ class _JourneysSearchState extends State<JourneysSearch> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                fontFamily: 'Segoe Ui',
+                fontFamily: fontFamily,
                 color: walkingColor(context),
               ),
             ),
@@ -161,7 +161,7 @@ class _JourneysSearchState extends State<JourneysSearch> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                fontFamily: 'Segoe Ui',
+                fontFamily: fontFamily,
                 color: walkingColor(context),
               ),
             ),

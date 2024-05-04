@@ -69,7 +69,7 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveJourneys> with Single
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
+                    fontFamily: fontFamily,
                     color: accentColor(context),
                   ),
                 ),
@@ -83,7 +83,7 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveJourneys> with Single
                   'Etes-vous sur de supprimer cet itinéraire ?',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
+                    fontFamily: fontFamily,
                     color: accentColor(context),
                   ),
                 ),

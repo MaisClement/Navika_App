@@ -25,7 +25,7 @@ class PlacesEmpty extends StatelessWidget {
           'Nous n’avons rien trouvé...',
           style: TextStyle(
             fontWeight: FontWeight.w600,
-            fontFamily: 'Segoe Ui',
+            fontFamily: fontFamily,
             color: accentColor(context),
           ),
           textAlign: TextAlign.center,

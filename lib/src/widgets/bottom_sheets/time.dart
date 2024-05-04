@@ -60,7 +60,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
+                    fontFamily: fontFamily,
                     color: accentColor(context),
                   ),
                 ),
@@ -77,7 +77,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
                       ),
@@ -110,7 +110,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                       child: Text(AppLocalizations.of(context)!.delayed,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
                       ),
@@ -143,7 +143,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                       child: Text(AppLocalizations.of(context)!.deleted,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
                       ),
@@ -176,7 +176,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                       child: Text(AppLocalizations.of(context)!.theoretical,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
                       ),
@@ -202,110 +202,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                 ),
 
 
-                //---
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(AppLocalizations.of(context)!.deleted,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
-                          color: accentColor(context),
-                        ),
-                      ),
-                    ),
-                    widget.isDeparture
-                    ? TimeBlock(
-                        time: getDt(),
-                        base: getDt(),
-                        state: const ['added'],
-                        late: 0,
-                        track: 'B',
-                        update: (){}, // INUTILE SI disabled
-                        disabled: true,
-                      )
-                    : TimerBlock(
-                        time: getDt(),
-                        state: 'added',
-                        update: (){}, // INUTILE SI disabled
-                        color: departureList(context, mainColor(context)),
-                        disabled: true,
-                      ),
-                  ],
-                ),
-                //---
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(AppLocalizations.of(context)!.deleted,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
-                          color: accentColor(context),
-                        ),
-                      ),
-                    ),
-                    widget.isDeparture
-                    ? TimeBlock(
-                        time: getDt(),
-                        base: getDt(),
-                        state: const ['modified', 'delayed'],
-                        late: 5,
-                        track: 'B',
-                        update: (){}, // INUTILE SI disabled
-                        disabled: true,
-                      )
-                    : TimerBlock(
-                        time: getDt(),
-                        state: 'modified',
-                        update: (){}, // INUTILE SI disabled
-                        color: departureList(context, mainColor(context)),
-                        disabled: true,
-                      ),
-                  ],
-                ),
-                //---
-                //---
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(AppLocalizations.of(context)!.deleted,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
-                          color: accentColor(context),
-                        ),
-                      ),
-                    ),
-                    widget.isDeparture
-                    ? TimeBlock(
-                        time: getDt(),
-                        base: getDt(),
-                        state: const ['exceptional_terminus'],
-                        late: 5,
-                        track: 'B',
-                        update: (){}, // INUTILE SI disabled
-                        disabled: true,
-                      )
-                    : TimerBlock(
-                        time: getDt(),
-                        state: 'exceptional_terminus',
-                        update: (){}, // INUTILE SI disabled
-                        color: departureList(context, mainColor(context)),
-                        disabled: true,
-                      ),
-                  ],
-                ),
-                //---
+                
 
                 const SizedBox(
                   height: 30,
@@ -314,7 +211,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
+                    fontFamily: fontFamily,
                     color: accentColor(context),
                   ),
                 ),

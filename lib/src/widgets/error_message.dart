@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/error_block.dart';
 
 class ErrorMessage extends StatelessWidget {
@@ -36,7 +37,7 @@ class ErrorMessage extends StatelessWidget {
                     color: Colors.grey[600],
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    fontFamily: 'Segoe Ui',
+                    fontFamily: fontFamily,
                   ),
                   maxLines: 1,
                   softWrap: false,

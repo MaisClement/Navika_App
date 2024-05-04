@@ -74,7 +74,7 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
-                fontFamily: 'Segoe Ui',
+                fontFamily: fontFamily,
                 color: accentColor(context),
               ),
             ),
@@ -89,7 +89,7 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
                 AppLocalizations.of(context)!.select_line_to_add_to_favorites,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  fontFamily: 'Segoe Ui',
+                  fontFamily: fontFamily,
                   color: accentColor(context),
                 ),
               ),
@@ -115,10 +115,10 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite>
                         Expanded(
                           child: Text(
                             line['name'],
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              fontFamily: 'Segoe Ui',
+                              fontFamily: fontFamily,
                             ),
                             maxLines: 1,
                             softWrap: false,

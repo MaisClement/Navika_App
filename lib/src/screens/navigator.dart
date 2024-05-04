@@ -1,35 +1,39 @@
-import 'package:collection/collection.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:collection/collection.dart';
+import 'package:uni_links/uni_links.dart';
+
+// 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/routing.dart';
+import 'package:navika/src/screens/add_address.dart';
 import 'package:navika/src/screens/changes.dart';
 import 'package:navika/src/screens/home_search.dart';
 import 'package:navika/src/screens/home_settings.dart';
+import 'package:navika/src/screens/journeys.dart';
+import 'package:navika/src/screens/journeys_details.dart';
 import 'package:navika/src/screens/journeys_get.dart';
 import 'package:navika/src/screens/journeys_recurrent.dart';
 import 'package:navika/src/screens/journeys_search.dart';
 import 'package:navika/src/screens/maps.dart';
 import 'package:navika/src/screens/pdf.dart';
 import 'package:navika/src/screens/position.dart';
-import 'package:navika/src/screens/add_address.dart';
-import 'package:navika/src/screens/journeys_details.dart';
-import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/screens/routes_details.dart';
 import 'package:navika/src/screens/routes_schedules.dart';
+import 'package:navika/src/screens/routes_search.dart';
 import 'package:navika/src/screens/scaffold.dart';
 import 'package:navika/src/screens/schedules_departures.dart';
+import 'package:navika/src/screens/schedules_details.dart';
 import 'package:navika/src/screens/schedules_search.dart';
-import 'package:navika/src/screens/routes_search.dart';
-
-import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/settings.dart';
 import 'package:navika/src/screens/settings_notifications.dart';
 import 'package:navika/src/screens/trafic_details.dart';
-import 'package:navika/src/screens/schedules_details.dart';
 import 'package:navika/src/screens/trafic_work_schedule.dart';
 import 'package:navika/src/screens/trip_details.dart';
-import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/widgets/navigator/bar.dart';
-import 'package:uni_links/uni_links.dart';
 
 class NavikaAppNavigator extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;

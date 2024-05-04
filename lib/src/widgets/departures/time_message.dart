@@ -1,6 +1,9 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 🌎 Project imports:
+import 'package:navika/src/style.dart';
+
 class TimerMessage extends StatelessWidget {
   final String message;
   final Color backgroundColor;
@@ -33,10 +36,10 @@ class TimerMessage extends StatelessWidget {
         ),
         child: Text(
           message,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
-            fontFamily: 'Segoe Ui',
+            fontFamily: fontFamily,
             color: Colors.white,
           ),
         ),

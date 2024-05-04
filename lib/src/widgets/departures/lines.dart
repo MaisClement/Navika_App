@@ -35,10 +35,10 @@ class DepartureLines extends StatelessWidget {
         message: 'Les details ne sont pas disponibles pour ce trajet.',
         context: context,
         textColor: mainColor(context),
-        textStyle: const TextStyle(
-          color: Color(0xffffffff),
+        textStyle: TextStyle(
+          color: const Color(0xffffffff),
           fontWeight: FontWeight.w600,
-          fontFamily: 'Segoe Ui',
+          fontFamily: fontFamily,
         ),
         duration: const Duration(milliseconds: 4000),
         backgroundColor: const Color(0xff272727),
@@ -103,7 +103,7 @@ class DepartureLines extends StatelessWidget {
                                       ? TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600,
-                                          fontFamily: 'Segoe Ui',
+                                          fontFamily: fontFamily,
                                           color: getColorForDirectionByState(
                                               getState(train),
                                               context),
@@ -111,7 +111,7 @@ class DepartureLines extends StatelessWidget {
                                       : TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600,
-                                          fontFamily: 'Segoe Ui',
+                                          fontFamily: fontFamily,
                                           color: accentColor(context),
                                         ),
                                   maxLines: 1,

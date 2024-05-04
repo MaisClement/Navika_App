@@ -43,7 +43,7 @@ class _TraficDetailsState extends State<TraficDetails> {
         bottomNavigationBar: getNavigationBar(context),
         appBar: AppBar(
           title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: preferredCrossAxisAlignment,
             children: [
               Text(AppLocalizations.of(context)!.traffic_info, style: appBarTitle),
               if (LINES.getLines(globals.lineTrafic) != null && LINES.getLines(globals.lineTrafic)!['name'] != '')

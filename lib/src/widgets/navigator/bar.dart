@@ -11,6 +11,7 @@ import 'package:location/location.dart' as gps;
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
@@ -92,11 +93,11 @@ class _NaviBarState extends State<NaviBar> {
     if (state == NaviState.gettingLocation) {
       return Expanded(
         child: Text(AppLocalizations.of(context)!.locating_your_position,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16,
             color: Colors.white,
             fontWeight: FontWeight.w600,
-            fontFamily: 'Segoe Ui',
+            fontFamily: fontFamily,
           ),
           maxLines: 1,
           softWrap: false,
@@ -113,11 +114,11 @@ class _NaviBarState extends State<NaviBar> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('Départ dans ${getDuration(getTimeDifference(journey['departure_date_time']) * 60)}',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
-                fontFamily: 'Segoe Ui',
+                fontFamily: fontFamily,
               ),
               maxLines: 1,
               softWrap: false,
@@ -146,13 +147,13 @@ class _NaviBarState extends State<NaviBar> {
       );
     }
 
-    return const Expanded(
+    return Expanded(
       child: Text('Coucou',
         style: TextStyle(
           fontSize: 16,
           color: Colors.white,
           fontWeight: FontWeight.w600,
-          fontFamily: 'Segoe Ui',
+          fontFamily: fontFamily,
         ),
         maxLines: 1,
         softWrap: false,

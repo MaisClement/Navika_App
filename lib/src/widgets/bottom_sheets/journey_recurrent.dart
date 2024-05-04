@@ -10,15 +10,6 @@ import 'package:navika/src/widgets/journey/lines.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
 import 'package:navika/src/widgets/utils/radio_tiles.dart';
 
-final MaterialStateProperty<Icon?> thumbIcon =
-    MaterialStateProperty.resolveWith<Icon?>((Set<MaterialState> states) {
-    if (states.contains(MaterialState.selected)) {
-      return const Icon(Icons.check);
-    }
-    return const Icon(Icons.close);
-  },
-);
-
 class BottomRecurrentJourney extends StatefulWidget {
   final Map journey;
   final bool isExisting;
@@ -153,7 +144,7 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
                       ),
@@ -165,7 +156,7 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
                       ),
@@ -174,7 +165,7 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Segoe Ui',
+                          fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
                       ),
@@ -195,7 +186,7 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                           AppLocalizations.of(context)!.select_trip,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontFamily: 'Segoe Ui',
+                            fontFamily: fontFamily,
                             color: accentColor(context),
                           ),
                         ),
@@ -236,7 +227,7 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                       //              style: TextStyle(
                       //                fontSize: 16,
                       //                fontWeight: FontWeight.w600,
-                      //                fontFamily: 'Segoe Ui',
+                      //                fontFamily: fontFamily,
                       //                color: accentColor(context),
                       //              ),
                       //            ),
@@ -263,7 +254,7 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                       //          AppLocalizations.of(context)!.alert_days,
                       //          style: TextStyle(
                       //            fontWeight: FontWeight.w600,
-                      //            fontFamily: 'Segoe Ui',
+                      //            fontFamily: fontFamily,
                       //            color: accentColor(context),
                       //          ),
                       //        ),
@@ -310,7 +301,7 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                       //          AppLocalizations.of(context)!.time_range,
                       //          style: TextStyle(
                       //            fontWeight: FontWeight.w600,
-                      //            fontFamily: 'Segoe Ui',
+                      //            fontFamily: fontFamily,
                       //            color: accentColor(context),
                       //          ),
                       //        ),

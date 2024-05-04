@@ -58,7 +58,7 @@ class _BottomTerminusTrainState extends State<BottomTerminusTrain>
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
+                    fontFamily: fontFamily,
                     color: accentColor(context),
                   ),
                 ),
@@ -71,7 +71,7 @@ class _BottomTerminusTrainState extends State<BottomTerminusTrain>
                 Text(AppLocalizations.of(context)!.hide_arriving_trains,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'Segoe Ui',
+                    fontFamily: fontFamily,
                     color: accentColor(context),
                   ),
                 ),

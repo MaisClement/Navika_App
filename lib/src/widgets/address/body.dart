@@ -11,6 +11,7 @@ import 'package:here_sdk/core.dart';
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/icon.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/screens/journeys.dart';
@@ -37,9 +38,9 @@ Widget getDistance(id) {
             size: 25
           ),
           Text(getDistanceText(distance),
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.grey,
-              fontFamily: 'Segoe Ui',
+              fontFamily: fontFamily,
             ),
           ),
           if (duration < 3600)
@@ -50,9 +51,9 @@ Widget getDistance(id) {
                 size: 25
               ),
               Text(getDuration(duration),
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.grey,
-                  fontFamily: 'Segoe Ui',
+                  fontFamily: fontFamily,
                 ),
               ),
             ]
@@ -167,7 +168,7 @@ class _AddressBodyState extends State<AddressBody> with SingleTickerProviderStat
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.arrow_back),
+                        icon: Icon(arrowBack),
                         tooltip: AppLocalizations.of(context)!.back,
                         color: accentColor(context),
                         onPressed: () => Navigator.pop(context),
@@ -180,7 +181,7 @@ class _AddressBodyState extends State<AddressBody> with SingleTickerProviderStat
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w600,
-                              fontFamily: 'Segoe Ui',
+                              fontFamily: fontFamily,
                               color: accentColor(context),
                             ),
                           ),
@@ -188,7 +189,7 @@ class _AddressBodyState extends State<AddressBody> with SingleTickerProviderStat
                             style: TextStyle(
                               fontSize: 16,
                               color: accentColor(context),
-                              fontFamily: 'Segoe Ui',
+                              fontFamily: fontFamily,
                             ),
                           ),
                         ],
@@ -238,7 +239,7 @@ class _AddressBodyState extends State<AddressBody> with SingleTickerProviderStat
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
-                      fontFamily: 'Segoe Ui',
+                      fontFamily: fontFamily,
                       color: accentColor(context),
                     ),
                   ),

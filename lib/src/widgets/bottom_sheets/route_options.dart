@@ -23,21 +23,11 @@ class BottomRouteSettings extends StatefulWidget {
   State<BottomRouteSettings> createState() => _BottomRouteSettingsState();
 }
 
-class _BottomRouteSettingsState extends State<BottomRouteSettings>
-    with SingleTickerProviderStateMixin {
+class _BottomRouteSettingsState extends State<BottomRouteSettings> with SingleTickerProviderStateMixin {
   String travelerType = globals.hiveBox.get('travelerType');
 
   List allowedModes = globals.hiveBox.get('allowedModes');
 
-  final MaterialStateProperty<Icon?> thumbIcon =
-      MaterialStateProperty.resolveWith<Icon?>(
-    (Set<MaterialState> states) {
-      if (states.contains(MaterialState.selected)) {
-        return const Icon(Icons.check);
-      }
-      return const Icon(Icons.close);
-    },
-  );
 
   void setTravelerType(String type) {
     globals.hiveBox.put('travelerType', type);
@@ -89,7 +79,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
-                fontFamily: 'Segoe Ui',
+                fontFamily: fontFamily,
                 color: accentColor(context),
               ),
             ),
@@ -104,7 +94,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
-                fontFamily: 'Segoe Ui',
+                fontFamily: fontFamily,
                 color: accentColor(context),
               ),
             ),
@@ -148,7 +138,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings>
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
-                fontFamily: 'Segoe Ui',
+                fontFamily: fontFamily,
                 color: accentColor(context),
               ),
             ),

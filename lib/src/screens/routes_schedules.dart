@@ -233,7 +233,7 @@ class _RoutesSchedulesState extends State<RoutesSchedules> with SingleTickerProv
                             child: Text(
                           getTerminus(line),
                           style: TextStyle(
-                              fontFamily: 'Segoe Ui',
+                              fontFamily: fontFamily,
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                               color: HexColor.fromHex(line['color'])),
@@ -290,7 +290,7 @@ class _RoutesSchedulesState extends State<RoutesSchedules> with SingleTickerProv
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
-                                        fontFamily: 'Segoe Ui',
+                                        fontFamily: fontFamily,
                                         color: HexColor.fromHex(line['color']),
                                       ),
                                       maxLines: 1,

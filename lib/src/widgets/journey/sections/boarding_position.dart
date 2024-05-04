@@ -58,10 +58,10 @@ class BoardingPosition extends StatelessWidget {
           Row(
             children: [
               Text(AppLocalizations.of(context)!.where_to_board,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  fontFamily: 'Segoe Ui',
+                  fontFamily: fontFamily,
                 )
               ),
               const SizedBox(
@@ -71,7 +71,7 @@ class BoardingPosition extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  fontFamily: 'Segoe Ui',
+                  fontFamily: fontFamily,
                   color: accentColor(context),
                 )
               ),

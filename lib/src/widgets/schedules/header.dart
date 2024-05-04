@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/icon.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/schedules_details.dart';
 import 'package:navika/src/style.dart';
@@ -44,7 +45,7 @@ class SchedulesPannel extends StatelessWidget {
           child: Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: Icon(arrowBack),
                 tooltip: AppLocalizations.of(context)!.back,
                 color: accentColor(context),
                 onPressed: () => Navigator.pop(context),
@@ -57,7 +58,7 @@ class SchedulesPannel extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w600,
-                      fontFamily: 'Segoe Ui',
+                      fontFamily: fontFamily,
                       color: accentColor(context),
                     ),
                     maxLines: 1,

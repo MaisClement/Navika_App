@@ -31,16 +31,7 @@ class _PositionState extends State<Position> {
           title: Text(app.NAME, 
             style: appBarTitle.copyWith(color: Colors.white)
           ),
-          leading: GestureDetector(
-            child: const Icon(
-              Icons.close,
-              color: Colors.white,
-            ),
-            onTap: () {
-              globals.hiveBox.put('askGps', true);
-              Navigator.pop(context);
-            },
-          ),
+          leading: closeLeadingAppBar(context),
         ),
         backgroundColor: mainColor(context),
         body: Padding(
@@ -61,8 +52,8 @@ class _PositionState extends State<Position> {
               ),
               Text(
                 AppLocalizations.of(context)!.position_title,
-                style: const TextStyle(
-                  fontFamily: 'Segoe Ui',
+                style: TextStyle(
+                  fontFamily: fontFamily,
                   fontWeight: FontWeight.w600,
                   fontSize: 20,
                   color: Colors.white,
@@ -112,16 +103,16 @@ class _PositionState extends State<Position> {
               ),
               Text(
                 AppLocalizations.of(context)!.position_privacy,
-                style: const TextStyle(
-                  fontFamily: 'Segoe Ui',
+                style: TextStyle(
+                  fontFamily: fontFamily,
                   color: Colors.white,
                 ),
               ),
               const Text(''),
               Text(
                 AppLocalizations.of(context)!.position_details,
-                style: const TextStyle(
-                  fontFamily: 'Segoe Ui',
+                style: TextStyle(
+                  fontFamily: fontFamily,
                   color: Colors.white,
                 ),
               ),
