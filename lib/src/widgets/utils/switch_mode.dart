@@ -10,7 +10,7 @@ class SwitchMode extends StatelessWidget {
   final Function(bool) function;
   final IconData? icon;
 
-  SwitchMode({
+  const SwitchMode({
     required this.name,
     required this.value,
     required this.function,

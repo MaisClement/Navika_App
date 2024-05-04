@@ -10,7 +10,7 @@ class SwitchLine extends StatelessWidget {
   final bool value;
   final Function(bool) function;
 
-  SwitchLine({
+  const SwitchLine({
     required this.line,
     required this.value,
     required this.function,

@@ -6,7 +6,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/icon.dart';
-import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 
 class HomeMessage extends StatelessWidget {
