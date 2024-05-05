@@ -302,8 +302,7 @@ class _RoutesSchedulesState extends State<RoutesSchedules> with SingleTickerProv
                                   child: ListView(
                                     controller: _scrollController,
                                     children: [
-                                      ...getSchedulesBlock(context,
-                                          _scrollController, line, schedule)
+                                      ...getSchedulesBlock(context, _scrollController, line, schedule)
                                     ],
                                   ),
                                 )

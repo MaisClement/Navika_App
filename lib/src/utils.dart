@@ -382,7 +382,7 @@ Color getColorByState(state, context) {
     return const Color(0xffeb2031);
   } else if (state.contains('delayed') || state.contains('modified') || state.contains('exceptional_terminus')) {
     return const Color(0xfff68f53);
-  } else if (state.contains('ontime')) {
+  } else if (state.contains('ontime') || state.contains('theorical')) {
     return Colors.white.withOpacity(0);
   } else {
     return const Color(0xffa9a9a9);

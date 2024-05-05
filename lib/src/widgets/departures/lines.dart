@@ -62,27 +62,19 @@ class DepartureLines extends StatelessWidget {
               border: Border(
                 top: BorderSide(
                   width: 3,
-                  color: getColorByState(
-                      getState(train),
-                      context),
+                  color: getColorByState(getState(train), context),
                 ),
                 bottom: BorderSide(
                   width: 3,
-                  color: getColorByState(
-                      getState(train),
-                      context),
+                  color: getColorByState(getState(train), context),
                 ),
                 left: BorderSide(
                   width: 3,
-                  color: getColorByState(
-                      getState(train),
-                      context),
+                  color: getColorByState(getState(train), context),
                 ),
                 right: BorderSide(
                   width: 3,
-                  color: getColorByState(
-                      getState(train),
-                      context),
+                  color: getColorByState(getState(train), context),
                 ),
               ),
             ),
