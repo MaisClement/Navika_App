@@ -6,12 +6,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
+import 'package:navika/src/data/global.dart' as globals;
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/error_message.dart';
 import 'package:navika/src/widgets/trip/block.dart';
 import 'package:navika/src/widgets/trip/disruptions.dart';
 
 import 'package:flutter/material.dart';  
-import 'package:navika/src/style.dart'; 
+import 'package:scroll_to_index/scroll_to_index.dart'; 
 
 
 enum TripBlockStatus { origin, terminus, active, inactive }
@@ -30,6 +32,7 @@ class TripDetails extends StatefulWidget {
 }
 
 class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStateMixin {
+  final AutoScrollController _scrollController = AutoScrollController(suggestedRowHeight: 50);
   ApiStatus error = ApiStatus.ok;
   Map? vehicleJourney;
 
@@ -55,6 +58,16 @@ class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStat
           vehicleJourney = result['value']?['vehicle_journey'];
         });
       }
+
+      if (globals.schedulesStopName != '') {
+        int i = 0;
+        for (var stop in vehicleJourney?['stop_times']) {
+          if (stop['name'] == globals.schedulesStopName) {
+            _scrollController.scrollToIndex(i, preferPosition: AutoScrollPosition.begin);
+          }
+          i++;
+        }
+      }
     }
   }
 
@@ -62,7 +75,9 @@ class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStat
     List<Widget> res = [];
 
     TripBlockStatus status = TripBlockStatus.inactive;
-
+    
+    int i = 0;
+    
     for (var stop in vehicleJourney?['stop_times']) {
       if (status == TripBlockStatus.terminus) {
         status = TripBlockStatus.inactive;
@@ -76,29 +91,31 @@ class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStat
         status = TripBlockStatus.terminus;
       }
 
-      String time = stop['stop_time']['departure_time'];
-      String arrivaltime = stop['stop_time']['arrival_time'];
+      String time = stop['stop_time']['departure_date_time'];
+      String arrivaltime = stop['stop_time']['arrival_date_time'];
       String newtime = '';
       String newarrivaltime = '';
 
       if (stop['disruption'] != null) {
         if (stop['disruption']['departure_state'] == 'delayed' || stop['disruption']['arrival_state'] == 'delayed') {
           if (status == TripBlockStatus.terminus) {
-            time = stop['disruption']['base_arrival_time'];
-            newtime = stop['disruption']['arrival_time'];
-            arrivaltime = stop['disruption']['base_arrival_time'];
-            newarrivaltime = stop['disruption']['arrival_time'];
+            time = stop['disruption']['base_arrival_date_time'];
+            newtime = stop['disruption']['arrival_date_time'];
+            arrivaltime = stop['disruption']['base_arrival_date_time'];
+            newarrivaltime = stop['disruption']['arrival_date_time'];
           } else {
-            time = stop['disruption']['base_departure_time'];
-            newtime = stop['disruption']['departure_time'];
-            arrivaltime = stop['disruption']['base_arrival_time'];
-            newarrivaltime = stop['disruption']['arrival_time'];
+            time = stop['disruption']['base_departure_date_time'];
+            newtime = stop['disruption']['departure_date_time'];
+            arrivaltime = stop['disruption']['base_arrival_date_time'];
+            newarrivaltime = stop['disruption']['arrival_date_time'];
           }
         }
       }
 
       res.add(
         TripBlock(
+          id: i,
+          controller: _scrollController,
           time: time,
           arrivaltime: arrivaltime,
           newtime: newtime,
@@ -111,6 +128,7 @@ class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStat
           status: status,
         ),
       );
+      i++;
     }
 
     return Column(
@@ -125,11 +143,15 @@ class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStat
             crossAxisAlignment: preferredCrossAxisAlignment,
             children: [
               Text(AppLocalizations.of(context)!.trip, style: appBarTitle),
-              
+              if (vehicleJourney != null)
+                Text(
+                    'N°${vehicleJourney?['informations']['name']} - ${vehicleJourney?['informations']['direction']['name']}',
+                    style: appBarSubtitle),
             ],
           ),
         ),
         body: ListView(
+          controller: _scrollController,
           shrinkWrap: true,
           children: [
             if (error != ApiStatus.ok)
