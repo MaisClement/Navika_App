@@ -26,12 +26,16 @@ class RouteLines extends StatelessWidget {
 		super.key,
 	});
 
-	@override
-	Widget build(BuildContext context) => Expanded (
-    child: Row(
-      children: [
-        for(var i = 0; i < sections.length; i++)
-          if (sections[i]['mode'] == 'public_transport')
+  @override
+  Widget build(BuildContext context) => Expanded (
+    child: Padding (
+      padding: EdgeInsets.only(right: 5),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            for(var i = 0; i < sections.length; i++)
+            if (sections[i]['mode'] == 'public_transport')
             Wrap(
               children: [
                 Icones(
@@ -40,19 +44,19 @@ class RouteLines extends StatelessWidget {
                 ),
 
                 if (i != sections.length -1)
-                  Container(
-                    margin: const EdgeInsets.only(left: 3, right: 2, top: 12, ),
-                    height: 5,
-                    width: 5,
-                    decoration: BoxDecoration(
-                      color: const Color(0xff808080),
-                      borderRadius: BorderRadius.circular(500)
-                    ),
+                Container(
+                  margin: const EdgeInsets.only(left: 3, right: 2, top: 12, ),
+                  height: 5,
+                  width: 5,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff808080),
+                    borderRadius: BorderRadius.circular(500)
                   ),
-                
+                ),
+
               ],
             )
-          else if (sections[i]['type'] == 'street_network' && sections[i]['mode'] == 'walking')
+            else if (sections[i]['type'] == 'street_network' && sections[i]['mode'] == 'walking')
             Wrap(
               children: [
 
@@ -62,18 +66,20 @@ class RouteLines extends StatelessWidget {
                 ),
 
                 if (i != sections.length -1)
-                  Container(
-                    margin: const EdgeInsets.only(left: 3, right: 2, top: 12, ),
-                    height: 5,
-                    width: 5,
-                    decoration: BoxDecoration(
-                      color: const Color(0xff808080),
-                      borderRadius: BorderRadius.circular(500)
-                    ),
+                Container(
+                  margin: const EdgeInsets.only(left: 3, right: 2, top: 12, ),
+                  height: 5,
+                  width: 5,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff808080),
+                    borderRadius: BorderRadius.circular(500)
                   ),
+                ),
               ],
             ),
-        ],
+          ],
+        )
       )
+    )
   );
 }
