@@ -52,7 +52,7 @@ class _SchedulesState extends State<Schedules> {
         appBar: AppBar(
           toolbarHeight: 110,
           title: Column(
-            crossAxisAlignment: preferredCrossAxisAlignment,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(AppLocalizations.of(context)!.timetables, style: appBarTitle),
               const SizedBox(

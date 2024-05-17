@@ -1,4 +1,5 @@
 // 🎯 Dart imports:
+import 'dart:io';
 import 'dart:math';
 
 // 🐦 Flutter imports:
@@ -158,6 +159,9 @@ class _NavikaAppState extends State<NavikaApp> {
           color:  primaryContainer,
           elevation: 0,
           margin: const EdgeInsets.all(0) ,
+        ),
+        appBarTheme: AppBarTheme(
+          surfaceTintColor: Platform.isIOS ? const Color(0xFFFFFFFF) : primaryContainer
         ),
         tabBarTheme: const TabBarTheme(
           unselectedLabelColor: Color(0xff919191),

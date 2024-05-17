@@ -44,7 +44,7 @@ class _RoutesState extends State<Routes> {
         appBar: AppBar(
           toolbarHeight: 110,
           title: Column(
-            crossAxisAlignment: preferredCrossAxisAlignment,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(AppLocalizations.of(context)!.lines, style: appBarTitle),
               const SizedBox(

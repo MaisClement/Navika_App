@@ -96,7 +96,15 @@ class _TraficState extends State<Trafic> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.traffic_info, style: appBarTitle),
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.traffic_info, 
+                style: appBarTitle,
+              ),
+            ],
+          ),
         ),
         body: error != ApiStatus.ok
             ? ErrorBlock(
