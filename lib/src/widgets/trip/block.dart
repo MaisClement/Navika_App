@@ -365,7 +365,6 @@ List<Widget> getMessage(context, departureState, arrivalState, message) {
   }
 
   if (getState(context)[status] != null) {
-    print(['status', status]);
     res.add(
       Container(
         padding: const EdgeInsets.only(left: 4, top: 0, right: 4, bottom: 2),

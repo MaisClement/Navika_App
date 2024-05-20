@@ -29,7 +29,7 @@ class RouteLines extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Expanded (
     child: Padding (
-      padding: EdgeInsets.only(right: 5),
+      padding: const EdgeInsets.only(right: 5),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(

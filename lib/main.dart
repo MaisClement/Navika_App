@@ -15,6 +15,7 @@ import 'package:here_sdk/core.engine.dart';
 import 'package:here_sdk/core.errors.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:url_strategy/url_strategy.dart';
+import 'package:uuid/uuid.dart';
 
 // 🌎 Project imports:
 import 'package:navika/credentials.dart' as credentials;
@@ -24,7 +25,6 @@ import 'package:navika/src/app.dart';
 import 'package:navika/src/data/app.dart' as app;
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/screens/home_settings.dart';
-import 'package:uuid/uuid.dart';
 
 // import 'package:sentry_flutter/sentry_flutter.dart';
 

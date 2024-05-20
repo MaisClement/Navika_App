@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:navika/src/routing/route_state.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/widgets/address/head.dart';
 import 'package:navika/src/widgets/bike/head.dart';
 import 'package:navika/src/widgets/home/default_pannel.dart';

@@ -133,7 +133,7 @@ class PlacesListButton extends StatelessWidget {
                     ),
                   )
                 else
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                 Wrap(
