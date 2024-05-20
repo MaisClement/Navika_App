@@ -6,9 +6,9 @@ import 'package:navika/src/utils.dart';
 
 class TraficDisruptions extends StatelessWidget {
   final List reports;
-  Widget? ifEmpty;
+  final Widget? ifEmpty;
 
-  TraficDisruptions({
+  const TraficDisruptions({
     required this.reports,
     this.ifEmpty,
     super.key,

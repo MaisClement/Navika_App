@@ -14,7 +14,7 @@ import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/journey/sections/boarding_position.dart';
-import 'package:navika/src/widgets/utils/button_large_trafic.dart';
+import 'package:navika/src/widgets/utils/expander_trafic.dart';
 
 class SectionPublicTransport extends StatefulWidget {
   final Map section;
@@ -178,7 +178,7 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                 if ( DateTime.parse(widget.section['departure_date_time']).isToday() && widget.section['informations']['line']['severity'] != 0)
                   Padding(
                     padding: const EdgeInsets.only(top: 10, right: 10),
-                    child: ButtonLargeTrafic(
+                    child: ExpanderTrafic(
                       line: widget.section['informations']['line'],
                       borderRadius: BorderRadius.circular(10),
                       onTap: () {

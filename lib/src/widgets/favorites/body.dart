@@ -27,14 +27,7 @@ class FavoriteBody extends StatefulWidget {
   final Function update;
   final bool removeSeparator;
 
-  const FavoriteBody({
-      required this.id,
-      required this.name,
-      required this.line,
-      required this.update,
-      this.removeSeparator = false,
-      super.key
-    });
+  const FavoriteBody({required this.id, required this.name, required this.line, required this.update, this.removeSeparator = false, super.key});
 
   @override
   State<FavoriteBody> createState() => _FavoriteBodyState();
@@ -72,7 +65,7 @@ class _FavoriteBodyState extends State<FavoriteBody> with SingleTickerProviderSt
       setState(() {
         error = result['status'];
       });
-    
+
       setState(() {
         if (result['value']?['schedules'] != null) {
           schedules = result['value']?['schedules'];
@@ -98,8 +91,7 @@ class _FavoriteBodyState extends State<FavoriteBody> with SingleTickerProviderSt
               endIndent: 20,
             ),
           Container(
-            padding:
-                const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 5),
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 5),
             child: GestureDetector(
               onTap: () {
                 globals.schedulesStopName = widget.name;
@@ -107,8 +99,7 @@ class _FavoriteBodyState extends State<FavoriteBody> with SingleTickerProviderSt
               },
               child: Row(
                 children: [
-                  Icon(NavikaIcons.trainFace,
-                      color: accentColor(context), size: 25),
+                  Icon(NavikaIcons.trainFace, color: accentColor(context), size: 25),
                   const SizedBox(
                     width: 10,
                   ),
@@ -154,7 +145,7 @@ class _FavoriteBodyState extends State<FavoriteBody> with SingleTickerProviderSt
             ErrorMessage(
               error: error,
             )
-          else if (mode == '' && schedules.isEmpty )
+          else if (mode == '' && schedules.isEmpty)
             const SchedulesSkelton()
           else if (mode == 'rail' || mode == 'nationalrail')
             Column(
@@ -172,8 +163,7 @@ class _FavoriteBodyState extends State<FavoriteBody> with SingleTickerProviderSt
                     child: Text(AppLocalizations.of(context)!.view_all_schedules),
                     onPressed: () {
                       globals.schedulesStopName = widget.name;
-                      RouteStateScope.of(context)
-                          .go('/schedules/stops/${widget.id}');
+                      RouteStateScope.of(context).go('/schedules/stops/${widget.id}');
                     },
                   ),
                 ),
@@ -197,8 +187,7 @@ class _FavoriteBodyState extends State<FavoriteBody> with SingleTickerProviderSt
                     child: Text(AppLocalizations.of(context)!.view_all_schedules),
                     onPressed: () {
                       globals.schedulesStopName = widget.name;
-                      RouteStateScope.of(context)
-                          .go('/schedules/stops/${widget.id}');
+                      RouteStateScope.of(context).go('/schedules/stops/${widget.id}');
                     },
                   ),
                 ),

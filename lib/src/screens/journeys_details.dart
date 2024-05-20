@@ -281,7 +281,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                 ),
                 snapPoint: 0.55,
                 minHeight: 85,
-                maxHeight: availableHeight(context),
+                maxHeight: availableHeight2(context),
                 controller: panelController,
                 onPanelSlide: (position) => onPanelSlide(position),
                 header: RoutePannel(

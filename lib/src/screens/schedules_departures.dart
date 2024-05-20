@@ -29,7 +29,6 @@ class DepartureDetails extends StatefulWidget {
 }
 
 class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerProviderStateMixin {
-
   ApiStatus error = ApiStatus.ok;
   late Timer _timer;
   Map departure = globals.departure;
@@ -63,7 +62,7 @@ class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerPr
       setState(() {
         error = result['status'];
       });
-      
+
       if (result['value']?['departures'] != null) {
         for (var i = 0; i < result['value']?['departures'].length; i++) {
           if (result['value']?['departures'][i]['id'] == widget.stopLine) {
@@ -94,8 +93,7 @@ class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerPr
             children: [
               Text(globals.schedulesStopName, style: appBarTitle),
               if (LINES.getLines(departure) != null && LINES.getLines(departure)!['name'] != '')
-                Text(LINES.getLines(departure)!['name'],
-                    style: appBarSubtitle),
+                Text(LINES.getLines(departure)!['name'], style: appBarSubtitle),
             ],
           ),
         ),
@@ -111,15 +109,15 @@ class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerPr
               if (departure['departures'].isEmpty)
                 Row(
                   children: [
-                    SvgPicture.asset('assets/img/cancel.svg',
-                        color: accentColor(context), height: 18),
+                    SvgPicture.asset('assets/img/cancel.svg', color: accentColor(context), height: 18),
                     Text(
                       AppLocalizations.of(context)!.no_information,
                       style: TextStyle(
-                          color: accentColor(context),
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: fontFamily),
+                        color: accentColor(context),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: fontFamily,
+                      ),
                     ),
                   ],
                 )
@@ -127,7 +125,11 @@ class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerPr
                 for (var train in clearTrain(departure['departures']))
                   Container(
                     margin: const EdgeInsets.only(
-                        left: 5.0, top: 0.0, right: 5.0, bottom: 0.0),
+                      left: 5.0,
+                      top: 0.0,
+                      right: 5.0,
+                      bottom: 0.0,
+                    ),
                     child: DepartureLines(
                       train: train,
                       color: departureListNoColor(context),

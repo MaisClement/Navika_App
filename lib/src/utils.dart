@@ -760,3 +760,6 @@ double degreesToRadians(double degrees) {
 }
 
 double availableHeight(context) => MediaQuery.of(context).size.height - AppBar().preferredSize.height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom - kBottomNavigationBarHeight;
+
+
+double availableHeight2(context) => MediaQuery.of(context).size.height - AppBar().preferredSize.height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom;

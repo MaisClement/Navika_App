@@ -9,12 +9,12 @@ import 'package:navika/src/widgets/icons/lines.dart';
 class ButtonLargeTrafic extends StatelessWidget {
   final Function()? onTap;
   final Map line;
-  final BorderRadius? borderRadius;
+  final BorderRadius borderRadius;
 
   const ButtonLargeTrafic({
     this.onTap,
     required this.line,
-    this.borderRadius,
+    required this.borderRadius,
     super.key,
   });
 
@@ -22,11 +22,11 @@ class ButtonLargeTrafic extends StatelessWidget {
   Widget build(BuildContext context) => Card(
         color: getSlugColor(line['severity'], true).withOpacity(0.3),
         shape: RoundedRectangleBorder(
-          borderRadius: borderRadius ?? BorderRadius.circular(500),
+          borderRadius: borderRadius,
         ),
         child: InkWell(
           onTap: onTap,
-          borderRadius: borderRadius ?? BorderRadius.circular(500),
+          borderRadius: borderRadius,
           child: Padding(
             padding: const EdgeInsets.only(right: 15),
             child: Row(

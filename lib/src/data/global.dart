@@ -6,6 +6,7 @@ library my_prj.globals;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
+import 'package:here_sdk/mapview.dart';
 import 'package:location/location.dart' as gps;
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -61,6 +62,8 @@ String? direction;
 // for for query search
 HereController? hereMapController;
 PanelController? panelController;
+MapMarker? pointMarker;
+bool updateMap = true;
 
 String? query;
 

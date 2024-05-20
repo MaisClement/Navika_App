@@ -15,6 +15,7 @@ import 'package:here_sdk/core.dart';
 import 'package:here_sdk/gestures.dart';
 import 'package:here_sdk/mapview.dart';
 import 'package:location/location.dart' as gps;
+import 'package:navika/src/screens/home_search.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -24,18 +25,11 @@ import 'package:navika/src/controller/here_map_controller.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
-import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
-import 'package:navika/src/widgets/address/body.dart';
-import 'package:navika/src/widgets/bike/body.dart';
-import 'package:navika/src/widgets/home/body.dart';
-import 'package:navika/src/widgets/home/default_pannel.dart';
 import 'package:navika/src/widgets/home/header.dart';
+import 'package:navika/src/widgets/home/pannel.dart';
 import 'package:navika/src/widgets/map/icone.dart';
-import 'package:navika/src/widgets/schedules/body.dart';
-import 'package:navika/src/widgets/schedules/header.dart';
-import 'package:navika/src/widgets/utils/search_box.dart';
 
 class Home extends StatefulWidget {
   final String? displayType;
@@ -46,10 +40,6 @@ class Home extends StatefulWidget {
     this.id,
     super.key,
   });
-
-  static void setPointMarker(BuildContext context, marker) {
-    context.findAncestorStateOfType<_HomeState>()?._setPointMarker(marker);
-  }
 
   @override
   State<Home> createState() => _HomeState();
@@ -78,17 +68,13 @@ class _HomeState extends State<Home> {
   double _position = 0;
 
   GeoCoordinates _oldcamGeoCoords = GeoCoordinates(0, 0);
-  ScreenshotController screenshotController = ScreenshotController(); 
+  ScreenshotController screenshotController = ScreenshotController();
 
   Map markersList = {}; //Update List<WidgetPin> markers = [];
-  MapMarker? pointMarker;
   Map index = {};
-  List favs = globals.hiveBox?.get('stopsFavorites');
-  List address = globals.hiveBox?.get('addressFavorites');
-  List lines = globals.hiveBox?.get('linesFavorites');
-  List journeys = sortJourneys( getFutureJourneys( globals.hiveBox?.get('journeys') ) );
-  List blocks = globals.hiveBox?.get('homepageOrder');
-  List trafic = [];
+
+  dynamic _data;
+  double _padding = 0;
 
   Future<void> _getLocation(isResume) async {
     bool serviceEnabled;
@@ -114,21 +100,23 @@ class _HomeState extends State<Home> {
           return;
         }
       }
-    } 
+    }
 
     locationData = await location.getLocation();
     camGeoCoords = GeoCoordinates(locationData.latitude ?? 0, locationData.longitude ?? 0);
-      
-    FlutterCompass.events?.listen((CompassEvent compassEvent) {
-      _updateCompass(compassEvent);
-    });
-    if (!isResume) {
-      _addLocationIndicator(locationData);
+
+    if (mounted) {
+      FlutterCompass.events?.listen((CompassEvent compassEvent) {
+        _updateCompass(compassEvent);
+      });
+      if (!isResume) {
+        _addLocationIndicator(locationData);
+      }
+      location.onLocationChanged.listen((gps.LocationData currentLocation) {
+        _updateLocationIndicator(currentLocation);
+      });
+      await _getNearPoints();
     }
-    location.onLocationChanged.listen((gps.LocationData currentLocation) {
-      _updateLocationIndicator(currentLocation);
-    });
-    await _getNearPoints();
   }
 
   Future<void> _getNearPoints() async {
@@ -160,7 +148,7 @@ class _HomeState extends State<Home> {
           } else {
             areaNearby = [];
           }
-          
+
           if (result['value']?['bike'] != null) {
             bikeNearby = result['value']?['bike'];
           } else {
@@ -187,18 +175,12 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void _removePointMarker() {
-    if (pointMarker != null) {
-      _controller?.removeMapMarker(pointMarker!);
-    }
-  }
-
   Map _setMarker(Map markers, List bikeNearby, List stopsNearby, List areaNearby) {
     Map newMarkers = Map.from(markers);
 
     for (var bike in bikeNearby) {
       GeoCoordinates bikeCoords = GeoCoordinates(bike['coord']['lat'].toDouble(), bike['coord']['lon'].toDouble());
-    
+
       if (_controller?.isOverLocation(bikeCoords) == true) {
         Metadata metadata = Metadata();
         metadata.setString('type', 'bike');
@@ -207,19 +189,14 @@ class _HomeState extends State<Home> {
         metadata.setInteger('capacity', bike['capacity']);
         metadata.setDouble('lat', bike['coord']['lat']);
         metadata.setDouble('lon', bike['coord']['lon']);
-    
+
         MarkerMode mode = getMarkerMode(['bike']);
         double zoom = _controller?.getZoomLevel() ?? 1000;
         MarkerSize size = getMarkerSize(mode, zoom);
-    
+
         if (size != MarkerSize.hidden) {
           if (newMarkers[bike['id']] == null) {
-            newMarkers[bike['id']] = _controller?.addMapMarker(
-                bikeCoords,
-                getMarkerImageByType(mode, size, context),
-                metadata,
-                getSizeForMarker(size)
-              );
+            newMarkers[bike['id']] = _controller?.addMapMarker(bikeCoords, getMarkerImageByType(mode, size, context), metadata, getSizeForMarker(size));
           } else {
             markers.remove(bike['id']);
             newMarkers.remove(bike['id']);
@@ -248,12 +225,7 @@ class _HomeState extends State<Home> {
 
         if (size != MarkerSize.hidden) {
           if (newMarkers[id] == null) {
-            newMarkers[id] = _controller?.addMapMarker(
-              stopCoords,
-              getMarkerImageByType(mode, size, context),
-              metadata,
-              getSizeForMarker(size)
-            );
+            newMarkers[id] = _controller?.addMapMarker(stopCoords, getMarkerImageByType(mode, size, context), metadata, getSizeForMarker(size));
           } else {
             markers.remove(id);
           }
@@ -274,24 +246,20 @@ class _HomeState extends State<Home> {
         metadata.setDouble('lon', stop['coord']['lon'].toDouble());
 
         if (newMarkers[stop['id']] == null) {
-          screenshotController.captureFromWidget(
-              MapIcone(
-                stop: stop,
-                brightness: Theme.of(context).colorScheme.brightness,
-                update: () {},
-              ),
-              delay: const Duration(milliseconds: 0)
-            )
-            .then((capturedImage) {
-              newMarkers[stop['id']] = _controller?.addMapImage(
-                stopCoords,
-                capturedImage,
-                metadata);
-            }
-          );
+          screenshotController
+              .captureFromWidget(
+                  MapIcone(
+                    stop: stop,
+                    brightness: Theme.of(context).colorScheme.brightness,
+                    update: () {},
+                  ),
+                  delay: const Duration(milliseconds: 0))
+              .then((capturedImage) {
+            newMarkers[stop['id']] = _controller?.addMapImage(stopCoords, capturedImage, metadata);
+          });
         } else {
           markers.remove(stop['id']);
-        }        
+        }
       });
     }
 
@@ -311,8 +279,8 @@ class _HomeState extends State<Home> {
         index = globals.index!;
       });
       return;
-    } 
-    
+    }
+
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getIndex();
 
@@ -324,67 +292,23 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future<void> _getTrafic() async {
-    if (lines.isEmpty) {
-      return;
-    }
-
-    List list = [];
-    for (var fav in lines) {
-      list.add(fav['id']);
-    }
-
-    NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getTrafic(list);
-
-    if (mounted) {
-      if (result['value']?['trafic'] != null) {
-        setState(() {
-          trafic = result['value']?['trafic'];
-        });
-      }
-    }
+  void setData(data) {
+    setState(() {
+      _data = data;
+    });
   }
 
-  Widget? getPannel(displayType, id) {
-    if (displayType == 'stops') {
-      return SchedulesPannel(
-        id: widget.id!
-      );
-    }
-    return const DefaultPannel();
+  void setPadding(padding) {
+    setState(() {
+      _padding = padding;
+    });
   }
-
-  Widget? getBody(displayType, id, scrollController) {
-    if (displayType == 'stops') {
-      return SchedulesBody(
-        id: id!,
-        addMargin: true,
-        scrollController: scrollController,
-      );
-    } else if (displayType == 'bike') {
-      return BikeBody(
-        id: id!,
-        scrollController: scrollController,
-      );
-    } else if (displayType == 'address') {
-      return AddressBody(
-        id: id!,
-        scrollController: scrollController,
-        onDispose: _removePointMarker,
-      );
-    }
-    return null;
-  } 
 
   @override
   Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
-          statusBarIconBrightness:
-              Theme.of(context).colorScheme.brightness == Brightness.dark
-                  ? Brightness.light
-                  : Brightness.dark,
+          statusBarIconBrightness: Theme.of(context).colorScheme.brightness == Brightness.dark ? Brightness.light : Brightness.dark,
         ),
         child: Scaffold(
           body: Stack(
@@ -397,35 +321,33 @@ class _HomeState extends State<Home> {
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(15),
                   topRight: Radius.circular(15),
-                  bottomLeft: Radius.zero,
-                  bottomRight: Radius.zero,
                 ),
                 snapPoint: 0.55,
                 minHeight: 90,
                 maxHeight: availableHeight(context),
                 controller: panelController,
                 onPanelSlide: (position) => _onPanelSlide(position),
-                header: widget.displayType == null
-                    ? const HomePannel()
-                    : Container(
-                        child: getPannel(widget.displayType, widget.id),
-                      ),
-                panelBuilder: (ScrollController scrollController) =>
-                    widget.displayType != null && widget.id != null
-                        ? Container(
-                            child: getBody(widget.displayType, widget.id, scrollController),
-                          )
-                        : HomeBody(
-                            scrollController: scrollController,
-                            index: index,
-                            address: address,
-                            favs: favs,
-                            lines: lines,
-                            trafic: trafic,
-                            journeys: journeys,
-                            blocks: blocks,
-                            update: _updateFavorites,
-                          ),
+                header: HomeHeader(
+                  id: widget.id,
+                  type: widget.displayType,
+                  data: _data,
+                  padding: _padding,
+                  removePointMarker: removePointMarker,
+                  setData: setData,
+                  setPadding: setPadding,
+                  panelController: panelController,
+                ),
+                panelBuilder: (ScrollController scrollController) => HomePannel(
+                  id: widget.id,
+                  type: widget.displayType,
+                  scrollController: scrollController,
+                  index: index,
+                  data: _data,
+                  padding: _padding,
+                  setData: setData,
+                  setPadding: setPadding,
+                  panelController: panelController,
+                ),
                 body: HereMap(onMapCreated: _onMapCreated),
               ),
               if (!isConnected)
@@ -436,7 +358,7 @@ class _HomeState extends State<Home> {
                     color: Colors.amber,
                     child: SafeArea(
                       child: Container(
-                        margin: const EdgeInsets.only( top: 12, left: 73, bottom: 15),
+                        margin: const EdgeInsets.only(top: 12, left: 73, bottom: 15),
                         child: Row(
                           children: [
                             SvgPicture.asset(
@@ -445,7 +367,8 @@ class _HomeState extends State<Home> {
                               height: 18,
                             ),
                             const SizedBox(width: 10),
-                            Text(AppLocalizations.of(context)!.no_internet_connection,
+                            Text(
+                              AppLocalizations.of(context)!.no_internet_connection,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontFamily: fontFamily,
@@ -458,36 +381,35 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
-              Positioned(
-                top: 0,
-                left: 0,
-                child: Opacity(
-                  opacity: getOpacity(_position),
-                  child: SafeArea(
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 10, left: 8, right: 8),
-                      width: getSearchWidth(_position, context),
-                      height: 45,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(500),
-                        elevation: 4.0,
-                        shadowColor: Colors.black.withOpacity(getOpacity(_position)),
-                        color: Theme.of(context).colorScheme.surface,
-                        child: SearchBox(
-                          onTap: () {
-                            panelController.animatePanelToPosition(0);
-                            RouteStateScope.of(context).go('/home/search');
-                          },
-                          color: Theme.of(context).colorScheme.surface,
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          icon: NavikaIcons.search,
-                          text: AppLocalizations.of(context)!.search_location_on_map
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              // if (widget.id != null && widget.displayType != null)
+              //   Positioned(
+              //     top: 0,
+              //     left: 0,
+              //     child: Opacity(
+              //       opacity: getOpacity(_position),
+              //       child: SafeArea(
+              //         child: Container(
+              //           margin: const EdgeInsets.only(top: 10, left: 8, right: 8),
+              //           width: getSearchWidth(_position, context),
+              //           height: 45,
+              //           child: Material(
+              //             borderRadius: BorderRadius.circular(500),
+              //             elevation: 4.0,
+              //             shadowColor: Colors.black.withOpacity(getOpacity(_position)),
+              //             color: Theme.of(context).colorScheme.surface,
+              //             child: SearchBox(
+              //                 onTap: () {
+              //                   RouteStateScope.of(context).go('/home/search');
+              //                 },
+              //                 color: Theme.of(context).colorScheme.surface,
+              //                 padding: const EdgeInsets.only(left: 10, right: 10),
+              //                 icon: NavikaIcons.search,
+              //                 text: AppLocalizations.of(context)!.search_location_on_map),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
               Positioned(
                 top: 0,
                 right: 0,
@@ -518,37 +440,6 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              
-              // Positioned(
-              //   top: 0,
-              //   right: 0,
-              //   child: Opacity(
-              //     opacity: getOpacity(_position),
-              //     child: SafeArea(
-              //       child: Container(
-              //         margin: const EdgeInsets.only(top: 10, right: 8),
-              //         width: 40,
-              //         height: 40,
-              //         child: Material(
-              //           borderRadius: BorderRadius.circular(500),
-              //           elevation: 4.0,
-              //           shadowColor: Colors.black.withOpacity(getOpacity(_position)),
-              //           color: Theme.of(context).colorScheme.onSecondaryContainer,
-              //           child: InkWell(
-              //             borderRadius: BorderRadius.circular(500),
-              //             onTap: () {
-              //               RouteStateScope.of(context).go('/changes');
-              //             },
-              //             child: Icon(
-              //               NavikaIcons.stars,
-              //               color: Theme.of(context).colorScheme.onSurface,
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
               Positioned(
                 right: 20,
                 bottom: panelButtonBottomOffset,
@@ -566,7 +457,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              Positioned( 
+              Positioned(
                 left: 10,
                 bottom: panelButtonBottomOffset - 20,
                 child: Opacity(
@@ -587,7 +478,6 @@ class _HomeState extends State<Home> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _getIndex();
-      _getTrafic();
       _getNearPoints();
       _getInBox();
       panelController.animatePanelToSnapPoint();
@@ -602,6 +492,17 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  void didUpdateWidget(Home oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.id != oldWidget.id || widget.displayType != oldWidget.displayType) {
+      setState(() {
+        setData(null);
+        setPadding(0.0);
+      });
+    }
+  }
+
+  @override
   void dispose() async {
     super.dispose();
     globals.isSetLocation = false;
@@ -610,10 +511,7 @@ class _HomeState extends State<Home> {
   }
 
   void _getInBox() {
-    GeoCoordinates geoCoords = GeoCoordinates(
-      globals.locationData?.latitude ?? 0,
-      globals.locationData?.longitude ?? 0
-    );
+    GeoCoordinates geoCoords = GeoCoordinates(globals.locationData?.latitude ?? 0, globals.locationData?.longitude ?? 0);
     setState(() {
       _isInBox = _controller?.isOverLocation(geoCoords) ?? false;
     });
@@ -621,9 +519,7 @@ class _HomeState extends State<Home> {
 
   void _onMapCreated(HereMapController hereMapController) {
     //THEME
-    MapScheme mapScheme = Brightness.dark == Theme.of(context).colorScheme.brightness
-      ? MapScheme.normalNight
-      : MapScheme.normalDay;
+    MapScheme mapScheme = Brightness.dark == Theme.of(context).colorScheme.brightness ? MapScheme.normalNight : MapScheme.normalDay;
 
     hereMapController.mapScene.loadSceneForMapScheme(mapScheme, (MapError? error) {
       if (error != null) {
@@ -647,12 +543,7 @@ class _HomeState extends State<Home> {
         distanceToEarthInMeters = 10000;
       } else {
         geoCoords = GeoCoordinates(48.859481, 2.346711);
-        _controller?.addLocationIndicator(
-          globals.locationData,
-          LocationIndicatorIndicatorStyle.pedestrian,
-          globals.compassHeading,
-          true
-        );
+        _controller?.addLocationIndicator(globals.locationData, LocationIndicatorIndicatorStyle.pedestrian, globals.compassHeading, true);
       }
 
       MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
@@ -661,7 +552,7 @@ class _HomeState extends State<Home> {
       hereMapController.gestures.tapListener = TapListener((Point2D touchPoint) {
         _tapListener(touchPoint);
       });
-      
+
       hereMapController.gestures.panListener = PanListener((GestureState state, Point2D origin, Point2D translation, double velocity) {
         if (mounted) {
           if (state == GestureState.begin) {
@@ -678,7 +569,8 @@ class _HomeState extends State<Home> {
         }
       });
 
-      hereMapController.gestures.pinchRotateListener = PinchRotateListener((GestureState state, Point2D pinchOrigin, Point2D rotationOrigin,double twoFingerDistance, Angle rotation) {
+      hereMapController.gestures.pinchRotateListener =
+          PinchRotateListener((GestureState state, Point2D pinchOrigin, Point2D rotationOrigin, double twoFingerDistance, Angle rotation) {
         if (state == GestureState.end) {
           setState(() {
             camGeoCoords = _controller?.getOverLocation() ?? camGeoCoords;
@@ -687,11 +579,7 @@ class _HomeState extends State<Home> {
         }
       });
 
-    _controller?.addLocationIndicator(
-        globals.locationData,
-        LocationIndicatorIndicatorStyle.pedestrian,
-        globals.compassHeading,
-        false);
+      _controller?.addLocationIndicator(globals.locationData, LocationIndicatorIndicatorStyle.pedestrian, globals.compassHeading, false);
       _getNearPoints();
     });
   }
@@ -702,18 +590,17 @@ class _HomeState extends State<Home> {
       if (pickMapItemsResult == null || pickMapItemsResult.markers.isEmpty) {
         GeoCoordinates geoCoordinates = _controller!.viewToGeoCoordinates(touchPoint);
         GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(geoCoordinates.latitude, geoCoordinates.longitude);
-        _controller?.zoomTo(geoCoords);
-        panelController.animatePanelToSnapPoint();
+        _controller?.zoomTo(geoCoords, true);
+        globals.updateMap = true;
 
-        _removePointMarker();
-        pointMarker = _controller?.addMapMarker(
+        removePointMarker();
+        globals.pointMarker = _controller?.addMapMarker(
           geoCoordinates,
           'assets/img/marker/marker.png',
           Metadata(),
           100,
         );
         RouteStateScope.of(context).go('/address/${geoCoordinates.latitude};${geoCoordinates.longitude}');
-
       } else {
         List<MapMarker> mapMarkerList = pickMapItemsResult.markers;
         MapMarker topmostMapMarker = mapMarkerList.first;
@@ -729,25 +616,17 @@ class _HomeState extends State<Home> {
         }
 
         if (metadata.getString('type') == 'stop') {
-          globals.schedulesStopName = metadata.getString('name') ?? '';
           GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(metadata.getDouble('lat') ?? 0, metadata.getDouble('lon') ?? 0);
           _controller?.zoomTo(geoCoords, true);
-          panelController.animatePanelToSnapPoint();
+          globals.updateMap = true;
           RouteStateScope.of(context).go('/stops/${metadata.getString('id')}');
         } else if (metadata.getString('type') == 'bike') {
-          globals.schedulesStopName = metadata.getString('name') ?? '';
           GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(metadata.getDouble('lat') ?? 0, metadata.getDouble('lon') ?? 0);
           _controller?.zoomTo(geoCoords, true);
-          panelController.animatePanelToSnapPoint();
+          globals.updateMap = true;
           RouteStateScope.of(context).go('/bike/${metadata.getString('id')}');
         }
       }
-    });
-  }
-
-  void _setPointMarker(marker) {
-    setState(() {
-      pointMarker = marker;
     });
   }
 
@@ -778,17 +657,8 @@ class _HomeState extends State<Home> {
     _controller?.updateLocationIndicator(globals.locationData, heading);
   }
 
-  void _updateFavorites() {
-    setState(() {
-      favs = globals.hiveBox.get('stopsFavorites');
-    });
-  }
-
   void _zoomOn() {
-    GeoCoordinates geoCoords = GeoCoordinates(
-      globals.locationData?.latitude ?? 0,
-      globals.locationData?.longitude ?? 0
-    );
+    GeoCoordinates geoCoords = GeoCoordinates(globals.locationData?.latitude ?? 0, globals.locationData?.longitude ?? 0);
     var isOverLocation = _controller?.isOverLocation(geoCoords) ?? false;
     if (isOverLocation) {
       setState(() {

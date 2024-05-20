@@ -27,14 +27,13 @@ class TraficDetails extends StatefulWidget {
 }
 
 class _TraficDetailsState extends State<TraficDetails> {
-
-  bool _isFavorite = isFavoriteLine( globals.lineTrafic['id'] );
-  bool _isAlert = isAlertLine( globals.lineTrafic['id'] );
+  bool _isFavorite = isFavoriteLine(globals.lineTrafic['id']);
+  bool _isAlert = isAlertLine(globals.lineTrafic['id']);
 
   void update() {
     setState(() {
-      _isFavorite = isFavoriteLine( globals.lineTrafic['id'] );
-      _isAlert = isAlertLine( globals.lineTrafic['id'] );
+      _isFavorite = isFavoriteLine(globals.lineTrafic['id']);
+      _isAlert = isAlertLine(globals.lineTrafic['id']);
     });
   }
 
@@ -51,18 +50,14 @@ class _TraficDetailsState extends State<TraficDetails> {
             ],
           ),
           actions: [
-            if (_isFavorite) 
+            if (_isFavorite)
               IconButton(
-                icon: _isAlert
-                    ? const Icon(NavikaIcons.bellFilled)
-                    : const Icon(NavikaIcons.bellAdd),
+                icon: _isAlert ? const Icon(NavikaIcons.bellFilled) : const Icon(NavikaIcons.bellAdd),
                 tooltip: AppLocalizations.of(context)!.notifications,
                 onPressed: () => addNotification(globals.lineTrafic, _isAlert, context),
               ),
             IconButton(
-              icon: _isFavorite
-                  ? const Icon(NavikaIcons.starFilled)
-                  : const Icon(NavikaIcons.star),
+              icon: _isFavorite ? const Icon(NavikaIcons.starFilled) : const Icon(NavikaIcons.star),
               tooltip: AppLocalizations.of(context)!.add_to_favorites,
               onPressed: () => addLineToFavorite(globals.lineTrafic, context, update),
             ),
@@ -101,14 +96,11 @@ class _TraficDetailsState extends State<TraficDetails> {
                         height: 20,
                         top: 43,
                         left: 43,
-                        child:
-                            Image(image: getSlugImage(globals.lineTrafic['severity'], 1)),
+                        child: Image(image: getSlugImage(globals.lineTrafic['severity'], 1)),
                       )
                     ],
                   ),
-                  Text(getSlugTitle(context, globals.lineTrafic['severity']),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w700, fontSize: 20)),
+                  Text(getSlugTitle(context, globals.lineTrafic['severity']), style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20)),
                 ],
               ),
 

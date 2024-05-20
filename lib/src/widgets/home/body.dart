@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/screens/home_settings.dart';
+import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/favorites/body.dart';
@@ -41,30 +43,34 @@ Widget getWidgetHead(BuildContext context, id) {
   );
 }
 
-class HomeBody extends StatelessWidget {
+class HomeBody extends StatefulWidget {
   final ScrollController scrollController;
   final Map index;
-  final List address;
-  final List favs;
-  final List lines;
-  final List trafic;
-  final List journeys;
-  final List blocks;
-  final Function update;
 
   const HomeBody({
     required this.scrollController,
     required this.index,
-    required this.address,
-    required this.favs,
-    required this.lines,
-    required this.trafic,
-    required this.journeys,
-    required this.blocks,
-    required this.update,
     super.key,
   });
-  
+
+  @override
+  State<HomeBody> createState() => _HomeBodyState();
+}
+
+class _HomeBodyState extends State<HomeBody> {
+  List favs     = [];
+  List address  = [];
+  List lines    = [];
+  List journeys = [];
+  List blocks   = [];
+
+  void update() {
+    favs = globals.hiveBox?.get('stopsFavorites');
+    address = globals.hiveBox?.get('addressFavorites');
+    lines = globals.hiveBox?.get('linesFavorites');
+    journeys = sortJourneys(getFutureJourneys(globals.hiveBox?.get('journeys')));
+    blocks = globals.hiveBox?.get('homepageOrder');
+  }
 
   List<Widget> _buildHome(context) {
     List<Widget> res = [];
@@ -72,9 +78,9 @@ class HomeBody extends StatelessWidget {
     for (var block in blocks) {
 
       // HomeWidgetMessages
-      if (block['id'] == 'message' && block['enabled'] == true && index['message'] != null) {
+      if (block['id'] == 'message' && block['enabled'] == true && widget.index['message'] != null) {
         res.add(
-          HomeWidgetMessages(messages: index['message'])
+          HomeWidgetMessages(messages: widget.index['message'])
         );
       }
       
@@ -102,10 +108,7 @@ class HomeBody extends StatelessWidget {
       if (block['id'] == 'punctualJourneys' && block['enabled'] == true) {
         res.add(getWidgetHead(context, block['id']));
         res.add(
-          HomeWidgetJourneys(
-            journeys: journeys, 
-            update: update,
-          )
+          const HomeWidgetJourneys()
         );
       }
 
@@ -114,8 +117,7 @@ class HomeBody extends StatelessWidget {
         res.add(getWidgetHead(context, block['id']));
         res.add(
           HomeWidgetTrafic(
-            lines: lines,
-            trafic: trafic,
+            lines: lines
           )
         );
       }
@@ -166,7 +168,7 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListView(
-    controller: scrollController,
+    controller: widget.scrollController,
     padding: const EdgeInsets.only(top: 90),
     children: [
       SizedBox(
@@ -201,4 +203,12 @@ class HomeBody extends StatelessWidget {
       ),
     ],
   );
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      update();
+    });
+  }
 }

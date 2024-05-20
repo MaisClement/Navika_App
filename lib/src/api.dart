@@ -17,13 +17,7 @@ import 'package:navika/src/data/app.dart' as app;
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/utils.dart';
 
-enum ApiStatus {
-  ok,
-  socketException,
-  timeoutException,
-  serverException,
-  unknownException
-}
+enum ApiStatus { ok, socketException, timeoutException, serverException, unknownException }
 
 class NavikaApi {
   Future<bool> getIsGPSallowed() async {
@@ -97,7 +91,7 @@ class NavikaApi {
 
     try {
       final response = await http.post(
-        Uri.parse(url), 
+        Uri.parse(url),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: body,
       );
@@ -122,21 +116,25 @@ class NavikaApi {
   }
 
   Future getIndex() async {
-    String url = buildUrl(app.API_INDEX, {'v': app.VERSION});
+    String uuid = globals.hiveBox?.get('uuid') ?? '';
+    String platform = Platform.operatingSystem;
+    String url = buildUrl(app.API_INDEX, {
+      'v': app.VERSION,
+      'uuid': uuid,
+      'platform': platform,
+    });
 
     return doRequest(url);
   }
 
-  Future getPlaces( String query, gps.LocationData? locationData, int? flag) async {
+  Future getPlaces(String query, gps.LocationData? locationData, int? flag) async {
     String url = '';
 
     bool isGPSallowed = await getIsGPSallowed();
 
     flag ??= 0;
 
-    if (isGPSallowed &&
-        (locationData?.latitude != null || locationData?.longitude != null) &&
-        query != '') {
+    if (isGPSallowed && (locationData?.latitude != null || locationData?.longitude != null) && query != '') {
       url = buildUrl(app.API_PLACES, {
         'lat': locationData?.latitude,
         'lon': locationData?.longitude,
@@ -148,8 +146,7 @@ class NavikaApi {
         'q': query,
         'flag': flag,
       });
-    } else if (isGPSallowed &&
-        (locationData?.latitude != null || locationData?.longitude != null)) {
+    } else if (isGPSallowed && (locationData?.latitude != null || locationData?.longitude != null)) {
       url = buildUrl(app.API_PLACES, {
         'lat': locationData?.latitude,
         'lon': locationData?.longitude,
@@ -165,17 +162,14 @@ class NavikaApi {
     return doRequest(url);
   }
 
-  Future getStops(
-    String query, gps.LocationData? locationData, int? flag) async {
+  Future getStops(String query, gps.LocationData? locationData, int? flag) async {
     String url = '';
 
     bool isGPSallowed = await getIsGPSallowed();
 
     flag ??= 0;
 
-    if (isGPSallowed &&
-        (locationData?.latitude != null || locationData?.longitude != null) &&
-        query != '') {
+    if (isGPSallowed && (locationData?.latitude != null || locationData?.longitude != null) && query != '') {
       url = buildUrl(app.API_STOPS, {
         'lat': locationData?.latitude,
         'lon': locationData?.longitude,
@@ -187,8 +181,7 @@ class NavikaApi {
         'q': query,
         'flag': flag,
       });
-    } else if (isGPSallowed &&
-        (locationData?.latitude != null || locationData?.longitude != null)) {
+    } else if (isGPSallowed && (locationData?.latitude != null || locationData?.longitude != null)) {
       url = buildUrl(app.API_STOPS, {
         'lat': locationData?.latitude,
         'lon': locationData?.longitude,
@@ -205,10 +198,7 @@ class NavikaApi {
   }
 
   Future getAddress(GeoCoordinates coords) async {
-    String url = buildUrl(app.API_ADDRESS, {
-      'lat': coords.latitude,
-      'lon': coords.longitude
-    });
+    String url = buildUrl(app.API_ADDRESS, {'lat': coords.latitude, 'lon': coords.longitude});
 
     return doRequest(url);
   }
@@ -247,14 +237,8 @@ class NavikaApi {
   }
 
   Future getJourneys(String from, String to, DateTime datetime, String travelerType, String timeType, List id, List modes) async {
-    String url = buildUrl(app.API_JOURNEYS, {
-      'from': from,
-      'to': to,
-      timeType: datetime.toIso8601String(),
-      'traveler_type': travelerType,
-      'forbidden_id' : id,
-      'forbidden_mode' : modes
-    });
+    String url = buildUrl(app.API_JOURNEYS,
+        {'from': from, 'to': to, timeType: datetime.toIso8601String(), 'traveler_type': travelerType, 'forbidden_id': id, 'forbidden_mode': modes});
     return doRequest(url);
   }
 
@@ -270,8 +254,7 @@ class NavikaApi {
   }
 
   Future getSchedules(String id, bool ungroup) async {
-    String url = buildUrl('${app.API_SCHEDULES}/$id',
-        {'ungroupDepartures': ungroup.toString()});
+    String url = buildUrl('${app.API_SCHEDULES}/$id', {'ungroupDepartures': ungroup.toString()});
 
     return doRequest(url);
   }
@@ -303,12 +286,12 @@ class NavikaApi {
   Future addNotificationSubscription(String line, String type, Map days, TimeOfDay startTime, TimeOfDay endTime) async {
     String url = buildUrl(app.API_ADD_NOTIFICATION_SUBSCRIPTION, {});
     Object body = {
-      'token' : globals.fcmToken,
-      'line' : line,
-      'type' : type,
-      'days' : json.encode(days),
-      'start_time' : timeToString(startTime),
-      'end_time' : timeToString(endTime),
+      'token': globals.fcmToken,
+      'line': line,
+      'type': type,
+      'days': json.encode(days),
+      'start_time': timeToString(startTime),
+      'end_time': timeToString(endTime),
     };
 
     return doPost(url, body);
@@ -317,8 +300,8 @@ class NavikaApi {
   Future renewNotificationToken(String oldToken, String newToken) async {
     String url = buildUrl(app.API_RENEW_NOTIFICATION, {});
     Object body = {
-      'old_token' : oldToken,
-      'new_token' : newToken,
+      'old_token': oldToken,
+      'new_token': newToken,
     };
 
     return doPost(url, body);

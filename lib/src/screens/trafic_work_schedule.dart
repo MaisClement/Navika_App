@@ -84,6 +84,11 @@ bool hasWork(DateTime date, reports) {
         DateTime begin = DateTime.parse(period['begin']);
         DateTime end = DateTime.parse(period['end']);
 
+        // Check if the end time is before 3 AM
+        if (date.isSameDate(end) && end.hour < 3) {
+          continue;
+        }
+
         if (date.isSameDate(begin) || date.isSameDate(end) || (begin.isBefore(date) && date.isBefore(end))) {
           return true;
         }
@@ -101,6 +106,11 @@ List getWorkForDay(DateTime selectedDate, reports) {
       for (var period in report['application_periods']) {
         DateTime begin = DateTime.parse(period['begin']);
         DateTime end = DateTime.parse(period['end']);
+
+        // Check if the end time is before 3 AM
+        if (selectedDate.isSameDate(end) && end.hour < 3) {
+          continue;
+        }
 
         if (selectedDate.isSameDate(begin) || selectedDate.isSameDate(end) || (begin.isBefore(selectedDate) && selectedDate.isBefore(end))) {
           showReport = true;

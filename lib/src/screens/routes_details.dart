@@ -63,13 +63,13 @@ Future saveData(line) async {
         .then((Directory directory) {
       });
 
-    for (var timetable in line['timetables']['timetables']) {
+    for (var timetable in line['timetables']) {
       String url = timetable['url'];
       Uri uri = Uri.parse(url);
       String name = uri.pathSegments.last;
       await downloadFile(directory, name, timetable['url']);
     }
-    for (var timetable in line['timetables']['map']) {
+    for (var timetable in line['map']) {
       String url = timetable['url'];
       Uri uri = Uri.parse(url);
       String name = uri.pathSegments.last;
@@ -159,8 +159,8 @@ String getTerminus(line) {
 
 String? getMapUrl(Map line) {
   try {
-    if (line['timetables']['map'][0]['url'] != null) {
-      return line['timetables']['map'][0]['url'];
+    if (line['map'][0]['url'] != null) {
+      return line['map'][0]['url'];
     }
     return null;
   } catch (e) {
@@ -173,7 +173,7 @@ List<Widget> getTimeTableWidgets(Map line, context, fromlocaldata) {
 
   res.add(const SizedBox(height: 5));
 
-  if (line['timetables']['timetables'].length == 1) {
+  if (line['timetables'].length == 1) {
     res.add(Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: ButtonLarge(
@@ -186,12 +186,12 @@ List<Widget> getTimeTableWidgets(Map line, context, fromlocaldata) {
         borderRadius: BorderRadius.circular(10),
         onTap: () async {
           if (fromlocaldata) {
-            Uri uri = Uri.parse(line['timetables']['timetables'][0]['url']);
+            Uri uri = Uri.parse(line['timetables'][0]['url']);
             Directory directory = await getApplicationDocumentsDirectory();
             String name = uri.pathSegments.last;
             globals.pdfUrl = '${directory.path}/dir/$name';
           } else {
-            globals.pdfUrl = line['timetables']['timetables'][0]['url'];
+            globals.pdfUrl = line['timetables'][0]['url'];
           }
           globals.pdfTitle = 'Ligne ${line['name']}';
           RouteStateScope.of(context).go('/pdf');
@@ -199,7 +199,7 @@ List<Widget> getTimeTableWidgets(Map line, context, fromlocaldata) {
       ),
     ));
   } else {
-    for (var timetable in line['timetables']['timetables']) {
+    for (var timetable in line['timetables']) {
       res.add(Padding(
         padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
         child: ButtonLarge(

@@ -6,7 +6,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
-import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/error_message.dart';
 import 'package:navika/src/widgets/trip/block.dart';
@@ -59,10 +58,10 @@ class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStat
         });
       }
 
-      if (globals.schedulesStopName != '') {
+      if (widget.fromId != '') {
         int i = 0;
         for (var stop in vehicleJourney?['stop_times']) {
-          if (stop['name'] == globals.schedulesStopName) {
+          if (stop['id'] == widget.fromId) {
             _scrollController.scrollToIndex(i, preferPosition: AutoScrollPosition.begin);
           }
           i++;

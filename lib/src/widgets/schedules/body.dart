@@ -4,31 +4,36 @@ import 'dart:async';
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 📦 Package imports:
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/screens/home_search.dart';
 import 'package:navika/src/widgets/departures/list.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/schedules/list.dart';
+
+// 📦 Package imports:
+
 
 List getLines(data) {
   bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures');
   List l = [];
   if (data['departures'] != null) {
     if (ungroupDepartures) {
-
       for (var dschedules in data['departures']) {
         if (!l.any((item) => item['id'] == dschedules['informations']['line']['id'])) {
           l.add(dschedules['informations']['line']);
         }
       }
-
     } else {
       for (var dschedules in data['departures']) {
         l.add(<String, dynamic>{...dschedules}..remove('departures'));
       }
-    }    
+    }
   }
   if (data['schedules'] != null) {
     for (var lschedules in data['schedules']) {
@@ -38,35 +43,40 @@ List getLines(data) {
   return l;
 }
 
-  int getModesLength(List modes) {
-    int i = 0;
-    for (var allowes in allowedModes.entries) {
-      if (modes.any((mode) => allowes.value.contains(mode))) {
-        i++;
-      }
+int getModesLength(List modes) {
+  int i = 0;
+  for (var allowes in allowedModes.entries) {
+    if (modes.any((mode) => allowes.value.contains(mode))) {
+      i++;
     }
-
-    return i;
   }
 
-  List<Widget> getModesTabs(List modes) {
-    List<Widget> tabs = [];
+  return i;
+}
 
-    for (var allowes in allowedModes.entries) {
-      if (modes.any((mode) => allowes.value.contains(mode))) {
-        tabs.add(
-          Tab(
-            icon: tabsModes[allowes.key]['icon'],
-            iconMargin: const EdgeInsets.only(bottom: 5, top: 5)
-          ),
-        );
-      }
+List<Widget> getModesTabs(List modes) {
+  List<Widget> tabs = [];
+
+  for (var allowes in allowedModes.entries) {
+    if (modes.any((mode) => allowes.value.contains(mode))) {
+      tabs.add(
+        Tab(icon: tabsModes[allowes.key]['icon'], iconMargin: const EdgeInsets.only(bottom: 5, top: 5)),
+      );
     }
-    return tabs;
-  }  
+  }
+  return tabs;
+}
 
 Map allowedModes = {
-  'rail': ['physical_mode:RapidTransit', 'physical_mode:Train', 'physical_mode:RailShuttle', 'physical_mode:LocalTrain', 'physical_mode:LongDistanceTrain', 'rail', 'nationalrail'],
+  'rail': [
+    'physical_mode:RapidTransit',
+    'physical_mode:Train',
+    'physical_mode:RailShuttle',
+    'physical_mode:LocalTrain',
+    'physical_mode:LongDistanceTrain',
+    'rail',
+    'nationalrail'
+  ],
   'metro': ['physical_mode:Metro', 'physical_mode:RailShuttle', 'metro', 'funicular'],
   'tram': ['physical_mode:Tramway', 'tram'],
   'bus': ['physical_mode:Bus', 'bus'],
@@ -87,18 +97,22 @@ Map tabsModes = {
   },
 };
 
-
 class SchedulesBody extends StatefulWidget {
   final String id;
   final ScrollController scrollController;
-  final bool addMargin;
+  final PanelController? panelController;
+  final double padding;
+  final Function? setData;
+  final bool hideProgressBar;
 
   const SchedulesBody({
-    
     required this.id,
-    required this.scrollController, 
-    this.addMargin = false, 
-    super.key
+    required this.scrollController,
+    this.panelController,
+    this.padding = 0,
+    this.setData,
+    this.hideProgressBar = false,
+    super.key,
   });
 
   @override
@@ -106,8 +120,6 @@ class SchedulesBody extends StatefulWidget {
 }
 
 class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProviderStateMixin {
-
-  String name = globals.schedulesStopName;
   String id = '';
   List modes = [];
   late TabController _tabController;
@@ -140,7 +152,7 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
       globals.schedulesStopLines = [];
     });
   }
-  
+
   @override
   void didUpdateWidget(SchedulesBody oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -164,18 +176,15 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
 
     for (var allowes in allowedModes.entries) {
       if (modes.any((mode) => allowes.value.contains(mode))) {
-
         if (allowes.key == 'rail') {
           tabs.add(DeparturesList(
-            departures: departures,
-            scrollController: scrollController,
-            update: update,
-            name: '',
-            modes: modes,
-            id: id,
-            ungroupDepartures: ungroupDepartures
-          ));
-
+              departures: departures,
+              scrollController: scrollController,
+              update: update,
+              name: '',
+              modes: modes,
+              id: id,
+              ungroupDepartures: ungroupDepartures));
         } else {
           tabs.add(SchedulesList(
             schedules: schedules,
@@ -185,7 +194,6 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
             update: update,
           ));
         }
-        
       }
     }
     return tabs;
@@ -200,7 +208,21 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
         error = result['status'];
       });
 
+      if (widget.setData != null) {
+        widget.setData!(result);
+      }
+      if (widget.panelController != null) {
+        widget.panelController!.animatePanelToSnapPoint();
+        if (globals.updateMap == false) {
+          openMapPoint(result['value']['place']['coord']['lat'], result['value']['place']['coord']['lon']);
+        }
+        globals.updateMap = false;
+      }
+
       setState(() {
+        if (result['value'] != null) {
+          globals.schedulesStopLines = getLines(result['value']!);
+        }
         if (result['value']?['schedules'] != null) {
           schedules = result['value']?['schedules'];
         }
@@ -210,19 +232,15 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
         if (result['value']?['place']['modes'] != null) {
           modes = result['value']?['place']['modes'];
         }
-        if (result['value'] != null) {
-          globals.schedulesStopLines = getLines(result['value']!);
-        }
       });
 
       if (isLoading) {
-        _tabController = TabController(vsync: this, length: getModesLength( modes ));
+        _tabController = TabController(vsync: this, length: getModesLength(modes));
       }
-      
+
       setState(() {
         isLoading = false;
       });
-      
     }
   }
 
@@ -235,39 +253,34 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) => Column(
-    children: [
-      if (widget.addMargin)
-        const SizedBox(
-          height: 90,
-        ),
-
-      if (error != ApiStatus.ok)
-        ErrorBlock(
-          error: error,
-          retry: _getSchedules,
-        )
-
-      else if (isLoading)
-        const LinearProgressIndicator()
-        
-      else
-        ...[
-          if (getModesLength(modes) > 1)
-            TabBar(
-              controller: _tabController,
-              tabs: getModesTabs(modes),
-            ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: getModesView(modes, schedules, departures, widget.scrollController),
-            ),
+        children: [
+          SizedBox(
+            height: widget.padding,
           ),
-        ]            
-    ],
-  );
+          if (error != ApiStatus.ok)
+            ErrorBlock(
+              error: error,
+              retry: _getSchedules,
+            )
+          else if (isLoading && !widget.hideProgressBar)
+            const LinearProgressIndicator()
+          else if (isLoading)
+            Container()
+          else ...[
+            if (getModesLength(modes) > 1)
+              TabBar(
+                controller: _tabController,
+                tabs: getModesTabs(modes),
+              ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: getModesView(modes, schedules, departures, widget.scrollController),
+              ),
+            ),
+          ]
+        ],
+      );
 }

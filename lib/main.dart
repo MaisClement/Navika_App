@@ -24,6 +24,7 @@ import 'package:navika/src/app.dart';
 import 'package:navika/src/data/app.dart' as app;
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/screens/home_settings.dart';
+import 'package:uuid/uuid.dart';
 
 // import 'package:sentry_flutter/sentry_flutter.dart';
 
@@ -215,6 +216,11 @@ Future _initializeHive() async {
   // Version
   if (globals.hiveBox.get('version') == null) {
     globals.hiveBox.put('version', app.VERSION);
+  }
+  
+  // UUID
+  if (globals.hiveBox.get('uuid') == null) {
+    globals.hiveBox.put('uuid', const Uuid().v4());
   }
 
   // sponsorHideDate

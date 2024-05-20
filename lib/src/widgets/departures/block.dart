@@ -14,7 +14,7 @@ import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/departures/lines.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/icons/mode.dart';
-import 'package:navika/src/widgets/utils/button_large_trafic.dart';
+import 'package:navika/src/widgets/utils/expander_trafic.dart';
 
 class DeparturesBlock extends StatelessWidget {
   final Map line;
@@ -88,7 +88,7 @@ class DeparturesBlock extends StatelessWidget {
             ),
           ),
 
-          if (!limited && line['severity'] != null && line['severity'] > 0)
+          if (line['severity'] != null && line['severity'] > 0)
             Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
@@ -97,7 +97,7 @@ class DeparturesBlock extends StatelessWidget {
               margin: const EdgeInsets.only(
                 top: 10, left: 5, right: 5
               ),
-              child: ButtonLargeTrafic(
+              child: ExpanderTrafic(
                 line: line,
                 borderRadius: BorderRadius.circular(7),
                 onTap: () {

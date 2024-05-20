@@ -41,9 +41,9 @@ Map<int, String> getShortMonth(context) {
     7: AppLocalizations.of(context)!.short_july.toLowerCase(),
     8: AppLocalizations.of(context)!.short_august.toLowerCase(),
     9: AppLocalizations.of(context)!.short_september.toLowerCase(),
-    10:AppLocalizations.of(context)!.short_october.toLowerCase(),
-    11:AppLocalizations.of(context)!.short_november.toLowerCase(),
-    12:AppLocalizations.of(context)!.short_december.toLowerCase(),
+    10: AppLocalizations.of(context)!.short_october.toLowerCase(),
+    11: AppLocalizations.of(context)!.short_november.toLowerCase(),
+    12: AppLocalizations.of(context)!.short_december.toLowerCase(),
   };
 }
 
@@ -58,9 +58,9 @@ Map<int, String> getLongMonth(context) {
     7: AppLocalizations.of(context)!.july.toLowerCase(),
     8: AppLocalizations.of(context)!.august.toLowerCase(),
     9: AppLocalizations.of(context)!.september.toLowerCase(),
-    10:AppLocalizations.of(context)!.october.toLowerCase(),
-    11:AppLocalizations.of(context)!.november.toLowerCase(),
-    12:AppLocalizations.of(context)!.december.toLowerCase(),
+    10: AppLocalizations.of(context)!.october.toLowerCase(),
+    11: AppLocalizations.of(context)!.november.toLowerCase(),
+    12: AppLocalizations.of(context)!.december.toLowerCase(),
   };
 }
 
@@ -149,9 +149,7 @@ void initJourney(Map? from, Map? to, context) async {
     globals.route['from']['id'] = '${globals.locationData?.longitude};${globals.locationData?.latitude}';
     globals.route['from']['name'] = AppLocalizations.of(context)!.your_position;
     RouteStateScope.of(context).go('/home/journeys/search/to');
-  }
-
-  else {
+  } else {
     RouteStateScope.of(context).go('/home/journeys');
   }
 }
@@ -160,8 +158,6 @@ void addToHistory(Map place) {
   List history = globals.hiveBox.get('historyPlaces');
 
   history = history.where((element) => element['id'] != place['id']).toList();
-
-  place['type'] = 'history';
 
   history = [place, ...history];
   history = history.slice(0, history.length > 15 ? 15 : history.length);
@@ -207,8 +203,7 @@ class Journeys extends StatefulWidget {
 }
 
 class _JourneysState extends State<Journeys> {
-
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   String search = '';
   ApiStatus error = ApiStatus.ok;
@@ -233,7 +228,6 @@ class _JourneysState extends State<Journeys> {
       initialDate: globals.selectedDate,
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
-      
     );
     if (picked != null && picked != globals.selectedDate) {
       setState(() {
@@ -271,16 +265,12 @@ class _JourneysState extends State<Journeys> {
     if (globals.route['from']['id'] == null || globals.route['to']['id'] == null) {
       return;
     }
-    DateTime dt = DateTime(
-        globals.selectedDate.year,
-        globals.selectedDate.month,
-        globals.selectedDate.day,
-        globals.selectedTime.hour,
-        globals.selectedTime.minute);
+    DateTime dt =
+        DateTime(globals.selectedDate.year, globals.selectedDate.month, globals.selectedDate.day, globals.selectedTime.hour, globals.selectedTime.minute);
 
     if (globals.isTimeNow == true) {
       dt = DateTime.now();
-    } 
+    }
     String travelerType = globals.hiveBox.get('travelerType');
 
     setState(() {
@@ -289,13 +279,7 @@ class _JourneysState extends State<Journeys> {
 
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getJourneys(
-        globals.route['from']['id'],
-        globals.route['to']['id'],
-        dt,
-        travelerType,
-        globals.timeType,
-        getForbiddenLines(),
-        getForbiddenModes());
+        globals.route['from']['id'], globals.route['to']['id'], dt, travelerType, globals.timeType, getForbiddenLines(), getForbiddenModes());
 
     if (mounted) {
       setState(() {
@@ -323,14 +307,24 @@ class _JourneysState extends State<Journeys> {
   }
 
   void setLaterTime() {
-    DateTime _now = DateTime.now();
-    DateTime now = DateTime(_now.year, _now.month, _now.day, globals.selectedTime.hour, globals.selectedTime.minute);
+    DateTime now0 = DateTime.now();
+    DateTime now = DateTime(now0.year, now0.month, now0.day, globals.selectedTime.hour, globals.selectedTime.minute);
     DateTime lastest = DateTime.now();
-    
-    for (var journey in journeys) {
-      DateTime date = DateTime.parse(journey['departure_date_time']);
-      if (date.isAfter(lastest)) {
-        lastest = date;
+
+    if (globals.timeType == 'departure') {
+      for (var journey in journeys) {
+        DateTime date = DateTime.parse(journey['departure_date_time']);
+        if (date.isAfter(lastest)) {
+          lastest = date;
+        }
+      }
+    }
+    if (globals.timeType == 'arrival') {
+      for (var journey in journeys) {
+        DateTime date = DateTime.parse(journey['arrival_date_time']);
+        if (date.isAfter(lastest)) {
+          lastest = date;
+        }
       }
     }
 
@@ -369,10 +363,7 @@ class _JourneysState extends State<Journeys> {
   Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
-          statusBarIconBrightness:
-              Theme.of(context).colorScheme.brightness == Brightness.dark
-                  ? Brightness.light
-                  : Brightness.dark,
+          statusBarIconBrightness: Theme.of(context).colorScheme.brightness == Brightness.dark ? Brightness.light : Brightness.dark,
         ),
         child: Scaffold(
             bottomNavigationBar: getNavigationBar(context),
@@ -383,29 +374,26 @@ class _JourneysState extends State<Journeys> {
                   decoration: allowedModes.length >= 7 || travelerType != 'standard'
                       ? null
                       : BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
-                        borderRadius: BorderRadius.circular(500),
-                      ),
-                    margin: const EdgeInsets.only(right: 10),
+                          color: Theme.of(context).colorScheme.primary,
+                          borderRadius: BorderRadius.circular(500),
+                        ),
+                  margin: const EdgeInsets.only(right: 10),
                   child: IconButton(
                     icon: const Icon(
                       NavikaIcons.options,
                     ),
-                    color: allowedModes.length >= 7 || travelerType != 'standard'
-                             ? Theme.of(context).colorScheme.onSurface
-                             : Colors.white,
+                    color: allowedModes.length >= 7 || travelerType != 'standard' ? Theme.of(context).colorScheme.onSurface : Colors.white,
                     tooltip: AppLocalizations.of(context)!.settings,
                     onPressed: () {
                       showModalBottomSheet<void>(
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: bottomSheetBorder,
-                        ),
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (BuildContext context) =>
-                          BottomRouteSettings(
-                            setState: setState,
-                          ));
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: bottomSheetBorder,
+                          ),
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (BuildContext context) => BottomRouteSettings(
+                                setState: setState,
+                              ));
                       setState(() {
                         allowedModes = globals.hiveBox.get('allowedModes');
                         travelerType = globals.hiveBox.get('travelerType');
@@ -428,21 +416,20 @@ class _JourneysState extends State<Journeys> {
                           bottomLeft: Radius.circular(20),
                           bottomRight: Radius.circular(20),
                         ),
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primaryContainer
-                            .withOpacity(0.5),
+                        color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            margin: const EdgeInsets.only(
-                                left: 20, top: 5, right: 20),
+                            margin: const EdgeInsets.only(left: 20, top: 5, right: 20),
                             child: SearchBox(
                               text: globals.route['from']['name'] ?? AppLocalizations.of(context)!.departure,
                               icon: NavikaIcons.marker,
-                              borderRadius: const BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20),bottomRight: Radius.circular(20),
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
                               ),
                               onTap: () {
                                 globals.route['from']['name'] = null;
@@ -452,11 +439,12 @@ class _JourneysState extends State<Journeys> {
                             ),
                           ),
                           Container(
-                            margin: const EdgeInsets.only( left: 20, top: 5, right: 20, bottom: 10),
+                            margin: const EdgeInsets.only(left: 20, top: 5, right: 20, bottom: 10),
                             child: SearchBox(
                               text: globals.route['to']['name'] ?? AppLocalizations.of(context)!.arrival,
                               icon: NavikaIcons.finishFlag,
-                              borderRadius: const BorderRadius.only( topRight: Radius.circular(20), bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
+                              borderRadius:
+                                  const BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
                               onTap: () {
                                 globals.route['to']['name'] = null;
                                 globals.route['to']['id'] = null;
@@ -468,13 +456,13 @@ class _JourneysState extends State<Journeys> {
                             children: [
                               Expanded(
                                 child: Container(
-                                  margin: const EdgeInsets.only( left: 20, top: 5, bottom: 10),
+                                  margin: const EdgeInsets.only(left: 20, top: 5, bottom: 10),
                                   child: SearchBox(
                                     text: getDateTitle(context, globals.timeType, globals.selectedDate, globals.selectedTime, globals.isTimeNow),
                                     icon: NavikaIcons.clock,
                                     borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(500), 
-                                      bottomLeft: Radius.circular(500), 
+                                      topLeft: Radius.circular(500),
+                                      bottomLeft: Radius.circular(500),
                                     ),
                                     onTap: () {
                                       showModalBottomSheet(
@@ -503,7 +491,7 @@ class _JourneysState extends State<Journeys> {
                               ),
                               Container(
                                 width: 50,
-                                margin: const EdgeInsets.only( left: 2, top: 5, bottom: 10),
+                                margin: const EdgeInsets.only(left: 2, top: 5, bottom: 10),
                                 child: ButtonBox(
                                   icon: NavikaIcons.past,
                                   borderRadius: const BorderRadius.only(),
@@ -512,13 +500,10 @@ class _JourneysState extends State<Journeys> {
                               ),
                               Container(
                                 width: 50,
-                                margin: const EdgeInsets.only( left: 2, top: 5, right: 20, bottom: 10),
+                                margin: const EdgeInsets.only(left: 2, top: 5, right: 20, bottom: 10),
                                 child: ButtonBox(
                                   icon: NavikaIcons.futur,
-                                  borderRadius: const BorderRadius.only(
-                                    topRight: Radius.circular(500), 
-                                    bottomRight: Radius.circular(500)
-                                  ),
+                                  borderRadius: const BorderRadius.only(topRight: Radius.circular(500), bottomRight: Radius.circular(500)),
                                   onTap: () => setLaterTime(),
                                 ),
                               )
@@ -537,8 +522,7 @@ class _JourneysState extends State<Journeys> {
                               ErrorBlock(
                                 error: error,
                               )
-                            else if (journeys.isNotEmpty)
-                            ...[
+                            else if (journeys.isNotEmpty) ...[
                               for (var journey in journeys)
                                 RouteListButton(
                                   journey: journey,
@@ -555,31 +539,27 @@ class _JourneysState extends State<Journeys> {
                                   ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                                   onPressed: () {
                                     showModalBottomSheet<void>(
-                                        shape: const RoundedRectangleBorder(
-                                          borderRadius: bottomSheetBorder,
-                                        ),
-                                        isScrollControlled: true,
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                          BottomAvoidLine(
-                                            journeys: journeys,
-                                            update: update,
-                                          ),
-                                        );
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: bottomSheetBorder,
+                                      ),
+                                      isScrollControlled: true,
+                                      context: context,
+                                      builder: (BuildContext context) => BottomAvoidLine(
+                                        journeys: journeys,
+                                        update: update,
+                                      ),
+                                    );
                                   },
                                   child: Text(AppLocalizations.of(context)!.avoid_line,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                  )),
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                      )),
                                 ),
                               ),
-                            ]
-                              
-                            else if (journeys.isEmpty && isLoading == false)
+                            ] else if (journeys.isEmpty && isLoading == false)
                               const PlacesEmpty()
                             else
-                              for (var i = 0; i < (Random().nextInt(4) + 4).toDouble(); i++)
-                                const RouteListSkelton()
+                              for (var i = 0; i < (Random().nextInt(4) + 4).toDouble(); i++) const RouteListSkelton()
                           ],
                         ),
                       ),
@@ -592,9 +572,7 @@ class _JourneysState extends State<Journeys> {
                   width: 45,
                   height: 55,
                   child: Material(
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(50),
-                        bottomLeft: Radius.circular(50)),
+                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(50), bottomLeft: Radius.circular(50)),
                     color: getJourneysColor(context),
                     child: InkWell(
                       borderRadius: const BorderRadius.only(

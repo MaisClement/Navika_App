@@ -5,21 +5,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/routing/route_state.dart';
+import 'package:navika/src/screens/journeys.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/journey/favorites.dart';
 
-class HomeWidgetJourneys extends StatelessWidget {
-  final List journeys;
-  final Function update;
+class HomeWidgetJourneys extends StatefulWidget {
 
   const HomeWidgetJourneys({
-    required this.journeys,
-    required this.update,
     super.key,
   });
-  
+
+  @override
+  State<HomeWidgetJourneys> createState() => _HomeWidgetJourneysState();
+}
+
+class _HomeWidgetJourneysState extends State<HomeWidgetJourneys> {
+  List journeys =  [];
+
+  List getJourneys() {
+    return sortJourneys(getFutureJourneys(globals.hiveBox?.get('journeys')));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getJourneys();
+  }
 
   @override
   Widget build(BuildContext context) => Column(
@@ -73,7 +87,7 @@ class HomeWidgetJourneys extends StatelessWidget {
             children: [
               RouteFavorites(
                 journeys: journeys.sublist(0, getMaxLength(2, journeys)),
-                update: update
+                update: getJourneys
               ),
               Center(
                 child: ElevatedButton(
