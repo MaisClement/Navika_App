@@ -185,14 +185,6 @@ Future _initializeHive() async {
     globals.hiveBox.put('allowGps', false);
   }
 
-  // Derniere position gps
-  if (globals.hiveBox.get('latitude') == null) {
-    globals.hiveBox.put('latitude', 48.859481);
-  }
-  if (globals.hiveBox.get('longitude') == null) {
-    globals.hiveBox.put('longitude', 2.346711);
-  }
-
   // Mode d'affichage
   if (globals.hiveBox.get('displayMode') == null) {
     globals.hiveBox.put('displayMode', 'default');

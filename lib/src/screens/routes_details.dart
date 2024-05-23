@@ -173,7 +173,7 @@ List<Widget> getTimeTableWidgets(Map line, context, fromlocaldata) {
 
   res.add(const SizedBox(height: 5));
 
-  if (line['timetables'].length == 1) {
+  if (line['timetables'] != null && line['timetables'].length == 1) {
     res.add(Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: ButtonLarge(
@@ -198,7 +198,7 @@ List<Widget> getTimeTableWidgets(Map line, context, fromlocaldata) {
         },
       ),
     ));
-  } else {
+  } else if (line['timetables'] != null) {
     for (var timetable in line['timetables']) {
       res.add(Padding(
         padding: const EdgeInsets.only(top: 10, left: 10, right: 10),

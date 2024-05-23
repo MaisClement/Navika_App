@@ -175,7 +175,7 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                       ),
                     ],
                   ),
-                if ( DateTime.parse(widget.section['departure_date_time']).isToday() && widget.section['informations']['line']['severity'] != 0)
+                if ( DateTime.parse(widget.section['departure_date_time']).isToday() && widget.section['informations']['line']['severity'] != 0 && widget.section['informations']['line']['severity'] != 2)
                   Padding(
                     padding: const EdgeInsets.only(top: 10, right: 10),
                     child: ExpanderTrafic(

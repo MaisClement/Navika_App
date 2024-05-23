@@ -23,11 +23,11 @@ import 'package:navika/src/widgets/home/skelton.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
 
 Widget getDistanceWidget(double lat, double lon) {
-  if (globals.locationData == null) {
+  if (globals.position == null) {
     return Container();
   }
 
-  int distance = calculateDistance(lat, lon, globals.locationData!.latitude!, globals.locationData!.longitude!).toInt();
+  int distance = calculateDistance(lat, lon, globals.position!.latitude!, globals.position!.longitude!).toInt();
   int duration = distance ~/ 1.3;
 
   return Row(

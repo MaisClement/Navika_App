@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 // 📦 Package imports:
 import 'package:here_sdk/core.dart';
 import 'package:http/http.dart' as http;
-import 'package:location/location.dart' as gps;
+import 'package:geolocator/geolocator.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/app.dart' as app;
@@ -127,17 +127,17 @@ class NavikaApi {
     return doRequest(url);
   }
 
-  Future getPlaces(String query, gps.LocationData? locationData, int? flag) async {
+  Future getPlaces(String query, Position? position, int? flag) async {
     String url = '';
 
     bool isGPSallowed = await getIsGPSallowed();
 
     flag ??= 0;
 
-    if (isGPSallowed && (locationData?.latitude != null || locationData?.longitude != null) && query != '') {
+    if (isGPSallowed && (position?.latitude != null || position?.longitude != null) && query != '') {
       url = buildUrl(app.API_PLACES, {
-        'lat': locationData?.latitude,
-        'lon': locationData?.longitude,
+        'lat': position?.latitude,
+        'lon': position?.longitude,
         'q': query,
         'flag': flag,
       });
@@ -146,10 +146,10 @@ class NavikaApi {
         'q': query,
         'flag': flag,
       });
-    } else if (isGPSallowed && (locationData?.latitude != null || locationData?.longitude != null)) {
+    } else if (isGPSallowed && (position?.latitude != null || position?.longitude != null)) {
       url = buildUrl(app.API_PLACES, {
-        'lat': locationData?.latitude,
-        'lon': locationData?.longitude,
+        'lat': position?.latitude,
+        'lon': position?.longitude,
         'flag': flag,
       });
     } else {
@@ -162,17 +162,17 @@ class NavikaApi {
     return doRequest(url);
   }
 
-  Future getStops(String query, gps.LocationData? locationData, int? flag) async {
+  Future getStops(String query, Position? position, int? flag) async {
     String url = '';
 
     bool isGPSallowed = await getIsGPSallowed();
 
     flag ??= 0;
 
-    if (isGPSallowed && (locationData?.latitude != null || locationData?.longitude != null) && query != '') {
+    if (isGPSallowed && (position?.latitude != null || position?.longitude != null) && query != '') {
       url = buildUrl(app.API_STOPS, {
-        'lat': locationData?.latitude,
-        'lon': locationData?.longitude,
+        'lat': position?.latitude,
+        'lon': position?.longitude,
         'q': query,
         'flag': flag,
       });
@@ -181,10 +181,10 @@ class NavikaApi {
         'q': query,
         'flag': flag,
       });
-    } else if (isGPSallowed && (locationData?.latitude != null || locationData?.longitude != null)) {
+    } else if (isGPSallowed && (position?.latitude != null || position?.longitude != null)) {
       url = buildUrl(app.API_STOPS, {
-        'lat': locationData?.latitude,
-        'lon': locationData?.longitude,
+        'lat': position?.latitude,
+        'lon': position?.longitude,
         'flag': flag,
       });
     } else {

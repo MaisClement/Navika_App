@@ -77,7 +77,7 @@ class _SchedulesSearchState extends State<HomeSearch> {
     });
 
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getPlaces(search, globals.locationData, flag);
+    Map result = await navikaApi.getPlaces(search, globals.position, flag);
 
     if (mounted) {
       setState(() {

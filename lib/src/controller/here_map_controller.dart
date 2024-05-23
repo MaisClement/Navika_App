@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 // 📦 Package imports:
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
-import 'package:location/location.dart' as gps;
+import 'package:geolocator/geolocator.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
@@ -15,89 +15,81 @@ typedef ShowDialogFunction = void Function(String title, String message);
 
 class HereController {
   final HereMapController _hereMapController;
-  late LocationIndicator locationIndicator;
+  LocationIndicator? locationIndicator;
 
   HereController(HereMapController hereMapController): _hereMapController = hereMapController {
     double distanceToEarthInMeters = 10000;
     MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
-    //GeoCoordinates geoCoords = GeoCoordinates(globals.locationData.latitude ?? 52.520798, globals.locationData.longitude ?? 13.409408);
     _hereMapController.camera.lookAtPointWithMeasure(GeoCoordinates(52.520798, 13.409408), mapMeasureZoom);
   }
 
-  Location defineLocation(gps.LocationData locationData, double heading) {
-    GeoCoordinates geoCoords = GeoCoordinates(locationData.latitude ?? 0, locationData.longitude ?? 0);
+  Location defineLocation(Position position, double heading) {
+    GeoCoordinates geoCoords = GeoCoordinates(position.latitude ?? 0, position.longitude ?? 0);
     Location location = Location.withCoordinates(geoCoords);
     location.time = DateTime.now();
-    location.horizontalAccuracyInMeters = locationData.accuracy;
-    location.verticalAccuracyInMeters = locationData.verticalAccuracy;
+    location.horizontalAccuracyInMeters = position.accuracy;
     location.bearingInDegrees = heading;
 
-    globals.locationData = locationData;
-    globals.isSetLocation = true;
-    
-    globals.hiveBox.put('latitude', globals.locationData?.latitude ?? 0);
-    globals.hiveBox.put('longitude', globals.locationData?.longitude ?? 0);
+    globals.position = position;
 
     return location;
   }
 
-  void addLocationIndicator(gps.LocationData? locationData, LocationIndicatorIndicatorStyle indicatorStyle, double heading, [bool isActive = true, bool zoomAuto = true]) {
-    if (locationData == null) return;
-    locationIndicator = LocationIndicator();
-    locationIndicator.locationIndicatorStyle = indicatorStyle;
-    locationIndicator.isAccuracyVisualized = true;
-    
-    locationIndicator.isActive = isActive;
+  void addLocationIndicator(Position? position, LocationIndicatorIndicatorStyle indicatorStyle, double heading, [bool isActive = true, bool zoomAuto = true]) {
+    if (position == null) return;
+    if (locationIndicator != null) locationIndicator!.disable();
 
-    locationIndicator.updateLocation(defineLocation(locationData, heading));
+    locationIndicator = LocationIndicator();
+    locationIndicator?.locationIndicatorStyle = indicatorStyle;
+    locationIndicator?.isAccuracyVisualized = true;
+    
+    locationIndicator?.isActive = isActive;
+
+    locationIndicator?.updateLocation(defineLocation(position, heading));
     
     // Show the indicator on the map view.
-    locationIndicator.enable(_hereMapController);
-    //OLD_hereMapController.addLifecycleListener(locationIndicator);
+    locationIndicator?.enable(_hereMapController);
 
     if (zoomAuto) {
       double distanceToEarthInMeters = 1000;
-      if (locationData.accuracy != null && locationData.accuracy! > 0) {
-        distanceToEarthInMeters = (locationData.accuracy! * 2) + 1000;
+      if (position.accuracy! > 0) {
+        distanceToEarthInMeters = (position.accuracy! * 2) + 1000;
       }
       MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
-      _hereMapController.camera.lookAtPointWithMeasure(GeoCoordinates(locationData.latitude ?? 0, locationData.longitude ?? 0), mapMeasureZoom);
+      _hereMapController.camera.lookAtPointWithMeasure(GeoCoordinates(position.latitude ?? 0, position.longitude ?? 0), mapMeasureZoom);
     }
   }
 
-  void zoomOnLocationIndicator(bool is3dMap){
-    if (globals.locationData != null){
-      double distanceToEarthInMeters = 1000;
-      if (globals.locationData!.accuracy != null && globals.locationData!.accuracy! > 0) {
-        distanceToEarthInMeters = globals.locationData!.accuracy! + 1000;
-      }
-      MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
+  void zoomOnLocationIndicator(bool is3dMap, Position position, double heading){
+    double distanceToEarthInMeters = 1000;
 
-      GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(globals.locationData?.latitude ?? 0, globals.locationData?.longitude ?? 0);
-      GeoOrientationUpdate geoOrient = GeoOrientationUpdate(is3dMap ? globals.compassHeading : 0, is3dMap ? 50 : 0);
-
-      _hereMapController.camera.startAnimation(MapCameraAnimationFactory.flyToWithOrientationAndZoom(geoCoords, geoOrient, mapMeasureZoom, 0, is3dMap ? const Duration(milliseconds: 300) : const Duration(seconds: 1)));
+    if (position.accuracy > 0) {
+      distanceToEarthInMeters = position.accuracy + 1000;
     }
+    
+    MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
+
+    GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(position.latitude, position.longitude);
+    GeoOrientationUpdate geoOrient = GeoOrientationUpdate(is3dMap ? heading : 0, is3dMap ? 50 : 0);
+
+    _hereMapController.camera.startAnimation(MapCameraAnimationFactory.flyToWithOrientationAndZoom(geoCoords, geoOrient, mapMeasureZoom, 0, is3dMap ? const Duration(milliseconds: 300) : const Duration(seconds: 1)));
+  
   }
 
   void zoomTo(GeoCoordinatesUpdate geoCoords, [bool ignoreZoom = false]){
-    if (globals.locationData != null){
-      double distanceToEarthInMeters = _hereMapController.camera.state.distanceToTargetInMeters;
-      if (distanceToEarthInMeters > 1000) {
-        distanceToEarthInMeters = 1020;
-      }
-      if (ignoreZoom == false && globals.locationData!.accuracy != null && globals.locationData!.accuracy! > 0) {
-        distanceToEarthInMeters = (globals.locationData!.accuracy! * 2) + 1200;
-      }
-      MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
-      _hereMapController.camera.startAnimation(MapCameraAnimationFactory.flyToWithZoom(geoCoords, mapMeasureZoom, 0, const Duration(seconds: 1)));
+    double distanceToEarthInMeters = _hereMapController.camera.state.distanceToTargetInMeters;
+    if (ignoreZoom == false) {
+      distanceToEarthInMeters = 1020;
     }
+    MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
+    _hereMapController.camera.startAnimation(MapCameraAnimationFactory.flyToWithZoom(geoCoords, mapMeasureZoom, 0, const Duration(seconds: 1)));
+  
   }
 
-  void updateLocationIndicator(gps.LocationData? locationData, double heading, [bool isActive = true]){
-    if (locationData == null) return;
-    locationIndicator.updateLocation(defineLocation(locationData, heading));
-    locationIndicator.isActive = isActive;
+  void updateLocationIndicator(Position? position, double heading, [bool isActive = true]){
+    if (position == null || locationIndicator == null) return;
+    locationIndicator?.updateLocation(defineLocation(position, heading));
+    locationIndicator?.isActive = isActive;
   }
 
   WidgetPin addMapWidget(Widget widget, GeoCoordinates geoCoordinates) {

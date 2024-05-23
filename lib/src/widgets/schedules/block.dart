@@ -84,7 +84,7 @@ class SchedulesBlock extends StatelessWidget {
             ),
           ),
 
-          if (line['severity'] != null && line['severity'] > 0)
+          if (line['severity'] != null && line['severity'] > 0 && line['severity'] != 2)
             Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,

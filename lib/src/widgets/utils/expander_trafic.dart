@@ -31,7 +31,9 @@ class _ButtonLargeTraficState extends State<ExpanderTrafic> {
   }
 
   List getReports() {
-    return [...widget.line['reports']['current_trafic'], ...widget.line['reports']['current_work']];
+    List list = [...widget.line['reports']['current_trafic'], ...widget.line['reports']['current_work']];
+
+    return list.where((report) => report['severity'] == widget.line['severity']).toList();
   }
 
   BorderRadius getBorderRadiusBlock(borderRadius) {
@@ -102,7 +104,7 @@ class _ButtonLargeTraficState extends State<ExpanderTrafic> {
                                   ),
                                 ),
                               ),
-                              if (!displayDetails && getReports()[0]['message']['title'] != null)
+                              if (!displayDetails && getReports().isNotEmpty && getReports()[0]['message']['title'] != null)
                                 Expanded(
                                   child: Text(
                                     getReports()[0]['message']['title'],

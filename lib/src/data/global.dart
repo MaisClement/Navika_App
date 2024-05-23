@@ -7,17 +7,14 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:here_sdk/mapview.dart';
-import 'package:location/location.dart' as gps;
+import 'package:geolocator/geolocator.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/controller/here_map_controller.dart';
 
 String fcmToken = '';
-
-gps.LocationData? locationData;
-double compassHeading = 0;
-bool isSetLocation = false;
+Position? position;
 
 List path = [];
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // 📦 Package imports:
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:location/location.dart' as gps;
+import 'package:geolocator/geolocator.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/app.dart' as app;
@@ -21,8 +21,7 @@ class Position extends StatefulWidget {
 class _PositionState extends State<Position> {
   final ChromeSafariBrowser browser = ChromeSafariBrowser();
 
-  late gps.PermissionStatus permissionGranted;
-  gps.Location location = gps.Location();
+  late LocationPermission permission;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -71,9 +70,8 @@ class _PositionState extends State<Position> {
                   ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                   child: Text(AppLocalizations.of(context)!.allow),
                   onPressed: () async {
-                    permissionGranted = await location.hasPermission();
-                    permissionGranted = await location.requestPermission();
-                    if (permissionGranted != gps.PermissionStatus.granted) {
+                    permission = await Geolocator.requestPermission();
+                    if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
                       globals.hiveBox.put('allowGps', false);
                     } else {
                       globals.hiveBox.put('allowGps', true);

@@ -125,8 +125,8 @@ void initJourney(Map? from, Map? to, context) async {
   }
 
   // GPS et arrivé -> Affichage
-  else if (allowGps && globals.locationData != null && to != null) {
-    globals.route['from']['id'] = '${globals.locationData?.longitude};${globals.locationData?.latitude}';
+  else if (allowGps && globals.position != null && to != null) {
+    globals.route['from']['id'] = '${globals.position?.longitude};${globals.position?.latitude}';
     globals.route['from']['name'] = AppLocalizations.of(context)!.your_position;
     globals.route['to'] = to;
     RouteStateScope.of(context).go('/home/journeys');
@@ -145,8 +145,8 @@ void initJourney(Map? from, Map? to, context) async {
   }
 
   // Gps -> Recherche de l'arrivée
-  else if (allowGps && globals.locationData != null) {
-    globals.route['from']['id'] = '${globals.locationData?.longitude};${globals.locationData?.latitude}';
+  else if (allowGps && globals.position != null) {
+    globals.route['from']['id'] = '${globals.position?.longitude};${globals.position?.latitude}';
     globals.route['from']['name'] = AppLocalizations.of(context)!.your_position;
     RouteStateScope.of(context).go('/home/journeys/search/to');
   } else {

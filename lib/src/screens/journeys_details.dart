@@ -7,12 +7,12 @@ import 'package:flutter/services.dart';
 
 // 📦 Package imports:
 import 'package:floating_snackbar/floating_snackbar.dart';
-import 'package:flutter_compass/flutter_compass.dart';
+// import 'package:flutter_compass/flutter_compass.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
-import 'package:location/location.dart' as gps;
+import 'package:geolocator/geolocator.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 // 🌎 Project imports:
@@ -30,8 +30,8 @@ import 'package:navika/src/widgets/journey/header.dart';
 
 void saveJourney(String uniqueId, context) {
   List journeys = globals.hiveBox.get('journeys');
-  
-  if (isSavedJourney(uniqueId)){
+
+  if (isSavedJourney(uniqueId)) {
     journeys.removeWhere((element) => element['unique_id'] == uniqueId);
     FloatingSnackBar(
       message: AppLocalizations.of(context)!.route_removed,
@@ -52,7 +52,7 @@ void saveJourney(String uniqueId, context) {
       backgroundColor: const Color(0xff272727),
     );
   }
-  
+
   globals.hiveBox.put('journeys', journeys);
 }
 
@@ -71,13 +71,12 @@ void save(BuildContext context, journey) {
     saveJourney(journey['unique_id'], context);
   } else {
     showModalBottomSheet<void>(
-      shape: const RoundedRectangleBorder(
-        borderRadius: bottomSheetBorder,
-      ),
-      isScrollControlled: true,
-      context: context,
-      builder: (BuildContext context) =>
-          BottomJourney(journey: journey)); 
+        shape: const RoundedRectangleBorder(
+          borderRadius: bottomSheetBorder,
+        ),
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) => BottomJourney(journey: journey));
   }
 }
 
@@ -94,7 +93,7 @@ Map? getSavedJourney(String uniqueId) {
 List getLineByJourney(journey) {
   List res = [];
   for (var section in journey['sections']) {
-    if (section['type'] == 'public_transport' && section['informations'] != null && section['informations']['line'] != null ) {
+    if (section['type'] == 'public_transport' && section['informations'] != null && section['informations']['line'] != null) {
       res.add(section['informations']['line']);
     }
   }
@@ -113,14 +112,12 @@ bool allowNavi(journey) {
   //DISABLED if (getTimeDifference(journey['departure_date_time']) > 120) {
   //DISABLED   return false;
   //DISABLED }
-  //DISABLED 
+  //DISABLED
   //DISABLED return true;
 }
 
 class JourneysDetails extends StatefulWidget {
-  const JourneysDetails({
-    super.key
-  });
+  const JourneysDetails({super.key});
 
   @override
   State<JourneysDetails> createState() => _JourneysDetailsState();
@@ -131,10 +128,9 @@ class _JourneysDetailsState extends State<JourneysDetails> {
   PanelController panelController = PanelController();
 
   GeoCoordinates camGeoCoords = GeoCoordinates(0, 0);
-  gps.Location location = gps.Location();
+  Position? location;
 
-  CompassEvent? compassEvent;
-  double compassHeading = 0;
+  double compass = 0;
 
   bool isPanned = false;
   bool is3dMap = false;
@@ -180,26 +176,23 @@ class _JourneysDetailsState extends State<JourneysDetails> {
         section['geojson']['coordinates'][0][0].toDouble(),
       );
       _controller!.addMapWidget(
-        Material(
-          elevation: 4,
-          borderRadius: BorderRadius.circular(10),
-          child: 
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 5,
-              right: 5,
-              top: 2,
-              bottom: 2,
-            ),
-            child: Icones(
-              line: section['informations']['line'],
-              prevLine: section['informations']['line'],
-              i: 0,
-              brightness: Theme.of(context).colorScheme.brightness
-            ),
-          )
-        ),
-        stopCoords);
+          Material(
+              elevation: 4,
+              borderRadius: BorderRadius.circular(10),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 5,
+                  right: 5,
+                  top: 2,
+                  bottom: 2,
+                ),
+                child: Icones(
+                    line: section['informations']['line'],
+                    prevLine: section['informations']['line'],
+                    i: 0,
+                    brightness: Theme.of(context).colorScheme.brightness),
+              )),
+          stopCoords);
     }
   }
 
@@ -223,47 +216,44 @@ class _JourneysDetailsState extends State<JourneysDetails> {
     _controller?.addMapPolylines(mapPolyline);
   }
 
-  Future<void> _getLocation(isResume) async {
-    bool serviceEnabled;
-    gps.LocationData locationData;
+  // Future<void> _getLocation(isResume) async {
+  //   bool serviceEnabled;
+  //   Position position;
 
-    bool? allowGps = await globals.hiveBox?.get('allowGps');
-    if (allowGps == false) {
-      return;
-    }
+  //   bool? allowGps = await globals.hiveBox?.get('allowGps');
+  //   if (allowGps == false) {
+  //     return;
+  //   }
 
-    if (!globals.isSetLocation) {
-      serviceEnabled = await location.serviceEnabled();
-      if (!serviceEnabled) {
-        serviceEnabled = await location.requestService();
-        if (!serviceEnabled) {
-          return;
-        }
-      }
-    } 
+  //   if (!globals.isSetLocation) {
+  //     serviceEnabled = await location.serviceEnabled();
+  //     if (!serviceEnabled) {
+  //       serviceEnabled = await location.requestService();
+  //       if (!serviceEnabled) {
+  //         return;
+  //       }
+  //     }
+  //   }
 
-    locationData = await location.getLocation();
-    camGeoCoords = GeoCoordinates(locationData.latitude ?? 0, locationData.longitude ?? 0);
-      
-    FlutterCompass.events?.listen((CompassEvent compassEvent) {
-      _updateCompass(compassEvent);
-    });
-    if (!isResume) {
-      _addLocationIndicator(locationData);
-    }
-    location.onLocationChanged.listen((gps.LocationData currentLocation) {
-      _updateLocationIndicator(currentLocation);
-    });
-  }
+  //   position = await location.getLocation();
+  //   camGeoCoords = GeoCoordinates(position.latitude ?? 0, position.longitude ?? 0);
+
+  //   FlutterCompass.events?.listen((CompassEvent compassEvent) {
+  //     _updateCompass(compassEvent);
+  //   });
+  //   if (!isResume) {
+  //     _addLocationIndicator(position);
+  //   }
+  //   location.onLocationChanged.listen((Position currentLocation) {
+  //     _updateLocationIndicator(currentLocation);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
-          statusBarIconBrightness:
-              Theme.of(context).colorScheme.brightness == Brightness.dark
-                  ? Brightness.light
-                  : Brightness.dark,
+          statusBarIconBrightness: Theme.of(context).colorScheme.brightness == Brightness.dark ? Brightness.light : Brightness.dark,
         ),
         child: Scaffold(
           body: Stack(
@@ -317,10 +307,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                         margin: const EdgeInsets.only(top: 12, left: 73, bottom: 15),
                         child: Text(
                           AppLocalizations.of(context)!.route,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontFamily: fontFamily,
-                              fontSize: 22),
+                          style: TextStyle(fontWeight: FontWeight.w600, fontFamily: fontFamily, fontSize: 22),
                         ),
                       ),
                     ),
@@ -345,7 +332,8 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child: Icon(arrowBack, 
+                        child: Icon(
+                          arrowBack,
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
@@ -365,18 +353,19 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                       child: Material(
                         borderRadius: BorderRadius.circular(500),
                         elevation: 4.0,
-                        shadowColor:Colors.black.withOpacity(getOpacity(_position)),
+                        shadowColor: Colors.black.withOpacity(getOpacity(_position)),
                         color: Theme.of(context).colorScheme.surface,
                         child: InkWell(
                           borderRadius: BorderRadius.circular(500),
-                          child: isSavedJourney(journey['unique_id']) ? Icon(
-                            NavikaIcons.saved, 
-                            color: Theme.of(context).colorScheme.onSurface,
-                          )
-                          : Icon(
-                            NavikaIcons.star, 
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
+                          child: isSavedJourney(journey['unique_id'])
+                              ? Icon(
+                                  NavikaIcons.saved,
+                                  color: Theme.of(context).colorScheme.onSurface,
+                                )
+                              : Icon(
+                                  NavikaIcons.star,
+                                  color: Theme.of(context).colorScheme.onSurface,
+                                ),
                           onTap: () => saveJourney(journey['unique_id'], context),
                           //TODO onTap: () => save(context, journey),
                         ),
@@ -390,18 +379,10 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                 child: Opacity(
                   opacity: getOpacity(_position),
                   child: FloatingActionButton(
-                    backgroundColor:Theme.of(context).colorScheme.onSecondaryContainer,
+                    backgroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
                     child: _isInBox
-                        ? Icon(
-                            NavikaIcons.localisation,
-                            color: Theme.of(context).colorScheme.onSurface,
-                            size: 30
-                          )
-                        : Icon(
-                            NavikaIcons.localisationNull,
-                            color: Theme.of(context).colorScheme.onSurface,
-                            size: 30
-                          ),
+                        ? Icon(NavikaIcons.localisation, color: Theme.of(context).colorScheme.onSurface, size: 30)
+                        : Icon(NavikaIcons.localisationNull, color: Theme.of(context).colorScheme.onSurface, size: 30),
                     onPressed: () {
                       _zoomOn();
                       closePanel();
@@ -415,12 +396,8 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                   bottom: panelButtonBottomOffset - 47,
                   child: Center(
                     child: FloatingActionButton(
-                      backgroundColor:const Color(0xff1f8837),
-                      child: const Icon(
-                        NavikaIcons.navi,
-                        color: Colors.white,
-                        size: 30
-                      ),
+                      backgroundColor: const Color(0xff1f8837),
+                      child: const Icon(NavikaIcons.navi, color: Colors.white, size: 30),
                       onPressed: () {
                         NavikaAppNavigator.startNavi(context);
                         panelController.animatePanelToSnapPoint();
@@ -453,9 +430,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
 
   void _getInBox() {
     bool isInBox;
-    GeoCoordinates geoCoords = GeoCoordinates(
-        globals.locationData?.latitude ?? 0,
-        globals.locationData?.longitude ?? 0);
+    GeoCoordinates geoCoords = GeoCoordinates(globals.position?.latitude ?? 0, globals.position?.longitude ?? 0);
     isInBox = _controller?.isOverLocation(geoCoords) ?? false;
     setState(() {
       _isInBox = isInBox;
@@ -464,91 +439,79 @@ class _JourneysDetailsState extends State<JourneysDetails> {
 
   void _onMapCreated(HereMapController hereMapController) {
     //THEME
-    MapScheme mapScheme = Brightness.dark == Theme.of(context).colorScheme.brightness
-            ? MapScheme.normalNight
-            : MapScheme.normalDay;
+    MapScheme mapScheme = Brightness.dark == Theme.of(context).colorScheme.brightness ? MapScheme.normalNight : MapScheme.normalDay;
 
-    hereMapController.mapScene.loadSceneForMapScheme(mapScheme,(MapError? error) {
+    hereMapController.mapScene.loadSceneForMapScheme(mapScheme, (MapError? error) {
       if (error != null) {
         return;
       }
 
       _controller = HereController(hereMapController);
-      _getLocation(globals.isSetLocation);
+      // _getLocation(globals.isSetLocation);
 
       GeoCoordinates geoCoords;
       //double distanceToEarthInMeters = 100000;
-      geoCoords = getCenterPoint(
-        getFromCoords()['lat'], 
-        getFromCoords()['lon'],
-        getToCoords()['lat'], 
-        getToCoords()['lon']
-      );
+      geoCoords = getCenterPoint(getFromCoords()['lat'], getFromCoords()['lon'], getToCoords()['lat'], getToCoords()['lon']);
 
-      double distanceToEarthInMeters = getDistance(
-        getFromCoords()['lat'],
-        getFromCoords()['lon'],
-        getToCoords()['lat'],
-        getToCoords()['lon']
-      );
+      double distanceToEarthInMeters = getDistance(getFromCoords()['lat'], getFromCoords()['lon'], getToCoords()['lat'], getToCoords()['lon']);
 
-      MapMeasure mapMeasureZoom =MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
+      MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
       hereMapController.camera.lookAtPointWithMeasure(geoCoords, mapMeasureZoom);
 
-      _controller?.addLocationIndicator(
-        globals.locationData,
-        LocationIndicatorIndicatorStyle.pedestrian,
-        globals.compassHeading,
-        false,
-        false,
-      );
+      // _controller?.addLocationIndicator(
+      //   globals.position,
+      //   LocationIndicatorIndicatorStyle.pedestrian,
+      //   globals.compass,
+      //   false,
+      //   false,
+      // );
 
       _createGeoJson(context, journey);
     });
   }
 
-  void _addLocationIndicator(gps.LocationData locationData) {
-    _controller?.addLocationIndicator(
-        locationData,
-        LocationIndicatorIndicatorStyle.pedestrian,
-        globals.compassHeading,
-        false);
+  void _addLocationIndicator(Position position) {
+    // _controller?.addLocationIndicator(
+    //     position,
+    //     LocationIndicatorIndicatorStyle.pedestrian,
+    //     globals.compass,
+    //     false);
   }
 
-  void _updateLocationIndicator(gps.LocationData locationData) {
-    _controller?.updateLocationIndicator(locationData, globals.compassHeading);
-  }
+  // void _updateLocationIndicator(Position position) {
+  //   _controller?.updateLocationIndicator(position, globals.compass);
+  // }
 
-  void _updateCompass(CompassEvent compassEvent) {
-    var heading = compassEvent.heading ?? 0;
-    if (mounted) {
-      setState(() {
-        compassHeading = heading;
-      });
-    }
-    globals.compassHeading = heading;
+  // void _updateCompass(CompassEvent compassEvent) {
+  //   var heading = compassEvent.heading ?? 0;
+  //   if (mounted) {
+  //     setState(() {
+  //       compass = heading;
+  //     });
+  //   }
+  //   globals.compass = heading;
 
-    if (is3dMap) {
-      if (!isPanned) {
-        // si on a touché l'écran
-        _controller?.zoomOnLocationIndicator(is3dMap);
-      }
-    }
-    _controller?.updateLocationIndicator(globals.locationData, heading);
-  }
+  //   if (is3dMap) {
+  //     if (!isPanned) {
+  //       // si on a touché l'écran
+  //       _controller?.zoomOnLocationIndicator(is3dMap);
+  //     }
+  //   }
+  //   _controller?.updateLocationIndicator(globals.position, heading);
+  // }
 
   void _zoomOn() {
-    GeoCoordinates geoCoords = GeoCoordinates(
-        globals.locationData?.latitude ?? 0,
-        globals.locationData?.longitude ?? 0);
-    var isOverLocation = _controller?.isOverLocation(geoCoords) ?? false;
-    if (isOverLocation) {
-      setState(() {
-        is3dMap = !is3dMap;
-        isPanned = false;
-      });
+    if (globals.position != null) {
+      GeoCoordinates geoCoords = GeoCoordinates(globals.position?.latitude ?? 0, globals.position?.longitude ?? 0);
+      var isOverLocation = _controller?.isOverLocation(geoCoords) ?? false;
+      if (isOverLocation) {
+        setState(() {
+          is3dMap = !is3dMap;
+          isPanned = false;
+        });
+      }
+      _controller?.zoomOnLocationIndicator(is3dMap, globals.position!, compass);
     }
-    _controller?.zoomOnLocationIndicator(is3dMap);
   }
 
   void zoomTo(double lat, double lon) {

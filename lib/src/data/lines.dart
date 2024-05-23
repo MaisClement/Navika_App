@@ -97,6 +97,6 @@ final LINES = LinesInfo()..setLines(
     {'id': 'TER', 'code': 'TER',  'name': '',      'logo': 'sncf/TER.png','logo_light': 'sncf/TER_light.png','symbol': null,'symbol_light': null},
     {'id': 'TGV', 'code': 'TGV',  'name': '',      'logo': 'sncf/inoui.png','logo_light': 'sncf/inoui_light.png','symbol': null,'symbol_light': null},
     {'id': 'IC',  'code': 'IC',   'name': '',      'logo': 'sncf/intercites.png','logo_light': 'sncf/intercites_light.png','symbol': null,'symbol_light': null},
-    {'id': 'SNCF','code': 'SNCF', 'name': '',      'logo': 'sncf/SNCF.png','logo_light': 'sncf/SNCF_light.png','symbol': null,'symbol_light': null},
+    {'id': 'SNCF','code': 'SNCF', 'name': '',      'logo': 'sncf/SNCF.png','logo_light': 'sncf/logo_light.png','symbol': null,'symbol_light': null},
   ]
 );

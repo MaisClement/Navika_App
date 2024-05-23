@@ -142,6 +142,10 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
         _getSchedules();
       });
       await _getSchedules();
+
+      if (widget.panelController != null) {
+        widget.panelController!.animatePanelToSnapPoint();
+      }
     });
   }
 
@@ -160,6 +164,10 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
     if (widget.id != id) {
       init();
       _getSchedules();
+      
+      if (widget.panelController != null) {
+        widget.panelController!.animatePanelToSnapPoint();
+      }
     }
   }
 
@@ -210,9 +218,6 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
 
       if (widget.setData != null) {
         widget.setData!(result);
-      }
-      if (widget.panelController != null) {
-        widget.panelController!.animatePanelToSnapPoint();
         if (globals.updateMap == false) {
           openMapPoint(result['value']['place']['coord']['lat'], result['value']['place']['coord']['lon']);
         }

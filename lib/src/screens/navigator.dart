@@ -33,7 +33,6 @@ import 'package:navika/src/screens/settings_notifications.dart';
 import 'package:navika/src/screens/trafic_details.dart';
 import 'package:navika/src/screens/trafic_work_schedule.dart';
 import 'package:navika/src/screens/trip_details.dart';
-import 'package:navika/src/widgets/navigator/bar.dart';
 
 class NavikaAppNavigator extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -162,15 +161,6 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
     }
 
     return Scaffold(
-      appBar: navi
-        ? const NaviBar()
-        : null,
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     print('banana');
-      //   },
-      //   backgroundColor: const Color(0xff1f8837),
-      // ),
       body: Navigator(
         key: widget.navigatorKey,
         onPopPage: (route, dynamic result) {
@@ -262,7 +252,8 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
             routeState.go('/schedules');
           }
           if (pathTemplate == '/schedules/stops/:id/departures/:line_id') {
-            routeState.go('/schedules/stops/$id');
+            routeState.go(globals.path[globals.path.length - 2]);
+            globals.path = [...globals.path.slice(0, globals.path.length - 2)];
           }
       
           if (pathTemplate == '/routes/search') {

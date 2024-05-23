@@ -14,7 +14,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/gestures.dart';
 import 'package:here_sdk/mapview.dart';
-import 'package:location/location.dart' as gps;
+import 'package:geolocator/geolocator.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -50,12 +50,14 @@ class _HomeState extends State<Home> {
   PanelController panelController = PanelController();
 
   GeoCoordinates camGeoCoords = GeoCoordinates(0, 0);
-  gps.Location location = gps.Location();
 
-  late StreamSubscription<ConnectivityResult> connection;
+  Position? position;
+  StreamSubscription<Position>? positionStream;
 
   CompassEvent? compassEvent;
-  double compassHeading = 0;
+  double compass = 0;
+
+  late StreamSubscription<ConnectivityResult> connection;
 
   bool isPanned = false;
   bool is3dMap = false;
@@ -76,44 +78,57 @@ class _HomeState extends State<Home> {
   dynamic _data;
   double _padding = 0;
 
-  Future<void> _getLocation(isResume) async {
+  Future<void> _getLocation() async {
     bool serviceEnabled;
-    gps.LocationData locationData;
+    LocationPermission permission;
+    LocationSettings locationSettings = const LocationSettings(
+      accuracy: LocationAccuracy.high,
+    );
 
-    bool? askGps = await globals.hiveBox?.get('askGps');
-    bool? allowGps = await globals.hiveBox?.get('allowGps');
-    if (askGps == false) {
+    bool askGps = await globals.hiveBox?.get('askGps') ?? false;
+    bool allowGps = await globals.hiveBox?.get('allowGps') ?? false;
+    if (!askGps) {
+      RouteStateScope.of(context).go('/position');
+      return;
+    }
+    if (!allowGps) {
+      return;
+    }
+
+    // Check if location services are enabled
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
       RouteStateScope.of(context).go('/position');
       return;
     }
 
-    if (allowGps == false) {
+    // Check if app we have location permission
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.deniedForever || permission == LocationPermission.denied) {
+      RouteStateScope.of(context).go('/position');
       return;
     }
 
-    if (!globals.isSetLocation) {
-      serviceEnabled = await location.serviceEnabled();
-      if (!serviceEnabled) {
-        serviceEnabled = await location.requestService();
-        if (!serviceEnabled) {
-          RouteStateScope.of(context).go('/position');
-          return;
-        }
-      }
+    // Check if we have a recent position
+    Position? lastKnownLocation = await Geolocator.getLastKnownPosition();
+    if (lastKnownLocation != null) {
+      position = lastKnownLocation;
+      _addLocationIndicator(lastKnownLocation!, false);
+    } else {
+      position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      _addLocationIndicator(lastKnownLocation!, true);
     }
 
-    locationData = await location.getLocation();
-    camGeoCoords = GeoCoordinates(locationData.latitude ?? 0, locationData.longitude ?? 0);
+    if (position != null) {
+      camGeoCoords = GeoCoordinates(position!.latitude, position!.longitude);
+    }
 
     if (mounted) {
+      positionStream = Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position? position) {
+        _updateLocationIndicator(position!);
+      });
       FlutterCompass.events?.listen((CompassEvent compassEvent) {
         _updateCompass(compassEvent);
-      });
-      if (!isResume) {
-        _addLocationIndicator(locationData);
-      }
-      location.onLocationChanged.listen((gps.LocationData currentLocation) {
-        _updateLocationIndicator(currentLocation);
       });
       await _getNearPoints();
     }
@@ -381,35 +396,6 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
-              // if (widget.id != null && widget.displayType != null)
-              //   Positioned(
-              //     top: 0,
-              //     left: 0,
-              //     child: Opacity(
-              //       opacity: getOpacity(_position),
-              //       child: SafeArea(
-              //         child: Container(
-              //           margin: const EdgeInsets.only(top: 10, left: 8, right: 8),
-              //           width: getSearchWidth(_position, context),
-              //           height: 45,
-              //           child: Material(
-              //             borderRadius: BorderRadius.circular(500),
-              //             elevation: 4.0,
-              //             shadowColor: Colors.black.withOpacity(getOpacity(_position)),
-              //             color: Theme.of(context).colorScheme.surface,
-              //             child: SearchBox(
-              //                 onTap: () {
-              //                   RouteStateScope.of(context).go('/home/search');
-              //                 },
-              //                 color: Theme.of(context).colorScheme.surface,
-              //                 padding: const EdgeInsets.only(left: 10, right: 10),
-              //                 icon: NavikaIcons.search,
-              //                 text: AppLocalizations.of(context)!.search_location_on_map),
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
               Positioned(
                 top: 0,
                 right: 0,
@@ -505,13 +491,13 @@ class _HomeState extends State<Home> {
   @override
   void dispose() async {
     super.dispose();
-    globals.isSetLocation = false;
     connection.cancel();
+    positionStream?.cancel();
     _timer.cancel();
   }
 
   void _getInBox() {
-    GeoCoordinates geoCoords = GeoCoordinates(globals.locationData?.latitude ?? 0, globals.locationData?.longitude ?? 0);
+    GeoCoordinates geoCoords = GeoCoordinates(position?.latitude ?? 0, position?.longitude ?? 0);
     setState(() {
       _isInBox = _controller?.isOverLocation(geoCoords) ?? false;
     });
@@ -521,7 +507,7 @@ class _HomeState extends State<Home> {
     //THEME
     MapScheme mapScheme = Brightness.dark == Theme.of(context).colorScheme.brightness ? MapScheme.normalNight : MapScheme.normalDay;
 
-    hereMapController.mapScene.loadSceneForMapScheme(mapScheme, (MapError? error) {
+    hereMapController.mapScene.loadSceneForMapScheme(mapScheme, (MapError? error) async {
       if (error != null) {
         return;
       }
@@ -529,21 +515,17 @@ class _HomeState extends State<Home> {
       _controller = HereController(hereMapController);
       globals.hereMapController = _controller;
       globals.panelController = panelController;
-      _getLocation(globals.isSetLocation);
+      _getLocation();
 
       GeoCoordinates geoCoords;
       double distanceToEarthInMeters = 10000;
-      if (globals.isSetLocation) {
-        // Resume Map
-        geoCoords = GeoCoordinates(globals.locationData?.latitude ?? 48.859481, globals.locationData?.longitude ?? 2.346711);
-        distanceToEarthInMeters = 1000;
-      } else if (globals.hiveBox?.get('latitude') != null && globals.hiveBox?.get('longitude') != null) {
+      Position? lastKnownLocation = await Geolocator.getLastKnownPosition();
+
+      if (lastKnownLocation != null) {
         // Opening App
-        geoCoords = GeoCoordinates(globals.hiveBox.get('latitude'), globals.hiveBox.get('longitude'));
-        distanceToEarthInMeters = 10000;
-      } else {
+        geoCoords = GeoCoordinates(lastKnownLocation.latitude, lastKnownLocation.longitude);
+        } else {
         geoCoords = GeoCoordinates(48.859481, 2.346711);
-        _controller?.addLocationIndicator(globals.locationData, LocationIndicatorIndicatorStyle.pedestrian, globals.compassHeading, true);
       }
 
       MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
@@ -579,7 +561,7 @@ class _HomeState extends State<Home> {
         }
       });
 
-      _controller?.addLocationIndicator(globals.locationData, LocationIndicatorIndicatorStyle.pedestrian, globals.compassHeading, false);
+      _controller?.addLocationIndicator(position, LocationIndicatorIndicatorStyle.pedestrian, compass, false);
       _getNearPoints();
     });
   }
@@ -630,12 +612,14 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void _addLocationIndicator(gps.LocationData locationData) {
-    _controller?.addLocationIndicator(locationData, LocationIndicatorIndicatorStyle.pedestrian, globals.compassHeading);
+  void _addLocationIndicator(Position position, [isActive = true]) {
+    if (mounted) {
+      _controller?.addLocationIndicator(position, LocationIndicatorIndicatorStyle.pedestrian, compass, isActive);
+    }
   }
 
-  void _updateLocationIndicator(gps.LocationData locationData) async {
-    _controller?.updateLocationIndicator(locationData, globals.compassHeading);
+  void _updateLocationIndicator(Position position) async {
+    _controller?.updateLocationIndicator(position, compass);
     await _getNearPoints();
   }
 
@@ -643,30 +627,31 @@ class _HomeState extends State<Home> {
     var heading = compassEvent.heading ?? 0;
     if (mounted) {
       setState(() {
-        compassHeading = heading;
+        compass = heading;
       });
     }
-    globals.compassHeading = heading;
 
-    if (is3dMap) {
-      if (!isPanned) {
-        // si on a touché l'écran
-        _controller?.zoomOnLocationIndicator(is3dMap);
+    if (is3dMap && !isPanned) {
+      // si on a touché l'écran
+      if (position != null) {
+        _controller?.zoomOnLocationIndicator(is3dMap, position!, compass);
       }
     }
-    _controller?.updateLocationIndicator(globals.locationData, heading);
+    _controller?.updateLocationIndicator(position, heading);
   }
 
   void _zoomOn() {
-    GeoCoordinates geoCoords = GeoCoordinates(globals.locationData?.latitude ?? 0, globals.locationData?.longitude ?? 0);
-    var isOverLocation = _controller?.isOverLocation(geoCoords) ?? false;
-    if (isOverLocation) {
-      setState(() {
-        is3dMap = !is3dMap;
-        isPanned = false;
-      });
+    if (position != null) {
+      GeoCoordinates geoCoords = GeoCoordinates(position!.latitude, position!.longitude);
+      var isOverLocation = _controller?.isOverLocation(geoCoords) ?? false;
+      if (isOverLocation) {
+        setState(() {
+          is3dMap = !is3dMap;
+          isPanned = false;
+        });
+      }
+      _controller?.zoomOnLocationIndicator(is3dMap, position!, compass);
     }
-    _controller?.zoomOnLocationIndicator(is3dMap);
   }
 
   void _onPanelSlide(position) {

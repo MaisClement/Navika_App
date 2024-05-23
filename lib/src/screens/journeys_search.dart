@@ -48,7 +48,7 @@ class _JourneysSearchState extends State<JourneysSearch> {
     });
 
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getPlaces(search, globals.locationData, flag);
+    Map result = await navikaApi.getPlaces(search, globals.position, flag);
 
     if (mounted) {
       setState(() {
@@ -84,12 +84,12 @@ class _JourneysSearchState extends State<JourneysSearch> {
 
     if (places.isNotEmpty || search == '') {
       // Votre position
-      if (globals.route['from']['name'] != AppLocalizations.of(context)!.your_position && globals.route['to']['name'] != AppLocalizations.of(context)!.your_position && globals.locationData != null) {
+      if (globals.route['from']['name'] != AppLocalizations.of(context)!.your_position && globals.route['to']['name'] != AppLocalizations.of(context)!.your_position && globals.position != null) {
         res.add(
             PlacesListButton(
             isLoading: isLoading,
             place: {
-              'id': '${globals.locationData?.longitude};${globals.locationData?.latitude}',
+              'id': '${globals.position?.longitude};${globals.position?.latitude}',
               'name': AppLocalizations.of(context)!.your_position,
               'type': 'current_pos',
               'distance': 0,
@@ -100,7 +100,7 @@ class _JourneysSearchState extends State<JourneysSearch> {
               'modes': const []
             },
             onTap: () {
-              globals.route[widget.type]['id'] = '${globals.locationData?.longitude};${globals.locationData?.latitude}';
+              globals.route[widget.type]['id'] = '${globals.position?.longitude};${globals.position?.latitude}';
               globals.route[widget.type]['name'] = AppLocalizations.of(context)!.your_position;
               RouteStateScope.of(context).go('/home/journeys');
             },

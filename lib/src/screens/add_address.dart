@@ -118,7 +118,7 @@ class _AddAddressState extends State<AddAddress> {
     });
 
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getPlaces(search, globals.locationData, flag);
+    Map result = await navikaApi.getPlaces(search, globals.position, flag);
 
     if (mounted) {
       setState(() {
