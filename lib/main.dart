@@ -275,7 +275,7 @@ Future _initializeFirebase() async {
   );
 
   if (kDebugMode) {
-    print({'INFO_', 'User granted permission: ${settings.authorizationStatus}'});
+    print(['INFO_', settings.authorizationStatus]);
   }
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {

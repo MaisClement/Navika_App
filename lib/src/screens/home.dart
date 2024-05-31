@@ -11,10 +11,10 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/gestures.dart';
 import 'package:here_sdk/mapview.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -30,6 +30,14 @@ import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/home/header.dart';
 import 'package:navika/src/widgets/home/pannel.dart';
 import 'package:navika/src/widgets/map/icone.dart';
+
+enum PositionState {
+  defined, // Défini
+  acquiring, // En cours d’acquisition
+  permissionDenied, // Permission rejetée
+  servicesDisabled, // Services désactivés
+  unknown // Inconnu
+}
 
 class Home extends StatefulWidget {
   final String? displayType;
@@ -51,6 +59,7 @@ class _HomeState extends State<Home> {
 
   GeoCoordinates camGeoCoords = GeoCoordinates(0, 0);
 
+  PositionState state = PositionState.unknown;
   Position? position;
   StreamSubscription<Position>? positionStream;
 
@@ -65,7 +74,7 @@ class _HomeState extends State<Home> {
   late Timer _timer;
   bool isConnected = true;
 
-  double panelButtonBottomOffsetClosed = 120;
+  double panelButtonBottomOffsetClosed = 110;
   double panelButtonBottomOffset = 120;
   double _position = 0;
 
@@ -79,7 +88,7 @@ class _HomeState extends State<Home> {
   double _padding = 0;
 
   Future<void> _getLocation() async {
-    bool serviceEnabled;
+    bool serviceEnabled; 
     LocationPermission permission;
     LocationSettings locationSettings = const LocationSettings(
       accuracy: LocationAccuracy.high,
@@ -89,16 +98,18 @@ class _HomeState extends State<Home> {
     bool allowGps = await globals.hiveBox?.get('allowGps') ?? false;
     if (!askGps) {
       RouteStateScope.of(context).go('/position');
+      state = PositionState.permissionDenied;
       return;
     }
     if (!allowGps) {
+      state = PositionState.permissionDenied;
       return;
     }
 
     // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      RouteStateScope.of(context).go('/position');
+      state = PositionState.servicesDisabled;
       return;
     }
 
@@ -106,18 +117,24 @@ class _HomeState extends State<Home> {
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.deniedForever || permission == LocationPermission.denied) {
       RouteStateScope.of(context).go('/position');
+      state = PositionState.permissionDenied;
       return;
     }
 
     // Check if we have a recent position
+    state = PositionState.acquiring;
+    
     Position? lastKnownLocation = await Geolocator.getLastKnownPosition();
     if (lastKnownLocation != null) {
       position = lastKnownLocation;
-      _addLocationIndicator(lastKnownLocation!, false);
+      _addLocationIndicator(lastKnownLocation, false);
     } else {
       position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      _addLocationIndicator(lastKnownLocation!, true);
+      if (position != null) {
+        _addLocationIndicator(position!, true);
+      }
     }
+    state = PositionState.defined;
 
     if (position != null) {
       camGeoCoords = GeoCoordinates(position!.latitude, position!.longitude);
@@ -134,13 +151,19 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future<void> _getNearPoints() async {
+  Future<void> _getNearPoints([double? lat, double? lon]) async {
     double zoom = _controller?.getZoomLevel() ?? 0;
-
-    if (_oldcamGeoCoords == camGeoCoords) {
-      return;
+    GeoCoordinates coords = camGeoCoords;
+    
+    if (lat != null && lon != null) {
+      zoom = 1200;
+      coords = GeoCoordinates(lat, lon);
+    } else {
+      if (_oldcamGeoCoords == camGeoCoords) {
+        return;
+      }
+      _oldcamGeoCoords = camGeoCoords;
     }
-    _oldcamGeoCoords = camGeoCoords;
 
     List bikeNearby = [];
     List stopsNearby = [];
@@ -148,7 +171,7 @@ class _HomeState extends State<Home> {
 
     if (zoom < 200000) {
       NavikaApi navikaApi = NavikaApi();
-      Map result = await navikaApi.getNearPoints(zoom, camGeoCoords);
+      Map result = await navikaApi.getNearPoints(zoom, coords);
 
       if (result['status'] == ApiStatus.ok && mounted) {
         setState(() {
@@ -307,6 +330,34 @@ class _HomeState extends State<Home> {
     }
   }
 
+  Icon getLocationIcon() {
+    IconData icon = NavikaIcons.localisationNull;
+
+    switch (state) {
+      case PositionState.defined:
+        if (_isInBox) {
+          icon = NavikaIcons.localisation;
+        } else {
+          icon = NavikaIcons.localisationNull;
+        }
+        break;
+      case PositionState.acquiring:
+        icon = NavikaIcons.position_unknow;
+        break;
+      case PositionState.permissionDenied:
+        icon = NavikaIcons.position_unavailable;
+        break;
+      case PositionState.servicesDisabled:
+        icon = NavikaIcons.position_unavailable;
+        break;
+      case PositionState.unknown:
+        icon = NavikaIcons.position_unknow;
+        break;
+    }
+
+    return Icon(icon, color: Theme.of(context).colorScheme.onSurface, size: 30);
+  }
+
   void setData(data) {
     setState(() {
       _data = data;
@@ -350,6 +401,7 @@ class _HomeState extends State<Home> {
                   removePointMarker: removePointMarker,
                   setData: setData,
                   setPadding: setPadding,
+                  refreshMap: _getNearPoints,
                   panelController: panelController,
                 ),
                 panelBuilder: (ScrollController scrollController) => HomePannel(
@@ -360,6 +412,7 @@ class _HomeState extends State<Home> {
                   data: _data,
                   padding: _padding,
                   setData: setData,
+                  refreshMap: _getNearPoints,
                   setPadding: setPadding,
                   panelController: panelController,
                 ),
@@ -431,11 +484,9 @@ class _HomeState extends State<Home> {
                 bottom: panelButtonBottomOffset,
                 child: Opacity(
                   opacity: getOpacity(_position),
-                  child: FloatingActionButton(
-                    backgroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
-                    child: _isInBox
-                        ? Icon(NavikaIcons.localisation, color: Theme.of(context).colorScheme.onSurface, size: 30)
-                        : Icon(NavikaIcons.localisationNull, color: Theme.of(context).colorScheme.onSurface, size: 30),
+                  child: FloatingActionButton (
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    child: getLocationIcon(),
                     onPressed: () {
                       _zoomOn();
                       _closePanel();
@@ -517,15 +568,17 @@ class _HomeState extends State<Home> {
       globals.panelController = panelController;
       _getLocation();
 
-      GeoCoordinates geoCoords;
+      GeoCoordinates geoCoords = GeoCoordinates(48.859481, 2.346711);
       double distanceToEarthInMeters = 10000;
-      Position? lastKnownLocation = await Geolocator.getLastKnownPosition();
 
-      if (lastKnownLocation != null) {
-        // Opening App
-        geoCoords = GeoCoordinates(lastKnownLocation.latitude, lastKnownLocation.longitude);
-        } else {
-        geoCoords = GeoCoordinates(48.859481, 2.346711);
+      LocationPermission permission;
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
+        Position? lastKnownLocation = await Geolocator.getLastKnownPosition();
+        if (lastKnownLocation != null) {
+          // Opening App
+          geoCoords = GeoCoordinates(lastKnownLocation.latitude, lastKnownLocation.longitude);
+        }
       }
 
       MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
@@ -612,9 +665,9 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void _addLocationIndicator(Position position, [isActive = true]) {
+  void _addLocationIndicator(Position position, [isActive = true, zoomAuto = true]) {
     if (mounted) {
-      _controller?.addLocationIndicator(position, LocationIndicatorIndicatorStyle.pedestrian, compass, isActive);
+      _controller?.addLocationIndicator(position, LocationIndicatorIndicatorStyle.pedestrian, compass, isActive, zoomAuto);
     }
   }
 
@@ -656,8 +709,8 @@ class _HomeState extends State<Home> {
 
   void _onPanelSlide(position) {
     setState(() {
-      panelButtonBottomOffset = panelButtonBottomOffsetClosed + ((MediaQuery.of(context).size.height - 230) * position);
-      _position = position;
+      panelButtonBottomOffset = panelButtonBottomOffsetClosed + ((availableHeight(context) - 90) * position);
+      _position = position; 
     });
   }
 

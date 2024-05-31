@@ -20,6 +20,7 @@ class HomePannel extends StatelessWidget {
   final double padding;
   final Function setPadding;
   final Function setData;
+  final Function refreshMap;
 
   const HomePannel({
     required this.id,
@@ -31,6 +32,7 @@ class HomePannel extends StatelessWidget {
     required this.padding,
     required this.setPadding,
     required this.setData,
+    required this.refreshMap,
     super.key,
   });
 
@@ -46,6 +48,7 @@ class HomePannel extends StatelessWidget {
         id: id!,
         padding: padding,
         setData: setData,
+        refreshMap: refreshMap,
         panelController: panelController,
         scrollController: scrollController,
         hideProgressBar: true,

@@ -25,12 +25,14 @@ class BikeHead extends StatefulWidget {
   final String id;
   final Function setPadding;
   final Function setData;
+  final Function refreshMap;
   final PanelController panelController;
 
   const BikeHead({
     required this.id,
     required this.setPadding,
     required this.setData,
+    required this.refreshMap,
     required this.panelController,
     super.key,
   });
@@ -84,6 +86,7 @@ class _BikeHeadState extends State<BikeHead> with SingleTickerProviderStateMixin
         //
         widget.setData(bikeStation);
         widget.panelController.animatePanelToSnapPoint();
+        widget.refreshMap(bikeStation['bike_station']['coord']['lat'], bikeStation['bike_station']['coord']['lon']);
         if (globals.updateMap == false) {
           openMapPoint(bikeStation['bike_station']['coord']['lat'], bikeStation['bike_station']['coord']['lon']);
         }

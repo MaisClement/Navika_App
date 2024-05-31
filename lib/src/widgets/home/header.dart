@@ -22,6 +22,7 @@ class HomeHeader extends StatelessWidget {
   final Function removePointMarker;
   final Function setPadding;
   final Function setData;
+  final Function refreshMap;
   final PanelController panelController;
 
   const HomeHeader({
@@ -32,6 +33,7 @@ class HomeHeader extends StatelessWidget {
     required this.removePointMarker,
     required this.setPadding,
     required this.setData,
+    required this.refreshMap,
     required this.panelController,
     super.key,
   });
@@ -70,7 +72,7 @@ class HomeHeader extends StatelessWidget {
                     // initJourney(null, null, context);
                   },
                   icon: NavikaIcons.search,
-                  text: AppLocalizations.of(context)!.where_are_we_going,
+                  text: AppLocalizations.of(context)!.home_search,
                   borderRadius: BorderRadius.circular(15)),
             ),
             Container(
@@ -85,6 +87,7 @@ class HomeHeader extends StatelessWidget {
         onDispose: removePointMarker,
         setPadding: setPadding,
         setData: setData,
+        refreshMap: refreshMap,
         panelController: panelController,
       );
     } else if (type == 'bike') {
@@ -92,6 +95,7 @@ class HomeHeader extends StatelessWidget {
         id: id!,
         setPadding: setPadding,
         setData: setData,
+        refreshMap: refreshMap,
         panelController: panelController,
       );
     } else if (type == 'stops') {

@@ -1,6 +1,8 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 📦 Package imports:
+
 // 🌎 Project imports:
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style.dart';
@@ -143,7 +145,7 @@ class PlacesListButton extends StatelessWidget {
                           line: place['lines'][i],
                           prevLine: i > 0 ? place['lines'][i - 1] : place['lines'][i],
                           i: i,
-                          brightness: Theme.of(context).colorScheme.brightness)
+                          brightness: Theme.of(context).colorScheme.brightness,),
                   ],
                 ),
               ],

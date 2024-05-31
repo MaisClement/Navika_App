@@ -31,29 +31,29 @@ class _ChangesState extends State<Changes> {
   String data = '';
 
   Future _getChanges() async {
-    ApiStatus _error = ApiStatus.ok;
-    String _data = '';
+    ApiStatus error = ApiStatus.ok;
+    String data = '';
     
     try {
       final response = await http.get(Uri.parse(app.APP_CHANGES));
 
       if (response.statusCode == 200) {
-        _data = utf8.decode(response.bodyBytes);
-        _error = ApiStatus.ok;
+        data = utf8.decode(response.bodyBytes);
+        error = ApiStatus.ok;
       } else {
-        _error = ApiStatus.serverException;
+        error = ApiStatus.serverException;
       }
     } on SocketException {
-      _error = ApiStatus.socketException;
+      error = ApiStatus.socketException;
     } on TimeoutException {
-      _error = ApiStatus.timeoutException;
+      error = ApiStatus.timeoutException;
     } catch (e) {
-      _error = ApiStatus.unknownException;
+      error = ApiStatus.unknownException;
     }
 
     setState(() {
-      data = _data;
-      error = _error;
+      data = data;
+      error = error;
       isLoading = false;
     });
   }

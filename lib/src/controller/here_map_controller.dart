@@ -3,9 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
+import 'package:geolocator/geolocator.dart';
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
-import 'package:geolocator/geolocator.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
@@ -52,8 +52,8 @@ class HereController {
 
     if (zoomAuto) {
       double distanceToEarthInMeters = 1000;
-      if (position.accuracy! > 0) {
-        distanceToEarthInMeters = (position.accuracy! * 2) + 1000;
+      if (position.accuracy > 0) {
+        distanceToEarthInMeters = (position.accuracy * 2) + 1000;
       }
       MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
       _hereMapController.camera.lookAtPointWithMeasure(GeoCoordinates(position.latitude ?? 0, position.longitude ?? 0), mapMeasureZoom);

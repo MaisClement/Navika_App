@@ -103,6 +103,7 @@ class SchedulesBody extends StatefulWidget {
   final PanelController? panelController;
   final double padding;
   final Function? setData;
+  final Function? refreshMap;
   final bool hideProgressBar;
 
   const SchedulesBody({
@@ -111,6 +112,7 @@ class SchedulesBody extends StatefulWidget {
     this.panelController,
     this.padding = 0,
     this.setData,
+    this.refreshMap,
     this.hideProgressBar = false,
     super.key,
   });
@@ -220,6 +222,9 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
         widget.setData!(result);
         if (globals.updateMap == false) {
           openMapPoint(result['value']['place']['coord']['lat'], result['value']['place']['coord']['lon']);
+        }
+        if (widget.refreshMap != null) {
+          widget.refreshMap!(result['value']['place']['coord']['lat'], result['value']['place']['coord']['lon']);
         }
         globals.updateMap = false;
       }

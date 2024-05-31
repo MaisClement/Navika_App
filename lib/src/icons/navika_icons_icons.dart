@@ -78,6 +78,7 @@ class NavikaIcons {
   static const IconData arrival = IconData(0xe830, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData departure = IconData(0xe831, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData calendar = IconData(0xe832, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData position_unavailable = IconData(0xe833, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData bellAdd = IconData(0xe834, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData bellFilled = IconData(0xe835, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData avance = IconData(0xe836, fontFamily: _kFontFam, fontPackage: _kFontPkg);
@@ -96,11 +97,11 @@ class NavikaIcons {
   static const IconData position_middle = IconData(0xe845, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData position_front = IconData(0xe846, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData navi = IconData(0xe847, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData navi_1 = IconData(0xe848, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData exit = IconData(0xe849, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData entrance = IconData(0xe84a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData stars = IconData(0xe84b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData hearts = IconData(0xe84c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData position_unknow = IconData(0xe84d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData saved = IconData(0xe85a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData bell = IconData(0xe86c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData busFace = IconData(0xe880, fontFamily: _kFontFam, fontPackage: _kFontPkg);

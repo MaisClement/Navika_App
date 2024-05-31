@@ -119,6 +119,7 @@
     "saved_route": "Saved route, details are now available even offline.",
     "where_to_board": "Where to board?",
     "routes": "Routes",
+    "your_favorites": "Your favourites",
     "no_saved_routes": "No saved routes.",
     "go": "Go",
     "edit_route": "Edit route",
@@ -158,6 +159,7 @@
     "your_position": "Your position",
     "where_are_we_departing_from": "Where are we departing from?",
     "where_are_we_going": "Where are we going?",
+    "home_search": "Where are we going? Find an address, a station...",
     "undefined_address_or_label": "Undefined address or label",
     "home": "Home",
     "nearby": "Nearby",
@@ -232,6 +234,8 @@
     "new_departure_station": "New departure station",
     "exceptional_terminus": "Exceptional terminus",
     "exceptional_terminus_short": "Exceptional term.",
+    "modified_train": "Service modified",
+    "modified_train_short": "Modified",
     "timetable_sheet": "Timetable sheet",
     "today": "Today",
     "tomorrow": "Tomorrow",
@@ -240,7 +244,6 @@
     "search": "Search",
     "search_line": "Search for a line",
     "recent": "Recent",
-    "search_location_on_map": "Search for a location on the map",
     "server_not_responding": "Server not responding",
     "avoid_line": "Avoid a line?",
     "avoid": "Avoid",
@@ -255,8 +258,8 @@
     "traffic": "Traffic",
     "add_stop_to_favorites": "Add a stop to your favorites to access your timetables faster.",
     "favorite_deletion_error": "Error occurred while deleting the favorite.",
-  
     "line_details": "Line details",
-    "no_work_scheduled": "No work planned at this date",
-    "choose_display_mode": "Set your preferred display mode."
+    "no_work_planned": "No work planned at this date",
+    "choose_display_mode": "Set your preferred display mode.",
+    "added": "Added"
 }

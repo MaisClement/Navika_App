@@ -8,9 +8,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
+import 'package:geolocator/geolocator.dart';
 import 'package:here_sdk/core.dart';
 import 'package:http/http.dart' as http;
-import 'package:geolocator/geolocator.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/app.dart' as app;

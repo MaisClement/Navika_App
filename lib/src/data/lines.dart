@@ -2,8 +2,8 @@
 class LinesInfo {
   List lines = []; 
 
-  void setLines(List _lines) {
-    lines = _lines;
+  void setLines(List list) {
+    lines = list;
   }
 
   void reset(){

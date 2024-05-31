@@ -71,6 +71,7 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
 
   Future<void> initUniLinks(context) async {
     linkStream.listen((String? link) {
+      print(['info_lister', link]);
       if (link != null) {
         Uri uri = Uri.parse(link);
         if (uri.scheme == 'geo' && uri.queryParameters.containsKey('q')) {
@@ -208,14 +209,17 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
             routeState.go('/home');
           }
           if (pathTemplate == '/home/journeys/search/:type') {
-            routeState.go('/home/journeys');
+            routeState.go(globals.path[globals.path.length - 2]);
+            globals.path = [...globals.path.slice(0, globals.path.length - 2)];
           }
           if (pathTemplate == '/home/journeys/details') {
-            if (globals.path[globals.path.length - 2] == '/home/journeys') {
-              routeState.go('/home/journeys');
-            } else {
-              routeState.go('/home/journeys/list');
-            }
+            routeState.go(globals.path[globals.path.length - 2]);
+            globals.path = [...globals.path.slice(0, globals.path.length - 2)];
+            // if (globals.path[globals.path.length - 2] == '/home/journeys') {
+            //   routeState.go('/home/journeys');
+            // } else {
+            //   routeState.go('/home/journeys/list');
+            // }
           }
           if (pathTemplate == '/home/journeys/list') {
             routeState.go('/home');

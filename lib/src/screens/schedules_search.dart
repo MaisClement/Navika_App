@@ -30,11 +30,13 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
   String search = '';
   ApiStatus error = ApiStatus.ok;
   int flag = 0;
+  bool hasLastestFlag = false;
   bool isLoading = false;
   List places = [];
 
   Future<void> _getStops() async {
     flag++;
+    hasLastestFlag = false;
 
     setState(() {
       isLoading = true;
@@ -44,7 +46,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getStops(search, globals.position, flag);
 
-    if (mounted) {
+    if (mounted && !hasLastestFlag) {
       setState(() {
         error = result['status'];
       });
@@ -53,6 +55,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
         setState(() {
           places = result['value']?['places'];
           isLoading = false;
+          hasLastestFlag = true;
         });
       }
     }

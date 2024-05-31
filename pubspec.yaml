@@ -20,7 +20,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.5.0+50
 
 environment:
-  sdk: '>=2.18.0 <3.0.0'
+  sdk: '>3.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -65,14 +65,15 @@ dependencies:
   uni_links: ^0.5.1
   uuid: ^4.4.0
   intl: any
+  geolocator: ^12.0.0
+  pdfx: ^2.6.0
 
   # See https://github.com/ScerIO/packages.flutter/issues/448
-  # pdfx: ^2.4.0
-  pdfx: 
-    git:
-     url: 'https://github.com/ScerIO/packages.flutter' 
-     ref: '4be9de9ffed5398fd7d5f44bbb07dcd3d3f1711b'  
-     path: packages/pdfx
+  # pdfx: 
+  #   git:
+  #    url: 'https://github.com/ScerIO/packages.flutter' 
+  #    ref: '4be9de9ffed5398fd7d5f44bbb07dcd3d3f1711b'  
+  #    path: packages/pdfx
      
   # flutter_compass: ^0.7.0
   flutter_compass:
@@ -83,14 +84,15 @@ dependencies:
 
   here_sdk:
     path: plugins/here_sdk
-  geolocator: ^12.0.0
-  
+
 dev_dependencies:
   hive_generator: ^1.1.3
   build_runner: ^2.3.0
   flutter_launcher_icons: "^0.13.1"
   flutter_native_splash: ^2.2.19
   import_sorter: ^4.6.0
+  flutter_lints: ^2.0.0
+  # flutter_gen: any
 
   # $ flutter pub run flutter_launcher_icons
   # $ flutter pub run flutter_native_splash:create
@@ -99,8 +101,6 @@ dev_dependencies:
   
   flutter_test:
     sdk: flutter
-
-  flutter_lints: ^2.0.0
 
 # The following section is specific to Flutter packages.
 flutter:

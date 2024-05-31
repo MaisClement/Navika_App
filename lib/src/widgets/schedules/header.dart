@@ -16,7 +16,6 @@ import 'package:navika/src/screens/schedules_details.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/address/head.dart';
 import 'package:navika/src/widgets/bottom_sheets/add_favorite.dart';
-import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/home/skelton.dart';
 import 'package:navika/src/widgets/schedules/body.dart';
 import 'package:navika/src/widgets/utils/icon_elevated.dart';
@@ -75,8 +74,16 @@ class _SchedulesPannelState extends State<SchedulesPannel> {
               ),
             ),
             if (widget.data != null && widget.data['status'] != null && widget.data['status'] != ApiStatus.ok)
-              ErrorBlock(
-                error: widget.data['status'],
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  IconButton(
+                    icon: Icon(arrowBack),
+                    tooltip: AppLocalizations.of(context)!.back,
+                    color: accentColor(context),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
               )
             else if (widget.data == null || widget.data['value'] == null)
               const HomeHeaderSkelton()
@@ -96,17 +103,32 @@ class _SchedulesPannelState extends State<SchedulesPannel> {
                           onPressed: () => Navigator.pop(context),
                         ),
                         const SizedBox(width: 10),
-                        Text(
-                          widget.data['value']['place']['name'],
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: fontFamily,
-                            color: accentColor(context),
-                          ),
-                          maxLines: 1,
-                          softWrap: false,
-                          overflow: TextOverflow.fade,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                            widget.data['value']['place']['name'],
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: fontFamily,
+                                color: accentColor(context),
+                              ),
+                              maxLines: 1,
+                              softWrap: false,
+                              overflow: TextOverflow.fade,
+                            ),
+                            Text(
+                              widget.data['value']['place']['zip_code'] == ''
+                                  ? widget.data['value']['place']['town']
+                                  : '${widget.data['value']['place']['zip_code']}, ${widget.data['value']['place']['town']}',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: accentColor(context),
+                                fontFamily: fontFamily,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -114,6 +136,7 @@ class _SchedulesPannelState extends State<SchedulesPannel> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                        const SizedBox(height: 7),
                       Padding(
                         padding: const EdgeInsets.only(left: 15),
                         child: getDistanceWidget(widget.data['value']['place']['coord']['lat'], widget.data['value']['place']['coord']['lon']),
@@ -127,12 +150,16 @@ class _SchedulesPannelState extends State<SchedulesPannel> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(left: 5),
-                              child: IconElevatedButton(
-                                icon: NavikaIcons.navi,
-                                text: AppLocalizations.of(context)!.go,
-                                onPressed: () {
-                                  initJourney(null, {'name': widget.data['value']['place']['name'], 'id': widget.data['value']['place']['id']}, context);
-                                },
+                              child: SizedBox(
+                                height: 40,
+                                child: IconElevatedButton(
+                                  icon: NavikaIcons.navi,
+                                  text: AppLocalizations.of(context)!.go,
+                                  margin: const EdgeInsets.only(left: 9, bottom: 4, top: 4),
+                                  onPressed: () {
+                                    initJourney(null, {'name': widget.data['value']['place']['name'], 'id': widget.data['value']['place']['id']}, context);
+                                  },
+                                ),
                               ),
                             ),
                             //TODO Padding(
@@ -150,6 +177,10 @@ class _SchedulesPannelState extends State<SchedulesPannel> {
                               child: IconElevatedButton(
                                 icon: isFavorite(widget.data['value']['place']['id']) ? NavikaIcons.favorites : NavikaIcons.addBookmark,
                                 text: AppLocalizations.of(context)!.add_to_favorites,
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor : Theme.of(context).colorScheme.onPrimaryContainer,
+                                  backgroundColor : Theme.of(context).colorScheme.primaryContainer
+                                ),
                                 onPressed: () {
                                   showModalBottomSheet<void>(
                                     shape: const RoundedRectangleBorder(

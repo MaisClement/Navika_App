@@ -35,11 +35,13 @@ class _RoutesSearchState extends State<RoutesSearch> {
   String search = '';
   ApiStatus error = ApiStatus.ok;
   int flag = 0;
+  bool hasLastestFlag = false;
   bool isLoading = false;
   List lines = [];
 
   Future<void> _getLines() async {
     flag++;
+    hasLastestFlag = false;
 
     setState(() {
       isLoading = true;
@@ -49,7 +51,7 @@ class _RoutesSearchState extends State<RoutesSearch> {
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getLines(search, flag);
 
-    if (mounted) {
+    if (mounted && !hasLastestFlag) {
       setState(() {
         error = result['status'];
       });
@@ -58,6 +60,7 @@ class _RoutesSearchState extends State<RoutesSearch> {
         setState(() {
           lines = result['value']?['lines'];
           isLoading = false;
+          hasLastestFlag = true;
         });
       }
     }

@@ -56,20 +56,24 @@ class _SchedulesSearchState extends State<HomeSearch> {
   String search = '';
   ApiStatus error = ApiStatus.ok;
   int flag = 0;
+  bool hasLastestFlag = false;
   bool isLoading = false;
   List places = [];
 
   Future<void> _getPlaces() async {
+    if (globals.query != null) {
+      setState(() {
+        myController.text = globals.query!;
+        search = globals.query!;
+        globals.query = null;
+      });
+    }
+
     if (search == '') {
       return;
     }
     flag++;
-
-    if (globals.query != null) {
-      myController.text = globals.query!;
-      search = globals.query!;
-      globals.query = null;
-    }
+    hasLastestFlag = false;
 
     setState(() {
       isLoading = true;
@@ -79,7 +83,7 @@ class _SchedulesSearchState extends State<HomeSearch> {
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getPlaces(search, globals.position, flag);
 
-    if (mounted) {
+    if (mounted && !hasLastestFlag) {
       setState(() {
         error = result['status'];
       });
@@ -88,6 +92,7 @@ class _SchedulesSearchState extends State<HomeSearch> {
         setState(() {
           places = result['value']?['places'];
           isLoading = false;
+          hasLastestFlag = true;
         });
       }
     }
@@ -118,7 +123,7 @@ class _SchedulesSearchState extends State<HomeSearch> {
         res.add(
           Padding(
             padding: const EdgeInsets.only(left: 20, bottom: 10),
-            child: Text('Vos favoris',
+            child: Text(AppLocalizations.of(context)!.your_favorites,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -244,7 +249,7 @@ class _SchedulesSearchState extends State<HomeSearch> {
         controller: myController,
         focusNode: textFieldNode,
         decoration: InputDecoration(
-          hintText: AppLocalizations.of(context)!.search_location_on_map
+          hintText: AppLocalizations.of(context)!.home_search
         ),
         onChanged: (text) {
           setState(() {

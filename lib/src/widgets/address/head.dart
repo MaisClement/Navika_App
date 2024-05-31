@@ -27,8 +27,12 @@ Widget getDistanceWidget(double lat, double lon) {
     return Container();
   }
 
-  int distance = calculateDistance(lat, lon, globals.position!.latitude!, globals.position!.longitude!).toInt();
+  int distance = calculateDistance(lat, lon, globals.position!.latitude, globals.position!.longitude).toInt();
   int duration = distance ~/ 1.3;
+
+  if (distance >= 1000 ) {
+    return Container();
+  }
 
   return Row(
     children: [
@@ -64,6 +68,7 @@ class AddressHead extends StatefulWidget {
   final Function onDispose;
   final Function setPadding;
   final Function setData;
+  final Function refreshMap;
   final PanelController panelController;
 
   const AddressHead({
@@ -71,6 +76,7 @@ class AddressHead extends StatefulWidget {
     required this.onDispose,
     required this.setPadding,
     required this.setData,
+    required this.refreshMap,
     required this.panelController,
     super.key,
   });
@@ -126,6 +132,7 @@ class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStat
         //
         widget.setData(address);
         widget.panelController.animatePanelToSnapPoint();
+        widget.refreshMap(address['place']['coord']['lat'], address['place']['coord']['lon']);
         if (globals.updateMap == false) {
           openMapPoint(address['place']['coord']['lat'], address['place']['coord']['lon'], true);
         }
@@ -233,16 +240,20 @@ class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStat
                                 },
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 5),
-                              child: IconElevatedButton(
-                                icon: NavikaIcons.star,
-                                text: AppLocalizations.of(context)!.save,
-                                onPressed: () {
-                                  initJourney(null, {'name': address['place']['name'], 'id': address['place']['id']}, context);
-                                },
-                              ),
-                            ),
+                            //TODO Padding(
+                            //TODO   padding: const EdgeInsets.only(right: 5),
+                            //TODO   child: IconElevatedButton(
+                            //TODO     icon: NavikaIcons.star,
+                            //TODO     text: AppLocalizations.of(context)!.save,
+                            //TODO     style: ElevatedButton.styleFrom(
+                            //TODO       foregroundColor : Theme.of(context).colorScheme.onPrimaryContainer,
+                            //TODO       backgroundColor : Theme.of(context).colorScheme.primaryContainer
+                            //TODO     ),
+                            //TODO     onPressed: () {
+                            //TODO       initJourney(null, {'name': address['place']['name'], 'id': address['place']['id']}, context);
+                            //TODO     },
+                            //TODO   ),
+                            //TODO ),
                           ],
                         ),
                       ],

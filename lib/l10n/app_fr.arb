@@ -119,6 +119,7 @@
     "saved_route": "Itinéraire enregistré, les détails sont désormais disponibles même hors connexion.",
     "where_to_board": "Où monter ?",
     "routes": "Itinéraires",
+    "your_favorites": "Vos favoris",
     "no_saved_routes": "Aucun itinéraire enregistré.",
     "go": "Y aller",
     "edit_route": "Modifier un trajet",
@@ -159,6 +160,7 @@
     "your_position": "Votre position",
     "where_are_we_departing_from": "D’où partons-nous ?",
     "where_are_we_going": "Où allons-nous ?",
+    "home_search": "Où allons-nous ? Rechercher une adresse, une station...",
     "undefined_address_or_label": "Adresse ou libellé non défini",
     "home": "Maison",
     "nearby": "À proximité",
@@ -232,7 +234,7 @@
     "new_departure_station": "Nouvelle gare de départ",
     "exceptional_terminus": "Terminus exceptionnel",
     "exceptional_terminus_short": "Terminus ex.",
-    "modified_train": "Désserte modifié",
+    "modified_train": "Desserte modifié",
     "modified_train_short": "Modifié",
     "timetable_sheet": "Fiche horaire",
     "today": "Aujourd’hui",
@@ -242,7 +244,6 @@
     "search": "Rechercher",
     "search_line": "Rechercher une ligne",
     "recent": "Récents",
-    "search_location_on_map": "Rechercher un lieu sur la carte",
     "server_not_responding": "Le serveur n’a pas répondu",
     "avoid_line": "Éviter une ligne ?",
     "avoid": "Éviter une ligne",
@@ -257,10 +258,8 @@
     "traffic": "Trafic",
     "add_stop_to_favorites": "Ajoutez un arrêt à vos favoris pour accéder à vos horaires plus rapidement.",
     "favorite_deletion_error": "Erreur lors de la suppression du favori.",
-
     "line_details": "Détails de la ligne",
     "no_work_planned": "Aucun travaux prévu à cette date",
     "choose_display_mode": "Définissez le mode d’affichage que vous préférez.",
-
     "added": "Supplémentaire"
 }

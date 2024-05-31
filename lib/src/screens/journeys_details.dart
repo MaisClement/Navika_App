@@ -7,12 +7,12 @@ import 'package:flutter/services.dart';
 
 // 📦 Package imports:
 import 'package:floating_snackbar/floating_snackbar.dart';
-// import 'package:flutter_compass/flutter_compass.dart';
+import 'package:flutter_compass/flutter_compass.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:here_sdk/core.dart';
 import 'package:here_sdk/mapview.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 // 🌎 Project imports:
@@ -20,6 +20,8 @@ import 'package:navika/src/controller/here_map_controller.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icon.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
+import 'package:navika/src/routing/route_state.dart';
+import 'package:navika/src/screens/home.dart';
 import 'package:navika/src/screens/navigator.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
@@ -128,8 +130,12 @@ class _JourneysDetailsState extends State<JourneysDetails> {
   PanelController panelController = PanelController();
 
   GeoCoordinates camGeoCoords = GeoCoordinates(0, 0);
-  Position? location;
 
+  PositionState state = PositionState.unknown;
+  Position? position;
+  StreamSubscription<Position>? positionStream;
+
+  CompassEvent? compassEvent;
   double compass = 0;
 
   bool isPanned = false;
@@ -138,10 +144,11 @@ class _JourneysDetailsState extends State<JourneysDetails> {
   final bool _allowNavi = allowNavi(globals.journey);
   late Timer _timer;
 
-  double panelButtonBottomOffsetClosed = 120;
+  double panelButtonBottomOffsetClosed = 110;
   double panelButtonBottomOffset = 120;
   double saveButtonRightOffset = 0;
   double _position = 0;
+  
   Map journey = globals.journey;
 
   Map getToCoords() {
@@ -216,38 +223,97 @@ class _JourneysDetailsState extends State<JourneysDetails> {
     _controller?.addMapPolylines(mapPolyline);
   }
 
-  // Future<void> _getLocation(isResume) async {
-  //   bool serviceEnabled;
-  //   Position position;
+  Future<void> _getLocation() async {
+    bool serviceEnabled; 
+    LocationPermission permission;
+    LocationSettings locationSettings = const LocationSettings(
+      accuracy: LocationAccuracy.high,
+    );
 
-  //   bool? allowGps = await globals.hiveBox?.get('allowGps');
-  //   if (allowGps == false) {
-  //     return;
-  //   }
+    bool askGps = await globals.hiveBox?.get('askGps') ?? false;
+    bool allowGps = await globals.hiveBox?.get('allowGps') ?? false;
+    if (!askGps) {
+      RouteStateScope.of(context).go('/position');
+      state = PositionState.permissionDenied;
+      return;
+    }
+    if (!allowGps) {
+      state = PositionState.permissionDenied;
+      return;
+    }
 
-  //   if (!globals.isSetLocation) {
-  //     serviceEnabled = await location.serviceEnabled();
-  //     if (!serviceEnabled) {
-  //       serviceEnabled = await location.requestService();
-  //       if (!serviceEnabled) {
-  //         return;
-  //       }
-  //     }
-  //   }
+    // Check if location services are enabled
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      state = PositionState.servicesDisabled;
+      return;
+    }
 
-  //   position = await location.getLocation();
-  //   camGeoCoords = GeoCoordinates(position.latitude ?? 0, position.longitude ?? 0);
+    // Check if app we have location permission
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.deniedForever || permission == LocationPermission.denied) {
+      RouteStateScope.of(context).go('/position');
+      state = PositionState.permissionDenied;
+      return;
+    }
 
-  //   FlutterCompass.events?.listen((CompassEvent compassEvent) {
-  //     _updateCompass(compassEvent);
-  //   });
-  //   if (!isResume) {
-  //     _addLocationIndicator(position);
-  //   }
-  //   location.onLocationChanged.listen((Position currentLocation) {
-  //     _updateLocationIndicator(currentLocation);
-  //   });
-  // }
+    // Check if we have a recent position
+    state = PositionState.acquiring;
+    
+    Position? lastKnownLocation = await Geolocator.getLastKnownPosition();
+    if (lastKnownLocation != null) {
+      position = lastKnownLocation;
+      _addLocationIndicator(lastKnownLocation, false, false);
+    } else {
+      position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      if (position != null) {
+        _addLocationIndicator(position!, true, false);
+      }
+    }
+    state = PositionState.defined;
+
+    if (position != null) {
+      camGeoCoords = GeoCoordinates(position!.latitude, position!.longitude);
+    }
+
+    if (mounted) {
+      positionStream = Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position? position) {
+        _updateLocationIndicator(position!);
+      });
+      FlutterCompass.events?.listen((CompassEvent compassEvent) {
+        _updateCompass(compassEvent);
+      });
+    }
+  }
+
+  Icon getLocationIcon() {
+    IconData icon = NavikaIcons.localisationNull;
+
+    switch (state) {
+      case PositionState.defined:
+        if (_isInBox) {
+          icon = NavikaIcons.localisation;
+        } else {
+          icon = NavikaIcons.localisationNull;
+        }
+        break;
+      case PositionState.acquiring:
+        icon = NavikaIcons.position_unknow;
+        break;
+      case PositionState.permissionDenied:
+        icon = NavikaIcons.position_unavailable;
+        break;
+      case PositionState.servicesDisabled:
+        icon = NavikaIcons.position_unavailable;
+        break;
+      case PositionState.unknown:
+        icon = NavikaIcons.position_unknow;
+        break;
+    }
+
+    return Icon(icon, color: Theme.of(context).colorScheme.onSurface, size: 30);
+  }
+
 
   @override
   Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
@@ -271,7 +337,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                 ),
                 snapPoint: 0.55,
                 minHeight: 85,
-                maxHeight: availableHeight2(context),
+                maxHeight: availableHeightReduced(context),
                 controller: panelController,
                 onPanelSlide: (position) => onPanelSlide(position),
                 header: RoutePannel(
@@ -380,9 +446,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
                   opacity: getOpacity(_position),
                   child: FloatingActionButton(
                     backgroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
-                    child: _isInBox
-                        ? Icon(NavikaIcons.localisation, color: Theme.of(context).colorScheme.onSurface, size: 30)
-                        : Icon(NavikaIcons.localisationNull, color: Theme.of(context).colorScheme.onSurface, size: 30),
+                    child: getLocationIcon(),
                     onPressed: () {
                       _zoomOn();
                       closePanel();
@@ -447,7 +511,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
       }
 
       _controller = HereController(hereMapController);
-      // _getLocation(globals.isSetLocation);
+      _getLocation();
 
       GeoCoordinates geoCoords;
       //double distanceToEarthInMeters = 100000;
@@ -458,47 +522,36 @@ class _JourneysDetailsState extends State<JourneysDetails> {
       MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
       hereMapController.camera.lookAtPointWithMeasure(geoCoords, mapMeasureZoom);
 
-      // _controller?.addLocationIndicator(
-      //   globals.position,
-      //   LocationIndicatorIndicatorStyle.pedestrian,
-      //   globals.compass,
-      //   false,
-      //   false,
-      // );
-
       _createGeoJson(context, journey);
     });
   }
 
-  void _addLocationIndicator(Position position) {
-    // _controller?.addLocationIndicator(
-    //     position,
-    //     LocationIndicatorIndicatorStyle.pedestrian,
-    //     globals.compass,
-    //     false);
+  void _addLocationIndicator(Position position, [isActive = true, zoomAuto = true]) {
+    if (mounted) {
+      _controller?.addLocationIndicator(position, LocationIndicatorIndicatorStyle.pedestrian, compass, isActive, zoomAuto);
+    }
   }
 
-  // void _updateLocationIndicator(Position position) {
-  //   _controller?.updateLocationIndicator(position, globals.compass);
-  // }
+  void _updateLocationIndicator(Position position) async {
+    _controller?.updateLocationIndicator(position, compass);
+  }
 
-  // void _updateCompass(CompassEvent compassEvent) {
-  //   var heading = compassEvent.heading ?? 0;
-  //   if (mounted) {
-  //     setState(() {
-  //       compass = heading;
-  //     });
-  //   }
-  //   globals.compass = heading;
+  void _updateCompass(CompassEvent compassEvent) {
+    var heading = compassEvent.heading ?? 0;
+    if (mounted) {
+      setState(() {
+        compass = heading;
+      });
+    }
 
-  //   if (is3dMap) {
-  //     if (!isPanned) {
-  //       // si on a touché l'écran
-  //       _controller?.zoomOnLocationIndicator(is3dMap);
-  //     }
-  //   }
-  //   _controller?.updateLocationIndicator(globals.position, heading);
-  // }
+    if (is3dMap && !isPanned) {
+      // si on a touché l'écran
+      if (position != null) {
+        _controller?.zoomOnLocationIndicator(is3dMap, position!, compass);
+      }
+    }
+    _controller?.updateLocationIndicator(position, heading);
+  }
 
   void _zoomOn() {
     if (globals.position != null) {

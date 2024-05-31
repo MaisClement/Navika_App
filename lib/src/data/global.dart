@@ -6,8 +6,8 @@ library my_prj.globals;
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:here_sdk/mapview.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:here_sdk/mapview.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 // 🌎 Project imports:
