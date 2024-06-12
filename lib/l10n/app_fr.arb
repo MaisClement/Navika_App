@@ -261,5 +261,10 @@
     "line_details": "Détails de la ligne",
     "no_work_planned": "Aucun travaux prévu à cette date",
     "choose_display_mode": "Définissez le mode d’affichage que vous préférez.",
-    "added": "Supplémentaire"
+    "added": "Supplémentaire",
+    "onboard_services" : "Services à bord",
+    "indicative_information" : "Informations fourni à titre indicatif",
+    "no_stops" : "Sans arrêts",
+    "stop_served" : "Arrêt desservi",
+    "stops_served" : "Arrêts desservis"
 }

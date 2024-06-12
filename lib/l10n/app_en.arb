@@ -261,5 +261,10 @@
     "line_details": "Line details",
     "no_work_planned": "No work planned at this date",
     "choose_display_mode": "Set your preferred display mode.",
-    "added": "Added"
+    "added": "Added",
+    "onboard_services" : "On-board services",
+    "indicative_information" : "Information may be incorrect",
+    "no_stops" : "Without stops",
+    "stop_served" : "Stop served",
+    "stops_served" : "Stops served"
 }

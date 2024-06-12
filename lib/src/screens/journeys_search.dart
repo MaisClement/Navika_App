@@ -118,7 +118,7 @@ class _JourneysSearchState extends State<JourneysSearch> {
           Padding(
             padding: const EdgeInsets.only(left: 20, bottom: 10),
             child: Text(
-              'Vos favoris',
+              AppLocalizations.of(context)!.your_favorites,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,

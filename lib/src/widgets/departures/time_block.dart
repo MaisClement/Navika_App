@@ -54,7 +54,7 @@ class TimeBlock extends StatelessWidget {
                 allround: state.length > 1),
           if (state.contains('added'))
             TimerMessage(
-                message: 'Supplémentaire',
+                message: AppLocalizations.of(context)!.added,
                 backgroundColor: getBackColorByState(state, context),
                 color: Colors.white,
                 allround: state.length > 1),

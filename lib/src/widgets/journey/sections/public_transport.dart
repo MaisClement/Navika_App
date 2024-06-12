@@ -14,6 +14,7 @@ import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/journey/sections/boarding_position.dart';
+import 'package:navika/src/widgets/utils/expander_stops.dart';
 import 'package:navika/src/widgets/utils/expander_trafic.dart';
 
 class SectionPublicTransport extends StatefulWidget {
@@ -192,88 +193,13 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                     position: widget.section['boarding_positions'],
                   ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 15),
-                  child: InkWell(
-                    onTap: () {
-                      handleOnTap();
-                    },
-                    child: Column(
-                      children: [
-                        if (widget.section['stop_date_times'].length > 2)
-                          Row(
-                            children: [
-                              AnimatedRotation(
-                                turns: isStopExtended
-                                  ? 0.25
-                                  : 0,
-                                duration: const Duration(milliseconds: 150),
-                                child: Icon(NavikaIcons.chevron_right,
-                                  size: 16,
-                                  color: HexColor.fromHex(widget.section['informations']['line']['color']),
-                                  ),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              if (widget.section['stop_date_times'].length > 2)
-                                Text(
-                                  '${(widget.section['stop_date_times'].length - 2)} arrêts • ${getDuration(widget.section['duration'])}',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: fontFamily,
-                                    color: HexColor.fromHex(widget.section['informations']['line']['color']),
-                                  ),
-                                  maxLines: 1,
-                                  softWrap: false,
-                                  overflow: TextOverflow.fade,
-                                )
-                            ],
-                          )
-                        else 
-                          Text(
-                            'Sans arrêts • ${getDuration(widget.section['duration'])}',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: fontFamily,
-                              color: HexColor.fromHex(widget.section['informations']['line']['color']),
-                            ),
-                            maxLines: 1,
-                            softWrap: false,
-                            overflow: TextOverflow.fade,
-                          ),
-                        if (isStopExtended)
-                          for (var stop in widget.section['stop_date_times'].sublist(1, widget.section['stop_date_times'].length - 1))
-                            Row(
-                              children: [
-                                Text('•',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: fontFamily,
-                                    color: HexColor.fromHex(widget.section['informations']['line']['color']),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 13,
-                                ),
-                                Expanded(
-                                  child: Text(stop['stop_point']['name'],
-                                    style: TextStyle(
-                                      color: HexColor.fromHex(widget.section['informations']['line']['color']),
-                                    ), 
-                                    maxLines: 1,
-                                    softWrap: false,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ]
-                            )
-                      ],
-                    ),
+                  padding: const EdgeInsets.only(top: 10, right: 10, bottom: 10),
+                  child: ExpanderStops(
+                    section: widget.section,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                )
-                ,
+                ),
+                
               ],
             ),
           ),
