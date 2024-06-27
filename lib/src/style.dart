@@ -171,17 +171,23 @@ String getIconLine(Brightness brightness, line) {
   return 'assets/img/icons/${line['logo']}';
 }
 
-Color getActiveColor(context, status) {
+Color getActiveColor(context, TripBlockStatus status, Color? color) {
   if (status == TripBlockStatus.inactive){
     return const Color(0xff808080);
   }  
+  if (color != null){
+    return color;
+  }
   return mainColor(context);
 }
 
-Color getArrivalActiveColor(context, status) {
+Color getArrivalActiveColor(context, TripBlockStatus status, Color? color) {
   if (status == TripBlockStatus.inactive || status == TripBlockStatus.origin){
     return const Color(0xff808080);
-  }  
+  }
+  if (color != null){
+    return color;
+  }
   return mainColor(context);
 }
 

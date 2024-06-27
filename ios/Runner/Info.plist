@@ -49,5 +49,11 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>io.flutter.embedded_views_preview</key>
+		<string>YES</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>location</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>location</string>
 	</dict>
 </plist>

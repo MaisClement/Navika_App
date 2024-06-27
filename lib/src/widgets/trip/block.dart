@@ -23,6 +23,7 @@ class TripBlock extends StatelessWidget {
   final String? arrivalState;
   final String type;
   final TripBlockStatus status;
+  final Color? color;
 
   const TripBlock({
     required this.id,
@@ -37,6 +38,7 @@ class TripBlock extends StatelessWidget {
     this.arrivalState,
     required this.type,
     this.status = TripBlockStatus.active,
+    this.color,
     super.key,
   });
 
@@ -79,7 +81,7 @@ class TripBlock extends StatelessWidget {
                                 fontWeight: FontWeight.w700,
                                 fontFamily: fontFamily,
                                 fontSize: 14,
-                                color: getActiveColor(context, status),
+                                color: getActiveColor(context, status, color),
                               ),
                             ),
                           ),
@@ -107,7 +109,7 @@ class TripBlock extends StatelessWidget {
                             fontWeight: FontWeight.w700,
                             fontFamily: fontFamily,
                             fontSize: 14,
-                            color: getArrivalActiveColor(context, status),
+                            color: getArrivalActiveColor(context, status, color),
                           ),
                         ),
                       ),
@@ -115,7 +117,7 @@ class TripBlock extends StatelessWidget {
               Container(
                 height: departureState == 'delayed' && getTime(time) != getTime(newtime) ? 40 : 30,
                 width: 10,
-                color: getArrivalActiveColor(context, status),
+                color: getArrivalActiveColor(context, status, color),
               ),
             ],
           ),
@@ -129,7 +131,7 @@ class TripBlock extends StatelessWidget {
               Container(
                 height: 20,
                 width: 10,
-                color: getArrivalActiveColor(context, status),
+                color: getArrivalActiveColor(context, status, color),
               ),
             ],
           ),
@@ -166,7 +168,7 @@ class TripBlock extends StatelessWidget {
                               fontWeight: FontWeight.w700,
                               fontFamily: fontFamily,
                               fontSize: 17,
-                              color: getActiveColor(context, status),
+                              color: getActiveColor(context, status, color),
                             ),
                           ),
                         ),
@@ -194,7 +196,7 @@ class TripBlock extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                           fontFamily: fontFamily,
                           fontSize: 17,
-                          color: getActiveColor(context, status),
+                          color: getActiveColor(context, status, color),
                         ),
                       ),
                     ),
@@ -211,7 +213,7 @@ class TripBlock extends StatelessWidget {
                         : 17,
                     width: 10,
                     decoration: BoxDecoration(
-                      color: getActiveColor(context, status),
+                      color: getActiveColor(context, status, color),
                       borderRadius: type == 'origin'
                           ? const BorderRadius.only(
                               topLeft: Radius.circular(7),
@@ -249,7 +251,7 @@ class TripBlock extends StatelessWidget {
                       width: 44,
                       height: 10,
                       decoration: BoxDecoration(
-                        color: mainColor(context),
+                        color: color ?? mainColor(context),
                         borderRadius: status == TripBlockStatus.origin
                             ? const BorderRadius.only(
                                 topLeft: Radius.circular(7),
@@ -279,7 +281,7 @@ class TripBlock extends StatelessWidget {
                   Container(
                     height: 50,
                     width: 10,
-                    color: getActiveColor(context, status),
+                    color: getActiveColor(context, status, color),
                     child: Container(
                       margin: const EdgeInsets.only(
                           top: 8, bottom: 34, left: 1, right: 1),
