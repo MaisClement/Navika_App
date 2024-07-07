@@ -116,7 +116,7 @@ class _SchedulesSearchState extends State<HomeSearch> {
   List<Widget> getElements() {
     List<Widget> res = [];
 
-    if (places.isNotEmpty || search == '') {
+    if (places.isEmpty || search == '') {
       // Favoris
       List favs = globals.hiveBox.get('addressFavorites');
       if(search.isEmpty && favs.isNotEmpty){
@@ -151,14 +151,14 @@ class _SchedulesSearchState extends State<HomeSearch> {
           },
           onTap: () {
             globals.updateMap = true;
-            
-            if (fav['type'] == 'stop_area' || fav['type'] == 'stop_point')  {
-              RouteStateScope.of(context).go('/stops/${fav['id']}');
-              openMapPoint(fav['coord']['lat'], fav['coord']['lon']);
-            } else {
-              RouteStateScope.of(context).go('/address/${fav['coord']['lat']};${fav['coord']['lon']}');
-              openMapPoint(fav['coord']['lat'], fav['coord']['lon'], true);
-            }
+            initJourney(
+              null,
+              {
+                'name': fav['name'],
+                'id': fav['id']
+              },
+              context
+            );
           },
         ),
       );

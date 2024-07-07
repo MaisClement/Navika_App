@@ -23,11 +23,7 @@ class AddAddress extends StatefulWidget {
   final String predefineType;
   final String id;
 
-  const AddAddress({
-    this.predefineType = '', 
-    this.id = '',
-    super.key
-  });
+  const AddAddress({this.predefineType = '', this.id = '', super.key});
 
   @override
   State<AddAddress> createState() => _AddAddressState();
@@ -73,26 +69,23 @@ class _AddAddressState extends State<AddAddress> {
   }
 
   handleSaveAddress() {
-    if ((widget.predefineType != '' && !isDefined) || (!isDefined && label == '')){
-      FloatingSnackBar(
+    if ((widget.predefineType != '' && !isDefined) || (!isDefined && label == '')) {
+      floatingSnackBar(
         message: AppLocalizations.of(context)!.undefined_address_or_label,
         context: context,
-        textColor: mainColor(context),
         textStyle: snackBarText,
         duration: const Duration(milliseconds: 4000),
-        backgroundColor: const Color(0xff272727),
+        backgroundColor: mainColor(context),
       );
-    return;
+      return;
     }
     List list = globals.hiveBox.get('addressFavorites');
     var newAddress = {
-        'id': address['id'],
-        'name': address['name'],
-        'alias': widget.predefineType == '' 
-            ? label
-            : widget.predefineType,
-      };
-    if(widget.id != '') {
+      'id': address['id'],
+      'name': address['name'],
+      'alias': widget.predefineType == '' ? label : widget.predefineType,
+    };
+    if (widget.id != '') {
       list[int.parse(widget.id)] = newAddress;
     } else {
       list.add(newAddress);
@@ -100,13 +93,12 @@ class _AddAddressState extends State<AddAddress> {
     }
     Navigator.pop(context);
     RouteStateScope.of(context).go('/home');
-    FloatingSnackBar(
+    floatingSnackBar(
       message: widget.id == '' ? AppLocalizations.of(context)!.new_address_added : AppLocalizations.of(context)!.address_modified,
       context: context,
-      textColor: mainColor(context),
       textStyle: snackBarText,
       duration: const Duration(milliseconds: 4000),
-      backgroundColor: const Color(0xff272727),
+      backgroundColor: mainColor(context),
     );
   }
 
@@ -124,7 +116,7 @@ class _AddAddressState extends State<AddAddress> {
       setState(() {
         error = result['status'];
       });
-      
+
       if (result['value']?['flag'] == flag && result['value']?['places'] != null) {
         setState(() {
           places = result['value']?['places'];
@@ -137,13 +129,13 @@ class _AddAddressState extends State<AddAddress> {
   @override
   void initState() {
     super.initState();
-    if(widget.id != '') {
+    if (widget.id != '') {
       queryController = TextEditingController(text: addressFavorites[int.parse(widget.id)]['name']);
       search = addressFavorites[int.parse(widget.id)]['name'];
       _getPlaces();
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      FocusScope.of(context).requestFocus(queryFieldNode); 
+      FocusScope.of(context).requestFocus(queryFieldNode);
       _getPlaces();
     });
   }
@@ -165,9 +157,8 @@ class _AddAddressState extends State<AddAddress> {
           IconButton(
             icon: Icon(
               NavikaIcons.save,
-              color: isDefined && label != ''
-                ? Theme.of(context).colorScheme.onSurface
-                : routeBhColor(context),),
+              color: isDefined && label != '' ? Theme.of(context).colorScheme.onSurface : routeBhColor(context),
+            ),
             tooltip: AppLocalizations.of(context)!.add_to_favorites,
             onPressed: () {
               handleSaveAddress();
@@ -211,9 +202,7 @@ class _AddAddressState extends State<AddAddress> {
                   child: TextField(
                     controller: queryController,
                     focusNode: queryFieldNode,
-                    decoration: InputDecoration( 
-                      hintText: AppLocalizations.of(context)!.add_address
-                    ),
+                    decoration: InputDecoration(hintText: AppLocalizations.of(context)!.add_address),
                     onChanged: (text) {
                       setState(() {
                         search = text;
@@ -233,10 +222,7 @@ class _AddAddressState extends State<AddAddress> {
               child: ListView(
                 children: [
                   if (error != ApiStatus.ok)
-                    ErrorBlock(
-                      error: error,
-                      retry: _getPlaces
-                    )
+                    ErrorBlock(error: error, retry: _getPlaces)
                   else if (places.isNotEmpty)
                     for (var place in places)
                       PlacesListButton(

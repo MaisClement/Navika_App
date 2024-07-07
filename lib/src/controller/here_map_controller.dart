@@ -87,6 +87,7 @@ class HereController {
   }
 
   void updateLocationIndicator(Position? position, double heading, [bool isActive = true]){
+    print(['INFO_', position]);
     if (position == null || locationIndicator == null) return;
     locationIndicator?.updateLocation(defineLocation(position, heading));
     locationIndicator?.isActive = isActive;

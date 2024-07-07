@@ -30,17 +30,16 @@ class RoutesSchedulesList extends StatelessWidget {
     if (schedule['id'] != null && schedule['id'] != '') {
       RouteStateScope.of(context).go('/trip/details/${schedule['id']}/from/$stopId');
     } else {
-      FloatingSnackBar(
+      floatingSnackBar(
         message: 'Les details ne sont pas disponibles pour ce trajet.',
         context: context,
-        textColor: mainColor(context),
         textStyle: TextStyle(
           color: const Color(0xffffffff),
           fontWeight: FontWeight.w600,
           fontFamily: fontFamily,
         ),
         duration: const Duration(milliseconds: 4000),
-        backgroundColor: const Color(0xff272727),
+        backgroundColor: mainColor(context),
       );
     }
   }

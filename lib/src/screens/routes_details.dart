@@ -54,28 +54,25 @@ Future<void> downloadFile(directory, name, url) async {
 }
 
 Future saveData(line) async {
-    globals.hiveBox.put('lines_${line['id']}', line);
+  globals.hiveBox.put('lines_${line['id']}', line);
 
-    Directory directory = await getApplicationDocumentsDirectory();
+  Directory directory = await getApplicationDocumentsDirectory();
 
-    Directory('${directory.path}/dir')
-        .create(recursive: true)
-        .then((Directory directory) {
-      });
+  Directory('${directory.path}/dir').create(recursive: true).then((Directory directory) {});
 
-    for (var timetable in line['timetables']) {
-      String url = timetable['url'];
-      Uri uri = Uri.parse(url);
-      String name = uri.pathSegments.last;
-      await downloadFile(directory, name, timetable['url']);
-    }
-    for (var timetable in line['map']) {
-      String url = timetable['url'];
-      Uri uri = Uri.parse(url);
-      String name = uri.pathSegments.last;
-      await downloadFile(directory, name, timetable['url']);
-    }
+  for (var timetable in line['timetables']) {
+    String url = timetable['url'];
+    Uri uri = Uri.parse(url);
+    String name = uri.pathSegments.last;
+    await downloadFile(directory, name, timetable['url']);
   }
+  for (var timetable in line['map']) {
+    String url = timetable['url'];
+    Uri uri = Uri.parse(url);
+    String name = uri.pathSegments.last;
+    await downloadFile(directory, name, timetable['url']);
+  }
+}
 
 Future<void> addLineToFavorite(line, context, Function? update) async {
   List list = globals.hiveBox.get('linesFavorites');
@@ -85,17 +82,15 @@ Future<void> addLineToFavorite(line, context, Function? update) async {
     globals.hiveBox.put('linesFavorites', list);
     globals.hiveBox.put('lines_${line['id']}', null);
 
-    FloatingSnackBar(
+    floatingSnackBar(
       message: AppLocalizations.of(context)!.favorite_removed,
       context: context,
-      textColor: mainColor(context),
       textStyle: snackBarText,
       duration: const Duration(milliseconds: 4000),
-      backgroundColor: const Color(0xff272727),
+      backgroundColor: mainColor(context),
     );
 
     await unsubscribe(line, context);
-
   } else {
     list.add({
       'id': line['id'],
@@ -110,23 +105,21 @@ Future<void> addLineToFavorite(line, context, Function? update) async {
 
     saveData(line);
 
-    FloatingSnackBar(
+    floatingSnackBar(
       message: 'Favoris ajouté, les détails de cette ligne sont disponibles même hors connexion.',
       context: context,
-      textColor: mainColor(context),
       textStyle: snackBarText,
       duration: const Duration(milliseconds: 4000),
-      backgroundColor: const Color(0xff272727),
+      backgroundColor: mainColor(context),
     );
 
     showModalBottomSheet<void>(
-      shape: const RoundedRectangleBorder(
-        borderRadius: bottomSheetBorder,
-      ),
-      isScrollControlled: true,
-      context: context,
-      builder: (BuildContext context) => NotificationsSettings(line: line)
-    );
+        shape: const RoundedRectangleBorder(
+          borderRadius: bottomSheetBorder,
+        ),
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) => NotificationsSettings(line: line));
   }
   if (update != null) update();
   return;
@@ -134,13 +127,12 @@ Future<void> addLineToFavorite(line, context, Function? update) async {
 
 void addNotification(line, isAlert, context) {
   showModalBottomSheet<void>(
-    shape: const RoundedRectangleBorder(
-      borderRadius: bottomSheetBorder,
-    ),
-    isScrollControlled: true,
-    context: context,
-    builder: (BuildContext context) => NotificationsSettings(line: line, isAlert: isAlert)
-  );
+      shape: const RoundedRectangleBorder(
+        borderRadius: bottomSheetBorder,
+      ),
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) => NotificationsSettings(line: line, isAlert: isAlert));
 }
 
 String getTerminus(line) {
@@ -234,93 +226,83 @@ List<Widget> getStops(Map line, context) {
   List<Widget> res = [];
 
   for (var i = 0; i < line['stops'].length; i++) {
-    res.add(
-      InkWell(
-        onTap: () {
-          RouteStateScope.of(context).go('/routes/details/${line['id']}/schedules/${line['stops'][i]['id']}');
-        },
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-              const SizedBox(
-                width: 10,
-              ),
-      
+    res.add(InkWell(
+      onTap: () {
+        RouteStateScope.of(context).go('/routes/details/${line['id']}/schedules/${line['stops'][i]['id']}');
+      },
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            width: 10,
+          ),
+
 // Route schema
-              if (i == 0 || i == (line['stops'].length -1))
-                Container(
-                  margin: i == 0
-                      ? const EdgeInsets.only(top: 7)
-                      : const EdgeInsets.only(bottom: 5),
-                  height: i == 0
-                      ? 45
-                      : 17,
-                  width: 10,
-                  decoration: BoxDecoration(
-                    color: HexColor.fromHex(line['color']),
-                    borderRadius: i == 0
-                        ? const BorderRadius.only(
-                            topLeft: Radius.circular(7),
-                            topRight: Radius.circular(7),
-                          )
-                        : const BorderRadius.only(
-                            bottomLeft: Radius.circular(7),
-                            bottomRight: Radius.circular(7),
-                          ),
-                  ),
-                  child: Container(
-                    margin: i == 0
-                        ? const EdgeInsets.only(
-                            top: 1, bottom: 36, left: 1, right: 1)
-                        : const EdgeInsets.only(
-                            top: 8, bottom: 1, left: 1, right: 1),
-                    width: 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: const Color(0xffffffff),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                )
-              else
-                Container(
-                  height: 50,
-                  width: 10,
-                  color: HexColor.fromHex(line['color']),
-                  child: Container(
-                    margin: const EdgeInsets.only( top: 8, bottom: 34, left: 1, right: 1 ),
-                    width: 8,
-                    height: 8,
-                    decoration: const BoxDecoration(
-                      color: Color(0xffffffff),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(8),
+          if (i == 0 || i == (line['stops'].length - 1))
+            Container(
+              margin: i == 0 ? const EdgeInsets.only(top: 7) : const EdgeInsets.only(bottom: 5),
+              height: i == 0 ? 45 : 17,
+              width: 10,
+              decoration: BoxDecoration(
+                color: HexColor.fromHex(line['color']),
+                borderRadius: i == 0
+                    ? const BorderRadius.only(
+                        topLeft: Radius.circular(7),
+                        topRight: Radius.circular(7),
+                      )
+                    : const BorderRadius.only(
+                        bottomLeft: Radius.circular(7),
+                        bottomRight: Radius.circular(7),
                       ),
-                    ),
+              ),
+              child: Container(
+                margin: i == 0 ? const EdgeInsets.only(top: 1, bottom: 36, left: 1, right: 1) : const EdgeInsets.only(top: 8, bottom: 1, left: 1, right: 1),
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: const Color(0xffffffff),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            )
+          else
+            Container(
+              height: 50,
+              width: 10,
+              color: HexColor.fromHex(line['color']),
+              child: Container(
+                margin: const EdgeInsets.only(top: 8, bottom: 34, left: 1, right: 1),
+                width: 8,
+                height: 8,
+                decoration: const BoxDecoration(
+                  color: Color(0xffffffff),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8),
                   ),
                 ),
+              ),
+            ),
 
 // Name
-              Padding(
-                padding: const EdgeInsets.only(top:1.5, left: 10, right: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      line['stops'][i]['name'],
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: fontFamily,
-                      ),
-                    ),                    
-                  ],
+          Padding(
+            padding: const EdgeInsets.only(top: 1.5, left: 10, right: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  line['stops'][i]['name'],
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: fontFamily,
+                  ),
                 ),
-              ),
-            ],
-          ),       
-      )
-    );
+              ],
+            ),
+          ),
+        ],
+      ),
+    ));
   }
 
   res.add(
@@ -379,7 +361,7 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
       setState(() {
         error = result['status'];
       });
-      
+
       if (isFavoriteLine(widget.routeId) && (result['status'] == ApiStatus.socketException || result['status'] == ApiStatus.timeoutException)) {
         setState(() {
           line = globals.hiveBox.get('lines_${widget.routeId}');
@@ -387,13 +369,12 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
           fromlocaldata = true;
           error = ApiStatus.ok;
         });
-        
       } else if (result['value']?['line'] != null && result['status'] == ApiStatus.ok) {
         setState(() {
           line = result['value']?['line'];
           isLoading = false;
         });
-        
+
         if (isFavoriteLine(line['id'])) {
           globals.hiveBox.put('lines_${line['id']}', line);
         }
@@ -414,38 +395,27 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
   Widget build(BuildContext context) => Scaffold(
         bottomNavigationBar: getNavigationBar(context),
         appBar: AppBar(
-          title: isLoading
-            ? Text(AppLocalizations.of(context)!.lines, style: appBarTitle)
-            : Text('Ligne ${line['name']}', style: appBarTitle),
+          title: isLoading ? Text(AppLocalizations.of(context)!.lines, style: appBarTitle) : Text('Ligne ${line['name']}', style: appBarTitle),
           actions: [
-            if (!isLoading && _isFavorite) 
+            if (!isLoading && _isFavorite)
               IconButton(
-                icon: _isAlert
-                    ? const Icon(NavikaIcons.bellFilled)
-                    : const Icon(NavikaIcons.bellAdd),
+                icon: _isAlert ? const Icon(NavikaIcons.bellFilled) : const Icon(NavikaIcons.bellAdd),
                 tooltip: AppLocalizations.of(context)!.notifications,
                 onPressed: () => addNotification(line, _isAlert, context),
               ),
             if (!isLoading)
               IconButton(
-                icon: _isFavorite
-                  ? const Icon(NavikaIcons.starFilled)
-                  : const Icon(NavikaIcons.star),
+                icon: _isFavorite ? const Icon(NavikaIcons.starFilled) : const Icon(NavikaIcons.star),
                 tooltip: AppLocalizations.of(context)!.add_to_favorites,
                 onPressed: () => addLineToFavorite(line, context, update),
               ),
           ],
         ),
         body: ListView(
-          physics: blockScroll 
-            ? const NeverScrollableScrollPhysics()
-            : const ScrollPhysics(),  
+          physics: blockScroll ? const NeverScrollableScrollPhysics() : const ScrollPhysics(),
           children: [
             if (error != ApiStatus.ok)
-              ErrorBlock(
-                error: error,
-                retry: _getLine
-              )
+              ErrorBlock(error: error, retry: _getLine)
             else if (isLoading)
               const LinearProgressIndicator()
             else
@@ -475,11 +445,7 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
                           Expanded(
                               child: Text(
                             getTerminus(line),
-                            style: TextStyle(
-                                fontFamily: fontFamily,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                                color: HexColor.fromHex(line['color'])),
+                            style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.w600, fontSize: 16, color: HexColor.fromHex(line['color'])),
                             maxLines: 3,
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
@@ -488,7 +454,7 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
                   const SizedBox(height: 10),
                   if (!fromlocaldata)
                     Padding(
-                      padding:const EdgeInsets.only(top: 10, left: 10, right: 10),
+                      padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: ButtonLargeTrafic(
                         line: line,
                         borderRadius: BorderRadius.circular(10),
@@ -499,16 +465,13 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
                       ),
                     ),
                   ...getTimeTableWidgets(line, context, fromlocaldata),
-
                   const Divider(
                     color: Color(0xff808080),
                     thickness: 1.5,
                     indent: 20,
                     endIndent: 20,
                   ),
-                  
                   ...getStops(line, context),
-
                   if (_isFavorite)
                     Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10),
@@ -522,10 +485,7 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
                         child: Center(
                           child: Row(
                             children: [
-                              Icon(NavikaIcons.saved,
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface,
-                                  size: 25),
+                              Icon(NavikaIcons.saved, color: Theme.of(context).colorScheme.onSurface, size: 25),
                               const SizedBox(width: 10),
                               Expanded(
                                 child: Text(
@@ -533,10 +493,7 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
                                   maxLines: 1,
                                   softWrap: false,
                                   overflow: TextOverflow.fade,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: fontFamily,
-                                      fontSize: 18),
+                                  style: TextStyle(fontWeight: FontWeight.w600, fontFamily: fontFamily, fontSize: 18),
                                 ),
                               ),
                             ],

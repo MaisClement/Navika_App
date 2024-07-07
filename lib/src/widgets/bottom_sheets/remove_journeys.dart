@@ -32,13 +32,12 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveJourneys> with Single
     List journeys = globals.hiveBox.get('journeys');
     
     journeys.removeWhere((element) => element['unique_id'] == uniqueId);
-    FloatingSnackBar(
+    floatingSnackBar(
       message: AppLocalizations.of(context)!.route_removed,
       context: context,
-      textColor: mainColor(context),
       textStyle: snackBarText,
       duration: const Duration(milliseconds: 4000),
-      backgroundColor: const Color(0xff272727),
+      backgroundColor: mainColor(context),
     );
     
     globals.hiveBox.put('journeys', journeys);

@@ -29,13 +29,12 @@ class _PDFViewerState extends State<PDFViewer> {
   }
 
   void onError(pdfDocument) {
-    FloatingSnackBar(
+    floatingSnackBar(
       message: AppLocalizations.of(context)!.error,
       context: context,
-      textColor: mainColor(context),
       textStyle: snackBarText,
       duration: const Duration(milliseconds: 4000),
-      backgroundColor: const Color(0xff272727),
+      backgroundColor: Theme.of(context).colorScheme.error,
     );
   }
 

@@ -88,7 +88,7 @@ class _HomeState extends State<Home> {
   double _padding = 0;
 
   Future<void> _getLocation() async {
-    bool serviceEnabled; 
+    bool serviceEnabled;
     LocationPermission permission;
     LocationSettings locationSettings = const LocationSettings(
       accuracy: LocationAccuracy.high,
@@ -123,7 +123,7 @@ class _HomeState extends State<Home> {
 
     // Check if we have a recent position
     state = PositionState.acquiring;
-    
+
     Position? lastKnownLocation = await Geolocator.getLastKnownPosition();
     if (lastKnownLocation != null) {
       position = lastKnownLocation;
@@ -141,8 +141,13 @@ class _HomeState extends State<Home> {
     }
 
     if (mounted) {
-      positionStream = Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position? position) {
-        _updateLocationIndicator(position!);
+      positionStream = Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position? newPosition) {
+        if (mounted) {
+          setState(() {
+            position = newPosition;
+          });
+        }
+        _updateLocationIndicator(newPosition!);
       });
       FlutterCompass.events?.listen((CompassEvent compassEvent) {
         _updateCompass(compassEvent);
@@ -154,7 +159,7 @@ class _HomeState extends State<Home> {
   Future<void> _getNearPoints([double? lat, double? lon]) async {
     double zoom = _controller?.getZoomLevel() ?? 0;
     GeoCoordinates coords = camGeoCoords;
-    
+
     if (lat != null && lon != null) {
       zoom = 1200;
       coords = GeoCoordinates(lat, lon);
@@ -484,7 +489,7 @@ class _HomeState extends State<Home> {
                 bottom: panelButtonBottomOffset,
                 child: Opacity(
                   opacity: getOpacity(_position),
-                  child: FloatingActionButton (
+                  child: FloatingActionButton(
                     backgroundColor: Theme.of(context).colorScheme.surface,
                     child: getLocationIcon(),
                     onPressed: () {
@@ -710,7 +715,7 @@ class _HomeState extends State<Home> {
   void _onPanelSlide(position) {
     setState(() {
       panelButtonBottomOffset = panelButtonBottomOffsetClosed + ((availableHeight(context) - 90) * position);
-      _position = position; 
+      _position = position;
     });
   }
 

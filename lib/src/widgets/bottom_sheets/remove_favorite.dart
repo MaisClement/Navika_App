@@ -57,13 +57,12 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveFavorite> with Single
       Navigator.pop(context);
       update();
     } else {
-      FloatingSnackBar(
+      floatingSnackBar(
         message: AppLocalizations.of(context)!.favorite_deletion_error,
         context: context,
-        textColor: mainColor(context),
         textStyle: snackBarText,
         duration: const Duration(milliseconds: 4000),
-        backgroundColor: const Color(0xff272727),
+      backgroundColor: Theme.of(context).colorScheme.error,
       );
     }
   }

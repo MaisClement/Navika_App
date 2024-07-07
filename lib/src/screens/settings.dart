@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:

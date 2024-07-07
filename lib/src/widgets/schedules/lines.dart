@@ -68,11 +68,11 @@ class SchedulesLines extends StatelessWidget {
                           ),
                           for (var departure in terminus['schedules'].sublist(0, getMaxLength(2, terminus['schedules'])))
                             TimerBlock(
+                              key: Key(departure['id']),
                               time: departure['departure_date_time'],
                               state: departure['state'],
                               update: update,
-                              color: departureList(
-                                  context, HexColor.fromHex(line['color'])),
+                              color: departureList(context, HexColor.fromHex(line['color'])),
                             )
                         ],
                       ),

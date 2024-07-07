@@ -35,23 +35,21 @@ void saveJourney(String uniqueId, context) {
 
   if (isSavedJourney(uniqueId)) {
     journeys.removeWhere((element) => element['unique_id'] == uniqueId);
-    FloatingSnackBar(
+    floatingSnackBar(
       message: AppLocalizations.of(context)!.route_removed,
       context: context,
-      textColor: mainColor(context),
       textStyle: snackBarText,
       duration: const Duration(milliseconds: 4000),
-      backgroundColor: const Color(0xff272727),
+      backgroundColor: mainColor(context),
     );
   } else {
     journeys.add(globals.journey);
-    FloatingSnackBar(
+    floatingSnackBar(
       message: AppLocalizations.of(context)!.saved_route,
       context: context,
-      textColor: mainColor(context),
       textStyle: snackBarText,
       duration: const Duration(milliseconds: 4000),
-      backgroundColor: const Color(0xff272727),
+      backgroundColor: mainColor(context),
     );
   }
 
@@ -148,7 +146,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
   double panelButtonBottomOffset = 120;
   double saveButtonRightOffset = 0;
   double _position = 0;
-  
+
   Map journey = globals.journey;
 
   Map getToCoords() {
@@ -224,7 +222,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
   }
 
   Future<void> _getLocation() async {
-    bool serviceEnabled; 
+    bool serviceEnabled;
     LocationPermission permission;
     LocationSettings locationSettings = const LocationSettings(
       accuracy: LocationAccuracy.high,
@@ -259,7 +257,7 @@ class _JourneysDetailsState extends State<JourneysDetails> {
 
     // Check if we have a recent position
     state = PositionState.acquiring;
-    
+
     Position? lastKnownLocation = await Geolocator.getLastKnownPosition();
     if (lastKnownLocation != null) {
       position = lastKnownLocation;
@@ -313,7 +311,6 @@ class _JourneysDetailsState extends State<JourneysDetails> {
 
     return Icon(icon, color: Theme.of(context).colorScheme.onSurface, size: 30);
   }
-
 
   @override
   Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(

@@ -134,13 +134,12 @@ class HomeWidgetSponsor extends StatelessWidget {
                     text: AppLocalizations.of(context)!.hidde,
                     onPressed: () {
                       handleSwitch(false, 'sponsor');
-                      FloatingSnackBar(
+                      floatingSnackBar(
                         message: AppLocalizations.of(context)!.sponsor_hide_confirmation,
                         context: context,
-                        textColor: mainColor(context),
                         textStyle: snackBarText,
                         duration: const Duration(milliseconds: 4000),
-                        backgroundColor: const Color(0xff272727),
+                        backgroundColor: mainColor(context),
                       );
                     },
                   )

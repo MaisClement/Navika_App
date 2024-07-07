@@ -48,13 +48,12 @@ Future<void> unsubscribe(line, context) async {
   ApiStatus error = result['status'];
 
   if (error != ApiStatus.ok) {
-    FloatingSnackBar(
+    floatingSnackBar(
       message: getErrorText(context, error),
       context: context,
-      textColor: mainColor(context),
       textStyle: snackBarText,
       duration: const Duration(milliseconds: 4000),
-      backgroundColor: const Color(0xff272727),
+      backgroundColor: Theme.of(context).colorScheme.error,
     );
   } else {
     Map alert = globals.hiveBox.get('linesAlert');
@@ -133,13 +132,12 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
         ApiStatus error = result['status'];
 
         if (error != ApiStatus.ok) {
-          FloatingSnackBar(
+          floatingSnackBar(
             message: getErrorText(context, error),
             context: context,
-            textColor: mainColor(context),
             textStyle: snackBarText,
             duration: const Duration(milliseconds: 4000),
-            backgroundColor: const Color(0xff272727),
+            backgroundColor: Theme.of(context).colorScheme.error,
           );
         } else {
           if (result['value'] != null) {

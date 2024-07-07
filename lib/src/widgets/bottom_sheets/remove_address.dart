@@ -35,22 +35,20 @@ void removeAddress(widget, context) {
     list.removeAt(pos);
     globals.hiveBox.put('addressFavorites', list);
     Navigator.pop(context);
-    FloatingSnackBar(
+    floatingSnackBar(
       message: 'Adresse supprimé.',
       context: context,
-      textColor: mainColor(context),
       textStyle: snackBarText,
       duration: const Duration(milliseconds: 4000),
-      backgroundColor: const Color(0xff272727),
+      backgroundColor: mainColor(context),
     );
   } else {
-    FloatingSnackBar(
+    floatingSnackBar(
       message: 'Erreur lors de la suppression de l’adresse.',
       context: context,
-      textColor: mainColor(context),
       textStyle: snackBarText,
       duration: const Duration(milliseconds: 4000),
-      backgroundColor: const Color(0xff272727),
+      backgroundColor: Theme.of(context).colorScheme.error,
     );
   }
 }
