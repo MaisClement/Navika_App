@@ -67,6 +67,7 @@ dependencies:
   intl: any
   geolocator: ^12.0.0
   pdfx: ^2.6.0
+  animated_flip_counter: ^0.3.4
 
   # See https://github.com/ScerIO/packages.flutter/issues/448
   # pdfx: 

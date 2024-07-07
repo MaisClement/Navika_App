@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -35,11 +36,7 @@ class TimeBlock extends StatelessWidget {
   Widget build(BuildContext context) => Wrap(
         children: [
           if (state.contains('cancelled'))
-            TimerMessage(
-                message: AppLocalizations.of(context)!.deleted,
-                backgroundColor: getBackColorByState(state, context),
-                color: Colors.white,
-                allround: state.length > 1),
+            TimerMessage(message: AppLocalizations.of(context)!.deleted, backgroundColor: getBackColorByState(state, context), color: Colors.white, allround: state.length > 1),
           if (state.contains('exceptional_terminus'))
             TimerMessage(
                 message: AppLocalizations.of(context)!.exceptional_terminus_short,
@@ -48,16 +45,9 @@ class TimeBlock extends StatelessWidget {
                 allround: state.length > 1),
           if (state.contains('modified'))
             TimerMessage(
-                message: AppLocalizations.of(context)!.modified_train_short,
-                backgroundColor: getBackColorByState(state, context),
-                color: Colors.white,
-                allround: state.length > 1),
+                message: AppLocalizations.of(context)!.modified_train_short, backgroundColor: getBackColorByState(state, context), color: Colors.white, allround: state.length > 1),
           if (state.contains('added'))
-            TimerMessage(
-                message: AppLocalizations.of(context)!.added,
-                backgroundColor: getBackColorByState(state, context),
-                color: Colors.white,
-                allround: state.length > 1),
+            TimerMessage(message: AppLocalizations.of(context)!.added, backgroundColor: getBackColorByState(state, context), color: Colors.white, allround: state.length > 1),
           if (state.contains('delayed') && late > 0)
             TimerMessage(
               message: '+${late.toString()} min',
@@ -67,10 +57,7 @@ class TimeBlock extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(left: 0.0, top: 5.0, right: 6, bottom: 5.0),
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(7),
-                  topRight: Radius.circular(7),
-                  bottomRight: Radius.circular(7)),
+              borderRadius: const BorderRadius.only(topLeft: Radius.circular(7), topRight: Radius.circular(7), bottomRight: Radius.circular(7)),
               color: getBackColorByState(state, context),
             ),
             child: Container(
@@ -109,9 +96,7 @@ class TimeBlock extends StatelessWidget {
                         ? Container(
                             padding: const EdgeInsets.only(left: 7.0, top: 2.0, right: 7.0, bottom: 2.0),
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(5),
-                                  bottomLeft: Radius.circular(5)),
+                              borderRadius: const BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5)),
                               color: const Color(0xff000000), // const Color(0xff272727),
                               boxShadow: [
                                 BoxShadow(
@@ -122,28 +107,33 @@ class TimeBlock extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            child: Text( globals.hiveBox?.get('displayMode') == 'minutes'
-                                  ? '${getTimeDifference(time).toString()} min'
-                                  : getTime(base),
-                              style: TextStyle(
-                                color: getDeparturesColorByState(getTimeDifference(time) >= 0
-                                        ? state
-                                        : 'theorical',
-                                    context),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: fontFamily,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
+                            child: globals.hiveBox?.get('displayMode') == 'minutes'
+                                ? AnimatedFlipCounter(
+                                    duration: const Duration(milliseconds: 500),
+                                    value: getTimeDifference(time),
+                                    suffix: ' min',
+                                    textStyle: TextStyle(
+                                      color: getDeparturesColorByState(getTimeDifference(time) >= 0 ? state : 'theorical', context),
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: fontFamily,
+                                    ),
+                                  )
+                                : Text(
+                                    getTime(base),
+                                    style: TextStyle(
+                                      color: getDeparturesColorByState(getTimeDifference(time) >= 0 ? state : 'theorical', context),
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: fontFamily,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
                           )
                         : const Text(''),
                     Container(
                       padding: const EdgeInsets.only(left: 7.0, top: 2.0, right: 7.0, bottom: 2.0),
                       decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 255, 255, 255),
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(3),
-                            bottomRight: Radius.circular(3)),
+                        borderRadius: BorderRadius.only(topRight: Radius.circular(3), bottomRight: Radius.circular(3)),
                       ),
                       width: 30,
                       height: 24,
