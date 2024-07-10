@@ -68,6 +68,7 @@ dependencies:
   geolocator: ^12.0.0
   pdfx: ^2.6.0
   animated_flip_counter: ^0.3.4
+  icons_launcher: ^2.1.7
 
   # See https://github.com/ScerIO/packages.flutter/issues/448
   # pdfx: 
@@ -95,10 +96,10 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   # flutter_gen: any
 
-  # $ flutter pub run flutter_launcher_icons
-  # $ flutter pub run flutter_native_splash:create
+  # $ dart run icons_launcher:create
+  # $ dart run flutter_native_splash:create
   # $ flutter gen-l10n
-  # $ flutter pub run import_sorter:main -e
+  # $ dart run import_sorter:main -e
   
   flutter_test:
     sdk: flutter
