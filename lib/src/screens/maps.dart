@@ -67,26 +67,24 @@ class _MapsState extends State<Maps> with SingleTickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   for (var map in maps)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                    child: ButtonLarge(
-                      image: map['icon'] == null
-                        ? null
-                        : NetworkImage(map['icon']),
-                      icon: NavikaIcons.map,
-                      text: map['name'],
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 17,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                      child: ButtonLarge(
+                        image: map['icon'] == null ? null : NetworkImage(map['icon']),
+                        icon: NavikaIcons.map,
+                        text: map['name'],
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 17,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                        onTap: () async {
+                          globals.pdfUrl = map['url'];
+                          globals.pdfTitle = map['name'];
+                          RouteStateScope.of(context).go('/pdf');
+                        },
                       ),
-                      borderRadius: BorderRadius.circular(10),
-                      onTap: () async {
-                        globals.pdfUrl = map['url'];
-                        globals.pdfTitle = map['name'];
-                        RouteStateScope.of(context).go('/pdf');
-                      },
-                    ),
-                  )
+                    )
                 ],
               )
           ],

@@ -1,5 +1,7 @@
+// 🎯 Dart imports:
+import 'dart:io';
+
 // 🐦 Flutter imports:
-import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -303,9 +305,15 @@ class _SettingsState extends State<Settings> {
               name: AppLocalizations.of(context)!.settings_link_HERE_privacy,
               url: 'https://legal.here.com/fr-fr/privacy/here-sdk-privacy-supplement',
             ),
+            if (Platform.isAndroid)
             SettingsLink(
               name: AppLocalizations.of(context)!.settings_link_HERE_licence,
               url: 'https://app.navika.hackernwar.com/here_notice_android.php',
+            ),
+            if (Platform.isIOS)
+            SettingsLink(
+              name: AppLocalizations.of(context)!.settings_link_HERE_licence,
+              url: 'https://app.navika.hackernwar.com/here_notice_ios.php',
             ),
 
             const SizedBox(

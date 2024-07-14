@@ -557,7 +557,7 @@ class _JourneysState extends State<Journeys> {
                                 ),
                               ),
                             ] else if (journeys.isEmpty && isLoading == false)
-                              const PlacesEmpty()
+                              PlacesEmpty()
                             else
                               for (var i = 0; i < (Random().nextInt(4) + 4).toDouble(); i++) const RouteListSkelton()
                           ],

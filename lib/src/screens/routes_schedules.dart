@@ -272,7 +272,7 @@ class _RoutesSchedulesState extends State<RoutesSchedules> with SingleTickerProv
                       controller: controller,
                       children: [
                         if (line['schedules'].isEmpty)
-                          const PlacesEmpty()
+                          PlacesEmpty()
                         else
                           for (var schedule in line['schedules'])
                             Column(

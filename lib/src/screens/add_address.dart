@@ -235,7 +235,7 @@ class _AddAddressState extends State<AddAddress> {
                   else if (places.isEmpty && isLoading == true)
                     const PlacesLoad()
                   else
-                    const PlacesEmpty(),
+                    PlacesEmpty(),
                 ],
               ),
             ),

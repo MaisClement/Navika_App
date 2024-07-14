@@ -24,8 +24,8 @@ class SchedulesSearch extends StatefulWidget {
 }
 
 class _SchedulesSearchState extends State<SchedulesSearch> {
-  final myController = TextEditingController();
-  
+
+  TextEditingController textController = TextEditingController();
   FocusNode textFieldNode = FocusNode();
   String search = '';
   ApiStatus error = ApiStatus.ok;
@@ -71,7 +71,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
   }
   @override
   void dispose() {
-    myController.dispose();
+    textController.dispose();
     super.dispose();
   }
 
@@ -79,7 +79,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
 	Widget build(BuildContext context) => Scaffold(
 		appBar: AppBar(
 			title: TextField(
-        controller: myController,
+        controller: textController,
         focusNode: textFieldNode,
         decoration: InputDecoration(
           hintText: AppLocalizations.of(context)!.search_station
@@ -116,7 +116,7 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
           const PlacesLoad()
           
         else
-          const PlacesEmpty(),
+          PlacesEmpty(),
       ],
       
     )

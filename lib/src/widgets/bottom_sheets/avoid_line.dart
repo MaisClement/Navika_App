@@ -79,7 +79,7 @@ class _BottomAvoidLineState extends State<BottomAvoidLine> with SingleTickerProv
   List lines = [];
 
   void getLines(journeys) {
-    List _lines = [...globals.forbiddenLines];
+    List lines = [...globals.forbiddenLines];
 
     for (var journey in journeys) {
       for (var section in journey['sections']) {
@@ -87,14 +87,14 @@ class _BottomAvoidLineState extends State<BottomAvoidLine> with SingleTickerProv
         if (section['type'] == 'public_transport') {
           // if line doesnt contain line
 
-          if (!isInList(_lines, section['informations']['line']['id'])) {
-            _lines.add(section['informations']['line']);
+          if (!isInList(lines, section['informations']['line']['id'])) {
+            lines.add(section['informations']['line']);
           }
         }
       }
     }
     setState(() {
-      lines = orderLine(_lines);
+      lines = orderLine(lines);
     });
   }
 

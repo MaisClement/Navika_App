@@ -23,8 +23,8 @@ void openMapPoint(double lat, double lon, [setMarker = false]) {
   GeoCoordinates geoCoordinates = GeoCoordinates(lat, lon);
   GeoCoordinatesUpdate geoCoords = GeoCoordinatesUpdate(lat, lon);
   globals.hereMapController?.zoomTo(geoCoords, true);
-  
-  if (setMarker){
+
+  if (setMarker) {
     removePointMarker();
     globals.pointMarker = globals.hereMapController?.addMapMarker(
       geoCoordinates,
@@ -43,15 +43,15 @@ void removePointMarker() {
 }
 
 class HomeSearch extends StatefulWidget {
-	const HomeSearch({super.key});
+  const HomeSearch({super.key});
 
-	@override
-	State<HomeSearch> createState() => _SchedulesSearchState();
+  @override
+  State<HomeSearch> createState() => _SchedulesSearchState();
 }
 
 class _SchedulesSearchState extends State<HomeSearch> {
   final myController = TextEditingController();
-  
+
   FocusNode textFieldNode = FocusNode();
   String search = '';
   ApiStatus error = ApiStatus.ok;
@@ -87,7 +87,7 @@ class _SchedulesSearchState extends State<HomeSearch> {
       setState(() {
         error = result['status'];
       });
-      
+
       if (result['value']?['flag'] == flag && result['value']?['places'] != null) {
         setState(() {
           places = result['value']?['places'];
@@ -96,7 +96,7 @@ class _SchedulesSearchState extends State<HomeSearch> {
         });
       }
     }
-	}
+  }
 
   @override
   void initState() {
@@ -116,14 +116,15 @@ class _SchedulesSearchState extends State<HomeSearch> {
   List<Widget> getElements() {
     List<Widget> res = [];
 
-    if (places.isEmpty || search == '') {
+    if (places.isNotEmpty || search == '') {
       // Favoris
       List favs = globals.hiveBox.get('addressFavorites');
-      if(search.isEmpty && favs.isNotEmpty){
+      if (search.isEmpty && favs.isNotEmpty) {
         res.add(
           Padding(
             padding: const EdgeInsets.only(left: 20, bottom: 10),
-            child: Text(AppLocalizations.of(context)!.your_favorites,
+            child: Text(
+              AppLocalizations.of(context)!.your_favorites,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -134,43 +135,39 @@ class _SchedulesSearchState extends State<HomeSearch> {
           ),
         );
       }
-      for(var fav in favs) {
-        res.add(
-          PlacesListButton(
-          isLoading: isLoading,
-          place: {
-            'id': fav['id'],
-            'name': fav['name'],
-            'type': fav['alias'] == 'home' || fav['alias'] == 'work' ? fav['alias'] : 'favorite',
-            'distance': 0,
-            'town': '',
-            'zip_code': '',
-            'coord': const {},
-            'lines': const [],
-            'modes': const []
-          },
-          onTap: () {
-            globals.updateMap = true;
-            initJourney(
-              null,
-              {
+      if (search.isEmpty && favs.isNotEmpty) {
+        for (var fav in favs) {
+          res.add(
+            PlacesListButton(
+              isLoading: isLoading,
+              place: {
+                'id': fav['id'],
                 'name': fav['name'],
-                'id': fav['id']
+                'type': fav['alias'] == 'home' || fav['alias'] == 'work' ? fav['alias'] : 'favorite',
+                'distance': 0,
+                'town': '',
+                'zip_code': '',
+                'coord': const {},
+                'lines': const [],
+                'modes': const []
               },
-              context
-            );
-          },
-        ),
-      );
+              onTap: () {
+                globals.updateMap = true;
+                initJourney(null, {'name': fav['name'], 'id': fav['id']}, context);
+              },
+            ),
+          );
+        }
       }
 
       // Historique
       List history = globals.hiveBox.get('historyPlaces');
-      if(search.isEmpty && history.isNotEmpty) {
+      if (search.isEmpty && history.isNotEmpty) {
         res.add(
           Padding(
             padding: const EdgeInsets.only(left: 20, bottom: 10),
-            child: Text(AppLocalizations.of(context)!.recent,
+            child: Text(
+              AppLocalizations.of(context)!.recent,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -181,95 +178,81 @@ class _SchedulesSearchState extends State<HomeSearch> {
           ),
         );
         for (var place in history) {
-          res.add(
-              PlacesListButton(
-              isLoading: isLoading,
-              isHistory: true,
-              place: place,
-              onTap: () {
-                globals.updateMap = true;
+          res.add(PlacesListButton(
+            isLoading: isLoading,
+            isHistory: true,
+            place: place,
+            onTap: () {
+              globals.updateMap = true;
 
-                if (place['type'] == 'stop_area' || place['type'] == 'stop_point')  {
-                  RouteStateScope.of(context).go('/stops/${place['id']}');
-                  openMapPoint(place['coord']['lat'], place['coord']['lon']);
-                } else {
-                  RouteStateScope.of(context).go('/address/${place['coord']['lat']};${place['coord']['lon']}');
-                  openMapPoint(place['coord']['lat'], place['coord']['lon'], true);
-                }
-                addToHistory(place);
-              },
-            )
-          );
+              if (place['type'] == 'stop_area' || place['type'] == 'stop_point') {
+                RouteStateScope.of(context).go('/stops/${place['id']}');
+                openMapPoint(place['coord']['lat'], place['coord']['lon']);
+              } else {
+                RouteStateScope.of(context).go('/address/${place['coord']['lat']};${place['coord']['lon']}');
+                openMapPoint(place['coord']['lat'], place['coord']['lon'], true);
+              }
+              addToHistory(place);
+            },
+          ));
         }
       }
 
       // Places
       if (places.isNotEmpty && error == ApiStatus.ok) {
         for (var place in places) {
-          res.add(
-            PlacesListButton(
-              isLoading: isLoading,
-              place: place,
-              onTap: () {
-                globals.updateMap = true;
+          res.add(PlacesListButton(
+            isLoading: isLoading,
+            place: place,
+            onTap: () {
+              globals.updateMap = true;
 
-                if (place['type'] == 'stop_area' || place['type'] == 'stop_point')  {
-                  RouteStateScope.of(context).go('/stops/${place['id']}');
-                  openMapPoint(place['coord']['lat'], place['coord']['lon']);
-                } else {
-                  RouteStateScope.of(context).go('/address/${place['coord']['lat']};${place['coord']['lon']}');
-                  openMapPoint(place['coord']['lat'], place['coord']['lon'], true);
-                }
-                addToHistory(place);
-              },
-            )
-          );
+              if (place['type'] == 'stop_area' || place['type'] == 'stop_point') {
+                RouteStateScope.of(context).go('/stops/${place['id']}');
+                openMapPoint(place['coord']['lat'], place['coord']['lon']);
+              } else {
+                RouteStateScope.of(context).go('/address/${place['coord']['lat']};${place['coord']['lon']}');
+                openMapPoint(place['coord']['lat'], place['coord']['lon'], true);
+              }
+              addToHistory(place);
+            },
+          ));
         }
       }
-    
-
     } else {
       if (places.isEmpty && isLoading == true) {
-        res.add(
-          const PlacesLoad()
-        );
+        res.add(const PlacesLoad());
       } else {
-        res.add(
-          const PlacesEmpty()
-        );
+        res.add(PlacesEmpty());
       }
     }
     return res;
   }
 
   @override
-	Widget build(BuildContext context) => Scaffold(
-		appBar: AppBar(
-			title: TextField(
-        controller: myController,
-        focusNode: textFieldNode,
-        decoration: InputDecoration(
-          hintText: AppLocalizations.of(context)!.home_search
+  Widget build(BuildContext context) => Scaffold(
+      appBar: AppBar(
+        title: TextField(
+          controller: myController,
+          focusNode: textFieldNode,
+          decoration: InputDecoration(hintText: AppLocalizations.of(context)!.home_search),
+          onChanged: (text) {
+            setState(() {
+              search = text;
+            });
+            _getPlaces();
+          },
         ),
-        onChanged: (text) {
-          setState(() {
-            search = text;
-          });
-          _getPlaces();
-        },
       ),
-		),
-		body: ListView(
-      children: [
-        if (error != ApiStatus.ok)
-          ErrorBlock(
-            error: error,
-            retry: _getPlaces,
-          )
-        else
-          ...getElements()
-      ],
-      
-    )
-  );
+      body: ListView(
+        children: [
+          if (error != ApiStatus.ok)
+            ErrorBlock(
+              error: error,
+              retry: _getPlaces,
+            )
+          else
+            ...getElements()
+        ],
+      ));
 }

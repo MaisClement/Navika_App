@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// 🌎 Project imports:
 import 'package:navika/src/data/app.dart';
 
 // 🌎 Project imports:
-import 'package:navika/src/style.dart';
-import 'package:navika/src/utils.dart';
-import 'package:navika/src/widgets/journey/lines.dart';
 
 class VehiculeDetails extends StatelessWidget {
   final Map details;

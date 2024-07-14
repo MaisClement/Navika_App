@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_svg/svg.dart';
 
 // 🌎 Project imports:
-import 'package:navika/src/data/app.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/icon.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';

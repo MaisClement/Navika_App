@@ -1,5 +1,6 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 // 📦 Package imports:
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -42,28 +43,30 @@ class SettingsButton extends StatelessWidget {
             const SizedBox(
               width: 7,
             ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: fontFamily,
-                  fontSize: 17,
-                ),
-              ),
-              if (sub != null)
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Text(
-                  sub ?? '',
+                  name,
                   style: TextStyle(
                     color: Colors.white,
+                    fontWeight: FontWeight.w600,
                     fontFamily: fontFamily,
-                    fontSize: 14,
+                    fontSize: 17,
                   ),
                 ),
-            ],
+                if (sub != null)
+                  Text(
+                    sub ?? '',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: fontFamily,
+                      fontSize: 14,
+                    ),
+                  ),
+              ],
+            ),
           )
         ],
       ),

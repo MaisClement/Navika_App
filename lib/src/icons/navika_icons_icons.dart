@@ -17,8 +17,6 @@
 ///         License:   SIL (https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt)
 ///         Homepage:  http://fortawesome.github.com/Font-Awesome/
 ///
-
-// 🐦 Flutter imports:
 import 'package:flutter/widgets.dart';
 
 class NavikaIcons {
@@ -84,12 +82,14 @@ class NavikaIcons {
   static const IconData avance = IconData(0xe836, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData work = IconData(0xe837, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData alert = IconData(0xe838, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData boat = IconData(0xe839, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData telescope = IconData(0xe83a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData order = IconData(0xe83b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ticket = IconData(0xe83c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData ticket_2 = IconData(0xe83d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData leaf = IconData(0xe83e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData slide = IconData(0xe83f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData rafting = IconData(0xe840, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData map = IconData(0xe841, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData past = IconData(0xe842, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData futur = IconData(0xe843, fontFamily: _kFontFam, fontPackage: _kFontPkg);
@@ -97,12 +97,27 @@ class NavikaIcons {
   static const IconData position_middle = IconData(0xe845, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData position_front = IconData(0xe846, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData navi = IconData(0xe847, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData basketball = IconData(0xe848, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData exit = IconData(0xe849, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData entrance = IconData(0xe84a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData stars = IconData(0xe84b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData hearts = IconData(0xe84c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData position_unknow = IconData(0xe84d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData horse = IconData(0xe850, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData sport = IconData(0xe851, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData tennis = IconData(0xe852, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData biking = IconData(0xe853, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData foot = IconData(0xe854, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData golf = IconData(0xe855, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData swiming = IconData(0xe856, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData volley = IconData(0xe857, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData arc = IconData(0xe858, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData climbing = IconData(0xe859, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData saved = IconData(0xe85a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData running = IconData(0xe85b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData skate = IconData(0xe85c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData table_tennis = IconData(0xe85d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData badminton = IconData(0xe85e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData bell = IconData(0xe86c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData busFace = IconData(0xe880, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData chevron_left = IconData(0xf053, fontFamily: _kFontFam, fontPackage: _kFontPkg);

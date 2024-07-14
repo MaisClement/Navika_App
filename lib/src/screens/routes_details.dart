@@ -151,8 +151,8 @@ String getTerminus(line) {
 
 String? getMapUrl(Map line) {
   try {
-    if (line['map'][0]['url'] != null) {
-      return line['map'][0]['url'];
+    if (line['maps'][0]['url'] != null) {
+      return line['maps'][0]['url'];
     }
     return null;
   } catch (e) {

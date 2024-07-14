@@ -203,7 +203,7 @@ class _JourneysSearchState extends State<JourneysSearch> {
       if (places.isEmpty && isLoading == true) {
         res.add(const PlacesLoad());
       } else {
-        res.add(const PlacesEmpty());
+        res.add(PlacesEmpty());
       }
     }
     return res;

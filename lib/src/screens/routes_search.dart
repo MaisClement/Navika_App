@@ -127,7 +127,7 @@ class _RoutesSearchState extends State<RoutesSearch> {
           const PlacesLoad()
           
         else
-          const PlacesEmpty(),
+          PlacesEmpty(),
       ],
       
     )

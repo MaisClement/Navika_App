@@ -6,8 +6,10 @@ import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style.dart';
 
 class PlacesEmpty extends StatelessWidget {
+  Color? color;
 
-	const PlacesEmpty({
+	PlacesEmpty({
+    this.color,
 		super.key,
 	});
 
@@ -19,14 +21,14 @@ class PlacesEmpty extends StatelessWidget {
         Icon(
           NavikaIcons.telescope,
           size: 40,
-          color: accentColor(context),
+          color: color ?? accentColor(context),
         ),
         Text(
           'Nous n’avons rien trouvé...',
           style: TextStyle(
             fontWeight: FontWeight.w600,
             fontFamily: fontFamily,
-            color: accentColor(context),
+            color: color ?? accentColor(context),
           ),
           textAlign: TextAlign.center,
         ),

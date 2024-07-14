@@ -275,8 +275,13 @@ class _JourneysDetailsState extends State<JourneysDetails> {
     }
 
     if (mounted) {
-      positionStream = Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position? position) {
-        _updateLocationIndicator(position!);
+      positionStream = Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position? newPosition) {
+        if (mounted) {
+          setState(() {
+            position = newPosition;
+          });
+        }
+        _updateLocationIndicator(newPosition!);
       });
       FlutterCompass.events?.listen((CompassEvent compassEvent) {
         _updateCompass(compassEvent);

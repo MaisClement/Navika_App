@@ -24,7 +24,7 @@ class HereController {
   }
 
   Location defineLocation(Position position, double heading) {
-    GeoCoordinates geoCoords = GeoCoordinates(position.latitude ?? 0, position.longitude ?? 0);
+    GeoCoordinates geoCoords = GeoCoordinates(position.latitude, position.longitude);
     Location location = Location.withCoordinates(geoCoords);
     location.time = DateTime.now();
     location.horizontalAccuracyInMeters = position.accuracy;
@@ -56,7 +56,7 @@ class HereController {
         distanceToEarthInMeters = (position.accuracy * 2) + 1000;
       }
       MapMeasure mapMeasureZoom = MapMeasure(MapMeasureKind.distance, distanceToEarthInMeters);
-      _hereMapController.camera.lookAtPointWithMeasure(GeoCoordinates(position.latitude ?? 0, position.longitude ?? 0), mapMeasureZoom);
+      _hereMapController.camera.lookAtPointWithMeasure(GeoCoordinates(position.latitude, position.longitude), mapMeasureZoom);
     }
   }
 
@@ -87,7 +87,6 @@ class HereController {
   }
 
   void updateLocationIndicator(Position? position, double heading, [bool isActive = true]){
-    print(['INFO_', position]);
     if (position == null || locationIndicator == null) return;
     locationIndicator?.updateLocation(defineLocation(position, heading));
     locationIndicator?.isActive = isActive;

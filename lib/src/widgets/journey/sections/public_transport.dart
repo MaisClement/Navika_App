@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/extensions/datetime.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
-import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing/route_state.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';

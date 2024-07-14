@@ -1,8 +1,8 @@
 // 🐦 Flutter imports:
-import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // 🌎 Project imports:

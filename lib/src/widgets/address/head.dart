@@ -30,7 +30,7 @@ Widget getDistanceWidget(double lat, double lon) {
   int distance = calculateDistance(lat, lon, globals.position!.latitude, globals.position!.longitude).toInt();
   int duration = distance ~/ 1.3;
 
-  if (distance >= 1000 ) {
+  if (distance >= 1000) {
     return Container();
   }
 
@@ -102,7 +102,7 @@ class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStat
   }
 
   void _setPadding() {
-    if (_key.currentContext != null) { 
+    if (_key.currentContext != null) {
       widget.setPadding(_key.currentContext?.size?.height);
     }
   }
@@ -148,13 +148,21 @@ class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStat
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(15),
             topRight: Radius.circular(15),
+            bottomRight: Radius.circular(15),
+            bottomLeft: Radius.circular(15),
           ),
+          image: address['place'] != null && address['place']['jo'] != null
+              ? const DecorationImage(
+                  image: AssetImage('assets/img/JO.jpg'),
+                  fit: BoxFit.cover,
+                  alignment: Alignment.topCenter,
+                )
+              : null,
           color: Theme.of(context).colorScheme.surface,
         ),
         child: Column(
           key: _key,
           children: [
-
             Container(
               margin: const EdgeInsets.only(
                 top: 15,
@@ -169,7 +177,6 @@ class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStat
                 ),
               ),
             ),
-
             if (error != ApiStatus.ok)
               ErrorBlock(
                 error: error,
@@ -188,7 +195,7 @@ class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStat
                         IconButton(
                           icon: Icon(arrowBack),
                           tooltip: AppLocalizations.of(context)!.back,
-                          color: accentColor(context),
+                          color: address['place']['jo'] != null ? const Color(0xffffffff) : accentColor(context),
                           onPressed: () => Navigator.pop(context),
                         ),
                         const SizedBox(width: 10),
@@ -201,7 +208,7 @@ class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStat
                                 fontSize: 22,
                                 fontWeight: FontWeight.w600,
                                 fontFamily: fontFamily,
-                                color: accentColor(context),
+                                color: address['place']['jo'] != null ? const Color(0xffffffff) : accentColor(context),
                               ),
                               maxLines: 1,
                               softWrap: false,
@@ -211,7 +218,7 @@ class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStat
                               address['place']['zip_code'] == '' ? address['place']['town'] : '${address['place']['zip_code']}, ${address['place']['town']}',
                               style: TextStyle(
                                 fontSize: 16,
-                                color: accentColor(context),
+                                color: address['place']['jo'] != null ? const Color(0xffffffff) : accentColor(context),
                                 fontFamily: fontFamily,
                               ),
                             ),
@@ -238,6 +245,12 @@ class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStat
                                 onPressed: () {
                                   initJourney(null, {'name': address['place']['name'], 'id': address['place']['id']}, context);
                                 },
+                                style: address['place']['jo'] != null
+                                    ? ElevatedButton.styleFrom(
+                                        backgroundColor: Theme.of(context).colorScheme.surface,
+                                        foregroundColor: const Color(0xff391674),
+                                      )
+                                    : null,
                               ),
                             ),
                             //TODO Padding(
@@ -263,7 +276,7 @@ class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStat
               ),
           ],
         ),
-  );
+      );
 
   @override
   void initState() {
