@@ -23,7 +23,7 @@ Future<void> handleOnTap(context, uri) async {
   if (uri.startsWith('app://')) {
     RouteStateScope.of(context).go(uri.substring(5));
   } else {
-    await browser.open(url: Uri.parse(uri), options: ChromeSafariBrowserClassOptions());
+    await browser.open(url: WebUri(uri));
   }
 }
 

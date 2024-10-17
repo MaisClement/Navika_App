@@ -60,7 +60,7 @@ class SettingsLink extends StatelessWidget {
         ),
         onTap: () async {
           await browser.open(
-            url: Uri.parse(url), options: ChromeSafariBrowserClassOptions()
+            url: WebUri(url)
           );
         },
       );

@@ -99,7 +99,7 @@ class HomeWidgetSponsor extends StatelessWidget {
                 text: AppLocalizations.of(context)!.sponsor,
                 onPressed: () async {
                   await browser.open(
-                    url: Uri.parse(app.APP_SPONSOR), options: ChromeSafariBrowserClassOptions()
+                    url: WebUri(app.APP_SPONSOR)
                   );
                 },
               ),
