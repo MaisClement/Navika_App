@@ -66,7 +66,7 @@ class _HomeState extends State<Home> {
   CompassEvent? compassEvent;
   double compass = 0;
 
-  late StreamSubscription<ConnectivityResult> connection;
+  late StreamSubscription<List<ConnectivityResult>> connection;
 
   bool isPanned = false;
   bool is3dMap = false;
@@ -527,8 +527,10 @@ class _HomeState extends State<Home> {
         _getInBox();
       });
       _initializeConnectivity();
-      connection = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-        _setConnectivity(result);
+      connection = Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> results) {
+        for (var result in results) {
+          _setConnectivity(result);
+        }
       });
     });
   }
