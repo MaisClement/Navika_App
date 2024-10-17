@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
+import 'package:app_links/app_links.dart';
 import 'package:collection/collection.dart';
-import 'package:uni_links/uni_links.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
@@ -71,18 +71,16 @@ class _NavikaAppNavigatorState extends State<NavikaAppNavigator> {
   }
 
   Future<void> initUniLinks(context) async {
-    linkStream.listen((String? link) {
-      if (kDebugMode) {
-        print(['info_lister', link]);
-      }
+    final appLinks = AppLinks();
+    
+    appLinks.uriLinkStream.listen((Uri? link) {
       if (link != null) {
-        Uri uri = Uri.parse(link);
-        if (uri.scheme == 'geo' && uri.queryParameters.containsKey('q')) {
-          globals.query = uri.queryParameters['q'];
+        if (link.scheme == 'geo' && link.queryParameters.containsKey('q')) {
+          globals.query = link.queryParameters['q'];
           RouteStateScope.of(context).go('/home/search');
-        } else if (uri.pathSegments.length == 2) {
-          double latitude = double.parse(uri.pathSegments[0]);
-          double longitude = double.parse(uri.pathSegments[1]);
+        } else if (link.pathSegments.length == 2) {
+          double latitude = double.parse(link.pathSegments[0]);
+          double longitude = double.parse(link.pathSegments[1]);
           RouteStateScope.of(context).go('/address/$latitude;$longitude');
         }
       }

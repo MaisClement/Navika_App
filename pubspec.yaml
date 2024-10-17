@@ -34,52 +34,45 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  animated_flip_counter: ^0.3.4
+  app_links: ^6.3.2
+  collection: ^1.16.0
+  connectivity_plus: ^6.1.0
   cupertino_icons: ^1.0.2
-  url_strategy: ^0.2.0
-  quiver: ^3.1.0
-  path_to_regexp: ^0.4.0
-  url_launcher: ^6.1.5
-  http: ^0.13.5
-  sliding_up_panel: ^2.0.0+1
+  dotted_line: ^3.1.0
+  firebase_core: ^3.6.0
+  firebase_messaging: ^15.1.3
+  floating_snackbar: ^1.0.5
+  flutter_inappwebview: ^6.1.5
+  flutter_local_notifications: ^17.0.0
+  flutter_markdown: ^0.7.4
+  flutter_rounded_date_picker: ^3.0.2
+  flutter_svg: ^2.0.9
+  geolocator: ^13.0.1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-  flutter_svg: ^1.1.6
-  flutter_inappwebview: ^5.7.2
-  collection: ^1.16.0
-  flutter_rounded_date_picker: ^3.0.2
-  floating_snackbar: ^1.0.5
-  dotted_line: ^3.1.0
-  connectivity_plus: ^4.0.1
+  http: ^0.13.5
+  icons_launcher: ^3.0.0
   internet_file: ^1.2.0
-  shimmer: ^3.0.0
-  firebase_core: ^2.15.0
-  firebase_messaging: ^14.6.5
-  flutter_local_notifications: ^17.0.0
-  path_provider: ^2.1.0
-  smooth_page_indicator: ^1.1.0
-  package_info_plus: ^4.1.0
-  pinch_zoom_release_unzoom: ^0.0.10
-  scroll_to_index: ^3.0.1
-  screenshot: ^2.1.0
-  flutter_markdown: ^0.6.18+3
-  uni_links: ^0.5.1
-  uuid: ^4.4.0
   intl: any
-  geolocator: ^12.0.0
+  package_info_plus: ^8.1.0
+  path_provider: ^2.1.0
+  path_to_regexp: ^0.4.0
   pdfx: ^2.6.0
-  animated_flip_counter: ^0.3.4
-  icons_launcher: ^2.1.7
+  pinch_zoom_release_unzoom: ^1.0.3
+  quiver: ^3.1.0
+  screenshot: ^3.0.0
+  scroll_to_index: ^3.0.1
+  shimmer: ^3.0.0
+  sliding_up_panel: ^2.0.0+1
+  smooth_page_indicator: ^1.1.0
+  url_launcher: ^6.1.5
+  url_strategy: ^0.3.0
+  uuid: ^4.4.0
 
-  # See https://github.com/ScerIO/packages.flutter/issues/448
-  # pdfx: 
-  #   git:
-  #    url: 'https://github.com/ScerIO/packages.flutter' 
-  #    ref: '4be9de9ffed5398fd7d5f44bbb07dcd3d3f1711b'  
-  #    path: packages/pdfx
-     
-  # flutter_compass: ^0.7.0
   flutter_compass:
-    git: https://github.com/hemanthrajv/flutter_compass.git
+    # https://github.com/hemanthrajv/flutter_compass/pull/113
+    git: https://github.com/PikPakPik/flutter_compass.git
 
   flutter_localizations:
     sdk: flutter
@@ -88,12 +81,12 @@ dependencies:
     path: plugins/here_sdk
 
 dev_dependencies:
-  hive_generator: ^1.1.3
+  hive_generator: ^2.0.1
   build_runner: ^2.3.0
-  flutter_launcher_icons: "^0.13.1"
+  flutter_launcher_icons: ^0.14.1
   flutter_native_splash: ^2.2.19
   import_sorter: ^4.6.0
-  flutter_lints: ^2.0.0
+  flutter_lints: ^5.0.0
   # flutter_gen: any
 
   # $ dart run icons_launcher:create

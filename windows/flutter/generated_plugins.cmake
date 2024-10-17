@@ -3,8 +3,10 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  app_links
   connectivity_plus
   firebase_core
+  flutter_inappwebview_windows
   geolocator_windows
   pdfx
   url_launcher_windows
