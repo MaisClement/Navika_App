@@ -1,10 +1,5 @@
 // ignore_for_file: constant_identifier_names, non_constant_identifier_names
 
-library my_prj.app;
-
-// 🐦 Flutter imports:
-import 'package:flutter/foundation.dart';
-
 // 📦 Package imports:
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -17,11 +12,11 @@ Future getAppInfo() async {
   BUILD_NUMBER = packageInfo.buildNumber;
   BUILD_SIGNATURE = packageInfo.buildSignature;
 
-  if(kDebugMode) {
-    API_BASE = 'http://code.hackernwar.com:8000';
-  } else {
-    API_BASE = 'https://navika.hackernwar.com';
-  }
+  // if(kDebugMode) {
+  //  API_BASE = 'http://code.kleme.fr:8000';
+  // } else {
+    API_BASE = 'https://navika.fr';
+  // }
 
   API_INDEX =                            '$API_BASE/index';
   API_TRAFIC =                           '$API_BASE/trafic';
@@ -31,16 +26,16 @@ Future getAppInfo() async {
   API_STOPS =                            '$API_BASE/stops';
   API_SCHEDULES =                        '$API_BASE/schedules';
   API_LINES =                            '$API_BASE/lines';
+  API_SHAPES =                           '$API_BASE/shapes';
   API_BIKE_STATIONS =                    '$API_BASE/bikes';
-  API_JOURNEY =                          '$API_BASE/journey';
-  API_JOURNEYS =                         '$API_BASE/journeys';
+  API_JOURNEY =                          '$API_BASE/journey';  // '$API_BASE/motis/journey';
+  API_JOURNEYS =                         '$API_BASE/journeys'; // '$API_BASE/motis/journeys';
   API_VEHICLE_JOURNEY =                  '$API_BASE/vehicle_journey';
   API_MAPS =                             '$API_BASE/maps';
   API_ADD_NOTIFICATION_SUBSCRIPTION =    '$API_BASE/notification/subscribe';
   API_RENEW_NOTIFICATION =               '$API_BASE/notification/renew';
   API_GET_NOTIFICATION_SUBSCRIPTION =    '$API_BASE/notification/get';
   API_REMOVE_NOTIFICATION_SUBSCRIPTION = '$API_BASE/notification/unsubscribe';
-  APP_CHANGES =                          '$API_BASE/CHANGES_$VERSION.md';
 }
 
 String NAME = '';
@@ -51,9 +46,7 @@ String BUILD_SIGNATURE = '';
 
 // ---
 
-const String GLITCH_URL = 'https://69ff476ec3614a5dba8fc1d579c816c6@glitch.hackernwar.com/2';
-
-String API_BASE = 'https://navika.hackernwar.com';
+String API_BASE = 'https://navika.fr';
 String API_INDEX =                            '';
 String API_TRAFIC =                           '';
 String API_PLACES =                           '';
@@ -62,6 +55,7 @@ String API_ADDRESS =                          '';
 String API_STOPS =                            '';
 String API_SCHEDULES =                        '';
 String API_LINES =                            '';
+String API_SHAPES =                           '';
 String API_BIKE_STATIONS =                    '';
 String API_JOURNEY =                          '';
 String API_JOURNEYS =                         '';
@@ -71,5 +65,4 @@ String API_ADD_NOTIFICATION_SUBSCRIPTION =    '';
 String API_RENEW_NOTIFICATION =               '';
 String API_GET_NOTIFICATION_SUBSCRIPTION =    '';
 String API_REMOVE_NOTIFICATION_SUBSCRIPTION = '';
-String APP_CHANGES =                          '';
 String APP_SPONSOR =                          'https://www.buymeacoffee.com/navika';

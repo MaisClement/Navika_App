@@ -89,7 +89,7 @@ class HomeMessage extends StatelessWidget {
                         child: Text(
                           message['message']['title'],
                           style: TextStyle(
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w800,
                             fontSize: 17,
                             color: message['message']['img'] != null ? const Color(0xffffffff) : null,
                           ),
@@ -144,7 +144,7 @@ class HomeMessage extends StatelessWidget {
                           message['message']['title'],
                           style: TextStyle(
                             fontSize: 18,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w800,
                             color: message['message']['img'] != null ? const Color(0xffffffff) : null,
                           ),
                         ),

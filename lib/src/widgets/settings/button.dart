@@ -1,6 +1,5 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 // 📦 Package imports:
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -51,7 +50,7 @@ class SettingsButton extends StatelessWidget {
                   name,
                   style: TextStyle(
                     color: Colors.white,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     fontFamily: fontFamily,
                     fontSize: 17,
                   ),

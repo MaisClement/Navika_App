@@ -14,7 +14,7 @@ import 'package:flutter/foundation.dart'
 ///
 /// Example:
 /// ```dart
-/// import 'firebase_options.dart';
+/// import 'FIREBASE_ANDROID_options.dart';
 /// // ...
 /// await Firebase.initializeApp(
 ///   options: DefaultFirebaseOptions.currentPlatform,
@@ -32,10 +32,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -59,10 +56,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: credentials.FIREBASE_API_KEY,
-    appId: credentials.FIREBASE_KEY_ID,
-    messagingSenderId: credentials.FIREBASE_SENDER_ID,
-    projectId: credentials.FIREBASE_PROJECT_ID,
-    storageBucket: credentials.FIREBASE_STORAGE_BUCKET,
+    apiKey: credentials.FIREBASE_ANDROID_API_KEY,
+    appId: credentials.FIREBASE_ANDROID_KEY_ID,
+    messagingSenderId: credentials.FIREBASE_ANDROID_SENDER_ID,
+    projectId: credentials.FIREBASE_ANDROID_PROJECT_ID,
+    storageBucket: credentials.FIREBASE_ANDROID_STORAGE_BUCKET,
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: credentials.FIREBASE_IOS_API_KEY,
+    appId: credentials.FIREBASE_IOS_KEY_ID,
+    messagingSenderId: credentials.FIREBASE_IOS_SENDER_ID,
+    projectId: credentials.FIREBASE_IOS_PROJECT_ID,
+    storageBucket: credentials.FIREBASE_IOS_STORAGE_BUCKET,
+    iosClientId: credentials.FIREBASE_IOS_CLIENT_ID,
+    iosBundleId: credentials.FIREBASE_IOS_BUNDLE_ID,
   );
 }

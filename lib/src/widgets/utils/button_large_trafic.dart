@@ -64,7 +64,7 @@ class ButtonLargeTrafic extends StatelessWidget {
                   child: Text(
                     getSlugLongTitle(context, line['severity']),
                     style: const TextStyle(
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                       fontSize: 17,
                     ),
                   ),

@@ -6,8 +6,8 @@ import 'package:navika/src/style.dart';
 
 class RadioTiles extends StatelessWidget {
   final List tiles;
-  final Function(String) onTileChange;
-  final String? value;
+  final Function(dynamic) onTileChange;
+  final dynamic value;
 
   const RadioTiles({
     required this.tiles,
@@ -24,15 +24,13 @@ class RadioTiles extends StatelessWidget {
             for (var tile in tiles)
               SizedBox(
                 width: MediaQuery.of(context).size.width / (tiles.length + 1),
-                height: 90,
+                height: tile['name'] != null ? 90 : 52,
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
-                  height: 90,
+                  height: tile['name'] != null ? 90 : 52,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: tile['value'] == value
-                        ? mainColor(context)
-                        : Theme.of(context).colorScheme.primaryContainer,
+                    color: tile['value'] == value ? mainColor(context) : Theme.of(context).colorScheme.primaryContainer,
                   ),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(15),
@@ -52,13 +50,14 @@ class RadioTiles extends StatelessWidget {
                         Container(
                           height: 10,
                         ),
-                        Text(
-                          tile['name'],
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: getRadioTilesTextColor(context, tile['value'] == value),
+                        if (tile['name'] != null)
+                          Text(
+                            tile['name'],
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: getRadioTilesTextColor(context, tile['value'] == value),
+                            ),
                           ),
-                        ),
                       ],
                     ),
                   ),

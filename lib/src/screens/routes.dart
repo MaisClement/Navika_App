@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
@@ -46,7 +46,7 @@ class _RoutesState extends State<Routes> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(AppLocalizations.of(context)!.lines, style: appBarTitle),
+              Text(AppLocalizations.of(context)!.lines, style: mainAppBarTitle(context)),
               const SizedBox(
                 height: 10,
               ),
@@ -80,7 +80,7 @@ class _RoutesState extends State<Routes> {
                     Text(
                       AppLocalizations.of(context)!.add_lines_to_favorites,
                       style: TextStyle(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w800,
                         fontFamily: fontFamily,
                       ),
                       textAlign: TextAlign.center,

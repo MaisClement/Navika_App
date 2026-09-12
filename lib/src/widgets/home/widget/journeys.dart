@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
@@ -25,8 +25,10 @@ class HomeWidgetJourneys extends StatefulWidget {
 class _HomeWidgetJourneysState extends State<HomeWidgetJourneys> {
   List journeys =  [];
 
-  List getJourneys() {
-    return sortJourneys(getFutureJourneys(globals.hiveBox?.get('journeys')));
+  void getJourneys() {
+    setState(() {
+      journeys = sortJourneys(getFutureJourneys(globals.hiveBox?.get('journeys')));
+    });
   }
 
   @override
@@ -60,7 +62,7 @@ class _HomeWidgetJourneysState extends State<HomeWidgetJourneys> {
                   children: [
                     Text(AppLocalizations.of(context)!.no_routes_planned,
                       style: TextStyle(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w800,
                         fontFamily: fontFamily,
                       ),
                       textAlign: TextAlign.center,

@@ -39,13 +39,6 @@
 To get started you'll need to set-up Flutter on your machine, you can follow the instructions here: [Install Flutter](https://docs.flutter.dev/get-started/install). \
 Once done, you'll be ready to clone this repository and start coding!
 
-### Here
-
-Navika use the Here SDK (for maps); you'll find the documentation here: [SDK for Flutter Explore Edition](https://www.here.com/docs/bundle/sdk-for-flutter-explore-developer-guide/page/README.html), and it can be downloaded here: [Here Platform](https://platform.here.com/portal/sdk).
-
-If you don't want (or need a map), simply leave blank credentials. Else,put the SDK in the `plugins/here_sdk` folder and add your HERE credentials to `lib\credentials.dart`.
-
-
 ### Firebase
 
 Navika use firebase for notifications. Firebase is not required to build the app, you can safely disable it.

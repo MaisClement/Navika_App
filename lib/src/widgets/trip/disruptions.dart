@@ -22,8 +22,7 @@ class TripDisruptions extends StatelessWidget {
         children: [
           for (var disruption in disruptions)
             Container(
-              padding: const EdgeInsets.only(
-                  left: 15.0, top: 10, right: 15.0, bottom: 0.0),
+              padding: const EdgeInsets.only(left: 15.0, top: 10, right: 15.0, bottom: 0.0),
               margin: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                 color: getSlugColor(disruption['severity'], true).withOpacity(0.2),
@@ -49,7 +48,9 @@ class TripDisruptions extends StatelessWidget {
                               Text(
                                 disruption['message']['title'],
                                 style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w700),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w800,
+                                ),
                               ),
                             ],
                           ),
@@ -57,7 +58,6 @@ class TripDisruptions extends StatelessWidget {
                       ],
                     ),
                   ),
-
                   if (disruption['message']['text'] != null && disruption['message']['text'] != '')
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),

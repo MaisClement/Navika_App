@@ -3,6 +3,7 @@ import 'dart:async';
 
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
@@ -114,10 +115,12 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                 Row(
                   children: [
                     Expanded(
-                      child: Text(widget.section['from']['name'],
+                      child: Text(widget.section['from']['name'] == 'START'
+                        ? globals.route['from']['name'] ?? AppLocalizations.of(context)!.departure
+                        : widget.section['from']['name'],
                         style: TextStyle(
                           fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                         ),
                         maxLines: 1,
@@ -127,10 +130,9 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 10, right: 15, top: 0),
-                      color: Theme.of(context).colorScheme.surface,
                       child: Text(getStringTime(widget.section['departure_date_time']),
                         style: TextStyle(
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                           fontSize: 16,
                         )
@@ -141,10 +143,10 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                 Row(
                   children: [
                     Expanded(
-                      child: Text('➜ ${widget.section['informations']['direction']['id'].substring(0, widget.section['informations']['direction']['id'].indexOf('('))}',
+                      child: Text('➜ ${widget.section['informations']['direction']['name']}',
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                           color: HexColor.fromHex(widget.section['informations']['line']['color']),
                         ),
@@ -155,7 +157,7 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                     ),
                   ],
                 ),
-                if (widget.section['informations']['headsign'] != widget.section['informations']['trip_name'])
+                if (widget.section['informations']['headsign'] != widget.section['informations']['name'])
                   Row(
                     children: [
                       Text(widget.section['informations']['headsign'],
@@ -167,7 +169,7 @@ class _SectionPublicTransportState extends State<SectionPublicTransport> with Si
                       const SizedBox(
                         width: 10,
                       ),
-                      Text(widget.section['informations']['trip_name'],
+                      Text(widget.section['informations']['name'],
                         style: const TextStyle(
                           fontSize: 20,
                           fontFamily: 'Diode',

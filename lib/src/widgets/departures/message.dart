@@ -27,7 +27,7 @@ class Message extends StatelessWidget {
     child: Text(message,
       style: TextStyle(
         color: color,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w800,
         fontFamily: fontFamily,
       ),
       textAlign: TextAlign.center,
@@ -58,7 +58,7 @@ class MiniMessage extends StatelessWidget {
     child: Text(message,
       style: TextStyle(
         color: color,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w800,
         fontSize: 12,
         fontFamily: fontFamily,
       ),

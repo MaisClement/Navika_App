@@ -49,19 +49,18 @@ class SectionTransfer extends StatelessWidget {
                       child: Text(section['from']['name'],
                         style: TextStyle(
                           fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                         )
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 10, right: 15, top: 0),
-                      color: Theme.of(context).colorScheme.surface,
                       child: Row(
                         children: [
                           Text(getStringTime(section['departure_date_time']),
                             style: TextStyle(
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w800,
                               fontFamily: fontFamily,
                               fontSize: 16,
                             )
@@ -71,7 +70,7 @@ class SectionTransfer extends StatelessWidget {
                     ),
                   ],
                 ),
-                Text('${getDistanceText(section['geojson']['properties'][0]['length'])} • ${getDuration(section['duration'])}'),
+                Text('Marche • ${getDuration(section['duration'])} • ${getDistanceText(section['geojson']['properties'][0]['length'])}'),
               ],
             ),
           ),

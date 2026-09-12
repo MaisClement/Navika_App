@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/icons/navika_icons_icons.dart';
@@ -60,7 +60,7 @@ class BoardingPosition extends StatelessWidget {
               Text(AppLocalizations.of(context)!.where_to_board,
                 style: TextStyle(
                   fontSize: 16,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w800,
                   fontFamily: fontFamily,
                 )
               ),
@@ -70,7 +70,7 @@ class BoardingPosition extends StatelessWidget {
               Text(getPosition(context, position),
                 style: TextStyle(
                   fontSize: 16,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w800,
                   fontFamily: fontFamily,
                   color: accentColor(context),
                 )

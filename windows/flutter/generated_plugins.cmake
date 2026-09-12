@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   app_links
+  battery_plus
   connectivity_plus
   firebase_core
   flutter_inappwebview_windows

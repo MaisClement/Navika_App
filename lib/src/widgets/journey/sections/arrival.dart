@@ -1,7 +1,9 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
@@ -42,10 +44,13 @@ class SectionArrival extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 25),
-              child: Text(section['to']['name'],
-                style: TextStyle(
+              child: Text(
+                section['to']['name'] == 'END'
+                        ? globals.route['to']['name'] ?? AppLocalizations.of(context)!.arrival
+                        : section['to']['name'],
+                        style: TextStyle(
                   fontSize: 18,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w800,
                   fontFamily: fontFamily,
                 )
               ),
@@ -53,12 +58,11 @@ class SectionArrival extends StatelessWidget {
           ),
           Container(
             padding: const EdgeInsets.only(left: 10, right: 15, top: 0),
-            color: Theme.of(context).colorScheme.surface,
             child: Row(
               children: [
                 Text(getStringTime(section['arrival_date_time']),
                   style: TextStyle(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     fontFamily: fontFamily,
                     fontSize: 16,
                   )

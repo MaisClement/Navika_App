@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/style.dart';
@@ -29,9 +29,9 @@ class TraficWorks extends StatelessWidget {
           children: [
             Text(
               AppLocalizations.of(context)!.upcoming,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
             ),
-            const Divider(height: 25, thickness: 1.5),
+            Divider(height: 25, thickness: 1.5, color: Theme.of(context).colorScheme.onSurface,),
             for (var ctrafic in reports)
               Container(
                 margin: const EdgeInsets.only(top: 5, right: 5, bottom: 15.0),
@@ -57,7 +57,7 @@ class TraficWorks extends StatelessWidget {
                                       ctrafic['message']['title'],
                                       style: const TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.w700),
+                                          fontWeight: FontWeight.w800),
                                     ),
                                   ],
                                 ),

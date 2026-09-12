@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
@@ -73,8 +73,9 @@ class _MapsState extends State<Maps> with SingleTickerProviderStateMixin {
                         image: map['icon'] == null ? null : NetworkImage(map['icon']),
                         icon: NavikaIcons.map,
                         text: map['name'],
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w700,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontFamily: fontFamily,
                           fontSize: 17,
                         ),
                         borderRadius: BorderRadius.circular(10),

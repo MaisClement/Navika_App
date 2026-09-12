@@ -5,9 +5,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:here_sdk/core.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:navika/l10n/app_localizations.dart';
+import 'package:navika/src/class/geocoords.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
@@ -66,17 +65,19 @@ Widget getDistanceWidget(double lat, double lon) {
 class AddressHead extends StatefulWidget {
   final String id;
   final Function onDispose;
-  final Function setPadding;
   final Function setData;
   final Function refreshMap;
-  final PanelController panelController;
-
+  final Function openPanel;
+  final Function moveMap;
+  final dynamic panelController;
+  
   const AddressHead({
     required this.id,
     required this.onDispose,
-    required this.setPadding,
     required this.setData,
     required this.refreshMap,
+    required this.openPanel,
+    required this.moveMap,
     required this.panelController,
     super.key,
   });
@@ -86,26 +87,10 @@ class AddressHead extends StatefulWidget {
 }
 
 class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStateMixin {
-  String id = '';
   bool isLoading = true;
-
-  final _key = GlobalKey();
-  late Timer _timer;
 
   Map address = {};
   ApiStatus error = ApiStatus.ok;
-
-  void init() {
-    setState(() {
-      id = widget.id;
-    });
-  }
-
-  void _setPadding() {
-    if (_key.currentContext != null) {
-      widget.setPadding(_key.currentContext?.size?.height);
-    }
-  }
 
   Future<void> _getAddress() async {
     setState(() {
@@ -113,7 +98,7 @@ class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStat
     });
     widget.setData(null);
 
-    GeoCoordinates geoCoordinates = GeoCoordinates(double.parse(id.split(';')[0]), double.parse(id.split(';')[1]));
+    GeoCoordinates geoCoordinates = GeoCoordinates(double.parse(widget.id.split(';')[0]), double.parse(widget.id.split(';')[1]));
 
     NavikaApi navikaApi = NavikaApi();
     Map result = await navikaApi.getAddress(geoCoordinates);
@@ -131,52 +116,24 @@ class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStat
 
         //
         widget.setData(address);
-        widget.panelController.animatePanelToSnapPoint();
+        widget.openPanel();
         widget.refreshMap(address['place']['coord']['lat'], address['place']['coord']['lon']);
+        widget.moveMap(address['place']['coord']['lat'], address['place']['coord']['lon']);
+
         if (globals.updateMap == false) {
           openMapPoint(address['place']['coord']['lat'], address['place']['coord']['lon'], true);
         }
+        
         globals.updateMap = false;
       }
     }
   }
-
+  
   @override
   Widget build(BuildContext context) => Container(
         width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(15),
-            topRight: Radius.circular(15),
-            bottomRight: Radius.circular(15),
-            bottomLeft: Radius.circular(15),
-          ),
-          image: address['place'] != null && address['place']['jo'] != null
-              ? const DecorationImage(
-                  image: AssetImage('assets/img/JO.jpg'),
-                  fit: BoxFit.cover,
-                  alignment: Alignment.topCenter,
-                )
-              : null,
-          color: Theme.of(context).colorScheme.surface,
-        ),
         child: Column(
-          key: _key,
           children: [
-            Container(
-              margin: const EdgeInsets.only(
-                top: 15,
-                bottom: 10,
-              ),
-              child: Container(
-                width: 40,
-                height: 5,
-                decoration: BoxDecoration(
-                  color: Colors.grey[400],
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-            ),
             if (error != ApiStatus.ok)
               ErrorBlock(
                 error: error,
@@ -195,7 +152,7 @@ class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStat
                         IconButton(
                           icon: Icon(arrowBack),
                           tooltip: AppLocalizations.of(context)!.back,
-                          color: address['place']['jo'] != null ? const Color(0xffffffff) : accentColor(context),
+                          color: accentColor(context),
                           onPressed: () => Navigator.pop(context),
                         ),
                         const SizedBox(width: 10),
@@ -206,9 +163,9 @@ class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStat
                               address['place']['name'],
                               style: TextStyle(
                                 fontSize: 22,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w800,
                                 fontFamily: fontFamily,
-                                color: address['place']['jo'] != null ? const Color(0xffffffff) : accentColor(context),
+                                color: accentColor(context),
                               ),
                               maxLines: 1,
                               softWrap: false,
@@ -218,7 +175,7 @@ class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStat
                               address['place']['zip_code'] == '' ? address['place']['town'] : '${address['place']['zip_code']}, ${address['place']['town']}',
                               style: TextStyle(
                                 fontSize: 16,
-                                color: address['place']['jo'] != null ? const Color(0xffffffff) : accentColor(context),
+                                color: accentColor(context),
                                 fontFamily: fontFamily,
                               ),
                             ),
@@ -243,14 +200,8 @@ class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStat
                                 icon: NavikaIcons.navi,
                                 text: AppLocalizations.of(context)!.go,
                                 onPressed: () {
-                                  initJourney(null, {'name': address['place']['name'], 'id': address['place']['id']}, context);
+                                  initJourney(null, {'name': address['place']['name'], 'id': '${address['place']['coord']['lat']};${address['place']['coord']['lon']}'}, context);
                                 },
-                                style: address['place']['jo'] != null
-                                    ? ElevatedButton.styleFrom(
-                                        backgroundColor: Theme.of(context).colorScheme.surface,
-                                        foregroundColor: const Color(0xff391674),
-                                      )
-                                    : null,
                               ),
                             ),
                             //TODO Padding(
@@ -282,27 +233,13 @@ class _AddressHeadState extends State<AddressHead> with SingleTickerProviderStat
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      init();
-      _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
-        _setPadding();
-      });
       await _getAddress();
     });
   }
 
   @override
-  void didUpdateWidget(AddressHead oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.id != id) {
-      init();
-      _getAddress();
-    }
-  }
-
-  @override
   void dispose() {
     super.dispose();
-    widget.onDispose();
-    _timer.cancel();
+    globals.removePointMarkerCallback!();
   }
 }

@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:geolocator/geolocator.dart';
-import 'package:here_sdk/core.dart';
 import 'package:http/http.dart' as http;
+import 'package:navika/src/class/geocoords.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/app.dart' as app;
@@ -28,7 +28,6 @@ class NavikaApi {
     List<String> query = [];
 
     params.forEach((key, value) {
-      // Si on passe une liste
       if (value is List) {
         for (var element in value) {
           String encodedElement = Uri.encodeComponent(element.toString());
@@ -87,6 +86,7 @@ class NavikaApi {
 
     if (kDebugMode) {
       print({'INFO_request', url});
+      print({'INFO_request', body});
     }
 
     try {
@@ -100,6 +100,7 @@ class NavikaApi {
         final data = json.decode(response.body);
         result['value'] = data;
       } else {
+        print({'INFO_request', response.body});
         result['status'] = ApiStatus.serverException;
       }
     } on SocketException {
@@ -203,11 +204,11 @@ class NavikaApi {
     return doRequest(url);
   }
 
-  Future getNearPoints(double zoom, GeoCoordinates coords) async {
+  Future getNearPoints(double distanceInMeters, GeoCoordinates coords) async {
     String url = buildUrl(app.API_NEAR, {
       'lat': coords.latitude,
       'lon': coords.longitude,
-      'z': zoom,
+      'z': distanceInMeters,
     });
 
     return doRequest(url);
@@ -228,6 +229,18 @@ class NavikaApi {
     return doRequest(url);
   }
 
+  Future getShapes() async {
+    String url = buildUrl(app.API_SHAPES, {});
+
+    return doRequest(url);
+  }
+
+  Future getShape(String id) async {
+    String url = buildUrl('${app.API_SHAPES}/$id', {});
+
+    return doRequest(url);
+  }
+
   Future getLineSchedules(String id, String stopId, DateTime datetime) async {
     String url = buildUrl('${app.API_LINES}/$id/schedules/$stopId', {
       'date': datetime.toIso8601String().substring(0, 10),
@@ -237,8 +250,7 @@ class NavikaApi {
   }
 
   Future getJourneys(String from, String to, DateTime datetime, String travelerType, String timeType, List id, List modes) async {
-    String url = buildUrl(app.API_JOURNEYS,
-        {'from': from, 'to': to, timeType: datetime.toIso8601String(), 'traveler_type': travelerType, 'forbidden_id': id, 'forbidden_mode': modes});
+    String url = buildUrl(app.API_JOURNEYS, {'from': from, 'to': to, timeType: datetime.toIso8601String(), 'traveler_type': travelerType, 'forbidden_id': id, 'modes': modes});
     return doRequest(url);
   }
 
@@ -253,8 +265,14 @@ class NavikaApi {
     return doRequest(url);
   }
 
-  Future getSchedules(String id, bool ungroup) async {
-    String url = buildUrl('${app.API_SCHEDULES}/$id', {'ungroupDepartures': ungroup.toString()});
+  Future getSchedules(String id) async {
+    String url = buildUrl('${app.API_SCHEDULES}/$id', {});
+
+    return doRequest(url);
+  }
+
+  Future getRouteSchedules(String id, String route_id) async {
+    String url = buildUrl('${app.API_SCHEDULES}/$id/$route_id', {});
 
     return doRequest(url);
   }

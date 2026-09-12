@@ -1,6 +1,7 @@
 // 🎯 Dart imports:
 import 'dart:async';
 import 'dart:math';
+import 'dart:ui';
 
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ import 'package:flutter/services.dart';
 
 // 📦 Package imports:
 import 'package:collection/collection.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
@@ -28,6 +29,7 @@ import 'package:navika/src/widgets/journey/listbutton.dart';
 import 'package:navika/src/widgets/journey/skelton.dart';
 import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/utils/button_box.dart';
+import 'package:navika/src/widgets/utils/icon_elevated.dart';
 import 'package:navika/src/widgets/utils/search_box.dart';
 
 Map<int, String> getShortMonth(context) {
@@ -126,7 +128,7 @@ void initJourney(Map? from, Map? to, context) async {
 
   // GPS et arrivé -> Affichage
   else if (allowGps && globals.position != null && to != null) {
-    globals.route['from']['id'] = '${globals.position?.longitude};${globals.position?.latitude}';
+    globals.route['from']['id'] = '${globals.position?.latitude};${globals.position?.longitude}';
     globals.route['from']['name'] = AppLocalizations.of(context)!.your_position;
     globals.route['to'] = to;
     RouteStateScope.of(context).go('/home/journeys');
@@ -146,7 +148,7 @@ void initJourney(Map? from, Map? to, context) async {
 
   // Gps -> Recherche de l'arrivée
   else if (allowGps && globals.position != null) {
-    globals.route['from']['id'] = '${globals.position?.longitude};${globals.position?.latitude}';
+    globals.route['from']['id'] = '${globals.position?.latitude};${globals.position?.longitude}';
     globals.route['from']['name'] = AppLocalizations.of(context)!.your_position;
     RouteStateScope.of(context).go('/home/journeys/search/to');
   } else {
@@ -208,7 +210,9 @@ class _JourneysState extends State<Journeys> {
   String search = '';
   ApiStatus error = ApiStatus.ok;
   bool isLoading = false;
+  bool isActive = true;
   List journeys = [];
+  Map? provider;
   double turn = 0;
   List allowedModes = globals.hiveBox.get('allowedModes');
   String travelerType = globals.hiveBox.get('travelerType');
@@ -228,6 +232,12 @@ class _JourneysState extends State<Journeys> {
       initialDate: globals.selectedDate,
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
+      builder: (BuildContext context, Widget? child) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+        child: child,
+      );
+      },
     );
     if (picked != null && picked != globals.selectedDate) {
       setState(() {
@@ -240,12 +250,15 @@ class _JourneysState extends State<Journeys> {
   selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: globals.isTimeNow ? TimeOfDay.now() : globals.selectedTime,
       builder: (BuildContext context, Widget? child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-          child: child!,
-        );
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+        child: MediaQuery(
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+        child: child!,
+        ),
+      );
       },
     );
     if (picked != null && picked != globals.selectedTime) {
@@ -265,8 +278,7 @@ class _JourneysState extends State<Journeys> {
     if (globals.route['from']['id'] == null || globals.route['to']['id'] == null) {
       return;
     }
-    DateTime dt =
-        DateTime(globals.selectedDate.year, globals.selectedDate.month, globals.selectedDate.day, globals.selectedTime.hour, globals.selectedTime.minute);
+    DateTime dt = DateTime(globals.selectedDate.year, globals.selectedDate.month, globals.selectedDate.day, globals.selectedTime.hour, globals.selectedTime.minute);
 
     if (globals.isTimeNow == true) {
       dt = DateTime.now();
@@ -278,8 +290,7 @@ class _JourneysState extends State<Journeys> {
     });
 
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getJourneys(
-        globals.route['from']['id'], globals.route['to']['id'], dt, travelerType, globals.timeType, getForbiddenLines(), getForbiddenModes());
+    Map result = await navikaApi.getJourneys(globals.route['from']['id'], globals.route['to']['id'], dt, travelerType, globals.timeType, getForbiddenLines(), getForbiddenModes());
 
     if (mounted) {
       setState(() {
@@ -289,6 +300,7 @@ class _JourneysState extends State<Journeys> {
       if (result['value']?['journeys'] != null) {
         setState(() {
           journeys = result['value']?['journeys'];
+          provider = result['value']?['provider'];
           globals.journeys = result['value']?['journeys'];
           isLoading = false;
         });
@@ -443,8 +455,7 @@ class _JourneysState extends State<Journeys> {
                             child: SearchBox(
                               text: globals.route['to']['name'] ?? AppLocalizations.of(context)!.arrival,
                               icon: NavikaIcons.finishFlag,
-                              borderRadius:
-                                  const BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
+                              borderRadius: const BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
                               onTap: () {
                                 globals.route['to']['name'] = null;
                                 globals.route['to']['id'] = null;
@@ -532,11 +543,13 @@ class _JourneysState extends State<Journeys> {
                                   },
                                 ),
                               Center(
-                                child: ElevatedButton(
+                                child: IconElevatedButton(
+                                  icon: NavikaIcons.route,
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Theme.of(context).colorScheme.surface,
                                     foregroundColor: accentColor(context),
                                   ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                                  text: AppLocalizations.of(context)!.avoid_line,
                                   onPressed: () {
                                     showModalBottomSheet<void>(
                                       shape: const RoundedRectangleBorder(
@@ -550,12 +563,33 @@ class _JourneysState extends State<Journeys> {
                                       ),
                                     );
                                   },
-                                  child: Text(AppLocalizations.of(context)!.avoid_line,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                      )),
                                 ),
                               ),
+                              // if (provider != null)
+                              //   const Divider(
+                              //     color: Color(0xff808080),
+                              //     thickness: 1.5,
+                              //     indent: 20,
+                              //     endIndent: 20,
+                              //   ),
+                              // if (provider != null)
+                              //   Center(
+                              //     child: Column(
+                              //       children: [
+                              //         Image(
+                              //           image: NetworkImage(provider?['img']),
+                              //           width: 150,
+                              //           height: 40,
+                              //         ),
+                              //         Text(
+                              //           'Itinéraires fourni par ${provider?['name']}',
+                              //           style: const TextStyle(
+                              //             fontSize: 13,
+                              //           ),
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ),
                             ] else if (journeys.isEmpty && isLoading == false)
                               PlacesEmpty()
                             else

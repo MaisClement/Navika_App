@@ -5,26 +5,51 @@ import 'package:flutter/material.dart';
 import 'package:navika/src/widgets/departures/block.dart';
 import 'package:navika/src/widgets/departures/cascade.dart';
 
+List formatUngroupedDepartures(schedules) {
+  List departures = [];
+
+  for (var schedulesLine in schedules) {
+    Map line = {...schedulesLine};
+    line.remove('departures');
+
+    if (line['mode'] == 'rail') {
+      for (var scheduleDepartures in schedulesLine['departures']) {
+        Map departure = scheduleDepartures;
+        departure['informations']['line'] = line;
+        departures.add(departure);
+      }
+    }
+  }
+
+  departures.sort((a, b) {
+    DateTime departureA =
+        a['stop_date_time']['departure_date_time'] == '' ? DateTime.parse(a['stop_date_time']['arrival_date_time']) : DateTime.parse(a['stop_date_time']['departure_date_time']);
+    DateTime departureB =
+        b['stop_date_time']['departure_date_time'] == '' ? DateTime.parse(b['stop_date_time']['arrival_date_time']) : DateTime.parse(b['stop_date_time']['departure_date_time']);
+    return departureA.compareTo(departureB);
+  });
+
+  return departures;
+}
+
 class DeparturesList extends StatelessWidget {
-  final List departures;
+  final List schedules;
   final String id;
-  final String name;
-  final List modes;
+  final String mode;
   final ScrollController scrollController;
   final Function update;
   final bool ungroupDepartures;
 
   const DeparturesList({
-    required this.departures,
+    required this.schedules,
     required this.id,
-    required this.name,
-    required this.modes,
+    required this.mode,
     required this.scrollController,
     required this.update,
     required this.ungroupDepartures,
     super.key,
   });
-  
+
   @override
   Widget build(BuildContext context) => ListView(
         padding: EdgeInsets.zero,
@@ -32,21 +57,18 @@ class DeparturesList extends StatelessWidget {
         children: [
           if (ungroupDepartures)
             DeparturesCascade(
-              departures: departures,
+              departures: formatUngroupedDepartures(schedules).take(30).toList(),
               id: id,
-              update: update
+              update: update,
             )
-
           else
-            for (var line in departures)
-              if (modes.contains(line['mode']))
+            for (var line in schedules)
+              if (mode.contains(line['mode']))
                 DeparturesBlock(
                   line: line,
                   id: id,
-                  name: name,
                   update: update,
                 )
-          
         ],
       );
 }

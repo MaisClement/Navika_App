@@ -1,5 +1,5 @@
 // 🐦 Flutter imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';import 'package:flutter/material.dart';
+import 'package:navika/l10n/app_localizations.dart';import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
@@ -29,52 +29,26 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
   String type = 'same'; // default, fastest, same
   bool isLoading = false;
 
-  // String? id;
-  // bool sendAlert = false;
-  // 
-  // Map days = {
-  //   'monday': true, // true, false
-  //   'tuesday': true,
-  //   'wednesday': true,
-  //   'thursday': true,
-  //   'friday': true,
-  //   'saturday': false,
-  //   'sunday': false,
-  // };
-  // 
-  // Map times = {
-  //   'start_time': TimeOfDay(hour: 7, minute: 0),
-  //   'end_time': TimeOfDay(hour: 18, minute: 0),
-  // };
-
   void setType(value) {
     setState(() {
       type = value;
     });
   }
 
-  // void setAlertMode(value) {
-  //   setState(() {
-  //     sendAlert = value;
-  //   });
-  // }
-  // 
-  // void setDays(key, value) {
-  //   setState(() {
-  //     days[key] = value;
-  //   });
-  // }
-
   void add() {
-    List recurrentJourneys = globals.hiveBox.get('recurrentJourneys');
+    List recurrentJourneys = List.from(globals.hiveBox.get('recurrentJourneys') ?? []);
     recurrentJourneys.add({
       'from' : {
-        'name': widget.journey['sections'][0]['from']['name'],
-        'id':   widget.journey['sections'][0]['from']['id'],
+        'name': globals.route['from']['name'],
+        'id':   globals.route['from']['name'] == AppLocalizations.of(context)!.your_position
+                ? 'position'
+                : globals.route['from']['id'],
       },
       'to' : {
-        'name': widget.journey['sections'][widget.journey['sections'].length - 1]['to']['name'],
-        'id':   widget.journey['sections'][widget.journey['sections'].length - 1]['to']['id'],
+        'name': globals.route['to']['name'],
+        'id':   globals.route['to']['name'] == AppLocalizations.of(context)!.your_position
+                ? 'position'
+                : globals.route['to']['id'],
       },
       'type': type,
       'lines' : getLineByJourney(widget.journey),
@@ -83,30 +57,9 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
     Navigator.pop(context);
   }
 
-  // selectTime(String type, BuildContext context) async {
-  //   final TimeOfDay? picked = await showTimePicker(
-  //     context: context,
-  //     initialTime: times[type],
-  //     builder: (BuildContext context, Widget? child) {
-  //       return MediaQuery(
-  //         data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-  //         child: child!,
-  //       );
-  //     },
-  //   );
-  //   if (picked != null && picked != times[type]) {
-  //     setState(() {
-  //       times[type] = picked;
-  //     });
-  //   }
-  // }
-
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // await getAlert();
-    });
   }
 
   @override
@@ -143,7 +96,7 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                             : AppLocalizations.of(context)!.save_regular_trip,
                         style: TextStyle(
                           fontSize: 20,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
@@ -152,19 +105,18 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                         color: accentColor(context),
                       ),
 
-                      Text(widget.journey['sections'][0]['from']['name'],
+                      Text(globals.route['from']['name'],
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
                       ),
-
-                      Text('➜ ${widget.journey['sections'][widget.journey['sections'].length - 1]['to']['name']}',
+                      Text('➜ ${globals.route['to']['name']}',
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
@@ -185,7 +137,7 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                         child: Text(
                           AppLocalizations.of(context)!.select_trip,
                           style: TextStyle(
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w800,
                             fontFamily: fontFamily,
                             color: accentColor(context),
                           ),
@@ -215,128 +167,6 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                         },
                       ),
 
-                      //if (type == 'same')
-                      //  Column(
-                      //    crossAxisAlignment: CrossAxisAlignment.start,
-                      //    children: [
-                      //      SizedBox(height: 20),
-                      //      Row(
-                      //        children: [
-                      //          Expanded(
-                      //            child: Text('Etre prévenu en cas de perturbations',
-                      //              style: TextStyle(
-                      //                fontSize: 16,
-                      //                fontWeight: FontWeight.w600,
-                      //                fontFamily: fontFamily,
-                      //                color: accentColor(context),
-                      //              ),
-                      //            ),
-                      //          ),
-                      //          Switch(
-                      //            thumbIcon: thumbIcon,
-                      //            trackOutlineColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                      //              if (!states.contains(MaterialState.selected)) {
-                      //                return mainColor(context);
-                      //              }
-                      //              return null;
-                      //            }),
-                      //            inactiveThumbColor: mainColor(context),
-                      //            value: sendAlert,
-                      //            onChanged: (bool value) {
-                      //              setAlertMode(value);
-                      //            },
-                      //          ),
-                      //        ],
-                      //      ),
-                      //      Container(
-                      //        margin: EdgeInsets.only(top: 10, bottom: 5),
-                      //        child: Text(
-                      //          AppLocalizations.of(context)!.alert_days,
-                      //          style: TextStyle(
-                      //            fontWeight: FontWeight.w600,
-                      //            fontFamily: fontFamily,
-                      //            color: accentColor(context),
-                      //          ),
-                      //        ),
-                      //      ),
-                      //      MiniSelectTiles(
-                      //        tiles: [
-                      //          {
-                      //            'name': 'L',
-                      //            'value': 'monday',
-                      //          },
-                      //          {
-                      //            'name': 'M',
-                      //            'value': 'tuesday',
-                      //          },
-                      //          {
-                      //            'name': 'M',
-                      //            'value': 'wednesday',
-                      //          },
-                      //          {
-                      //            'name': 'J',
-                      //            'value': 'thursday',
-                      //          },
-                      //          {
-                      //            'name': 'V',
-                      //            'value': 'friday',
-                      //          },
-                      //          {
-                      //            'name': 'S',
-                      //            'value': 'saturday',
-                      //          },
-                      //          {
-                      //            'name': 'D',
-                      //            'value': 'sunday',
-                      //          }
-                      //        ],
-                      //        value: days,
-                      //        onTileChange: (key, value) {
-                      //          setDays(key, value);
-                      //        },
-                      //      ),
-                      //      Container(
-                      //        margin: EdgeInsets.only(top: 20, bottom: 5),
-                      //        child: Text(
-                      //          AppLocalizations.of(context)!.time_range,
-                      //          style: TextStyle(
-                      //            fontWeight: FontWeight.w600,
-                      //            fontFamily: fontFamily,
-                      //            color: accentColor(context),
-                      //          ),
-                      //        ),
-                      //      ),
-                      //      Row(
-                      //        mainAxisAlignment: MainAxisAlignment.center,
-                      //        children: [
-                      //          TimeBox(
-                      //            text: getTodTime(times['start_time']),
-                      //            icon: NavikaIcons.clock,
-                      //            onTap: () async {
-                      //              await selectTime('start_time', context);
-                      //              setState(() {});
-                      //            },
-                      //          ),
-                      //          Padding(
-                      //            padding: EdgeInsets.only(left: 15, right: 15),
-                      //            child: Icon(
-                      //              NavikaIcons.avance,
-                      //              color: Theme.of(context).colorScheme.onSurface,
-                      //            ),
-                      //          ),
-                      //          TimeBox(
-                      //            text: getTodTime(times['end_time']),
-                      //            icon: NavikaIcons.clock,
-                      //            onTap: () async {
-                      //              await selectTime('end_time', context);
-                      //              setState(() {});
-                      //            },
-                      //          )
-                      //        ],
-                      //      ),
-                      //    ],
-                      //  ),
-
                       const SizedBox(
                         height: 20,
                       ),
@@ -352,6 +182,18 @@ class _BottomRecurrentJourneyState extends State<BottomRecurrentJourney> with Si
                           onPressed: () async {
                             add();
                           }
+                        ),
+                      ),
+                      
+                      Center(
+                        child: IconElevatedButton(
+                          icon: NavikaIcons.cancel,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(context).colorScheme.primary,
+                            foregroundColor: const Color(0xffffffff),
+                          ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                          text: AppLocalizations.of(context)!.cancel,
+                          onPressed: () => Navigator.pop(context),
                         ),
                       ),
                     ],

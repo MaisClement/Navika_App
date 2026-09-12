@@ -5,8 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
@@ -23,16 +22,18 @@ import 'package:navika/src/widgets/utils/icon_elevated.dart';
 
 class BikeHead extends StatefulWidget {
   final String id;
-  final Function setPadding;
   final Function setData;
   final Function refreshMap;
-  final PanelController panelController;
-
+  final Function openPanel;
+  final Function moveMap;
+  final dynamic panelController;
+  
   const BikeHead({
     required this.id,
-    required this.setPadding,
     required this.setData,
     required this.refreshMap,
+    required this.openPanel,
+    required this.moveMap,
     required this.panelController,
     super.key,
   });
@@ -42,26 +43,10 @@ class BikeHead extends StatefulWidget {
 }
 
 class _BikeHeadState extends State<BikeHead> with SingleTickerProviderStateMixin {
-  String id = '';
   bool isLoading = true;
-
-  final _key = GlobalKey();
-  late Timer _timer;
 
   Map bikeStation = {};
   ApiStatus error = ApiStatus.ok;
-
-  void init() {
-    setState(() {
-      id = widget.id;
-    });
-  }
-
-  void _setPadding() {
-    if (_key.currentContext != null) {
-      widget.setPadding(_key.currentContext?.size?.height);
-    }
-  }
 
   Future<void> _getBikes() async {
     setState(() {
@@ -70,7 +55,7 @@ class _BikeHeadState extends State<BikeHead> with SingleTickerProviderStateMixin
     widget.setData(null);
 
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getBikeStations(id);
+    Map result = await navikaApi.getBikeStations(widget.id);
 
     if (mounted) {
       setState(() {
@@ -85,11 +70,14 @@ class _BikeHeadState extends State<BikeHead> with SingleTickerProviderStateMixin
 
         //
         widget.setData(bikeStation);
-        widget.panelController.animatePanelToSnapPoint();
+        widget.openPanel();
         widget.refreshMap(bikeStation['bike_station']['coord']['lat'], bikeStation['bike_station']['coord']['lon']);
+        widget.moveMap(bikeStation['bike_station']['coord']['lat'], bikeStation['bike_station']['coord']['lon']);
+        
         if (globals.updateMap == false) {
           openMapPoint(bikeStation['bike_station']['coord']['lat'], bikeStation['bike_station']['coord']['lon']);
         }
+        
         globals.updateMap = false;
       }
     }
@@ -98,30 +86,8 @@ class _BikeHeadState extends State<BikeHead> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) => Container(
         width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(15),
-            topRight: Radius.circular(15),
-          ),
-          color: Theme.of(context).colorScheme.surface,
-        ),
         child: Column(
-          key: _key,
           children: [
-            Container(
-              margin: const EdgeInsets.only(
-                top: 15,
-                bottom: 10,
-              ),
-              child: Container(
-                width: 40,
-                height: 5,
-                decoration: BoxDecoration(
-                  color: Colors.grey[400],
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-            ),
             if (error != ApiStatus.ok)
               ErrorBlock(
                 error: error,
@@ -151,7 +117,7 @@ class _BikeHeadState extends State<BikeHead> with SingleTickerProviderStateMixin
                               bikeStation['bike_station']['name'],
                               style: TextStyle(
                                 fontSize: 22,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w800,
                                 fontFamily: fontFamily,
                                 color: accentColor(context),
                               ),
@@ -215,26 +181,7 @@ class _BikeHeadState extends State<BikeHead> with SingleTickerProviderStateMixin
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      init();
-      _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
-        _setPadding();
-      });
       await _getBikes();
     });
-  }
-
-  @override
-  void didUpdateWidget(BikeHead oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.id != id) {
-      init();
-      _getBikes();
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _timer.cancel();
   }
 }

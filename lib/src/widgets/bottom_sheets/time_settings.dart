@@ -1,8 +1,9 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+import 'dart:ui';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/icons/navika_icons_icons.dart';
@@ -50,83 +51,86 @@ class TimeSettings extends StatelessWidget {
           )
         ]
       ),
-      child: Container(
-        padding: const EdgeInsets.only(left:20.0, top:30.0, right:20.0, bottom:10.0), 
-        child:
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start, 
-            children: [
-              Text(
-                AppLocalizations.of(context)!.modify_time,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: fontFamily,
+      child: Stack(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(left:20.0, top:30.0, right:20.0, bottom:10.0), 
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start, 
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.modify_time,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    fontFamily: fontFamily,
+                    color: accentColor(context),
+                  ),
+                ),
+                Divider(
                   color: accentColor(context),
                 ),
-              ),
-              Divider(
-                color: accentColor(context),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              RadioTiles(
-                tiles: [
-                  {
-                    'name': AppLocalizations.of(context)!.departing_at,
-                    'value': 'departure',
-                    'icon': NavikaIcons.departure
-                  },
-                  {
-                    'name': AppLocalizations.of(context)!.arriving_at,
-                    'value': 'arrival',
-                    'icon': NavikaIcons.arrival
-                  },
-                ],
-                value: timeType,
-                onTileChange: (value) {
-                  setTimeType(value);
-                  setState(() {});
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 5.0, bottom: 10.0),
-                child: SearchBox(
-                  text: getDate(context, selectedDate),
-                  icon: NavikaIcons.calendar,
-                  onTap: () async {
-                    await selectDate(context);
+                const SizedBox(
+                  height: 10,
+                ),
+                RadioTiles(
+                  tiles: [
+                    {
+                      'name': AppLocalizations.of(context)!.departing_at,
+                      'value': 'departure',
+                      'icon': NavikaIcons.departure
+                    },
+                    {
+                      'name': AppLocalizations.of(context)!.arriving_at,
+                      'value': 'arrival',
+                      'icon': NavikaIcons.arrival
+                    },
+                  ],
+                  value: timeType,
+                  onTileChange: (value) {
+                    setTimeType(value);
                     setState(() {});
                   },
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 5.0, bottom: 10.0),
-                child: SearchBox(
-                  text: getTodTime(selectedTime),
-                  icon: NavikaIcons.clock,
-                  onTap: () async {
-                    await selectTime(context);
-                    setState(() {});
-                  },
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-              Center(
-                child: ElevatedButton(
-                  child: Text(AppLocalizations.of(context)!.validate),
-                  onPressed: () {
-                    update();
-                    Navigator.pop(context);
-                  },
-                ),  
-              )
-            ],
-          )
-        )
+                Container(
+                  margin: const EdgeInsets.only(top: 5.0, bottom: 10.0),
+                  child: SearchBox(
+                    text: getDate(context, selectedDate),
+                    icon: NavikaIcons.calendar,
+                    onTap: () async {
+                      await selectDate(context);
+                      setState(() {});
+                    },
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 5.0, bottom: 10.0),
+                  child: SearchBox(
+                    text: getTodTime(selectedTime),
+                    icon: NavikaIcons.clock,
+                    onTap: () async {
+                      await selectTime(context);
+                      setState(() {});
+                    },
+                  ),
+                ),
+                Center(
+                  child: ElevatedButton(
+                    child: Text(AppLocalizations.of(context)!.validate),
+                    onPressed: () {
+                      update();
+                      Navigator.pop(context);
+                    },
+                  ),  
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }

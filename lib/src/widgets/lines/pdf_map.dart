@@ -99,7 +99,7 @@ class _PDFMapState extends State<PDFMap> with SingleTickerProviderStateMixin {
           if (isLoading) const LinearProgressIndicator(),
           if (isError == false)
             Container(
-              color: Theme.of(context).colorScheme.background,
+              color: Theme.of(context).colorScheme.surface,
               height: widget.height,
               width: width,
               child: ListView(

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
@@ -78,7 +78,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings> with SingleTi
               AppLocalizations.of(context)!.settings_journeys,
               style: TextStyle(
                 fontSize: 20,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w800,
                 fontFamily: fontFamily,
                 color: accentColor(context),
               ),
@@ -93,7 +93,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings> with SingleTi
               AppLocalizations.of(context)!.traveler_profile,
               style: TextStyle(
                 fontSize: 20,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w800,
                 fontFamily: fontFamily,
                 color: accentColor(context),
               ),
@@ -137,7 +137,7 @@ class _BottomRouteSettingsState extends State<BottomRouteSettings> with SingleTi
               AppLocalizations.of(context)!.transportation_mode,
               style: TextStyle(
                 fontSize: 20,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w800,
                 fontFamily: fontFamily,
                 color: accentColor(context),
               ),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:floating_snackbar/floating_snackbar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
@@ -281,7 +281,7 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                             : AppLocalizations.of(context)!.create_alert,
                         style: TextStyle(
                           fontSize: 20,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
@@ -294,7 +294,7 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                         child: Text(
                           AppLocalizations.of(context)!.alert_type,
                           style: TextStyle(
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w800,
                             fontFamily: fontFamily,
                             color: accentColor(context),
                           ),
@@ -323,7 +323,7 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                         child: Text(
                           AppLocalizations.of(context)!.alert_days,
                           style: TextStyle(
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w800,
                             fontFamily: fontFamily,
                             color: accentColor(context),
                           ),
@@ -370,7 +370,7 @@ class _NotificationsSettingsState extends State<NotificationsSettings> with Sing
                         child: Text(
                           AppLocalizations.of(context)!.time_range,
                           style: TextStyle(
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w800,
                             fontFamily: fontFamily,
                             color: accentColor(context),
                           ),

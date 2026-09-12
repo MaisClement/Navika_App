@@ -1,8 +1,8 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-class DefaultPannel extends StatelessWidget {
-	const DefaultPannel({
+class DefaultPanel extends StatelessWidget {
+	const DefaultPanel({
 		super.key,
 	});
 

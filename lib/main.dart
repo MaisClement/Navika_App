@@ -7,14 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // 📦 Package imports:
+import 'package:battery_plus/battery_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:here_sdk/core.dart';
-import 'package:here_sdk/core.engine.dart';
-import 'package:here_sdk/core.errors.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:url_strategy/url_strategy.dart';
+import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 // 🌎 Project imports:
@@ -27,7 +25,6 @@ import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/screens/home_settings.dart';
 
 // import 'package:sentry_flutter/sentry_flutter.dart';
-
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -43,8 +40,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
-  setHashUrlStrategy();
-
   setupWindow();
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,7 +48,7 @@ Future<void> main() async {
 
   try {
     await _initializeFirebase();
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);   
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   } catch (e) {
     // print('Error while initializing Firebase');
   }
@@ -64,7 +59,9 @@ Future<void> main() async {
 
   await _initializeHive();
 
-  await _initializeHERESDK();
+  await _initializeMapBoxSDK();
+
+  await _initializePowerSaveMode();
 
   runApp(const NavikaApp());
 
@@ -85,7 +82,7 @@ void setupWindow() {
 
 Future _initializeCertCA() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   ByteData data = await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
   SecurityContext.defaultContext.setTrustedCertificatesBytes(data.buffer.asUint8List());
 }
@@ -109,14 +106,17 @@ Future _initializeHive() async {
     globals.hiveBox.put('linesAlert', {});
   }
 
-  // Adresses favorites
-  if (globals.hiveBox.get('addressFavorites') == null) {
-    globals.hiveBox.put('addressFavorites', []);
+  // Adresses sauvegardées
+  if (globals.hiveBox.get('savedAddress') == null) {
+    globals.hiveBox.put('savedAddress', []);
   }
 
   // Trajet régulier
   if (globals.hiveBox.get('recurrentJourneys') == null) {
     globals.hiveBox.put('recurrentJourneys', []);
+  }
+  else {
+    print({'INIT_', globals.hiveBox.get('recurrentJourneys')});
   }
 
   // Trajet enregistré
@@ -126,36 +126,38 @@ Future _initializeHive() async {
 
   // Trajet enregistré
   if (globals.hiveBox.get('homepageOrder') == null) {
-    globals.hiveBox.put('homepageOrder', [
-      {
-        'id': 'message',
-        'enabled': true,
-      },
-      {
-        'id': 'sponsor',
-        'enabled': true,
-      },
-      {
-        'id': 'trafic',
-        'enabled': true,
-      },
-      {
-        'id': 'punctualJourneys',
-        'enabled': true,
-      },
-      {
-        'id': 'recurrentJourneys',
-        'enabled': true,
-      },
-      {
-        'id': 'schedules',
-        'enabled': true,
-      },
-      {
-        'id': 'map',
-        'enabled': true,
-      },
-    ],
+    globals.hiveBox.put(
+      'homepageOrder',
+      [
+        {
+          'id': 'message',
+          'enabled': true,
+        },
+        {
+          'id': 'sponsor',
+          'enabled': true,
+        },
+        {
+          'id': 'trafic',
+          'enabled': true,
+        },
+        {
+          'id': 'punctualJourneys',
+          'enabled': true,
+        },
+        {
+          'id': 'recurrentJourneys',
+          'enabled': true,
+        },
+        {
+          'id': 'schedules',
+          'enabled': true,
+        },
+        {
+          'id': 'map',
+          'enabled': true,
+        },
+      ],
     );
   }
 
@@ -180,7 +182,7 @@ Future _initializeHive() async {
   if (globals.hiveBox.get('askGps') == null) {
     globals.hiveBox.put('askGps', false);
   }
-  
+
   if (globals.hiveBox.get('allowGps') == null) {
     globals.hiveBox.put('allowGps', false);
   }
@@ -205,11 +207,16 @@ Future _initializeHive() async {
     globals.hiveBox.put('ungroupDepartures', false);
   }
 
+  // Affichage groupé ?
+  if (globals.hiveBox.get('askForUngroupDepartures') == null) {
+    globals.hiveBox.put('askForUngroupDepartures', false);
+  }
+
   // Version
   if (globals.hiveBox.get('version') == null) {
     globals.hiveBox.put('version', app.VERSION);
   }
-  
+
   // UUID
   if (globals.hiveBox.get('uuid') == null) {
     globals.hiveBox.put('uuid', const Uuid().v4());
@@ -224,20 +231,28 @@ Future _initializeHive() async {
       globals.hiveBox.put('sponsorHideDate', null);
     }
   }
+
+  // Migrations
+  // Update v1.6.0
+  if (globals.hiveBox.get('addressFavorites') != null) {
+    handleAddressFavoritesChanges();
+  }
 }
 
-Future _initializeHERESDK() async {
-  SdkContext.init(IsolateOrigin.main);
+Future _initializeMapBoxSDK() async {
+  String accessToken = credentials.MAPBOX_ACCES_TOKEN;
 
-  String accessKeyId = credentials.HERE_ACCES_KEY_ID;
-  String accessKeySecret = credentials.HERE_ACCES_KEY_SECRET;
-  SDKOptions sdkOptions = SDKOptions.withAccessKeySecret(accessKeyId, accessKeySecret);
+  MapboxOptions.setAccessToken(accessToken);
+  MapboxMapsOptions.setLanguage("fr");
+}
 
+// Le mode éco d'énergie peut être activé/désactivé à tout moment depuis les réglages
+// système : cette valeur initiale est rafraîchie au retour au premier plan de l'app
+// (voir _NavikaAppState.didChangeAppLifecycleState dans app.dart).
+Future _initializePowerSaveMode() async {
   try {
-    await SDKNativeEngine.makeSharedInstance(sdkOptions);
-  } on InstantiationException {
-    throw Exception('Failed to initialize the HERE SDK.');
-  }
+    globals.isPowerSaveMode = await Battery().isInBatterySaveMode;
+  } catch (_) {}
 }
 
 Future _initializeFirebase() async {
@@ -323,7 +338,39 @@ Future<void> showReportNotification(RemoteMessage message) async {
     importance: Importance.high,
     priority: Priority.high,
   );
-  
+
   NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
   await flutterLocalNotificationsPlugin.show(0, message.data['title'], message.data['body'], notificationDetails);
+}
+
+// Migration functions
+
+// v1.6.0
+String getNewAddressFavoritesName(String name) {
+  if (name == 'home') {
+    return 'Maison';
+  } else if (name == 'work') {
+    return 'Travail';
+  } else {
+    return name;
+  }
+}
+
+void handleAddressFavoritesChanges() {
+  List favs = globals.hiveBox.get('addressFavorites');
+  List newFavs = [];
+
+  for (var fav in favs) {
+    if (fav['alias'] != null){
+    newFavs.add({
+      'id': fav['id'],
+      'name': fav['name'],
+      'label': getNewAddressFavoritesName(fav['alias']),
+      'icon': 'star',
+    });
+    }
+  }
+
+  globals.hiveBox.put('savedAddress', newFavs);
+  globals.hiveBox.put('addressFavorites', null);
 }

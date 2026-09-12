@@ -52,6 +52,7 @@ class TimerBlock extends StatelessWidget {
               }
             },
             child: Container(
+              height: 30,
               padding: state == 'theorical'
                   ? const EdgeInsets.only(left: 10.0, top: 5.0, right: 10.0, bottom: 5.0)
                   : const EdgeInsets.only(left: 10.0, top: 5.0, right: 0.0, bottom: 5.0),
@@ -65,7 +66,7 @@ class TimerBlock extends StatelessWidget {
                           suffix: ' min',
                           textStyle: TextStyle(
                             color: getSchedulesColorByState(state, context),
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w800,
                             fontFamily: fontFamily,
                             decoration: state == 'cancelled' ? TextDecoration.lineThrough : null,
                             decorationColor: const Color(0xffeb2031),
@@ -75,7 +76,7 @@ class TimerBlock extends StatelessWidget {
                           getTime(time),
                           style: TextStyle(
                             color: getSchedulesColorByState(state, context),
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w800,
                             fontFamily: fontFamily,
                             decoration: state == 'cancelled' ? TextDecoration.lineThrough : null,
                             decorationColor: const Color(0xffeb2031),

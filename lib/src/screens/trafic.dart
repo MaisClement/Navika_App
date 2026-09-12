@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
@@ -101,7 +101,7 @@ class _TraficState extends State<Trafic> {
             children: [
               Text(
                 AppLocalizations.of(context)!.traffic_info, 
-                style: appBarTitle,
+                style: mainAppBarTitle(context),
               ),
             ],
           ),
@@ -115,6 +115,7 @@ class _TraficState extends State<Trafic> {
                 padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                 child: RefreshIndicator(
                   onRefresh: _getTrafic,
+                  backgroundColor: Theme.of(context).colorScheme.surface,
                   key: _refreshIndicatorKey,
                   child: ListView(
                     children: [
@@ -160,7 +161,7 @@ class _TraficState extends State<Trafic> {
                                       width: 45,
                                       height: 45,
                                       decoration: BoxDecoration(
-                                        color: Theme.of(context).colorScheme.background,
+                                        color: Theme.of(context).colorScheme.secondary,
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all(
                                           width: 3.0,
@@ -380,6 +381,22 @@ class _TraficState extends State<Trafic> {
                                   trafic: trafic,
                                 ),
                                 TraficBlock(
+                                  name: 'Métro 15',
+                                  trafic: trafic,
+                                ),
+                                TraficBlock(
+                                  name: 'Métro 16',
+                                  trafic: trafic,
+                                ),
+                                TraficBlock(
+                                  name: 'Métro 17',
+                                  trafic: trafic,
+                                ),
+                                TraficBlock(
+                                  name: 'Métro 18',
+                                  trafic: trafic,
+                                ),
+                                TraficBlock(
                                   name: 'CDG Val',
                                   trafic: trafic,
                                 ),
@@ -467,6 +484,40 @@ class _TraficState extends State<Trafic> {
                                 ),
                                 TraficBlock(
                                   name: 'Tram T13',
+                                  trafic: trafic,
+                                ),
+                                TraficBlock(
+                                  name: 'Tram T14',
+                                  trafic: trafic,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      divider,
+
+// Cable
+                      Row(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 5.0),
+                            padding: const EdgeInsets.all(10.0),
+                            width: 45,
+                            height: 45,
+                            child: Image(
+                              image: AssetImage(Brightness.dark ==
+                                      Theme.of(context).colorScheme.brightness
+                                  ? 'assets/img/icons/cable_light.png'
+                                  : 'assets/img/icons/cable.png'),
+                            ),
+                          ),
+                          Expanded(
+                            child: Wrap(
+                              children: [
+                                TraficBlock(
+                                  name: 'Cable C1',
                                   trafic: trafic,
                                 ),
                               ],

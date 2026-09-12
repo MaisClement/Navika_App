@@ -4,28 +4,31 @@ import 'package:flutter/material.dart';
 // 🌎 Project imports:
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/style.dart';
+import 'package:navika/src/widgets/home/fav_scroll.dart';
 import 'package:navika/src/widgets/icons/icons.dart';
 
 // 📦 Package imports:
 
 
-IconData getPlaceIcon(String type, bool isHistory) {
+IconData getPlaceIcon(Map place, bool isHistory) {
   if (isHistory) {
     return NavikaIcons.history;
-  }
-  if (type == 'stop_area') {
+  } else if (place['type'] == 'stop_area') {
     return NavikaIcons.trainFace;
-  } else if (type == 'home') {
+  } else if (place['type'] == 'home') {
     return NavikaIcons.home;
-  } else if (type == 'work') {
+  } else if (place['type'] == 'work') {
     return NavikaIcons.business;
-  } else if (type == 'favorite') {
-    return NavikaIcons.star;
-  } else if (type == 'address') {
+  } else if (place['type'] == 'favorite') {
+    if (place['icon'] == null || place['icon'] == '') {
+      return NavikaIcons.star;
+    }
+    return getFavoriteIcon(place['icon']);
+  } else if (place['type'] == 'address') {
     return NavikaIcons.marker;
-  } else if (type == 'locality') {
+  } else if (place['type'] == 'locality') {
     return NavikaIcons.city;
-  } else if (type == 'current_pos') {
+  } else if (place['type'] == 'current_pos') {
     return NavikaIcons.localisation;
   } else {
     return NavikaIcons.university;
@@ -49,18 +52,21 @@ class PlacesListButton extends StatelessWidget {
   final bool isHistory;
   final Map place;
   final void Function() onTap;
+  final void Function()? onLongPress;
 
   const PlacesListButton({
     required this.isLoading,
     this.isHistory = false,
     required this.place,
     required this.onTap,
+    this.onLongPress,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) => InkWell(
         onTap: onTap,
+        onLongPress: onLongPress,
         child: Opacity(
           opacity: isLoading ? 0.4 : 1,
           child: Container(
@@ -71,7 +77,7 @@ class PlacesListButton extends StatelessWidget {
                 Row(
                   children: [
                     Icon(
-                      getPlaceIcon(place['type'], isHistory),
+                      getPlaceIcon(place, isHistory),
                       color: accentColor(context),
                       size: 25,
                     ),
@@ -83,7 +89,7 @@ class PlacesListButton extends StatelessWidget {
                         place['name'],
                         style: TextStyle(
                           fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                           color: accentColor(context),
                         ),

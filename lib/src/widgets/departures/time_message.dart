@@ -38,7 +38,7 @@ class TimerMessage extends StatelessWidget {
           message,
           style: TextStyle(
             fontSize: 12,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w800,
             fontFamily: fontFamily,
             color: Colors.white,
           ),

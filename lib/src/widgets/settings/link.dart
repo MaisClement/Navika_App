@@ -41,7 +41,7 @@ class SettingsLink extends StatelessWidget {
                       name,
                       style: TextStyle(
                         color: Colors.white,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w800,
                         fontFamily: fontFamily,
                         fontSize: 17,
                       ),
@@ -52,7 +52,7 @@ class SettingsLink extends StatelessWidget {
                   name,
                   style: TextStyle(
                     color: Colors.white,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     fontFamily: fontFamily,
                     fontSize: 17,
                   ),

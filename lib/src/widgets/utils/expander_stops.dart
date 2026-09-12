@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/extensions/hexcolor.dart';
@@ -99,11 +99,11 @@ class _ButtonLargeTraficState extends State<ExpanderStops> {
                                   top: 3,
                                 ),
                                 child: Text(
-                                  widget.section['stop_date_times'].length > 2
-                                      ? '${(widget.section['stop_date_times'].length - 2)} arrêts • ${getDuration(widget.section['duration'])}'
+                                  widget.section['stop_date_times'].length >= 1
+                                      ? '${(widget.section['stop_date_times'].length)} ${(widget.section['stop_date_times'].length) > 1 ? AppLocalizations.of(context)!.stops : AppLocalizations.of(context)!.stop} • ${getDuration(widget.section['duration'])}'
                                       : '${AppLocalizations.of(context)!.no_stops} • ${getDuration(widget.section['duration'])}',
                                   style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w800,
                                     fontSize: 17,
                                   ),
                                 ),
@@ -141,13 +141,14 @@ class _ButtonLargeTraficState extends State<ExpanderStops> {
                   if (displayDetails && widget.section['informations']['line']['details'] != null)
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
+                      padding: const EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 15),
                       color: HexColor.fromHex(widget.section['informations']['line']['color']).withOpacity(0.2),
                       child: VehiculeDetails(
+                        informations: widget.section['informations'],
                         details: widget.section['informations']['line']
                       ),
                     ),
-                  if (displayDetails && widget.section['stop_date_times'].length > 2)
+                  if (displayDetails && widget.section['stop_date_times'].length >= 1)
                     Container(
                       padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 10.0),
                       decoration: BoxDecoration(
@@ -160,21 +161,21 @@ class _ButtonLargeTraficState extends State<ExpanderStops> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(widget.section['stop_date_times'].sublist(1, widget.section['stop_date_times'].length - 1).length == 1
+                          Text(widget.section['stop_date_times'].length == 1
                             ? AppLocalizations.of(context)!.stop_served
                             : AppLocalizations.of(context)!.stops_served,
                             style: const TextStyle(
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w800,
                               fontSize: 17,
                             ),
                           ),
-                          for (var stop in widget.section['stop_date_times'].sublist(1, widget.section['stop_date_times'].length - 1))
+                          for (var stop in widget.section['stop_date_times'])
                             Row(
                               children: [
                                 Text(
                                   '•',
                                   style: TextStyle(
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w800,
                                     fontSize: 17,
                                     fontFamily: fontFamily,
                                   ),
@@ -195,7 +196,7 @@ class _ButtonLargeTraficState extends State<ExpanderStops> {
                         ],
                       ),
                     ),
-                  if (displayDetails && widget.section['stop_date_times'].length <= 2)
+                  if (displayDetails && widget.section['stop_date_times'].length < 1)
                     Container(
                       padding: const EdgeInsets.only(left: 15.0, top: 10, right: 15.0, bottom: 10.0),
                       decoration: BoxDecoration(
@@ -211,7 +212,7 @@ class _ButtonLargeTraficState extends State<ExpanderStops> {
                             Text(
                               AppLocalizations.of(context)!.no_stops,
                               style: TextStyle(
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w800,
                                 fontSize: 17,
                                 fontFamily: fontFamily,
                               ),

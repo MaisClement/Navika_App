@@ -99,7 +99,7 @@ class _ButtonLargeTraficState extends State<ExpanderTrafic> {
                                 child: Text(
                                   getSlugLongTitle(context, widget.line['severity']),
                                   style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w800,
                                     fontSize: 17,
                                   ),
                                 ),
@@ -109,7 +109,7 @@ class _ButtonLargeTraficState extends State<ExpanderTrafic> {
                                   child: Text(
                                     getReports()[0]['message']['title'],
                                     style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
+                                      fontWeight: FontWeight.w800,
                                       fontSize: 17,
                                     ),
                                     maxLines: 1,
@@ -178,7 +178,7 @@ class _ButtonLargeTraficState extends State<ExpanderTrafic> {
                                               children: [
                                                 Text(
                                                   report['message']['title'],
-                                                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                                                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
                                                 ),
                                               ],
                                             ),

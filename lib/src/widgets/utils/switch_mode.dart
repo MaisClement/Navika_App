@@ -40,7 +40,7 @@ class SwitchMode extends StatelessWidget {
                   name,
                   style: TextStyle(
                     color: accentColor(context),
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     fontFamily: fontFamily,
                     fontSize: 19,
                   ),
@@ -49,8 +49,8 @@ class SwitchMode extends StatelessWidget {
             ),
             Switch(
               thumbIcon: thumbIcon,
-              trackOutlineColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                if (!states.contains(MaterialState.selected)) {
+              trackOutlineColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+                if (!states.contains(WidgetState.selected)) {
                   return mainColor(context);
                 }
                 return null;

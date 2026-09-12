@@ -15,7 +15,7 @@ class FavButton extends StatelessWidget {
     required this.img,
     required this.onTap,
     required this.onLongPress,
-    super.key, 
+    super.key,
   });
 
   @override
@@ -36,17 +36,26 @@ class FavButton extends StatelessWidget {
                   Container(
                     height: 10,
                   ),
-                  Icon(img,
+                  Icon(
+                    img,
                     color: accentColor(context),
                     size: 30,
                   ),
                   Container(
                     height: 10,
                   ),
-                  Text(name,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimaryContainer
+                  Expanded(
+                    child: Text(
+                      name,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: fontFamily,
+                      ),
+                      maxLines: 1,
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],

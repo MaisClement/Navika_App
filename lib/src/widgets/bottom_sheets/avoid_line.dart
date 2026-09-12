@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
@@ -60,6 +60,24 @@ List orderLine(List array) {
   return array;
 }
 
+List getLines(journeys) {
+  List lines = [...globals.forbiddenLines];
+
+  for (var journey in journeys) {
+    for (var section in journey['sections']) {
+      
+      if (section['type'] == 'public_transport') {
+        // if line doesnt contain line
+
+        if (!isInList(lines, section['informations']['line']['id'])) {
+          lines.add(section['informations']['line']);
+        }
+      }
+    }
+  }
+  return orderLine(lines);
+}
+
 class BottomAvoidLine extends StatefulWidget {
   final List journeys;
   final Function update;
@@ -75,28 +93,7 @@ class BottomAvoidLine extends StatefulWidget {
 }
 
 class _BottomAvoidLineState extends State<BottomAvoidLine> with SingleTickerProviderStateMixin {
-
   List lines = [];
-
-  void getLines(journeys) {
-    List lines = [...globals.forbiddenLines];
-
-    for (var journey in journeys) {
-      for (var section in journey['sections']) {
-        
-        if (section['type'] == 'public_transport') {
-          // if line doesnt contain line
-
-          if (!isInList(lines, section['informations']['line']['id'])) {
-            lines.add(section['informations']['line']);
-          }
-        }
-      }
-    }
-    setState(() {
-      lines = orderLine(lines);
-    });
-  }
 
   void handleChange(value, line) {
     setState(() {
@@ -140,7 +137,7 @@ class _BottomAvoidLineState extends State<BottomAvoidLine> with SingleTickerProv
               AppLocalizations.of(context)!.avoid,
               style: TextStyle(
                 fontSize: 20,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w800,
                 fontFamily: fontFamily,
                 color: accentColor(context),
               ),
@@ -155,13 +152,13 @@ class _BottomAvoidLineState extends State<BottomAvoidLine> with SingleTickerProv
               Text(
                 AppLocalizations.of(context)!.uncheck_line_to_avoid,
                 style: TextStyle(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w800,
                   fontFamily: fontFamily,
                   color: accentColor(context),
                 ),
               ),
             ]),
-            for (var line in lines)
+            for (var line in getLines(widget.journeys))
               SwitchLine(
                 key: Key(line['id']),
                 line: line,

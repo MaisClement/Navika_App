@@ -45,7 +45,7 @@ class LinesListButton extends StatelessWidget {
                     child: Text(line['name'],
                       style: TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w800,
                         fontFamily: fontFamily,
                         color: accentColor(context),
                       ),

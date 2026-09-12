@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/extensions/datetime.dart';
@@ -48,7 +48,7 @@ List<Widget> buildFavorites(List journeys, update, context) {
                   d,
                   style: TextStyle(
                     fontSize: 18,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     fontFamily: fontFamily,
                     color: accentColor(context),
                   ),
@@ -88,48 +88,44 @@ class RouteFavorites extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => Material(
-        color: Theme.of(context).colorScheme.surface,
-        child: Column(
-          children: [
-            
-            if (journeys.isEmpty)
-              Container(
-                key: const ValueKey('nothing'),
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 80),
-                child: Column(
-                  children: [
-                    const Image(
-                      image: AssetImage(
-                        'assets/img/journeys.png',
-                      ),
-                      width: 80,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      AppLocalizations.of(context)!.no_saved_routes,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontFamily: fontFamily,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    IconElevatedButton(
-                      icon: NavikaIcons.search,
-                      text: AppLocalizations.of(context)!.search,
-                      onPressed: () => initJourney(null, null, context),
-                    ),
-                  ],
+  Widget build(BuildContext context) => Column(
+    children: [
+      if (journeys.isEmpty)
+        Container(
+          key: const ValueKey('nothing'),
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 80),
+          child: Column(
+            children: [
+              const Image(
+                image: AssetImage(
+                  'assets/img/journeys.png',
                 ),
-              )
-            else
-              ...buildFavorites(journeys, update, context)
+                width: 80,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                AppLocalizations.of(context)!.no_saved_routes,
+                style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontFamily: fontFamily,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              IconElevatedButton(
+                icon: NavikaIcons.search,
+                text: AppLocalizations.of(context)!.search,
+                onPressed: () => initJourney(null, null, context),
+              ),
             ],
-        ),
-      );
+          ),
+        )
+      else
+        ...buildFavorites(journeys, update, context)
+      ],
+  );
 }

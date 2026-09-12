@@ -3,7 +3,7 @@ description: Navika.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -17,10 +17,10 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.5.3+55
+version: 1.9.0+80
 
 environment:
-  sdk: '>3.0.0'
+  sdk: ">3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -34,51 +34,58 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  animated_flip_counter: ^0.3.4
-  app_links: ^6.3.2
-  collection: ^1.16.0
-  connectivity_plus: ^6.1.0
   cupertino_icons: ^1.0.2
-  dotted_line: ^3.1.0
-  firebase_core: ^3.6.0
-  firebase_messaging: ^15.1.3
-  floating_snackbar: ^1.0.5
-  flutter_inappwebview: ^6.1.5
-  flutter_local_notifications: ^17.0.0
-  flutter_markdown: ^0.7.4
-  flutter_rounded_date_picker: ^3.0.2
-  flutter_svg: ^2.0.9
-  geolocator: ^13.0.1
+  quiver: ^3.1.0
+  path_to_regexp: ^0.4.0
+  url_launcher: ^6.1.5
+  http: ^0.13.5
+  sliding_up_panel: ^2.0.0+1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-  http: ^0.13.5
-  icons_launcher: ^3.0.0
+  flutter_svg: ^2.0.9
+  flutter_inappwebview: ^6.1.5
+  collection: ^1.16.0
+  flutter_rounded_date_picker: ^3.0.2
+  floating_snackbar: ^1.0.5
+  dotted_line: ^3.1.0
+  connectivity_plus: ^6.1.5
   internet_file: ^1.2.0
-  intl: any
-  package_info_plus: ^8.1.0
-  path_provider: ^2.1.0
-  path_to_regexp: ^0.4.0
-  pdfx: ^2.6.0
-  pinch_zoom_release_unzoom: ^1.0.3
-  quiver: ^3.1.0
-  screenshot: ^3.0.0
-  scroll_to_index: ^3.0.1
   shimmer: ^3.0.0
-  sliding_up_panel: ^2.0.0+1
+  firebase_core: ^4.1.0
+  firebase_messaging: ^16.0.1
+  flutter_local_notifications: ^18.0.1
+  path_provider: ^2.1.0
   smooth_page_indicator: ^1.1.0
-  url_launcher: ^6.1.5
-  url_strategy: ^0.3.0
+  package_info_plus: ^8.1.1
+  pinch_zoom_release_unzoom: ^2.0.0
+  scroll_to_index: ^3.0.1
+  screenshot: ^3.0.0
+  flutter_markdown: ^0.7.4+2
   uuid: ^4.4.0
+  intl: any
+  geolocator: ^14.0.2
+  pdfx: ^2.9.2
+  animated_flip_counter: ^0.3.4
+  icons_launcher: ^3.0.0
+  lottie: ^3.0.0
+  app_links: ^6.3.2
+  flutter_gen: ^5.9.0
+  mapbox_maps_flutter: ^2.9.0
 
+  # See https://github.com/ScerIO/packages.flutter/issues/448
+  # pdfx:
+  #   git:
+  #    url: 'https://github.com/ScerIO/packages.flutter'
+  #    ref: '4be9de9ffed5398fd7d5f44bbb07dcd3d3f1711b'
+  #    path: packages/pdfx
+
+  # flutter_compass: ^0.7.0
   flutter_compass:
-    # https://github.com/hemanthrajv/flutter_compass/pull/113
-    git: https://github.com/PikPakPik/flutter_compass.git
+    git: https://github.com/hemanthrajv/flutter_compass.git
 
   flutter_localizations:
     sdk: flutter
-
-  here_sdk:
-    path: plugins/here_sdk
+  battery_plus: ^7.1.1
 
 dev_dependencies:
   hive_generator: ^2.0.1
@@ -86,14 +93,14 @@ dev_dependencies:
   flutter_launcher_icons: ^0.14.1
   flutter_native_splash: ^2.2.19
   import_sorter: ^4.6.0
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
   # flutter_gen: any
 
   # $ dart run icons_launcher:create
   # $ dart run flutter_native_splash:create
   # $ flutter gen-l10n
   # $ dart run import_sorter:main -e
-  
+
   flutter_test:
     sdk: flutter
 
@@ -107,18 +114,18 @@ flutter:
     - family: NavikaIcons
       fonts:
         - asset: assets/fonts/NavikaIcons.ttf
-    - family: Segoe Ui
+
+    - family: Nunito
       fonts:
-        - asset: assets/fonts/Segoe UI.ttf
-        - asset: assets/fonts/Segoe UI Bold.ttf
-          weight: 700
-    - family:  Diode
+        - asset: assets/fonts/Nunito.ttf
+        
+    - family: Diode
       fonts:
         - asset: assets/fonts/TransilienSmall.ttf
 
   assets:
     - assets/ca/lets-encrypt-r3.pem
-    
+
     - assets/img/icons/bus.png
     - assets/img/icons/bus_light.png
     - assets/img/icons/tram_light.png
@@ -234,6 +241,8 @@ flutter:
     - assets/img/icons/lines/TRAM_T12_light.png
     - assets/img/icons/lines/TRAM_T13.png
     - assets/img/icons/lines/TRAM_T13_light.png
+    - assets/img/icons/lines/TRAM_T14.png
+    - assets/img/icons/lines/TRAM_T14_light.png
 
     - assets/img/icons/sncf/logo_light.png
     - assets/img/icons/sncf/logo_color.png
@@ -276,7 +285,7 @@ flutter:
     - assets/img/marker/mini.png
     - assets/img/marker/mini_light.png
     - assets/img/marker/mini_bike.png
-    
+
     - assets/img/modal/acces_ufr.png
     - assets/img/modal/acces_ufr_train.png
     - assets/img/modal/alert.png
@@ -309,23 +318,22 @@ flutter:
     - assets/img/position.png
     - assets/img/sign.svg
     - assets/img/party-popper.png
-    
+
     - assets/img/cloud_off.svg
     - assets/img/cloud_sad.svg
     - assets/img/cloud_off.png
     - assets/img/cloud_sad.png
     - assets/img/journeys.png
-    - assets/img/grouped.png
-    - assets/img/ungrouped.png
 
-    - assets/img/here/HERE_logo_full.svg
-    - assets/img/here/HERE_logo_full_inverted.svg
+    - assets/img/mapbox/logo.svg
+    - assets/img/mapbox/logo_light.svg
 
     - assets/img/maintenance.png
 
     - assets/img/logo/logo_large.png
     - assets/img/logo/logo.png
-    - assets/img/JO.jpg
+
+    - assets/lottie/departures.json
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-assets/fonts/#from-packages

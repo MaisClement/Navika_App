@@ -5,12 +5,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/routing.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/places/listbutton.dart';
@@ -79,6 +80,9 @@ class _SchedulesSearchState extends State<SchedulesSearch> {
 	Widget build(BuildContext context) => Scaffold(
 		appBar: AppBar(
 			title: TextField(
+          style: TextStyle(
+            fontFamily: fontFamily,
+          ),
         controller: textController,
         focusNode: textFieldNode,
         decoration: InputDecoration(

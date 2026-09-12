@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:floating_snackbar/floating_snackbar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/extensions/hexcolor.dart';
@@ -13,6 +13,7 @@ import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bottom_sheets/terminus_trains.dart';
 import 'package:navika/src/widgets/departures/message.dart';
 import 'package:navika/src/widgets/departures/time_block.dart';
+import 'package:navika/src/widgets/departures/vehicle_size.dart';
 import 'package:navika/src/widgets/icons/icons.dart';
 
 class DepartureTrain extends StatelessWidget {
@@ -30,16 +31,23 @@ class DepartureTrain extends StatelessWidget {
   });
 
   handleTapDetails(context) {
-    if (train['informations']['id'] != null &&
-        train['informations']['id'] != '') {
-      RouteStateScope.of(context).go('/trip/details/${train['informations']['id']}/from/$from');
+    if (train['informations']['id'] != null && train['informations']['id'] != '') {
+      final currentRoute = RouteStateScope.of(context).route.path;
+      
+      if (currentRoute.startsWith('/schedules')) {
+        RouteStateScope.of(context).go('/schedules/trip/${train['informations']['id']}/from/$from');
+      
+      } else {
+        RouteStateScope.of(context).go('/trip/${train['informations']['id']}/from/$from');
+      }
+      
     } else {
       floatingSnackBar(
-        message: 'Les details ne sont pas disponibles pour ce trajet.',
+        message: AppLocalizations.of(context)!.trip_details_unavailable,
         context: context,
         textStyle: TextStyle(
           color: const Color(0xffffffff),
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w800,
           fontFamily: fontFamily,
         ),
         duration: const Duration(milliseconds: 4000),
@@ -87,21 +95,42 @@ class DepartureTrain extends StatelessWidget {
                         Expanded(
                           child: Column(
                             children: [
+                              if (train['informations']['original_direction'] != null)
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        train['informations']['original_direction']['name'],
+                                        style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w800,
+                                                fontFamily: fontFamily,
+                                                color: const Color(0xffeb2031),
+                                                decoration: TextDecoration.lineThrough,
+                                                decorationColor: const Color(0xffeb2031),
+                                              ),
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        overflow: TextOverflow.fade,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               Row(
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      train['informations']['direction'] ['name'],
-                                      style: train['stop_date_time']['state'] !='ontime'
+                                      train['informations']['direction']['name'],
+                                      style: train['stop_date_time']['state'] != 'ontime'
                                           ? TextStyle(
                                               fontSize: 16,
-                                              fontWeight: FontWeight.w600,
+                                              fontWeight: FontWeight.w800,
                                               fontFamily: fontFamily,
-                                              color: getColorForDirectionByState( getState(train), context),
+                                              color: getColorForDirectionByState(getState(train), context),
                                             )
                                           : TextStyle(
                                               fontSize: 16,
-                                              fontWeight: FontWeight.w600,
+                                              fontWeight: FontWeight.w800,
                                               fontFamily: fontFamily,
                                               color: accentColor(context),
                                             ),
@@ -114,20 +143,27 @@ class DepartureTrain extends StatelessWidget {
                               ),
                               Row(
                                 children: [
-                                  Text(train['informations']['headsign'],
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontFamily: 'Diode',
-                                      )),
-                                  if (train['informations']['headsign'] != '')
-                                    Container(
-                                      width: 10,
+                                  if (train['informations']['vehicle_size'] != null)
+                                    VehicleSize(
+                                      size: train['informations']['vehicle_size'],
                                     ),
-                                  Text(train['informations']['trip_name'],
+                                  Container(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: Text(
+                                      train['informations']['headsign'],
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontFamily: 'Diode',
-                                      )),
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    train['informations']['name'],
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: 'Diode',
+                                    ),
+                                  ),
                                 ],
                               ),
                             ],
@@ -159,14 +195,11 @@ class DepartureTrain extends StatelessWidget {
                                   onTap: () {
                                     showModalBottomSheet<void>(
                                         shape: const RoundedRectangleBorder(
-                                          borderRadius:
-                                              bottomSheetBorder,
+                                          borderRadius: bottomSheetBorder,
                                         ),
                                         isScrollControlled: true,
                                         context: context,
-                                        builder: (BuildContext context) =>
-                                            BottomTerminusTrain(
-                                                update: update));
+                                        builder: (BuildContext context) => BottomTerminusTrain(update: update));
                                   },
                                   child: Message(
                                     message: AppLocalizations.of(context)!.settings_terminus,

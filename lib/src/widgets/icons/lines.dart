@@ -64,6 +64,9 @@ class LinesIcones extends StatelessWidget {
             image: AssetImage( getIconLine(brightness ?? Theme.of(context).colorScheme.brightness, LINES.getLines(line)) )
           ),
         )
+
+      else if (line['color'] == line['text_color'])
+        SizedBox.shrink()
         
       else if (line['code'] != '')
         Container(

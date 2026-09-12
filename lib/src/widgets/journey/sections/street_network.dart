@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:dotted_line/dotted_line.dart';
+import 'package:navika/l10n/app_localizations.dart';
+import 'package:navika/src/data/global.dart' as globals;
 
 // 🌎 Project imports:
 import 'package:navika/src/icons/navika_icons_icons.dart';
@@ -100,10 +102,13 @@ class _SectionStreetNetworkState extends State<SectionStreetNetwork> {
                 Row(
                   children: [
                     Expanded(
-                      child: Text(widget.section['from']['name'],
+                      child: Text(
+                        widget.section['from']['name'] == 'START'
+                        ? globals.route['from']['name'] ?? AppLocalizations.of(context)!.departure
+                        : widget.section['from']['name'],
                         style: TextStyle(
                           fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                         ),
                         maxLines: 1,
@@ -113,10 +118,9 @@ class _SectionStreetNetworkState extends State<SectionStreetNetwork> {
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 10, right: 15, top: 0),
-                      color: Theme.of(context).colorScheme.surface,
                       child: Text(getStringTime(widget.section['departure_date_time']),
                         style: TextStyle(
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                           fontSize: 16,
                         )
@@ -124,7 +128,8 @@ class _SectionStreetNetworkState extends State<SectionStreetNetwork> {
                     )
                   ],
                 ),
-                Text('${getDistanceText(widget.section['geojson']['properties'][0]['length'])} • ${getDuration(widget.section['duration'])}'),
+                if (widget.section['geojson'] != null && widget.section['geojson']['properties'] != null && widget.section['geojson']['properties'].isNotEmpty)
+                  Text('${getDistanceText(widget.section['geojson']['properties'][0]['length'])} • ${getDuration(widget.section['duration'])}'),
             
                 if (widget.section['access_point'] != null)
                   AccessPoint(

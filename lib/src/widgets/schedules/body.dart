@@ -1,73 +1,73 @@
-// 🎯 Dart imports:
 import 'dart:async';
 
-// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-// 📦 Package imports:
-import 'package:sliding_up_panel/sliding_up_panel.dart';
-
-// 🌎 Project imports:
 import 'package:navika/src/api.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/screens/home_search.dart';
 import 'package:navika/src/widgets/departures/list.dart';
 import 'package:navika/src/widgets/error_block.dart';
+import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/schedules/list.dart';
 
-// 📦 Package imports:
+// This function processes the provided data to extract and return a list of lines
+/// Extracts lines from API response `data`.
+List<Map<String, dynamic>> getLines(Map<String, dynamic> data, bool ungroupDepartures) {
+  final List<Map<String, dynamic>> lines = [];
 
-
-List getLines(data) {
-  bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures');
-  List l = [];
-  if (data['departures'] != null) {
+  if (data['departures'] != null && data['departures'] is List) {
+    final List departures = data['departures'];
     if (ungroupDepartures) {
-      for (var dschedules in data['departures']) {
-        if (!l.any((item) => item['id'] == dschedules['informations']['line']['id'])) {
-          l.add(dschedules['informations']['line']);
+      for (final departure in departures) {
+        final line = departure['informations']?['line'];
+        if (line is Map<String, dynamic> && !lines.any((l) => l['id'] == line['id'])) {
+          lines.add(line);
         }
       }
     } else {
-      for (var dschedules in data['departures']) {
-        l.add(<String, dynamic>{...dschedules}..remove('departures'));
+      for (final departure in departures) {
+        if (departure is Map) {
+          final copy = <String, dynamic>{...Map<String, dynamic>.from(departure)};
+          copy.remove('departures');
+          lines.add(copy);
+        }
       }
     }
   }
-  if (data['schedules'] != null) {
-    for (var lschedules in data['schedules']) {
-      l.add(<String, dynamic>{...lschedules}..remove('schedules'));
+
+  if (data['schedules'] != null && data['schedules'] is List) {
+    for (final schedule in data['schedules']) {
+      if (schedule is Map) {
+        final copy = <String, dynamic>{...Map<String, dynamic>.from(schedule)};
+        copy.remove('schedules');
+        lines.add(copy);
+      }
     }
   }
-  return l;
+
+  return lines;
 }
 
 int getModesLength(List modes) {
-  int i = 0;
-  for (var allowes in allowedModes.entries) {
-    if (modes.any((mode) => allowes.value.contains(mode))) {
-      i++;
-    }
+  var count = 0;
+  for (final allowes in allowedModes.entries) {
+    if (modes.any((mode) => allowes.value.contains(mode))) count++;
   }
-
-  return i;
+  return count;
 }
 
 List<Widget> getModesTabs(List modes) {
-  List<Widget> tabs = [];
-
-  for (var allowes in allowedModes.entries) {
+  final List<Widget> tabs = [];
+  for (final allowes in allowedModes.entries) {
     if (modes.any((mode) => allowes.value.contains(mode))) {
-      tabs.add(
-        Tab(icon: tabsModes[allowes.key]['icon'], iconMargin: const EdgeInsets.only(bottom: 5, top: 5)),
-      );
+      tabs.add(Tab(icon: tabsModes[allowes.key]!['icon'] as Widget, iconMargin: const EdgeInsets.only(bottom: 5, top: 5)));
     }
   }
   return tabs;
 }
 
-Map allowedModes = {
+final Map allowedModes = {
   'rail': [
     'physical_mode:RapidTransit',
     'physical_mode:Train',
@@ -75,44 +75,40 @@ Map allowedModes = {
     'physical_mode:LocalTrain',
     'physical_mode:LongDistanceTrain',
     'rail',
-    'nationalrail'
+    'nationalrail',
   ],
   'metro': ['physical_mode:Metro', 'physical_mode:RailShuttle', 'metro', 'funicular'],
   'tram': ['physical_mode:Tramway', 'tram'],
   'bus': ['physical_mode:Bus', 'bus'],
 };
 
-Map tabsModes = {
-  'rail': {
-    'icon': const Icon(NavikaIcons.idfmTrainRer),
-  },
-  'metro': {
-    'icon': const Icon(NavikaIcons.metro),
-  },
-  'tram': {
-    'icon': const Icon(NavikaIcons.idfmTram),
-  },
-  'bus': {
-    'icon': const Icon(NavikaIcons.idfmBus),
-  },
+final Map<String, Map<String, Widget>> tabsModes = {
+  'rail': {'icon': const Icon(NavikaIcons.idfmTrainRer)},
+  'metro': {'icon': const Icon(NavikaIcons.metro)},
+  'tram': {'icon': const Icon(NavikaIcons.idfmTram)},
+  'bus': {'icon': const Icon(NavikaIcons.idfmBus)},
 };
 
 class SchedulesBody extends StatefulWidget {
   final String id;
   final ScrollController scrollController;
-  final PanelController? panelController;
+  final bool ungroupDepartures;
   final double padding;
   final Function? setData;
   final Function? refreshMap;
+  final Function? moveMap;
+  final Function? openPanel;
   final bool hideProgressBar;
 
   const SchedulesBody({
     required this.id,
     required this.scrollController,
-    this.panelController,
+    required this.ungroupDepartures,
     this.padding = 0,
     this.setData,
     this.refreshMap,
+    this.moveMap,
+    this.openPanel,
     this.hideProgressBar = false,
     super.key,
   });
@@ -121,33 +117,25 @@ class SchedulesBody extends StatefulWidget {
   State<SchedulesBody> createState() => _SchedulesBodyState();
 }
 
-class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProviderStateMixin {
+class _SchedulesBodyState extends State<SchedulesBody> with TickerProviderStateMixin {
   String id = '';
+  bool hasRun = false;
   List modes = [];
-  late TabController _tabController;
+  TabController? _tabController;
   bool isLoading = true;
 
   List schedules = [];
-  List departures = [];
   late Timer _timer;
   ApiStatus error = ApiStatus.ok;
-
-  bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures');
 
   @override
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       init();
-      _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
-        _getSchedules();
-      });
-      await _getSchedules();
-
-      if (widget.panelController != null) {
-        widget.panelController!.animatePanelToSnapPoint();
-      }
+      _timer = Timer.periodic(const Duration(seconds: 30), (_) => _getSchedules());
+      _getSchedules();
     });
   }
 
@@ -162,95 +150,113 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
   @override
   void didUpdateWidget(SchedulesBody oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Vérifiez si les paramètres ont changé, et si c'est le cas, appelez setState pour reconstruire le widget
     if (widget.id != id) {
       init();
       _getSchedules();
-      
-      if (widget.panelController != null) {
-        widget.panelController!.animatePanelToSnapPoint();
+      if (widget.openPanel != null) {
+        widget.openPanel!();
       }
     }
   }
 
   @override
   void dispose() {
-    super.dispose();
     _timer.cancel();
+    _tabController?.dispose();
+    _tabController = null;
+    super.dispose();
   }
 
-  List<Widget> getModesView(List modes, schedules, departures, scrollController) {
-    List<Widget> tabs = [];
-
-    bool ungroupDepartures = globals.hiveBox.get('ungroupDepartures');
-
-    for (var allowes in allowedModes.entries) {
+  List<Widget> getModesView(
+    List modes,
+    schedules,
+    ScrollController scrollController,
+    bool ungroupDepartures, {
+    bool shrinkWrap = false,
+    ScrollPhysics? physics,
+    int activeIndex = 0,
+  }) {
+    List<Widget> views = [];
+    int viewIdx = 0;
+    for (final allowes in allowedModes.entries) {
       if (modes.any((mode) => allowes.value.contains(mode))) {
+        final ScrollController controllerToUse = (viewIdx == activeIndex) ? scrollController : ScrollController();
+
         if (allowes.key == 'rail') {
-          tabs.add(DeparturesList(
-              departures: departures,
-              scrollController: scrollController,
+          views.add(
+            DeparturesList(
+              schedules: schedules,
               update: update,
-              name: '',
-              modes: modes,
               id: id,
-              ungroupDepartures: ungroupDepartures));
+              mode: allowes.key,
+              ungroupDepartures: ungroupDepartures,
+              scrollController: controllerToUse,
+            ),
+          );
         } else {
-          tabs.add(SchedulesList(
-            schedules: schedules,
-            id: widget.id,
-            modes: allowes.key,
-            scrollController: scrollController,
-            update: update,
-          ));
+          views.add(
+            SchedulesList(
+              schedules: schedules,
+              id: widget.id,
+              mode: allowes.key,
+              scrollController: controllerToUse,
+              update: update,
+            ),
+          );
         }
+        viewIdx += 1;
       }
     }
-    return tabs;
+    return views;
   }
 
   Future<void> _getSchedules() async {
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getSchedules(id, ungroupDepartures);
+    Map result = await navikaApi.getSchedules(id);
 
     if (mounted) {
       setState(() {
         error = result['status'];
       });
 
-      if (widget.setData != null) {
-        widget.setData!(result);
+      if (result['value'] != null) {
+        Map data = result['value'];
+
+        final lat = data['place']['coord']['lat'];
+        final lon = data['place']['coord']['lon'];
+
+        if (widget.setData != null) {
+          widget.setData!(result);
+        }
         if (globals.updateMap == false) {
-          openMapPoint(result['value']['place']['coord']['lat'], result['value']['place']['coord']['lon']);
+          openMapPoint(lat, lon);
         }
-        if (widget.refreshMap != null) {
-          widget.refreshMap!(result['value']['place']['coord']['lat'], result['value']['place']['coord']['lon']);
+        if (widget.openPanel != null && !hasRun) {
+          widget.openPanel!();
         }
+        if (widget.moveMap != null && !hasRun) {
+          widget.moveMap!(lat, lon, zoom: 15.0);
+        }
+        hasRun = true;
+
         globals.updateMap = false;
+
+
+        List _modes = data['place']['modes'];
+        List _schedules = data['schedules'];
+        globals.schedulesStopLines = getLines(result['value']!, widget.ungroupDepartures);
+
+        setState(() {
+          schedules = _schedules;
+          modes = _modes;
+          isLoading = false;
+
+          final int newLength = getModesLength(_modes);
+          final int preservedIndex = (_tabController?.index ?? 0).clamp(0, newLength - 1);
+          _tabController?.dispose();
+          _tabController = TabController(vsync: this, length: newLength, initialIndex: preservedIndex);
+        });
       }
-
-      setState(() {
-        if (result['value'] != null) {
-          globals.schedulesStopLines = getLines(result['value']!);
-        }
-        if (result['value']?['schedules'] != null) {
-          schedules = result['value']?['schedules'];
-        }
-        if (result['value']?['departures'] != null) {
-          departures = result['value']?['departures'];
-        }
-        if (result['value']?['place']['modes'] != null) {
-          modes = result['value']?['place']['modes'];
-        }
-      });
-
-      if (isLoading) {
-        _tabController = TabController(vsync: this, length: getModesLength(modes));
-      }
-
-      setState(() {
-        isLoading = false;
-      });
     }
   }
 
@@ -258,39 +264,87 @@ class _SchedulesBodyState extends State<SchedulesBody> with SingleTickerProvider
     if (mounted) {
       setState(() {
         schedules = schedules;
-        departures = departures;
       });
     }
   }
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          SizedBox(
-            height: widget.padding,
-          ),
-          if (error != ApiStatus.ok)
+  Widget build(BuildContext context) {
+    final views = getModesView(
+      modes,
+      schedules,
+      widget.scrollController,
+      widget.ungroupDepartures,
+      activeIndex: _tabController?.index ?? 0,
+    );
+
+    if (error != ApiStatus.ok) {
+      return Expanded(
+        child: ListView(
+          controller: widget.scrollController,
+          children: [
             ErrorBlock(
               error: error,
               retry: _getSchedules,
-            )
-          else if (isLoading && !widget.hideProgressBar)
-            const LinearProgressIndicator()
-          else if (isLoading)
-            Container()
-          else ...[
-            if (getModesLength(modes) > 1)
-              TabBar(
-                controller: _tabController,
-                tabs: getModesTabs(modes),
-              ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: getModesView(modes, schedules, departures, widget.scrollController),
-              ),
             ),
-          ]
-        ],
+          ],
+        ),
       );
+    }
+
+    // No views but OK
+    if (views.isEmpty && !isLoading) {
+      return Expanded(
+        child: ListView(
+          controller: widget.scrollController,
+          children: [PlacesEmpty()],
+        ),
+      );
+    }
+
+    // Loading state
+    if (isLoading && !widget.hideProgressBar) {
+      return Expanded(
+        child: ListView(
+          controller: widget.scrollController,
+          children: [
+            const LinearProgressIndicator(),
+          ],
+        ),
+      );
+    } else if (isLoading) {
+      return Expanded(
+        child: ListView(
+          controller: widget.scrollController,
+          children: [
+            const SizedBox(height: 20),
+          ],
+        ),
+      );
+    }
+
+    if (views.length == 1) {
+      return Expanded(
+        child: views.first,
+      );
+    }
+
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TabBar(
+            controller: _tabController!,
+            tabs: getModesTabs(modes),
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController!,
+              children: views,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

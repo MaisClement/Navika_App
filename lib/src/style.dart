@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/icon.dart';
-import 'package:navika/src/screens/trip_details.dart';
+import 'package:navika/src/widgets/trip/panel.dart';
 
 // 📱 IOS style
-String fontFamily = Platform.isIOS ? 'San Francisco' : 'Segoe Ui';
+String fontFamily = Platform.isIOS ? 'San Francisco' : 'Nunito';
 
 CrossAxisAlignment preferredCrossAxisAlignment = Platform.isIOS ? CrossAxisAlignment.center : CrossAxisAlignment.start;
 
@@ -38,25 +38,31 @@ Widget closeLeadingAppBar(context) => Platform.isIOS
     );
 
 TextStyle appBarTitle = TextStyle(
-  fontWeight: FontWeight.w600,
+  fontWeight: FontWeight.w800,
   fontFamily: fontFamily,
+);
+
+TextStyle mainAppBarTitle(context) => TextStyle(
+  fontWeight: FontWeight.w800,
+  fontFamily: fontFamily,
+  color: accentColor(context),
 );
 
 TextStyle appBarSubtitle = TextStyle(
   fontSize: 16,
-  fontWeight: FontWeight.w600,
+  fontWeight: FontWeight.w800,
   fontFamily: fontFamily,
 );
 
 TextStyle snackBarText = TextStyle(
     color: const Color(0xffffffff),
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w800,
     fontFamily: fontFamily,
 );
 
 TextStyle textStyle(BuildContext context, int size) => TextStyle(
   fontSize: size.toDouble(),
-  fontWeight: FontWeight.w600,
+  fontWeight: FontWeight.w800,
   fontFamily: fontFamily,
   color: accentColor(context),
 );
@@ -68,61 +74,65 @@ const bottomSheetBorder = BorderRadius.only(
   bottomRight: Radius.zero,
 );
 
-final MaterialStateProperty<Icon?> thumbIcon = MaterialStateProperty.resolveWith<Icon?>((Set<MaterialState> states) {
-    if (states.contains(MaterialState.selected)) {
+final WidgetStateProperty<Icon?> thumbIcon = WidgetStateProperty.resolveWith<Icon?>((Set<WidgetState> states) {
+    if (states.contains(WidgetState.selected)) {
       return Icon(check);
     }
     return Icon(close);
   },
 );
 
-mainColor(context) {
+String mapBoxIcon() {
+  return 'assets/img/mapbox/logo.svg';
+}
+
+Color mainColor(context) {
   return Theme.of(context).colorScheme.primary;
 }
 
-hereIcon(context) {
-  if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
-    return 'assets/img/here/HERE_logo_full_inverted.svg';
-  }
-  return 'assets/img/here/HERE_logo_full.svg';
-}
-
-accentColor(context) {
+dynamic accentColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return const Color(0xffffffff);
   }
   return mainColor(context);
 }
 
-walkingColor(context) {
+Color? walkingColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return Colors.grey[300];
   }
   return Colors.grey[700];
 }
 
-routeBhColor(context) {
+Color? routeBhColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return Colors.grey[800];
   }
   return const Color(0xffebf1f4);
 }
 
-schedulesBlock(context, Color color) {
+Color schedulesBlock(context, Color color) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return color;
   }
   return Colors.white;
 }
 
-schedulesBack(context, Color color) {
+Color invertedSchedulesBlock(context, Color color) {
+  if (Brightness.light == Theme.of(context).colorScheme.brightness) {
+    return color;
+  }
+  return Colors.white;
+}
+
+Color schedulesBack(context, Color color) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return color.withOpacity(0.3);
   }
   return color.withOpacity(0.1);
 }
 
-departureList(context, Color color) {
+Color departureList(context, Color color) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return color.withOpacity(0.2);
   }
@@ -149,13 +159,13 @@ Brightness schedulesIsDark(Brightness brightness, color) {
 
 // ----------------
 
-getShimmerBaseColor(context) {
+Color getShimmerBaseColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return const Color(0xff252525);
   }
   return const Color(0xffe0e0e0);
 }
-getShimmerHighlightColor(context) {
+Color getShimmerHighlightColor(context) {
   if (Brightness.dark == Theme.of(context).colorScheme.brightness) {
     return const Color(0xff555555);
   }
@@ -189,6 +199,23 @@ Color getArrivalActiveColor(context, TripBlockStatus status, Color? color) {
     return color;
   }
   return mainColor(context);
+}
+
+// A stop which is not served anymore is struck through : red when it stands
+// inside the part of the trip the traveller looks at, grey otherwise, it is
+// already told apart from the rest.
+Color getDeletedColor(TripBlockStatus status) {
+  if (status == TripBlockStatus.inactive){
+    return const Color(0xff808080);
+  }
+  return const Color(0xffeb2031);
+}
+
+Color getDeletedArrivalColor(TripBlockStatus status) {
+  if (status == TripBlockStatus.inactive || status == TripBlockStatus.origin){
+    return const Color(0xff808080);
+  }
+  return const Color(0xffeb2031);
 }
 
 Color getMechanicalBike(context) {

@@ -56,7 +56,7 @@ class TraficDisruptions extends StatelessWidget {
                                         ctrafic['message']['title'],
                                         style: const TextStyle(
                                             fontSize: 18,
-                                            fontWeight: FontWeight.w700),
+                                            fontWeight: FontWeight.w800),
                                       ),
                                     ],
                                   ),

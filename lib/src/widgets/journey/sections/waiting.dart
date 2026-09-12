@@ -27,7 +27,7 @@ class SectionWaiting extends StatelessWidget {
               ),
               child: const DottedLine(
                 direction: Axis.vertical,
-                lineLength: 55,
+                lineLength: 65,
                 lineThickness: 4.0,
                 dashColor: Color(0xff616161),
                 dashLength: 4.0,
@@ -38,10 +38,9 @@ class SectionWaiting extends StatelessWidget {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 15),
-          child: Text('Correspondance • ${getDuration(section['duration'])}'),
+          padding: const EdgeInsets.only(bottom: 15),
+          child: Text('Attente • ${getDuration(section['duration'])}'),
         ),
-        
       ]
     );
 }

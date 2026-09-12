@@ -6,9 +6,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:here_sdk/core.dart';
+import 'package:navika/src/class/geocoords.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data.dart';
@@ -29,12 +29,7 @@ Map listModes = {
     'rail',
     'nationalrail'
   ],
-  'metro': [
-    'physical_mode:Metro',
-    'physical_mode:RailShuttle',
-    'metro',
-    'funicular'
-  ],
+  'metro': ['physical_mode:Metro', 'physical_mode:RailShuttle', 'metro', 'funicular'],
   'tram': ['physical_mode:Tramway', 'tram'],
   'bus': ['physical_mode:Bus', 'bus'],
 };
@@ -47,15 +42,10 @@ const divider = Divider(
 Widget voidData(context) {
   return Row(
     children: [
-      SvgPicture.asset('assets/img/cancel.svg',
-          color: accentColor(context), height: 18),
+      SvgPicture.asset('assets/img/cancel.svg', color: accentColor(context), height: 18),
       Text(
         AppLocalizations.of(context)!.no_information,
-        style: TextStyle(
-            color: accentColor(context),
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            fontFamily: fontFamily),
+        style: TextStyle(color: accentColor(context), fontSize: 18, fontWeight: FontWeight.w800, fontFamily: fontFamily),
       ),
     ],
   );
@@ -97,9 +87,7 @@ int? getSeverity(String lineId) {
 
 String getModeImage(Brightness brightness, line) {
   if (LINES.getLines(line) != null && LINES.getLines(line)!['symbol'] != null) {
-    return Brightness.light == brightness
-      ? 'assets/img/icons/${LINES.getLines(line)!['symbol']}'
-      : 'assets/img/icons/${LINES.getLines(line)!['symbol_light']}';
+    return Brightness.light == brightness ? 'assets/img/icons/${LINES.getLines(line)!['symbol']}' : 'assets/img/icons/${LINES.getLines(line)!['symbol_light']}';
   }
 
   String img = 'assets/img/icons/';
@@ -119,9 +107,7 @@ String getModeImage(Brightness brightness, line) {
     img = '$img$mode';
   }
 
-  return Brightness.light == brightness
-    ? '$img.png'
-    : '${img}_light.png';
+  return Brightness.light == brightness ? '$img.png' : '${img}_light.png';
 }
 
 Color getSlug(int severity, [bool notTransparent = false]) {
@@ -278,6 +264,7 @@ String getTime(String time) {
 
   return '$dthour:$dtminute';
 }
+
 String getHour(String time) {
   if (time == '') {
     return '';
@@ -291,6 +278,7 @@ String getHour(String time) {
 
   return dttime.hour.toString();
 }
+
 int getIntHour(String time) {
   if (time == '') {
     return 3;
@@ -334,7 +322,7 @@ List getState(Map train) {
   if (getLate(train) > 0) {
     res.add('delayed');
   }
-  
+
   if (res.isEmpty) {
     res.add('ontime');
   }
@@ -397,6 +385,8 @@ Color getSchedulesColorByState(state, context) {
       return const Color(0xfff68f53);
     case 'ontime':
       return accentColor(context);
+    case 'theorical':
+      return accentColor(context);
     default:
       return const Color(0xffa9a9a9);
   }
@@ -412,7 +402,7 @@ Color getSchedulesColorByStateList(state, isLate, context) {
     case 'delayed':
       return const Color(0xfff68f53);
     default:
-      return Theme.of(context).colorScheme.onBackground;
+      return Theme.of(context).colorScheme.onSurface;
   }
 }
 
@@ -439,7 +429,7 @@ Color getColorForDirectionByState(state, context) {
 Color getBackColorByState(state, context) {
   if (state.contains('cancelled')) {
     return const Color(0xffeb2031);
-  } else if (state.contains('delayed') || state.contains('modified')  || state.contains('exceptional_terminus')) {
+  } else if (state.contains('delayed') || state.contains('modified') || state.contains('exceptional_terminus')) {
     return const Color(0xfff68f53);
   } else if (state.contains('added')) {
     return const Color(0xff005bbc);
@@ -487,8 +477,7 @@ double getDistance(double lat1, double lon1, double lat2, double lon2) {
   return ((earthRadius * d) * 3);
 }
 
-GeoCoordinates getCenterPoint(
-  double lat1, double lon1, double lat2, double lon2) {
+GeoCoordinates getCenterPoint(double lat1, double lon1, double lat2, double lon2) {
   double clon = (lon1 + lon2) / 2;
   double clat = (lat1 + lat2) / 2;
 
@@ -505,7 +494,7 @@ String getStringTime(String time) {
 TextStyle getTextStyle(BuildContext context, int size) {
   return TextStyle(
     fontSize: size.toDouble(),
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w800,
     fontFamily: fontFamily,
     color: accentColor(context),
   );
@@ -515,7 +504,7 @@ String getDuration(int d) {
   Duration duration = Duration(seconds: d);
   String res = '';
   if (duration.inMinutes >= 60) {
-    res ='$res${duration.inHours.toString()}h${duration.inMinutes.remainder(60).toString()}';
+    res = '$res${duration.inHours.toString()}h${duration.inMinutes.remainder(60).toString()}';
   } else {
     res = '$res${duration.inMinutes.remainder(60).toString()} mn';
   }
@@ -527,7 +516,7 @@ String getDistanceText(int distance) {
   if (distance <= 1000) {
     return '${distance.ceil()}m';
   } else {
-    return '${(distance/1000).toStringAsFixed(2)}km';
+    return '${(distance / 1000).toStringAsFixed(2)}km';
   }
 }
 
@@ -540,14 +529,10 @@ List<Widget> getDurationWidget(int d, context) {
 
     res.add(Text('h', style: getTextStyle(context, 10)));
 
-    res.add(Text(
-        duration.inMinutes.remainder(60) < 10
-            ? '0${duration.inMinutes.remainder(60).toString()}'
-            : duration.inMinutes.remainder(60).toString(),
+    res.add(Text(duration.inMinutes.remainder(60) < 10 ? '0${duration.inMinutes.remainder(60).toString()}' : duration.inMinutes.remainder(60).toString(),
         style: getTextStyle(context, 24)));
   } else {
-    res.add(Text(duration.inMinutes.remainder(60).toString(),
-        style: getTextStyle(context, 24)));
+    res.add(Text(duration.inMinutes.remainder(60).toString(), style: getTextStyle(context, 24)));
 
     res.add(Text('mn', style: getTextStyle(context, 10)));
   }
@@ -559,11 +544,11 @@ enum MarkerSize { hidden, small, large }
 
 enum MarkerMode { bike, bus, cable, metro, boat, noctilien, rer, train, tram }
 
-String getMarkerImageByType(MarkerMode mode, MarkerSize size, context) {
+String? getMarkerImageByType(MarkerMode mode, MarkerSize size, context) {
   String assets = 'assets/img/marker/';
 
   if (size == MarkerSize.hidden) {
-    return 'assets/img/null.png';
+    return null;
   }
 
   if (size == MarkerSize.small) {
@@ -642,68 +627,68 @@ MarkerMode getMarkerModeByMode(String mode) {
 }
 
 MarkerSize getMarkerSize(MarkerMode mode, double zoom) {
-  if (zoom > 15000 && (mode == MarkerMode.train || mode == MarkerMode.rer)) {
+  // Bike
+  if (mode == MarkerMode.bike) {
+    if (zoom < 13) {
+      return MarkerSize.hidden;
+    }
+    if (zoom < 15) {
+      return MarkerSize.small;
+    }
+    return MarkerSize.large;
+  }
+
+  // Train
+  if (mode == MarkerMode.train || mode == MarkerMode.rer) {
+    if (zoom > 12) {
+      return MarkerSize.large;
+    }
     return MarkerSize.small;
   }
-  if (zoom > 15000) {
-    return MarkerSize.hidden;
-  }
-  if (zoom > 3000 && mode == MarkerMode.bike) {
-    return MarkerSize.hidden;
-  }
-  if (zoom > 6000 && (mode != MarkerMode.train && mode != MarkerMode.rer)) {
-    return MarkerSize.small;
-  }
-  if (zoom > 3000 && mode == MarkerMode.bus) {
-    return MarkerSize.small;
-  }
-  if (zoom > 2000 && mode == MarkerMode.bike) {
+
+  if (zoom < 13) {
     return MarkerSize.small;
   }
   return MarkerSize.large;
+  
 }
 
-int getSizeForMarker(MarkerSize size) {
+double getSizeForMarker(MarkerSize size) {
   if (size == MarkerSize.hidden) {
     return 0;
   }
   if (size == MarkerSize.small) {
-    return 20;
+    return 0.4;
   }
-  return 100;
+  return 1.7;
 }
 
-double getAppBarOpacity(double position) {
-  double res = (((position * -1) + 1) * -3.33) + 1;
-  if (res < 0) {
+double getOpacity(double position, [double threshold = 0.7]) {
+  if (position < threshold) {
+    return 1.0;
+  }
+
+  if (position >= 0.9) {
     return 0.0;
-  } else if (res > 1.0) {
-    return 1;
   }
-  return res;
+
+  double range = 0.9 - threshold;
+  double progress = (position - threshold) / range;
+  return (0.9 - progress).clamp(0.0, 0.9);
 }
 
-double getOpacity(position) {
-  double res = ((1 / position - 1.1) * 2.33) > 1 ? 1 : ((1 / position - 1.1) * 2.33);
-  if (res < 0) {
+double getReverseOpacity(double position, [double threshold = 0.7]) {
+  if (position < threshold) {
     return 0.0;
-  } else if (res > 1.0) {
-    return 1;
   }
-  return res;
-}
 
-double getSearchWidth(position, context) {
-  double max = MediaQuery.of(context).size.width - 70;
-  double min = 45;
-  double? res = lerpDouble(min, max, (position - 0.55) * -2);
-  if (res == null || res < min) {
-    return min;
+  if (position >= 0.9) {
+    return 1.0;
   }
-  if (res > max) {
-    return max;
-  }
-  return res;
+
+  double range = 0.9 - threshold;
+  double progress = (position - threshold) / range;
+  return progress.clamp(0.0, 1.0);
 }
 
 String timeToString(TimeOfDay tod) {
@@ -720,7 +705,7 @@ List getForbiddenModes() {
 
   // foreach allmodes not in modes, add it to res;
   for (var mode in allModes) {
-    if (!modes.contains(mode)) {
+    if (modes.contains(mode)) {
       res.add(mode);
     }
   }
@@ -759,6 +744,69 @@ double degreesToRadians(double degrees) {
   return degrees * pi / 180.0;
 }
 
-double availableHeight(context) => MediaQuery.of(context).size.height - AppBar().preferredSize.height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom - kBottomNavigationBarHeight;
+LinearGradient getPanelGradient(BuildContext context, Color? color) {
+  bool isDark = Theme.of(context).colorScheme.brightness == Brightness.dark;
+  bool powerSaving = MediaQuery.of(context).disableAnimations || globals.isPowerSaveMode;
 
-double availableHeightReduced(context) => MediaQuery.of(context).size.height - AppBar().preferredSize.height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom + 20;
+  List<Color> colors;
+  if (powerSaving) {
+    colors = isDark
+        ? [Colors.black, Colors.black]
+        : [Colors.white, Colors.white];
+  } else if (color != null) {
+    colors = isDark
+        ? [color.withOpacity(0.75), Colors.black.withOpacity(0.65)]
+        : [color.withOpacity(0.6), Colors.white.withOpacity(0.6)];
+  } else {
+    colors = isDark
+        ? [Colors.black.withOpacity(0.7), Colors.black.withOpacity(0.7)]
+        : [Colors.white.withOpacity(0.5), Colors.white.withOpacity(0.5)];
+  }
+
+  return LinearGradient(
+    begin: Alignment.bottomLeft,
+    end: Alignment.topRight,
+    colors: colors,
+  );
+}
+
+LinearGradient getButtonGradient(BuildContext context) {
+  bool isDark = Theme.of(context).colorScheme.brightness == Brightness.dark;
+  bool powerSaving = MediaQuery.of(context).disableAnimations || globals.isPowerSaveMode;
+
+  List<Color> colors;
+  if (powerSaving) {
+    colors = isDark
+        ? [Colors.black, Colors.black]
+        : [Colors.white, Colors.white];
+  } else {
+    colors = isDark
+        ? [Colors.black.withOpacity(0.5), Colors.black.withOpacity(0.5)]
+        : [Colors.white.withOpacity(0.7), Colors.white.withOpacity(0.7)];
+  }
+
+  return LinearGradient(
+    begin: Alignment.bottomLeft,
+    end: Alignment.topRight,
+    colors: colors,
+  );
+}
+
+/// Enveloppe [child] dans un BackdropFilter avec flou, sauf en mode éco d'énergie
+/// ou animations désactivées (le fond étant alors opaque, le flou serait invisible
+/// mais BackdropFilter n'accepte pas un filtre nul).
+Widget blurredContainer({required BuildContext context, required Widget child, double sigma = 12}) {
+  final bool powerSaving = MediaQuery.of(context).disableAnimations || globals.isPowerSaveMode;
+  if (powerSaving) return child;
+
+  return BackdropFilter(
+    filter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
+    child: child,
+  );
+}
+
+double availableHeight(context) =>
+    MediaQuery.of(context).size.height - AppBar().preferredSize.height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom - kBottomNavigationBarHeight;
+
+double availableHeightReduced(context) =>
+    MediaQuery.of(context).size.height - AppBar().preferredSize.height - MediaQuery.of(context).padding.top - MediaQuery.of(context).padding.bottom + 20;

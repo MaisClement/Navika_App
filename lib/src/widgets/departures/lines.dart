@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:floating_snackbar/floating_snackbar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/routing/route_state.dart';
@@ -12,6 +12,7 @@ import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bottom_sheets/terminus_trains.dart';
 import 'package:navika/src/widgets/departures/message.dart';
 import 'package:navika/src/widgets/departures/time_block.dart';
+import 'package:navika/src/widgets/departures/vehicle_size.dart';
 
 class DepartureLines extends StatelessWidget {
   final Map train;
@@ -29,14 +30,22 @@ class DepartureLines extends StatelessWidget {
 
   handleTapDetails(context) {
     if (train['informations']['id'] != null && train['informations']['id'] != '') {
-      RouteStateScope.of(context).go('/trip/details/${train['informations']['id']}/from/$from');
+      final currentRoute = RouteStateScope.of(context).route.path;
+      
+      if (currentRoute.startsWith('/schedules')) {
+        RouteStateScope.of(context).go('/schedules/trip/${train['informations']['id']}/from/$from');
+      
+      } else {
+        RouteStateScope.of(context).go('/trip/${train['informations']['id']}/from/$from');
+      }
+      
     } else {
       floatingSnackBar(
-        message: 'Les details ne sont pas disponibles pour ce trajet.',
+        message: AppLocalizations.of(context)!.trip_details_unavailable,
         context: context,
         textStyle: TextStyle(
           color: const Color(0xffffffff),
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w800,
           fontFamily: fontFamily,
         ),
         duration: const Duration(milliseconds: 4000),
@@ -84,24 +93,42 @@ class DepartureLines extends StatelessWidget {
                     Expanded(
                       child: Column(
                         children: [
+                          if (train['informations']['original_direction'] != null)
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        train['informations']['original_direction']['name'],
+                                        style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w800,
+                                                fontFamily: fontFamily,
+                                                color: const Color(0xffeb2031),
+                                                decoration: TextDecoration.lineThrough,
+                                                decorationColor: const Color(0xffeb2031),
+                                              ),
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        overflow: TextOverflow.fade,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                           Row(
                             children: [
                               Expanded(
                                 child: Text(
                                   train['informations']['direction']['name'],
-                                  style: train['stop_date_time']['state'] !=
-                                          'ontime'
+                                  style: train['stop_date_time']['state'] != 'ontime'
                                       ? TextStyle(
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w800,
                                           fontFamily: fontFamily,
-                                          color: getColorForDirectionByState(
-                                              getState(train),
-                                              context),
+                                          color: getColorForDirectionByState(getState(train), context),
                                         )
                                       : TextStyle(
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w800,
                                           fontFamily: fontFamily,
                                           color: accentColor(context),
                                         ),
@@ -114,16 +141,21 @@ class DepartureLines extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Text(train['informations']['headsign'],
+                              if (train['informations']['vehicle_size'] != null)
+                                VehicleSize(
+                                  size: train['informations']['vehicle_size'],
+                                ),
+                              Container(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: Text(
+                                  train['informations']['headsign'],
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontFamily: 'Diode',
-                                  )),
-                              if (train['informations']['headsign'] != '')
-                                const SizedBox(
-                                  width: 10,
+                                  ),
                                 ),
-                              Text(train['informations']['trip_name'],
+                              ),
+                              Text(train['informations']['name'],
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontFamily: 'Diode',
@@ -148,9 +180,9 @@ class DepartureLines extends StatelessWidget {
                               color: Colors.white,
                               backgroundColor: const Color.fromARGB(255, 32, 32, 235),
                             ),
-                          if (getState(train)
-                              .contains('delayed'))
-                            MiniMessage( message: '+${getLate(train)} min',
+                          if (getState(train).contains('delayed'))
+                            MiniMessage(
+                              message: '+${getLate(train)} min',
                               color: Colors.white,
                               backgroundColor: const Color(0xffeb2031),
                             ),
@@ -163,8 +195,7 @@ class DepartureLines extends StatelessWidget {
                                     ),
                                     isScrollControlled: true,
                                     context: context,
-                                    builder: (BuildContext context) =>
-                                        BottomTerminusTrain(update: update));
+                                    builder: (BuildContext context) => BottomTerminusTrain(update: update));
                               },
                               child: Message(
                                 message: AppLocalizations.of(context)!.settings_terminus,
@@ -176,8 +207,7 @@ class DepartureLines extends StatelessWidget {
                     else
                       TimeBlock(
                         time: train['stop_date_time']['departure_date_time'],
-                        base: train['stop_date_time']
-                            ['base_departure_date_time'],
+                        base: train['stop_date_time']['base_departure_date_time'],
                         state: getState(train),
                         late: getLate(train),
                         track: train['stop_date_time']['platform'],

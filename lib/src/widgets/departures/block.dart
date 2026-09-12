@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data.dart';
@@ -19,14 +19,12 @@ import 'package:navika/src/widgets/utils/expander_trafic.dart';
 class DeparturesBlock extends StatelessWidget {
   final Map line;
   final String id;
-  final String name;
   final Function update;
   final bool limited;
 
   const DeparturesBlock({
     required this.line,
     required this.id,
-    required this.name,
     required this.update,
     this.limited = false,
     super.key,
@@ -74,9 +72,9 @@ class DeparturesBlock extends StatelessWidget {
                       Text( LINES.getLines(line)!['name'],
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
-                          color: accentColor(context),
+                          // color: accentColor(context),
                         ),
                         maxLines: 1,
                         softWrap: false,

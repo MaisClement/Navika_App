@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -53,7 +53,7 @@ class _PositionState extends State<Position> {
                 AppLocalizations.of(context)!.position_title,
                 style: TextStyle(
                   fontFamily: fontFamily,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w800,
                   fontSize: 20,
                   color: Colors.white,
                 ),

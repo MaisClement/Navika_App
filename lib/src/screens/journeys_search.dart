@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
@@ -21,7 +21,10 @@ import 'package:navika/src/widgets/places/load.dart';
 class JourneysSearch extends StatefulWidget {
   final String type;
 
-  const JourneysSearch({required this.type, super.key});
+  const JourneysSearch({
+    required this.type,
+    super.key,
+  });
 
   @override
   State<JourneysSearch> createState() => _JourneysSearchState();
@@ -112,7 +115,7 @@ class _JourneysSearchState extends State<JourneysSearch> {
       }
 
       // Favoris
-      List favs = globals.hiveBox.get('addressFavorites');
+      List favs = globals.hiveBox.get('savedAddress');
       if (search.isEmpty && favs.isNotEmpty) {
         res.add(
           Padding(
@@ -121,7 +124,7 @@ class _JourneysSearchState extends State<JourneysSearch> {
               AppLocalizations.of(context)!.your_favorites,
               style: TextStyle(
                 fontSize: 18,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w800,
                 fontFamily: fontFamily,
                 color: walkingColor(context),
               ),
@@ -136,7 +139,7 @@ class _JourneysSearchState extends State<JourneysSearch> {
             place: {
               'id': fav['id'],
               'name': fav['name'],
-              'type': fav['alias'] == 'home' || fav['alias'] == 'work' ? fav['alias'] : 'favorite',
+              'type': 'favorite',
               'distance': 0,
               'town': '',
               'zip_code': '',
@@ -163,7 +166,7 @@ class _JourneysSearchState extends State<JourneysSearch> {
               AppLocalizations.of(context)!.recent,
               style: TextStyle(
                 fontSize: 18,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w800,
                 fontFamily: fontFamily,
                 color: walkingColor(context),
               ),
@@ -175,7 +178,7 @@ class _JourneysSearchState extends State<JourneysSearch> {
             isLoading: isLoading,
             place: place,
             onTap: () {
-              globals.route[widget.type]['id'] = place['id'];
+              globals.route[widget.type]['id'] = '${place['coord']['lat']};${place['coord']['lon']}';
               globals.route[widget.type]['name'] = place['name'];
               addToHistory(place);
               RouteStateScope.of(context).go('/home/journeys');
@@ -191,7 +194,7 @@ class _JourneysSearchState extends State<JourneysSearch> {
             isLoading: isLoading,
             place: place,
             onTap: () {
-              globals.route[widget.type]['id'] = place['id'];
+              globals.route[widget.type]['id'] = '${place['coord']['lat']};${place['coord']['lon']}';
               globals.route[widget.type]['name'] = place['name'];
               addToHistory(place);
               RouteStateScope.of(context).go('/home/journeys');
@@ -213,10 +216,13 @@ class _JourneysSearchState extends State<JourneysSearch> {
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
         title: TextField(
+          style: TextStyle(
+            fontFamily: fontFamily,
+          ),
           controller: myController,
           focusNode: textFieldNode,
-          decoration: InputDecoration(
-              hintText: widget.type == 'from' ? AppLocalizations.of(context)!.where_are_we_departing_from : AppLocalizations.of(context)!.where_are_we_going),
+          decoration:
+              InputDecoration(hintText: widget.type == 'from' ? AppLocalizations.of(context)!.where_are_we_departing_from : AppLocalizations.of(context)!.where_are_we_going),
           onChanged: (text) {
             setState(() {
               search = text;

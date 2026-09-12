@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:floating_snackbar/floating_snackbar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
@@ -66,7 +66,7 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite> with SingleTicker
                   'Ajouter cet arrêts aux favoris',
                   style: TextStyle(
                     fontSize: 20,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     fontFamily: fontFamily,
                     color: accentColor(context),
                   ),
@@ -81,7 +81,7 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite> with SingleTicker
                   Text(
                     AppLocalizations.of(context)!.select_line_to_add_to_favorites,
                     style: TextStyle(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w800,
                       fontFamily: fontFamily,
                       color: accentColor(context),
                     ),
@@ -110,7 +110,7 @@ class _BottomAddFavoriteState extends State<BottomAddFavorite> with SingleTicker
                                 line['name'],
                                 style: TextStyle(
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w800,
                                   fontFamily: fontFamily,
                                 ),
                                 maxLines: 1,

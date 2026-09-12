@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/app.dart';
@@ -11,9 +11,11 @@ import 'package:navika/src/data/app.dart';
 
 class VehiculeDetails extends StatelessWidget {
   final Map details;
+  final Map informations;
 
   const VehiculeDetails({
     required this.details,
+    required this.informations,
     super.key,
   });
 
@@ -24,7 +26,7 @@ class VehiculeDetails extends StatelessWidget {
           Text(
             details['details']['vehicule_name'],
             style: const TextStyle(
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
               fontSize: 17,
             ),
           ),
@@ -37,7 +39,7 @@ class VehiculeDetails extends StatelessWidget {
           Text(
             AppLocalizations.of(context)!.onboard_services,
             style: const TextStyle(
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
               fontSize: 15,
             ),
           ),

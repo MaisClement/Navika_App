@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
@@ -44,7 +44,7 @@ class _SettingsNotificationState extends State<SettingsNotification> {
           title: Text(
             AppLocalizations.of(context)!.notifications,
             style: TextStyle(
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w800,
               fontFamily: fontFamily,
                   color: Colors.white,
             ),
@@ -67,7 +67,7 @@ class _SettingsNotificationState extends State<SettingsNotification> {
                     Text(
                       'Nous n’avons rien trouvé...',
                       style: TextStyle(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w800,
                         fontFamily: fontFamily,
                         color: Colors.white,
                       ),

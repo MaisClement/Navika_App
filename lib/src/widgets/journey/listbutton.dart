@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/style.dart';
@@ -49,7 +49,7 @@ class RouteListButton extends StatelessWidget {
                     getJourneyType(context, journey['type']),
                     style: TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w800,
                       fontFamily: fontFamily,
                       color: walkingColor(context),
                     ),
@@ -65,7 +65,7 @@ class RouteListButton extends StatelessWidget {
                         getStringTime(journey['departure_date_time']),
                         style: TextStyle(
                           fontSize: 17,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
@@ -75,7 +75,7 @@ class RouteListButton extends StatelessWidget {
                         getStringTime(journey['arrival_date_time']),
                         style: TextStyle(
                           fontSize: 17,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
@@ -90,7 +90,6 @@ class RouteListButton extends StatelessWidget {
                   ),
                   Container(
                     padding: const EdgeInsets.only(right: 5),
-                    color: Theme.of(context).colorScheme.surface,
                     child: Row(
                       children: getDurationWidget(journey['duration'], context),
                     ),

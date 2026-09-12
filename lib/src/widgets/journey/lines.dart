@@ -8,7 +8,7 @@ import 'package:navika/src/widgets/icons/icons.dart';
 
 List filterSection(sections) {
   return sections.where((section) {
-    if (section['mode'] == 'public_transport') {
+    if (section['type'] == 'public_transport') {
       return true;
     }
     if (section['type'] == 'street_network' && section['mode'] == 'walking' && section['duration'] > 300) {
@@ -21,65 +21,59 @@ List filterSection(sections) {
 class RouteLines extends StatelessWidget {
   final List sections;
 
-	const RouteLines({
+  const RouteLines({
     required this.sections,
-		super.key,
-	});
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context) => Expanded (
-    child: Padding (
-      padding: const EdgeInsets.only(right: 5),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            for(var i = 0; i < sections.length; i++)
-            if (sections[i]['mode'] == 'public_transport')
-            Wrap(
-              children: [
-                Icones(
-                  line: sections[i]['informations']['line'],
-                  i: 0,
-                ),
+  Widget build(BuildContext context) => Expanded(
+      child: Padding(
+          padding: const EdgeInsets.only(right: 5),
+          child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  for (var i = 0; i < sections.length; i++)
+                    if (sections[i]['type'] == 'public_transport')
+                      Wrap(
+                        children: [
+                          if (sections[i]['informations']['line'] != null)
+                            Icones(
+                              line: sections[i]['informations']['line'],
+                              i: 0,
+                            ),
 
-                if (i != sections.length -1)
-                Container(
-                  margin: const EdgeInsets.only(left: 3, right: 2, top: 12, ),
-                  height: 5,
-                  width: 5,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff808080),
-                    borderRadius: BorderRadius.circular(500)
-                  ),
-                ),
-
-              ],
-            )
-            else if (sections[i]['type'] == 'street_network' && sections[i]['mode'] == 'walking')
-            Wrap(
-              children: [
-
-                Icon(NavikaIcons.walking,
-                  color: walkingColor(context),
-                  size: 25
-                ),
-
-                if (i != sections.length -1)
-                Container(
-                  margin: const EdgeInsets.only(left: 3, right: 2, top: 12, ),
-                  height: 5,
-                  width: 5,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff808080),
-                    borderRadius: BorderRadius.circular(500)
-                  ),
-                ),
-              ],
-            ),
-          ],
-        )
-      )
-    )
-  );
+                          if (i != sections.length - 1)
+                            Container(
+                              margin: const EdgeInsets.only(
+                                left: 3,
+                                right: 2,
+                                top: 12,
+                              ),
+                              height: 5,
+                              width: 5,
+                              decoration: BoxDecoration(color: const Color(0xff808080), borderRadius: BorderRadius.circular(500)),
+                            ),
+                        ],
+                      )
+                    else if (sections[i]['type'] == 'street_network' && sections[i]['mode'] == 'walking')
+                      Wrap(
+                        children: [
+                          Icon(NavikaIcons.walking, color: walkingColor(context), size: 25),
+                          if (i != sections.length - 1)
+                            Container(
+                              margin: const EdgeInsets.only(
+                                left: 3,
+                                right: 2,
+                                top: 12,
+                              ),
+                              height: 5,
+                              width: 5,
+                              decoration: BoxDecoration(color: const Color(0xff808080), borderRadius: BorderRadius.circular(500)),
+                            ),
+                        ],
+                      ),
+                ],
+              ))));
 }

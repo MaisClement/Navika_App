@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
@@ -59,7 +59,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                 Text(AppLocalizations.of(context)!.timetable_details,
                   style: TextStyle(
                     fontSize: 20,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     fontFamily: fontFamily,
                     color: accentColor(context),
                   ),
@@ -76,7 +76,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                       child: Text(AppLocalizations.of(context)!.on_time,
                         style: TextStyle(
                           fontSize: 15,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
@@ -109,7 +109,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                     Expanded(
                       child: Text(AppLocalizations.of(context)!.delayed,
                         style: TextStyle(
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
@@ -142,7 +142,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                     Expanded(
                       child: Text(AppLocalizations.of(context)!.deleted,
                         style: TextStyle(
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
@@ -175,7 +175,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                     Expanded(
                       child: Text(AppLocalizations.of(context)!.theoretical,
                         style: TextStyle(
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                           color: accentColor(context),
                         ),
@@ -210,7 +210,7 @@ class _BottomSchedulesState extends State<BottomSchedules>
                 Text('Définissez le mode d’affichage que vous préferez.',
                   style: TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     fontFamily: fontFamily,
                     color: accentColor(context),
                   ),

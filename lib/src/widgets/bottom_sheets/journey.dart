@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart';
@@ -33,6 +33,7 @@ class _BottomJourneyState extends State<BottomJourney> with SingleTickerProvider
     if (value == 'punctual') {
       saveJourney(journey['unique_id'], context);
       Navigator.pop(context);
+      
     } else {
       Navigator.pop(context);
       showModalBottomSheet<void>(
@@ -73,7 +74,7 @@ class _BottomJourneyState extends State<BottomJourney> with SingleTickerProvider
                   Text(AppLocalizations.of(context)!.save_trip,
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w800,
                       fontFamily: fontFamily,
                       color: accentColor(context),
                     ),
@@ -86,7 +87,7 @@ class _BottomJourneyState extends State<BottomJourney> with SingleTickerProvider
                     child: Text(
                       AppLocalizations.of(context)!.route_type,
                       style: TextStyle(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w800,
                         fontFamily: fontFamily,
                         color: accentColor(context),
                       ),

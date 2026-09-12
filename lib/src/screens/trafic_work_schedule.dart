@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
@@ -65,7 +65,7 @@ Widget buildDay(BuildContext context, DateTime date, DateTime selectedDate, Func
                   ? const Color(0xffffffff)
                   : Theme.of(context).colorScheme.onSurface,
                 fontWeight: dt.isSameDate(currentDate)
-                  ? FontWeight.w700
+                  ? FontWeight.w800
                   : FontWeight.normal,
               ),
             ),
@@ -224,7 +224,7 @@ class _TraficWorkScheduleState extends State<TraficWorkSchedule> {
                       child: Text('${getLongMonth(context)[date.month]?.capitalize()}',
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                         ),
                       ),
@@ -291,7 +291,7 @@ class _TraficWorkScheduleState extends State<TraficWorkSchedule> {
                         style: TextStyle(
                           color: Colors.grey[600],
                           fontSize: 16,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w800,
                           fontFamily: fontFamily,
                         ),
                         maxLines: 1,

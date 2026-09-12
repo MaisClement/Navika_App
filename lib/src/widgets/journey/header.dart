@@ -6,10 +6,10 @@ import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/journey/lines.dart';
 
-class RoutePannel extends StatelessWidget {
+class RoutePanel extends StatelessWidget {
   final Map journey;
 
-  const RoutePannel({
+  const RoutePanel({
     required this.journey,
     super.key,
   });
@@ -22,44 +22,28 @@ class RoutePannel extends StatelessWidget {
             topLeft: Radius.circular(10),
             topRight: Radius.circular(10),
           ),
-          color: routeBhColor(context),
         ),
         child: Column(
           children: [
             Container(
-              height: 15,
+              height: 10,
             ),
             Container(
-              width: 40,
-              height: 5,
-              decoration: BoxDecoration(
-                color: Colors.grey[400],
-                borderRadius: BorderRadius.circular(10),
+              padding: const EdgeInsets.only(left: 10, bottom: 10),
+              child: Row(
+                children: [
+                  RouteLines(
+                    sections: filterSection(journey['sections']),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(bottom: 5, right: 10),
+                    child: Row(
+                      children: getDurationWidget(journey['duration'], context),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Container(
-              height: 15,
-            ),
-            Container(
-            decoration: BoxDecoration(
-              color: routeBhColor(context),
-            ),
-            padding: const EdgeInsets.only(left: 10, bottom: 10),
-            child: Row(
-              children: [
-                RouteLines(
-                  sections: filterSection(journey['sections']),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(bottom: 5, right: 10),
-                  color: routeBhColor(context),
-                  child: Row(
-                    children: getDurationWidget(journey['duration'], context),
-                  ),
-                ),
-              ],
-            ),
-          ),
           ],
         ),
       );

@@ -28,14 +28,14 @@ class RoutesSchedulesList extends StatelessWidget {
 
   handleTapDetails(context, schedule) {
     if (schedule['id'] != null && schedule['id'] != '') {
-      RouteStateScope.of(context).go('/trip/details/${schedule['id']}/from/$stopId');
-    } else {
+      RouteStateScope.of(context).go('/trip/${schedule['id']}/from/$stopId');
+      } else {
       floatingSnackBar(
         message: 'Les details ne sont pas disponibles pour ce trajet.',
         context: context,
         textStyle: TextStyle(
           color: const Color(0xffffffff),
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w800,
           fontFamily: fontFamily,
         ),
         duration: const Duration(milliseconds: 4000),
@@ -64,7 +64,7 @@ class RoutesSchedulesList extends StatelessWidget {
                     overflow: TextOverflow.fade,
                     style: TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w800,
                       fontFamily: fontFamily,
                       color: const Color(0xffa9a9a9),
                       decoration: TextDecoration.lineThrough
@@ -76,7 +76,7 @@ class RoutesSchedulesList extends StatelessWidget {
                 getTime(schedule['date_time']['departure_date_time']),
                 style: TextStyle(
                   fontSize: 18,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w800,
                   fontFamily: fontFamily,
                   decoration: schedule['date_time']['state'] == 'cancelled'
                     ? TextDecoration.lineThrough
@@ -109,7 +109,7 @@ class RoutesSchedulesList extends StatelessWidget {
                   overflow: TextOverflow.fade,
                   style: TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     fontFamily: fontFamily,
                     color: HexColor.fromHex(line['color']),
                   ),
@@ -123,11 +123,11 @@ class RoutesSchedulesList extends StatelessWidget {
                 getTime(schedule['departure_date_time']),
                 style: TextStyle(
                   fontSize: 18,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w800,
                   fontFamily: fontFamily,
                   color: isToday && isInPast(schedule['departure_date_time'])
                       ? const Color(0xffa9a9a9)
-                      : Theme.of(context).colorScheme.onBackground,
+                      : Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               if (getHeadsign(schedule) != '')
@@ -150,7 +150,7 @@ class RoutesSchedulesList extends StatelessWidget {
                   overflow: TextOverflow.fade,
                   style: TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     fontFamily: fontFamily,
                     color: isToday && isInPast(schedule['departure_date_time'])
                         ? const Color(0xffa9a9a9)

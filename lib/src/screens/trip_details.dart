@@ -5,87 +5,19 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
+import 'package:navika/src/widgets/departures/vehicle_size.dart';
+import 'package:navika/src/widgets/icons/icons.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
 import 'package:navika/src/extensions/hexcolor.dart';
 import 'package:navika/src/style.dart';
+import 'package:navika/src/widgets/trip/panel.dart';
 import 'package:navika/src/widgets/error_message.dart';
 import 'package:navika/src/widgets/journey/vehicule_details.dart';
-import 'package:navika/src/widgets/trip/block.dart';
 import 'package:navika/src/widgets/trip/disruptions.dart';
-
-enum TripBlockStatus { origin, terminus, active, inactive }
-
-enum TripBlockEffect { none, added, deleted, delayed, unchanged }
-
-Widget makeTripWidgets(vehicleJourney, scrollController, fromId, toId, color) {
-  List<Widget> res = [];
-
-  TripBlockStatus status = TripBlockStatus.inactive;
-
-  int i = 0;
-
-  for (var stop in vehicleJourney?['stop_times']) {
-    if (status == TripBlockStatus.terminus) {
-      status = TripBlockStatus.inactive;
-    } else if (status == TripBlockStatus.origin) {
-      status = TripBlockStatus.active;
-    }
-
-    if (fromId != null && stop['id'].contains(fromId)) {
-      status = TripBlockStatus.origin;
-    } else if (toId != null && stop['id'].contains(toId)) {
-      status = TripBlockStatus.terminus;
-    }
-
-    String time = stop['stop_time']['departure_date_time'];
-    String arrivaltime = stop['stop_time']['arrival_date_time'];
-    String newtime = '';
-    String newarrivaltime = '';
-
-    if (stop['disruption'] != null) {
-      if (stop['disruption']['departure_state'] == 'delayed' || stop['disruption']['arrival_state'] == 'delayed') {
-        if (status == TripBlockStatus.terminus) {
-          time = stop['disruption']['base_arrival_date_time'];
-          newtime = stop['disruption']['arrival_date_time'];
-          arrivaltime = stop['disruption']['base_arrival_date_time'];
-          newarrivaltime = stop['disruption']['arrival_date_time'];
-        } else {
-          time = stop['disruption']['base_departure_date_time'];
-          newtime = stop['disruption']['departure_date_time'];
-          arrivaltime = stop['disruption']['base_arrival_date_time'];
-          newarrivaltime = stop['disruption']['arrival_date_time'];
-        }
-      }
-    }
-
-    res.add(
-      TripBlock(
-        id: i,
-        controller: scrollController,
-        time: time,
-        arrivaltime: arrivaltime,
-        newtime: newtime,
-        newarrivaltime: newarrivaltime,
-        name: stop['name'],
-        type: stop['type'],
-        message: stop['disruption']?['message'],
-        departureState: stop['disruption']?['departure_state'],
-        arrivalState: stop['disruption']?['arrival_state'],
-        status: status,
-        color: color,
-      ),
-    );
-    i++;
-  }
-
-  return Column(
-    children: res,
-  );
-}
 
 class TripDetails extends StatefulWidget {
   final String tripId;
@@ -126,9 +58,10 @@ class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStat
         });
       }
 
-      if (widget.fromId != '') {
+      if (widget.fromId != '' && widget.fromId != null) {
         int i = 0;
-        for (var stop in vehicleJourney?['stop_times']) {
+        print(vehicleJourney?['stop_date_time'][0]);
+        for (var stop in vehicleJourney?['stop_date_time']) {
           if (stop['id'] == widget.fromId) {
             _scrollController.scrollToIndex(i, preferPosition: AutoScrollPosition.begin);
           }
@@ -141,14 +74,43 @@ class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Column(
-            crossAxisAlignment: preferredCrossAxisAlignment,
-            children: [
-              Text(AppLocalizations.of(context)!.trip, style: appBarTitle),
-              if (vehicleJourney != null) Text('N°${vehicleJourney?['informations']['name']} - ${vehicleJourney?['informations']['direction']['name']}', style: appBarSubtitle),
-            ],
-          ),
+          title: vehicleJourney != null
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(vehicleJourney?['informations']['direction']['name'], style: appBarTitle),
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: Text(
+                            vehicleJourney?['informations']['headsign'],
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontFamily: 'Diode',
+                            ),
+                          ),
+                        ),
+                        Text(vehicleJourney?['informations']['name'],
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontFamily: 'Diode',
+                            )),
+                      ],
+                    ),
+                  ],
+                )
+              : Text(AppLocalizations.of(context)!.trip, style: appBarTitle),
         ),
+        //appBar: AppBar(
+        //  title: Column(
+        //    crossAxisAlignment: preferredCrossAxisAlignment,
+        //    children: [
+        //      Text(AppLocalizations.of(context)!.trip, style: appBarTitle),
+        //      if (vehicleJourney != null) Text('N°${vehicleJourney?['informations']['name']} - ${vehicleJourney?['informations']['direction']['name']}', style: appBarSubtitle),
+        //    ],
+        //  ),
+        //),
         body: ListView(
           controller: _scrollController,
           shrinkWrap: true,
@@ -159,31 +121,74 @@ class _TripDetailsState extends State<TripDetails> with SingleTickerProviderStat
               )
             else if (vehicleJourney == null)
               const LinearProgressIndicator()
-            else
+            else if (vehicleJourney != null)
               Column(
                 children: [
-                  if (vehicleJourney != null && vehicleJourney?['informations']['line']['details'] != null)
+                  if (vehicleJourney?['informations']['line']['details'] != null)
                     Container(
                       width: double.infinity,
                       margin: const EdgeInsets.all(10),
                       padding: const EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 5),
                       decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(15),
-                        ),
+                        borderRadius: const BorderRadius.all(Radius.circular(15)),
                         color: HexColor.fromHex(vehicleJourney?['informations']['line']['color']).withOpacity(0.2),
                       ),
-                      child: VehiculeDetails(details: vehicleJourney?['informations']['line']),
+                      child: VehiculeDetails(
+                        informations: vehicleJourney?['informations'],
+                        details: vehicleJourney?['informations']['line'],
+                      ),
                     ),
-                  TripDisruptions(
-                    disruptions: vehicleJourney?['reports'],
-                  ),
+                  if (vehicleJourney?['informations']['vehicle_size'] != null)
+                    Container(
+                      padding: const EdgeInsets.only(left: 15.0, top: 10, right: 15.0, bottom: 0.0),
+                      margin: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        color: vehicleJourney?['informations']['vehicle_size'] == 'long'
+                            ? Color(0xff005bbc).withOpacity(0.2)
+                            : Color(0xfff68f53).withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            child: Row(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(right: 5),
+                                  child: Image(
+                                    image: vehicleJourney?['informations']['vehicle_size'] == 'long'
+                                    ? AssetImage('assets/img/modal/information.png')
+                                    : AssetImage('assets/img/modal/warning.png'),
+                                    height: 25,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Wrap(
+                                    children: [
+                                      Text(
+                                        vehicleJourney?['informations']['vehicle_size'] == 'long' ? 'Train Long': 'Train Court',
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),],
+                      ),
+                    ),
+                  TripDisruptions(disruptions: vehicleJourney?['reports']),
                   makeTripWidgets(vehicleJourney, _scrollController, widget.fromId, widget.toId, HexColor.fromHex(vehicleJourney?['informations']['line']['color'])),
-                  const SizedBox(
-                    height: 50,
-                  )
+                  const SizedBox(height: 50),
                 ],
               )
+            else
+              const SizedBox.shrink(),
           ],
         ),
       );

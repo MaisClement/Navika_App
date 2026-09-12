@@ -1,10 +1,14 @@
+// 🎯 Dart imports:
+import 'dart:async';
+
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
+import 'package:navika/src/api.dart';
 import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/data/lines.dart';
 import 'package:navika/src/icons/navika_icons_icons.dart';
@@ -14,6 +18,7 @@ import 'package:navika/src/screens/routes_details.dart';
 import 'package:navika/src/style.dart';
 import 'package:navika/src/utils.dart';
 import 'package:navika/src/widgets/bottom_sheets/notifications.dart';
+import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/icons/lines.dart';
 import 'package:navika/src/widgets/trafic_details/disruptions.dart';
 import 'package:navika/src/widgets/trafic_details/works.dart';
@@ -27,8 +32,47 @@ class TraficDetails extends StatefulWidget {
 }
 
 class _TraficDetailsState extends State<TraficDetails> {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+
   bool _isFavorite = isFavoriteLine(globals.lineTrafic['id']);
   bool _isAlert = isAlertLine(globals.lineTrafic['id']);
+  ApiStatus error = ApiStatus.ok;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (globals.lineTrafic['reports'] == null) {
+        _refreshIndicatorKey.currentState?.show();
+      }
+    });
+  }
+
+  Future<void> _loadTraficDetails() async {
+    String lineId = globals.lineTrafic['id'];
+
+    NavikaApi navikaApi = NavikaApi();
+    Map result = await navikaApi.getTrafic([lineId]);
+
+    if (mounted) {
+      setState(() {
+        error = result['status'];
+      });
+
+      if (result['value']?['trafic'] != null) {
+        for (var line in result['value']['trafic']) {
+          if (line['id'] == lineId) {
+            setState(() {
+              globals.lineTrafic = line;
+            });
+            break;
+          }
+        }
+      }
+
+      update();
+    }
+  }
 
   void update() {
     setState(() {
@@ -63,11 +107,20 @@ class _TraficDetailsState extends State<TraficDetails> {
             ),
           ],
         ),
-        body: Container(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-          width: double.infinity,
-          child: ListView(
-            children: [
+        body: error != ApiStatus.ok
+            ? ErrorBlock(
+                error: error,
+                retry: _loadTraficDetails,
+              )
+            : RefreshIndicator(
+                key: _refreshIndicatorKey,
+                onRefresh: _loadTraficDetails,
+                backgroundColor: Theme.of(context).colorScheme.surface,
+                child: Container(
+                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                  width: double.infinity,
+                  child: ListView(
+                    children: [
 // Head
               Row(
                 children: [
@@ -100,15 +153,16 @@ class _TraficDetailsState extends State<TraficDetails> {
                       )
                     ],
                   ),
-                  Text(getSlugTitle(context, globals.lineTrafic['severity']), style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20)),
+                  Text(getSlugTitle(context, globals.lineTrafic['severity']), style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 20)),
                 ],
               ),
 
               ButtonLarge(
                 icon: NavikaIcons.route,
                 text: AppLocalizations.of(context)!.line_details,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
+                style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontFamily: fontFamily,
                   fontSize: 17,
                 ),
                 borderRadius: BorderRadius.circular(10),
@@ -122,8 +176,9 @@ class _TraficDetailsState extends State<TraficDetails> {
               ButtonLarge(
                 icon: NavikaIcons.work,
                 text: AppLocalizations.of(context)!.works_calendar,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
+                style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontFamily: fontFamily,
                   fontSize: 17,
                 ),
                 borderRadius: BorderRadius.circular(10),
@@ -143,7 +198,8 @@ class _TraficDetailsState extends State<TraficDetails> {
                   reports: globals.lineTrafic['reports']['future_work'],
                 ),
             ],
-          ),
-        ),
+                  ),
+                ),
+              ),
       );
 }

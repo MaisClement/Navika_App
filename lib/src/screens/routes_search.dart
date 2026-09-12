@@ -5,22 +5,23 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/routes_details.dart';
+import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/error_block.dart';
 import 'package:navika/src/widgets/lines/listbutton.dart';
 import 'package:navika/src/widgets/places/empty.dart';
 import 'package:navika/src/widgets/places/load.dart';
 
 class RoutesSearch extends StatefulWidget {
-  final bool toFavorite;
+  final bool addFavorite;
 
 	const RoutesSearch({
-    this.toFavorite = false,
+    this.addFavorite = false,
     super.key
   });
 
@@ -84,10 +85,13 @@ class _RoutesSearchState extends State<RoutesSearch> {
 	Widget build(BuildContext context) => Scaffold(
 		appBar: AppBar(
 			title: TextField(
+          style: TextStyle(
+            fontFamily: fontFamily,
+          ),
         controller: myController,
         focusNode: textFieldNode,
         decoration: InputDecoration(
-          hintText: widget.toFavorite
+          hintText: widget.addFavorite
           ? AppLocalizations.of(context)!.add_line_to_favorites
           : AppLocalizations.of(context)!.search_line
         ),
@@ -114,7 +118,7 @@ class _RoutesSearchState extends State<RoutesSearch> {
               isLoading: isLoading,
               line: line,
               onTap: () {
-                if ( widget.toFavorite ) {
+                if ( widget.addFavorite ) {
                   addLineToFavorite(line, context, null);
                   RouteStateScope.of(context).go('/trafic');
                 } else {

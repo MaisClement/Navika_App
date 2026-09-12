@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:floating_snackbar/floating_snackbar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
@@ -67,7 +67,7 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveJourneys> with Single
                   AppLocalizations.of(context)!.remove_route,
                   style: TextStyle(
                     fontSize: 20,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     fontFamily: fontFamily,
                     color: accentColor(context),
                   ),
@@ -81,7 +81,7 @@ class _BottomRemoveFavoriteState extends State<BottomRemoveJourneys> with Single
                 Text(
                   'Etes-vous sur de supprimer cet itinéraire ?',
                   style: TextStyle(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     fontFamily: fontFamily,
                     color: accentColor(context),
                   ),

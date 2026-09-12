@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
@@ -57,7 +57,7 @@ class _BottomTerminusTrainState extends State<BottomTerminusTrain>
                 Text(AppLocalizations.of(context)!.terminal_display,
                   style: TextStyle(
                     fontSize: 20,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     fontFamily: fontFamily,
                     color: accentColor(context),
                   ),
@@ -70,7 +70,7 @@ class _BottomTerminusTrainState extends State<BottomTerminusTrain>
                 ),
                 Text(AppLocalizations.of(context)!.hide_arriving_trains,
                   style: TextStyle(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w800,
                     fontFamily: fontFamily,
                     color: accentColor(context),
                   ),

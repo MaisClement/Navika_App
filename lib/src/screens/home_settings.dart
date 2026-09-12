@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
@@ -81,14 +81,14 @@ class _HomeSettingsState extends State<HomeSettings> with SingleTickerProviderSt
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.reorganize_home, style: appBarTitle),
       ),
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: ReorderableListView(
         onReorder: reorderData,
         children: [
           for (var block in blocks)
             Container(
               key: ValueKey(block['id']),
-              color: Theme.of(context).colorScheme.surface,
+              color: Theme.of(context).colorScheme.secondary,
               padding: const EdgeInsets.only(
                 left: 20,
                 right: 20,
@@ -112,15 +112,15 @@ class _HomeSettingsState extends State<HomeSettings> with SingleTickerProviderSt
                     child: Text(getBlockName(context, block['id']),
                     style: TextStyle(
                         fontSize: 20,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w800,
                         fontFamily: fontFamily,
                       ),
                     ),
                   ),
                   Switch(
                     thumbIcon: thumbIcon,
-                    trackOutlineColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                      if (!states.contains(MaterialState.selected)) {
+                    trackOutlineColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+                      if (!states.contains(WidgetState.selected)) {
                         return mainColor(context);
                       }
                       return null;

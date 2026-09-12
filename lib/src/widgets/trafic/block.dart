@@ -58,7 +58,7 @@ class TraficBlock extends StatelessWidget {
             width: 45,
             height: 45,
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.background,
+              color: Theme.of(context).colorScheme.secondary,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 width: 3.0,

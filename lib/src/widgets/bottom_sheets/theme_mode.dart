@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/app.dart';
@@ -46,7 +46,7 @@ class _BottomThemeModeState extends State<BottomThemeMode> with SingleTickerProv
               Text(AppLocalizations.of(context)!.app_theme,
                 style: TextStyle(
                   fontSize: 20,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w800,
                   fontFamily: fontFamily,
                   color: accentColor(context),
                 ),

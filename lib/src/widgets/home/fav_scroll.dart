@@ -2,9 +2,10 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
+import 'package:navika/src/data/global.dart' as globals;
 import 'package:navika/src/icons/navika_icons_icons.dart';
 import 'package:navika/src/routing.dart';
 import 'package:navika/src/screens/journeys.dart';
@@ -12,17 +13,25 @@ import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/bottom_sheets/remove_address.dart';
 import 'package:navika/src/widgets/home/fav_button.dart';
 
-int getAddressPos(list, id) {
-  if (list.isNotEmpty) {
-    var i = 0;
-    for (var fav in list) {
-      if (fav['alias'] == id) {
-        return i;
-      }
-      i++;
-    }
+IconData getFavoriteIcon(String value) {
+  switch (value) {
+    case 'home':
+      return NavikaIcons.home;
+    case 'work':
+      return NavikaIcons.business;
+    case 'university':
+      return NavikaIcons.university;
+    case 'city':
+      return NavikaIcons.city;
+    case 'finishFlag':
+      return NavikaIcons.finishFlag;
+    case 'star':
+      return NavikaIcons.star;
+    case 'hearts':
+      return NavikaIcons.hearts;
+    default:
+      return NavikaIcons.star;
   }
-  return -1;
 }
 
 class HomeBodyFavScroll extends StatelessWidget {
@@ -37,58 +46,29 @@ class HomeBodyFavScroll extends StatelessWidget {
   Widget build(BuildContext context) => ListView(
         scrollDirection: Axis.horizontal,
         children: [
-// Maison
-          if (getAddressPos(address, 'home') != -1)
-            FavButton(
-              name: AppLocalizations.of(context)!.home,
-              img: NavikaIcons.home,
-              onTap: () {
-                initJourney(
-                  null,
-                  {
-                    'name': address[getAddressPos(address, 'home')]['name'],
-                    'id': address[getAddressPos(address, 'home')]['id']
-                  },
-                  context
-                );
-              },
-              onLongPress: () {
-                showModalBottomSheet<void>(
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: bottomSheetBorder,
-                  ),
-                  isScrollControlled: true,
-                  context: context,
-                  builder: (BuildContext context) => BottomRemoveAddress(
-                    id: address[getAddressPos(address, 'home')]['id'],
-                    type: 'home',
-                  ),
-                );
-              },
-            )
-          else
+          if (address.isEmpty)
             FavButton(
               name: AppLocalizations.of(context)!.not_defined,
               img: NavikaIcons.home,
               onTap: () {
-                RouteStateScope.of(context).go('/home/address/home');
+                RouteStateScope.of(context).go('/home/address');
               },
-              onLongPress: () {}
+              onLongPress: () {
+                RouteStateScope.of(context).go('/home/address');
+              },
             ),
-
-// Travail
-          if (getAddressPos(address, 'work') != -1)
+          for (var fav in address)
             FavButton(
-              name: AppLocalizations.of(context)!.work,
-              img: NavikaIcons.business,
+              name: fav['label'],
+              img: getFavoriteIcon(fav['icon']),
               onTap: () {
                 initJourney(
                   null,
                   {
-                    'name': address[getAddressPos(address, 'work')]['name'],
-                    'id': address[getAddressPos(address, 'work')]['id']
+                    'name': fav['name'],
+                    'id': '${fav['id']}',
                   },
-                  context
+                  context,
                 );
               },
               onLongPress: () {
@@ -99,52 +79,11 @@ class HomeBodyFavScroll extends StatelessWidget {
                   isScrollControlled: true,
                   context: context,
                   builder: (BuildContext context) => BottomRemoveAddress(
-                    id: address[getAddressPos(address, 'work')]['id'],
-                    type: 'work',
+                    id: fav['id'],
                   ),
                 );
               },
-            )
-          else
-            FavButton(
-                name: AppLocalizations.of(context)!.not_defined,
-                img: NavikaIcons.business,
-                onTap: () {
-                  RouteStateScope.of(context).go('/home/address/work');
-                },
-                onLongPress: () {},),
-
-// Le reste
-          for (var fav in address)
-            if (fav['alias'] != 'home' && fav['alias'] != 'work')
-              FavButton(
-                name: fav['alias'],
-                img: NavikaIcons.star,
-                onTap: () {
-                  initJourney(
-                    null,
-                    {
-                      'name': fav['name'],
-                      'id': fav['id']
-                    },
-                    context
-                  );
-                },
-                onLongPress: () {
-                  showModalBottomSheet<void>(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: bottomSheetBorder,
-                    ),
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (BuildContext context) => BottomRemoveAddress(
-                      id: fav['id'],
-                      type: fav['alias'],
-                    ),
-                  );
-                },
-              ),
-
+            ),
           FavButton(
               name: AppLocalizations.of(context)!.add,
               img: NavikaIcons.plus,

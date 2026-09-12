@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 // 🌎 Project imports:
@@ -55,7 +55,7 @@ class _SettingsState extends State<Settings> {
           backgroundColor: mainColor(context),
           title: Text(AppLocalizations.of(context)!.settings,
             style: TextStyle(
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w800,
               fontFamily: fontFamily,
                   color: Colors.white,
             ),
@@ -170,21 +170,21 @@ class _SettingsState extends State<Settings> {
 
             // ------------
 
-            Container(
-              margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
-              child: ButtonLarge(
-                icon: NavikaIcons.stars,
-                text: AppLocalizations.of(context)!.what_new,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 17,
-                ),
-                borderRadius: BorderRadius.circular(15),
-                onTap: () {
-                  RouteStateScope.of(context).go('/changes');
-                },
-              ),
-            ),
+            // Container(
+            //   margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
+            //   child: ButtonLarge(
+            //     icon: NavikaIcons.stars,
+            //     text: AppLocalizations.of(context)!.what_new,
+            //     style: const TextStyle(
+            //       fontWeight: FontWeight.w800,
+            //       fontSize: 17,
+            //     ),
+            //     borderRadius: BorderRadius.circular(15),
+            //     onTap: () {
+            //       RouteStateScope.of(context).go('/changes');
+            //     },
+            //   ),
+            // ),
 
             HomeWidgetSponsor(
               backgroundColor: Colors.white,
@@ -258,7 +258,7 @@ class _SettingsState extends State<Settings> {
             ),
             SettingsLink(
               name: AppLocalizations.of(context)!.settings_link_legals,
-              url: 'http://app.navika.hackernwar.com/legal.php',
+              url: 'http://app.navika.fr/legal.php',
             ),
             
 
@@ -294,7 +294,7 @@ class _SettingsState extends State<Settings> {
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
               child: Text(
-                AppLocalizations.of(context)!.details_HERE,
+                AppLocalizations.of(context)!.details_MapBox,
                 style: TextStyle(
                   fontFamily: fontFamily,
                   color: Colors.white,
@@ -302,18 +302,8 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             SettingsLink(
-              name: AppLocalizations.of(context)!.settings_link_HERE_privacy,
-              url: 'https://legal.here.com/fr-fr/privacy/here-sdk-privacy-supplement',
-            ),
-            if (Platform.isAndroid)
-            SettingsLink(
-              name: AppLocalizations.of(context)!.settings_link_HERE_licence,
-              url: 'https://app.navika.hackernwar.com/here_notice_android.php',
-            ),
-            if (Platform.isIOS)
-            SettingsLink(
-              name: AppLocalizations.of(context)!.settings_link_HERE_licence,
-              url: 'https://app.navika.hackernwar.com/here_notice_ios.php',
+              name: AppLocalizations.of(context)!.settings_link_MapBox_privacy,
+              url: 'https://www.mapbox.com/legal/privacy#product-privacy-policy',
             ),
 
             const SizedBox(
@@ -329,6 +319,7 @@ class _SettingsState extends State<Settings> {
                 children: [
                   Text('Navika • v${app.VERSION}-${app.BUILD_NUMBER} • ${app.PACKAGE_NAME}',
                     style: TextStyle(
+                      fontWeight: FontWeight.w800,
                       fontFamily: fontFamily,
                       color: Colors.white,
                     ),

@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // 🌎 Project imports:
@@ -56,7 +56,7 @@ class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerPr
 
   Future<void> _getDepature() async {
     NavikaApi navikaApi = NavikaApi();
-    Map result = await navikaApi.getSchedules(widget.id, false);
+    Map result = await navikaApi.getSchedules(widget.id);
 
     if (mounted) {
       setState(() {
@@ -115,7 +115,7 @@ class _DepartureDetailsState extends State<DepartureDetails> with SingleTickerPr
                       style: TextStyle(
                         color: accentColor(context),
                         fontSize: 18,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                         fontFamily: fontFamily,
                       ),
                     ),

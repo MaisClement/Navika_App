@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:floating_snackbar/floating_snackbar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
@@ -160,7 +161,7 @@ String? getMapUrl(Map line) {
   }
 }
 
-List<Widget> getTimeTableWidgets(Map line, context, fromlocaldata) {
+List<Widget> getTimeTableWidgets(Map line, browser, context, fromlocaldata) {
   List<Widget> res = [];
 
   res.add(const SizedBox(height: 5));
@@ -171,22 +172,28 @@ List<Widget> getTimeTableWidgets(Map line, context, fromlocaldata) {
       child: ButtonLarge(
         icon: NavikaIcons.clock,
         text: AppLocalizations.of(context)!.timetable_sheet,
-        style: const TextStyle(
-          fontWeight: FontWeight.w700,
+        style: TextStyle(
+          fontWeight: FontWeight.w800,
+          fontFamily: fontFamily,
           fontSize: 17,
         ),
         borderRadius: BorderRadius.circular(10),
         onTap: () async {
+          String url = line['timetables'][0]['url'];
           if (fromlocaldata) {
-            Uri uri = Uri.parse(line['timetables'][0]['url']);
+            Uri uri = Uri.parse(url);
             Directory directory = await getApplicationDocumentsDirectory();
             String name = uri.pathSegments.last;
             globals.pdfUrl = '${directory.path}/dir/$name';
           } else {
-            globals.pdfUrl = line['timetables'][0]['url'];
+            globals.pdfUrl = url;
           }
           globals.pdfTitle = 'Ligne ${line['name']}';
-          RouteStateScope.of(context).go('/pdf');
+          if (!url.endsWith('.pdf')) {
+            await browser.open(url: WebUri(url));
+          } else {
+            RouteStateScope.of(context).go('/pdf');
+          }
         },
       ),
     ));
@@ -197,8 +204,9 @@ List<Widget> getTimeTableWidgets(Map line, context, fromlocaldata) {
         child: ButtonLarge(
           icon: NavikaIcons.clock,
           text: timetable['name'],
-          style: const TextStyle(
-            fontWeight: FontWeight.w700,
+          style: TextStyle(
+            fontWeight: FontWeight.w800,
+            fontFamily: fontFamily,
             fontSize: 17,
           ),
           borderRadius: BorderRadius.circular(10),
@@ -293,7 +301,7 @@ List<Widget> getStops(Map line, context) {
                   line['stops'][i]['name'],
                   style: TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                     fontFamily: fontFamily,
                   ),
                 ),
@@ -336,6 +344,8 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
   bool _isAlert = false;
 
   bool blockScroll = false;
+
+  final ChromeSafariBrowser browser = ChromeSafariBrowser();
 
   void setBlockScroll(value) {
     setState(() {
@@ -445,7 +455,7 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
                           Expanded(
                               child: Text(
                             getTerminus(line),
-                            style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.w600, fontSize: 16, color: HexColor.fromHex(line['color'])),
+                            style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.w800, fontSize: 16, color: HexColor.fromHex(line['color'])),
                             maxLines: 3,
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
@@ -464,7 +474,7 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
                         },
                       ),
                     ),
-                  ...getTimeTableWidgets(line, context, fromlocaldata),
+                  ...getTimeTableWidgets(line, browser, context, fromlocaldata),
                   const Divider(
                     color: Color(0xff808080),
                     thickness: 1.5,
@@ -493,7 +503,7 @@ class _RoutesDetailsState extends State<RoutesDetails> with SingleTickerProvider
                                   maxLines: 1,
                                   softWrap: false,
                                   overflow: TextOverflow.fade,
-                                  style: TextStyle(fontWeight: FontWeight.w600, fontFamily: fontFamily, fontSize: 18),
+                                  style: TextStyle(fontWeight: FontWeight.w800, fontFamily: fontFamily, fontSize: 18),
                                 ),
                               ),
                             ],

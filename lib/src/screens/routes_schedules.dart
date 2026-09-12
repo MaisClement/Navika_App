@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -176,7 +176,7 @@ class _RoutesSchedulesState extends State<RoutesSchedules> with SingleTickerProv
                 const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
             child: Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.background,
+                color: Theme.of(context).colorScheme.secondary,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(15),
                 ),
@@ -234,7 +234,7 @@ class _RoutesSchedulesState extends State<RoutesSchedules> with SingleTickerProv
                           getTerminus(line),
                           style: TextStyle(
                               fontFamily: fontFamily,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w800,
                               fontSize: 16,
                               color: HexColor.fromHex(line['color'])),
                           maxLines: 3,
@@ -289,7 +289,7 @@ class _RoutesSchedulesState extends State<RoutesSchedules> with SingleTickerProv
                                       '➜ ${getDirection(schedule[0])}',
                                       style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight: FontWeight.w800,
                                         fontFamily: fontFamily,
                                         color: HexColor.fromHex(line['color']),
                                       ),

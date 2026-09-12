@@ -36,7 +36,7 @@ class ErrorMessage extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.grey[600],
                     fontSize: 18,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                     fontFamily: fontFamily,
                   ),
                   maxLines: 1,

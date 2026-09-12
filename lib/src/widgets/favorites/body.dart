@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/api.dart';
@@ -108,7 +108,7 @@ class _FavoriteBodyState extends State<FavoriteBody> with SingleTickerProviderSt
                       widget.name,
                       style: TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w800,
                         fontFamily: fontFamily,
                         color: accentColor(context),
                       ),
@@ -154,7 +154,6 @@ class _FavoriteBodyState extends State<FavoriteBody> with SingleTickerProviderSt
                   DeparturesBlock(
                     line: line,
                     id: widget.id,
-                    name: widget.name,
                     update: widget.update,
                     limited: true,
                   ),

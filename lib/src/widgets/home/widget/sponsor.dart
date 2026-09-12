@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:floating_snackbar/floating_snackbar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:intl/intl.dart';
 
@@ -99,7 +99,7 @@ class HomeWidgetSponsor extends StatelessWidget {
                 text: AppLocalizations.of(context)!.sponsor,
                 onPressed: () async {
                   await browser.open(
-                    url: WebUri(app.APP_SPONSOR)
+                    url: WebUri.uri(Uri.parse(app.APP_SPONSOR))
                   );
                 },
               ),

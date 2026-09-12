@@ -1,5 +1,6 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:navika/src/style.dart';
 
 class SearchBox extends StatelessWidget {
   final Function()? onTap;
@@ -45,6 +46,8 @@ class SearchBox extends StatelessWidget {
                 child: Text(text,
                   style: style ?? TextStyle(
                     fontSize: 16,
+                    fontFamily: fontFamily,
+                    fontWeight: FontWeight.w600,
                     color: Theme.of(context).colorScheme.onPrimaryContainer
                   ),
                   maxLines: 1,

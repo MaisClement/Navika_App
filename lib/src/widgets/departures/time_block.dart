@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:animated_flip_counter/animated_flip_counter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/data/global.dart' as globals;
@@ -114,7 +114,7 @@ class TimeBlock extends StatelessWidget {
                                     suffix: ' min',
                                     textStyle: TextStyle(
                                       color: getDeparturesColorByState(getTimeDifference(time) >= 0 ? state : 'theorical', context),
-                                      fontWeight: FontWeight.w700,
+                                      fontWeight: FontWeight.w800,
                                       fontFamily: fontFamily,
                                     ),
                                   )
@@ -122,7 +122,7 @@ class TimeBlock extends StatelessWidget {
                                     getTime(base),
                                     style: TextStyle(
                                       color: getDeparturesColorByState(getTimeDifference(time) >= 0 ? state : 'theorical', context),
-                                      fontWeight: FontWeight.w700,
+                                      fontWeight: FontWeight.w800,
                                       fontFamily: fontFamily,
                                     ),
                                     textAlign: TextAlign.center,
@@ -143,7 +143,7 @@ class TimeBlock extends StatelessWidget {
                           track,
                           style: TextStyle(
                             color: const Color(0xff202020),
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w800,
                             fontFamily: fontFamily,
                           ),
                           textAlign: TextAlign.center,

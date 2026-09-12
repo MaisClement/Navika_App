@@ -4,7 +4,7 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:navika/l10n/app_localizations.dart';
 
 // 🌎 Project imports:
 import 'package:navika/src/routing/route_state.dart';
@@ -12,13 +12,9 @@ import 'package:navika/src/style.dart';
 import 'package:navika/src/widgets/places/listbutton.dart';
 
 class AddressBody extends StatelessWidget {
-  final double padding;
-  final ScrollController scrollController;
   final dynamic data;
 
   const AddressBody({
-    required this.padding,
-    required this.scrollController,
     required this.data,
     super.key,
   });
@@ -26,9 +22,8 @@ class AddressBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (data != null) {
-      return ListView(
-        controller: scrollController,
-        padding: EdgeInsets.only(top: padding),
+      return Column(
+        crossAxisAlignment:  CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 10, left: 10, bottom: 10),
@@ -36,7 +31,7 @@ class AddressBody extends StatelessWidget {
               AppLocalizations.of(context)!.nearby,
               style: TextStyle(
                 fontSize: 20,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w800,
                 fontFamily: fontFamily,
                 color: accentColor(context),
               ),
