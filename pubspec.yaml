@@ -70,7 +70,7 @@ dependencies:
   lottie: ^3.0.0
   app_links: ^6.3.2
   flutter_gen: ^5.9.0
-  mapbox_maps_flutter: ^2.9.0
+  mapbox_maps_flutter: ^3.34.2
 
   # See https://github.com/ScerIO/packages.flutter/issues/448
   # pdfx:
