@@ -55,7 +55,7 @@ dependencies:
   firebase_messaging: ^16.0.1
   flutter_local_notifications: ^18.0.1
   path_provider: ^2.1.0
-  smooth_page_indicator: ^1.1.0
+  smooth_page_indicator: ^3.0.0
   package_info_plus: ^8.1.1
   pinch_zoom_release_unzoom: ^2.0.0
   scroll_to_index: ^3.0.1
